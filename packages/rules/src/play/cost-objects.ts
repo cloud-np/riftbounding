@@ -187,9 +187,12 @@ export function planObjectCosts(
     return fail("insufficient_resources", "203.3", `unsupported cost: ${cost.unsupported.join(", ")}`);
   }
   const plan: ObjectPlan = { exhaust: [], kill: [], discard: [], payPoints: cost.payPoints, spendXp: cost.spendXp };
-  const taken = new Set<string>();
+  // 357.2: costs are paid in any order, so one object may be exhausted and then killed
+  // ("Kill this, [E]"); it can only be used once per kind of action.
+  const takenBy = { exhaust: new Set<string>(), kill: new Set<string>() };
   // Self costs first: they are not choices.
   for (const requirement of cost.objects.filter((entry) => entry.self)) {
+    const taken = takenBy[requirement.kind];
     const ids = objectCandidates(room, host, context, requirement, taken);
     if (ids.length === 0) {
       return fail(
@@ -201,6 +204,7 @@ export function planObjectCosts(
     plan[requirement.kind].push(ids[0]!);
     taken.add(ids[0]!);
   }
+  const consumed = new Set<string>();
   if (cost.recycleSelf) {
     const id = context.sourceObjectId;
     const located = id ? host.findCard(room, id) : null;
@@ -208,12 +212,13 @@ export function planObjectCosts(
       return fail("insufficient_resources", "417.3", "cannot recycle the source");
     }
     plan.recycleSelf = id;
-    taken.add(id);
+    consumed.add(id);
   }
   for (const category of ["exhaust", "kill"] as const) {
     const requirements = cost.objects.filter((entry) => !entry.self && entry.kind === category);
     const count = requirements.reduce((sum, entry) => sum + entry.count, 0);
     // Union of candidates per requirement (requirements of one category rarely coexist).
+    const taken = new Set([...takenBy[category], ...consumed]);
     const candidates = [
       ...new Set(requirements.flatMap((requirement) => objectCandidates(room, host, context, requirement, taken))),
     ];
@@ -222,7 +227,7 @@ export function planObjectCosts(
     if ("pending" in picked) return { ok: true, plan: null, pending: picked.pending };
     for (const id of picked.ids) {
       plan[category].push(id);
-      taken.add(id);
+      takenBy[category].add(id);
     }
   }
   const discard = pick("discard", cost.discard, discardCandidates(room, host, context), context.plan?.discard, "423.1.a");

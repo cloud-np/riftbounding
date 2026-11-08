@@ -130,6 +130,8 @@ export function activatedAbilitiesOf(room: Room, host: RulesHost, located: Locat
   const info = host.cardInfo(room, located.card.id);
   const domains = cardDomains(info);
   const out: ActivatedAbilityInfo[] = [];
+  // 377.2.b: a condition printed on its own line belongs to the card's only activated ability.
+  const cardConditions = activatedLines(info?.text).length === 1 ? conditionsOf(info?.text) : [];
   for (const entry of listActivatedAbilities(info?.name ?? located.card.name, info?.text)) {
     const parsed = entry.text ? parseActivatedLine(entry.text) : null;
     const costs = !isEmptyCost(entry.ability.cost)
@@ -148,7 +150,7 @@ export function activatedAbilitiesOf(room: Room, host: RulesHost, located: Locat
       keywords,
       addsResources,
       ...(resources ? { resources } : {}),
-      conditions: conditionsOf(entry.text),
+      conditions: entry.text && conditionsOf(entry.text).length > 0 ? conditionsOf(entry.text) : cardConditions,
       ...(entry.text ? { text: entry.text } : {}),
     });
   }
