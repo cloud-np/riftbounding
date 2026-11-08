@@ -60,6 +60,15 @@ function spellAbility(info: CardInfo) {
   return typeOf(info).spell ? lookupAbility(info.name, "spell")?.ability : undefined;
 }
 
+/**
+ * 420.3: a Limited play instructed by an effect (R2-effects' `play` op). The effect names the
+ * card (any zone), may replace or ignore its costs (420.3.b.1) and may require a location
+ * (355.17); the Discretionary-play timing permissions (358.4) do not apply.
+ */
+export interface LimitedPlay {
+  permission?: PlayPermission;
+}
+
 /** 349–358: the full play verdict for a card that is still in its zone. Pure. */
 export function planCardPlay(
   room: Room,
@@ -67,13 +76,20 @@ export function planCardPlay(
   cardId: string,
   request: Pick<PlayRequest, "choices" | "optionalCosts" | "plan" | "location">,
   host: RulesHost,
+  limited?: LimitedPlay,
 ): CardPlayPlanResult {
   const located = host.findCard(room, cardId);
   // 354 / 420.1.a: hand or Chosen Champion zone, facedown (811.1.b) or an effect's permission.
-  const permission = located ? playPermission(room, host, playerId, located) : null;
+  const permission = located
+    ? limited
+      ? (limited.permission ?? { id: "effect", rule: "420.3" })
+      : playPermission(room, host, playerId, located)
+    : null;
   if (!located || !permission) return fail("not_in_hand", "420.1.a");
-  const base = baseActionVerdict(room, playerId);
-  if (!base.ok) return base;
+  if (!limited) {
+    const base = baseActionVerdict(room, playerId);
+    if (!base.ok) return base;
+  }
   const info = host.cardInfo(room, cardId);
   if (!info) return fail("unknown_card", "contract:§1");
   const keywords = withPermissionKeywords(cardKeywords(room, host, cardId, info), permission);
@@ -85,9 +101,11 @@ export function planCardPlay(
     request.location,
   );
   const timingKeywords = place.ok && place.option?.viaAmbush ? [...keywords, "Reaction"] : keywords;
-  // 358.4 (checked up front, 358.5): 806/813 timing permissions.
-  const timing = keywordTimingVerdict(room, playerId, timingKeywords);
-  if (!timing.ok) return timing;
+  // 358.4 (checked up front, 358.5): 806/813 timing permissions (not for Limited plays, 420.3).
+  if (!limited) {
+    const timing = keywordTimingVerdict(room, playerId, timingKeywords);
+    if (!timing.ok) return timing;
+  }
   if (!place.ok) return place;
   // 475–479 restriction layer: "can't play …".
   const restriction = restrictionFor(room, host, { kind: "play", playerId, cardId });
