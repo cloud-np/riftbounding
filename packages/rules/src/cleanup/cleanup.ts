@@ -12,7 +12,10 @@
  */
 import type { BattlefieldZone, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../types";
-import { effectiveMight, pushEvent } from "../types";
+import { pushEvent } from "../types";
+import { combatMight } from "../combat/keywords";
+import { battlefieldController, loseControl } from "../actions/control";
+import { areOpponents, isTeamMode } from "../scoring/teams";
 import {
   stageCombat,
   stageShowdown,
@@ -100,13 +103,15 @@ export function runCleanup(
   // Cleanup: a Unit with lethal damage marked at end of turn dies instead of being healed.
   // 323.4/429: the kill routes the card to its OWNER's Trash and only clears the rules object
   // after the move succeeds.
+  // 142.4.b: lethal damage is non-zero and ≥ the unit's Might — including Assault/Shield while
+  // the unit holds its designation (807.1.c / 814.1.c), so `combatMight`.
   for (const [cardId, object] of Object.entries(rules.objects)) {
     if (!object.damage) continue;
     const located = step.host.findCard(room, cardId);
     if (!located) continue;
     const info = step.host.cardInfo(room, cardId);
     if (!info?.type.toLowerCase().includes("unit")) continue;
-    if (object.damage >= effectiveMight(room, cardId, step.host)) {
+    if (object.damage >= combatMight(room, cardId, step.host)) {
       kill(room, cardId, step);
     }
   }
@@ -119,31 +124,39 @@ export function runCleanup(
   // R2-effects extension point (324.1): run after the inserted 3c/3d/3e steps, before step 4.
   runCleanupHooks("afterStep3a", room, step);
 
-  // 4. Control loss (323.5) is derived from unit presence (190.4); nothing to store.
+  // 4. 323.5 / 190.4.c: players lose control of battlefields without their Units when the turn is
+  // in an Open State and no Showdown or Combat is ongoing there.
+  if (rules.chain.length === 0) {
+    for (const zone of step.host.battlefieldZones(room)) {
+      const controller = battlefieldController(room, zone, step.host);
+      if (!controller) continue;
+      if (rules.showdown?.battlefield === zone || rules.combat?.battlefield === zone) continue;
+      if (step.host.hasUnitAt(room, controller, zone)) continue;
+      loseControl(room, zone, step, "323.5");
+    }
+  }
 
-  // 5. Recall unattached gear/rune at battlefields; purge foreign hidden cards (323.6).
+  // 5. 323.6: recall unattached non-Unit Gear and non-Unit Runes at battlefields; 323.6.a remove
+  // Hidden cards at battlefields not controlled by the same player into their owner's Trash.
+  // (Cards always sit on their controller's board, so no permanent is in another player's Base.)
   for (const player of room.players) {
     if (!player.board) continue;
     for (const zone of step.host.battlefieldZones(room)) {
-      for (const card of step.host.zoneCards(room, player.id, zone)) {
+      for (const card of [...step.host.zoneCards(room, player.id, zone)]) {
         const info = step.host.cardInfo(room, card.id);
         const type = (info?.type ?? "").toLowerCase();
-        if (type.includes("rune")) {
+        if (type.includes("rune") && !type.includes("unit")) {
           step.host.moveCard(room, player.id, zone, "base", card.id);
           pushEvent(step.events, { type: "recall", cardId: card.id, playerId: player.id, zone });
           continue;
         }
-        if (type.includes("gear") && !type.includes("unit") && !card.attachedToCardId) {
+        if (type.includes("gear") && !type.includes("unit") && !card.attachedToCardId && !card.hidden) {
           step.host.moveCard(room, player.id, zone, "base", card.id);
           pushEvent(step.events, { type: "recall", cardId: card.id, playerId: player.id, zone });
           continue;
         }
-        if (card.hidden) {
-          const owners = step.host
-            .activePlayerIds(room)
-            .filter((id) => step.host.hasUnitAt(room, id, zone));
-          if (owners.length !== 1 || owners[0] !== card.ownerPlayerId) {
-            step.host.moveCard(room, player.id, zone, "trash", card.id);
+        if (card.hidden && battlefieldController(room, zone, step.host) !== player.id) {
+          if (step.host.moveCardToOwnerZone(room, card.id, "trash")) {
             pushEvent(step.events, { type: "hidden_card_to_trash", cardId: card.id, playerId: player.id, zone });
           }
         }
@@ -151,47 +164,48 @@ export function runCleanup(
     }
   }
 
-  // 6/7. Stage showdowns and combats (323.7–323.9).
+  // 6/7. Stage Showdowns and Combats (323.7–323.9) at each Contested battlefield with no ongoing
+  // Combat there. A staged Combat already includes its Showdown (463.3 / 323.11), so only one of
+  // the two is kept in `staged`.
   for (const zone of step.host.battlefieldZones(room)) {
-    const contestants = step.host.activePlayerIds(room).filter((id) => step.host.hasUnitAt(room, id, zone));
     const contestedBy = rules.contested[zone];
+    if (!contestedBy || rules.combat?.battlefield === zone) continue;
     const showdownHere = rules.showdown?.battlefield === zone;
-    if (contestedBy && !rules.combat && contestants.length >= 2) {
-      // 323.8 + 323.11: Combat includes its own Showdown, so do not stage a standalone one.
+    if (opposingPlayersPresent(room, zone, step)) {
+      // 323.8
       unstageShowdown(rules, zone);
       stageCombat(rules, zone);
-    } else if (contestedBy && !rules.combat && contestants.length === 1 && contestants[0] === contestedBy) {
+    } else if (step.host.hasUnitAt(room, contestedBy, zone)) {
+      // 323.7 / 323.7.a
       if (!showdownHere) stageShowdown(rules, zone);
       unstageCombat(rules, zone);
-    } else if (contestedBy && !rules.combat && contestants.length === 0) {
+    } else {
       unstageShowdown(rules, zone);
       unstageCombat(rules, zone);
     }
   }
-  // 323.9: a staged combat whose opposing units left ceases to be staged.
+  // 323.9: a staged Combat whose opposing units left ceases to be staged.
   for (const zone of [...rules.staged.combats]) {
-    const contestants = step.host.activePlayerIds(room).filter((id) => step.host.hasUnitAt(room, id, zone));
-    if (contestants.length < 2 || rules.combat) unstageCombat(rules, zone);
+    if (!opposingPlayersPresent(room, zone, step)) unstageCombat(rules, zone);
   }
 
-  // 8. Remove Contested when the applier has no units and nothing is ongoing (323.10), then
-  // re-apply Contested per 323.10.a when removal leaves units at an uncontested battlefield.
+  // 8. 323.10: remove Contested from each battlefield without Units of its applier and without a
+  // Showdown or Combat there. 323.10.a / 190.3.a: a player whose Units are at an uncontested
+  // battlefield they do not control applies Contested (simultaneous appliers in Turn Order from
+  // the Turn Player, 303.2.a; once applied it is "already Contested", 190.3.a.1).
   for (const zone of step.host.battlefieldZones(room)) {
     const contestedBy = rules.contested[zone];
     if (!contestedBy) {
-      // 303.2.a / 323.8: simultaneous contestants are ordered from the Turn Player.
-      const contestants = turnOrderStartingAt(room, rules.turn.player, step.host).filter((id) =>
-        step.host.hasUnitAt(room, id, zone),
-      );
-      if (contestants.length >= 2) {
+      const appliers = contestedAppliers(room, zone, step);
+      if (appliers.length > 0) {
         // NEW-8: applying Contested is an observable game action — emit it and let the changed
         // state drive the 322 repeat so the next pass stages the Showdown/Combat (323.7/323.8).
-        rules.contested[zone] = contestants[0]!;
+        rules.contested[zone] = appliers[0]!;
         pushEvent(step.events, {
           type: "contested",
-          playerId: contestants[0],
+          playerId: appliers[0],
           zone,
-          data: { rule: "323.8" },
+          data: { rule: opposingPlayersPresent(room, zone, step) ? "323.8" : "190.3.a" },
         });
       }
       continue;
@@ -202,16 +216,13 @@ export function runCleanup(
       delete rules.contested[zone];
       unstageShowdown(rules, zone);
       unstageCombat(rules, zone);
-      // 323.10.a: the removal leaves an uncontested battlefield where another player's Units
-      // are present; that controller applies Contested status to the Battlefield.
-      const remaining = step.host
-        .activePlayerIds(room)
-        .filter((id) => step.host.hasUnitAt(room, id, zone));
-      if (remaining.length > 0) {
-        rules.contested[zone] = remaining[0]!;
+      // 323.10.a
+      const appliers = contestedAppliers(room, zone, step);
+      if (appliers.length > 0) {
+        rules.contested[zone] = appliers[0]!;
         pushEvent(step.events, {
           type: "contested_reapplied",
-          playerId: remaining[0],
+          playerId: appliers[0],
           zone,
           data: { rule: "323.10.a" },
         });
@@ -332,7 +343,9 @@ function runInsertedStep(room: Room, step: RulesStepContext, inserted: CleanupIn
           !object.baseMight &&
           !object.counters &&
           !object.grantedKeywords?.length &&
-          !object.grantedAbilities?.length
+          !object.grantedAbilities?.length &&
+          // 190.5: a battlefield's control state is constant; never expire it.
+          object.controller === undefined
         ) {
           delete rules.objects[objectId];
         }
@@ -346,13 +359,42 @@ function runInsertedStep(room: Room, step: RulesStepContext, inserted: CleanupIn
     }
     case "recall-attackers": {
       // 468.1.a.2: recall Attackers present at the Battlefield if Defenders are still present.
+      // 468.3.d / 740.3.a: a recall here is a tie and makes the combat "No Result".
       const combat = rules.combat;
       if (!combat) return;
       if (!step.host.hasUnitAt(room, combat.defender, combat.battlefield)) return;
-      for (const card of step.host.unitsAt(room, combat.battlefield, combat.attacker)) {
-        recall(room, card.id, step);
-      }
+      const attackers = step.host.unitsAt(room, combat.battlefield, combat.attacker);
+      let recalled = false;
+      for (const card of [...attackers]) recalled = recall(room, card.id, step) || recalled;
+      const progress = rules.history.combatProgress;
+      if (recalled && progress) progress.recalled = true;
       return;
     }
   }
+}
+
+/** 323.8 / 463: units of two opposing players (teammates are not opponents, 491) are present. */
+function opposingPlayersPresent(room: Room, zone: BattlefieldZone, step: RulesStepContext): boolean {
+  const present = step.host.activePlayerIds(room).filter((id) => step.host.hasUnitAt(room, id, zone));
+  return present.some((a) => present.some((b) => areOpponents(room, a, b)));
+}
+
+/**
+ * 190.3.a / 323.10.a: players whose Units are at `zone` although they do not control it, in Turn
+ * Order from the Turn Player (303.2.a).
+ *
+ * RULES-QUESTION(491.8.c / 190.3.a): in 2v2 a player whose teammate controls the battlefield is
+ * not treated as contesting it — control is not shared, but a literal reading would stage an
+ * endless series of Showdowns between teammates (nobody can ever establish control, 348.2.a).
+ */
+function contestedAppliers(room: Room, zone: BattlefieldZone, step: RulesStepContext): string[] {
+  const rules = room.rules;
+  if (!rules) return [];
+  const controller = battlefieldController(room, zone, step.host);
+  return turnOrderStartingAt(room, rules.turn.player, step.host).filter(
+    (id) =>
+      step.host.hasUnitAt(room, id, zone) &&
+      id !== controller &&
+      !(controller && isTeamMode(room) && !areOpponents(room, id, controller)),
+  );
 }

@@ -22,20 +22,40 @@ describe("cleanup step order and Contested re-application [R318–R324]", () => 
   });
 
   it("[R323.10.a] removing Contested re-applies it for units left at an uncontested battlefield", () => {
-    // Probe M: p1 applied Contested, then its units left; p2's Units remain. The removal at
-    // 323.10 is followed by p2 applying Contested (323.10.a), which stages 323.7/323.11.
+    // Probe M: p1 applied Contested, then its units left; p2's Units remain at a battlefield p2
+    // does NOT control. The removal at 323.10 is followed by p2 applying Contested (323.10.a),
+    // which stages 323.7/323.11.
     const s = scenario({
       p1: { hand: ["Treasure Hunter"], energy: 2 },
       p2: { hand: ["Caitlyn, Patrolling"], energy: 3, power: { Calm: 1 } },
     });
     putCardAt(s, "p2", "Caitlyn, Patrolling", "battlefieldA", "probe-caitlyn");
     s.room.rules!.contested.battlefieldA = "p1";
+    // 190.2.a: battlefieldA is explicitly Uncontrolled.
+    s.room.rules!.objects.battlefieldA = { controller: null };
 
     runCleanup(s.room, stepOf(s));
 
     expect(s.room.rules?.contested.battlefieldA).toBe("p2");
     expect(s.room.rules?.showdown?.battlefield).toBe("battlefieldA");
     expect(s.room.rules?.focus).toBe("p2");
+  });
+
+  it("[R323.10.a][R190.4.a] no re-application when the remaining units' controller controls the battlefield", () => {
+    // p1 attacked p2's battlefield, then p1's units left before combat. 323.10 removes Contested;
+    // p2 controls the battlefield, so 323.10.a does not apply and no Showdown starts (p2 must not
+    // "conquer" its own battlefield).
+    const s = scenario({ p2: { hand: ["Caitlyn, Patrolling"] } });
+    putCardAt(s, "p2", "Caitlyn, Patrolling", "battlefieldA", "probe-caitlyn-owner");
+    s.room.rules!.contested.battlefieldA = "p1";
+    s.room.rules!.objects.battlefieldA = { controller: "p2" };
+
+    const step = stepOf(s);
+    runCleanup(s.room, step);
+
+    expect(s.room.rules?.contested.battlefieldA).toBeUndefined();
+    expect(s.room.rules?.showdown).toBe(null);
+    expect(step.events.some((event) => event.type === "contested_reapplied")).toBe(false);
   });
 
   it("[R322] hitting the cleanup recursion bound emits loop_guard instead of silently stopping", () => {
