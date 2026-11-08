@@ -138,7 +138,7 @@ describe("2v2 team scoring and victory [R491]", () => {
     expect(scoreBattlefield(t.room, "p2", "battlefieldB", "conquer", t.step()).scored).toBe(true);
   });
 
-  it("[EX:491.8.b.1][R471.1.a] a battlefield the teammate controlled at the Scoring Step can't be conquered by the team", () => {
+  it("[EX:491.8.b.1][R471.1.a][R315.2.b.3] a battlefield the teammate controlled at the Scoring Step can't be conquered by the team", () => {
     const t = table("teams_2v2" as GameVariant);
     t.place("p3", "Clockwork Keeper", "battlefieldB", "ally");
     setControl(t.room, "battlefieldB", "p3");
