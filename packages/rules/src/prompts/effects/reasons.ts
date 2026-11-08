@@ -1,9 +1,16 @@
 /**
  * Prompt reasons owned by R2-effects (411.2).
  *
- * Empty in R1 so `PROMPT_REASONS` stays byte-identical. R2-effects adds string constants here
- * and registers the matching handler under the same value.
+ * The emitters (`effects/machine.ts`, `triggers/*`) and the handlers (`prompts/effects/*`)
+ * import these constants, so the wire strings cannot drift.
  */
-export const EFFECTS_PROMPT_REASONS = {} as const;
+export const EFFECTS_PROMPT_REASONS = {
+  /** 355.18 / 411.2: a decision made while a spell or ability resolves (may, pick, mode, …). */
+  resume: "effects.resume",
+  /** 383.3.d / 383.3.d.1: a player orders their simultaneous triggered abilities. */
+  orderTriggers: "effects.order_triggers",
+  /** 403.1 / 403.2: "you may" and target choices while a triggered ability is finalized. */
+  triggerChoice: "effects.trigger_choice",
+} as const;
 
 export type EffectsPromptReason = (typeof EFFECTS_PROMPT_REASONS)[keyof typeof EFFECTS_PROMPT_REASONS];

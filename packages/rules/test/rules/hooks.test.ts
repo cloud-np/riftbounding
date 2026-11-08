@@ -25,6 +25,9 @@ function stepOf(s: ReturnType<typeof scenario>): RulesStepContext {
 
 describe("hook registry [R337.1][R367–R375]", () => {
   it("[R337.1] afterFinalize fires once with the item that became Finalized", () => {
+    // R2-effects registers its production hooks at import (trigger finalization, replacement
+    // interceptor), so the registry counts are compared against that baseline.
+    const baseline = registeredHooks().finalize;
     const seen: Array<{ id: string; status: string; cardName?: string }> = [];
     unsubscribers.push(
       registerFinalizeHook((_room, item) => {
@@ -35,15 +38,18 @@ describe("hook registry [R337.1][R367–R375]", () => {
     s.as("p1").play("Treasure Hunter").expectOk();
     expect(seen).toHaveLength(1);
     expect(seen[0]).toMatchObject({ status: "finalized", cardName: "Treasure Hunter" });
-    expect(registeredHooks().finalize).toBe(1);
+    expect(registeredHooks().finalize).toBe(baseline + 1);
   });
 
-  it("[R367–R375] with no interceptor registered the primitive behaves exactly as before", () => {
+  it("[R367–R375] with no test interceptor registered the primitive behaves exactly as before", () => {
+    // Only the production replacement interceptor (R2-effects) is registered; with no
+    // replacement effect active it leaves the action unchanged.
+    const baseline = registeredHooks().actionInterceptors;
     const s = scenario();
     const step = stepOf(s);
     const result = drawCards(s.room, "p1", 1, step);
     expect(result.drawn).toHaveLength(1);
-    expect(registeredHooks().actionInterceptors).toBe(0);
+    expect(registeredHooks().actionInterceptors).toBe(baseline);
   });
 
   it("[R368] an interceptor returning null prevents the game action", () => {
@@ -87,6 +93,7 @@ describe("hook registry [R337.1][R367–R375]", () => {
     s.as("p1").play("Treasure Hunter").expectOk();
     const unit = s.findBoardCard("Treasure Hunter")!;
     const calls: string[] = [];
+    const baseline = registeredHooks().actionInterceptors;
     unsubscribers.push(
       registerActionInterceptor((_room, _step, proposal) => {
         calls.push("first");
@@ -99,7 +106,7 @@ describe("hook registry [R337.1][R367–R375]", () => {
         return proposal.type === "ready" ? null : proposal;
       }),
     );
-    expect(registeredHooks().actionInterceptors).toBe(2);
+    expect(registeredHooks().actionInterceptors).toBe(baseline + 2);
     const step = stepOf(s);
     expect(dealDamage(s.room, unit.id, 1, step)).toBe(1);
     expect(calls).toEqual(["first", "second"]);
