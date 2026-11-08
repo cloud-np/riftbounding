@@ -151,7 +151,13 @@ export function runCleanup(
           pushEvent(step.events, { type: "recall", cardId: card.id, playerId: player.id, zone });
           continue;
         }
-        if (type.includes("gear") && !type.includes("unit") && !card.attachedToCardId && !card.hidden) {
+        if (type.includes("gear") && !type.includes("unit") && card.attachedToCardId && !card.hidden) {
+          // 719.5: when the Top-Most card left the board the Gear detached where it was.
+          const top = step.host.findCard(room, card.attachedToCardId);
+          if (!top || top.zone !== zone) step.host.detach(room, card.id);
+        }
+        const current = step.host.zoneCards(room, player.id, zone).find((entry) => entry.id === card.id);
+        if (type.includes("gear") && !type.includes("unit") && !current?.attachedToCardId && !card.hidden) {
           step.host.moveCard(room, player.id, zone, "base", card.id);
           pushEvent(step.events, { type: "recall", cardId: card.id, playerId: player.id, zone });
           continue;

@@ -143,6 +143,9 @@ optional additions:
 - **Concede**: `concede(room, playerId, step)` is not wired to an intent.
 - **Host note**: `host.banish` moves to the controller's banished zone despite its doc; removal
   uses `moveCardToOwnerZone(…, "banished")`.
+- **`kill` primitive** (`actions/move.ts`, not in this lane) does not detach Gear from the killed
+  unit (719.5); the cleanup's 323.6 step detaches stale attachments and recalls the Gear
+  (149.3), but the primitive should detach itself.
 
 ## RULES-QUESTIONs
 

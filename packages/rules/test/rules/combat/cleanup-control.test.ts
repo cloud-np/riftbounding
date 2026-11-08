@@ -110,6 +110,21 @@ describe("323.6 recalls and hidden cards [R323.6][R323.6.a]", () => {
     expect(board.battlefieldA.map((card) => card.id).sort()).toEqual(["host-unit", "worn-gear"]);
   });
 
+  it("[R719.5][R149.3][R323.6] Gear attached to a unit that died detaches and is recalled in the same cleanup", () => {
+    const s = scenario();
+    const unit = placeUnit(s, "p1", "Clockwork Keeper", "battlefieldA", "doomed");
+    setControl(s.room, "battlefieldA", "p1");
+    const gear = placeUnit(s, "p1", "Blade of the Exile", "battlefieldA", "orphan-gear");
+    gear.attachedToCardId = unit.id;
+    s.room.rules!.objects[unit.id] = { damage: 5 };
+    runCleanup(s.room, stepOf(s));
+    const board = boardOf(s, "p1");
+    expect(board.trash.some((card) => card.id === "doomed")).toBe(true);
+    const recalled = board.base.find((card) => card.id === "orphan-gear");
+    expect(recalled).toBeTruthy();
+    expect(recalled?.attachedToCardId).toBeUndefined();
+  });
+
   it("[R323.6.a] Hidden cards at a battlefield controlled by another player go to their owner's Trash", () => {
     const s = scenario();
     placeUnit(s, "p1", "Clockwork Keeper", "battlefieldA");
