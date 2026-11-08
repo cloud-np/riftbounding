@@ -31,7 +31,7 @@ import {
 } from "../../src";
 import { createEngineRulesHost } from "../../../engine/src/strict/host";
 
-import { loadFixtureDecks as loadDecks } from "../fixtures/decks";
+import { loadFixtureDecks as loadDecks, withExtraCards, type ExtraDeckCards } from "../fixtures/decks";
 
 let scenarioCounter = 0;
 
@@ -62,6 +62,11 @@ export interface ScenarioInput {
   battlefields?: { p1?: string; p2?: string };
   seed?: number;
   roomCode?: string;
+  /**
+   * Extra Main Deck cards (any printed card, by name) appended to the fixture decks before the
+   * room is built; reach them with `moveDeckCardToHand` / `placeFromDeck` / `hand`.
+   */
+  extraCards?: ExtraDeckCards;
 }
 
 export function scenario(input: ScenarioInput = {}): RulesScenario {
@@ -82,7 +87,7 @@ export class RulesScenario {
   private lastEvents: GameEvent[] = [];
 
   constructor(input: ScenarioInput) {
-    const decks = loadDecks();
+    const decks = withExtraCards(loadDecks(), input.extraCards);
     const ctx = deterministicContext(input.seed ?? ++scenarioCounter * 7919);
     this.ctx = ctx;
     const room = createInitialGameState({
