@@ -129,9 +129,8 @@ export function table(
   room.firstPlayerId = "p1";
   room.turnNumber = 1;
   room.activeTurnPlayerId = "p1";
-  for (const player of room.players) {
-    if (!player.selectedBattlefield) player.selectedBattlefield = "Bandle Tree";
-  }
+  // A battlefield without a Victory Score modifier (Aspirant's Climb would add 1, 194.3.a).
+  for (const player of room.players) player.selectedBattlefield = "Bandle Tree";
   const host = createEngineRulesHost(ctx);
   const t: Table = {
     room: initializeStrictRules(room, ctx, host),

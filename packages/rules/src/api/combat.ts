@@ -56,6 +56,16 @@ export {
   setBattlefieldController,
   loseControl,
 } from "../actions/control";
-export { checkVictory, holdBattlefields, scoreBattlefield } from "../scoring/score";
+export {
+  checkVictory,
+  disqualifiedByTeammate,
+  holdBattlefields,
+  scoreBattlefield,
+  scoredEveryBattlefield,
+  snapshotScoringStep,
+  teamHasScored,
+} from "../scoring/score";
 export type { ScoreKind, ScoreResult } from "../scoring/score";
+export { concede, removePlayer } from "../scoring/concede";
+export type { ConcedeResult } from "../scoring/concede";
 export { areOpponents, isTeamMode, teamOf, teammatesOf } from "../scoring/teams";
