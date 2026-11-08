@@ -12,7 +12,7 @@ import type { RulesHost } from "../host";
 import type { RulesStepContext } from "../types";
 import { pushEvent } from "../types";
 import { getCardScript } from "../cards/registry";
-import { effectiveKeywordValues, keywordsAtDepth } from "../layers";
+import { effectiveKeywordValues, effectiveMight, keywordsAtDepth } from "../layers";
 import { consumeOnceCostEffects } from "../layers/costs";
 import { enterReadyApplies } from "../layers/entry";
 import { makeEnv } from "../effects/env";
@@ -233,6 +233,37 @@ function designationEvents(room: Room, step: RulesStepContext): GameEvent[] {
   return out;
 }
 
+/**
+ * 709 / 370.1.a (EX[137]): a unit "becomes Mighty" when its Might changes from below 5 to 5 or
+ * more while on the board. The last observed Might per unit is kept in the per-turn marks; a
+ * unit seen for the first time (e.g. entering with 7 Might) does not "become" Mighty.
+ */
+function mightyEvents(room: Room, step: RulesStepContext): GameEvent[] {
+  const rules = room.rules;
+  if (!rules) return [];
+  const history = (rules.history.effects ??= {});
+  const marks = (history.marks ??= {});
+  const previous = (marks.$might as Record<string, number> | undefined) ?? {};
+  const next: Record<string, number> = {};
+  const out: GameEvent[] = [];
+  for (const playerId of step.host.activePlayerIds(room)) {
+    for (const zone of ["base", ...step.host.battlefieldZones(room)]) {
+      for (const card of step.host.unitsAt(room, zone, playerId)) {
+        const might = effectiveMight(room, card.id, step.host);
+        next[card.id] = might;
+        const before = previous[card.id];
+        if (before !== undefined && before < 5 && might >= 5) {
+          const event: GameEvent = { type: "become_mighty", cardId: card.id, playerId, zone, amount: might };
+          pushEvent(step.events, event);
+          out.push(event);
+        }
+      }
+    }
+  }
+  marks.$might = next;
+  return out;
+}
+
 /** Per-event bookkeeping that is not a trigger (420.5 once-cost effects, 369.3 enter ready). */
 function eventSideEffects(room: Room, step: RulesStepContext, event: GameEvent): void {
   if (event.type === "card_played" && event.playerId) {
@@ -257,7 +288,7 @@ export function collectTriggers(room: Room, step: RulesStepContext): number {
   const rules = room.rules;
   if (!rules || room.gameOutcome) return 0;
   const events = takeNewEvents(step);
-  const synthesized = designationEvents(room, step);
+  const synthesized = [...designationEvents(room, step), ...mightyEvents(room, step)];
   takeNewEvents(step); // the synthesized events are processed below, not again later
   const all = [...events, ...synthesized].filter((event) => event.type !== "trigger");
   if (all.length === 0) return 0;
