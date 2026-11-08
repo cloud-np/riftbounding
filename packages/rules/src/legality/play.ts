@@ -1,24 +1,29 @@
-/** Play card / play location verdicts — rules 349–359, 420.1.a. */
-import type { Room } from "@rift/protocol";
-import type { CardInfo, LocatedCard, RulesHost } from "../host";
+/**
+ * Play card / play location verdicts — rules 349–359, 420.1.a, 422, 811.
+ *
+ * `playIntentVerdict` is the one verdict for a `rules_play` intent, shared by the write path
+ * and `explainIllegal`; `playCardVerdict` (R1 signature) is the same check for a bare play
+ * (no choices, no optional costs, auto payment) used by `legalIntents`.
+ */
+import type { Room, RulesPlayIntent } from "@rift/protocol";
+import type { CardInfo, RulesHost } from "../host";
 import type { RulesFailure } from "../types";
-import { fail } from "../types";
-import { cardTimingVerdict } from "./timing";
+import { planCardPlay, type CardPlayPlan } from "../play/process";
+import { planHide, type HidePlan } from "../play/hidden";
+import { chooseLocation } from "../play/locations";
+import { printedCardKeywords } from "../play/keywords";
+import { requestFromIntent } from "../play/request";
 
-export interface PlayCardVerdictOk {
-  ok: true;
-  located: LocatedCard;
-  info: CardInfo | null;
-  /** 355.2/359.2.d: the normalized destination ("base" when absent). */
-  location: string;
-}
+/** R1 shape (`located`, `info`, `location`) plus the full plan. */
+export type PlayCardVerdictOk = CardPlayPlan;
 
 export type PlayCardVerdict = PlayCardVerdictOk | RulesFailure;
 
 /**
  * 355.2/355.2.a/358.5/359.2.d: choose a valid Location before any mutation. Units may enter the
- * controller's Base or a Battlefield the controller controls; Non-Unit Gear always enters at
- * the Base. An invalid location cancels the play (358.5), never silently falls back to Base.
+ * controller's Base or a Battlefield the controller controls (Ambush: where they have Units);
+ * Non-Unit Gear enters at the Base (Deploy: a battlefield). An invalid location cancels the play
+ * (358.5), never silently falls back to Base.
  */
 export function playLocationVerdict(
   room: Room,
@@ -27,33 +32,16 @@ export function playLocationVerdict(
   requested: unknown,
   host: RulesHost,
 ): { ok: true; location: string } | RulesFailure {
-  if (requested !== undefined && typeof requested !== "string") {
-    return fail("invalid_location", "355.2");
-  }
-  const type = (info?.type ?? "").toLowerCase();
-  const isUnit = type.includes("unit");
-  const isGear = type.includes("gear");
-  const location = requested ?? "base";
-
-  if (!isUnit) {
-    // 359.2.d: Non-Unit Gear enters Ready at the player's Base.
-    if (isGear && location !== "base") return fail("invalid_location", "359.2.d");
-    return { ok: true, location: "base" };
-  }
-
-  if (location === "base") return { ok: true, location };
-  const battlefields = host.battlefieldZones(room);
-  if (!battlefields.includes(location as (typeof battlefields)[number])) {
-    return fail("invalid_location", "355.2.a");
-  }
-  // 355.2.a: a Battlefield is only valid when the controller controls it.
-  if (!host.hasUnitAt(room, playerId, location)) {
-    return fail("invalid_location", "355.2.a");
-  }
-  return { ok: true, location };
+  const result = chooseLocation(
+    room,
+    host,
+    { playerId, cardId: info?.objectId ?? "", info, keywords: printedCardKeywords(info) },
+    requested,
+  );
+  return result.ok ? { ok: true, location: result.location } : result;
 }
 
-/** 420.1.a + timing + 355.2: the single play verdict used by both the view and the write path. */
+/** 420.1.a + timing + 355–357: the play verdict for a bare play (auto payment). */
 export function playCardVerdict(
   room: Room,
   playerId: string,
@@ -61,18 +49,21 @@ export function playCardVerdict(
   host: RulesHost,
   location?: unknown,
 ): PlayCardVerdict {
-  const located = host.findCard(room, cardId);
-  if (
-    !located ||
-    located.playerId !== playerId ||
-    (located.zone !== "hand" && located.zone !== "champion")
-  ) {
-    return fail("not_in_hand", "420.1.a");
+  return planCardPlay(room, playerId, cardId, { choices: {}, optionalCosts: [], ...(location !== undefined ? { location } : {}) }, host);
+}
+
+export type PlayIntentVerdict =
+  | ({ kind: "play"; plan: CardPlayPlan } & { ok: true })
+  | ({ kind: "hide"; plan: HidePlan } & { ok: true })
+  | RulesFailure;
+
+/** The full verdict for a `rules_play` intent (play or 811.1.b Hide). */
+export function playIntentVerdict(room: Room, playerId: string, intent: RulesPlayIntent, host: RulesHost): PlayIntentVerdict {
+  const request = requestFromIntent(intent);
+  if (intent.hide === true) {
+    const hide = planHide(room, playerId, intent.cardId, request, host);
+    return hide.ok ? { ok: true, kind: "hide", plan: hide } : hide;
   }
-  const info = host.cardInfo(room, cardId);
-  const timing = cardTimingVerdict(room, playerId, info);
-  if (!timing.ok) return timing;
-  const place = playLocationVerdict(room, playerId, info, location, host);
-  if (!place.ok) return place;
-  return { ok: true, located, info, location: place.location };
+  const plan = planCardPlay(room, playerId, intent.cardId, request, host);
+  return plan.ok ? { ok: true, kind: "play", plan } : plan;
 }

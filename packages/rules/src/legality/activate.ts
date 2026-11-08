@@ -1,15 +1,23 @@
-/** Activated ability verdicts — rules 376–381, 399, 403.3. */
-import type { Ability, Room } from "@rift/protocol";
+/**
+ * Activated ability verdicts — rules 376–381, 399–407, 403.3, 430, 818, §6.4 (NEW-12).
+ *
+ * `activateIntentVerdict` is the one verdict for a `rules_activate` intent (write path and
+ * `explainIllegal`); `activationVerdict` (R1 signature) checks a bare activation (no choices,
+ * auto payment). Refs come from `play/abilities.ts`: scripted `activated:<i>`, unscripted
+ * `manual:<n>` (R2-effects' `listActivatedAbilities`; resolves in the manual window), Basic
+ * Rune `rune:exhaust`/`rune:recycle` and `equip:<n>`.
+ */
+import type { Room, RulesActivateIntent } from "@rift/protocol";
 import type { LocatedCard, RulesHost } from "../host";
 import type { RulesFailure } from "../types";
-import { fail } from "../types";
-import { getCardScript, lookupAbility } from "../cards/registry";
-import { abilityTimingVerdict, boardZones } from "./timing";
+import { activatedAbilitiesOf, type ActivatedAbility } from "../play/abilities";
+import { planActivation, type ActivationPlan } from "../play/activation";
+import { requestFromIntent } from "../play/request";
+import { boardZones } from "./timing";
 
-export type ActivatedAbility = Extract<Ability, { kind: "activated" }>;
+export type { ActivatedAbility };
 
-export interface ActivationVerdictOk {
-  ok: true;
+export interface ActivationVerdictOk extends ActivationPlan {
   located: LocatedCard;
   ability: ActivatedAbility;
   ref: string;
@@ -18,12 +26,11 @@ export interface ActivationVerdictOk {
 
 export type ActivationVerdict = ActivationVerdictOk | RulesFailure;
 
-/**
- * 376–381/403.3: an Activated Ability can only be activated from a Game Object on the Board
- * (107/056.1), must resolve to an ability of kind "activated", and must be legally timed. The
- * ability's own keywords drive timing; `addsResources` never grants an Action permission
- * (430.3 only says Reaction-tagged Add abilities may be activated while paying resources).
- */
+function withAbility(plan: ReturnType<typeof planActivation>): ActivationVerdict {
+  return plan.ok ? { ...plan, ability: plan.entry.ability } : plan;
+}
+
+/** 376–381/403.3: a bare activation verdict (R1 signature). */
 export function activationVerdict(
   room: Room,
   playerId: string,
@@ -31,26 +38,17 @@ export function activationVerdict(
   abilityRef: string | undefined,
   host: RulesHost,
 ): ActivationVerdict {
-  const located = host.findCard(room, objectId);
-  if (!located || located.playerId !== playerId) return fail("card_not_found", "399");
-  if (!boardZones(room, host).includes(located.zone)) {
-    return fail("illegal_action", "380", "source is not on the board");
-  }
-  const ref = typeof abilityRef === "string" && abilityRef.length > 0 ? abilityRef : "activated:0";
-  const lookup = lookupAbility(located.card.name, ref);
-  if (!lookup || lookup.ability.kind !== "activated") {
-    return fail("illegal_action", "403.3", "ability is not an activated ability");
-  }
-  const keywords = (lookup.ability.keywords ?? []).map((keyword) => String(keyword));
-  const timing = abilityTimingVerdict(room, playerId, keywords);
-  if (!timing.ok) return timing;
-  return { ok: true, located, ability: lookup.ability, ref, keywords };
+  return withAbility(planActivation(room, playerId, objectId, abilityRef, { choices: {}, optionalCosts: [] }, host));
+}
+
+/** The full verdict for a `rules_activate` intent (choices, optional costs, payment). */
+export function activateIntentVerdict(room: Room, playerId: string, intent: RulesActivateIntent, host: RulesHost): ActivationVerdict {
+  return withAbility(planActivation(room, playerId, intent.objectId, intent.ability, requestFromIntent(intent), host));
 }
 
 /**
- * One stable ability-ref scheme everywhere: `activated:<index>` indexes the script's full
- * `abilities` array (not the filtered activated-only list). Returns refs that
- * `lookupAbility`/`activationVerdict` resolve identically.
+ * Every activation `playerId` could make now (one stable ref scheme, F7): only abilities whose
+ * verdict passes — timing, conditions, legal choices and an affordable cost.
  */
 export function activatableAbilities(
   room: Room,
@@ -61,15 +59,13 @@ export function activatableAbilities(
   if (!room.rules || room.gameOutcome) return result;
   for (const zone of boardZones(room, host)) {
     for (const card of host.zoneCards(room, playerId, zone)) {
-      const script = getCardScript(card.name);
-      if (!script) continue;
-      script.abilities.forEach((ability, index) => {
-        if (ability.kind !== "activated") return;
-        const keywords = (ability.keywords ?? []).map((keyword) => String(keyword));
-        if (abilityTimingVerdict(room, playerId, keywords).ok) {
-          result.push({ objectId: card.id, ability: `activated:${index}` });
+      const located = host.findCard(room, card.id);
+      if (!located) continue;
+      for (const entry of activatedAbilitiesOf(room, host, located)) {
+        if (activationVerdict(room, playerId, card.id, entry.ref, host).ok) {
+          result.push({ objectId: card.id, ability: entry.ref });
         }
-      });
+      }
     }
   }
   return result;

@@ -21,6 +21,7 @@ import type { RulesFailure } from "../types";
 import { fail } from "../types";
 import { effectiveKeywords } from "../layers";
 import { isTurnPlayer, turnState } from "../state/turn";
+import { printedCardKeywords } from "../play/keywords";
 
 /** Contract citations use the documented `contract:§n` form (design contract, not the rulebook). */
 const CONTRACT_1 = "contract:§1";
@@ -89,9 +90,10 @@ export function cardTimingVerdict(room: Room, playerId: string, info: CardInfo |
   if (!base.ok) return base;
   if (!info) return fail("unknown_card", CONTRACT_1);
   // 475–479: timing reads granted keywords through the layers module as well as printed ones.
-  const keywords = info.objectId
-    ? effectiveKeywords(room, info.objectId, info.keywords)
-    : info.keywords;
+  // 135.2.d.3/135.2.e.7: printed card-level keywords come from the rules text (reminder text and
+  // ability-level `[Reaction][>]` are not card permissions), see `play/keywords.ts`.
+  const printed = printedCardKeywords(info);
+  const keywords = info.objectId ? effectiveKeywords(room, info.objectId, printed) : printed;
   return keywordTimingVerdict(room, playerId, keywords);
 }
 
