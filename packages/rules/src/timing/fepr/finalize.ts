@@ -56,9 +56,12 @@ export function resolvePermanent(room: Room, item: ChainItem, isUnit: boolean, s
   let destination = "base";
   if (typeof requested === "string") {
     // 355.2.a: validated in rules_play (invalid locations are cancelled at 358.5). Keep the
-    // control proxy here only as a defensive check for restored/direct states.
+    // control proxy here only as a defensive check for restored/direct states. 359.2.c/d: a
+    // location the process of play validated (it records `totalCost`) is used as is — Deploy
+    // (830.1.b.1) and 355.2.b permissions allow battlefields without the controller's Units.
     const zones = step.host.battlefieldZones(room);
-    if (zones.includes(requested as BattlefieldZone) && step.host.hasUnitAt(room, item.controller, requested)) {
+    const validated = item.totalCost !== undefined;
+    if (zones.includes(requested as BattlefieldZone) && (validated || step.host.hasUnitAt(room, item.controller, requested))) {
       destination = requested;
     } else if (requested === "base") {
       destination = "base";

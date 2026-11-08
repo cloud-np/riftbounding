@@ -54,6 +54,9 @@ function titleCase(name: string): string {
     .join("");
 }
 
+/** Cost/Might symbols written like keywords (`[Calm]`, `[Rune]`, `[Tap]`) are not keywords. */
+const SYMBOL_WORDS = new Set(["fury", "calm", "mind", "body", "chaos", "order", "rune", "power", "tap", "e", "a", "c", "t", "might", "m"]);
+
 /** Card-level keywords from text (keeps values such as "Deflect 2"). */
 export function parseCardKeywords(text: string | undefined): string[] {
   const out: string[] = [];
@@ -70,7 +73,8 @@ export function parseCardKeywords(text: string | undefined): string[] {
     const abilityLine = rest.includes(":");
     for (const token of lead) {
       const name = token.replace(/\s+\d+$/, "").trim();
-      if (!/^[a-z][a-z' -]*$/i.test(name)) continue; // cost symbols like [2], [Calm] handled by callers
+      if (!/^[a-z][a-z' -]*$/i.test(name)) continue; // numeric cost symbols such as [2]
+      if (SYMBOL_WORDS.has(name.toLowerCase())) continue;
       if (abilityLine && /^(action|reaction)$/i.test(name)) continue;
       const value = /\s+(\d+)$/.exec(token)?.[1];
       out.push(value ? `${titleCase(name)} ${value}` : titleCase(name));
@@ -79,13 +83,12 @@ export function parseCardKeywords(text: string | undefined): string[] {
   return out;
 }
 
-const DOMAIN_WORDS = new Set(["fury", "calm", "mind", "body", "chaos", "order", "rune", "power", "tap", "e", "a", "c", "might", "m"]);
 
 /** 801–803 / 819.1.b: printed card-level keywords (text first, catalog as fallback). */
 export function printedCardKeywords(info: Pick<CardInfo, "keywords" | "text"> | null | undefined): string[] {
   if (!info) return [];
   const parsed = info.text
-    ? parseCardKeywords(info.text).filter((keyword) => !DOMAIN_WORDS.has(keywordName(keyword).toLowerCase()))
+    ? parseCardKeywords(info.text)
     : [...info.keywords];
   if (parsed.some((keyword) => keywordName(keyword).toLowerCase() === "quick-draw")) {
     if (!parsed.some((keyword) => keywordName(keyword).toLowerCase() === "reaction")) parsed.push("Reaction");

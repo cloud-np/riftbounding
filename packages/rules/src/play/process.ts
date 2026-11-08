@@ -32,6 +32,7 @@ import { cardKeywords, printedCardKeywords } from "./keywords";
 import { chooseLocation, type LocationOption } from "./locations";
 import { applyPayment, checkpoint, paidCostRecord, rollback } from "./payment";
 import { playPermission, type PlayPermission } from "./permissions";
+import { recordFinalizedCard } from "./keyword-helpers";
 import { openCostPrompt, openChoicePrompt } from "./prompting";
 import type { PlayRequest } from "./request";
 
@@ -152,12 +153,6 @@ function savedPriority(rules: RulesState) {
   return { priority: rules.priority, focus: rules.focus, passes: [...rules.passes] };
 }
 
-/** 812.1.c / 420.4.b: remember finalized cards for Legion. */
-function recordFinalized(rules: RulesState, playerId: string, cardId: string): void {
-  const map = (rules.history.finalizedCardsThisTurn ??= {});
-  map[playerId] = [...(map[playerId] ?? []), cardId];
-  rules.history.playHistoryTurn = rules.turn.number;
-}
 
 /** 805.2.b / 805.6: a paid Accelerate replaces entering exhausted with entering ready. */
 function applyEnterReady(room: Room, item: ChainItem, step: RulesStepContext): void {
@@ -192,7 +187,7 @@ export function completeCardItem(
   delete item.process;
   const snapshot = item.cardSnapshot;
   // 350.1 / 359: the card has finished the process — it is Played and Finalized.
-  if (snapshot) recordFinalized(rules, item.controller, snapshot.id);
+  if (snapshot) recordFinalizedCard(room, item.controller, snapshot.id);
   rules.history.cardsPlayedThisTurn[item.controller] = (rules.history.cardsPlayedThisTurn[item.controller] ?? 0) + 1;
   pushEvent(step.events, {
     type: "card_played",

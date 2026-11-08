@@ -4,6 +4,9 @@ import type { RulesHost } from "../host";
 import { fail } from "../types";
 import { chainExists, isTurnPlayer, showdownActive } from "../state/turn";
 import { baseActionVerdict } from "./timing";
+import { restrictionFor } from "../layers/restrictions";
+import { cardKeywords, hasKeyword } from "../play/keywords";
+import { hasVisibleUnitAt, playersWithUnitsAt } from "../play/control";
 
 export interface MoveVerdictContext {
   host: RulesHost;
@@ -53,17 +56,25 @@ export function moveTimingVerdict(
     // 144.4: Base → Battlefield; Battlefield → Base; only Ganking goes Battlefield → Battlefield.
     const fromBattlefield = destinations.includes(located.zone as (typeof destinations)[number]);
     const toBattlefield = to !== "base";
-    if (fromBattlefield && toBattlefield && !info.keywords.some((keyword) => keyword.toLowerCase() === "ganking")) {
-      // The only Battlefield → Battlefield path is Ganking (144.4.c).
+    // 810.1.b / 810.3: Ganking (printed or granted, 475–479) is the only Battlefield → Battlefield path.
+    if (fromBattlefield && toBattlefield && !hasKeyword(cardKeywords(room, host, unitId, info), "Ganking")) {
       return fail("invalid_location", "144.4.c", unitId);
     }
+    // 475–479 restriction layer ("Units can't move from here to base", …).
+    const restriction = restrictionFor(room, host, { kind: "move", playerId, objectId: unitId, to });
+    if (restriction) return fail("restricted", restriction.rule ?? "421", restriction.note ?? unitId);
   }
   if (to !== "base") {
-    // 449.2 / 144.4.a.1: not into a battlefield with Units of 2 players that aren't the mover.
-    const others = host
-      .activePlayerIds(room)
-      .filter((id) => id !== playerId && host.hasUnitAt(room, id, to));
+    // 449.2 / 451.2 / 144.4.a.1: not into a battlefield with Units of 2 players that aren't the
+    // mover (facedown cards are not Units present, 107.3).
+    const others = playersWithUnitsAt(room, host, to).filter((id) => id !== playerId);
     if (others.length >= 2) return fail("invalid_location", "449.2");
+    // 449.2.a: with 3+ players, a battlefield with a staged Combat is invalid for a player with
+    // no Units there (an ongoing Combat already forbids Standard Moves, 144.1.c).
+    if (host.activePlayerIds(room).length > 2) {
+      const staged = rules.staged.combats.includes(to as (typeof rules.staged.combats)[number]);
+      if (staged && !hasVisibleUnitAt(room, host, playerId, to)) return fail("invalid_location", "449.2.a");
+    }
   }
   return { ok: true };
 }

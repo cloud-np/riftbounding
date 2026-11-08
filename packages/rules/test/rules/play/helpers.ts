@@ -70,8 +70,19 @@ export function bareScenario(input: ScenarioInput = {}): RulesScenario {
   return s;
 }
 
-/** Place a card from a player's deck into a zone and return the placed instance. */
+/**
+ * Place a card from a player's deck (or hand, when an `extraCards` card was dealt into the
+ * opening hand) into a zone and return the placed instance.
+ */
 export function place(s: RulesScenario, playerId: string, name: string, zone: string): CardInstance {
+  const board = boardOf(s, playerId);
+  if (!board.deck.some((card) => card.name === name)) {
+    const index = board.hand.findIndex((card) => card.name === name);
+    if (index >= 0) {
+      const [card] = board.hand.splice(index, 1) as [CardInstance];
+      board.deck.push(card);
+    }
+  }
   s.placeFromDeck(playerId, name, zone);
   const list = (boardOf(s, playerId) as unknown as Record<string, CardInstance[]>)[zone] ?? [];
   const card = [...list].reverse().find((entry) => entry.name === name);
