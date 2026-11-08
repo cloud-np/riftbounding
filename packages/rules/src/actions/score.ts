@@ -72,3 +72,23 @@ export function gainPoints(room: Room, playerId: string, amount: number, step: R
   pushEvent(step.events, { type: "gain_points", playerId, amount: gained });
   return gained;
 }
+
+/**
+ * 194.4: players cannot have less than 0 points. 194.4.a: losing points at 0 does nothing;
+ * 194.4.b: and emits no `lose_points` event (loss triggers do not trigger). In 2v2 the team's
+ * shared score is reduced (491.8.d.2, through the host). Returns the points actually lost.
+ */
+export function losePoints(room: Room, playerId: string, amount: number, step: RulesStepContext): number {
+  const proposal = interceptAction(room, step, {
+    type: "lose_points",
+    playerId,
+    amount: Math.max(0, Math.trunc(amount)),
+  });
+  if (!proposal) return 0;
+  const current = Math.max(0, step.host.score(room, playerId));
+  const lost = Math.min(current, Math.max(0, Math.trunc(proposal.amount ?? amount)));
+  if (lost <= 0) return 0;
+  step.host.setScore(room, playerId, current - lost);
+  pushEvent(step.events, { type: "lose_points", playerId, amount: lost });
+  return lost;
+}

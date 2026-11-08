@@ -80,6 +80,26 @@ export function establishControl(
   return true;
 }
 
+/** 170.11.a–c: the states card text can reference for a battlefield. */
+export function battlefieldStates(
+  room: Room,
+  zone: string,
+  host: RulesHost,
+): { occupied: boolean; uncontrolled: boolean; open: boolean; controller: string | null } {
+  const occupied = host.activePlayerIds(room).some((id) => host.hasUnitAt(room, id, zone));
+  const controller = battlefieldController(room, zone, host);
+  return { occupied, uncontrolled: controller === null, open: !occupied && controller === null, controller };
+}
+
+/**
+ * 190.6.a / 190.6.b: who controls (and puts on the chain, and makes choices for) a battlefield's
+ * abilities: its controller, or the Turn Player while it is Uncontrolled. 190.6.c (an ability that
+ * names the choosing player) is decided by the ability itself (R2-effects).
+ */
+export function battlefieldAbilityController(room: Room, zone: string, host: RulesHost): string | null {
+  return battlefieldController(room, zone, host) ?? room.rules?.turn.player ?? null;
+}
+
 /** Convenience type guard used by the move/cleanup extension points. */
 export function battlefieldOf(room: Room, zone: string, host: RulesStepContext["host"]): BattlefieldZone | null {
   return host.battlefieldZones(room).includes(zone as BattlefieldZone) ? (zone as BattlefieldZone) : null;

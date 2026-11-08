@@ -45,6 +45,37 @@ export function combatParticipants(room: Room, zone: BattlefieldZone, host: Rule
 }
 
 /**
+ * 464.1 / 464.2: in Modes of Play with more than two players, a battlefield with a staged Combat
+ * or a Combat in progress is an invalid destination for players not involved in it.
+ *
+ * - `"move"` (464.1): invalid for Units of a player not involved in the Combat **or** who has no
+ *   Units there already. RULES-QUESTION(464.1): read literally ("or"), an involved player whose
+ *   units all left is also barred.
+ * - `"play"` (464.2): invalid for a player not involved in that Combat (464.2.a: an effect that
+ *   requires it plays the Unit to its controller's Base instead — R2-play / R2-effects).
+ *
+ * For R2-play's destination checks (moves 449.2.a, plays 355): not called by this domain.
+ */
+export function combatBarsDestination(
+  room: Room,
+  playerId: string,
+  zone: BattlefieldZone,
+  kind: "move" | "play",
+  host: RulesHost,
+): boolean {
+  const rules = room.rules;
+  if (!rules || host.activePlayerIds(room).length <= 2) return false;
+  let involved: string[] = [];
+  if (rules.combat?.battlefield === zone) involved = [rules.combat.attacker, rules.combat.defender];
+  else if (rules.staged.combats.includes(zone)) {
+    const participants = combatParticipants(room, zone, host);
+    involved = participants ? [participants.attacker, participants.defender] : [];
+  } else return false;
+  if (!involved.includes(playerId)) return true;
+  return kind === "move" && !host.hasUnitAt(room, playerId, zone);
+}
+
+/**
  * 466.1 / 466.2: open a Combat at `zone`.
  *
  * 466.2.b (start of combat / start of showdown effects) → `combat_begin` + `showdown_begin`;

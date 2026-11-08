@@ -3,6 +3,7 @@ export { beginShowdown, endShowdown, passFocus } from "../timing/showdown";
 export type { BeginShowdownOptions } from "../timing/showdown";
 export {
   beginCombat,
+  combatBarsDestination,
   combatParticipants,
   combatTriggerOrder,
   designateCombatants,
@@ -51,11 +52,14 @@ export type {
 export { damageAssignmentVerdict } from "../prompts/combat";
 export { COMBAT_PROMPT_REASONS } from "../prompts/combat/reasons";
 export {
+  battlefieldAbilityController,
   battlefieldController,
+  battlefieldStates,
   controlsBattlefield,
   setBattlefieldController,
   loseControl,
 } from "../actions/control";
+export { losePoints } from "../actions/score";
 export {
   checkVictory,
   disqualifiedByTeammate,
@@ -66,6 +70,6 @@ export {
   teamHasScored,
 } from "../scoring/score";
 export type { ScoreKind, ScoreResult } from "../scoring/score";
-export { concede, removePlayer } from "../scoring/concede";
+export { concede, playerLoses, playerWins, removePlayer } from "../scoring/concede";
 export type { ConcedeResult } from "../scoring/concede";
 export { areOpponents, isTeamMode, teamOf, teammatesOf } from "../scoring/teams";

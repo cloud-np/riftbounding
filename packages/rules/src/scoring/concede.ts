@@ -48,6 +48,30 @@ export function concede(room: Room, playerId: string, step: RulesStepContext): C
 }
 
 /**
+ * 195.1: an effect instructs a player to lose the game → they are immediately removed from the
+ * game (the 651 / 652 process; in 2v2 the team loses together, 491.6.a.2).
+ */
+export function playerLoses(room: Room, playerId: string, step: RulesStepContext): ConcedeResult {
+  pushEvent(step.events, { type: "lose_game", playerId, data: { rule: "195.1" } });
+  return concede(room, playerId, step);
+}
+
+/**
+ * 195: a player wins if an effect instructs them to do so (2v2: with their team, 491.6.a.3).
+ */
+export function playerWins(room: Room, playerId: string, step: RulesStepContext): string[] {
+  if (room.gameOutcome) return room.gameOutcome.winnerPlayerIds;
+  const winners = isTeamMode(room) ? teamOf(room, playerId) : [playerId];
+  room.gameOutcome = {
+    winnerPlayerIds: winners,
+    reason: "score",
+    decidedAtTurnNumber: Math.max(1, room.rules?.turn.number ?? room.turnNumber ?? 1),
+  };
+  pushEvent(step.events, { type: "game_over", data: { winnerPlayerIds: winners, reason: "effect", rule: "195" } });
+  return winners;
+}
+
+/**
  * 652: Removal of a Player.
  * - 652.1: banish every permanent, rune and facedown card they control or own.
  * - 652.2: their battlefield leaves the game; 652.2.a/b it is replaced by a token battlefield with
