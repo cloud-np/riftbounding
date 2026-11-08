@@ -216,6 +216,10 @@ export function completeCardItem(
   item.totalCost = costSummary(core.cost);
   delete item.process;
   const snapshot = item.cardSnapshot;
+  if (snapshot && item.playedFromFacedown) {
+    delete rules.objects[snapshot.id]?.hiddenTurn;
+    delete rules.objects[snapshot.id]?.hiddenBy;
+  }
   // 350.1 / 359: the card has finished the process — it is Played and Finalized.
   if (snapshot) recordFinalizedCard(room, item.controller, snapshot.id);
   rules.history.cardsPlayedThisTurn[item.controller] = (rules.history.cardsPlayedThisTurn[item.controller] ?? 0) + 1;
@@ -252,12 +256,9 @@ export function executeCardPlay(
   // 354: move the card from its zone to the chain.
   const snapshot = step.host.takeCard(room, plan.located.playerId, plan.located.zone, plan.located.card.id);
   if (!snapshot) return fail("card_not_found", "354");
-  if (plan.permission.facedownAt) {
-    // 422.4: a facedown card changing zones is revealed to all players.
-    delete snapshot.hidden;
-    delete rules.objects[snapshot.id]?.hiddenTurn;
-    delete rules.objects[snapshot.id]?.hiddenBy;
-  }
+  // 422.4: a facedown card changing zones is revealed to all players. Its hidden-turn record is
+  // kept until the play completes so a 358.5 undo can put it back facedown, still playable.
+  if (plan.permission.facedownAt) delete snapshot.hidden;
   const { unit, gear } = typeOf(plan.info);
   const item: ChainItem = {
     id: step.host.nextId("chain"),

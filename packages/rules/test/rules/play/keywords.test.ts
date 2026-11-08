@@ -178,6 +178,28 @@ describe("Hidden [R811][R422]", () => {
   });
 });
 
+describe("Hidden undo [R358.5][R811.1.b]", () => {
+  it("[R358.5][R811.1.b] a facedown play undone after its prompt goes back facedown and stays playable", () => {
+    const s = bareScenario({ extraCards: { p1: ["Stand United"] } });
+    const card = hiddenAtA(s, "Stand United");
+    const here = boardOf(s, "p1").battlefieldA.find((entry) => !entry.hidden)!;
+    const deflect = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
+    s.room.rules!.objects[deflect.id] = { grantedKeywords: ["Deflect"] };
+    registerCardScript({ name: "Stand United", text: "test", status: "implemented", abilities: [fake.fakeAbility("Stand United")] });
+    fake.setSpecs("Stand United", (room, host) => [fake.anyUnitSpec(room, host)]);
+    setPool(s, "p1", 0);
+    s.as("p1").apply({ type: "rules_play", cardId: card.id }).expectOk();
+    // Choosing the Deflect unit costs [A] the player cannot pay: the play is undone (358.5).
+    s.as("p1").choose({ optionIds: [deflect.id] }).expectOk();
+    expect(s.events().map((event) => event.type)).toContain("play_cancelled");
+    const back = boardOf(s, "p1").battlefieldA.find((entry) => entry.id === card.id);
+    expect(back?.hidden).toBe(true);
+    expect(legalIntents(s.room, "p1", s.host).playableCardIds).toContain(card.id);
+    s.as("p1").apply({ type: "rules_play", cardId: card.id, targets: [here.id], hold: true }).expectOk();
+    expect(s.room.rules?.objects[card.id]?.hiddenTurn).toBeUndefined();
+  });
+});
+
 describe("Ambush [R822]", () => {
   it("[R822.1.b][R822.1.c] Ambush adds battlefields where you have Units, with Reaction there", () => {
     const s = bareScenario({ p1: { energy: 3 }, extraCards: { p1: ["Inferna"] } });

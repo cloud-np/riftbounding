@@ -81,11 +81,23 @@ export function checkpoint(room: Room, step: RulesStepContext): RoomCheckpoint {
   return { room: step.host.cloneRoom(room), events: step.events.length };
 }
 
-/** 358.5: put the draft back exactly as it was at `point` (same object identity). */
-export function rollback(room: Room, step: RulesStepContext, point: RoomCheckpoint): void {
-  const target = room as unknown as Record<string, unknown>;
+function replaceContents(target: Record<string, unknown>, source: Record<string, unknown>): void {
   for (const key of Object.keys(target)) delete target[key];
-  Object.assign(target, step.host.cloneRoom(point.room));
+  Object.assign(target, source);
+}
+
+/**
+ * 358.5: put the draft back exactly as it was at `point`. The room object and its `rules`
+ * object keep their identity, so callers holding either reference keep working.
+ */
+export function rollback(room: Room, step: RulesStepContext, point: RoomCheckpoint): void {
+  const restored = step.host.cloneRoom(point.room);
+  const rules = room.rules;
+  replaceContents(room as unknown as Record<string, unknown>, restored as unknown as Record<string, unknown>);
+  if (rules && restored.rules) {
+    replaceContents(rules as unknown as Record<string, unknown>, restored.rules as unknown as Record<string, unknown>);
+    room.rules = rules;
+  }
   step.events.length = point.events;
 }
 

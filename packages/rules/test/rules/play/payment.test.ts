@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canPayCost, payCost } from "../../../src";
+import { canPayCost, payCost, registerActionInterceptor } from "../../../src";
 import { applyCostDeltas, emptyCost, printedCardCost, resolveCost } from "../../../src/play/cost-model";
 import { planResources, validateResources } from "../../../src/play/planner";
 import type { PaymentSources } from "../../../src/play/sources";
@@ -166,6 +166,24 @@ describe("payCost / canPayCost contract [R203][R357]", () => {
     const verdict = payCost(s.room, step, "p1", { energy: 1, power: { Chaos: 1 } });
     expect(verdict).toMatchObject({ ok: false, code: "insufficient_resources" });
     expect(JSON.stringify(s.room)).toBe(before);
+    expect(step.events).toEqual([]);
+  });
+
+  it("[R358.5] a rollback after a partial payment keeps the room and rules object identity", () => {
+    const s = bareScenario();
+    const [rune] = setRunes(s, "p1", [{ domain: "Calm" }]);
+    const rules = s.room.rules!;
+    const step = stepOf(s);
+    // A replacement effect prevents the rune's Add after it was exhausted (367–375): the pool
+    // cannot cover the cost, so the payment fails mid-way and is rolled back.
+    const off = registerActionInterceptor((_room, _step, proposal) => (proposal.type === "add_resources" ? null : proposal));
+    try {
+      expect(payCost(s.room, step, "p1", { energy: 1 })).toMatchObject({ ok: false, code: "insufficient_resources", rule: "357.1" });
+    } finally {
+      off();
+    }
+    expect(s.room.rules).toBe(rules);
+    expect(runeState(s, "p1", rune!)).toBe("ready");
     expect(step.events).toEqual([]);
   });
 
