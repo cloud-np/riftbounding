@@ -75,7 +75,9 @@ rolled back to a checkpoint, the card returns to its zone **and index**, Priorit
 restored, `play_cancelled` is emitted, and the answering intent succeeds.
 
 `planCardPlay(..., limited)` is the **420.3 Limited play** variant for R2-effects' `play` op: no
-Discretionary timing, any zone, the effect's permission (`ignore` / `cost` / `ignoreAll`).
+Discretionary timing, any zone, the effect's permission (`ignore` / `cost` / `ignoreAll`),
+`extraLocations` (355.2.b permissions, "you may play it here") and `requiredLocations` (355.17
+mandatory requirements, followed when possible; restrictions still win, 355.17.b).
 
 ## Payment (160–168, 201–206, 356–357)
 
@@ -93,7 +95,9 @@ Discretionary timing, any zone, the effect's permission (`ignore` / `cost` / `ig
   (`exhaust`/`discard`/`kill`) name the objects.
 - **Non-standard costs** (357.2): forced when candidates == owed, prompted (`choose-cost`) when
   more, unpayable (203.3) when fewer. One object may be exhausted *and* killed ("Kill this, [E]").
-  A replaced action still pays (203.2/357.2.a).
+  A replaced action still pays (203.2/357.2.a). 357.3: a kill cost avoids the play's own chosen
+  targets while another candidate exists (an explicit plan that kills a target then is
+  `invalid_payment`/357.3).
 - **Atomicity**: `payCost` checkpoints the draft and restores it (and the step's events) on any
   failure.
 - **Cost conventions** for scripts (R2-effects): `Selector.targetRef: "self"` (or `"source"`) is
@@ -245,13 +249,14 @@ effect-driven plays), `legionActive`, `weaponmasterEquipCosts`, `planCore`/`cont
 ## Tests
 
 `test/rules/play/` — payment (19), process (28), activation (15), keywords (19), move (5),
-wire (4), cost-text (7); `test/examples/play-examples.test.ts` (13);
+wire (4), cost-text (7); `test/examples/play-examples*.test.ts` (19);
 `test/property/play.test.ts` (1 property, 25 runs). Official examples covered: 204.1.b, 204.3.a,
 206, 355.5.a, 355.5.b, 355.14.c, 355.17.b, 356.1.b.3, 356.2.a.1, 356.2.b.1, 356.4.f.1, 356.4.g,
-356.7, 357.2, 357.2.a, 358.1, 358.3.a, 358.4 (×2), 359.3.e.10, 377.1, 377.2.b, 430.3, 431.2,
+356.7, 357.2, 357.2.a, 357.3, 355.17 (×2), 358.1, 358.3 (×2), 358.3.a, 358.4 (×2), 359.3.e.10,
+377.1, 377.2.b, 430.3, 431.2,
 806.3, 811.1.d.2, 811.1.d.4, 812.2, 820.1.d.1, 820.2.a. Not expressible yet (effect execution,
-R2-effects): 204.1.c, 204.4, 205, 206.1, 355.11.b, 355.11.b.1, 355.14.h.1, 355.16, 355.17,
-355.17.a, 357.3, 358.3 (3 players), 359.3.e.* / 359.3.f.* (resolution), 811.1.d.3, 811.2, 822.1.d,
+R2-effects): 204.1.c, 204.4, 205, 206.1, 355.11.b, 355.11.b.1, 355.14.h.1, 355.16, 355.17.a,
+356.4.c, 356.4.e (RULES-QUESTION), 359.3.e.* / 359.3.f.* (resolution), 811.1.d.3, 811.2, 822.1.d,
 459.1 (cleanup).
 
 ## Remaining TODOs (prioritized)

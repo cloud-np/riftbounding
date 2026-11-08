@@ -38,6 +38,10 @@ export interface LocationQuery {
   keywords: readonly string[];
   /** 811.1.d.1: the battlefield a facedown card was hidden at. */
   facedownAt?: string;
+  /** 355.2.b: Locations an effect makes valid for this play. */
+  extraLocations?: readonly string[];
+  /** 355.17: a mandatory requirement — followed when possible (restrictions still win, 355.17.b). */
+  requiredLocations?: readonly string[];
 }
 
 function tooCrowded(room: Room, host: RulesHost, playerId: string, zone: string): boolean {
@@ -50,6 +54,26 @@ function restricted(room: Room, host: RulesHost, query: LocationQuery, zone: str
 
 /** Every valid location for a permanent (empty for spells). */
 export function playLocations(room: Room, host: RulesHost, query: LocationQuery): LocationOption[] {
+  const options = baseLocations(room, host, query);
+  const { unit } = typeOf(query.info);
+  // 355.2.b: an effect's permission makes more Locations valid (restrictions/crowding still apply).
+  for (const zone of query.extraLocations ?? []) {
+    if (options.some((option) => option.zone === zone)) continue;
+    if (zone !== "base" && !(host.battlefieldZones(room) as string[]).includes(zone)) continue;
+    if (restricted(room, host, query, zone)) continue;
+    if (unit && zone !== "base" && tooCrowded(room, host, query.playerId, zone)) continue;
+    options.push({ zone, rule: "355.2.b" });
+  }
+  // 355.17: a mandatory requirement is followed when it can be.
+  const required = query.requiredLocations;
+  if (required && required.length > 0) {
+    const kept = options.filter((option) => required.includes(option.zone));
+    if (kept.length > 0) return kept.map((option) => ({ ...option, rule: "355.17" }));
+  }
+  return options;
+}
+
+function baseLocations(room: Room, host: RulesHost, query: LocationQuery): LocationOption[] {
   const { unit, gear } = typeOf(query.info);
   if (!unit && !gear) return [];
   const battlefields = host.battlefieldZones(room) as string[];

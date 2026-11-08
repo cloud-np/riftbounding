@@ -48,6 +48,8 @@ export interface ObjectCostContext {
   /** Cards that cannot pay (e.g. the card being played, still in hand while planning). */
   excludeIds?: readonly string[];
   plan?: PaymentPlanWire;
+  /** 357.3: chosen targets a cost should not consume when another choice exists. */
+  avoidIds?: readonly string[];
 }
 
 function boardLists(room: Room, host: RulesHost): string[] {
@@ -219,9 +221,22 @@ export function planObjectCosts(
     const count = requirements.reduce((sum, entry) => sum + entry.count, 0);
     // Union of candidates per requirement (requirements of one category rarely coexist).
     const taken = new Set([...takenBy[category], ...consumed]);
-    const candidates = [
+    let candidates = [
       ...new Set(requirements.flatMap((requirement) => objectCandidates(room, host, context, requirement, taken))),
     ];
+    // 357.3: do not kill a chosen target to pay a cost (that would make the choice illegal)
+    // unless there is no other choice.
+    if (category === "kill" && context.avoidIds?.length) {
+      const avoid = new Set(context.avoidIds);
+      const preferred = candidates.filter((id) => !avoid.has(id));
+      if (preferred.length >= count) {
+        const explicit = context.plan?.kill;
+        if (explicit?.some((id) => avoid.has(id))) {
+          return fail("invalid_payment", "357.3", "killing a chosen target makes the play illegal while another choice exists");
+        }
+        candidates = preferred;
+      }
+    }
     const picked = pick(category, count, candidates, context.plan?.[category], category === "exhaust" ? "415.4" : "357.2");
     if (!picked.ok) return picked;
     if ("pending" in picked) return { ok: true, plan: null, pending: picked.pending };

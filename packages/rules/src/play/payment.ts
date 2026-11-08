@@ -41,6 +41,8 @@ export interface PaymentContext {
   /** Cards that cannot pay (the card being played while it is still in hand). */
   excludeIds?: readonly string[];
   plan?: PaymentPlanWire;
+  /** 357.3: chosen targets a kill cost should avoid when another choice exists. */
+  avoidIds?: readonly string[];
 }
 
 /** 357: plan the whole payment (non-standard objects first, then Energy/Power). Pure. */
@@ -56,6 +58,7 @@ export function planPayment(
     ...(context.sourceObjectId ? { sourceObjectId: context.sourceObjectId } : {}),
     ...(context.excludeIds ? { excludeIds: context.excludeIds } : {}),
     ...(context.plan ? { plan: context.plan } : {}),
+    ...(context.avoidIds ? { avoidIds: context.avoidIds } : {}),
   });
   if (!objects.ok) return objects;
   if (objects.pending) return { ok: true, plan: null, pending: objects.pending };

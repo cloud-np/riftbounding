@@ -67,6 +67,10 @@ function spellAbility(info: CardInfo) {
  */
 export interface LimitedPlay {
   permission?: PlayPermission;
+  /** 355.2.b: Locations the instructing effect makes valid ("you may play it here"). */
+  extraLocations?: string[];
+  /** 355.17: Locations the instructing effect requires ("to a battlefield you control"). */
+  requiredLocations?: string[];
 }
 
 /** 349–358: the full play verdict for a card that is still in its zone. Pure. */
@@ -97,7 +101,15 @@ export function planCardPlay(
   const place = chooseLocation(
     room,
     host,
-    { playerId, cardId, info, keywords, ...(permission.facedownAt ? { facedownAt: permission.facedownAt } : {}) },
+    {
+      playerId,
+      cardId,
+      info,
+      keywords,
+      ...(permission.facedownAt ? { facedownAt: permission.facedownAt } : {}),
+      ...(limited?.extraLocations ? { extraLocations: limited.extraLocations } : {}),
+      ...(limited?.requiredLocations ? { requiredLocations: limited.requiredLocations } : {}),
+    },
     request.location,
   );
   const timingKeywords = place.ok && place.option?.viaAmbush ? [...keywords, "Reaction"] : keywords;

@@ -107,10 +107,15 @@ export function planCore(room: Room, host: RulesHost, input: CoreInput): CoreRes
     },
   });
   // 357: payment plan (420.2.a: an unaffordable play is not legal).
+  const targetIds = bound.targetKeys.flatMap((key) => {
+    const value = bound.choices[key];
+    return typeof value === "string" ? [value] : Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
+  });
   const payment = planPayment(room, host, input.playerId, total.cost, {
     sourceObjectId: input.sourceId,
     ...(input.excludeIds ? { excludeIds: input.excludeIds } : {}),
     ...(input.plan ? { plan: input.plan } : {}),
+    ...(targetIds.length ? { avoidIds: targetIds } : {}),
   });
   if (!payment.ok) return payment;
   // 358.1: the bound choices must be complete and legal (only once nothing is pending). A
