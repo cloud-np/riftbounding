@@ -104,8 +104,10 @@ export interface PlayPermissionWire {
 
 /** 355–358: where a Pending item stands in the process of play while a prompt is open. */
 export interface PlayProcessState {
-  /** A played card (349–359) or an activated ability (399–407). */
-  kind?: "card" | "activated";
+  /** A played card (349–359), an activated ability or a triggered ability (399–407). */
+  kind?: "card" | "activated" | "triggered";
+  /** 404.1.b.1: a triggered ability's cost (its cost within instructions), if any. */
+  triggerCost?: Cost;
   /** `choices` (355, R2-effects choice specs) or `payment` (357.2 cost-object choice). */
   stage: "choices" | "payment";
   /** The permission the card is played with (card items only). */

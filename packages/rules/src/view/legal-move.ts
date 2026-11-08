@@ -14,6 +14,7 @@ export function legalMoves(room: Room, playerId: string, host: RulesHost): Legal
   for (const { card, zone } of units) {
     const info = host.cardInfo(room, card.id);
     if (!info?.type.toLowerCase().includes("unit")) continue;
+    if (card.hidden) continue; // 107.3.e: facedown cards are not Units at a location.
     if (host.isExhausted(room, card.id)) continue;
     for (const to of ["base", ...destinations] as const) {
       if (to === zone) continue;

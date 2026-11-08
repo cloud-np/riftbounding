@@ -49,6 +49,8 @@ export function moveTimingVerdict(
     }
     const info = host.cardInfo(room, unitId);
     if (!info?.type.toLowerCase().includes("unit")) return fail("unit_not_found", "144", unitId);
+    // 107.3.e / 811: a facedown card is in a Facedown Zone, not a Unit at a location.
+    if (located.card.hidden) return fail("unit_not_found", "107.3.e", `${unitId} is facedown`);
     if (located.playerId !== playerId) return fail("illegal_target", "144.4");
     if (host.isExhausted(room, unitId)) return fail("unit_exhausted", "144.2", unitId);
     // 144.4 / 449.2: the destination must differ from the Unit's current location.

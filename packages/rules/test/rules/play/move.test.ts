@@ -46,6 +46,16 @@ describe("Standard Move [R144][R447–R455]", () => {
     expect(boardOf(s, "p1").battlefieldB).toHaveLength(2);
   });
 
+  it("[R107.3.e][R144] a facedown Unit card cannot make a Standard Move", () => {
+    const s = bareScenario();
+    const hidden = place(s, "p1", "Treasure Hunter", "battlefieldA");
+    boardOf(s, "p1").battlefieldA.find((card) => card.id === hidden.id)!.hidden = true;
+    expect(applyAndExplain(s, "p1", { type: "rules_move", unitIds: [hidden.id], to: "base" })).toEqual({
+      code: "unit_not_found",
+      rule: "107.3.e",
+    });
+  });
+
   it("[R421][R475] a restriction on moving (“can't move from here to base”) forbids the Standard Move", () => {
     const s = bareScenario();
     const unit = place(s, "p1", "Stellacorn Herder", "battlefieldA");

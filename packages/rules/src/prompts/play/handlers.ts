@@ -12,6 +12,7 @@ import { PLAY_PROMPT_REASONS } from "./reasons";
 import { optionValue } from "../../play/choices";
 import { completeCardItem, continuePendingItem, planPendingCard } from "../../play/process";
 import { completeActivationItem, planPendingActivation } from "../../play/activation";
+import { completeTriggeredItem, planPendingTrigger } from "../../play/triggered";
 import type { RulesStepContext } from "../../types";
 import type { Room } from "@rift/protocol";
 
@@ -36,6 +37,9 @@ function pendingItem(room: Room, prompt: Prompt): ChainItem | undefined {
 }
 
 function resume(room: Room, step: RulesStepContext, item: ChainItem) {
+  if (item.process?.kind === "triggered") {
+    return continuePendingItem(room, step, item, planPendingTrigger, (r, s, i, core) => completeTriggeredItem(r, s, i, core));
+  }
   if (item.kind === "activated") return continuePendingItem(room, step, item, planPendingActivation, completeActivationItem);
   return continuePendingItem(room, step, item, planPendingCard, completeCardItem);
 }

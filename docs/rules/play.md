@@ -26,6 +26,7 @@ keywords (805, 806, 810–813, 818–822, 830).
 | `src/play/locations.ts` | 355.2, 451.2, 811.1.d.1, 822, 830 | valid play Locations |
 | `src/play/permissions.ts` | 354, 356.1, 420.1.a, 811.1.b | where a card may be played from (+ `registerPlayPermission`) |
 | `src/play/hidden.ts` | 107.3, 422, 811.1.b | the Hide discretionary action |
+| `src/play/triggered.ts` | 399–407 | `prepareTriggeredItem`: a Pending trigger through 403.1/403.4/404.1.b.1/405.2/407 |
 | `src/play/control.ts` | 107.3, 190, 451.2 | battlefield presence/control proxy |
 | `src/play/prompting.ts`, `src/prompts/play/*` | 411.2 | `play.choice` / `play.cost` prompts and handlers |
 | `src/play/request.ts`, `src/play/card-info.ts` | — | intent normalization, CardInfo for cards on the chain |
@@ -148,7 +149,8 @@ and plain printed `[Add] <symbols>` effects (430.5) are executed by the play lay
 `legality/move.ts` keeps the NEW-1 table and adds rows (for the lead to merge into
 RULES-ENGINE.md): Ganking is read through layers (granted counts, 810.3);
 `restrictionFor({kind:"move", objectId, to})` → `restricted` / rule from the restriction
-(default 421); 449.2/451.2 counts only face-up Units (107.3); 449.2.a (3+ players) a battlefield
+(default 421); a facedown card cannot make a Standard Move (`unit_not_found`/107.3.e);
+449.2/451.2 counts only face-up Units (107.3); 449.2.a (3+ players) a battlefield
 with a staged Combat is invalid without own Units. `intents/move.ts` pays every exhaust cost
 before the single Move action (144.3.c). Recalls: R1's `recall` primitive already ignores move
 restrictions (458.3) and keeps damage (460.1); tested.
@@ -196,8 +198,11 @@ R2-play **provides** to R2-effects' `pay` op: `payCost(room, step, player, cost,
 sourceObjectId?})` (atomic; `invalid_choice`/357.2 when a cost-object choice is open — use
 `costObjectChoice` to prompt, then pass `plan: {kill:[…]}` etc.), `canPayCost`, `planPayment`,
 `resolveCost`, `planCardPlay(..., limited)` for 420.3 plays, `recordFinalizedCard` (Legion for
-effect-driven plays), `legionActive`, `weaponmasterEquipCosts`, `planCore`/`continuePendingItem`/
-`cancelPendingItem` (to run 403/405 for triggered abilities).
+effect-driven plays), `legionActive`, `weaponmasterEquipCosts`, and **`prepareTriggeredItem(room, step, item, {ability?, cost?, decline?})`** for each Pending
+trigger before FEPR finalizes it: 403.1 decline → removed; 403.4 no legal choice → removed (not
+countered); 404.1.b.1 cost within instructions as base cost, 405.2 unpayable/declined → removed;
+a real choice → `play.choice`/`play.cost` prompt (resumed by the play handlers); otherwise paid and
+`finalizeChainItem`. Returns `"finalized" | "pending" | "removed"` and emits `trigger_removed`.
 
 ## Changes outside `src/play/**` the lead should know about
 
@@ -248,8 +253,8 @@ effect-driven plays), `legionActive`, `weaponmasterEquipCosts`, `planCore`/`cont
 
 ## Tests
 
-`test/rules/play/` — payment (19), process (28), activation (15), keywords (19), move (5),
-wire (4), cost-text (7); `test/examples/play-examples*.test.ts` (19);
+`test/rules/play/` — payment (20), process (28), activation (15), keywords (20), move (6),
+wire (4), cost-text (7), triggered (4); `test/examples/play-examples*.test.ts` (19);
 `test/property/play.test.ts` (1 property, 25 runs). Official examples covered: 204.1.b, 204.3.a,
 206, 355.5.a, 355.5.b, 355.14.c, 355.17.b, 356.1.b.3, 356.2.a.1, 356.2.b.1, 356.4.f.1, 356.4.g,
 356.7, 357.2, 357.2.a, 357.3, 355.17 (×2), 358.1, 358.3 (×2), 358.3.a, 358.4 (×2), 359.3.e.10,
@@ -261,8 +266,8 @@ R2-effects): 204.1.c, 204.4, 205, 206.1, 355.11.b, 355.11.b.1, 355.14.h.1, 355.1
 
 ## Remaining TODOs (prioritized)
 
-1. Triggered abilities through 403–406 (403.4 no legal choices → removed, 405.2 decline to pay):
-   R2-effects can drive `planCore`/`continuePendingItem`; a dedicated helper is not written.
+1. Wire `prepareTriggeredItem` into R2-effects' trigger flush (R1 `advance` still finalizes any
+   Pending item without a prompt directly).
 2. 806.4 / 813.4: conditional Action/Reaction that is only fulfilled on the chain (checked at 358).
 3. 430.3 / 204.4.b.1: Reaction Add abilities without Priority to pay applied costs.
 4. Effect-driven play execution (420.3) beyond the verdict (chain placement during a resolution).
