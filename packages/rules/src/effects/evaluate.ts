@@ -570,7 +570,10 @@ registerCustomCondition("did", (ctx) => ctx.env.vars.$did === true);
 /** 356.4.f.1: an optional additional cost was "paid" if the player decided to pay it. */
 registerCustomCondition("paid-additional", (ctx) => {
   const keys = ["additionalCost", "optionalCost", "paidAdditional", "paid"];
-  return keys.some((key) => ctx.env.choices[key] === true);
+  if (keys.some((key) => ctx.env.choices[key] === true)) return true;
+  // A play effect reads the flag noted on its source permanent (triggers/finalize.ts).
+  const source = ctx.env.sourceObjectId;
+  return !!source && ctx.room.rules?.objects[source]?.paidAdditionalCost === true;
 });
 
 registerCustomCondition("self-at-battlefield", (ctx) => {

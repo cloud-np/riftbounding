@@ -1,5 +1,7 @@
 /**
- * Spiritforged (SFD) card scripts — empty until wave R2-effects.
- * Add `./<slug>` imports here; each script calls `registerCardScript`.
+ * Spiritforged (SFD) card scripts. Each module calls `registerCardScript`.
  */
+import "./treasure-hunter";
+import "./stellacorn-herder";
+
 export {};

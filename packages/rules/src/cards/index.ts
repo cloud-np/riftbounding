@@ -13,5 +13,6 @@ import "./VEN";
 import "./OGS";
 import "./ARC";
 import "./SGN";
+import "./tokens/gold";
 
 export {};

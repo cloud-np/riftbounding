@@ -63,6 +63,7 @@ export { effectiveKeywordValues, rawMight, splitKeyword } from "../layers";
 export { activeModifiers } from "../layers/passives";
 export type { ActiveModifier } from "../layers/passives";
 export { bonusDamage } from "../layers/bonus";
+export { victoryScoreAdjustment } from "../layers/victory";
 export { enterReadyApplies } from "../layers/entry";
 export { addContinuousEffect, addKeywordGrant, addMight, addPreventShield } from "../layers/mods";
 export { previewDamage } from "../replacements/preview";

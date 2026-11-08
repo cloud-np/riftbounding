@@ -28,7 +28,7 @@ export function place(
 ): CardInstance {
   const board = boardOf(s, playerId) as unknown as Record<string, CardInstance[]>;
   let found: CardInstance | undefined;
-  for (const pool of [board.deck!, board.hand!, board.trash!]) {
+  for (const pool of [board.deck!, board.hand!, board.trash!, board.champion!]) {
     const index = pool.findIndex((card) => card.name === name);
     if (index >= 0) {
       [found] = pool.splice(index, 1);

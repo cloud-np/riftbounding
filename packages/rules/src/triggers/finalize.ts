@@ -152,6 +152,23 @@ export function onItemFinalized(room: Room, item: ChainItem, step: RulesStepCont
     return;
   }
   snapshotTargets(room, item, step);
+  notePaidAdditionalCost(room, item);
+}
+
+/**
+ * 355.1.a / 356.4.f.1: remember on the permanent whether its optional additional cost was paid
+ * (R2-play contract: `choices.additionalCost === true` or a non-empty `paid.additional`), so its
+ * own "if you paid the additional cost" play effect can read it after the chain item is gone.
+ */
+function notePaidAdditionalCost(room: Room, item: ChainItem): void {
+  const rules = room.rules;
+  const card = item.cardSnapshot;
+  if (!rules || item.kind !== "card" || !card) return;
+  const flags = ["additionalCost", "optionalCost", "paidAdditional"];
+  const paid =
+    flags.some((key) => item.choices?.[key] === true) ||
+    (!!item.paid?.additional && Object.keys(item.paid.additional).length > 0);
+  if (paid) (rules.objects[card.id] ??= {}).paidAdditionalCost = true;
 }
 
 /** Answer handler for `effects.trigger_choice`. */

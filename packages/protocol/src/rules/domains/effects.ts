@@ -175,6 +175,12 @@ export interface EffectsObjectFields {
   keywordGrants?: ObjectKeywordGrant[];
   /** 479.4: Might modifications whose duration is not "this turn". */
   mightMods?: ObjectMightMod[];
+  /**
+   * 355.1.a / 356.4.f.1: the optional additional cost was paid when this permanent was played
+   * (copied from its chain item's choices when it finalized), for "if you paid the additional
+   * cost" play effects.
+   */
+  paidAdditionalCost?: boolean;
 }
 
 /** Per-turn bookkeeping kept by the effects layer (reset with `RulesHistory` each turn). */
