@@ -1,0 +1,432 @@
+/*
+ * Deck-builder light shell.
+ *
+ * Scoped to `.deckbuilder-root` so it cannot leak into the simulator's dark
+ * `riftbound-app.css`. Token values are the original site's light theme
+ * (spec 05 §2.1); the `--color-*` aliases feed Tailwind v4 utility classes and
+ * the plain tokens feed the precompiled `bg-background` rules.
+ */
+
+.deckbuilder-root {
+  --app-header-height: 55px;
+
+  --background: #fcfcfc;
+  --foreground: #090a13;
+  --card: #14151f;
+  --card-foreground: #e6e7ef;
+  --panel: #ffffff;
+  --popover: #fcfcfc;
+  --popover-foreground: #090a13;
+  --primary: #0073d2;
+  --primary-foreground: #fcfcfc;
+  --secondary: #eaebf2;
+  --secondary-foreground: #20212b;
+  --muted: #eaebf2;
+  --muted-foreground: #535461;
+  --accent: #eaebf2;
+  --accent-foreground: #20212b;
+  --destructive: #d40924;
+  --destructive-foreground: #fcfcfc;
+  --border: #d6d7de;
+  --input: #d6d7de;
+  --ring: #0073d2;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-panel: var(--panel);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  min-height: 100dvh;
+  background: var(--background);
+  color: var(--foreground);
+  color-scheme: light;
+  font-family: var(--font-ui), "Segoe UI", sans-serif;
+}
+
+.deckbuilder-root ::selection {
+  background: #0073d2;
+  color: #fff;
+}
+
+.deckbuilder-root .db-split {
+  display: grid;
+  min-height: 78vh;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+
+@media (min-width: 1024px) {
+  .deckbuilder-root .db-split {
+    grid-template-columns: var(--db-catalog-width, 58%) 14px minmax(0, 1fr);
+  }
+}
+
+.deckbuilder-root .db-workspace-sticky {
+  align-self: start;
+}
+
+@media (min-width: 1024px) {
+  .deckbuilder-root .db-workspace-sticky {
+    position: sticky;
+    top: var(--app-header-height, 55px);
+    height: calc(100vh - var(--app-header-height, 55px));
+  }
+}
+
+.deckbuilder-root .db-catalog-header {
+  position: sticky;
+  top: var(--app-header-height, 55px);
+  z-index: 50;
+}
+
+.deckbuilder-root .db-workspace-scroll {
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1 1 auto;
+  overscroll-behavior: contain;
+  container-type: inline-size;
+}
+
+.deckbuilder-root .db-workspace-columns {
+  display: grid;
+  align-items: start;
+  gap: 1.5rem 0;
+}
+
+@container (min-width: 52rem) {
+  .deckbuilder-root .db-workspace-columns {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    column-gap: 1.5rem;
+  }
+}
+
+.deckbuilder-root .db-split.db-deck-only {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+.deckbuilder-root .db-split.db-deck-only .db-resizer {
+  display: none !important;
+}
+
+.deckbuilder-root .db-thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(107, 114, 128, 0.42) transparent;
+}
+.deckbuilder-root .db-thin-scrollbar::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+.deckbuilder-root .db-thin-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(107, 114, 128, 0.35);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.deckbuilder-root .db-thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.deckbuilder-root .db-resizer {
+  position: sticky;
+  top: var(--app-header-height, 55px);
+  height: calc(100vh - var(--app-header-height, 55px));
+  cursor: col-resize;
+}
+.deckbuilder-root .db-resizer::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 6px;
+  width: 1px;
+  background: var(--border);
+}
+.deckbuilder-root .db-resizer:hover::before,
+.deckbuilder-root .db-resizer:focus-visible::before {
+  width: 2px;
+  background: #0073d2;
+}
+
+/* Bookmark ribbon: the original's clip-path ribbon. */
+.deckbuilder-root .db-bookmark-ribbon {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);
+  background: linear-gradient(180deg, #d6d8df 0%, #a9adb9 100%);
+}
+
+.deckbuilder-root .db-card-shadow {
+  box-shadow:
+    0 1px 2px rgba(9, 10, 19, 0.18),
+    0 10px 24px -18px rgba(9, 10, 19, 0.55);
+}
+
+.deckbuilder-root .db-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(5, 8, 16, 0.62);
+  backdrop-filter: blur(3px);
+}
+
+.deckbuilder-root .db-dark-dialog {
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: linear-gradient(180deg, rgba(11, 18, 29, 0.98), rgba(7, 12, 22, 0.98));
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.46);
+  color: #f1f5f9;
+}
+
+.deckbuilder-root .db-dark-dialog input,
+.deckbuilder-root .db-dark-dialog textarea {
+  color: #e5edf7;
+}
+
+.deckbuilder-root .db-dark-dialog textarea::placeholder,
+.deckbuilder-root .db-dark-dialog input::placeholder {
+  color: rgba(148, 163, 184, 0.72);
+}
+
+.deckbuilder-root .db-import-textarea {
+  resize: none;
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  background: linear-gradient(180deg, rgba(8, 13, 26, 0.92), rgba(10, 16, 31, 0.98));
+  box-shadow: inset 0 0 0 1px rgba(119, 231, 255, 0.03);
+  color: #e5edf7;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.deckbuilder-root .db-import-textarea[data-tone="error"] {
+  border-color: rgba(242, 138, 138, 0.36);
+  background: linear-gradient(180deg, rgba(14, 13, 18, 0.94), rgba(12, 12, 18, 0.98));
+}
+
+.deckbuilder-root .db-drawer {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 115;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-top: 1px solid rgba(214, 215, 222, 0.7);
+  border-radius: 1.75rem 1.75rem 0 0;
+  background: var(--background);
+  box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.38);
+  transition: transform 200ms ease-out;
+}
+.deckbuilder-root .db-drawer[data-open="true"] {
+  height: 85vh;
+}
+
+.deckbuilder-root .db-range {
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--border);
+  outline: none;
+}
+.deckbuilder-root .db-range::-webkit-slider-thumb {
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 999px;
+  background: var(--foreground);
+  border: 2px solid var(--background);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+.deckbuilder-root .db-range::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border: 2px solid var(--background);
+  border-radius: 999px;
+  background: var(--foreground);
+}
+
+.deckbuilder-root .db-exec-content:empty::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  pointer-events: none;
+}
+.deckbuilder-root .db-exec-content p {
+  margin: 0 0 0.65rem;
+}
+.deckbuilder-root .db-exec-content h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0.8rem 0 0.5rem;
+}
+.deckbuilder-root .db-exec-content h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0.7rem 0 0.45rem;
+}
+.deckbuilder-root .db-exec-content ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0 0 0.65rem;
+}
+.deckbuilder-root .db-exec-content ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+  margin: 0 0 0.65rem;
+}
+.deckbuilder-root .db-exec-content blockquote {
+  border-left: 3px solid var(--border);
+  padding-left: 0.75rem;
+  color: var(--muted-foreground);
+  margin: 0 0 0.65rem;
+}
+.deckbuilder-root .db-exec-content a {
+  color: #0073d2;
+  text-decoration: underline;
+}
+
+.deckbuilder-root .db-drag-target {
+  background: rgba(0, 115, 210, 0.06);
+  box-shadow: inset 0 0 0 2px rgba(0, 115, 210, 0.35);
+}
+
+/* Explicit responsive helpers: the precompiled simulator stylesheet defines base
+ * utilities after responsive variants, so relying on Tailwind's `lg:*` here would
+ * lose the cascade. These scoped rules are imported last and always win. */
+.deckbuilder-root .db-header-desktop {
+  display: none;
+}
+.deckbuilder-root .db-header-mobile {
+  display: flex;
+}
+.deckbuilder-root .db-header-wide {
+  display: none;
+}
+.deckbuilder-root .db-header-logo-desktop {
+  display: none;
+}
+.deckbuilder-root .db-header-logo-mobile {
+  display: block;
+}
+@media (min-width: 1024px) {
+  .deckbuilder-root .db-header-desktop {
+    display: flex;
+  }
+  .deckbuilder-root .db-header-mobile {
+    display: none;
+  }
+  .deckbuilder-root .db-header-logo-desktop {
+    display: block;
+  }
+  .deckbuilder-root .db-header-logo-mobile {
+    display: none;
+  }
+}
+@media (min-width: 1280px) {
+  .deckbuilder-root .db-header-wide {
+    display: inline-flex;
+  }
+}
+
+.deckbuilder-root .db-mobile-nav {
+  display: block;
+}
+@media (min-width: 1024px) {
+  .deckbuilder-root .db-mobile-nav {
+    display: none;
+  }
+}
+.deckbuilder-root .db-promo-support {
+  display: none;
+}
+@media (min-width: 640px) {
+  .deckbuilder-root .db-promo-support {
+    display: inline-flex;
+  }
+}
+
+.deckbuilder-root .db-summary-desktop {
+  display: none;
+}
+.deckbuilder-root .db-summary-mobile {
+  display: inline;
+}
+@media (min-width: 640px) {
+  .deckbuilder-root .db-summary-desktop {
+    display: inline;
+  }
+  .deckbuilder-root .db-summary-mobile {
+    display: none;
+  }
+}
+
+.deckbuilder-root .db-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 0.75rem;
+  row-gap: 0.75rem;
+  --db-card-min: clamp(12.75rem, calc(10.25rem + 2.5vw), 15.5rem);
+  --db-card-max: 16.5rem;
+  --db-card-min-wide: clamp(16.5rem, calc(12rem + 4vw), 19rem);
+}
+@media (min-width: 640px) {
+  .deckbuilder-root .db-catalog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--db-card-min)), 1fr));
+  }
+}
+@media (min-width: 1920px) {
+  .deckbuilder-root .db-catalog-grid {
+    --db-card-min: var(--db-card-min-wide);
+    --db-card-max: 19rem;
+  }
+}
+.deckbuilder-root .db-catalog-card {
+  width: 100%;
+  max-width: var(--db-card-max, 16.5rem);
+  justify-self: start;
+}
+
+.deckbuilder-root .db-catalog-group {
+  grid-column: 1 / -1;
+}
+
+.deckbuilder-root .db-fullart-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (min-width: 640px) {
+  .deckbuilder-root .db-fullart-grid {
+    grid-template-columns: repeat(var(--db-fullart-cols, 5), minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .deckbuilder-root .db-card-actions {
+    display: contents;
+  }
+}
+
+@media (max-width: 1023px) {
+  .deckbuilder-root .db-desktop-only {
+    display: none !important;
+  }
+}
+@media (min-width: 1024px) {
+  .deckbuilder-root .db-mobile-only {
+    display: none !important;
+  }
+}

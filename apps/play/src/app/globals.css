@@ -1,0 +1,133 @@
+@import "tailwindcss";
+@import "../styles/riftbound-app.css";
+
+/*
+ * The Riftbound app's compiled stylesheet (Tailwind v4 output + every custom
+ * `gb-*` / `hand*` / `scoreTrack*` / `identityBadge*` rule and all 35 original
+ * `@keyframes`) is imported above verbatim. The declarations below only wire the
+ * self-hosted next/font families into the original CSS variables and set the
+ * document shell to the simulator look.
+ */
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-bricolage);
+  --font-rajdhani: var(--font-rajdhani);
+  --font-cardo: var(--font-cardo);
+  --font-cookie: var(--font-cookie);
+}
+
+:root {
+  --font-ui: var(--font-bricolage), "Segoe UI", sans-serif;
+  --font-heading: var(--font-cardo), ui-serif, Georgia, serif;
+  --font-brand: var(--font-rajdhani), "Segoe UI", sans-serif;
+  --font-support-script: var(--font-cookie), cursive;
+  --sim-page-bg: #07101c;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--sim-page-bg);
+  color: var(--color-text-main);
+  font-family: var(--font-ui), "Segoe UI", sans-serif;
+  overscroll-behavior: none;
+}
+
+[data-slot="sidebar"] {
+  display: flex;
+}
+
+@media (max-width: 1100px) {
+  /* Wave-2 sidebar becomes an overlay driven by the game shell on small screens. */
+  [data-slot="sidebar"] {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  /* Keep the squeezed narrow board inside its frame (the phone game shell is wave-2). */
+  .gb-board {
+    overflow: hidden !important;
+  }
+}
+
+/* Full-height simulator shell used by /game and /dev/board. */
+.sim-game-viewport {
+  position: relative;
+  display: flex;
+  min-height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(29, 50, 77, 0.32), transparent 70%),
+    var(--sim-page-bg);
+}
+
+.sim-game-viewport[data-padded="true"] {
+  padding: 0.5rem;
+}
+
+/* Clearly marked wave-2 slot containers. */
+.board-slot-placeholder {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  border: 1px dashed rgba(141, 176, 232, 0.22);
+  border-radius: 0.5rem;
+  background: rgba(8, 17, 33, 0.38);
+  color: rgba(180, 202, 228, 0.55);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0.5rem;
+  pointer-events: none;
+}
+
+.board-slot-placeholder[data-slot-kind="sidebar"] {
+  width: var(--sidebar-width, 16.9rem);
+  align-self: stretch;
+}
+
+.board-slot-placeholder[data-slot-kind="hand"],
+.board-slot-placeholder[data-slot-kind="overlays"],
+.board-slot-placeholder[data-slot-kind="prompts"] {
+  position: absolute;
+  pointer-events: none;
+}
+
+.board-slot-placeholder[data-slot-kind="hand"] {
+  left: 50%;
+  bottom: 1rem;
+  width: 20rem;
+  height: 7.4rem;
+  transform: translateX(-50%);
+}
+
+.board-slot-placeholder[data-slot-kind="prompts"] {
+  left: 50%;
+  top: 1rem;
+  width: 26rem;
+  max-width: calc(100% - 2rem);
+  min-height: 4rem;
+  transform: translateX(-50%);
+}
+
+.board-slot-placeholder[data-slot-kind="overlays"] {
+  inset: 0;
+  border: none;
+  background: transparent;
+}
+
+/* Keep the browser's default drag image from appearing above our custom ghost. */
+.gb-board [draggable="true"] {
+  -webkit-user-drag: element;
+}

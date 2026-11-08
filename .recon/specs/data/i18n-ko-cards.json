@@ -1,0 +1,1438 @@
+{
+ "schemaVersion": 2,
+ "locale": "ko",
+ "cards": {
+  "OGN-001": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Fury]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-002": {
+   "printedRulesText": "이 카드를 사용할 때, 추가 비용으로 카드 1장을 버릴 수 있습니다. 그렇게 할 경우, 이 카드의 비용이 [2] 감소합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-003": {
+   "printedRulesText": "[맹공 2] (이 카드가 공격자인 동안 +2 [Might]을 획득합니다.)\n이 카드를 사용하면, 카드 1장을 버립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-004": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n이번 턴에 유닛 1명에게 [맹공 3]을 부여합니다. (이 카드가 공격자인 동안 +3 [Might]을 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-005": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n전장에 있는 유닛 1명에게 3의 피해를 입힙니다. 이로 인해 유닛이 처치될 경우 다음을 수행: 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-006": {
+   "printedRulesText": "이 카드를 버리면, [Fury]을 지불하고 이 카드를 사용할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-008": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n카드 1장을 버립니다. 전장에 있는 유닛 1명에게 해당 카드의 에너지 비용만큼 피해를 입힙니다. (해당 카드의 힘 비용은 무시합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-009": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n전장에 있는 유닛 1명에게 3의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-010": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Fury]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-011": {
+   "printedRulesText": "다른 아군 유닛이 준비 상태로 진입합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-012": {
+   "printedRulesText": "[군단] — 이 카드의 비용이 [2] 감소합니다. (이번 턴에 다른 카드를 사용했다면 이 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-013": {
+   "printedRulesText": "[굴절] (상대가 이 카드를 주문 또는 스킬의 대상으로 선택하려면 [Rune]을 지불해야 합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-014": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n이 주문의 에너지 비용은 내가 통제하는 유닛 중 가장 높은 위력만큼 감소합니다.\n전장에 있는 유닛 1명에게 5의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-015": {
+   "printedRulesText": "이곳에 있는 다른 아군 유닛이 [맹공]을 가집니다. (해당 유닛이 공격자인 동안 +1 [Might]을 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-016": {
+   "printedRulesText": "[군단] — 이 카드를 사용하면, 이번 턴에 유닛 1명에게 +2 [Might]을 부여합니다. (이번 턴에 다른 카드를 사용했다면 이 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-017": {
+   "printedRulesText": "이 카드는 탈진 상태로 진입합니다.\n[Tap]: 전장에 있는 유닛 1명에게 2의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-018": {
+   "printedRulesText": "상대의 [숨겨짐] 카드는 이곳에서 공개할 수 없습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-019": {
+   "printedRulesText": "이번 턴에 내가 카드를 버렸을 경우, 이 카드가 [맹공] 및 [개입]을 가집니다. (이 카드가 공격자인 동안 +1 [Might]을 획득합니다. 이 카드는 전장에서 전장으로 이동할 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-020": {
+   "printedRulesText": "[군단] — 이 카드를 사용하면, 카드 2장을 버린 후 2장을 뽑습니다. (이번 턴에 다른 카드를 사용했다면 이 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-021": {
+   "printedRulesText": "[Tap]: [군단] — 이번 턴에 다음으로 사용하는 유닛이 준비 상태로 진입합니다. (이번 턴에 다른 카드를 사용했다면 이 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-022": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n모든 도구를 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-023": {
+   "printedRulesText": "카드 1장 버리기, [Tap]: 아군 유닛 1명을 선택합니다. 해당 유닛이 이후 이번 턴에 사망할 때, 대신 [Fury]을 지불하고 그 유닛을 회복, 탈진, 귀환시킬 수 있습니다. (유닛을 기지로 보냅니다. 이는 이동이 아닙니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-024": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n전장에 있는 유닛 1명에게 4의 피해를 입힙니다. 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-025": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n각 상대가 자신의 주 덱 맨 위 카드를 공개합니다. 그중 1장을 선택해 추방한 후 비용을 무시하고 사용합니다. 이후 나머지는 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-026": {
+   "printedRulesText": "이 카드를 사용하면, 상대가 이번 턴에 카드를 사용할 수 없습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-027": {
+   "printedRulesText": "한 턴에 두 번째 카드를 사용하면, 이번 턴에 이 카드가 +2 [Might]을 획득하고 준비 상태가 됩니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-027A": {
+   "printedRulesText": "한 턴에 두 번째 카드를 사용하면, 이번 턴에 이 카드가 +2 [Might]을 획득하고 준비 상태가 됩니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-028": {
+   "printedRulesText": "이 카드의 위력이 내 점수만큼 증가합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-029": {
+   "printedRulesText": "유닛 1명에게 3의 피해를 입힙니다.\n유닛 1명에게 3의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-030": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Fury]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n[맹공 2] (이 카드가 공격자인 동안 +2 [Might]을 획득합니다.)\n이 카드를 사용하면, 카드 2장을 버립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-030A": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Fury]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n[맹공 2] (이 카드가 공격자인 동안 +2 [Might]을 획득합니다.)\n이 카드를 사용하면, 카드 2장을 버립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-031": {
+   "printedRulesText": "이 카드를 사용하면, 이번 턴에 내가 사용하는 다음 주문의 비용이 [5] 감소합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-032": {
+   "printedRulesText": "[Tap]: 이번 턴에 다음으로 내가 사용하는 주문이 1의 추가 피해를 입힙니다. (1의 추가 피해는 주문이 입히는 각 피해마다 적용됩니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-033": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n적 유닛 1명을 선택합니다. 해당 유닛의 통제자가 내게 카드 2장을 뽑게 하지 않으면, 그 유닛에게 6의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-034": {
+   "printedRulesText": "이 카드가 공격한 후 정복하면, 적 유닛에게 배정한 초과 피해가 5 이상일 경우, 1점을 얻습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-035": {
+   "printedRulesText": "[맹공 3] (이 카드가 공격자인 동안 +3 [Might]을 획득합니다.)\n상대가 전장을 통제하는 경우, 이 카드가 준비 상태로 진입합니다.\n이 카드가 정복하면, [1]을 지불하고 이 카드를 소유자의 손으로 되돌릴 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-036": {
+   "printedRulesText": "[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)\n내 폐기장에서 카드 1장 재활용: 이번 턴에 이 카드가 +1 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-037": {
+   "printedRulesText": "[맹공 2] (이 카드가 공격자인 동안 +2 [Might]을 획득합니다.)\n주문으로 유닛을 처치하면, [1][Fury]을 지불하고 내 폐기장에서 이 카드를 사용할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-038": {
+   "printedRulesText": "이 카드를 사용하면, 내 [위력적] 유닛 1명당 카드 1장을 뽑습니다. (유닛이 5+ [Might]인 동안 위력적 유닛입니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-039": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Fury]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n이 카드가 정복하면, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-039A": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Fury]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n이 카드가 정복하면, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-040": {
+   "printedRulesText": "[Tap]: [반응] — [Fury] [추가] (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-041": {
+   "printedRulesText": "[굴절 2] (상대가 이 카드를 주문 또는 스킬의 대상으로 선택하려면 [Rune][Rune]을 지불해야 합니다.)\n이 카드가 공격하면, 이곳에 있는 원하는 수만큼의 적 유닛에게 5의 피해를 나누어 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-041A": {
+   "printedRulesText": "[굴절 2] (상대가 이 카드를 주문 또는 스킬의 대상으로 선택하려면 [Rune][Rune]을 지불해야 합니다.)\n이 카드가 공격하면, 이곳에 있는 원하는 수만큼의 적 유닛에게 5의 피해를 나누어 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-043": {
+   "printedRulesText": "적 유닛 1명을 이동시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-044": {
+   "printedRulesText": "이 카드를 사용할 때 추가 비용으로 [Calm]을 지불할 수 있습니다.\n이 카드를 사용하면, 추가 비용을 지불했을 경우, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-045": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n비용이 [4] 이하이고 [Rune] 이하인 주문을 차단합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-046": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n이번 턴에 아군 유닛 1명에게 +1 [Might]을 부여합니다. 해당 유닛이 그곳에서 내가 통제하는 유일한 유닛일 경우 추가로 +1 [Might]을 부여합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-047": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n상대가 승리까지 남은 점수가 3점 이내일 경우, 이 카드의 비용이 [2] 감소합니다.\n카드 1장을 뽑고 룬 1장을 탈진 상태로 전개합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-048": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n이 카드를 사용할 때 추가 비용으로, 아군 유닛 1명을 탈진시킬 수 있습니다. 그렇게 할 경우, 카드 2장을 뽑습니다. 그렇지 않을 경우, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-050": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n유닛 1명을 기절시킵니다. (해당 유닛은 이번 턴에 전투 피해를 입히지 않습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-051": {
+   "printedRulesText": "이 카드를 사용하면, 유닛 1명을 기절시킵니다. (해당 유닛은 이번 턴에 전투 피해를 입히지 않습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-052": {
+   "printedRulesText": "[보호막] (이 카드가 방어자인 동안 +1 [Might]을 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-053": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n[행동] (내 턴 또는 결전 시 사용합니다.)\n아군 유닛 1명을 버프합니다. 버프는 이번 턴에 아군 유닛에게 추가로 +1 [Might]을 부여합니다. (유닛을 버프하면, 해당 유닛에게 버프가 없을 경우 +1 [Might]을 부여합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-054": {
+   "printedRulesText": "[보호막] (이 카드가 방어자인 동안 +1 [Might]을 획득합니다.)\n[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-055": {
+   "printedRulesText": "이 카드가 단독으로 공격 또는 방어하는 동안, +2 [Might]을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-056": {
+   "printedRulesText": "이 카드가 정복하면, 도구 1개를 처치할 수 있습니다. 그렇게 할 경우, 이 카드를 버프합니다. (이 카드에 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-057": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n[행동] (내 턴 또는 결전 시 사용합니다.)\n이번 턴에 유닛 1명에게 [보호막 3] 및 [탱커]를 부여합니다. (이 카드가 방어자인 동안 +3 [Might]을 획득합니다. 이 카드는 전투 피해를 가장 먼저 배정받습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-058": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n이번 턴에 유닛 1명에게 +2 [Might]을 부여합니다. 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-059": {
+   "printedRulesText": "적 1명을 기절시키면, 이 카드가 준비 상태가 되고 이번 턴에 +1 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-060": {
+   "printedRulesText": "아군 유닛이 단독으로 공격하거나 방어하면, 이번 턴에 해당 유닛에게 +1 [Might]을 부여합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-061": {
+   "printedRulesText": "이 카드를 사용하면, 내가 포로를 통제할 경우, 이 카드를 버프하고 카드 1장을 뽑습니다. (이 카드에 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-062": {
+   "printedRulesText": "내 주 덱 맨 위 카드 5장을 확인합니다. 그중 유닛 1명을 추방한 후 [5] 감소한 비용으로 사용할 수 있습니다. 나머지 카드는 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-063": {
+   "printedRulesText": "이 카드를 사용하면, 아군 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)\n버프된 아군 유닛에게 [굴절]이 없을 경우 이를 가집니다. (상대가 해당 유닛을 주문 또는 스킬의 대상으로 선택하려면 [Rune]을 지불해야 합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-064": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n주문 1개를 차단합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-065": {
+   "printedRulesText": "이 카드가 버프된 동안, 이 카드가 추가로 +1 [Might]을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-066": {
+   "printedRulesText": "이 카드가 점거하면, 1점을 얻습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-066A": {
+   "printedRulesText": "이 카드가 점거하면, 1점을 얻습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-067": {
+   "printedRulesText": "[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)\n전장에 이 카드를 사용하면, 적 유닛 1명을 이곳으로 이동시킬 수 있습니다.\n이 카드가 점거하면, 이 카드를 소유자의 손으로 되돌립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-068": {
+   "printedRulesText": "이 카드는 전투 피해를 가장 나중에 배정받습니다.\n[Tap]: 전장에 있는 유닛 1명에게 이 카드의 위력과 동일한 피해를 입힙니다. 이 스킬은 이 카드가 전장에 있는 동안에만 이용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-069": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n이번 턴에 아군 유닛 1명의 위력이 두 배가 됩니다. 해당 아군에게 [일시적]을 부여합니다. (해당 카드 통제자의 개시 단계 시작 시, 득점 이전에 이 카드를 처치합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-070": {
+   "printedRulesText": "이 카드가 전장에 있는 동안, 상대는 유닛을 자신의 기지에만 사용할 수 있습니다.\n이 카드가 전장에 있는 동안, 주문 및 스킬은 적 유닛 및 도구를 준비시킬 수 없습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-071": {
+   "printedRulesText": "각각의 다른 플레이어가 카드 또는 룬을 선택합니다. 카드를 선택한 플레이어 1명당, 나와 해당 플레이어가 각각 카드를 1장 뽑습니다. 룬을 선택한 플레이어 1명당, 나와 해당 플레이어가 각각 룬을 1장 탈진 상태로 전개합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-072": {
+   "printedRulesText": "기절한 적 유닛을 처치하면, 이 카드를 탈진시키고 카드 1장을 뽑을 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-073": {
+   "printedRulesText": "내 턴 종료 시, 이 카드가 전장에 있을 경우, 아군 룬 최대 4장을 준비시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-074": {
+   "printedRulesText": "[보호막] (이 카드가 방어자인 동안 +1 [Might]을 획득합니다.)\n[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)\n이곳에 있는 다른 아군 유닛이 [보호막]을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-075": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Calm]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n[죽음의 종소리] — 룬 2장을 탈진 상태로 전개하고 카드 1장을 뽑습니다. (이 카드가 사망하면 해당 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-076": {
+   "printedRulesText": "이 카드가 공격하면, 이곳에 있는 적 유닛 1명에게 이 카드의 위력과 동일한 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-076A": {
+   "printedRulesText": "이 카드가 공격하면, 이곳에 있는 적 유닛 1명에게 이 카드의 위력과 동일한 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-077": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n아군 유닛이 사망할 때, 대신 이 카드를 처치하고 해당 유닛을 회복, 탈진, 귀환시킵니다. (유닛을 기지로 보냅니다. 이는 이동이 아닙니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-078": {
+   "printedRulesText": "[보호막] (이 카드가 방어자인 동안 +1 [Might]을 획득합니다.)\n[Tap]: 이 카드를 버프합니다. (이 카드가 +1 [Might] 버프를 획득합니다.)\n이 카드는 원하는 수만큼 버프를 가질 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-078A": {
+   "printedRulesText": "[보호막] (이 카드가 방어자인 동안 +1 [Might]을 획득합니다.)\n[Tap]: 이 카드를 버프합니다. (이 카드가 +1 [Might] 버프를 획득합니다.)\n이 카드는 원하는 수만큼 버프를 가질 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-079": {
+   "printedRulesText": "상대가 승리까지 남은 점수가 3점 이내일 경우, 이 카드가 준비 상태로 진입합니다.\n이곳에 있는 기절한 적 유닛이 -8 [Might]을 가집니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-079A": {
+   "printedRulesText": "상대가 승리까지 남은 점수가 3점 이내일 경우, 이 카드가 준비 상태로 진입합니다.\n이곳에 있는 기절한 적 유닛이 -8 [Might]을 가집니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-080": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n주문 1개의 통제를 획득합니다. 해당 주문과 관련된 선택을 새로 내릴 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-081": {
+   "printedRulesText": "[Tap]: [반응] — [Calm] [추가] (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-082": {
+   "printedRulesText": "이 카드를 사용하면, 이번 턴에 유닛 1명에게 +8 [Might]을 부여합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-083": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n카드 2장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-084": {
+   "printedRulesText": "이 카드가 전장에 있는 동안, 내가 사용하는 주문의 에너지 비용이 [1] 감소합니다. [1]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-085": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n전장에 있는 유닛 1명에게 6의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-086": {
+   "printedRulesText": "[통찰] (이 카드를 사용하면, 내 주 덱 맨 위 카드를 확인합니다. 해당 카드를 재활용할 수 있습니다.)\n[보호막] (이 카드가 방어자인 동안 +1 [Might]을 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-087": {
+   "printedRulesText": "[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)\n이 카드를 사용하면, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-090": {
+   "printedRulesText": "[Tap]: 이번 턴에 유닛 1명에게 -1 [Might]을 부여합니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-091": {
+   "printedRulesText": "도구 1개를 사용하면, 이 카드를 준비시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-092": {
+   "printedRulesText": "이 카드를 사용하면, 전장에 있는 적 유닛 1명에게 6의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-093": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n이번 턴에 유닛 1명에게 -4 [Might]을 부여합니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-094": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n[행동] (내 턴 또는 결전 시 사용합니다.)\n3 [Might] [일시적] 정령 유닛 토큰 1개를 준비 상태로 사용합니다. (해당 카드 통제자의 개시 단계 시작 시, 득점 이전에 이 카드를 처치합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-095": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n이번 턴에 유닛 1명에게 -1 [Might]을 부여합니다. 1 [Might]까지 감소할 수 있습니다. 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-096": {
+   "printedRulesText": "[죽음의 종소리] — 카드 1장을 뽑습니다. (이 카드가 사망하면 해당 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-097": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n이 카드를 사용하면, 이번 턴에 유닛 1명에게 -2 [Might]을 부여합니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-098": {
+   "printedRulesText": "[Tap]: [반응] — [1] [추가] (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-099": {
+   "printedRulesText": "내 폐기장에서 카드 3장 재활용, [1], [Tap]: 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-100": {
+   "printedRulesText": "[통찰] (이 카드를 사용하면, 내 주 덱 맨 위 카드를 확인합니다. 해당 카드를 재활용할 수 있습니다.)\n다른 아군 유닛이 [통찰]을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-101": {
+   "printedRulesText": "내 개시 단계 시작 시, 전장에 내가 통제하는 뒷면 표시 카드가 있을 경우, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-102": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n아군 유닛 1명을 추방합니다. 이후 추방된 유닛의 소유자가 비용을 무시하고 자신의 기지에 그 유닛을 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-103": {
+   "printedRulesText": "주문을 사용하면, 이번 턴에 이 카드가 +1 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-104": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n아군 유닛 1명을 소유자의 손으로 되돌립니다. 해당 유닛의 소유자는 룬 1장을 탈진 상태로 전개합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-105": {
+   "printedRulesText": "최대 2명의 유닛에게 각각 6의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-106": {
+   "printedRulesText": "이 카드를 사용하면, 이곳에 3 [Might] [일시적] 정령 유닛 토큰 1개를 준비 상태로 사용합니다. (해당 카드 통제자의 개시 단계 시작 시, 득점 이전에 이 카드를 처치합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-107": {
+   "printedRulesText": "이 카드가 공격하면, [Mind]을 지불해 손에 있는 [숨겨짐] 카드 1장을 비용을 무시하고 사용할 수 있습니다. 해당 카드가 유닛일 경우, 이곳에 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-108": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n아군 유닛 1명을 선택합니다. 이번 턴에 해당 유닛의 위력을 다른 아군 유닛의 위력과 같아지도록 증가시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-109": {
+   "printedRulesText": "이 카드의 위력은 내 폐기장에 있는 카드 수만큼 증가합니다.\n내 개시 단계 시작 시, 내 폐기장에서 카드 3장을 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-110": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Mind]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n[죽음의 종소리] — 이 카드를 재활용해 내 룬을 준비시킵니다. (이 카드가 사망하면 해당 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-111": {
+   "printedRulesText": "이 카드가 모든 아군 전설, 유닛 및 도구의 모든 [Tap] 스킬을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-112": {
+   "printedRulesText": "[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)\n이 카드가 정복하면, 내 폐기장에서 에너지 비용이 내 점수보다 낮은 주문 1개를 에너지 비용을 지불하지 않고 사용할 수 있습니다. 이후 해당 카드를 재활용합니다. (여전히 힘 비용은 지불해야 합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-112A": {
+   "printedRulesText": "[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)\n이 카드가 정복하면, 내 폐기장에서 에너지 비용이 내 점수보다 낮은 주문 1개를 에너지 비용을 지불하지 않고 사용할 수 있습니다. 이후 해당 카드를 재활용합니다. (여전히 힘 비용은 지불해야 합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-113": {
+   "printedRulesText": "아군 유닛 1명 또는 도구 1개 처치, [Tap]: [행동] — [Rune][Rune] [추가] (내 턴 또는 결전 시 이용합니다. 자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-114": {
+   "printedRulesText": "카드 4장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-115": {
+   "printedRulesText": "각 플레이어가 자신의 주 덱 맨 위 카드 5장을 확인하고, 그중 1장을 추방한 다음, 나머지 카드를 재활용합니다. 다음 플레이어부터 각 플레이어가 에너지 비용을 무시하고 추방한 카드를 사용합니다. (여전히 힘 비용은 지불해야 합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-116": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Mind]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n이 카드를 사용하면, 이번 턴에 적 유닛에게 -3 [Might]을 부여합니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-117": {
+   "printedRulesText": "상대의 턴에 카드를 사용하면, 내 기지에 1 [Might] 신병 유닛 토큰 1개를 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-117A": {
+   "printedRulesText": "상대의 턴에 카드를 사용하면, 내 기지에 1 [Might] 신병 유닛 토큰 1개를 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-118": {
+   "printedRulesText": "턴마다 처음으로 아군 유닛이 사망하면 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-119": {
+   "printedRulesText": "이 카드가 공격 또는 방어하면, 이번 턴에 이곳에 있는 적 유닛 1명에게 -2 [Might]을 부여합니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-119A": {
+   "printedRulesText": "이 카드가 공격 또는 방어하면, 이번 턴에 이곳에 있는 적 유닛 1명에게 -2 [Might]을 부여합니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-120": {
+   "printedRulesText": "[Tap]: [반응] — [Mind] [추가] (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-121": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n이 카드가 방어하면, 이곳에 있는 적 유닛 1명을 선택하고 내 주 덱 맨 위 카드 5장을 공개합니다. 이 방식으로 공개된 [숨겨짐] 카드 1장당 1의 피해를 해당 유닛에게 입힙니다. 이후 공개된 카드를 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-121A": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n이 카드가 방어하면, 이곳에 있는 적 유닛 1명을 선택하고 내 주 덱 맨 위 카드 5장을 공개합니다. 이 방식으로 공개된 [숨겨짐] 카드 1장당 1의 피해를 해당 유닛에게 입힙니다. 이후 공개된 카드를 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-122": {
+   "printedRulesText": "이번 턴 이후 추가로 한 턴을 진행합니다. 이 카드를 추방합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-123": {
+   "printedRulesText": "모든 아군 유닛을 탈진시킨 후, 전장에 있는 모든 유닛에게 12의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-124": {
+   "printedRulesText": "[Tap]: 탈진 상태인 아군 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-125": {
+   "printedRulesText": "이 카드가 버프된 동안, 이 카드가 [개입]을 가집니다. (이 카드는 전장에서 전장으로 이동할 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-127": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n전투 중인 모든 적 유닛에게 2의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-128": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n아군 유닛 1명과 적 유닛 1명을 선택합니다. 각 유닛은 자신의 위력만큼 서로에게 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-129": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n이번 턴에 사용하는 유닛이 준비 상태로 진입합니다. 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-130": {
+   "printedRulesText": "이 카드가 공격하면, 이곳에 있는 적 유닛 1명에게 1의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-131": {
+   "printedRulesText": "이 카드가 공격하면, 이곳에 준비 상태인 적 유닛이 있을 경우 이번 턴에 이 카드가 +2 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-132": {
+   "printedRulesText": "이 카드를 사용하면, 다른 유닛 1명을 준비시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-133": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n전장에 있는 모든 유닛에게 1의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-134": {
+   "printedRulesText": "룬 1장을 탈진 상태로 전개합니다. 전개할 수 없을 경우, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-135": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-136": {
+   "printedRulesText": "이 카드를 사용하면, 다른 아군 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-137": {
+   "printedRulesText": "[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)\n이 카드를 사용하면, 룬 1장을 탈진 상태로 전개합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-138": {
+   "printedRulesText": "룬 2장을 탈진 상태로 전개합니다. 그렇게 룬 2장을 전개할 수 없을 경우, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-139": {
+   "printedRulesText": "다른 유닛을 사용하면, 이 카드를 버프합니다. (이 카드에 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-140": {
+   "printedRulesText": "내 용의 에너지 비용이 [2] 감소합니다. [1]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-141": {
+   "printedRulesText": "이 카드를 사용하면, 다른 아군 유닛 최대 2명을 버프합니다. (버프가 없는 유닛이 각각 +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-143": {
+   "printedRulesText": "아군 유닛 1명을 준비시키면, 이번 턴에 해당 유닛에게 +1 [Might]을 부여합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-144": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n이번 턴에 적 유닛이 사망했을 경우, 이 카드의 비용이 [2] 감소합니다.\n카드 2장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-145": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n이번 턴에 모든 주문 및 스킬 피해를 방지합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-146": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n이 카드를 사용할 때, 추가 비용으로 버프를 소모할 수 있습니다. 그렇게 할 경우, 이 주문의 비용을 무시합니다.\n유닛 1명을 준비시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-147": {
+   "printedRulesText": "이 카드를 사용하면, 버프를 소모해 이 카드를 버프하고 준비시킬 수 있습니다. (이 카드에 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-148": {
+   "printedRulesText": "이 카드가 공격하면, 이곳에 있는 모든 적 유닛에게 3의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-149": {
+   "printedRulesText": "이 카드를 사용하면, 전장에 있는 적 유닛 1명을 선택합니다. 해당 유닛과 이 카드가 자신의 위력만큼 서로에게 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-150": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Body]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n[맹공] (이 카드가 공격자인 동안 +1 [Might]을 획득합니다.)\n이 카드를 사용할 때, 추가 비용으로 원하는 수만큼 버프를 소모할 수 있습니다. 소모한 버프 1개당 이 카드의 비용이 [Body] 감소합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-151": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Body]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n이 카드의 전장에 있는 다른 버프된 아군 유닛이 +2 [Might]을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-151A": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Body]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n이 카드의 전장에 있는 버프된 다른 아군 유닛이 +2 [Might]을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-152": {
+   "printedRulesText": "아군 유닛을 버프하면, [Body]을 지불하고 이 카드를 탈진시킨 후 해당 유닛을 준비시킬 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-153": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n아군 유닛 1명마다, 버프를 소모해 준비시킬 수 있습니다. 이후 모든 아군 유닛을 버프합니다. (버프가 없는 유닛이 각각 +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-154": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n이번 턴에 유닛 1명에게 +7 [Might]을 부여합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-155": {
+   "printedRulesText": "[굴절] (상대가 이 카드를 주문 또는 스킬의 대상으로 선택하려면 [Rune]을 지불해야 합니다.)\n이 카드가 정복하면, 카드 1장을 뽑거나 룬 1장을 탈진 상태로 전개합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-156": {
+   "printedRulesText": "상대 1명을 선택합니다. 해당 상대가 자신의 손을 공개합니다. 그중 유닛이 아닌 카드 1장을 선택해 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-157": {
+   "printedRulesText": "이 카드의 버프 소모: 다음 중 이번 턴에 선택하지 않은 한 가지 선택\n전장에 있는 유닛 1명에게 2의 피해를 입힙니다.\n전장에 있는 유닛 1명을 기절시킵니다.\n이 카드를 준비시킵니다.\n이번 턴에 이 카드가 [개입]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-158": {
+   "printedRulesText": "[보호막 3] (이 카드가 방어자인 동안 +3 [Might]을 획득합니다.)\n[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)\n상대가 내 전장이 아닌 다른 전장으로 이동하면, 카드 1장을 뽑습니다. (기지는 전장이 아닙니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-158A": {
+   "printedRulesText": "[보호막 3] (이 카드가 방어자인 동안 +3 [Might]을 획득합니다.)\n[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)\n상대가 내 전장이 아닌 다른 전장으로 이동하면, 카드 1장을 뽑습니다. (기지는 전장이 아닙니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-159": {
+   "printedRulesText": "이 카드는 준비 상태로 진입합니다.\n이 카드가 공격하면, 이곳에 있는 피해를 입은 모든 적 유닛을 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-160": {
+   "printedRulesText": "내 턴 종료 시, 유닛이 나타날 때까지 내 주 덱 맨 위에서 카드를 공개하고 공개된 유닛을 추방합니다. 해당 유닛을 비용을 무시하고 사용하며, 나머지는 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-161": {
+   "printedRulesText": "[굴절] (상대가 이 카드를 주문 또는 스킬의 대상으로 선택하려면 [Rune]을 지불해야 합니다.)\n이 카드는 점령된 적 전장에 사용할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-162": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Body]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)\n턴마다 처음으로 이 카드가 이동할 때, 탈진 상태인 다른 무언가를 준비시킬 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-162A": {
+   "printedRulesText": "[가속] (추가 비용으로 [1][Body]을 지불하고 이 카드를 준비 상태로 진입시킬 수 있습니다.)\n[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)\n턴마다 처음으로 이 카드가 이동할 때, 탈진 상태인 다른 무언가를 준비시킬 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-163": {
+   "printedRulesText": "[Tap]: [반응] — [Body] [추가] (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-164": {
+   "printedRulesText": "이 카드를 사용하면 혹은 이 카드가 정복하면, 이 카드를 버프합니다. (이 카드에 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)\n이 카드의 버프 소모: 이번 턴에 이 카드가 +4 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-164A": {
+   "printedRulesText": "이 카드를 사용하면 혹은 이 카드가 정복하면, 이 카드를 버프합니다. (이 카드에 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)\n이 카드의 버프 소모: 이번 턴에 이 카드가 +4 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-165": {
+   "printedRulesText": "이 카드를 사용하면, 유닛 1명을 내 폐기장에서 내 손으로 되돌립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-167": {
+   "printedRulesText": "[숨겨짐] 상태에서 카드를 사용하면, 이번 턴에 이 카드가 +2 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-168": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n[행동] (내 턴 또는 결전 시 사용합니다.)\n유닛 1명을 전장에서 해당 유닛의 기지로 이동시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-169": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n전장에 있는 3 [Might] 이하인 유닛 1명을 소유자의 손으로 되돌립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-170": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n유닛 1명을 내 폐기장에서 내 손으로 되돌립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-171": {
+   "printedRulesText": "[통찰] (이 카드를 사용하면, 내 주 덱 맨 위 카드를 확인합니다. 해당 카드를 재활용할 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-172": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n전장에 있는 유닛 1명을 소유자의 손으로 되돌립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-173": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n아군 유닛 1명을 이동시키고 준비시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-174": {
+   "printedRulesText": "[통찰] (이 카드를 사용하면, 내 주 덱 맨 위 카드를 확인합니다. 해당 카드를 재활용할 수 있습니다.)\n이 카드는 개방 전장에 사용할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-176": {
+   "printedRulesText": "이 카드는 개방 전장에 사용할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-177": {
+   "printedRulesText": "아군 유닛 1명이 이 카드가 있는 위치에서 이동하면, 이 카드도 함께 이동할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-178": {
+   "printedRulesText": "[죽음의 종소리] — 카드 2장을 버린 후 2장을 뽑습니다. (이 카드가 사망하면 해당 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-179": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n각 플레이어가 자신의 도구 중 하나를 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-180": {
+   "printedRulesText": "전장에 있는 유닛 1명 또는 도구에 [일시적]을 부여합니다. (해당 카드 통제자의 개시 단계 시작 시, 득점 이전에 이 카드를 처치합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-181": {
+   "printedRulesText": "[Tap]: 다른 아군 도구, 유닛 또는 뒷면 표시 카드를 소유자의 손으로 되돌립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-182": {
+   "printedRulesText": "이 카드가 사용되거나 버려지거나 처치되면, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-183": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n내 주 덱 맨 위 카드 3장을 확인합니다. 1장을 손에 놓고 나머지는 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-184": {
+   "printedRulesText": "[1], [Tap]: 전장에 있는 아군 유닛 1명을 유닛의 기지로 이동시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-185": {
+   "printedRulesText": "이 카드가 이동하면, 카드 1장을 버린 후 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-186": {
+   "printedRulesText": "이 카드가 게임판을 떠나면, 카드 1장을 뽑고 룬 1장을 탈진 상태로 전개합니다.\n[Chaos], [Tap]: 이 카드를 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-187": {
+   "printedRulesText": "다음 플레이어부터, 각 플레이어는 유닛 1명을 소유자의 손으로 되돌릴 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-188": {
+   "printedRulesText": "이 카드를 사용하면, 전장에 있는 다른 유닛 1명을 소유자의 손으로 되돌립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-189": {
+   "printedRulesText": "[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)\n이번 턴에 이 카드가 두 번 이동했을 경우, 이 카드는 피해를 입지 않습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-190": {
+   "printedRulesText": "[죽음의 종소리] — 이 카드의 전장에 있는 모든 유닛에게 4의 피해를 입힙니다. (이 카드가 사망하면 해당 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-191": {
+   "printedRulesText": "[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)\n이 카드를 사용하면, 유닛 1명을 전장에서 해당 유닛의 기지로 이동시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-192": {
+   "printedRulesText": "이 카드를 사용하면, 상대 1명을 선택합니다. 해당 상대가 자신의 손을 공개합니다. 그중 카드 1장을 선택하고, 상대는 해당 카드를 버립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-193": {
+   "printedRulesText": "이 카드는 개방 전장에 사용할 수 있습니다.\n아군 유닛을 개방 전장에 사용할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-193A": {
+   "printedRulesText": "이 카드는 개방 전장에 사용할 수 있습니다.\n아군 유닛을 개방 전장에 사용할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-194": {
+   "printedRulesText": "[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)\n내 덱 맨 위에서 이 카드를 확인 또는 공개할 때, 이 카드를 추방할 수 있습니다. 그렇게 할 경우, [Rune]을 지불해 이 카드를 사용할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-195": {
+   "printedRulesText": "내 폐기장에 있는 카드 1장당 이 카드의 비용이 [1] 감소합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-196": {
+   "printedRulesText": "이 카드를 사용하면, 내 폐기장에서 유닛 1명을 에너지 비용을 무시하고 사용할 수 있습니다. (여전히 힘 비용은 지불해야 합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-197": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n이 카드를 사용하면, 이번 턴에 이 카드가 +3 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-197A": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n이 카드를 사용하면, 이번 턴에 이 카드가 +3 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-198": {
+   "printedRulesText": "내 폐기장에서 유닛 1명을 에너지 비용을 무시하고 사용합니다. (여전히 힘 비용은 지불해야 합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-199": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n이 카드를 사용하면, 다른 위치에 있는 내가 통제하는 유닛 1명을 선택할 수 있습니다. 이 카드를 해당 유닛의 위치로 이동시키고 그 유닛을 이 카드의 원래 위치로 이동시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-200": {
+   "printedRulesText": "이 카드가 공격하면, 내 룬 덱 맨 위 룬을 공개한 후 재활용합니다. 해당 룬의 영역에 따라 다음 중 하나를 수행합니다.\n[Fury] — 이곳에 있는 적 유닛 1명에게 2의 피해를, 이곳에 있는 다른 모든 적 유닛에게 1의 피해를 입힙니다.\n[Mind] — 카드 1장을 뽑습니다.\n[Order] — 적 유닛 1명을 기절시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-201": {
+   "printedRulesText": "각 플레이어가 자신의 손에 있는 카드를 버린 후, 카드 4장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-202": {
+   "printedRulesText": "카드를 1장 이상 버리면, 이 카드가 준비 상태가 되고 이번 턴에 +1 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-202A": {
+   "printedRulesText": "카드를 1장 이상 버리면, 이 카드가 준비 상태가 되고 이번 턴에 +1 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-203": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n전장에 있는 적 유닛 1명을 선택합니다. 해당 유닛의 통제를 획득하고 귀환시킵니다. (유닛을 내 기지로 보냅니다. 이는 이동이 아닙니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-204": {
+   "printedRulesText": "[Tap]: [반응] — [Chaos] [추가] (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-205": {
+   "printedRulesText": "[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)\n이 카드가 한 턴에 3번 이동하면, 1점을 얻습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-205A": {
+   "printedRulesText": "[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)\n이 카드가 한 턴에 3번 이동하면, 1점을 얻습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-206": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n이번 턴에 아군 유닛 2명에게 각각 +2 [Might]을 부여합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-207": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n이 카드를 사용할 때, 추가 비용으로 버프를 소모할 수 있습니다. 그렇게 할 경우, 이 주문의 비용을 무시합니다.\n이번 턴에 유닛 1명에게 +3 [Might]을 부여합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-208": {
+   "printedRulesText": "이 카드를 사용할 때 추가 비용으로, 아군 유닛 1명을 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-209": {
+   "printedRulesText": "각 플레이어가 자신의 유닛 중 하나를 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-210": {
+   "printedRulesText": "[맹공] (이 카드가 공격자인 동안 +1 [Might]을 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-211": {
+   "printedRulesText": "이 카드를 사용하면, 이곳에 1 [Might] 신병 유닛 토큰 1개를 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-212": {
+   "printedRulesText": "이 카드를 사용하면, 내 기지에 1 [Might] 신병 유닛 토큰 1개를 사용합니다.\n이 카드 처치: 아무 폐기장에서 카드를 4장까지 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-213": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n[행동] (내 턴 또는 결전 시 사용합니다.)\n전장에 있는 유닛 1명을 처치합니다. 해당 유닛의 통제자는 카드 2장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-215": {
+   "printedRulesText": "[맹공] (이 카드가 공격자인 동안 +1 [Might]을 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-216": {
+   "printedRulesText": "[죽음의 종소리] — 룬 1장을 탈진 상태로 전개합니다. (이 카드가 사망하면 해당 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-217": {
+   "printedRulesText": "[군단] — 이 카드를 사용하면, 이 카드를 버프합니다. (이 카드에 버프가 없을 경우, +1 [Might] 버프를 획득합니다. 이번 턴에 다른 카드를 사용했다면 이 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-218": {
+   "printedRulesText": "[군단] — 이 카드를 사용하면, 이곳에 1 [Might] 신병 유닛 토큰 2개를 사용합니다. (이번 턴에 다른 카드를 사용했다면 이 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-220": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n[행동] (내 턴 또는 결전 시 사용합니다.)\n같은 전장에 있는 아군 유닛 1명과 적 유닛 1명을 기절시킵니다. (해당 유닛은 이번 턴에 전투 피해를 입히지 않습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-221": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n이번 턴에 어떤 유닛이든 피해를 입으면, 해당 유닛을 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-222": {
+   "printedRulesText": "이 카드가 전장으로 이동하면, 이곳에 1 [Might] 신병 유닛 토큰 1개를 사용합니다. (해당 토큰 또한 같은 전장에 있게 됩니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-223": {
+   "printedRulesText": "이 카드를 사용하면, 이 카드를 버프합니다. 이후 이 카드가 전장에 있을 경우, 그곳에 있는 다른 모든 아군 유닛을 버프합니다. (유닛을 버프하면, 해당 유닛에게 버프가 없을 경우 +1 [Might]을 부여합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-224": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n도구 최대 1개를 처치할 수 있습니다. 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-225": {
+   "printedRulesText": "이 카드를 사용하면, 적 유닛 1명을 선택합니다. 해당 유닛이 기절 상태일 경우, 처치합니다. 그렇지 않을 경우, 기절시킵니다. (해당 유닛은 이번 턴에 전투 피해를 입히지 않습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-226": {
+   "printedRulesText": "이 카드를 사용하면, 내 폐기장에서 비용이 [3] 이하이며 [Rune] 이하인 유닛 1명을 비용을 무시하고 사용할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-227": {
+   "printedRulesText": "내가 공격자인 전투가 무승부로 종료될 경우, 대신 모든 유닛을 귀환시킵니다. (유닛을 기지로 보냅니다. 이는 이동이 아닙니다. 무승부는 전투 피해가 적용된 후 계산됩니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-228": {
+   "printedRulesText": "버프된 아군 유닛이 사망하면, 다른 아군 유닛을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-229": {
+   "printedRulesText": "유닛 1명을 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-230": {
+   "printedRulesText": "이 카드를 사용하면, 원하는 수만큼 버프를 소모합니다. 소모한 버프 1개당, 룬 1장을 탈진 상태로 전개합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-231": {
+   "printedRulesText": "이 카드를 사용할 때, 추가 비용으로 원하는 수만큼 아군 유닛을 처치할 수 있습니다. 그렇게 처치한 유닛 1명당 이 카드의 비용이 [Order] 감소합니다.\n[굴절] (상대가 이 카드를 주문 또는 스킬의 대상으로 선택하려면 [Rune]을 지불해야 합니다.)\n[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-232": {
+   "printedRulesText": "이 카드가 [위력적]인 동안, 이 카드가 [굴절], [개입], [보호막]을 가집니다. (이 카드가 5+ [Might]인 동안 위력적 카드입니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-233": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n이번 턴에 아군 유닛에게 +5 [Might]을 부여합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-234": {
+   "printedRulesText": "이 카드를 사용하면, 적 유닛 1명을 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-235": {
+   "printedRulesText": "[통찰] (이 카드를 사용하면, 내 주 덱 맨 위 카드를 확인합니다. 해당 카드를 재활용할 수 있습니다.)\n내 주 덱으로 카드를 1장 이상 재활용하면, 아군 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다. 룬은 카드가 아닙니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-236": {
+   "printedRulesText": "내 [죽음의 종소리] 효과가 한 번 더 발동됩니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-237": {
+   "printedRulesText": "다음 플레이어부터, 각각의 다른 플레이어가 내가 통제하지 않고 이 주문의 대상으로 지정되지 않은 유닛을 1명씩 선택합니다. 해당 유닛을 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-238": {
+   "printedRulesText": "[보호막] (이 카드가 방어자인 동안 +1 [Might]을 획득합니다.)\n이 카드가 공격하면, 이곳에 있는 적 유닛 1명을 기절시킵니다. (해당 유닛은 이번 턴에 전투 피해를 입히지 않습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-238A": {
+   "printedRulesText": "[보호막] (이 카드가 방어자인 동안 +1 [Might]을 획득합니다.)\n이 카드가 공격하면, 이곳에 있는 적 유닛 1명을 기절시킵니다. (해당 유닛은 이번 턴에 전투 피해를 입히지 않습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-239": {
+   "printedRulesText": "[죽음의 종소리] — 내 기지에 1 [Might] 신병 유닛 토큰 3개를 사용합니다. (이 카드가 사망하면 해당 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-240": {
+   "printedRulesText": "[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)\n이 카드가 이 카드의 전장에 있는 다른 버프된 아군 유닛 1명당 +1 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-240A": {
+   "printedRulesText": "[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)\n이 카드의 전장에 있는 다른 버프된 아군 유닛 1명당 이 카드가 +1 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-241": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다. 내가 통제하는 전장에도 사용할 수 있습니다.)\n[보호막 2] (이 카드가 방어자인 동안 +2 [Might]을 획득합니다.)\n[탱커] (이 카드는 전투 피해를 가장 먼저 배정받습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-242": {
+   "printedRulesText": "[1][Order], [Tap]: 아군 유닛 1명을 처치합니다. 내 주 덱 맨 위 카드 5장을 확인합니다. 그중 처치한 유닛보다 위력이 최대 1 높은 유닛 1명을 추방한 후 비용을 무시하고 사용할 수 있습니다. 이후 나머지는 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-243": {
+   "printedRulesText": "[군단] — 이 카드를 사용하면, 이 카드를 준비시킵니다. (이번 턴에 다른 카드를 사용했다면 이 효과를 얻습니다.)\n이곳에 있는 다른 아군 유닛이 +1 [Might]을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-243A": {
+   "printedRulesText": "[군단] — 이 카드를 사용하면, 이 카드를 준비시킵니다. (이번 턴에 다른 카드를 사용했다면 이 효과를 얻습니다.)\n이곳에 있는 다른 아군 유닛이 +1 [Might]을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-244": {
+   "printedRulesText": "각 플레이어가 유닛 2명, 도구 2개, 룬 2장, 자신의 손에서 카드 2장을 선택합니다. 나머지는 재활용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-245": {
+   "printedRulesText": "[Tap]: [반응] — [Order] [추가] (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-246": {
+   "printedRulesText": "내가 통제하고 신병이 아닌 다른 유닛이 사망하면, 내 기지에 1 [Might] 신병 유닛 토큰 1개를 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-246A": {
+   "printedRulesText": "내가 통제하고 신병이 아닌 다른 유닛이 사망하면, 내 기지에 1 [Might] 신병 유닛 토큰 1개를 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-247": {
+   "printedRulesText": "[Tap]: [반응] — [Rune] [추가] 주문을 사용할 때만 이용합니다. (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-248": {
+   "printedRulesText": "유닛 1명에게 2의 피해를 입힙니다.\n유닛 1명에게 2의 피해를 입힙니다.\n유닛 1명에게 2의 피해를 입힙니다.\n유닛 1명에게 2의 피해를 입힙니다.\n유닛 1명에게 2의 피해를 입힙니다.\n유닛 1명에게 2의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-249": {
+   "printedRulesText": "[위력적] 유닛을 사용하면, 이 카드를 탈진시키고 룬 1장을 탈진한 상태로 전개할 수 있습니다. (유닛이 5+ [Might]인 동안 위력적 유닛입니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-250": {
+   "printedRulesText": "내 기지에 있는 아군 유닛 1명을 선택합니다. 한 전장에 있는 모든 적 유닛에게 선택한 유닛의 위력과 동일한 피해를 입히고 선택한 유닛을 해당 전장으로 이동시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-251": {
+   "printedRulesText": "내 개시 단계 시작 시, 내 손에 카드가 1장 이하라면 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-252": {
+   "printedRulesText": "유닛 1명에게 5의 피해를 입힙니다.\n내가 정복하면, 카드 1장을 버리고 이 카드를 내 폐기장에서 내 손으로 되돌릴 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-253": {
+   "printedRulesText": "[Tap]: [반응], [군단] — [1] [추가] (자원을 추가하는 스킬에는 반응할 수 없습니다. 이번 턴에 카드를 사용했다면 이 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-254": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n유닛 1명을 선택합니다. 해당 유닛이 이후 이번 턴에 피해를 입으면, 그 유닛을 처치합니다.\n[군단] — 대신 즉시 처치합니다. (이번 턴에 다른 카드를 사용했다면 이 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-256": {
+   "printedRulesText": "[숨겨짐] (지금 [Rune]을 지불해 숨긴 후 나중에 [0]의 비용으로 반응합니다.)\n[행동] (내 턴 또는 결전 시 사용합니다.)\n한 전장에 있는 유닛을 원하는 수만큼 처치합니다. 처치되는 유닛의 위력 총합은 4 이하여야 합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-257": {
+   "printedRulesText": "[1], [Tap]: 아군 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-258": {
+   "printedRulesText": "적 유닛 1명을 이동시킵니다. 이후 다음을 수행: 도착지에 있는 다른 적 유닛 1명을 선택합니다. 각 유닛이 자신의 위력만큼 서로에게 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-259": {
+   "printedRulesText": "[2], [Tap]: 아군 유닛 1명을 해당 유닛의 기지로 또는 기지에서 이동시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-260": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n아군 유닛 1명을 준비시킵니다. 전장에 있는 적 유닛 1명에게 해당 아군 유닛의 위력과 동일한 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-261": {
+   "printedRulesText": "적 유닛을 1명 이상 기절시키면, 아군 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-262": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n전장에 있는 적 유닛 1명을 기절시킵니다. 아군 유닛 1명을 해당 적 유닛이 있는 전장으로 이동시킬 수 있습니다. (기절한 유닛은 이번 턴에 전투 피해를 입히지 않습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-263": {
+   "printedRulesText": "[Rune] 대신 [1]을 지불하고 [숨겨짐] 카드를 숨길 수 있습니다.\n[1], [Tap]: 내가 소유한 티모 유닛 1명을 내 챔피언 구역 또는 게임판에서 내 손에 놓습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-264": {
+   "printedRulesText": "[숨겨짐] 카드 최대 2장을 내 폐기장에서 내 손으로 되돌립니다. 이번 턴에 비용을 무시하고 카드를 숨길 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-265": {
+   "printedRulesText": "[1], [Tap]: 1 [Might] 신병 유닛 토큰 1개를 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-266": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n전장 1개를 선택합니다. 이번 턴에 그곳에 있는 아군 유닛에게 +1 [Might]을, 적 유닛에게 -1 [Might]을 부여합니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-267": {
+   "printedRulesText": "[Tap]: 이번 턴에 유닛 1명에게 [개입]을 부여합니다. (해당 유닛은 전장에서 전장으로 이동할 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-268": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n원하는 만큼 [Rune]을 지불하고 전장에 있는 모든 적 유닛에게 그만큼 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-269": {
+   "printedRulesText": "내가 통제하는 버프된 유닛이 사망하게 될 경우, 대신 [Rune]을 지불해 이 카드를 탈진시키고 해당 유닛의 버프를 소모함으로써 그 유닛을 회복시키고, 탈진시키고, 귀환시킬 수 있습니다. (유닛을 기지로 보냅니다. 이는 이동이 아닙니다.)\n내가 정복하면, 이 카드를 준비시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-270": {
+   "printedRulesText": "내 기지에 있는 아군 유닛 1명을 버프한 후, 해당 유닛을 전장으로 이동시킵니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-274": {
+   "printedRulesText": "[일시적] (내 개시 단계 시작 시, 득점 이전에 이 카드를 처치합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-275": {
+   "printedRulesText": "이곳을 점거하면, 내 기지에 1 [Might] 신병 유닛 토큰 1개를 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-276": {
+   "printedRulesText": "게임 승리에 필요한 점수가 1점 증가합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-277": {
+   "printedRulesText": "이곳에서 이동하는 유닛은 이번 턴에 +1 [Might]을 얻습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-278": {
+   "printedRulesText": "이곳에 카드 1장을 추가로 숨길 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-279": {
+   "printedRulesText": "이곳을 방어하면, 유닛 1명을 선택합니다. 해당 유닛이 이번 전투에서 [보호막 2]를 획득합니다. (이 카드가 방어자인 동안 +2 [Might]을 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-280": {
+   "printedRulesText": "이곳을 점거하면, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-281": {
+   "printedRulesText": "이곳을 점거하면, 내 폐기장에 있는 선발 챔피언을 비어 있는 내 챔피언 구역으로 되돌릴 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-282": {
+   "printedRulesText": "이곳을 정복하면, 버프를 소모해 카드 1장을 뽑을 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-283": {
+   "printedRulesText": "이곳을 점거하면, 이곳에 있는 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-284": {
+   "printedRulesText": "각 플레이어의 첫 개시 단계 시작 시, 해당 플레이어가 룬 1장을 전개합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-285": {
+   "printedRulesText": "이곳을 방어하면, 이곳에 있는 아군 유닛 1명을 기지로 이동시킬 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-286": {
+   "printedRulesText": "이곳을 점거하면, 이곳에 있는 유닛의 정복 효과를 발동합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-287": {
+   "printedRulesText": "이곳을 정복하면, 내 룬 중 하나를 재활용해야 합니다. (이는 선택이 아닙니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-288": {
+   "printedRulesText": "이곳을 점거하면, 룬 1장을 탈진한 상태로 전개할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-289": {
+   "printedRulesText": "이곳을 정복하면, 이번 턴 종료 시 룬 최대 2장을 준비시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-290": {
+   "printedRulesText": "각 플레이어의 첫 개시 단계 시작 시, 해당 플레이어가 1점을 얻습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-291": {
+   "printedRulesText": "이곳을 정복하면, 내 주 덱 맨 위 카드 2장을 확인합니다. 그중 하나 또는 둘 다 재활용할 수 있습니다. 재활용하지 않은 카드는 순서에 관계없이 돌려놓습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-292": {
+   "printedRulesText": "플레이어가 턴마다 처음으로 주문을 사용해 이곳에 있는 아군 유닛을 선택할 때, 해당 플레이어가 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-293": {
+   "printedRulesText": "이곳에 내 유닛이 7명 이상 있을 경우, 이곳을 점거하면 게임에서 승리합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-294": {
+   "printedRulesText": "이곳에 있는 유닛이 +1 [Might]을 가집니다. (공격자도 포함됩니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-295": {
+   "printedRulesText": "유닛은 이곳에서 기지로 이동할 수 없습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-296": {
+   "printedRulesText": "주문 및 스킬이 이곳에 있는 유닛에게 1의 추가 피해를 입힙니다. (1의 추가 피해는 주문이 이곳에 있는 유닛에게 입히는 각 피해마다 적용됩니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-297": {
+   "printedRulesText": "이곳에 있는 유닛이 [개입]을 가집니다. (해당 유닛은 전장에서 전장으로 이동할 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-298": {
+   "printedRulesText": "이곳을 정복하면, 카드 1장을 버린 후 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-299": {
+   "printedRulesText": "[Tap]: [반응] — [Rune] [추가] 주문을 사용할 때만 이용합니다. (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-299S": {
+   "printedRulesText": "[Tap]: [반응] — [Rune] [추가] 주문을 사용할 때만 이용합니다. (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-300": {
+   "printedRulesText": "[위력적] 유닛을 사용하면, 이 카드를 탈진시키고 룬 1장을 탈진한 상태로 전개할 수 있습니다. (유닛이 5+ [Might]인 동안 위력적 유닛입니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-300S": {
+   "printedRulesText": "[위력적] 유닛을 사용하면, 이 카드를 탈진시키고 룬 1장을 탈진한 상태로 전개할 수 있습니다. (유닛이 5+ [Might]인 동안 위력적 유닛입니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-301": {
+   "printedRulesText": "내 개시 단계 시작 시, 내 손에 카드가 1장 이하라면 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-301S": {
+   "printedRulesText": "내 개시 단계 시작 시, 내 손에 카드가 1장 이하라면 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-302": {
+   "printedRulesText": "[Tap]: [반응], [군단] — [1] [추가] (자원을 추가하는 스킬에는 반응할 수 없습니다. 이번 턴에 카드를 사용했다면 이 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-302S": {
+   "printedRulesText": "[Tap]: [반응], [군단] — [1] [추가] (자원을 추가하는 스킬에는 반응할 수 없습니다. 이번 턴에 카드를 사용했다면 이 효과를 얻습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-303": {
+   "printedRulesText": "적 유닛이 내가 통제하는 전장을 공격하면, 이번 턴에 해당 유닛에게 -1 [Might]을 부여합니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-303S": {
+   "printedRulesText": "적 유닛이 내가 통제하는 전장을 공격하면, 이번 턴에 해당 유닛에게 -1 [Might]을 부여합니다. 1 [Might]까지 감소할 수 있습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-304": {
+   "printedRulesText": "[1], [Tap]: 아군 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-304S": {
+   "printedRulesText": "[1], [Tap]: 아군 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-305": {
+   "printedRulesText": "[2], [Tap]: 아군 유닛 1명을 유닛의 기지로 또는 기지에서 이동시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-305S": {
+   "printedRulesText": "[2], [Tap]: 아군 유닛 1명을 유닛의 기지로 또는 기지에서 이동시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-306": {
+   "printedRulesText": "적 유닛을 1명 이상 기절시키면, 아군 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-306S": {
+   "printedRulesText": "적 유닛을 1명 이상 기절시키면, 아군 유닛 1명을 버프합니다. (해당 유닛에게 버프가 없을 경우, +1 [Might] 버프를 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-307": {
+   "printedRulesText": "[Rune] 대신 [1]을 지불하고 [숨겨짐] 카드를 숨길 수 있습니다.\n[1], [Tap]: 내가 소유한 티모 유닛 1명을 내 챔피언 구역 또는 게임판에서 내 손에 놓습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-307S": {
+   "printedRulesText": "[Rune] 대신 [1]을 지불하고 [숨겨짐] 카드를 숨길 수 있습니다.\n[1], [Tap]: 내가 소유한 티모 유닛 1명을 내 챔피언 구역 또는 게임판에서 내 손에 놓습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-308": {
+   "printedRulesText": "[1], [Tap]: 1 [Might] 신병 유닛 토큰 1개를 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-308S": {
+   "printedRulesText": "[1], [Tap]: 1 [Might] 신병 유닛 토큰 1개를 사용합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-309": {
+   "printedRulesText": "[Tap]: 이번 턴에 유닛 1명에게 [개입]을 부여합니다. (해당 유닛은 전장에서 전장으로 이동할 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-309S": {
+   "printedRulesText": "[Tap]: 이번 턴에 유닛 1명에게 [개입]을 부여합니다. (해당 유닛은 전장에서 전장으로 이동할 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-310": {
+   "printedRulesText": "내가 통제하는 버프된 유닛이 사망하게 될 경우, 대신 [Rune]을 지불해 이 카드를 탈진시키고 해당 유닛의 버프를 소모함으로써 그 유닛을 회복시키고, 탈진시키고, 귀환시킬 수 있습니다. (유닛을 기지로 보냅니다. 이는 이동이 아닙니다.)\n내가 정복하면, 이 카드를 준비시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGN-310S": {
+   "printedRulesText": "내가 통제하는 버프된 유닛이 사망하게 될 경우, 대신 [Rune]을 지불해 이 카드를 탈진시키고 해당 유닛의 버프를 소모함으로써 그 유닛을 회복시키고, 탈진시키고, 귀환시킬 수 있습니다. (유닛을 기지로 보냅니다. 이는 이동이 아닙니다.)\n내가 정복하면, 이 카드를 준비시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-001": {
+   "printedRulesText": "내 주문 및 스킬이 1의 추가 피해를 입힙니다. (1의 추가 피해는 주문이 입히는 각 피해마다 적용됩니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-002": {
+   "printedRulesText": "한 전장에 있는 모든 적 유닛에게 3의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-003": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n전장에 있는 유닛 1명에게 2의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-004": {
+   "printedRulesText": "내가 8+ 룬을 보유하는 동안, 이 카드가 +4 [Might]을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-005": {
+   "printedRulesText": "[보호막] (이 카드가 방어자인 동안 +1 [Might]을 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-006": {
+   "printedRulesText": "비용이 [5] 이상인 주문을 사용하면, 이번 턴에 이 카드가 +3 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-007": {
+   "printedRulesText": "[맹공 2], [보호막 2] (이 카드가 공격자 또는 방어자인 동안 +2 [Might]을 획득합니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-008": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n이번 턴에 아군 유닛 1명에게 +3 [Might]을 부여합니다. 이후 적 유닛 1명을 선택합니다. 각 유닛이 자신의 위력만큼 서로에게 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-009": {
+   "printedRulesText": "[개입] (이 카드는 전장에서 전장으로 이동할 수 있습니다.)\n이 카드는 준비 상태로 진입합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-010": {
+   "printedRulesText": "이 카드를 사용하면, 주문 1개를 내 폐기장에서 내 손으로 되돌립니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-011": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n최대 2명의 아군 유닛을 기지로 이동시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-012": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n전장에 있는 유닛 1명을 처치합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-013": {
+   "printedRulesText": "이곳에 있는 다른 아군 유닛이 +1 [Might]을 가집니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-014": {
+   "printedRulesText": "[Tap]: [반응] — [2] [추가] 주문을 사용할 때만 이용합니다. (자원을 추가하는 스킬에는 반응할 수 없습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-015": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n1 [Might] 신병 유닛 토큰 4개를 사용합니다. (해당 토큰은 내 기지 또는 내가 통제하는 전장에 사용할 수 있습니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-016": {
+   "printedRulesText": "이 카드는 준비 상태로 진입합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-017": {
+   "printedRulesText": "내 턴 종료 시, 룬 최대 2장을 준비시킵니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-018": {
+   "printedRulesText": "이 카드를 사용하면, 전장에 있는 모든 유닛에게 3의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-019": {
+   "printedRulesText": "아군 유닛이 단독으로 방어하는 동안, 해당 유닛이 +2 [Might]을 획득합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-020": {
+   "printedRulesText": "[반응] (주문 및 스킬이 처리되기 전을 포함해 시점에 관계없이 사용합니다.)\n아군 유닛 1명을 선택합니다. 해당 유닛이 이후 이번 턴에 사망할 때, 대신 그 유닛을 회복, 탈진, 귀환시킵니다. (유닛을 기지로 보냅니다. 이는 이동이 아닙니다.)",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-021": {
+   "printedRulesText": "내가 비용이 [5] 이상인 주문을 사용하면, 카드 1장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-022": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n유닛 1명에게 8의 피해를 입힙니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-023": {
+   "printedRulesText": "내 유닛이 4명 이상 있는 전장을 정복하면, 카드 2장을 뽑습니다.",
+   "rulesEvidence": "verified-official-catalog"
+  },
+  "OGS-024": {
+   "printedRulesText": "[행동] (내 턴 또는 결전 시 사용합니다.)\n이번 턴에 아군 유닛에게 +2 [Might]을 부여합니다.",
+   "rulesEvidence": "verified-official-catalog"
+  }
+ },
+ "derivedFromBasePrint": {},
+ "projectTranslations": {},
+ "projectTranslatedOfficialErrata": {
+  "cards": {}
+ },
+ "flavorOverrides": {
+  "OGN-183": {
+   "flavorText": "\"그냥 운이지, 뭐.\"",
+   "evidence": "verified-first-party-scan-transcription",
+   "sourceCardId": "OGN-183"
+  }
+ }
+}

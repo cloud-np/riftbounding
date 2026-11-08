@@ -1,0 +1,11 @@
+node_modules
+.next
+.wrangler
+dist
+.recon
+pnpm-lock.yaml
+
+# verbatim copies from .recon/specs/types — regenerate, never reformat
+packages/protocol/src/game-state.ts
+packages/protocol/src/actions.ts
+packages/protocol/src/messages.ts

@@ -1,0 +1,33 @@
+{
+  "name": "realtime",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/auth-bootstrap.mjs && wrangler dev --port 1999",
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "deploy": "wrangler deploy",
+    "auth:bootstrap": "node scripts/auth-bootstrap.mjs",
+    "auth:schema": "wrangler d1 execute AUTH_DB --local --file migrations/0001_better_auth.sql && wrangler d1 execute AUTH_DB --local --file migrations/0002_saved_decks.sql",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "dependencies": {
+    "@cloud-np/auth": "workspace:*",
+    "@rift/cards": "workspace:*",
+    "@rift/engine": "workspace:*",
+    "@rift/protocol": "workspace:*",
+    "@rift/sync": "workspace:*",
+    "better-auth": "1.6.33",
+    "jose": "^6.2.13",
+    "partyserver": "^0.5.10"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261021.1",
+    "@types/node": "^26.6.5",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5",
+    "wrangler": "^4.151.3"
+  }
+}

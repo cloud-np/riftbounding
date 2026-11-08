@@ -1,0 +1,1701 @@
+{
+ "$comment": "Compiled next-intl catalog (keys are `key_<hash>`; hash is derived from the key path and is identical across locales). Source chunk: 0evbr82vl51g3.js",
+ "locale": "fr",
+ "ui": {
+  "exact": {
+   "anActiveLegendOrHigherMembership_15fpunm": "Les émoticônes Poro nécessitent un abonnement Legend ou supérieur actif.",
+   "signInToManageCommunityDecks_0jnr3ma": "Connectez-vous pour gérer les decks de la communauté.",
+   "commentTextIsRequired_1x2vk1m": "Le texte du commentaire est requis.",
+   "publishedDeckNotFound_062d0k3": "Deck publié introuvable.",
+   "savedDeckNotFound_1lv2mum": "Deck enregistré introuvable.",
+   "onlyReadyDecksCanBePublished_0sphywb": "Seuls les decks complets peuvent être publiés.",
+   "onlyReadyDecksCanBeLiked_0ek2d5e": "Seuls les decks complets peuvent recevoir des j’aime.",
+   "onlyReadyDecksCanBeCommented_0n5h7bs": "Seuls les decks complets peuvent être commentés.",
+   "commentNotFound_11kj1b7": "Commentaire introuvable.",
+   "onlyReadyDecksCanBeCloned_1pve3gy": "Seuls les decks complets peuvent être clonés.",
+   "signInToManageSavedDecks_0a710e4": "Connectez-vous pour gérer vos decks enregistrés.",
+   "chooseOrImportADeckFirst_1hnk5ei": "Choisissez ou importez d’abord un deck.",
+   "loadingTheLatestSavedDeck_1vbvs01": "Chargement du dernier deck enregistré…",
+   "loadingTheRequestedSavedDeck_0f7droe": "Chargement du deck enregistré demandé…",
+   "theDeckLibraryIsReconnectingTry_0kum4ue": "La bibliothèque de decks se reconnecte. Réessayez dans un instant.",
+   "signInToLoadASaved_1da1a5t": "Connectez-vous pour charger un deck enregistré.",
+   "thatSavedDeckNoLongerExists_0tj1nvm": "Ce deck enregistré n’existe plus.",
+   "thatSavedDeckCouldNotBe_00bzies": "Impossible de charger ce deck enregistré.",
+   "thisDeckCannotBeAssignedUnder_0ijpa35": "Ce deck ne peut pas être attribué selon les règles Sans restriction.",
+   "thisDeckIsNotReadyTo_05cv6v5": "Ce deck n’est pas prêt à être joué.",
+   "waitForTheSavedDeckLibrary_195l2lz": "Attendez la fin de la connexion à la bibliothèque de decks enregistrés.",
+   "signInToLoadTheSelected_1yijkd6": "Connectez-vous pour charger le deck enregistré sélectionné.",
+   "theSelectedDeckChangedWhileIt_11vg34a": "Le deck sélectionné a changé pendant le chargement. Réessayez.",
+   "theSelectedSavedDeckNoLonger_0thrt30": "Le deck enregistré sélectionné n’existe plus. Choisissez un autre deck.",
+   "theSelectedSavedDeckCouldNot_108kfug": "Impossible de charger le deck enregistré sélectionné. Réessayez ou choisissez un autre deck.",
+   "theSelectedSavedDeckIsIncomplete_1k286kn": "Le deck enregistré sélectionné est incomplet.",
+   "couldNotChangeTheSelectedDeck_0wo0y8j": "Impossible de modifier le deck sélectionné. Réessayez.",
+   "theSavedDeckForThatAction_1vtq7ys": "Le deck enregistré pour cette action est incomplet.",
+   "theDeckLibraryIsReconnectingYour_1v68ly7": "La bibliothèque de decks se reconnecte. Votre action dans la salle est conservée ; réessayez dans un instant.",
+   "theRestoredDeckIsIncomplete_04ponpv": "Le deck restauré est incomplet.",
+   "thisSavedDeckIsUnavailableChoose_0azqcmy": "Ce deck enregistré est indisponible. Choisissez un autre deck.",
+   "thisSavedDeckCouldNotBe_1mer660": "Impossible de charger ce deck enregistré. Choisissez un autre deck.",
+   "thisDeckNeedsAnUpdateBefore_0qv79sx": "Ce deck doit être mis à jour avant de pouvoir être joué.",
+   "theDeckEditorIsNotConnected_1y0x6vc": "L’éditeur de decks n’est pas connecté à ce déploiement de prévisualisation.",
+   "yourPreviouslySelectedSavedDeckIs_036a7k3": "Le deck enregistré que vous aviez sélectionné n’est plus disponible. Choisissez un autre deck.",
+   "yourPreviouslySelectedSavedDeckCould_1gl915h": "Le deck enregistré que vous aviez sélectionné n’a pas pu être lu. Choisissez un autre deck.",
+   "theDeckLibraryIsReconnectingPlease_0qdnks2": "La bibliothèque de decks se reconnecte. Veuillez réessayer dans un instant.",
+   "signInToRenameASaved_182qv37": "Connectez-vous pour renommer un deck enregistré.",
+   "signInToDeleteASaved_15jvcl2": "Connectez-vous pour supprimer un deck enregistré.",
+   "couldNotDeleteSavedDeck_1xk9fd8": "Impossible de supprimer le deck enregistré.",
+   "couldNotLoadThatSavedDeck_1i1simk": "Impossible de charger ce deck enregistré.",
+   "signInCompletedButThatSaved_0gje15s": "Connexion réussie, mais ce deck enregistré n’est pas valide.",
+   "signInCompletedButThatSaved_1vtnq9s": "Connexion réussie, mais ce deck enregistré n’est plus disponible.",
+   "yourSaveRequestIsPreservedThe_0k9rldv": "Votre demande d’enregistrement est conservée. La bibliothèque de decks se reconnecte encore ; cliquez à nouveau sur Enregistrer dans un instant.",
+   "savedDeckContentsAreMissing_0eg1j1z": "Le contenu du deck enregistré est manquant.",
+   "savedDeckContentsAreInvalid_1qd3q4u": "Le contenu du deck enregistré n’est pas valide.",
+   "storedDeckCodeIsEmpty_0qo96hh": "Le code de deck stocké est vide.",
+   "generatedSealedPoolIdentityDoesNot_1hkd133": "L’identité du pool scellé généré ne correspond pas au format et à la graine demandés.",
+   "generatedSealedPoolMustContainExactly_0czx1eu": "Le pool scellé généré doit contenir exactement deux domaines de kit de démarrage.",
+   "signInToManageSavedSealed_02zn16m": "Connectez-vous pour gérer vos brouillons scellés enregistrés.",
+   "draftNameIsRequired_06irvp0": "Le nom du brouillon est requis.",
+   "savedSealedDraftNotFound_1b23kcs": "Brouillon scellé enregistré introuvable.",
+   "aSavedSealedDraftCannotChange_0v734o0": "Un brouillon scellé enregistré ne peut pas changer la graine de son pool.",
+   "aSavedSealedDraftCannotChange_1pfqnig": "Un brouillon scellé enregistré ne peut pas changer de format scellé.",
+   "sealedPoolMustContainExactlyTwo_0znnqwv": "Le pool scellé doit contenir exactement deux domaines de kit de démarrage.",
+   "registeredDeckIsNotInThis_00used2": "Le deck inscrit ne fait pas partie de ce pool scellé.",
+   "thisHistoricalSealedDraftHasAn_0ltpsxf": "Ce brouillon scellé historique contient un manifeste de pool archivé non valide. Aucune donnée n’a été modifiée.",
+   "thisHistoricalSealedDraftSArchived_1fmwhqd": "Le manifeste archivé de ce brouillon scellé historique ne correspond pas à l’identité de pool enregistrée. Aucune donnée n’a été modifiée.",
+   "thisHistoricalSealedRegistrationCannotBe_1q3gk67": "Cette inscription scellée historique ne peut pas être jouée, car le manifeste exact de son pool est indisponible.",
+   "thisHistoricalSealedDraftHasInconsistent_1icpqse": "Ce brouillon scellé historique présente un état d’archive incohérent. Aucune donnée n’a été modifiée.",
+   "thisHistoricalSealedRegistrationUsesA_1al8ue2": "Cette inscription scellée historique utilise une version de pool qui n’est plus jouable.",
+   "thisHistoricalSealedRegistrationSArchived_1phzjmq": "Le pool archivé de cette inscription scellée historique ne correspond plus à son manifeste jouable.",
+   "thisHistoricalSealedRegistrationNoLonger_009hzek": "Cette inscription scellée historique ne correspond plus à la sélection de pool enregistrée.",
+   "thisSealedRegistrationCouldNotBe_15uyx5m": "Impossible de charger cette inscription scellée en toute sécurité.",
+   "fromRecipientsSubjectAndMessageBody_1lgbeu2": "L’expéditeur, les destinataires, l’objet et le corps du message sont requis.",
+   "senderMustBeAValidRiftatlas_09vfomq": "L’expéditeur doit être une adresse @riftatlas.com valide.",
+   "authRiftatlasComIsReservedFor_09hkmy1": "L’adresse auth@riftatlas.com est réservée aux e-mails de compte.",
+   "pleaseEnterValidRecipientEmailAddresses_1xk29da": "Saisissez des adresses e-mail de destinataires valides.",
+   "unableToSendTheEmail_11uqwp2": "Impossible d’envoyer l’e-mail.",
+   "aReplySubjectAndMessageBody_0v732kl": "L’objet et le corps de la réponse sont requis.",
+   "unableToLoadTheOriginalEmail_08uqqwl": "Impossible de charger l’e-mail d’origine.",
+   "unableToLoadSelectedMessage_00njk01": "Impossible de charger le message sélectionné.",
+   "thisMessageDoesNotExposeA_1v8so9p": "Ce message ne fournit pas d’adresse de réponse.",
+   "unableToSendTheReply_0aawxqy": "Impossible d’envoyer la réponse.",
+   "aMessageIdAndSourceAre_0n3fxh9": "Un identifiant de message et une source sont requis.",
+   "unableToDeleteMail_09i38wx": "Impossible de supprimer les e-mails.",
+   "unableToLoadOlderMail_1ebey5w": "Impossible de charger les e-mails plus anciens.",
+   "aMessageIdAttachmentIdAnd_193dn83": "Un identifiant de message, un identifiant de pièce jointe et une source sont requis.",
+   "unableToLoadTheAttachment_0vo0ggj": "Impossible de charger la pièce jointe.",
+   "attachmentsMustIncludeValidBase64File_1i6yngc": "Les pièces jointes doivent contenir un fichier encodé en base64 valide.",
+   "attachmentsMustBe10FilesOr_0fsa7y5": "Les pièces jointes sont limitées à 10 fichiers et 40 Mo au total.",
+   "unauthorized_08zqttz": "Non autorisé.",
+   "forbidden_1crr79w": "Accès interdit.",
+   "mailClientIsNotConfiguredCorrectly_1uvuh1n": "Le client de messagerie n’est pas configuré correctement.",
+   "soloPlayIsMissingItsFirst_03xoky1": "Il manque la première place de joueur du mode solo.",
+   "thisRoomUsesAnUnsupportedSetup_10pqg2z": "Cette salle utilise un ordre de mise en place non pris en charge. Créez une nouvelle salle.",
+   "theSeededRoomUsesAnUnsupported_0snqce4": "La salle préremplie utilise un ordre de mise en place non pris en charge.",
+   "chooseAnOpponentOrContinueWithout_0q75p36": "Choisissez un adversaire ou continuez sans adversaire avant de sélectionner un champ de bataille.",
+   "couldNotDetermineWhoChoosesThe_0yy6gi0": "Impossible de déterminer qui choisit le premier joueur.",
+   "submitADeckBeforeChoosingA_158jagd": "Soumettez un deck avant de choisir un champ de bataille.",
+   "selectedBattlefieldWasNotFoundAmong_0mquvhi": "Le champ de bataille sélectionné ne figure pas parmi vos champs de bataille restants.",
+   "selectedBattlefieldWasNotFoundIn_0irviq7": "Le champ de bataille sélectionné ne figure pas dans votre liste de deck.",
+   "signInToRestoreTheCurrent_1rp8khd": "Connectez-vous pour restaurer votre rôle actuel dans la salle.",
+   "theRoomMembershipResponseDidNot_1o68zj0": "Les informations de membre de la salle ne correspondent pas à la salle actuelle.",
+   "noRemainingBattlefieldsAreAvailableTo_0jy50co": "Aucun champ de bataille restant n’est disponible pour un choix aléatoire.",
+   "yourDeckHasNoBattlefieldCards_1act2sf": "Votre deck ne contient aucune carte Champ de bataille à choisir aléatoirement.",
+   "noBattlefieldIsAvailableForRandom_0fsg9e5": "Aucun champ de bataille n’est disponible pour une sélection aléatoire.",
+   "initiativeRollRequiresExactlyTwoPlayers_0bj27pk": "Le jet d’initiative nécessite exactement deux joueurs.",
+   "youAlreadyRolledThisInitiativeRound_059zbxa": "Vous avez déjà lancé les dés pour cette manche d’initiative.",
+   "firstPlayerChoiceIsNotOpen_1egpu5a": "Le choix du premier joueur n’est pas encore ouvert.",
+   "onlyTheRandomlyChosenPlayerCan_0irhph1": "Seul le joueur tiré au sort peut décider qui commence.",
+   "selectedFirstPlayerDoesNotExist_0hv0vtc": "Le premier joueur sélectionné n’existe pas dans cette salle.",
+   "soloTurnOrderIsOnlyAvailable_1864y7h": "L’ordre des tours en solo n’est disponible qu’en entraînement solo.",
+   "turnOrderChoiceIsNotOpen_10ztc8a": "Le choix de l’ordre des tours n’est pas encore ouvert.",
+   "onlyTheHostCanChooseTurn_1gp8ckl": "Seul l’hôte peut choisir l’ordre des tours en entraînement solo.",
+   "autoStartSetupIsOnlyAvailable_086d0al": "La mise en place automatique n’est disponible qu’en mode test.",
+   "autoStartSetupRequiresExactlyTwo_1774118": "La mise en place automatique nécessite exactement deux joueurs.",
+   "couldNotResolveInitiativeAutomatically_0c78xeo": "Impossible de déterminer l’initiative automatiquement.",
+   "couldNotResolveFirstPlayerChooser_1vfdtlz": "Impossible de déterminer qui choisit le premier joueur.",
+   "firstPlayerChooserDoesNotExist_0yctu5k": "Le joueur qui choisit le premier joueur n’existe pas dans cette salle.",
+   "submitADeckBeforeSideboarding_0lyow59": "Soumettez un deck avant de modifier la réserve.",
+   "afterSkippingCardSwapsChooseA_0gvlylk": "Après avoir ignoré les échanges de cartes, choisissez un champion dans votre deck principal soumis. La réserve doit rester inchangée.",
+   "thereIsNoAcceptedRequestTo_0nr2fce": "Aucune demande acceptée pour ignorer les échanges de cartes.",
+   "skippingSideboardingIsOnlyAvailableIn_024wsby": "La modification de la réserve ne peut être ignorée qu’en match construit BO1.",
+   "multiplayerSideboardingCanOnlyBeSkipped_0hka5ve": "En multijoueur, la modification de la réserve ne peut être ignorée qu’avec l’accord de tous les joueurs.",
+   "aSideboardingSkipRequestIsOnly_0s9ilgk": "Une demande pour ignorer la réserve n’est disponible qu’en match construit multijoueur BO1.",
+   "aSideboardingSkipRequestNeedsAt_1d9nd8g": "Une demande pour ignorer la réserve nécessite au moins deux joueurs.",
+   "anotherRequestToSkipSideboardingIs_016sf5b": "Une autre demande pour ignorer la réserve est déjà en attente.",
+   "aPlayerDoesNotHaveA_1qzyjjl": "Un joueur n’a pas de deck soumis à restaurer.",
+   "thereIsNoPendingRequestTo_18nicwz": "Aucune demande en attente pour ignorer la réserve.",
+   "onlyTheRequesterCanCancelA_0oar4r4": "Seul l’auteur de la demande peut annuler une demande pour ignorer la réserve.",
+   "theRequesterHasAlreadyAgreedTo_1adje0l": "L’auteur de la demande a déjà accepté d’ignorer la réserve.",
+   "cannotStartGameBeforeFirstPlayer_00ooomo": "Impossible de commencer la partie avant que le premier joueur soit décidé.",
+   "firstPlayerDoesNotExistIn_0w6zgb7": "Le premier joueur n’existe pas dans la salle.",
+   "couldNotStartTheFirstTurn_06hgr2x": "Impossible de commencer le premier tour.",
+   "cannotBuildGameplayRuntimeStartPayload_1afkk2u": "Impossible de préparer le lancement de la partie sans deck.",
+   "playerIsNotInThisRoom_0cet0qr": "Ce joueur n’est pas dans cette salle.",
+   "goldfishSetupCanOnlyBeConfirmed_0rffp60": "La préparation de l’entraînement solo ne peut être confirmée qu’avant l’ajustement de la réserve.",
+   "goldfishSetupCanOnlyBeConfirmed_0nevgmf": "La préparation de l’entraînement solo ne peut être confirmée qu’avant la sélection du champ de bataille.",
+   "onlyTheSoloRoomHostCan_1g2fl83": "Seul l’hôte de la salle solo peut confirmer la préparation de l’entraînement solo.",
+   "autoStartIsOnlyAvailableDuring_0z3ae7g": "Le démarrage automatique n’est disponible que pendant la mise en place.",
+   "sideboardingIsNotOpenYet_1x7yq9j": "La modification de la réserve n’est pas encore ouverte.",
+   "battlefieldSelectionIsNotOpenYet_1q5kz30": "La sélection du champ de bataille n’est pas encore ouverte.",
+   "chooseABattlefield_1013xj5": "Choisissez un champ de bataille.",
+   "initiativeRollIsNotOpenYet_1vnk4w3": "Le jet d’initiative n’est pas encore ouvert.",
+   "mulliganIsNotOpenYet_0vw2qyt": "Le mulligan n’est pas encore ouvert.",
+   "mulliganIsNotAvailableUntilBoards_13kdosn": "Le mulligan n’est pas disponible avant l’initialisation des plateaux.",
+   "youCanMulliganUpTo2_0qyfq2e": "Vous pouvez faire un mulligan de 2 cartes au maximum.",
+   "oneOrMoreSelectedMulliganCards_03zsjgs": "Une ou plusieurs cartes sélectionnées pour le mulligan ne sont pas dans votre main.",
+   "observedTurnStateIsRequired_0tdk0p2": "L’état du tour observé est requis.",
+   "observedTurnStateIsInvalid_1ht7dhq": "L’état du tour observé n’est pas valide.",
+   "mainDeckIsEmpty_1pwk55c": "Le deck principal est vide.",
+   "cardNotFoundInDeck_0cvcvcg": "Carte introuvable dans le deck.",
+   "cardIsNotCurrentlyRevealedFrom_0q86odj": "Cette carte n’est pas actuellement révélée depuis le deck.",
+   "chooseLookedAtDeckCardsFirst_0gujx2u": "Choisissez d’abord les cartes du deck consultées.",
+   "allMainDeckCardsAreAlready_1cgbkdn": "Toutes les cartes du deck principal sont déjà consultées.",
+   "deckShuffleModeIsInvalid_125qut7": "Le mode de mélange du deck n’est pas valide.",
+   "noExhaustedRunesToReady_0v30ngc": "Aucune rune épuisée à préparer.",
+   "paymentBatchCannotBeEmpty_1ovx8ce": "Le lot de paiement ne peut pas être vide.",
+   "paymentBatchIsInvalid_0c75gxi": "Le lot de paiement n’est pas valide.",
+   "floatingResourceBatchCannotBeEmpty_13cwuj2": "Le lot de ressources flottantes ne peut pas être vide.",
+   "floatingResourceBatchIsInvalid_0hgow12": "Le lot de ressources flottantes n’est pas valide.",
+   "runeBatchCannotBeEmpty_1aw7b0y": "Le lot de runes ne peut pas être vide.",
+   "runeBatchIsInvalid_13cpp3m": "Le lot de runes n’est pas valide.",
+   "cardNotFoundInTheSelected_1mtmkhj": "Carte introuvable dans la zone sélectionnée.",
+   "notEnoughFloatingEnergyForAuto_0uv0b51": "Pas assez d’Énergie flottante pour le paiement automatique.",
+   "notEnoughFloatingPowerForAuto_00e228g": "Pas assez d’Essence runique flottante pour le paiement automatique.",
+   "autoPayEnergyRunesContainDuplicates_1mfa28y": "Les runes d’Énergie du paiement automatique contiennent des doublons.",
+   "autoPayPowerRunesContainDuplicates_05bcox9": "Les runes d’Essence runique du paiement automatique contiennent des doublons.",
+   "autoPayEnergyRuneNotFound_1czggpo": "Rune d’Énergie du paiement automatique introuvable dans la zone des runes.",
+   "autoPayPowerRuneNotFound_0bk6n4x": "Rune d’Essence runique du paiement automatique introuvable dans la zone des runes.",
+   "autoPayCannotExhaustARune_1em17uj": "Le paiement automatique ne peut pas épuiser une rune déjà épuisée.",
+   "thisCardDoesNotHaveThe_0y28qis": "Cette carte n’a pas la mécanique Caché.",
+   "onlyCardsInChampionCanBe_0rg7pnn": "Seules les cartes de la zone champion peuvent être cachées.",
+   "invalidHiddenToggleZone_0bg6vb4": "Zone non valide pour basculer l’état Caché.",
+   "battlefieldCardsCannotBeSetHidden_1ontmo0": "Les cartes Champ de bataille ne peuvent pas être cachées.",
+   "onlyCardsInTheSpecifiedBattlefield_07777m1": "Seules les cartes du champ de bataille indiqué peuvent être révélées.",
+   "onlyCardsInTheSpecifiedBattlefield_0cmhinj": "Seules les cartes du champ de bataille indiqué peuvent être révélées à l’adversaire.",
+   "onlyHiddenCardsCanBeRevealed_1n5rygh": "Seules les cartes cachées peuvent être révélées à l’adversaire.",
+   "legendCannotBeMovedToAnother_08o00zv": "La légende ne peut pas être déplacée dans une autre zone.",
+   "onlyRunesInRuneAreaCan_0p106bn": "Seules les runes de la zone des runes peuvent y être réordonnées.",
+   "runesInRuneAreaCannotBe_1ml0j79": "Les runes de la zone des runes ne peuvent pas être déplacées dans cette zone.",
+   "cardCannotBeMovedToThe_09g6m77": "La carte ne peut pas être déplacée dans la zone sélectionnée.",
+   "trashBatchCannotBeEmpty_0bx6sl6": "Le lot de cartes à défausser ne peut pas être vide.",
+   "offBoardCardBatchCannotBe_1bhy3ho": "Le lot de cartes hors plateau ne peut pas être vide.",
+   "offBoardCardBatchMustMove_0t8hxlo": "Le lot de cartes hors plateau doit déplacer les cartes vers une autre zone.",
+   "tokensCannotBeCreatedInThat_0a0gsxf": "Les créations ne peuvent pas être générées dans cette zone.",
+   "cardsInThatZoneCannotBe_1omzb2l": "Les cartes de cette zone ne peuvent pas être dupliquées.",
+   "opponentBoardIsNotAvailable_0gp04qw": "Le plateau adverse n’est pas disponible.",
+   "hiddenCardsCannotBeDuplicated_0fu6on5": "Les cartes cachées ne peuvent pas être dupliquées.",
+   "cardControlCanOnlyBeTransferred_0bnvog9": "Le contrôle ne peut être transféré que pour les cartes sur le plateau.",
+   "cannotTransferControlOfHiddenCards_1b719f6": "Impossible de transférer le contrôle des cartes cachées.",
+   "equipmentCannotBeAttachedToItself_0vi6p1p": "Un objet ne peut pas être attaché à lui-même.",
+   "equipmentCardNotFound_0s54phg": "Carte Objet introuvable.",
+   "unitCardNotFound_15m1wj8": "Carte Unité introuvable.",
+   "unitIsNotInAValid_10xi0l6": "L’unité n’est pas dans une zone valide pour équiper.",
+   "onlyGearCardsCanBeEquipped_05uxl2p": "Seules les cartes Équipement peuvent être équipées.",
+   "thisGearDoesNotHaveThe_1lchers": "Cet équipement n’a pas le mot-clé Équiper.",
+   "equipmentCanOnlyBeAttachedTo_17ti7xq": "Les objets ne peuvent être attachés qu’à des unités.",
+   "equipmentCannotBeEquippedFromThat_0g168jd": "Les objets ne peuvent pas être équipés depuis cette zone.",
+   "cardsInThatZoneCannotBe_1ywiahu": "Les cartes de cette zone ne peuvent pas être envoyées dans le deck principal.",
+   "trashIsEmpty_04p63kk": "La défausse est vide.",
+   "floatingResourceAdjustmentMustBeFinite_0z4q2w1": "L’ajustement des ressources flottantes doit être une valeur finie.",
+   "floatingResourceAdjustmentMustChangeThe_1ti52xu": "L’ajustement des ressources flottantes doit modifier le compteur.",
+   "legendXpAdjustmentMustBeFinite_0vsbaim": "L’ajustement d’XP de la légende doit être une valeur finie.",
+   "legendXpAdjustmentMustChangeThe_0q9hc43": "L’ajustement d’XP de la légende doit modifier le compteur.",
+   "mightAdjustmentMustBeFinite_1drqrei": "L’ajustement de Puissance doit être une valeur finie.",
+   "mightAdjustmentMustChangeTheValue_0l8g8g4": "L’ajustement de Puissance doit modifier la valeur.",
+   "mightCanOnlyBeAdjustedOn_0e3jjfr": "La Puissance ne peut être ajustée que dans les zones d’unités du plateau.",
+   "cardNotFoundForMightAdjustment_0kyd7l5": "Carte introuvable pour l’ajustement de Puissance.",
+   "cannotAdjustMightOnHiddenCards_10skzlg": "Impossible d’ajuster la Puissance des cartes cachées.",
+   "onlyUnitCardsCanHaveTheir_1lez5h3": "Seules les cartes Unité peuvent voir leur Puissance ajustée.",
+   "counterAdjustmentMustBeFinite_1p1rpcv": "L’ajustement de marqueurs doit être une valeur finie.",
+   "counterAdjustmentMustChangeTheValue_1me42g7": "L’ajustement de marqueurs doit modifier la valeur.",
+   "countersCanOnlyBeAdjustedOn_0lluq09": "Les marqueurs ne peuvent être ajustés que dans les zones du plateau.",
+   "invalidCounterColor_0theebb": "Couleur de marqueur non valide.",
+   "cardNotFoundForCounterAdjustment_0gsrj6q": "Carte introuvable pour l’ajustement de marqueurs.",
+   "cannotAdjustCountersOnHiddenCards_0holh3k": "Impossible d’ajuster les marqueurs des cartes cachées.",
+   "cardLabelsMustContainVisibleText_1wvg186": "Les étiquettes de carte doivent contenir du texte visible.",
+   "invalidCardLabelSlot_0p95cd2": "Emplacement d’étiquette de carte non valide.",
+   "cardNotFoundForLabelUpdate_1u0uscm": "Carte introuvable pour la mise à jour de l’étiquette.",
+   "cannotLabelHiddenCards_1m163nv": "Impossible d’étiqueter des cartes cachées.",
+   "noFloatingResourcesToClear_1efwjin": "Aucune ressource flottante à effacer.",
+   "expectedExhaustionStateIsRequired_1nio9lz": "L’état d’épuisement attendu est requis.",
+   "championCannotBeExhausted_051r9px": "Le champion ne peut pas être épuisé.",
+   "cardNotFoundForExhaustToggle_0tzo0wx": "Carte introuvable pour le basculement de l’état épuisé.",
+   "cardsInThatZoneCannotBe_13lgn18": "Les cartes de cette zone ne peuvent pas être retirées.",
+   "chainEntryIdIsRequired_0p6v8c8": "L’identifiant de l’entrée de la Chaîne est requis.",
+   "chainResolveApprovalStateIsRequired_1vxzr79": "L’état d’approbation de la résolution de la Chaîne est requis.",
+   "theChainIsFull_19xwr1u": "La Chaîne est pleine.",
+   "thatActionWouldAddOrRemove_0sbfqof": "Cette action ajouterait ou retirerait des runes d’un pool de runes ; elle n’a donc pas été appliquée.",
+   "optionalShowdownPassStateIsRequired_11tjnr7": "L’état de passe facultatif en Confrontation est requis.",
+   "onlyPlayersWithIvernGreenFather_1fby2ly": "Seuls les joueurs avec « Ivern, Aîné de la forêt » peuvent placer des hautes herbes.",
+   "thisMatchmakingMatchEndsAutomaticallyWhen_00cnmdl": "Ce match de matchmaking se termine automatiquement à l’expiration du délai de reconnexion.",
+   "thisMatchCannotBeClaimed_0qfwkq5": "Ce match ne peut pas être revendiqué.",
+   "yourOpponentReconnectedOrHasNot_06kxl7l": "Votre adversaire s’est reconnecté ou n’est pas absent depuis une minute.",
+   "signInToEndThisMatch_0qp7zxk": "Connectez-vous pour terminer ce match.",
+   "thisMatchHasAlreadyChangedRefresh_0snyrvz": "Ce match a déjà changé. Actualisez la salle avant de réessayer.",
+   "bestOf3DeckSnapshotIs_1sf9i6e": "L’instantané du deck BO3 est manquant.",
+   "bestOf3RequiresExactly3_0fi2ka4": "Le BO3 exige exactement 3 choix de champ de bataille distincts.",
+   "savedSealedRegistrationsCanOnlyBe_044grnt": "Les inscriptions scellées enregistrées ne peuvent être utilisées que dans les salles scellées.",
+   "theSavedSealedRegistrationIsMissing_1kedpxw": "Il manque à l’inscription scellée enregistrée sa graine canonique ou ses sélections de construction.",
+   "savedSealedRegistrationIsNotReady_01aiiu6": "L’inscription scellée enregistrée n’est pas prête à être jouée.",
+   "loadADeckBeforeContinuing_0kr72gi": "Chargez un deck avant de continuer.",
+   "loadAValidDeckBeforeContinuing_1tnesfo": "Chargez un deck valide avant de continuer.",
+   "joinTheRoomBeforeChangingDecks_1w2ttyt": "Rejoignez la salle avant de changer de deck.",
+   "constructedDeckSubmissionIsUnavailableIn_11iwi8j": "L’envoi d’un deck construit n’est pas disponible dans les salles scellées.",
+   "deckChangesAreLockedAfterSideboarding_13umovm": "Les changements de deck sont verrouillés après l’ajustement avec la réserve.",
+   "deckChangesAreLockedAfterChoosing_0b6nrpi": "Les changements de deck sont verrouillés après le choix d’un champ de bataille.",
+   "deckChangesAreLockedAfterGame_0wmz9zx": "Les changements de deck sont verrouillés après la partie 1 d’un match BO3.",
+   "deckChangesAreOnlyAvailableBefore_0twfj0e": "Les changements de deck ne sont possibles qu’avant le verrouillage de la préparation.",
+   "theOpponentDeckCanNoLonger_0wpg19c": "Le deck adverse ne peut plus être modifié dans cette phase de préparation.",
+   "signInToLoadThisSaved_16u93gm": "Connectez-vous pour charger ce deck enregistré.",
+   "signInCompletedButTheRoom_0zfts99": "Connexion réussie, mais l’action de salle n’a pas pu être restaurée.",
+   "theSavedDeckForThatAction_1g45ehp": "Le deck enregistré pour cette action n’est pas valide.",
+   "theSavedDeckForThatAction_1n7ltbh": "Le deck enregistré pour cette action n’est plus disponible.",
+   "clipboardIsUnavailableCopyTheRoom_0lt66yg": "Le presse-papiers n’est pas disponible. Copiez le code de salle manuellement.",
+   "couldNotCopyRoomCodePlease_1olkntj": "Impossible de copier le code de salle. Copiez-le manuellement.",
+   "readyCheckIsOnlyAvailableIn_119o6vq": "La vérification « Prêt » n’est disponible que dans les salles d’attente hébergées.",
+   "readyCheckIsOnlyAvailableIn_03j7zub": "La vérification « Prêt » n’est disponible que dans la salle d’attente.",
+   "loadADeckBeforeMarkingYourself_16pkrzd": "Chargez un deck avant de vous déclarer prêt.",
+   "manualMatchStartIsOnlyAvailable_02cvldn": "Le lancement manuel du match n’est disponible que pour les salles hébergées.",
+   "theMatchCanOnlyBeStarted_1vca4zc": "Le match ne peut être lancé que depuis la salle d’attente.",
+   "onlyTheRoomHostCanStart_1rsgh7e": "Seul l’hôte de la salle peut lancer le mode solo.",
+   "singlePlayerCanOnlyBeStarted_1877v33": "Le mode solo ne peut être lancé que si vous êtes seul dans la salle.",
+   "loadAValidDeckBeforeStarting_15cmz0h": "Chargez un deck valide avant de lancer le mode solo.",
+   "bothPlayersMustBeInThe_0qq6ixi": "Les deux joueurs doivent être dans la salle avant le lancement.",
+   "bothPlayersMustLoadADeck_0npzqee": "Les deux joueurs doivent charger un deck avant le lancement.",
+   "bothPlayersMustChooseSavedSealed_0lqqc8a": "Les deux joueurs doivent choisir une inscription scellée enregistrée avant le lancement.",
+   "bothPlayersMustChooseRegistrationsFor_14ad325": "Les deux joueurs doivent choisir des inscriptions pour le même format scellé.",
+   "bothPlayersMustClickReadyBefore_1a85v7v": "Les deux joueurs doivent cliquer sur « Prêt » avant le lancement.",
+   "couldNotStartTheMatch_1ms5u81": "Impossible de lancer le match.",
+   "couldNotUpdateTheRoomDeck_1djpk6c": "Impossible de mettre à jour le deck de la salle. Veuillez réessayer.",
+   "couldNotAddTheOpponentSeat_1aqpb1q": "Impossible d’ajouter la place de l’adversaire. Veuillez réessayer.",
+   "couldNotUpdateTheRoomRegistration_1ppdbp0": "Impossible de mettre à jour l’inscription de la salle. Veuillez réessayer.",
+   "initiativeRollFailedPleaseTryAgain_0nbag7k": "Le jet d’initiative a échoué. Veuillez réessayer.",
+   "realtimeConnectionIsUnavailablePleaseTry_0zvfj3j": "La connexion en temps réel n’est pas disponible. Veuillez réessayer.",
+   "theRealtimeRoomDidNotConfirm_1boaqfs": "La salle en temps réel n’a pas confirmé l’action. Veuillez réessayer.",
+   "tooManyPendingActionsWaitingFor_0pur10j": "Trop d’actions en attente. En attente de synchronisation avec le serveur.",
+   "theCardChangedBeforeThisAction_0cuko2e": "La carte a changé avant la fin de cette action. Veuillez réessayer.",
+   "actionFailedPleaseTryAgain_0swfpnt": "L’action a échoué. Veuillez réessayer.",
+   "autoPayCouldNotCompleteBecause_0iu7fsn": "Le paiement automatique n’a pas pu aboutir, car la carte ou les ressources disponibles ont changé. Aucune ressource n’a été dépensée.",
+   "matchSearchPausedResumeToConfirm_0shok0b": "Recherche de match en pause. Reprenez-la pour la confirmer.",
+   "matchSearchTimedOutTryAgain_0bcma9e": "La recherche de match a expiré. Réessayez.",
+   "couldNotCreateRoom_1knjyxm": "Impossible de créer la salle.",
+   "couldNotLoadTheSelectedDeck_06ykmae": "Impossible de charger le deck sélectionné.",
+   "cancellationResultIsStillBeingConfirmed_0zl2ra2": "Le résultat de l’annulation est toujours en cours de confirmation. Reprenez la recherche.",
+   "matchResultIsStillBeingConfirmed_10xm6w2": "Le résultat du match est toujours en cours de confirmation. Reprenez la recherche.",
+   "couldNotFindARandomMatch_13yizet": "Impossible de trouver un match aléatoire.",
+   "cancellationWasNotConfirmedReconnectAnd_1b27f9s": "L’annulation n’a pas été confirmée. Reconnectez-vous et réessayez.",
+   "cancellationResultIsUncertainResumeSearch_0k7mb0j": "Le résultat de l’annulation est incertain. Reprenez la recherche pour le confirmer.",
+   "cancellationWasNotSentResumeSearch_1cfho1o": "L’annulation n’a pas été envoyée. Reprenez la recherche pour la reconnecter.",
+   "theMatchmakingConnectionIsNotReady_1c1j8km": "La connexion au matchmaking n’est pas prête pour l’annulation. Reconnectez-vous d’abord.",
+   "couldNotCancelMatchmakingSearch_088ow55": "Impossible d’annuler la recherche de match.",
+   "pleaseEnterARoomCode_0e22qes": "Veuillez saisir un code de salle.",
+   "couldNotSwitchToSpectator_0wcr11j": "Impossible de passer en mode spectateur.",
+   "couldNotTakeAPlayerSeat_0kw9llz": "Impossible de prendre une place de joueur.",
+   "yourSavedDeckChangedReviewIt_1q4x0hq": "Votre deck enregistré a changé. Vérifiez-le et déclarez-vous prêt à nouveau.",
+   "couldNotUpdateYourReadyState_1jfkxn1": "Impossible de mettre à jour votre statut « Prêt ».",
+   "couldNotChangeTheRoomMatch_0ogvcrr": "Impossible de modifier le format de match de la salle.",
+   "couldNotChangeTheRoomDeck_05c5blp": "Impossible de modifier les règles de deck de la salle.",
+   "couldNotChangeTheRoomPlay_1xjip2a": "Impossible de modifier le mode de jeu de la salle.",
+   "couldNotConfirmLeavingTheRoom_1749hnw": "Impossible de confirmer votre départ de la salle. Votre salle est toujours disponible ; réessayez.",
+   "couldNotOpenWinnerConfirmation_1k5i08d": "Impossible d’ouvrir la confirmation du vainqueur.",
+   "couldNotStartTheNextGame_0uqhsip": "Impossible de lancer la partie suivante.",
+   "couldNotDecodeThatDeckCode_04zo4b4": "Impossible de décoder ce code de deck.",
+   "newGamesDeckCreationAndDeck_070slu0": "Les nouvelles parties, la création et la modification de decks sont temporairement désactivées pendant les 30 minutes précédant la maintenance et pendant toute sa durée.",
+   "couldNotUpdateSpectatorVisibility_18s9fmj": "Impossible de mettre à jour la visibilité des spectateurs.",
+   "couldNotReportTheGameWinner_1svk9wp": "Impossible de signaler le vainqueur de la partie.",
+   "couldNotRequestARematch_0y8rzub": "Impossible de demander une revanche.",
+   "playerBoardIsNotInitialized_0otefrn": "Le plateau du joueur n’est pas initialisé.",
+   "cardNotFoundInSelectedZone_1x78duy": "Carte introuvable dans la zone sélectionnée.",
+   "turncountMustBeAPositiveNumber_1m8f9qu": "Le nombre de tours doit être un nombre positif.",
+   "starsMustBeBetween1And_0hbume5": "La note doit être comprise entre 1 et 5 étoiles.",
+   "lobbyPlayModeCanOnlyBe_1kmq3ux": "Le mode de jeu du salon ne peut être modifié que dans les salles hébergées.",
+   "lobbyPlayModeCanOnlyBe_057fnih": "Le mode de jeu du salon ne peut être modifié qu’avant le début du match.",
+   "onlyTheRoomHostCanChange_1x9p5xl": "Seul l’hôte de la salle peut modifier le mode de jeu.",
+   "deckRulesCanOnlyBeChanged_0ux77uu": "Les règles de deck ne peuvent être modifiées que dans les salles hébergées.",
+   "deckRulesCanOnlyBeChanged_04tevwa": "Les règles de deck ne peuvent être modifiées qu’avant le début du match.",
+   "onlyTheRoomHostCanChange_0vfsw4n": "Seul l’hôte de la salle peut modifier les règles de deck.",
+   "deckRulesCanOnlyBeChanged_00pbdoi": "Les règles de deck ne peuvent être modifiées que dans les salles construites hébergées.",
+   "chooseStandardOrUnrestrictedDeckRules_09a2pzo": "Choisissez les règles de deck Standard ou Sans restriction.",
+   "lobbyMatchFormatCanOnlyBe_1lebw20": "Le format de match du salon ne peut être modifié que dans les salles hébergées.",
+   "lobbyMatchFormatCanOnlyBe_0h20860": "Le format de match du salon ne peut être modifié qu’avant le début du match.",
+   "onlyTheRoomHostCanChange_0oxwnae": "Seul l’hôte de la salle peut modifier le format de match.",
+   "allPlayersInTheRoomMust_04jiqia": "Tous les joueurs de la salle doivent être connectés pour utiliser le BO3.",
+   "signInToPlayOrSpectate_0uklrkq": "La connexion pour jouer ou regarder n’est pas disponible dans cet environnement.",
+   "checkingSignInStatus_07dlw7q": "Vérification de la connexion…",
+   "signInToPlayOrSpectate_0a8emds": "Connectez-vous pour jouer ou regarder.",
+   "newRoomIsMissingItsInitial_1s0mwxr": "Il manque le joueur initial à la nouvelle salle.",
+   "soloPlayIsCurrentlyAvailableFor_0nsbxns": "Le jeu solo n’est actuellement disponible qu’avec des decks construits.",
+   "noPlayerSeatIsAvailableIn_1qxduet": "Aucune place de joueur n’est disponible dans cette salle.",
+   "thisPlayerIsNotSeatedIn_1ep1684": "Ce joueur n’a pas de place dans la salle.",
+   "startTheGameBeforeReportingA_073tugp": "Lancez la partie avant de signaler un résultat.",
+   "nextGameRequiresBothPlayersTo_0h9e81s": "La partie suivante nécessite que les deux joueurs soient dans la salle.",
+   "bestOf3GamesAdvanceThrough_0r0y2yv": "En BO3, les parties s’enchaînent via la confirmation du vainqueur, et non via « Lancer la partie suivante ».",
+   "gameResultConfirmationIsOnlyAvailable_1kf4j5p": "La confirmation du résultat de la partie n’est disponible qu’en BO3.",
+   "bestOf3ResultConfirmationRequires_09w0012": "La confirmation du résultat en BO3 nécessite les deux joueurs.",
+   "gameResultReportingIsOnlyAvailable_1rrlx9q": "Le signalement du résultat de la partie n’est disponible qu’en BO3.",
+   "bestOf3ResultReportingRequires_1cj2w07": "Le signalement du résultat en BO3 nécessite les deux joueurs.",
+   "selectedWinnerIsNotInThis_058wfaa": "Le vainqueur sélectionné n’est pas dans cette salle.",
+   "couldNotResolveTheNextGame_0l9p68p": "Impossible de déterminer qui commence la partie suivante.",
+   "aNextRoomCodeIsRequired_1web297": "Un code de salle suivant est requis pour poursuivre ce BO3.",
+   "rematchIsOnlyAvailableForBest_0xfjehp": "La revanche n’est disponible qu’en BO3.",
+   "rematchIsOnlyAvailableAfterThe_14wefh6": "La revanche n’est disponible qu’une fois le BO3 terminé.",
+   "bestOf3RematchRequiresBoth_066q2fq": "La revanche en BO3 nécessite les deux joueurs.",
+   "rematchIsUnavailableBecauseAPlayer_0aqlbfs": "La revanche est indisponible, car un joueur a quitté la salle.",
+   "aNextRoomCodeIsRequired_1555xj2": "Un code de salle suivant est requis pour lancer la revanche.",
+   "anOpponentCanOnlyBeAdded_10p22o8": "Un adversaire ne peut être ajouté qu’avant le verrouillage de la réserve en entraînement solo.",
+   "anOpponentCanOnlyBeAdded_0k39ycl": "Un adversaire ne peut être ajouté que pendant la préparation solo.",
+   "onlyTheSoloRoomHostCan_03tt82x": "Seul l’hôte de la salle solo peut ajouter un adversaire.",
+   "chooseASavedSealedRegistrationFor_19ozf7w": "Choisissez une inscription scellée enregistrée pour l’adversaire.",
+   "chooseADeckForTheOpponent_0ai4wpd": "Choisissez un deck pour l’adversaire.",
+   "theOpponentRegistrationCanNoLonger_1fvfhq0": "L’inscription de l’adversaire ne peut plus être modifiée dans cette phase de préparation.",
+   "anOpponentSelectionIsAlreadyBeing_0c4uejy": "Une sélection d’adversaire est déjà en cours d’attribution.",
+   "couldNotAddTheOpponentRegistration_0c0iari": "Impossible d’ajouter l’inscription de l’adversaire. Veuillez réessayer.",
+   "couldNotAssignThatRegistrationTo_0p6xm2w": "Impossible d’attribuer cette inscription à la place de l’adversaire.",
+   "sealedRegistrationSelectionIsOnlyAvailable_1of8fej": "La sélection d’une inscription scellée n’est disponible que pendant la préparation du salon.",
+   "matchmakingIsReconnectingTryAgainIn_1lkx2ff": "Le matchmaking se reconnecte. Réessayez dans un instant.",
+   "matchmakingIsWakingUpTryAgain_0nev07e": "Le matchmaking démarre. Réessayez dans un instant.",
+   "matchmakingIsBusyTryAgainIn_1umiovt": "Le matchmaking est saturé. Réessayez dans un instant.",
+   "youAreStartingSearchesTooQuickly_1oys0hu": "Vous lancez des recherches trop rapidement. Patientez un instant, puis réessayez.",
+   "couldNotUpdateMatchmakingSearch_1abxucu": "Impossible de mettre à jour la recherche de match.",
+   "matchmakingServiceTimedOutTryAgain_0eu5occ": "Le service de matchmaking a expiré. Réessayez.",
+   "theAssignedMatchIsTooOld_161slbv": "Le match attribué est trop ancien pour être rouvert. Lancez une nouvelle recherche.",
+   "theAssignedMatchIsNoLonger_1jow6it": "Le match attribué n’est plus disponible. Lancez une nouvelle recherche.",
+   "partiesAreAvailableInMultiplayerQuick_093lh4b": "Les groupes ne sont disponibles qu’en match rapide multijoueur.",
+   "teammatesMayNotShareAChampion_09n6rht": "Des coéquipiers ne peuvent pas partager une Légende de champion ou un Champ de bataille.",
+   "thePartyIsAlreadySearching_0dsxei2": "Le groupe est déjà en recherche.",
+   "thePartyIsFull_09twvu9": "Ce groupe est complet.",
+   "onlyThePartyLeaderCanChoose_1rrp08n": "Seul le chef du groupe peut choisir la table.",
+   "stopTheSearchBeforeChangingThe_0potf6r": "Arrêtez la recherche avant de changer de table.",
+   "thePartyHasTooManyMembers_0e0hy5z": "Le groupe compte trop de membres pour cette table.",
+   "stopTheSearchBeforeChangingYour_0bqdeoq": "Arrêtez la recherche avant de changer de deck.",
+   "onlyThePartyLeaderCanStart_0ijalua": "Seul le chef du groupe peut lancer la recherche.",
+   "thisTableIsNotAvailableFor_05858cw": "Cette table n’est pas disponible pour les groupes.",
+   "everyMemberMustBeConnectedAnd_1uma0h1": "Chaque membre doit être connecté et prêt.",
+   "theSavedRoomMembershipHasChanged_1cb0r2o": "L’appartenance enregistrée à la salle a changé.",
+   "thisGameIsBeingLeftStart_0zpludl": "Vous quittez cette partie. Lancez ou rejoignez une autre partie.",
+   "cancelTheMatchSearchBeforeResuming_00eis3d": "Annulez la recherche de match avant de reprendre une salle enregistrée.",
+   "couldNotConfirmTheMatchedRoom_1m1eu0y": "Impossible de confirmer l’attribution de la salle de match.",
+   "couldNotAllocateAMatchRoom_1akh7mn": "Impossible d’allouer une salle de match.",
+   "couldNotInitializeTheMatchRoom_0v4h4by": "Impossible d’initialiser la salle de match.",
+   "theMatchServiceIsNotReady_1jxy4vi": "Le service de match n’est pas prêt pour cette requête.",
+   "matchedRoomIsNoLongerAvailable_18dnbwp": "La salle de match attribuée n’est plus disponible.",
+   "theMatchServiceRejectedTheClaim_1le4cc5": "Le service de match a rejeté la revendication avant de modifier la salle.",
+   "theMatchmakingClaimConflictsWithThis_1uoiifc": "La revendication de matchmaking est en conflit avec cette salle.",
+   "pleaseEnterYourPlayerName_0tyrk4e": "Veuillez saisir votre nom de joueur.",
+   "noRoomFoundCheckTheCode_1vjddlj": "Aucune salle trouvée. Vérifiez le code et réessayez.",
+   "couldNotJoinOrSpectateThis_0mx2vas": "Impossible de rejoindre ou de regarder cette salle.",
+   "gameplayTransportIsNotReady_0sbn5i8": "La connexion de jeu n’est pas prête.",
+   "unsupportedMatchmakingMode_0vsjuq3": "Mode de matchmaking non pris en charge.",
+   "multiplayerTablesAreAvailableInConstructed_1c35bws": "Les tables multijoueurs sont réservées au mode Construit.",
+   "unsupportedMatchmakingPool_1gwxhi4": "File de matchmaking non prise en charge.",
+   "unsupportedMatchFormat_1tx6qpy": "Format de match non pris en charge.",
+   "pasteAValidDeckBeforeSearching_07x2h3e": "Collez un deck valide avant de rechercher un match.",
+   "theSubmittedDeckListIsToo_1in7gcz": "La liste de deck envoyée est trop volumineuse.",
+   "chooseASavedVendettaPreRift_1ixc4be": "Choisissez une inscription Vendetta Pre-Rift enregistrée avant de lancer la recherche.",
+   "publicSealedMatchmakingIsAvailableOnly_04gz0r6": "Le matchmaking scellé public n’est disponible que pour Vendetta Pre-Rift.",
+   "aMatchmakingSearchIdentifierIsRequired_1b180fg": "Un identifiant de recherche de matchmaking est requis.",
+   "theMatchmakingSearchIdentifierIsMalformed_1momuvu": "L’identifiant de recherche de matchmaking est mal formé.",
+   "signInBeforeSearchingForA_1w8yx3f": "Connectez-vous avant de rechercher un match.",
+   "chooseAValidSavedVendettaPre_0tqjyjo": "Choisissez une inscription Vendetta Pre-Rift enregistrée et valide avant de lancer la recherche.",
+   "matchmakingWasUpdatedRefreshThePage_13j608b": "Le matchmaking a été mis à jour. Actualisez la page et relancez la recherche.",
+   "thisMatchmakingSearchIsNoLonger_1wit4rm": "Cette recherche de matchmaking n’est plus active. Lancez une nouvelle recherche.",
+   "thisMatchmakingSearchBelongsToA_09npke9": "Cette recherche de matchmaking appartient à une autre file.",
+   "theQuickMatchQueueIsFull_057mhh0": "La file de Partie rapide est pleine. Réessayez sous peu.",
+   "couldNotVerifyTheMatchmakingCancellation_1oysu4d": "Impossible de vérifier l’annulation du matchmaking. Réessayez.",
+   "theMatchmakingMessagePayloadIsToo_1ytibvw": "Les données du message de matchmaking sont trop volumineuses.",
+   "theMatchmakingMessageIsMalformed_0mcyci2": "Le message de matchmaking est mal formé.",
+   "noRewindTargetIsAvailable_0bple4x": "Aucune cible de retour en arrière n’est disponible.",
+   "rewindTheLatestSoloLabAction_1sji7re": "Revenez d’abord sur la dernière action du Labo solo.",
+   "theRoomChangedInAWay_15cfh7o": "La salle a changé d’une manière qui empêche ce retour en arrière.",
+   "theRoomStateDoesNotAllow_0kyxp8i": "L’état de la salle ne permet pas cette modification.",
+   "theRoomCodeDoesNotMatch_1c98zz8": "Le code de salle ne correspond pas à la salle de match demandée.",
+   "invalidLinkedRoomTransitionRecoveryCould_10wyg59": "La récupération invalide de transition de salle liée n’a pas pu être supprimée.",
+   "linkedRoomTransitionRecoveryIsTemporarily_0h1swxi": "La récupération de transition de salle liée est temporairement indisponible.",
+   "storedLinkedRoomSeedIntentBelongs_1yn2at1": "L’intention d’initialisation de salle liée stockée appartient à une autre salle.",
+   "theNextGameIsStillBeing_0hiqrkr": "La partie suivante est encore en cours d’initialisation. Réessayez.",
+   "previousRoomSpectatorLookupReturnedAn_14oifms": "La recherche d’accès spectateur de la salle précédente a renvoyé un instantané de politique invalide.",
+   "previousRoomSpectatorLookupReturnedAn_1cr4jeu": "La recherche d’accès spectateur de la salle précédente a renvoyé une session invalide.",
+   "previousRoomSpectatorLookupOmittedThe_1qd2u5m": "La recherche d’accès spectateur de la salle précédente a omis la session demandée.",
+   "previousRoomSpectatorAccessIsTemporarily_1p5i7et": "L’accès spectateur de la salle précédente est temporairement indisponible.",
+   "linkedSpectatorAccessSnapshotIsInvalid_134zy3s": "L’instantané d’accès spectateur lié est invalide.",
+   "linkedSpectatorAccessSnapshotIsIncomplete_1n20j6n": "L’instantané d’accès spectateur lié est incomplet.",
+   "runtimeCheckpointsRequireAnEmptyRewind_0rbqek8": "Les points de contrôle d’exécution exigent un index de retour en arrière vide.",
+   "requiredRuntimeCheckpointDidNotSelect_030esan": "Le point de contrôle d’exécution requis n’a sélectionné aucune raison.",
+   "signInVerificationIsTemporarilyUnavailable_1lij300": "La vérification de connexion est temporairement indisponible. Réessayez.",
+   "couldNotAllocateTheNextRoom_0yivkj1": "Impossible d’allouer la salle suivante.",
+   "theAllocatedLinkedRoomBelongsTo_1g5qxyx": "La salle liée allouée appartient à une autre partie.",
+   "couldNotInitializeTheLinkedRoom_1dwpd6m": "Impossible d’initialiser la salle liée.",
+   "roomNotFound_13ueqlr": "Salle introuvable.",
+   "joinedPlayerResultIsMissingA_1hpte2f": "Le résultat du joueur ayant rejoint ne contient pas d’identifiant de joueur.",
+   "thisSeatIsNoLongerIn_0uejcit": "Cette place n’est plus dans la salle.",
+   "resolvedRoomPlayerIsMissingFrom_0nyjvsr": "Le joueur résolu est absent de la structure de la salle.",
+   "anotherNextGameTransitionIsStill_0ptrtzu": "Une autre transition vers la partie suivante est encore en cours d’initialisation.",
+   "thePendingNextGameTransitionNo_0v1wx0c": "La transition en attente vers la partie suivante ne correspond plus à cette salle.",
+   "theStoredLinkedRoomTransitionNo_15x3gu2": "La transition de salle liée stockée ne produit plus de salle enfant.",
+   "theLinkedRoomTransitionDidNot_0jggzbg": "La transition de salle liée n’a pas produit de salle enfant.",
+   "theGameplayActionIsInvalid_01j5sm9": "L’action de jeu est invalide.",
+   "thisPlayerHasAlreadyLeftThe_1hhkj8z": "Ce joueur a déjà quitté la salle.",
+   "thisSeatIsBoundToA_1r4xzr0": "Cette place est liée à un autre compte connecté.",
+   "theRoomActionIsInvalid_04hjnco": "L’action de salle n’est pas valide.",
+   "theSpectatorSessionCouldNotBe_1t10kf7": "Impossible de quitter la session de spectateur.",
+   "theMatchHitAnUnexpectedRuntime_1x5cr7v": "Le match a rencontré une erreur d’exécution inattendue. Le dernier instantané du serveur a donc été renvoyé.",
+   "theMatchHitAnUnexpectedRuntime_0bahwk2": "Le match a rencontré une erreur d’exécution inattendue.",
+   "theStoredMatchRuntimeIsInvalid_0856fvs": "L’état d’exécution enregistré du match n’est pas valide et ne peut pas être restauré.",
+   "requiredInitialRoomStateCouldNot_0rng0qz": "Impossible de transmettre l’état initial requis de la salle.",
+   "requestBodyMustBeValidJson_081p8ba": "Le corps de la requête doit être un JSON valide.",
+   "theRoomSettingsAreInvalid_0j1yd75": "Les paramètres de la salle ne sont pas valides.",
+   "coordinatorRoomNotFound_0cc2jth": "Salle du coordinateur introuvable.",
+   "aValidRoomApiActionIs_1kgobzu": "Une action d’API de salle valide est requise.",
+   "thisRoomControlRequestIsNot_19nbgmn": "Cette requête de contrôle de salle n’est pas autorisée.",
+   "thisRoomApiActionIsNot_0f8yvat": "Cette action d’API de salle n’est pas prise en charge.",
+   "theRoomRequestWasInterruptedTry_17lt6ym": "La requête de salle a été interrompue. Réessayez.",
+   "couldNotReachTheRoomService_0bs5fh2": "Impossible de joindre le service de salles. Réessayez.",
+   "theRoomServiceReturnedAnInvalid_0211gn3": "Le service de salles a renvoyé une réponse non valide. Réessayez.",
+   "theRoomServiceReturnedAnInvalid_0yj6y9f": "Le service de salles a renvoyé une transition de salon non valide. Réessayez.",
+   "theRoomServiceIsTemporarilyUnavailable_1f539lx": "Le service de salles est temporairement indisponible. Réessayez.",
+   "thisBroadcastRoomHasExpired_1eqoxdq": "Cette salle de diffusion a expiré.",
+   "theBroadcastRoomCouldNotBe_1qks1cf": "Impossible de restaurer la salle de diffusion.",
+   "casterOrAdminAccessIsRequired_0xoqb03": "Un accès commentateur ou administrateur est requis pour le tableau de bord de diffusion.",
+   "cardActivityIsHiddenWhileThis_0vav25r": "L’activité des cartes est masquée tant que ce compte occupe une place dans le match.",
+   "theBroadcastDashboardIsReadOnly_1yle9cq": "Le tableau de bord de diffusion est en lecture seule.",
+   "yourRoomRoleChangedButThe_0b0ef3y": "Votre rôle dans la salle a changé, mais le rôle actuel n’a pas pu être restauré. Reconnexion…",
+   "onlyPlayersCanChangeSpectatorVisibility_0xlczwu": "Seuls les joueurs peuvent modifier la visibilité des spectateurs.",
+   "couldNotRegisterTheSelectedDeck_1wi08w3": "Impossible d’inscrire le deck sélectionné dans le salon.",
+   "roomShellActionsMustUseThe_0cg7mg2": "Les actions sur l’état de la salle doivent passer par la connexion d’état de la salle.",
+   "roomSeriesTransportReceivedALive_0yhizqz": "La connexion de série de la salle a reçu une action de salle en direct.",
+   "realtimeSpectatorAuthorizationIsTemporarilyUnavailable_1gteytk": "L’autorisation des spectateurs en temps réel est temporairement indisponible.",
+   "theRoomShellIsNotInitialized_08twevo": "L’état de la salle n’est pas encore initialisé.",
+   "thisRoomSeatIsNoLonger_0oq0vr0": "Cette place dans la salle n’est plus valide. Rejoignez ou recréez la salle.",
+   "couldNotVerifyYourSignIn_1xs7wwq": "Impossible de vérifier votre session de connexion. Vérifiez votre connexion (ou votre bloqueur de publicités) et réessayez.",
+   "thisPlayerIsNoLongerRegistered_1uhvxd5": "Ce joueur n’est plus inscrit dans la salle.",
+   "joinTheRoomBeforeRefreshingCustomization_1jr7qte": "Rejoignez la salle avant d’actualiser la personnalisation.",
+   "onlySignedInPlayersParticipatingIn_1o2s6ek": "Seuls les joueurs connectés qui participent à cette salle peuvent actualiser la personnalisation.",
+   "joinTheRoomBeforeSendingChat_1fvcscu": "Rejoignez la salle avant d’envoyer des messages.",
+   "onlySeatedPlayersCanSendRoom_0mosg8g": "Seuls les joueurs ayant une place peuvent envoyer des messages dans la salle.",
+   "onlySeatedPlayersAndAuthorizedStaff_1hqrb8c": "Seuls les joueurs ayant une place et les membres du staff ou commentateurs autorisés peuvent envoyer des messages dans la salle.",
+   "thisRoomChatChannelIsNot_1a098ve": "Ce canal de discussion de la salle n’est pas disponible pour votre session actuelle.",
+   "theSignedInSessionTokenNeeds_0ptk67m": "Le jeton de session connectée doit être actualisé.",
+   "chatMessagesCannotBeEmpty_0d3m4x6": "Les messages ne peuvent pas être vides.",
+   "thatRoomActionIsNotHandled_0nhgm1l": "Cette action de salle n’est pas prise en charge par la salle en direct.",
+   "couldNotAuthorizeTheSoloPlay_0vx1kgs": "Impossible d’autoriser la place de l’adversaire en Partie solo.",
+   "joinTheRoomBeforeSendingRoom_1fcxf34": "Rejoignez la salle avant d’envoyer des actions de salle.",
+   "onlySeatedPlayersCanChangeRoom_0ggo6xz": "Seuls les joueurs ayant une place peuvent modifier l’état de la salle.",
+   "theRoomActionPayloadIsMalformed_1pkd2ik": "Les données de l’action de salle sont mal formées.",
+   "thisRequestWasNotPostedBecause_0385bjo": "Cette demande n’a pas été publiée, car elle semble être du spam ou sans rapport avec une question de règles. Vous pouvez envoyer une question de règles plus claire.",
+   "questionNotPostedYourAccountIs_1jaxno7": "Question non publiée. Votre compte est restreint pour une durée indéterminée. Vous pouvez faire appel sur /appeal.",
+   "questionNotPostedWeCouldNot_1dlq9v4": "Question non publiée. Nous n’avons pas compris la question. Ajoutez les noms des cartes, les actions et la règle concernée, puis réessayez.",
+   "questionNotPostedThisSubmissionOr_1vnpakx": "Question non publiée. Cette soumission ou ce nom d’affichage a été signalé pour abus grave.",
+   "judgeCallsAreAvailableOnlyDuring_1c794pc": "Les appels à un arbitre ne sont disponibles que pendant une partie multijoueur en cours.",
+   "thatJudgeCallRequestIdIs_0jli4lp": "Cet identifiant de requête d’appel à un arbitre est déjà associé à une autre question.",
+   "couldNotVerifyTheActiveMultiplayer_0ge8qz8": "Impossible de vérifier la partie multijoueur en cours. Réessayez.",
+   "thePreviousJudgeCallCouldNot_097mk9z": "L’appel à un arbitre précédent n’a pas pu être récupéré. Renvoyez cette requête.",
+   "thePreviousJudgeCallCouldNot_1f13g3g": "L’appel à un arbitre précédent n’a pas pu être transmis. Renvoyez cette requête.",
+   "thePreviousJudgeCallCouldNot_1o9oqhb": "L’appel à un arbitre précédent n’a pas pu être transmis. Réessayez avec une nouvelle requête.",
+   "onlyThePlayerWhoRequestedThis_0xq57gh": "Seul le joueur qui a posé cette question communautaire peut la fermer.",
+   "thatCommunityQuestionIsNoLonger_1c8rn54": "Cette question communautaire n’est plus disponible.",
+   "chooseASavedSealedRegistrationFirst_0hk3jwj": "Choisissez d’abord une inscription Scellé enregistrée.",
+   "theSealedRegistrationDoesNotMatch_0ro9c34": "L’inscription Scellé ne correspond pas au brouillon enregistré sélectionné.",
+   "joinTheRoomBeforeLeavingIt_01q6ial": "Rejoignez la salle avant de la quitter.",
+   "useTheLiveRoomShellTransport_0fx8c7h": "Utilisez la connexion d’état de la salle en direct pour cette action de salle.",
+   "realtimeStateChangedUnexpectedlyResyncingThe_10v5wg9": "L’état en temps réel a changé de façon inattendue. Resynchronisation du match en direct.",
+   "refreshTheSimulatorBeforeUsingThis_1ggiz8s": "Actualisez le simulateur avant d’utiliser cette action.",
+   "refreshTheSimulatorBeforeApprovingA_0muvd9e": "Actualisez le simulateur avant d’approuver une entrée de la chaîne.",
+   "spectatorVisibilityChangedReconnectToContinue_157ixu7": "La visibilité des spectateurs a changé. Reconnectez-vous pour continuer avec une vue restreinte.",
+   "roomAuthorizationChangedReconnectToContinue_1tfix9q": "L’autorisation de la salle a changé. Reconnectez-vous pour continuer.",
+   "thisConnectionSPreviousRoomRole_0vvwd5y": "Le rôle précédent de cette connexion dans la salle a pris fin. Reconnectez-vous pour continuer.",
+   "theRealtimeRoomIsConnectedBut_178z0ha": "La salle en temps réel est connectée, mais ce type de message n’est pas traité ici.",
+   "realtimeRoomConnectionFailed_0ib6nww": "Échec de la connexion à la salle en temps réel.",
+   "realtimeRoomConnectionLostReconnecting_1ja8rxu": "Connexion à la salle en temps réel perdue. Reconnexion…",
+   "couldNotReturnToTheLobby_080753w": "Impossible de retourner au salon. Réessayez.",
+   "theMatchReturnedToTheLobby_10qttg1": "Le match est retourné au salon avant la fin de l’action.",
+   "returnToLobbyIsOnlyAvailable_0jvdb0v": "« Retour au salon » n’est disponible que depuis une partie multijoueur privée.",
+   "thisPlayerHasAlreadyLeftThe_11p4hhs": "Ce joueur a déjà quitté la partie.",
+   "waitingForYourFriendToJoin_0quxoj0": "En attente que votre ami rejoigne cette position.",
+   "thisMatchRoomBelongsToAnother_1fu6m7o": "Cette salle de match appartient à un autre lien de retour au salon.",
+   "theLinkedRoomIsStillBeing_0ciwz3w": "La salle liée est encore en cours d’initialisation. Réessayez.",
+   "theLinkedRoomRequestWasRejected_0tlwtm7": "La requête de salle liée a été refusée.",
+   "seatsAreReservedWhilePlayersDecide_1dim26o": "Les places sont réservées pendant que les joueurs décident de revenir ou non.",
+   "couldNotRevokeTheLinkedLobby_1gfkzuu": "Impossible de révoquer l’accès au salon lié.",
+   "resolvedLeavePlayerMembershipIsMissing_0jl8bnz": "L’identifiant du joueur manque dans les informations de membre du joueur sortant.",
+   "theReturnLobbyRedirectChainIs_1p2mcub": "La chaîne de redirection de retour au salon n’est pas valide.",
+   "theLinkedLobbyIsTemporarilyUnavailable_1bhcyed": "Le salon lié est temporairement indisponible.",
+   "theLinkedLobbyReturnedAnInvalid_178578p": "Le salon lié a renvoyé un résultat d’adhésion non valide.",
+   "thePendingReturnLobbyActorCannot_1v86hbw": "L’auteur de la demande de retour au salon en attente ne peut pas être récupéré.",
+   "anotherLinkedRoomTransitionIsStill_1bjm7t9": "Une autre transition de salle liée est encore en cours d’initialisation.",
+   "thisMatchRoomBelongsToAnother_1dodsro": "Cette salle de match appartient à une autre partie liée.",
+   "thisMatchHasAlreadyEnded_0pnu5di": "Ce match est déjà terminé.",
+   "theLinkedLobbyIsMissingIts_0ckiq5f": "L’état de référence de la salle manque pour le salon lié.",
+   "theReturnedPlayerDoesNotMatch_1gobezj": "Le joueur de retour ne correspond pas à la place réservée.",
+   "thisReturnLobbySeatWasAlready_176zeks": "Cette place de retour au salon a déjà été révoquée.",
+   "theReservedReturnLobbySeatIs_1buuh9j": "La place de retour au salon réservée n’est plus disponible.",
+   "thisReturnLobbySpectatorAdmissionWas_0dgcuur": "L’admission de ce spectateur au retour au salon a déjà été révoquée.",
+   "thisRoomDoesNotBelongTo_03bibeg": "Cette salle n’appartient pas à la partie d’origine.",
+   "thisGameHasAlreadyMovedParticipants_07lia17": "Cette partie a déjà déplacé les participants vers un salon partagé.",
+   "thisPlayerIsNotAdmittedTo_1ap7gfm": "Ce joueur n’est pas admis dans le salon lié.",
+   "generatedBoosterOnlySealedPoolMust_08v2shs": "Un pool Scellé généré uniquement à partir de boosters ne doit pas contenir de métadonnées de kit de démarrage.",
+   "chooseTheFirstPlayerBeforeSelecting_1qznew2": "Choisissez le premier joueur avant de sélectionner les champs de bataille multijoueurs.",
+   "theFirstPlayerDoesNotContribute_0egcpn9": "Le premier joueur ne fournit pas de champ de bataille dans ce mode de jeu.",
+   "yourBattlefieldIsAlreadyLocked_15or31o": "Votre champ de bataille est déjà verrouillé.",
+   "couldNotResolveTiedInitiativeRolls_0pmvf4f": "Impossible de départager les jets d’initiative à égalité.",
+   "couldNotResolveInitiativeWinner_1dmqm0k": "Impossible de déterminer le vainqueur de l’initiative.",
+   "setupPreviewBoardsCanOnlyBe_0w40vjt": "Les plateaux d’aperçu de mise en place ne peuvent être actualisés que pendant la sélection des champs de bataille.",
+   "couldNotResolveThisPlayerS_1o7w1yi": "Impossible de déterminer le camp de ce joueur pour l’initiative.",
+   "onlyTheTeamThatWonInitiative_1yelpc0": "Seule l’équipe ayant remporté l’initiative peut décider qui commence.",
+   "couldNotResolveInitiativeCompetitorRepresentative_0oo9hfy": "Impossible de déterminer le joueur représentant ce camp pour l’initiative.",
+   "championZoneMustBeEmptyBefore_0ap43l8": "La zone du champion doit être vide pour qu’une carte puisse y être déplacée.",
+   "counterInitializationFlagMustBeBoolean_18up1nz": "L’indicateur d’initialisation du marqueur doit être un booléen.",
+   "onlyWhiteCountersOnUnitsCan_0by8m1n": "Seuls les marqueurs blancs sur des unités peuvent être initialisés à la Puissance de l’unité.",
+   "couldNotCompleteAutoStartSetup_1rr6121": "Impossible de terminer la mise en place automatique.",
+   "everyPlayerMustHaveADeck_1vp4ni7": "Chaque joueur doit avoir un deck pour terminer l’ajustement de la réserve.",
+   "every2v2PlayerMustHaveA_1kasmcn": "Chaque joueur en 2c2 doit être affecté à une équipe.",
+   "theTeamDeckRegistrationsConflict_1niru5k": "Les inscriptions de decks des équipes sont en conflit.",
+   "theSideboardedDeckIsNotReady_0735pzn": "Le deck ajusté avec la réserve n’est pas prêt pour ce match.",
+   "aSideboardedDeckIsNotReady_0eywd0j": "Un deck ajusté avec la réserve n’est pas prêt pour ce match.",
+   "aRoomCannotContainMoreThan_13kvzpe": "Une salle ne peut pas contenir plus de quatre joueurs ayant une place.",
+   "everyPlayerMustLoadADeck_1s80nyn": "Chaque joueur doit charger un deck avant la validation du type de partie.",
+   "thisMultiplayerVariantIsDisabledFor_0pa8hda": "Ce type de partie multijoueur est désactivé dans les salles publiques.",
+   "multiplayerVariantsWithThreeOrFour_1cdlcr3": "Les parties multijoueurs à trois ou quatre joueurs se jouent en BO1.",
+   "gameTypeCanOnlyBeChanged_0hop3p0": "Le type de partie ne peut être modifié que dans les salles multijoueurs créées par un hôte.",
+   "gameTypeCanOnlyBeChanged_0hhn1bk": "Le type de partie ne peut être modifié qu’avant le début du match.",
+   "onlyTheRoomHostCanChange_0qzp1ko": "Seul l’hôte de la salle peut modifier le type de partie.",
+   "chooseASupportedHostedGameType_0nnlpi8": "Choisissez un type de partie pris en charge.",
+   "teamSeatsCanOnlyBeChanged_1bf3hzj": "Les places d’équipe ne peuvent être modifiées que dans les salles 2c2 créées par un hôte.",
+   "teamSeatsCanOnlyBeChanged_02p6ak1": "Les places d’équipe ne peuvent être modifiées qu’avant le début du match.",
+   "theRoomHostMustRemainIn_0f2b30j": "L’hôte de la salle doit rester à la place 1.",
+   "chooseOneOfTheNonHost_0021ds9": "Choisissez l’une des places d’équipe autres que celle de l’hôte.",
+   "onlyTheRoomHostCanRandomize_0abg5ku": "Seul l’hôte de la salle peut répartir les équipes aléatoirement.",
+   "allFourPlayersMustBeSeated_1bjvf81": "Les quatre joueurs doivent avoir une place avant de répartir les équipes aléatoirement.",
+   "nextGameIsUnavailableBecauseA_0hsqfxh": "La partie suivante est indisponible, car un joueur a quitté la salle.",
+   "nextGameIsAvailableAfterThe_1x0ubfg": "La partie suivante est disponible une fois la partie multijoueur terminée.",
+   "rewindAndForwardAreDisabledIn_0lz961q": "Retour arrière et Avancer sont désactivés dans les parties à trois joueurs ou plus.",
+   "onlySeatedPlayersCanPerformGameplay_1j4k91z": "Seuls les joueurs ayant une place peuvent effectuer des actions de jeu.",
+   "revealTargetPlayerIdIsInvalid_0n0nv3w": "L’identifiant du joueur ciblé par la révélation n’est pas valide.",
+   "chooseEitherOneRevealTargetOr_09g6owz": "Choisissez soit une cible de révélation, soit un public, pas les deux.",
+   "revealAudienceIsInvalid_11fa86l": "Le public de la révélation n’est pas valide.",
+   "aTargetPlayerCanOnlyBe_1lodcf7": "Un joueur ciblé ne peut être sélectionné que pour une carte adverse.",
+   "targetPlayerIdIsInvalid_0lzbq35": "L’identifiant du joueur ciblé n’est pas valide.",
+   "forcedMoveFlagMustBeBoolean_1faooqn": "L’indicateur de déplacement forcé doit être un booléen.",
+   "transferRecipientMustBeAValid_0hulsk3": "Le destinataire du transfert doit être un joueur valide.",
+   "equipmentCanOnlyBeEquippedFrom_12hd57c": "Les objets ne peuvent être équipés que depuis la base.",
+   "hiddenEquipmentCannotBeEquipped_1dcuq04": "Les objets cachés ne peuvent pas être équipés.",
+   "attachedEquipmentCannotUseEquip_0tpyp0b": "Les objets attachés ne peuvent pas utiliser Équiper.",
+   "hiddenCardsCannotBeEquipTargets_1etgo06": "Les cartes cachées ne peuvent pas être ciblées par Équiper.",
+   "equipmentCannotBeAttachedOnAn_1x7owce": "Les objets ne peuvent pas être attachés sur un champ de bataille inactif.",
+   "thisRequestDoesNotMatchThe_0sjxd7l": "Cette requête ne correspond pas à la recherche de match en cours. Annulez-la avant de lancer une autre recherche.",
+   "theRoomInitializationOperationIsInvalid_1q4ud5z": "L’opération d’initialisation de la salle n’est pas valide.",
+   "theRoomCreatorAuthorizationDoesNot_0pyfkyl": "L’autorisation du créateur de la salle ne correspond pas à l’opération d’initialisation.",
+   "theRoomRequestPayloadIsToo_16pjay9": "Les données de la requête de salle sont trop volumineuses.",
+   "thisRoomCreationOperationHasExpired_1dipq9u": "Cette opération de création de salle a expiré. Recommencez avec un nouvel identifiant d’opération.",
+   "roomCreationRecoveryIsTemporarilyUnavailable_11jug8j": "La récupération de la création de salle est temporairement indisponible. Réessayez.",
+   "aValidRoomCreationOperationId_1a49i2c": "Un identifiant d’opération de création de salle valide est requis (8 à 128 lettres, chiffres, « : », « _ » ou « - »).",
+   "theRoomServiceIsTakingToo_15tegcb": "Le service de salles met trop de temps à répondre. Réessayez.",
+   "theRoomRequestWasCancelled_1pze61i": "La requête de salle a été annulée.",
+   "theRoomServiceReturnedAnInvalid_1hnlgx0": "Le service de salles a renvoyé un résultat de création non valide. Réessayez.",
+   "theRoomServiceReturnedAnInvalid_0v3tbf3": "Le service de salles a renvoyé un résultat d’accès non valide. Réessayez.",
+   "theRoomServiceReturnedAnInvalid_0krhnjq": "Le service de salles a renvoyé un résultat de spectateur non valide. Réessayez.",
+   "theRoomServiceReturnedAnInvalid_0i79u4s": "Le service de salles a renvoyé un résultat de place non valide. Réessayez.",
+   "theRoomServiceReturnedAnInvalid_0x2vxqv": "Le service de salles a renvoyé un résultat d’adhésion non valide. Réessayez.",
+   "theMatchmakingServiceReturnedAnInvalid_1m8p4zh": "Le service de matchmaking a renvoyé un résultat d’annulation non valide. Réessayez.",
+   "thisDeckCannotBeUsedIn_0tz73ez": "Ce deck ne peut pas être utilisé dans la salle actuelle.",
+   "signInTokenRefreshIsTemporarily_1pbtb5t": "L’actualisation du jeton de connexion est temporairement indisponible. Votre salle n’est pas affectée.",
+   "aSignInTokenIsTemporarily_1wuvhrd": "Un jeton de connexion est temporairement indisponible. Votre salle n’est pas affectée.",
+   "theRoomSetupChangedWhileIt_1mwufyc": "La configuration de la salle a changé pendant sa préparation. Réessayez.",
+   "theRoomSetupChangedWhileCreation_1yo5rah": "La configuration de la salle a changé pendant la création. Réessayez.",
+   "theRoomServiceReturnedAMismatched_1xyjh2p": "Le service de salles a renvoyé un résultat d’opération qui ne correspond pas.",
+   "theSavedMatchSearchCouldNot_0fe6z1m": "La recherche de match enregistrée n’a pas pu être récupérée en toute sécurité.",
+   "thePreviousMatchSearchCanNo_1blddc5": "La recherche de match précédente ne peut plus être récupérée. Réessayez.",
+   "cancelTheEarlierMatchSearchBefore_0ikm8pv": "Annulez la recherche de match précédente avant d’en lancer une autre.",
+   "yourSignedInAccountIsStill_0gu4xb3": "Votre compte connecté est encore en cours de synchronisation. Réessayez dans un instant.",
+   "thisMatchSearchBelongsToA_0jaf4ky": "Cette recherche de match appartient à un autre compte connecté. Connectez-vous avec le compte qui l’a lancée pour récupérer le résultat.",
+   "yourSignedInAccountChangedWhile_1fuv3u3": "Votre compte connecté a changé pendant la préparation du matchmaking.",
+   "couldNotPrepareMatchmaking_1xtdki2": "Impossible de préparer le matchmaking.",
+   "theSelectedDeckChangedDuringMatchmaking_1v8xpbm": "Le deck sélectionné a changé pendant le matchmaking. Confirmation de l’annulation en cours.",
+   "theSelectedDeckChangedSearchingAgain_0ts77h7": "Le deck sélectionné a changé. Nouvelle recherche avec le deck actuel.",
+   "theSelectedDeckIsNoLonger_1cv3s89": "Le deck sélectionné n’est plus disponible. Choisissez un deck et relancez la recherche.",
+   "theSelectedDeckChangedWhileMatchmaking_14j2h5d": "Le deck sélectionné a changé pendant la préparation du matchmaking. Réessayez.",
+   "cancellationIsStillPendingUseCancel_192gt5u": "L’annulation est toujours en attente. Utilisez « Annuler la recherche » pour la confirmer.",
+   "couldNotConnectToMatchmaking_0y89oh0": "Impossible de se connecter au matchmaking.",
+   "theSelectedDeckChangedDuringMatchmaking_0w1avk4": "Le deck sélectionné a changé pendant le matchmaking. Lancez une nouvelle recherche.",
+   "theSelectedDeckOrAccountChanged_122nd5o": "Le deck sélectionné ou le compte a changé pendant le matchmaking. Confirmation de l’annulation en cours.",
+   "couldNotReconnectToMatchmakingResume_1j60ble": "Impossible de se reconnecter au matchmaking. Utilisez « Reprendre la recherche » pour vérifier le résultat exact.",
+   "couldNotConnectToMatchmakingTry_03g747t": "Impossible de se connecter au matchmaking. Réessayez.",
+   "cancellationIsStillPendingTryCancel_1a7k04m": "L’annulation est toujours en attente. Réessayez « Annuler la recherche ».",
+   "theMatchmakingServiceReturnedAMismatched_02admm0": "Le service de matchmaking a renvoyé un résultat d’annulation qui ne correspond pas.",
+   "cancellationResultIsUncertainResumeThe_02j2ydc": "Le résultat de l’annulation est incertain. Reprenez la recherche pour le confirmer.",
+   "cancellationResultIsUncertainTryCancel_1s2xg23": "Le résultat de l’annulation est incertain. Réessayez « Annuler la recherche ».",
+   "theJoinActionWasSuperseded_0tnr7st": "L’action pour rejoindre a été remplacée.",
+   "theRoomServiceReturnedMembershipFor_1iumuvz": "Le service de salles a renvoyé une adhésion pour une autre salle.",
+   "theSeatActionWasSuperseded_093s4ma": "L’action sur la place a été remplacée.",
+   "theSelectedDeckChangedWhileIt_01q0n2h": "Le deck sélectionné a changé pendant son inscription. Réessayez.",
+   "couldNotChangeTheRoomGame_1qgvzer": "Impossible de modifier le type de partie de la salle.",
+   "couldNotSwitchSeats_1a09w4f": "Impossible de changer de place.",
+   "couldNotRandomizeTeams_1ovaob8": "Impossible de répartir les équipes aléatoirement.",
+   "yourSignInTokenCouldNot_1vosjma": "Votre jeton de connexion n’a pas pu être actualisé automatiquement. Relancez la connexion ou reconnectez-vous.",
+   "signInVerificationIsStillUnavailable_09pt321": "La vérification de connexion est toujours indisponible. Votre salle n’est pas affectée ; réessayez quand la connexion sera rétablie.",
+   "yourSignedInAccountChangedWhile_0cwqcer": "Votre compte connecté a changé pendant la confirmation de l’accès à la salle. Réessayez.",
+   "deckStillSyncingTryAgainIn_0qhl6f4": "Deck en cours de synchronisation. Réessayez dans un instant.",
+   "thisSealedFormatIsNotAvailable_0z9lw1a": "Ce format Scellé n’est pas disponible en matchmaking public.",
+   "thisSealedFormatWasSentTo_0dae1xx": "Ce format Scellé a été envoyé dans le mauvais pool de matchmaking. Actualisez et réessayez.",
+   "runeDeckIsEmpty_1rw0hof": "Le deck de runes est vide.",
+   "runeNotFoundInDeck_1vid0jy": "Rune introuvable dans le deck.",
+   "bestOf1SealedRegistrationsCan_0v1adbl": "Les inscriptions Scellé en BO1 peuvent inclure au maximum 3 exemplaires réels de champs de bataille.",
+   "rewindCouldNotSafelyReconstructThat_0rhiw6d": "Le retour arrière n’a pas pu reconstruire ce point en toute sécurité. Resynchronisation du match.",
+   "thatRewindConfirmationIsNoLonger_0tn9kpf": "Cette confirmation de retour arrière n’est plus disponible.",
+   "onlyTheRequestedPlayerCanRespond_0vqfuiy": "Seul le joueur sollicité peut répondre à ce retour arrière.",
+   "onlyAnOpponentCanApproveOr_020pn21": "Seul un adversaire peut approuver ou refuser ce retour arrière ; seul le demandeur peut l’annuler.",
+   "theTimelineChangedSoThatRewind_15udoy2": "La chronologie a changé, la demande de retour arrière a donc été annulée.",
+   "theOtherPlayerIsNotAvailable_1bq99d3": "L’autre joueur n’est pas disponible pour confirmer ce retour arrière.",
+   "noOpponentIsAvailableToConfirm_0n5lh8u": "Aucun adversaire n’est disponible pour confirmer ce retour arrière.",
+   "anotherRewindConfirmationIsAlreadyPending_09tv77z": "Une autre confirmation de retour arrière est déjà en attente.",
+   "theRewindRequestCouldNotBe_166evjw": "La demande de retour en arrière n’a pas pu être créée. Veuillez réessayer.",
+   "forwardIsNoLongerAvailable_0vgf9uh": "L’option Avancer n’est plus disponible.",
+   "forwardCouldNotSafelyRestoreThat_109sua6": "Avancer n’a pas pu restaurer cette chronologie sans risque. Resynchronisation du match.",
+   "theRoomSessionChangedTryAgain_0aiy4j0": "La session de la salle a changé. Réessayez.",
+   "spectatorsCannotRespondToRewindConfirmations_0rcn3cd": "Les spectateurs ne peuvent pas répondre aux confirmations de retour en arrière.",
+   "spectatorsCannotNavigateMatchHistory_05z093i": "Les spectateurs ne peuvent pas parcourir l’historique du match.",
+   "couldNotLoadThatSealedRegistration_1wfqtx7": "Impossible de charger cette inscription Scellé.",
+   "couldNotLoadThatSealedRegistration_1a6t0co": "Impossible de charger cette inscription Scellé. Réessayez.",
+   "thatSealedRegistrationIsNoLonger_1c9uhig": "Cette inscription Scellé ne figure plus dans votre bibliothèque.",
+   "theOriginsQueueOnlyAllowsCards_0rp2r6o": "Cette file est réservée aux decks Origins.",
+   "deckCreationAndEditingAreTemporarily_13saxd8": "La création et la modification de decks sont temporairement désactivées.",
+   "deckCreationAndEditingAreTemporarily_0cox63n": "La création et la modification de decks sont temporairement désactivées pendant la maintenance planifiée.",
+   "deckCreationAndEditingAreTemporarily_1kvlavv": "La création et la modification de decks sont temporairement désactivées à partir de 30 minutes avant la maintenance planifiée.",
+   "deckNameIsRequired_03j6bww": "Le nom du deck est obligatoire.",
+   "thisDeckMustMeetStandardRules_0igary7": "Ce deck doit respecter les règles Standard pour être enregistré.",
+   "signInToSaveThisDeck_0rulrtm": "Connectez-vous pour enregistrer ce deck.",
+   "couldNotSaveDeck_0djucbx": "Impossible d’enregistrer le deck.",
+   "chooseAStarRatingBeforeSending_0xw3q58": "Choisissez une note en étoiles avant d’envoyer votre avis.",
+   "couldNotSendFeedbackRightNow_083idq6": "Impossible d’envoyer votre avis pour le moment.",
+   "thisSeatWasResumedFromAnother_0d0vlkz": "Cette place a été reprise depuis un autre onglet ou appareil.",
+   "theLiveRealtimeMatchRuntimeCould_1i5kd7g": "Le service de match en temps réel n’a pas pu démarrer automatiquement après plusieurs tentatives. Relancez la connexion.",
+   "theLiveRealtimeMatchRuntimeIs_0jp3ws6": "Le service de match en temps réel n’est plus disponible. Cela peut arriver après un déploiement ou un redémarrage de la salle, et la partie en cours ne peut pas reprendre automatiquement.",
+   "thisRoomIsUnavailableTheServer_1j9f5qr": "Cette salle est indisponible : le serveur ne peut plus la charger. Retournez au salon pour lancer une nouvelle partie.",
+   "theLiveRealtimeMatchRuntimeIs_1us0417": "Le service de match en temps réel n’est pas actif.",
+   "theLiveRealtimeMatchRuntimeIs_0ml1bts": "Le service de match en temps réel démarre encore. Veuillez patienter un instant.",
+   "realtimeMatchStateIsResyncingPlease_1ho6u4u": "L’état du match en temps réel est en cours de resynchronisation. Veuillez patienter un instant.",
+   "theRealtimeRoomSessionEnded_1q9zu12": "La session de la salle en temps réel est terminée.",
+   "theRealtimeRoomConnectionClosedBefore_1o86fgz": "La connexion à la salle en temps réel s’est fermée avant la fin de l’action.",
+   "theRealtimeRoomConnectionClosedBefore_0dvrzz5": "La connexion à la salle en temps réel s’est fermée avant la fin de la mise à jour de la visibilité des spectateurs.",
+   "theRealtimeRoomDidNotAcknowledge_1oxiz9v": "La salle en temps réel n’a pas confirmé la visibilité des spectateurs.",
+   "theRealtimeRoomDidNotAcknowledge_0du8hoz": "La salle en temps réel n’a pas confirmé l’action.",
+   "gameplayActionAlreadyPending_17llbcs": "Une action de jeu est déjà en attente.",
+   "baronNashorMustCreateAndEnter_1c0kv33": "Baron Nashor doit créer l’Antre du baron et y entrer.",
+   "baronPitIsNotActive_1d4y4az": "L’Antre du baron n’est pas actif.",
+   "theRequestedGameInstanceDoesNot_1j1cwww": "L’instance de partie demandée ne correspond pas à cette salle de match.",
+   "joinTheMatchRoomBeforeSending_1spx7ac": "Rejoignez la salle de match avant d’envoyer des actions de jeu.",
+   "theMatchRoomIsNotInitialized_1r3ieqh": "La salle de match n’est pas encore initialisée.",
+   "aNewerConnectionForThisPlayer_0zs7m7i": "Une connexion plus récente de ce joueur a pris le contrôle de la session de match.",
+   "noUndoSnapshotIsAvailable_06u6m5z": "Aucun instantané d’annulation n’est disponible.",
+   "thisPlayerCannotActInThe_1pinjyi": "Ce joueur ne peut pas encore agir dans le match.",
+   "thatActionCouldNotBeApplied_1qt9bsk": "Cette action n’a pas pu être appliquée.",
+   "realtimeSeatAuthorizationIsUnavailable_14ftv18": "L’autorisation de la place de joueur en temps réel est indisponible.",
+   "realtimeSpectatorVisibilityCouldNotBe_0dxr124": "Impossible de restaurer la visibilité des spectateurs en temps réel.",
+   "thisSpectatorSessionIsNotAuthorized_03p6bol": "Cette session de spectateur n’est pas autorisée pour la salle.",
+   "realtimeSpectatorAuthorizationIsUnavailable_0um1xrc": "L’autorisation des spectateurs en temps réel est indisponible.",
+   "theMatchRuntimeCouldNotBe_06ixe9z": "Impossible de restaurer le service de match pour les spectateurs.",
+   "theMatchRuntimeCouldNotBe_15jrcma": "Impossible d’initialiser le service de match.",
+   "theMatchRuntimeIsNotInitialized_1akkauc": "Le service de match n’est pas encore initialisé.",
+   "theMatchRuntimeCouldNotBe_175ldkq": "Impossible de restaurer le service de match.",
+   "theGameplayActionPayloadIsMalformed_0of1p39": "Les données de l’action de jeu sont mal formées.",
+   "thisConnectionCannotActForAnother_00d63x7": "Cette connexion ne peut pas agir pour un autre joueur.",
+   "thisActionStillBelongsToThe_1qqciso": "Cette action relève encore du backend géré.",
+   "theMatchActionCouldNotBe_0gpjzeh": "L’action de match n’a pas pu être enregistrée. Réessayez dans un instant.",
+   "theMatchActionCouldNotBe_12u3t9i": "L’action de match n’a pas pu être vérifiée. Réessayez dans un instant.",
+   "joinTheMatchRoomBeforeChanging_09fhemr": "Rejoignez la salle de match avant de modifier la visibilité des spectateurs.",
+   "onlyTheGrantingPlayerCanChange_0cffmkg": "Seul le joueur qui accorde l’accès peut modifier sa visibilité pour les spectateurs.",
+   "aSpecificSpectatorGrantRequiresA_0nrf5h7": "Un accès accordé à un spectateur précis nécessite un spectateur connecté.",
+   "spectatorVisibilityCouldNotBeRestored_1fc3flf": "Impossible de restaurer la visibilité des spectateurs.",
+   "spectatorVisibilityCouldNotBeSaved_0ol8ptq": "Impossible d’enregistrer la visibilité des spectateurs.",
+   "spectatorVisibilityCouldNotBeQueued_1gdshh4": "Impossible de mettre en file d’attente la synchronisation de la visibilité des spectateurs.",
+   "presenceUpdatesMustIncludeHoverPing_049ry2r": "Les mises à jour de présence doivent inclure des données de survol, de signal, d’émoticône ou de saisie.",
+   "onlyJsonStringMessagesAreSupported_0fxeiys": "Seuls les messages sous forme de chaîne JSON sont pris en charge pour le moment.",
+   "theRealtimeMessagePayloadIsToo_0mseekp": "Les données du message en temps réel sont trop volumineuses.",
+   "couldNotParseTheRealtimeMessage_1l6twqt": "Impossible d’analyser les données du message en temps réel.",
+   "theRealtimeRoomIsConnectedBut_17d878g": "La salle en temps réel est connectée, mais les actions de jeu passent encore par le backend géré.",
+   "chooseDocksideLockUpAtA_1cpjazd": "Choisissez Geôle des quais sur un champ de bataille.",
+   "docksideLockUpAlreadyHasA_0mc5blh": "Geôle des quais a déjà une carte bannie.",
+   "chooseAUnitAtThatBattlefield_14mkz0z": "Choisissez une unité sur ce champ de bataille.",
+   "thatCardIsNotLinkedTo_0bojwzc": "Cette carte n’est pas liée à cette Geôle des quais.",
+   "chooseAnEmpoweredKharoxInPlay_1u3s0jv": "Choisissez un Kharox amplifié en jeu.",
+   "kharoxAlreadyPlayedACardFor_1xda5so": "Kharox a déjà joué une carte pour cette Amplification.",
+   "chooseAUnitInAnOpponent_06j2jao": "Choisissez une unité dans la défausse d’un adversaire.",
+   "thatCardCannotBePlayedThere_0b6njir": "Cette carte ne peut pas être jouée à cet endroit.",
+   "chooseASupportedDieType_0dndfyp": "Choisissez un type de dé pris en charge."
+  },
+  "patterns": {
+   "noRoomFoundForCode": [
+    "Aucune salle trouvée pour le code ",
+    [
+     "code"
+    ],
+    ". Vérifiez le code de salle et réessayez."
+   ],
+   "savedRegistrationRequired": [
+    [
+     "action",
+     1,
+     {
+      "room": [
+       "Sélectionnez une inscription ",
+       [
+        "formatKind",
+        1,
+        {
+         "sealed": "Scellé",
+         "other": [
+          [
+           "format"
+          ]
+         ]
+        }
+       ],
+       " enregistrée avant de créer une salle."
+      ],
+      "other": [
+       "Sélectionnez une inscription ",
+       [
+        "formatKind",
+        1,
+        {
+         "sealed": "Scellé",
+         "other": [
+          [
+           "format"
+          ]
+         ]
+        }
+       ],
+       " enregistrée avant de rechercher un match."
+      ]
+     }
+    ]
+   ],
+   "requiredFeedbackField": [
+    [
+     "field",
+     1,
+     {
+      "feedbackPromptId": "Identifiant de la demande d’avis",
+      "feedbackClientId": "Identifiant client des avis",
+      "roomCode": "Code de salle",
+      "adId": "Identifiant de l’annonce",
+      "adTitle": "Titre de l’annonce",
+      "adHref": "Lien de l’annonce",
+      "other": [
+       [
+        "field"
+       ]
+      ]
+     }
+    ],
+    " est obligatoire."
+   ],
+   "changedMatchmakingRegistration": [
+    [
+     "subject",
+     1,
+     {
+      "sealed": "Votre inscription Scellé a changé, la recherche de match précédente a donc été annulée.",
+      "other": "Votre deck a changé, la recherche de match précédente a donc été annulée."
+     }
+    ]
+   ],
+   "savedDeckLimit": [
+    "Nombre maximal de decks enregistrés atteint (",
+    [
+     "limit"
+    ],
+    ")."
+   ],
+   "mainDeckSafetyLimit": [
+    "Le deck principal peut contenir au maximum ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    ". Il en contient ",
+    [
+     "found"
+    ],
+    "."
+   ],
+   "roomApiRequestFailure": [
+    "Échec de la requête à l’API des salles (",
+    [
+     "status"
+    ],
+    ")."
+   ],
+   "missingBattlefields": [
+    "Il manque des champs de bataille dans le deck de ",
+    [
+     "player"
+    ],
+    "."
+   ],
+   "rebuiltOutsidePool": [
+    "Le deck reconstruit contient des cartes absentes du pool ",
+    [
+     "format"
+    ],
+    " enregistré."
+   ],
+   "hiddenZone": [
+    "Seules les cartes de la zone ",
+    [
+     "zone"
+    ],
+    " peuvent être cachées."
+   ],
+   "invalidBo3Snapshot": [
+    "Instantané de deck BO3 invalide : ",
+    [
+     "detail"
+    ]
+   ],
+   "ambiguousBo3Snapshot": [
+    "Instantané de deck BO3 ambigu : ",
+    [
+     "detail"
+    ]
+   ],
+   "missingBo3Snapshot": [
+    "Instantané de deck BO3 manquant pour ",
+    [
+     "player"
+    ],
+    ". Lancez un nouveau match."
+   ],
+   "sealedRegistrationNotReady": [
+    "L’inscription ",
+    [
+     "format"
+    ],
+    " enregistrée n’est pas encore prête pour jouer."
+   ],
+   "mismatchedSealedFormat": [
+    "Les deux joueurs doivent utiliser le même format Scellé. Cette salle utilise ",
+    [
+     "format"
+    ],
+    "."
+   ],
+   "missingNextDeck": [
+    "Impossible de trouver le ",
+    [
+     "deckKind",
+     1,
+     {
+      "submitted": "deck soumis",
+      "other": "deck inscrit"
+     }
+    ],
+    " de ",
+    [
+     "player"
+    ],
+    " pour la prochaine partie."
+   ],
+   "invalidNextDeck": [
+    "Le ",
+    [
+     "deckKind",
+     1,
+     {
+      "submitted": "deck soumis",
+      "other": "deck inscrit"
+     }
+    ],
+    " de ",
+    [
+     "player"
+    ],
+    " n’est plus valide pour la prochaine partie."
+   ],
+   "judgeCallRetry": [
+    [
+     "reason",
+     1,
+     {
+      "tooMany": [
+       "Trop d’appels à un arbitre. Réessayez dans ",
+       [
+        "seconds"
+       ],
+       " ",
+       [
+        "secondsPlural",
+        2,
+        {
+         "one": "seconde",
+         "other": "secondes"
+        }
+       ],
+       "."
+      ],
+      "other": [
+       "L’appel à un arbitre est encore en cours de coordination. Réessayez dans ",
+       [
+        "seconds"
+       ],
+       " ",
+       [
+        "secondsPlural",
+        2,
+        {
+         "one": "seconde",
+         "other": "secondes"
+        }
+       ],
+       "."
+      ]
+     }
+    ]
+   ],
+   "unknownHeaderIgnored": [
+    "En-tête de section inconnu « ",
+    [
+     "header"
+    ],
+    " ». Section ignorée."
+   ],
+   "unknownHeaderSuggestionIgnored": [
+    "En-tête de section inconnu « ",
+    [
+     "header"
+    ],
+    " ». Vouliez-vous dire « ",
+    [
+     "suggestion"
+    ],
+    " » ? Section ignorée."
+   ],
+   "unknownHeaderSuggestion": [
+    "En-tête de section inconnu « ",
+    [
+     "header"
+    ],
+    " ». Vouliez-vous dire « ",
+    [
+     "suggestion"
+    ],
+    " » ?"
+   ],
+   "couldNotParse": [
+    "Impossible d’analyser « ",
+    [
+     "line"
+    ],
+    " ». Utilisez un format comme « ",
+    [
+     "example"
+    ],
+    " » ou « ",
+    [
+     "alternative"
+    ],
+    " »."
+   ],
+   "cardBeforeHeader": [
+    "L’entrée de carte « ",
+    [
+     "entry"
+    ],
+    " » apparaît avant un en-tête de section connu et a été ignorée."
+   ],
+   "deckCodeUnknown": [
+    "Code de carte inconnu « ",
+    [
+     "code"
+    ],
+    " » dans le code de deck."
+   ],
+   "unknownCardCode": [
+    "Code de carte « ",
+    [
+     "code"
+    ],
+    " » introuvable dans ",
+    [
+     "section"
+    ],
+    "."
+   ],
+   "nameCodeMismatch": [
+    "« ",
+    [
+     "name"
+    ],
+    " » ne correspond pas au code de carte « ",
+    [
+     "code"
+    ],
+    " » (",
+    [
+     "codeName"
+    ],
+    ")."
+   ],
+   "tokenIncluded": [
+    "« ",
+    [
+     "card"
+    ],
+    " » est une création et ne peut pas être ajoutée à une liste de deck."
+   ],
+   "belongsUnder": [
+    "« ",
+    [
+     "card"
+    ],
+    " » doit figurer dans ",
+    [
+     "expected"
+    ],
+    ", pas dans ",
+    [
+     "actual"
+    ],
+    "."
+   ],
+   "invalidSectionCard": [
+    "« ",
+    [
+     "card"
+    ],
+    " » n’est pas une carte ",
+    [
+     "section"
+    ],
+    " valide."
+   ],
+   "unknownCard": [
+    "Carte « ",
+    [
+     "card"
+    ],
+    " » introuvable dans ",
+    [
+     "section"
+    ],
+    ".",
+    [
+     "suggestionsPresent",
+     1,
+     {
+      "yes": [
+       " ",
+       [
+        "suggestions"
+       ]
+      ],
+      "other": ""
+     }
+    ]
+   ],
+   "missingSection": [
+    "Section obligatoire manquante : ",
+    [
+     "section"
+    ],
+    "."
+   ],
+   "exactCount": [
+    "La section ",
+    [
+     "section"
+    ],
+    " doit contenir exactement ",
+    [
+     "required"
+    ],
+    " ",
+    [
+     "requiredPlural",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    ". Actuellement : ",
+    [
+     "found"
+    ],
+    "."
+   ],
+   "atMostCount": [
+    "La section ",
+    [
+     "section"
+    ],
+    " peut contenir au maximum ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    ". Actuellement : ",
+    [
+     "found"
+    ],
+    "."
+   ],
+   "atLeastCount": [
+    "La section ",
+    [
+     "section"
+    ],
+    " doit contenir au moins ",
+    [
+     "required"
+    ],
+    " ",
+    [
+     "requiredPlural",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    ". Actuellement : ",
+    [
+     "found"
+    ],
+    "."
+   ],
+   "outsideDomainIdentity": [
+    "La section ",
+    [
+     "section"
+    ],
+    " contient « ",
+    [
+     "card"
+    ],
+    " », dont ",
+    [
+     "domainCount",
+     1,
+     {
+      "one": [
+       "le domaine ",
+       [
+        "cardDomains"
+       ],
+       " ne fait"
+      ],
+      "other": [
+       "les domaines ",
+       [
+        "cardDomains"
+       ],
+       " ne font"
+      ]
+     }
+    ],
+    " pas partie de l’identité de domaines ",
+    [
+     "deckDomains"
+    ],
+    " de ce deck."
+   ],
+   "signatureCount": [
+    "Le deck principal contient ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "countPlural",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    " Signature. Au maximum ",
+    [
+     "max"
+    ],
+    " au total."
+   ],
+   "rawCharacterLimit": [
+    "La liste de deck ne peut pas dépasser ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "caractère",
+      "other": "caractères"
+     }
+    ],
+    ". Actuellement : ",
+    [
+     "found"
+    ],
+    "."
+   ],
+   "maxCopies": [
+    "La section ",
+    [
+     "section"
+    ],
+    " contient ",
+    [
+     "copies"
+    ],
+    " ",
+    [
+     "copiesPlural",
+     2,
+     {
+      "one": "exemplaire",
+      "other": "exemplaires"
+     }
+    ],
+    " de « ",
+    [
+     "card"
+    ],
+    " ». Maximum autorisé : ",
+    [
+     "max"
+    ],
+    "."
+   ],
+   "sideboardCount": [
+    "La réserve peut contenir au maximum ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    ". Actuellement : ",
+    [
+     "found"
+    ],
+    "."
+   ],
+   "expandedCardLimit": [
+    "La liste de deck peut contenir au maximum ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    ". Actuellement : ",
+    [
+     "found"
+    ],
+    "."
+   ],
+   "constructedBan": [
+    "« ",
+    [
+     "card"
+    ],
+    " » est bannie en ",
+    [
+     "format"
+    ],
+    "."
+   ],
+   "crossSectionCopies": [
+    "« ",
+    [
+     "card"
+    ],
+    " » apparaît ",
+    [
+     "copies"
+    ],
+    " fois au total entre le champion, le deck principal et la réserve. Maximum autorisé : ",
+    [
+     "max"
+    ],
+    ".",
+    [
+     "splitPresent",
+     1,
+     {
+      "yes": [
+       " Répartition actuelle : ",
+       [
+        "split"
+       ],
+       "."
+      ],
+      "other": ""
+     }
+    ]
+   ],
+   "signatureLegendMismatch": [
+    "La section ",
+    [
+     "section"
+    ],
+    " contient « ",
+    [
+     "card"
+    ],
+    " », une carte ",
+    [
+     "cardType"
+    ],
+    " Signature de ",
+    [
+     "signatureLegend"
+    ],
+    ". Avec la légende ",
+    [
+     "legend"
+    ],
+    ", vous ne pouvez pas utiliser les cartes Signature d’autres légendes."
+   ],
+   "championLegendMismatch": [
+    "La section Champion contient « ",
+    [
+     "card"
+    ],
+    " », qui n’est pas une unité champion valide pour ",
+    [
+     "legend"
+    ],
+    ". Choisissez une unité non Signature avec le tag ",
+    [
+     "tag"
+    ],
+    "."
+   ],
+   "noBattlefields": "La liste de deck ne contient aucun champ de bataille.",
+   "noMainDeck": "La liste de deck ne contient aucun deck principal.",
+   "decodedDeckWithoutSingleLegend": "Le deck décodé n’a pas de légende unique permettant de déduire la section Champion. Choisissez le champion manuellement après le décodage.",
+   "decodedDeckWithoutClearChampion": "Le deck décodé ne contient pas d’unité champion clairement associée à sa légende. Choisissez le champion manuellement après le décodage.",
+   "decodedDeckWithMultipleChampions": "Le deck décodé contient plusieurs unités champion valides pour sa légende. Choisissez le champion manuellement après le décodage.",
+   "pasteDeckCodeFirst": "Collez d’abord un code de deck Riftbound.",
+   "deckIncomplete": "Ce deck est incomplet.",
+   "invalidUnleashedRegistration": "Inscription Unleashed Pre-Rift invalide.",
+   "noPlayableDeckSaved": "Aucun deck jouable n’a encore été enregistré pour ce pool.",
+   "registrationNotReady": "Cette inscription n’est pas prête pour jouer.",
+   "missingSavedPoolData": [
+    "Ce joueur n’a pas de données de pool ",
+    [
+     "format"
+    ],
+    " enregistrées."
+   ],
+   "sealedRegistrationMissingSeed": "L’inscription Scellé enregistrée ne contient pas sa graine canonique ou ses sélections de construction.",
+   "sealedRegistrationUnsupportedFormat": "L’inscription Scellé enregistrée utilise un format non pris en charge.",
+   "sealedPoolNotGenerated": "Impossible de générer le pool Scellé canonique.",
+   "invalidSideboardSelection": "Sélection de la réserve invalide.",
+   "skippedSwapsChampion": "Après avoir passé les échanges de cartes, choisissez un champion dans votre deck principal soumis. La réserve doit rester inchangée.",
+   "sealedCardLimit": [
+    "Un deck ",
+    [
+     "format"
+    ],
+    " peut contenir au maximum 1 ",
+    [
+     "card"
+    ],
+    "."
+   ],
+   "sealedSideboard": [
+    "Les inscriptions ",
+    [
+     "format"
+    ],
+    " n’utilisent pas de réserve."
+   ],
+   "championUnit": [
+    "Le champion « ",
+    [
+     "card"
+    ],
+    " » doit être une unité champion."
+   ],
+   "invalidBasicRune": [
+    "« ",
+    [
+     "card"
+    ],
+    " » n’est pas une carte de rune de base."
+   ],
+   "tokenRegistration": [
+    "« ",
+    [
+     "card"
+    ],
+    " » est une création et ne peut pas être inscrite au format ",
+    [
+     "format"
+    ],
+    "."
+   ],
+   "championDomain": [
+    "Le champion « ",
+    [
+     "card"
+    ],
+    " » doit correspondre à au moins un domaine utilisé."
+   ],
+   "coreCount": [
+    "Le deck de base doit contenir au moins ",
+    [
+     "min"
+    ],
+    " ",
+    [
+     "minPlural",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    " (champion inclus). Actuellement : ",
+    [
+     "found"
+    ],
+    "."
+   ],
+   "runeCount": [
+    "Le total de runes doit être de ",
+    [
+     "required"
+    ],
+    ". Actuellement : ",
+    [
+     "found"
+    ],
+    "."
+   ],
+   "sealedDomains": [
+    "Un deck ",
+    [
+     "format"
+    ],
+    " peut utiliser au maximum ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "domaine",
+      "other": "domaines"
+     }
+    ],
+    ". Actuellement : ",
+    [
+     "found"
+    ],
+    "."
+   ],
+   "outsidePool": [
+    "La section ",
+    [
+     "section"
+    ],
+    " contient des cartes absentes du pool ",
+    [
+     "format"
+    ],
+    " enregistré."
+   ],
+   "sideboardLimit": [
+    "La réserve peut contenir au maximum ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    "."
+   ],
+   "sideboardChangesSameCards": "Les modifications de réserve doivent utiliser les mêmes cartes que votre champion, votre deck principal et votre réserve d’origine.",
+   "selectedChampionNotFound": "Le champion sélectionné est introuvable dans le catalogue de cartes.",
+   "sideboardChampion": [
+    "Le champion « ",
+    [
+     "card"
+    ],
+    " » n’est pas une unité champion valide pour ",
+    [
+     "legend"
+    ],
+    "."
+   ],
+   "duplicateManifestInstance": [
+    "Le manifeste du pool Scellé contient l’instance en double « ",
+    [
+     "instance"
+    ],
+    " »."
+   ],
+   "missingManifestCard": [
+    "La carte « ",
+    [
+     "card"
+    ],
+    " » du manifeste du pool Scellé est absente du catalogue de cartes."
+   ],
+   "duplicatePoolInstance": [
+    "L’instance de pool « ",
+    [
+     "instance"
+    ],
+    " » apparaît plusieurs fois."
+   ],
+   "missingPoolCard": [
+    "La carte du pool « ",
+    [
+     "card"
+    ],
+    " » est absente du catalogue de cartes."
+   ],
+   "duplicateSelectedInstance": [
+    "L’instance de pool « ",
+    [
+     "instance"
+    ],
+    " » a été sélectionnée plusieurs fois."
+   ],
+   "foreignPoolInstance": [
+    "L’instance de pool « ",
+    [
+     "instance"
+    ],
+    " » n’appartient pas à ce pool Scellé."
+   ],
+   "invalidPoolSection": [
+    "« ",
+    [
+     "card"
+    ],
+    " » ne peut pas être sélectionnée dans ",
+    [
+     "section"
+    ],
+    "."
+   ],
+   "unknownSealedFormat": [
+    "Format Scellé inconnu « ",
+    [
+     "format"
+    ],
+    " »."
+   ],
+   "unsupportedSealedFormat": [
+    "Format Scellé non pris en charge « ",
+    [
+     "format"
+    ],
+    " »."
+   ],
+   "invalidSealedRuneDomain": [
+    "« ",
+    [
+     "domain"
+    ],
+    " » n’est pas un domaine de rune Scellé valide."
+   ],
+   "invalidSealedRuneCount": [
+    "Le nombre de runes ",
+    [
+     "domain"
+    ],
+    " doit être un entier positif ou nul."
+   ],
+   "missingCanonicalRune": [
+    "La rune canonique « ",
+    [
+     "rune"
+    ],
+    " » est absente du catalogue de cartes."
+   ],
+   "suggestionSingle": [
+    "Vouliez-vous dire « ",
+    [
+     "suggestion"
+    ],
+    " » ?"
+   ],
+   "suggestionPair": [
+    "Vouliez-vous dire « ",
+    [
+     "first"
+    ],
+    " » ou « ",
+    [
+     "second"
+    ],
+    " » ?"
+   ],
+   "suggestionList": [
+    "Vouliez-vous dire ",
+    [
+     "suggestions"
+    ],
+    " ?"
+   ]
+  },
+  "parts": {
+   "suggestionItem": [
+    "« ",
+    [
+     "value"
+    ],
+    " »"
+   ],
+   "listSeparator": ", ",
+   "listLastSeparator": ", ",
+   "splitSeparator": ", ",
+   "splitChampion": "Champion",
+   "splitMainDeck": "Deck principal",
+   "splitSideboard": "Réserve"
+  }
+ }
+}

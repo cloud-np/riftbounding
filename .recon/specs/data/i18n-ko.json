@@ -1,0 +1,1661 @@
+{
+ "$comment": "Compiled next-intl catalog (keys are `key_<hash>`; hash is derived from the key path and is identical across locales). Source chunk: 3uxppa2k0kx93.js",
+ "locale": "ko",
+ "ui": {
+  "exact": {
+   "anActiveLegendOrHigherMembership_15fpunm": "포로 이모트를 사용하려면 활성 상태의 Legend 이상 멤버십이 필요합니다.",
+   "signInToManageCommunityDecks_0jnr3ma": "커뮤니티 덱을 관리하려면 로그인하세요.",
+   "commentTextIsRequired_1x2vk1m": "댓글 내용을 입력해야 합니다.",
+   "publishedDeckNotFound_062d0k3": "게시된 덱을 찾을 수 없습니다.",
+   "savedDeckNotFound_1lv2mum": "저장된 덱을 찾을 수 없습니다.",
+   "onlyReadyDecksCanBePublished_0sphywb": "완성된 덱만 게시할 수 있습니다.",
+   "onlyReadyDecksCanBeLiked_0ek2d5e": "완성된 덱만 좋아요를 누를 수 있습니다.",
+   "onlyReadyDecksCanBeCommented_0n5h7bs": "완성된 덱에만 댓글을 달 수 있습니다.",
+   "commentNotFound_11kj1b7": "댓글을 찾을 수 없습니다.",
+   "onlyReadyDecksCanBeCloned_1pve3gy": "완성된 덱만 복제할 수 있습니다.",
+   "signInToManageSavedDecks_0a710e4": "저장된 덱을 관리하려면 로그인하세요.",
+   "chooseOrImportADeckFirst_1hnk5ei": "먼저 덱을 선택하거나 가져오세요.",
+   "loadingTheLatestSavedDeck_1vbvs01": "최근 저장된 덱을 불러오는 중…",
+   "loadingTheRequestedSavedDeck_0f7droe": "요청한 저장된 덱을 불러오는 중…",
+   "theDeckLibraryIsReconnectingTry_0kum4ue": "덱 라이브러리에 다시 연결하는 중입니다. 잠시 후 다시 시도하세요.",
+   "signInToLoadASaved_1da1a5t": "저장된 덱을 불러오려면 로그인하세요.",
+   "thatSavedDeckNoLongerExists_0tj1nvm": "해당 저장된 덱이 더 이상 존재하지 않습니다.",
+   "thatSavedDeckCouldNotBe_00bzies": "해당 저장된 덱을 불러올 수 없습니다.",
+   "thisDeckCannotBeAssignedUnder_0ijpa35": "이 덱은 무제한 규칙에 따라 지정할 수 없습니다.",
+   "thisDeckIsNotReadyTo_05cv6v5": "이 덱은 아직 플레이할 수 없습니다.",
+   "waitForTheSavedDeckLibrary_195l2lz": "저장된 덱 라이브러리의 로그인이 완료될 때까지 기다리세요.",
+   "signInToLoadTheSelected_1yijkd6": "선택한 저장된 덱을 불러오려면 로그인하세요.",
+   "theSelectedDeckChangedWhileIt_11vg34a": "불러오는 동안 선택한 덱이 변경되었습니다. 다시 시도하세요.",
+   "theSelectedSavedDeckNoLonger_0thrt30": "선택한 저장된 덱이 더 이상 존재하지 않습니다. 다른 덱을 선택하세요.",
+   "theSelectedSavedDeckCouldNot_108kfug": "선택한 저장된 덱을 불러올 수 없습니다. 다시 시도하거나 다른 덱을 선택하세요.",
+   "theSelectedSavedDeckIsIncomplete_1k286kn": "선택한 저장된 덱이 완성되지 않았습니다.",
+   "couldNotChangeTheSelectedDeck_0wo0y8j": "선택한 덱을 변경할 수 없습니다. 다시 시도하세요.",
+   "theSavedDeckForThatAction_1vtq7ys": "해당 작업에 사용할 저장된 덱이 완성되지 않았습니다.",
+   "theDeckLibraryIsReconnectingYour_1v68ly7": "덱 라이브러리에 다시 연결하는 중입니다. 방 작업은 유지되었으니 잠시 후 다시 시도하세요.",
+   "theRestoredDeckIsIncomplete_04ponpv": "복원된 덱이 완성되지 않았습니다.",
+   "thisSavedDeckIsUnavailableChoose_0azqcmy": "이 저장된 덱을 사용할 수 없습니다. 다른 덱을 선택하세요.",
+   "thisSavedDeckCouldNotBe_1mer660": "이 저장된 덱을 불러올 수 없습니다. 다른 덱을 선택하세요.",
+   "thisDeckNeedsAnUpdateBefore_0qv79sx": "이 덱을 플레이하려면 먼저 업데이트해야 합니다.",
+   "theDeckEditorIsNotConnected_1y0x6vc": "덱 편집기가 이 미리 보기 배포에 연결되어 있지 않습니다.",
+   "yourPreviouslySelectedSavedDeckIs_036a7k3": "이전에 선택한 저장된 덱을 더 이상 사용할 수 없습니다. 다른 덱을 선택하세요.",
+   "yourPreviouslySelectedSavedDeckCould_1gl915h": "이전에 선택한 저장된 덱을 읽을 수 없습니다. 다른 덱을 선택하세요.",
+   "theDeckLibraryIsReconnectingPlease_0qdnks2": "덱 라이브러리에 다시 연결하는 중입니다. 잠시 후 다시 시도하세요.",
+   "signInToRenameASaved_182qv37": "저장된 덱의 이름을 바꾸려면 로그인하세요.",
+   "signInToDeleteASaved_15jvcl2": "저장된 덱을 삭제하려면 로그인하세요.",
+   "couldNotDeleteSavedDeck_1xk9fd8": "저장된 덱을 삭제할 수 없습니다.",
+   "couldNotLoadThatSavedDeck_1i1simk": "해당 저장된 덱을 불러올 수 없습니다.",
+   "signInCompletedButThatSaved_0gje15s": "로그인은 완료되었지만 해당 저장된 덱이 유효하지 않습니다.",
+   "signInCompletedButThatSaved_1vtnq9s": "로그인은 완료되었지만 해당 저장된 덱을 더 이상 사용할 수 없습니다.",
+   "yourSaveRequestIsPreservedThe_0k9rldv": "저장 요청이 유지되었습니다. 덱 라이브러리에 아직 다시 연결하는 중이니 잠시 후 다시 저장하세요.",
+   "savedDeckContentsAreMissing_0eg1j1z": "저장된 덱 내용이 없습니다.",
+   "savedDeckContentsAreInvalid_1qd3q4u": "저장된 덱 내용이 유효하지 않습니다.",
+   "storedDeckCodeIsEmpty_0qo96hh": "저장된 덱 코드가 비어 있습니다.",
+   "generatedSealedPoolIdentityDoesNot_1hkd133": "생성된 밀봉 카드 풀 식별자가 요청한 형식 및 시드와 일치하지 않습니다.",
+   "generatedSealedPoolMustContainExactly_0czx1eu": "생성된 밀봉 카드 풀에는 스타터 키트 영역이 정확히 2개 포함되어야 합니다.",
+   "signInToManageSavedSealed_02zn16m": "저장된 밀봉 초안을 관리하려면 로그인하세요.",
+   "draftNameIsRequired_06irvp0": "초안 이름을 입력해야 합니다.",
+   "savedSealedDraftNotFound_1b23kcs": "저장된 밀봉 초안을 찾을 수 없습니다.",
+   "aSavedSealedDraftCannotChange_0v734o0": "저장된 밀봉 초안은 카드 풀 시드를 변경할 수 없습니다.",
+   "aSavedSealedDraftCannotChange_1pfqnig": "저장된 밀봉 초안은 밀봉 형식을 변경할 수 없습니다.",
+   "sealedPoolMustContainExactlyTwo_0znnqwv": "밀봉 카드 풀에는 스타터 키트 영역이 정확히 2개 포함되어야 합니다.",
+   "registeredDeckIsNotInThis_00used2": "등록된 덱이 이 밀봉 카드 풀에 속하지 않습니다.",
+   "thisHistoricalSealedDraftHasAn_0ltpsxf": "이 이전 밀봉 초안의 보관된 카드 풀 목록이 유효하지 않습니다. 변경된 데이터는 없습니다.",
+   "thisHistoricalSealedDraftSArchived_1fmwhqd": "이 이전 밀봉 초안의 보관된 목록이 저장된 카드 풀 식별자와 일치하지 않습니다. 변경된 데이터는 없습니다.",
+   "thisHistoricalSealedRegistrationCannotBe_1q3gk67": "정확한 카드 풀 목록을 사용할 수 없어 이 이전 밀봉 등록으로 플레이할 수 없습니다.",
+   "thisHistoricalSealedDraftHasInconsistent_1icpqse": "이 이전 밀봉 초안의 보관 상태가 일관되지 않습니다. 변경된 데이터는 없습니다.",
+   "thisHistoricalSealedRegistrationUsesA_1al8ue2": "이 이전 밀봉 등록은 더 이상 플레이할 수 없는 카드 풀 버전을 사용합니다.",
+   "thisHistoricalSealedRegistrationSArchived_1phzjmq": "이 이전 밀봉 등록의 보관된 카드 풀이 플레이 가능한 목록과 더 이상 일치하지 않습니다.",
+   "thisHistoricalSealedRegistrationNoLonger_009hzek": "이 이전 밀봉 등록이 저장된 카드 풀 선택과 더 이상 일치하지 않습니다.",
+   "thisSealedRegistrationCouldNotBe_15uyx5m": "이 밀봉 등록을 안전하게 불러올 수 없습니다.",
+   "fromRecipientsSubjectAndMessageBody_1lgbeu2": "보낸 사람, 받는 사람, 제목, 메일 본문은 모두 필수입니다.",
+   "senderMustBeAValidRiftatlas_09vfomq": "보낸 사람은 유효한 @riftatlas.com 주소여야 합니다.",
+   "authRiftatlasComIsReservedFor_09hkmy1": "auth@riftatlas.com 주소는 계정 메일 전용입니다.",
+   "pleaseEnterValidRecipientEmailAddresses_1xk29da": "유효한 받는 사람 이메일 주소를 입력하세요.",
+   "unableToSendTheEmail_11uqwp2": "이메일을 보낼 수 없습니다.",
+   "aReplySubjectAndMessageBody_0v732kl": "답장 제목과 메일 본문이 필요합니다.",
+   "unableToLoadTheOriginalEmail_08uqqwl": "원본 이메일을 불러올 수 없습니다.",
+   "unableToLoadSelectedMessage_00njk01": "선택한 메일을 불러올 수 없습니다.",
+   "thisMessageDoesNotExposeA_1v8so9p": "이 메일에는 회신 주소가 없습니다.",
+   "unableToSendTheReply_0aawxqy": "답장을 보낼 수 없습니다.",
+   "aMessageIdAndSourceAre_0n3fxh9": "메일 ID와 소스가 필요합니다.",
+   "unableToDeleteMail_09i38wx": "메일을 삭제할 수 없습니다.",
+   "unableToLoadOlderMail_1ebey5w": "이전 메일을 불러올 수 없습니다.",
+   "aMessageIdAttachmentIdAnd_193dn83": "메일 ID, 첨부 파일 ID, 소스가 필요합니다.",
+   "unableToLoadTheAttachment_0vo0ggj": "첨부 파일을 불러올 수 없습니다.",
+   "attachmentsMustIncludeValidBase64File_1i6yngc": "첨부 파일에는 유효한 Base64 파일 내용이 포함되어야 합니다.",
+   "attachmentsMustBe10FilesOr_0fsa7y5": "첨부 파일은 최대 10개, 총 40 MB 이하여야 합니다.",
+   "unauthorized_08zqttz": "권한이 없습니다.",
+   "forbidden_1crr79w": "접근이 금지되었습니다.",
+   "mailClientIsNotConfiguredCorrectly_1uvuh1n": "메일 클라이언트가 올바르게 구성되지 않았습니다.",
+   "soloPlayIsMissingItsFirst_03xoky1": "솔로 플레이에 첫 번째 자리가 없습니다.",
+   "thisRoomUsesAnUnsupportedSetup_10pqg2z": "이 방은 지원되지 않는 준비 순서를 사용합니다. 새 방을 만드세요.",
+   "theSeededRoomUsesAnUnsupported_0snqce4": "시드된 방이 지원되지 않는 준비 순서를 사용합니다.",
+   "chooseAnOpponentOrContinueWithout_0q75p36": "전장을 선택하기 전에 상대를 선택하거나 상대 없이 계속하세요.",
+   "couldNotDetermineWhoChoosesThe_0yy6gi0": "첫 번째 플레이어를 정할 플레이어를 결정할 수 없습니다.",
+   "submitADeckBeforeChoosingA_158jagd": "전장을 선택하기 전에 덱을 제출하세요.",
+   "selectedBattlefieldWasNotFoundAmong_0mquvhi": "선택한 전장이 남은 전장 중에 없습니다.",
+   "selectedBattlefieldWasNotFoundIn_0irviq7": "선택한 전장이 덱 목록에 없습니다.",
+   "signInToRestoreTheCurrent_1rp8khd": "현재 방 역할을 복원하려면 로그인하세요.",
+   "theRoomMembershipResponseDidNot_1o68zj0": "방 멤버십 응답이 현재 방과 일치하지 않습니다.",
+   "noRemainingBattlefieldsAreAvailableTo_0jy50co": "무작위로 선택할 수 있는 남은 전장이 없습니다.",
+   "yourDeckHasNoBattlefieldCards_1act2sf": "덱에 무작위로 선택할 전장 카드가 없습니다.",
+   "noBattlefieldIsAvailableForRandom_0fsg9e5": "무작위로 선택할 수 있는 전장이 없습니다.",
+   "initiativeRollRequiresExactlyTwoPlayers_0bj27pk": "선공 굴림에는 정확히 2명의 플레이어가 필요합니다.",
+   "youAlreadyRolledThisInitiativeRound_059zbxa": "이번 선공 굴림 라운드에서 이미 굴렸습니다.",
+   "firstPlayerChoiceIsNotOpen_1egpu5a": "아직 첫 번째 플레이어를 선택할 수 없습니다.",
+   "onlyTheRandomlyChosenPlayerCan_0irhph1": "무작위로 선택된 플레이어만 누가 먼저 할지 정할 수 있습니다.",
+   "selectedFirstPlayerDoesNotExist_0hv0vtc": "선택한 첫 번째 플레이어가 이 방에 없습니다.",
+   "soloTurnOrderIsOnlyAvailable_1864y7h": "솔로 턴 순서는 골드피시에서만 선택할 수 있습니다.",
+   "turnOrderChoiceIsNotOpen_10ztc8a": "아직 턴 순서를 선택할 수 없습니다.",
+   "onlyTheHostCanChooseTurn_1gp8ckl": "골드피시에서는 방장만 턴 순서를 선택할 수 있습니다.",
+   "autoStartSetupIsOnlyAvailable_086d0al": "자동 시작 준비는 테스트 모드에서만 사용할 수 있습니다.",
+   "autoStartSetupRequiresExactlyTwo_1774118": "자동 시작 준비에는 정확히 2명의 플레이어가 필요합니다.",
+   "couldNotResolveInitiativeAutomatically_0c78xeo": "선공을 자동으로 결정할 수 없습니다.",
+   "couldNotResolveFirstPlayerChooser_1vfdtlz": "첫 번째 플레이어를 선택할 플레이어를 결정할 수 없습니다.",
+   "firstPlayerChooserDoesNotExist_0yctu5k": "첫 번째 플레이어를 선택할 플레이어가 이 방에 없습니다.",
+   "submitADeckBeforeSideboarding_0lyow59": "보조 덱을 조정하기 전에 덱을 제출하세요.",
+   "afterSkippingCardSwapsChooseA_0gvlylk": "카드 교체를 건너뛴 후에는 제출한 주 덱에서 챔피언을 선택하세요. 보조 덱은 변경할 수 없습니다.",
+   "thereIsNoAcceptedRequestTo_0nr2fce": "수락된 카드 교체 건너뛰기 요청이 없습니다.",
+   "skippingSideboardingIsOnlyAvailableIn_024wsby": "보조 덱 조정 건너뛰기는 BO1 사전 구성 매치에서만 가능합니다.",
+   "multiplayerSideboardingCanOnlyBeSkipped_0hka5ve": "멀티플레이어 보조 덱 조정은 모든 플레이어가 동의한 후에만 건너뛸 수 있습니다.",
+   "aSideboardingSkipRequestIsOnly_0s9ilgk": "보조 덱 조정 건너뛰기 요청은 멀티플레이어 BO1 사전 구성 매치에서만 가능합니다.",
+   "aSideboardingSkipRequestNeedsAt_1d9nd8g": "보조 덱 조정 건너뛰기 요청에는 최소 2명의 플레이어가 필요합니다.",
+   "anotherRequestToSkipSideboardingIs_016sf5b": "다른 보조 덱 조정 건너뛰기 요청이 이미 대기 중입니다.",
+   "aPlayerDoesNotHaveA_1qzyjjl": "복원할 제출된 덱이 없는 플레이어가 있습니다.",
+   "thereIsNoPendingRequestTo_18nicwz": "대기 중인 보조 덱 조정 건너뛰기 요청이 없습니다.",
+   "onlyTheRequesterCanCancelA_0oar4r4": "요청자만 보조 덱 조정 건너뛰기 요청을 취소할 수 있습니다.",
+   "theRequesterHasAlreadyAgreedTo_1adje0l": "요청자가 이미 보조 덱 조정 건너뛰기에 동의했습니다.",
+   "cannotStartGameBeforeFirstPlayer_00ooomo": "첫 번째 플레이어가 정해지기 전에는 게임을 시작할 수 없습니다.",
+   "firstPlayerDoesNotExistIn_0w6zgb7": "첫 번째 플레이어가 방에 없습니다.",
+   "couldNotStartTheFirstTurn_06hgr2x": "첫 번째 턴을 시작할 수 없습니다.",
+   "cannotBuildGameplayRuntimeStartPayload_1afkk2u": "덱 없이 게임 시작 데이터를 만들 수 없습니다.",
+   "playerIsNotInThisRoom_0cet0qr": "플레이어가 이 방에 없습니다.",
+   "goldfishSetupCanOnlyBeConfirmed_0rffp60": "골드피시 설정은 보조 덱 조정 전에만 확인할 수 있습니다.",
+   "goldfishSetupCanOnlyBeConfirmed_0nevgmf": "골드피시 설정은 전장 선택 전에만 확인할 수 있습니다.",
+   "onlyTheSoloRoomHostCan_1g2fl83": "솔로 방의 방장만 골드피시 설정을 확인할 수 있습니다.",
+   "autoStartIsOnlyAvailableDuring_0z3ae7g": "자동 시작은 준비 단계에서만 사용할 수 있습니다.",
+   "sideboardingIsNotOpenYet_1x7yq9j": "아직 보조 덱을 조정할 수 없습니다.",
+   "battlefieldSelectionIsNotOpenYet_1q5kz30": "아직 전장을 선택할 수 없습니다.",
+   "chooseABattlefield_1013xj5": "전장을 선택하세요.",
+   "initiativeRollIsNotOpenYet_1vnk4w3": "아직 선공 굴림을 할 수 없습니다.",
+   "mulliganIsNotOpenYet_0vw2qyt": "아직 멀리건을 할 수 없습니다.",
+   "mulliganIsNotAvailableUntilBoards_13kdosn": "보드가 초기화되기 전에는 멀리건을 할 수 없습니다.",
+   "youCanMulliganUpTo2_0qyfq2e": "최대 2장까지 멀리건할 수 있습니다.",
+   "oneOrMoreSelectedMulliganCards_03zsjgs": "선택한 멀리건 카드 중 하나 이상이 손에 없습니다.",
+   "observedTurnStateIsRequired_0tdk0p2": "확인된 턴 상태가 필요합니다.",
+   "observedTurnStateIsInvalid_1ht7dhq": "확인된 턴 상태가 유효하지 않습니다.",
+   "mainDeckIsEmpty_1pwk55c": "주 덱이 비어 있습니다.",
+   "cardNotFoundInDeck_0cvcvcg": "덱에서 카드를 찾을 수 없습니다.",
+   "cardIsNotCurrentlyRevealedFrom_0q86odj": "이 카드는 현재 덱에서 공개된 상태가 아닙니다.",
+   "chooseLookedAtDeckCardsFirst_0gujx2u": "먼저 확인 중인 덱 카드를 선택하세요.",
+   "allMainDeckCardsAreAlready_1cgbkdn": "주 덱의 모든 카드를 이미 확인하고 있습니다.",
+   "deckShuffleModeIsInvalid_125qut7": "덱 섞기 모드가 유효하지 않습니다.",
+   "noExhaustedRunesToReady_0v30ngc": "준비 상태로 바꿀 탈진된 룬이 없습니다.",
+   "paymentBatchCannotBeEmpty_1ovx8ce": "지불 항목을 하나 이상 선택해야 합니다.",
+   "paymentBatchIsInvalid_0c75gxi": "지불 항목이 유효하지 않습니다.",
+   "floatingResourceBatchCannotBeEmpty_13cwuj2": "보유 자원 항목을 하나 이상 선택해야 합니다.",
+   "floatingResourceBatchIsInvalid_0hgow12": "보유 자원 항목이 유효하지 않습니다.",
+   "runeBatchCannotBeEmpty_1aw7b0y": "룬을 하나 이상 선택해야 합니다.",
+   "runeBatchIsInvalid_13cpp3m": "선택한 룬이 유효하지 않습니다.",
+   "cardNotFoundInTheSelected_1mtmkhj": "선택한 영역에서 카드를 찾을 수 없습니다.",
+   "notEnoughFloatingEnergyForAuto_0uv0b51": "자동 지불에 필요한 보유 에너지가 부족합니다.",
+   "notEnoughFloatingPowerForAuto_00e228g": "자동 지불에 필요한 보유 힘이 부족합니다.",
+   "autoPayEnergyRunesContainDuplicates_1mfa28y": "자동 지불 에너지 룬에 중복이 있습니다.",
+   "autoPayPowerRunesContainDuplicates_05bcox9": "자동 지불 힘 룬에 중복이 있습니다.",
+   "autoPayEnergyRuneNotFound_1czggpo": "룬 구역에서 자동 지불 에너지 룬을 찾을 수 없습니다.",
+   "autoPayPowerRuneNotFound_0bk6n4x": "룬 구역에서 자동 지불 힘 룬을 찾을 수 없습니다.",
+   "autoPayCannotExhaustARune_1em17uj": "자동 지불은 이미 탈진된 룬을 탈진시킬 수 없습니다.",
+   "thisCardDoesNotHaveThe_0y28qis": "이 카드에는 숨겨짐 메커니즘이 없습니다.",
+   "onlyCardsInChampionCanBe_0rg7pnn": "챔피언 영역의 카드만 숨겨짐으로 설정할 수 있습니다.",
+   "invalidHiddenToggleZone_0bg6vb4": "숨겨짐 전환 영역이 유효하지 않습니다.",
+   "battlefieldCardsCannotBeSetHidden_1ontmo0": "전장 카드는 숨겨짐으로 설정할 수 없습니다.",
+   "onlyCardsInTheSpecifiedBattlefield_07777m1": "지정된 전장의 카드만 공개할 수 있습니다.",
+   "onlyCardsInTheSpecifiedBattlefield_0cmhinj": "지정된 전장의 카드만 상대에게 공개할 수 있습니다.",
+   "onlyHiddenCardsCanBeRevealed_1n5rygh": "숨겨진 카드만 상대에게 공개할 수 있습니다.",
+   "legendCannotBeMovedToAnother_08o00zv": "전설은 다른 영역으로 이동할 수 없습니다.",
+   "onlyRunesInRuneAreaCan_0p106bn": "룬 구역의 룬만 그곳에서 순서를 바꿀 수 있습니다.",
+   "runesInRuneAreaCannotBe_1ml0j79": "룬 구역의 룬은 해당 영역으로 이동할 수 없습니다.",
+   "cardCannotBeMovedToThe_09g6m77": "카드를 선택한 영역으로 이동할 수 없습니다.",
+   "trashBatchCannotBeEmpty_0bx6sl6": "폐기장으로 보낼 카드를 하나 이상 선택해야 합니다.",
+   "offBoardCardBatchCannotBe_1bhy3ho": "보드 밖 카드를 하나 이상 선택해야 합니다.",
+   "offBoardCardBatchMustMove_0t8hxlo": "보드 밖 카드는 다른 영역으로 이동해야 합니다.",
+   "tokensCannotBeCreatedInThat_0a0gsxf": "해당 영역에는 토큰을 만들 수 없습니다.",
+   "cardsInThatZoneCannotBe_1omzb2l": "해당 영역의 카드는 복제할 수 없습니다.",
+   "opponentBoardIsNotAvailable_0gp04qw": "상대 보드를 사용할 수 없습니다.",
+   "hiddenCardsCannotBeDuplicated_0fu6on5": "숨겨진 카드는 복제할 수 없습니다.",
+   "cardControlCanOnlyBeTransferred_0bnvog9": "보드 위의 카드만 통제권을 넘길 수 있습니다.",
+   "cannotTransferControlOfHiddenCards_1b719f6": "숨겨진 카드의 통제권은 넘길 수 없습니다.",
+   "equipmentCannotBeAttachedToItself_0vi6p1p": "장비는 자신에게 부착할 수 없습니다.",
+   "equipmentCardNotFound_0s54phg": "장비 카드를 찾을 수 없습니다.",
+   "unitCardNotFound_15m1wj8": "유닛 카드를 찾을 수 없습니다.",
+   "unitIsNotInAValid_10xi0l6": "유닛이 장착 가능한 영역에 있지 않습니다.",
+   "onlyGearCardsCanBeEquipped_05uxl2p": "도구 카드만 장착할 수 있습니다.",
+   "thisGearDoesNotHaveThe_1lchers": "이 도구에는 장착 키워드가 없습니다.",
+   "equipmentCanOnlyBeAttachedTo_17ti7xq": "장비는 유닛에만 부착할 수 있습니다.",
+   "equipmentCannotBeEquippedFromThat_0g168jd": "해당 영역에서는 장비를 장착할 수 없습니다.",
+   "cardsInThatZoneCannotBe_1ywiahu": "해당 영역의 카드는 주 덱으로 보낼 수 없습니다.",
+   "trashIsEmpty_04p63kk": "폐기장이 비어 있습니다.",
+   "floatingResourceAdjustmentMustBeFinite_0z4q2w1": "보유 자원 조정값은 유한한 수여야 합니다.",
+   "floatingResourceAdjustmentMustChangeThe_1ti52xu": "보유 자원 조정은 카운터 값을 바꿔야 합니다.",
+   "legendXpAdjustmentMustBeFinite_0vsbaim": "전설 XP 조정값은 유한한 수여야 합니다.",
+   "legendXpAdjustmentMustChangeThe_0q9hc43": "전설 XP 조정은 카운터 값을 바꿔야 합니다.",
+   "mightAdjustmentMustBeFinite_1drqrei": "위력 조정값은 유한한 수여야 합니다.",
+   "mightAdjustmentMustChangeTheValue_0l8g8g4": "위력 조정은 값을 바꿔야 합니다.",
+   "mightCanOnlyBeAdjustedOn_0e3jjfr": "위력은 보드의 유닛 영역에서만 조정할 수 있습니다.",
+   "cardNotFoundForMightAdjustment_0kyd7l5": "위력을 조정할 카드를 찾을 수 없습니다.",
+   "cannotAdjustMightOnHiddenCards_10skzlg": "숨겨진 카드의 위력은 조정할 수 없습니다.",
+   "onlyUnitCardsCanHaveTheir_1lez5h3": "유닛 카드만 위력을 조정할 수 있습니다.",
+   "counterAdjustmentMustBeFinite_1p1rpcv": "카운터 조정값은 유한한 수여야 합니다.",
+   "counterAdjustmentMustChangeTheValue_1me42g7": "카운터 조정은 값을 바꿔야 합니다.",
+   "countersCanOnlyBeAdjustedOn_0lluq09": "카운터는 보드 영역에서만 조정할 수 있습니다.",
+   "invalidCounterColor_0theebb": "카운터 색상이 유효하지 않습니다.",
+   "cardNotFoundForCounterAdjustment_0gsrj6q": "카운터를 조정할 카드를 찾을 수 없습니다.",
+   "cannotAdjustCountersOnHiddenCards_0holh3k": "숨겨진 카드의 카운터는 조정할 수 없습니다.",
+   "cardLabelsMustContainVisibleText_1wvg186": "카드 라벨에는 보이는 텍스트가 있어야 합니다.",
+   "invalidCardLabelSlot_0p95cd2": "카드 라벨 위치가 유효하지 않습니다.",
+   "cardNotFoundForLabelUpdate_1u0uscm": "라벨을 업데이트할 카드를 찾을 수 없습니다.",
+   "cannotLabelHiddenCards_1m163nv": "숨겨진 카드에는 라벨을 붙일 수 없습니다.",
+   "noFloatingResourcesToClear_1efwjin": "지울 보유 자원이 없습니다.",
+   "expectedExhaustionStateIsRequired_1nio9lz": "예상 탈진 상태가 필요합니다.",
+   "championCannotBeExhausted_051r9px": "챔피언은 탈진할 수 없습니다.",
+   "cardNotFoundForExhaustToggle_0tzo0wx": "탈진 상태를 전환할 카드를 찾을 수 없습니다.",
+   "cardsInThatZoneCannotBe_13lgn18": "해당 구역의 카드는 제거할 수 없습니다.",
+   "chainEntryIdIsRequired_0p6v8c8": "체인 항목 ID가 필요합니다.",
+   "chainResolveApprovalStateIsRequired_1vxzr79": "체인 해결 승인 상태가 필요합니다.",
+   "theChainIsFull_19xwr1u": "체인이 가득 찼습니다.",
+   "thatActionWouldAddOrRemove_0sbfqof": "이 행동은 룬 풀에 룬을 추가하거나 제거하게 되므로 적용되지 않았습니다.",
+   "optionalShowdownPassStateIsRequired_11tjnr7": "선택적 결전 패스 상태가 필요합니다.",
+   "onlyPlayersWithIvernGreenFather_1fby2ly": "\"Ivern, Green Father\"을(를) 사용하는 플레이어만 수풀을 설정할 수 있습니다.",
+   "thisMatchmakingMatchEndsAutomaticallyWhen_00cnmdl": "이 매치메이킹 매치는 재접속 허용 시간이 만료되면 자동으로 종료됩니다.",
+   "thisMatchCannotBeClaimed_0qfwkq5": "이 매치는 승리를 요청할 수 없습니다.",
+   "yourOpponentReconnectedOrHasNot_06kxl7l": "상대가 재접속했거나 아직 1분 동안 자리를 비우지 않았습니다.",
+   "signInToEndThisMatch_0qp7zxk": "이 매치를 종료하려면 로그인하세요.",
+   "thisMatchHasAlreadyChangedRefresh_0snyrvz": "이 매치는 이미 변경되었습니다. 방을 새로 고친 후 다시 시도하세요.",
+   "bestOf3DeckSnapshotIs_1sf9i6e": "BO3 덱 스냅샷이 없습니다.",
+   "bestOf3RequiresExactly3_0fi2ka4": "BO3에는 서로 다른 전장 3개를 정확히 선택해야 합니다.",
+   "savedSealedRegistrationsCanOnlyBe_044grnt": "저장된 밀봉 등록은 밀봉 방에서만 사용할 수 있습니다.",
+   "theSavedSealedRegistrationIsMissing_1kedpxw": "저장된 밀봉 등록에 표준 시드 또는 빌더 선택 정보가 없습니다.",
+   "savedSealedRegistrationIsNotReady_01aiiu6": "저장된 밀봉 등록을 아직 플레이에 사용할 수 없습니다.",
+   "loadADeckBeforeContinuing_0kr72gi": "계속하기 전에 덱을 불러오세요.",
+   "loadAValidDeckBeforeContinuing_1tnesfo": "계속하기 전에 유효한 덱을 불러오세요.",
+   "joinTheRoomBeforeChangingDecks_1w2ttyt": "덱을 변경하기 전에 방에 참가하세요.",
+   "constructedDeckSubmissionIsUnavailableIn_11iwi8j": "밀봉 방에서는 사전 구성 덱을 제출할 수 없습니다.",
+   "deckChangesAreLockedAfterSideboarding_13umovm": "보조 덱 조정 후에는 덱을 변경할 수 없습니다.",
+   "deckChangesAreLockedAfterChoosing_0b6nrpi": "전장을 선택한 후에는 덱을 변경할 수 없습니다.",
+   "deckChangesAreLockedAfterGame_0wmz9zx": "BO3 매치의 1게임이 끝난 후에는 덱을 변경할 수 없습니다.",
+   "deckChangesAreOnlyAvailableBefore_0twfj0e": "덱은 준비 단계가 잠기기 전에만 변경할 수 있습니다.",
+   "theOpponentDeckCanNoLonger_0wpg19c": "이 준비 단계에서는 더 이상 상대 덱을 변경할 수 없습니다.",
+   "signInToLoadThisSaved_16u93gm": "이 저장된 덱을 불러오려면 로그인하세요.",
+   "signInCompletedButTheRoom_0zfts99": "로그인은 완료되었지만 방 작업을 복원할 수 없습니다.",
+   "theSavedDeckForThatAction_1g45ehp": "해당 작업에 사용할 저장된 덱이 유효하지 않습니다.",
+   "theSavedDeckForThatAction_1n7ltbh": "해당 작업에 사용할 저장된 덱을 더 이상 사용할 수 없습니다.",
+   "clipboardIsUnavailableCopyTheRoom_0lt66yg": "클립보드를 사용할 수 없습니다. 방 코드를 직접 복사하세요.",
+   "couldNotCopyRoomCodePlease_1olkntj": "방 코드를 복사할 수 없습니다. 직접 복사하세요.",
+   "readyCheckIsOnlyAvailableIn_119o6vq": "준비 확인은 호스트가 만든 대기실에서만 사용할 수 있습니다.",
+   "readyCheckIsOnlyAvailableIn_03j7zub": "준비 확인은 대기실에서만 사용할 수 있습니다.",
+   "loadADeckBeforeMarkingYourself_16pkrzd": "준비 상태로 표시하기 전에 덱을 불러오세요.",
+   "manualMatchStartIsOnlyAvailable_02cvldn": "수동 매치 시작은 호스트가 만든 방에서만 사용할 수 있습니다.",
+   "theMatchCanOnlyBeStarted_1vca4zc": "매치는 대기실에서만 시작할 수 있습니다.",
+   "onlyTheRoomHostCanStart_1rsgh7e": "방 호스트만 싱글 플레이를 시작할 수 있습니다.",
+   "singlePlayerCanOnlyBeStarted_1877v33": "싱글 플레이는 방에 혼자 있을 때만 시작할 수 있습니다.",
+   "loadAValidDeckBeforeStarting_15cmz0h": "싱글 플레이를 시작하기 전에 유효한 덱을 불러오세요.",
+   "bothPlayersMustBeInThe_0qq6ixi": "시작하려면 두 플레이어가 모두 방에 있어야 합니다.",
+   "bothPlayersMustLoadADeck_0npzqee": "시작하려면 두 플레이어가 모두 덱을 불러와야 합니다.",
+   "bothPlayersMustChooseSavedSealed_0lqqc8a": "시작하려면 두 플레이어가 모두 저장된 밀봉 등록을 선택해야 합니다.",
+   "bothPlayersMustChooseRegistrationsFor_14ad325": "두 플레이어는 같은 밀봉 형식의 등록을 선택해야 합니다.",
+   "bothPlayersMustClickReadyBefore_1a85v7v": "시작하려면 두 플레이어가 모두 \"준비\"를 클릭해야 합니다.",
+   "couldNotStartTheMatch_1ms5u81": "매치를 시작할 수 없습니다.",
+   "couldNotUpdateTheRoomDeck_1djpk6c": "방 덱을 업데이트할 수 없습니다. 다시 시도하세요.",
+   "couldNotAddTheOpponentSeat_1aqpb1q": "상대 자리를 추가할 수 없습니다. 다시 시도하세요.",
+   "couldNotUpdateTheRoomRegistration_1ppdbp0": "방 등록을 업데이트할 수 없습니다. 다시 시도하세요.",
+   "initiativeRollFailedPleaseTryAgain_0nbag7k": "선공 주사위 굴림에 실패했습니다. 다시 시도하세요.",
+   "realtimeConnectionIsUnavailablePleaseTry_0zvfj3j": "실시간 연결을 사용할 수 없습니다. 다시 시도하세요.",
+   "theRealtimeRoomDidNotConfirm_1boaqfs": "실시간 방에서 작업을 확인하지 않았습니다. 다시 시도하세요.",
+   "tooManyPendingActionsWaitingFor_0pur10j": "대기 중인 작업이 너무 많습니다. 서버가 따라잡기를 기다리는 중입니다.",
+   "theCardChangedBeforeThisAction_0cuko2e": "작업이 완료되기 전에 카드가 변경되었습니다. 다시 시도하세요.",
+   "actionFailedPleaseTryAgain_0swfpnt": "작업에 실패했습니다. 다시 시도하세요.",
+   "autoPayCouldNotCompleteBecause_0iu7fsn": "카드 또는 사용 가능한 자원이 변경되어 자동 지불을 완료할 수 없습니다. 자원은 소모되지 않았습니다.",
+   "matchSearchPausedResumeToConfirm_0shok0b": "매치 검색이 일시 중지되었습니다. 재개하여 확인하세요.",
+   "matchSearchTimedOutTryAgain_0bcma9e": "매치 검색 시간이 초과되었습니다. 다시 시도하세요.",
+   "couldNotCreateRoom_1knjyxm": "방을 만들 수 없습니다.",
+   "couldNotLoadTheSelectedDeck_06ykmae": "선택한 덱을 불러올 수 없습니다.",
+   "cancellationResultIsStillBeingConfirmed_0zl2ra2": "취소 결과를 아직 확인하는 중입니다. 검색을 재개하세요.",
+   "matchResultIsStillBeingConfirmed_10xm6w2": "매치 결과를 아직 확인하는 중입니다. 검색을 재개하세요.",
+   "couldNotFindARandomMatch_13yizet": "무작위 매치를 찾을 수 없습니다.",
+   "cancellationWasNotConfirmedReconnectAnd_1b27f9s": "취소가 확인되지 않았습니다. 다시 연결한 후 다시 시도하세요.",
+   "cancellationResultIsUncertainResumeSearch_0k7mb0j": "취소 결과가 불확실합니다. 검색을 재개하여 확인하세요.",
+   "cancellationWasNotSentResumeSearch_1cfho1o": "취소 요청이 전송되지 않았습니다. 검색을 재개하여 다시 연결하세요.",
+   "theMatchmakingConnectionIsNotReady_1c1j8km": "매치메이킹 연결을 아직 취소할 수 없습니다. 먼저 다시 연결하세요.",
+   "couldNotCancelMatchmakingSearch_088ow55": "매치메이킹 검색을 취소할 수 없습니다.",
+   "pleaseEnterARoomCode_0e22qes": "방 코드를 입력하세요.",
+   "couldNotSwitchToSpectator_0wcr11j": "관전자로 전환할 수 없습니다.",
+   "couldNotTakeAPlayerSeat_0kw9llz": "플레이어 자리에 앉을 수 없습니다.",
+   "yourSavedDeckChangedReviewIt_1q4x0hq": "저장된 덱이 변경되었습니다. 확인한 후 다시 준비하세요.",
+   "couldNotUpdateYourReadyState_1jfkxn1": "준비 상태를 업데이트할 수 없습니다.",
+   "couldNotChangeTheRoomMatch_0ogvcrr": "방 매치 형식을 변경할 수 없습니다.",
+   "couldNotChangeTheRoomDeck_05c5blp": "방 덱 규칙을 변경할 수 없습니다.",
+   "couldNotChangeTheRoomPlay_1xjip2a": "방 플레이 모드를 변경할 수 없습니다.",
+   "couldNotConfirmLeavingTheRoom_1749hnw": "방 나가기를 확인할 수 없습니다. 방은 아직 사용 가능하니 다시 시도하세요.",
+   "couldNotOpenWinnerConfirmation_1k5i08d": "승자 확인을 열 수 없습니다.",
+   "couldNotStartTheNextGame_0uqhsip": "다음 게임을 시작할 수 없습니다.",
+   "couldNotDecodeThatDeckCode_04zo4b4": "해당 덱 코드를 해독할 수 없습니다.",
+   "newGamesDeckCreationAndDeck_070slu0": "점검 시작 30분 전부터 점검이 끝날 때까지 새 게임, 덱 만들기, 덱 편집이 일시적으로 비활성화됩니다.",
+   "couldNotUpdateSpectatorVisibility_18s9fmj": "관전자 공개 범위를 업데이트할 수 없습니다.",
+   "couldNotReportTheGameWinner_1svk9wp": "게임 승자를 보고할 수 없습니다.",
+   "couldNotRequestARematch_0y8rzub": "재대결을 요청할 수 없습니다.",
+   "playerBoardIsNotInitialized_0otefrn": "플레이어 보드가 초기화되지 않았습니다.",
+   "cardNotFoundInSelectedZone_1x78duy": "선택한 구역에서 카드를 찾을 수 없습니다.",
+   "turncountMustBeAPositiveNumber_1m8f9qu": "턴 수는 양수여야 합니다.",
+   "starsMustBeBetween1And_0hbume5": "별점은 1에서 5 사이여야 합니다.",
+   "lobbyPlayModeCanOnlyBe_1kmq3ux": "로비 플레이 모드는 호스트가 만든 방에서만 변경할 수 있습니다.",
+   "lobbyPlayModeCanOnlyBe_057fnih": "로비 플레이 모드는 매치가 시작되기 전에만 변경할 수 있습니다.",
+   "onlyTheRoomHostCanChange_1x9p5xl": "방 호스트만 플레이 모드를 변경할 수 있습니다.",
+   "deckRulesCanOnlyBeChanged_0ux77uu": "덱 규칙은 호스트가 만든 방에서만 변경할 수 있습니다.",
+   "deckRulesCanOnlyBeChanged_04tevwa": "덱 규칙은 매치가 시작되기 전에만 변경할 수 있습니다.",
+   "onlyTheRoomHostCanChange_0vfsw4n": "방 호스트만 덱 규칙을 변경할 수 있습니다.",
+   "deckRulesCanOnlyBeChanged_00pbdoi": "덱 규칙은 호스트가 만든 사전 구성 방에서만 변경할 수 있습니다.",
+   "chooseStandardOrUnrestrictedDeckRules_09a2pzo": "스탠다드 또는 무제한 덱 규칙을 선택하세요.",
+   "lobbyMatchFormatCanOnlyBe_1lebw20": "로비 매치 형식은 호스트가 만든 방에서만 변경할 수 있습니다.",
+   "lobbyMatchFormatCanOnlyBe_0h20860": "로비 매치 형식은 매치가 시작되기 전에만 변경할 수 있습니다.",
+   "onlyTheRoomHostCanChange_0oxwnae": "방 호스트만 매치 형식을 변경할 수 있습니다.",
+   "allPlayersInTheRoomMust_04jiqia": "BO3를 사용하려면 방의 모든 플레이어가 로그인해야 합니다.",
+   "signInToPlayOrSpectate_0uklrkq": "이 환경에서는 로그인하여 플레이하거나 관전할 수 없습니다.",
+   "checkingSignInStatus_07dlw7q": "로그인 상태 확인 중…",
+   "signInToPlayOrSpectate_0a8emds": "플레이하거나 관전하려면 로그인하세요.",
+   "newRoomIsMissingItsInitial_1s0mwxr": "새 방에 초기 플레이어가 없습니다.",
+   "soloPlayIsCurrentlyAvailableFor_0nsbxns": "솔로 플레이는 현재 사전 구성 덱에서만 사용할 수 있습니다.",
+   "noPlayerSeatIsAvailableIn_1qxduet": "이 방에는 사용 가능한 플레이어 자리가 없습니다.",
+   "thisPlayerIsNotSeatedIn_1ep1684": "이 플레이어는 방에 자리가 없습니다.",
+   "startTheGameBeforeReportingA_073tugp": "결과를 보고하기 전에 게임을 시작하세요.",
+   "nextGameRequiresBothPlayersTo_0h9e81s": "다음 게임을 하려면 두 플레이어가 모두 방에 있어야 합니다.",
+   "bestOf3GamesAdvanceThrough_0r0y2yv": "BO3 게임은 \"다음 게임 시작\" 대신 승자 확인을 통해 진행됩니다.",
+   "gameResultConfirmationIsOnlyAvailable_1kf4j5p": "게임 결과 확인은 BO3에서만 사용할 수 있습니다.",
+   "bestOf3ResultConfirmationRequires_09w0012": "BO3 결과 확인에는 두 플레이어가 모두 필요합니다.",
+   "gameResultReportingIsOnlyAvailable_1rrlx9q": "게임 결과 보고는 BO3에서만 사용할 수 있습니다.",
+   "bestOf3ResultReportingRequires_1cj2w07": "BO3 결과 보고에는 두 플레이어가 모두 필요합니다.",
+   "selectedWinnerIsNotInThis_058wfaa": "선택한 승자가 이 방에 없습니다.",
+   "couldNotResolveTheNextGame_0l9p68p": "다음 게임의 선공 플레이어를 확정할 수 없습니다.",
+   "aNextRoomCodeIsRequired_1web297": "이 BO3를 진행하려면 다음 방 코드가 필요합니다.",
+   "rematchIsOnlyAvailableForBest_0xfjehp": "재대결은 BO3에서만 사용할 수 있습니다.",
+   "rematchIsOnlyAvailableAfterThe_14wefh6": "재대결은 BO3가 끝난 후에만 사용할 수 있습니다.",
+   "bestOf3RematchRequiresBoth_066q2fq": "BO3 재대결에는 두 플레이어가 모두 필요합니다.",
+   "rematchIsUnavailableBecauseAPlayer_0aqlbfs": "플레이어가 방을 나가서 재대결을 할 수 없습니다.",
+   "aNextRoomCodeIsRequired_1555xj2": "재대결을 시작하려면 다음 방 코드가 필요합니다.",
+   "anOpponentCanOnlyBeAdded_10p22o8": "상대는 골드피시 보조 덱 조정이 잠기기 전에만 추가할 수 있습니다.",
+   "anOpponentCanOnlyBeAdded_0k39ycl": "상대는 솔로 준비 단계에서만 추가할 수 있습니다.",
+   "onlyTheSoloRoomHostCan_03tt82x": "솔로 방 호스트만 상대를 추가할 수 있습니다.",
+   "chooseASavedSealedRegistrationFor_19ozf7w": "상대에게 사용할 저장된 밀봉 등록을 선택하세요.",
+   "chooseADeckForTheOpponent_0ai4wpd": "상대에게 사용할 덱을 선택하세요.",
+   "theOpponentRegistrationCanNoLonger_1fvfhq0": "이 준비 단계에서는 더 이상 상대 등록을 변경할 수 없습니다.",
+   "anOpponentSelectionIsAlreadyBeing_0c4uejy": "상대 선택을 이미 배정하는 중입니다.",
+   "couldNotAddTheOpponentRegistration_0c0iari": "상대 등록을 추가할 수 없습니다. 다시 시도하세요.",
+   "couldNotAssignThatRegistrationTo_0p6xm2w": "해당 등록을 상대 자리에 배정할 수 없습니다.",
+   "sealedRegistrationSelectionIsOnlyAvailable_1of8fej": "밀봉 등록 선택은 로비 준비 중에만 사용할 수 있습니다.",
+   "matchmakingIsReconnectingTryAgainIn_1lkx2ff": "매치메이킹이 다시 연결하는 중입니다. 잠시 후 다시 시도하세요.",
+   "matchmakingIsWakingUpTryAgain_0nev07e": "매치메이킹이 시작되는 중입니다. 잠시 후 다시 시도하세요.",
+   "matchmakingIsBusyTryAgainIn_1umiovt": "매치메이킹이 혼잡합니다. 잠시 후 다시 시도하세요.",
+   "youAreStartingSearchesTooQuickly_1oys0hu": "검색을 너무 빠르게 시작하고 있습니다. 잠시 기다린 후 다시 시도하세요.",
+   "couldNotUpdateMatchmakingSearch_1abxucu": "매치메이킹 검색을 업데이트할 수 없습니다.",
+   "matchmakingServiceTimedOutTryAgain_0eu5occ": "매치메이킹 서비스 응답 시간이 초과되었습니다. 다시 시도하세요.",
+   "theAssignedMatchIsTooOld_161slbv": "배정된 매치가 너무 오래되어 다시 열 수 없습니다. 새로 검색하세요.",
+   "theAssignedMatchIsNoLonger_1jow6it": "배정된 매치를 더 이상 사용할 수 없습니다. 새로 검색하세요.",
+   "partiesAreAvailableInMultiplayerQuick_093lh4b": "파티는 멀티플레이 빠른 매치에서만 사용할 수 있습니다.",
+   "teammatesMayNotShareAChampion_09n6rht": "팀원끼리 같은 챔피언 전설이나 전장을 사용할 수 없습니다.",
+   "thePartyIsAlreadySearching_0dsxei2": "파티가 이미 검색 중입니다.",
+   "thePartyIsFull_09twvu9": "파티 인원이 가득 찼습니다.",
+   "onlyThePartyLeaderCanChoose_1rrp08n": "파티 리더만 테이블을 고를 수 있습니다.",
+   "stopTheSearchBeforeChangingThe_0potf6r": "테이블을 바꾸려면 먼저 검색을 중지하세요.",
+   "thePartyHasTooManyMembers_0e0hy5z": "이 테이블에 비해 파티 인원이 너무 많습니다.",
+   "stopTheSearchBeforeChangingYour_0bqdeoq": "덱을 바꾸려면 먼저 검색을 중지하세요.",
+   "onlyThePartyLeaderCanStart_0ijalua": "파티 리더만 검색을 시작할 수 있습니다.",
+   "thisTableIsNotAvailableFor_05858cw": "이 테이블은 파티로 플레이할 수 없습니다.",
+   "everyMemberMustBeConnectedAnd_1uma0h1": "모든 파티원이 접속해 있고 준비되어야 합니다.",
+   "theSavedRoomMembershipHasChanged_1cb0r2o": "저장된 방 참가 정보가 변경되었습니다.",
+   "thisGameIsBeingLeftStart_0zpludl": "이 게임에서 나가는 중입니다. 다른 게임을 시작하거나 참가하세요.",
+   "cancelTheMatchSearchBeforeResuming_00eis3d": "저장된 방을 재개하기 전에 매치 검색을 취소하세요.",
+   "couldNotConfirmTheMatchedRoom_1m1eu0y": "매칭된 방 배정을 확인할 수 없습니다.",
+   "couldNotAllocateAMatchRoom_1akh7mn": "매치 방을 할당할 수 없습니다.",
+   "couldNotInitializeTheMatchRoom_0v4h4by": "매치 방을 초기화할 수 없습니다.",
+   "theMatchServiceIsNotReady_1jxy4vi": "매치 서비스가 이 요청을 처리할 준비가 되지 않았습니다.",
+   "matchedRoomIsNoLongerAvailable_18dnbwp": "매칭된 방을 더 이상 사용할 수 없습니다.",
+   "theMatchServiceRejectedTheClaim_1le4cc5": "매치 서비스가 방을 변경하기 전에 요청을 거부했습니다.",
+   "theMatchmakingClaimConflictsWithThis_1uoiifc": "매치메이킹 요청이 이 방과 충돌합니다.",
+   "pleaseEnterYourPlayerName_0tyrk4e": "플레이어 이름을 입력하세요.",
+   "noRoomFoundCheckTheCode_1vjddlj": "방을 찾을 수 없습니다. 코드를 확인한 후 다시 시도하세요.",
+   "couldNotJoinOrSpectateThis_0mx2vas": "이 방에 참가하거나 관전할 수 없습니다.",
+   "gameplayTransportIsNotReady_0sbn5i8": "게임 플레이 연결이 준비되지 않았습니다.",
+   "unsupportedMatchmakingMode_0vsjuq3": "지원하지 않는 매치메이킹 모드입니다.",
+   "multiplayerTablesAreAvailableInConstructed_1c35bws": "멀티플레이 테이블은 사전 구성 모드에서만 이용할 수 있습니다.",
+   "unsupportedMatchmakingPool_1gwxhi4": "지원하지 않는 매치메이킹 풀입니다.",
+   "unsupportedMatchFormat_1tx6qpy": "지원하지 않는 매치 형식입니다.",
+   "pasteAValidDeckBeforeSearching_07x2h3e": "매치를 검색하기 전에 유효한 덱을 붙여넣으세요.",
+   "theSubmittedDeckListIsToo_1in7gcz": "제출한 덱 목록이 너무 큽니다.",
+   "chooseASavedVendettaPreRift_1ixc4be": "검색하기 전에 저장된 Vendetta 프리 리프트 등록을 선택하세요.",
+   "publicSealedMatchmakingIsAvailableOnly_04gz0r6": "공개 밀봉 매치메이킹은 Vendetta 프리 리프트에서만 사용할 수 있습니다.",
+   "aMatchmakingSearchIdentifierIsRequired_1b180fg": "매치메이킹 검색 ID가 필요합니다.",
+   "theMatchmakingSearchIdentifierIsMalformed_1momuvu": "매치메이킹 검색 ID 형식이 잘못되었습니다.",
+   "signInBeforeSearchingForA_1w8yx3f": "매치를 검색하기 전에 로그인하세요.",
+   "chooseAValidSavedVendettaPre_0tqjyjo": "검색하기 전에 유효한 저장된 Vendetta 프리 리프트 등록을 선택하세요.",
+   "matchmakingWasUpdatedRefreshThePage_13j608b": "매치메이킹이 업데이트되었습니다. 페이지를 새로 고친 후 다시 검색하세요.",
+   "thisMatchmakingSearchIsNoLonger_1wit4rm": "이 매치메이킹 검색은 더 이상 활성 상태가 아닙니다. 새로 검색하세요.",
+   "thisMatchmakingSearchBelongsToA_09npke9": "이 매치메이킹 검색은 다른 대기열에 속해 있습니다.",
+   "theQuickMatchQueueIsFull_057mhh0": "빠른 매치 대기열이 가득 찼습니다. 잠시 후 다시 시도하세요.",
+   "couldNotVerifyTheMatchmakingCancellation_1oysu4d": "매치메이킹 취소를 확인할 수 없습니다. 다시 시도하세요.",
+   "theMatchmakingMessagePayloadIsToo_1ytibvw": "매치메이킹 메시지 페이로드가 너무 큽니다.",
+   "theMatchmakingMessageIsMalformed_0mcyci2": "매치메이킹 메시지 형식이 잘못되었습니다.",
+   "noRewindTargetIsAvailable_0bple4x": "되돌릴 대상이 없습니다.",
+   "rewindTheLatestSoloLabAction_1sji7re": "먼저 솔로 실험실의 최근 행동을 되돌리세요.",
+   "theRoomChangedInAWay_15cfh7o": "방이 변경되어 해당 되돌리기를 할 수 없습니다.",
+   "theRoomStateDoesNotAllow_0kyxp8i": "방 상태가 해당 변경을 허용하지 않습니다.",
+   "theRoomCodeDoesNotMatch_1c98zz8": "방 코드가 요청한 매치 방과 일치하지 않습니다.",
+   "invalidLinkedRoomTransitionRecoveryCould_10wyg59": "유효하지 않은 연결된 방 전환 복구 상태를 삭제할 수 없습니다.",
+   "linkedRoomTransitionRecoveryIsTemporarily_0h1swxi": "연결된 방 전환 복구를 일시적으로 사용할 수 없습니다.",
+   "storedLinkedRoomSeedIntentBelongs_1yn2at1": "저장된 연결된 방 시드 요청이 다른 방에 속해 있습니다.",
+   "theNextGameIsStillBeing_0hiqrkr": "다음 게임을 아직 초기화하는 중입니다. 다시 시도하세요.",
+   "previousRoomSpectatorLookupReturnedAn_14oifms": "이전 방 관전자 조회가 유효하지 않은 정책 스냅샷을 반환했습니다.",
+   "previousRoomSpectatorLookupReturnedAn_1cr4jeu": "이전 방 관전자 조회가 유효하지 않은 세션을 반환했습니다.",
+   "previousRoomSpectatorLookupOmittedThe_1qd2u5m": "이전 방 관전자 조회에 요청한 세션이 빠져 있습니다.",
+   "previousRoomSpectatorAccessIsTemporarily_1p5i7et": "이전 방 관전자 접근을 일시적으로 사용할 수 없습니다.",
+   "linkedSpectatorAccessSnapshotIsInvalid_134zy3s": "연결된 관전자 접근 스냅샷이 유효하지 않습니다.",
+   "linkedSpectatorAccessSnapshotIsIncomplete_1n20j6n": "연결된 관전자 접근 스냅샷이 불완전합니다.",
+   "runtimeCheckpointsRequireAnEmptyRewind_0rbqek8": "런타임 체크포인트에는 비어 있는 되돌리기 인덱스가 필요합니다.",
+   "requiredRuntimeCheckpointDidNotSelect_030esan": "필수 런타임 체크포인트에서 사유를 선택하지 않았습니다.",
+   "signInVerificationIsTemporarilyUnavailable_1lij300": "로그인 확인을 일시적으로 사용할 수 없습니다. 다시 시도하세요.",
+   "couldNotAllocateTheNextRoom_0yivkj1": "다음 방을 할당할 수 없습니다.",
+   "theAllocatedLinkedRoomBelongsTo_1g5qxyx": "할당된 연결된 방이 다른 게임에 속해 있습니다.",
+   "couldNotInitializeTheLinkedRoom_1dwpd6m": "연결된 방을 초기화할 수 없습니다.",
+   "roomNotFound_13ueqlr": "방을 찾을 수 없습니다.",
+   "joinedPlayerResultIsMissingA_1hpte2f": "참가한 플레이어 결과에 플레이어 ID가 없습니다.",
+   "thisSeatIsNoLongerIn_0uejcit": "이 자리는 더 이상 방에 없습니다.",
+   "resolvedRoomPlayerIsMissingFrom_0nyjvsr": "확인된 방 플레이어가 방 셸에 없습니다.",
+   "anotherNextGameTransitionIsStill_0ptrtzu": "다른 다음 게임 전환을 아직 초기화하는 중입니다.",
+   "thePendingNextGameTransitionNo_0v1wx0c": "대기 중인 다음 게임 전환이 더 이상 이 방과 일치하지 않습니다.",
+   "theStoredLinkedRoomTransitionNo_15x3gu2": "저장된 연결된 방 전환이 더 이상 하위 방을 생성하지 않습니다.",
+   "theLinkedRoomTransitionDidNot_0jggzbg": "연결된 방 전환이 하위 방을 생성하지 않았습니다.",
+   "theGameplayActionIsInvalid_01j5sm9": "게임 플레이 행동이 유효하지 않습니다.",
+   "thisPlayerHasAlreadyLeftThe_1hhkj8z": "이 플레이어는 이미 방을 나갔습니다.",
+   "thisSeatIsBoundToA_1r4xzr0": "이 자리는 로그인한 다른 계정에 연결되어 있습니다.",
+   "theRoomActionIsInvalid_04hjnco": "방 작업이 올바르지 않습니다.",
+   "theSpectatorSessionCouldNotBe_1t10kf7": "관전 세션에서 나갈 수 없습니다.",
+   "theMatchHitAnUnexpectedRuntime_1x5cr7v": "매치에서 예기치 않은 런타임 오류가 발생하여 최신 서버 스냅샷을 다시 보냈습니다.",
+   "theMatchHitAnUnexpectedRuntime_0bahwk2": "매치에서 예기치 않은 런타임 오류가 발생했습니다.",
+   "theStoredMatchRuntimeIsInvalid_0856fvs": "저장된 매치 런타임이 올바르지 않아 복원할 수 없습니다.",
+   "requiredInitialRoomStateCouldNot_0rng0qz": "필요한 초기 방 상태를 전달할 수 없습니다.",
+   "requestBodyMustBeValidJson_081p8ba": "요청 본문은 유효한 JSON이어야 합니다.",
+   "theRoomSettingsAreInvalid_0j1yd75": "방 설정이 올바르지 않습니다.",
+   "coordinatorRoomNotFound_0cc2jth": "코디네이터 방을 찾을 수 없습니다.",
+   "aValidRoomApiActionIs_1kgobzu": "유효한 방 API 작업이 필요합니다.",
+   "thisRoomControlRequestIsNot_19nbgmn": "이 방 제어 요청은 승인되지 않았습니다.",
+   "thisRoomApiActionIsNot_0f8yvat": "이 방 API 작업은 지원되지 않습니다.",
+   "theRoomRequestWasInterruptedTry_17lt6ym": "방 요청이 중단되었습니다. 다시 시도하세요.",
+   "couldNotReachTheRoomService_0bs5fh2": "방 서비스에 연결할 수 없습니다. 다시 시도하세요.",
+   "theRoomServiceReturnedAnInvalid_0211gn3": "방 서비스가 잘못된 응답을 반환했습니다. 다시 시도하세요.",
+   "theRoomServiceReturnedAnInvalid_0yj6y9f": "방 서비스가 잘못된 로비 전환을 반환했습니다. 다시 시도하세요.",
+   "theRoomServiceIsTemporarilyUnavailable_1f539lx": "방 서비스를 일시적으로 사용할 수 없습니다. 다시 시도하세요.",
+   "thisBroadcastRoomHasExpired_1eqoxdq": "이 방송 방은 만료되었습니다.",
+   "theBroadcastRoomCouldNotBe_1qks1cf": "방송 방을 복원할 수 없습니다.",
+   "casterOrAdminAccessIsRequired_0xoqb03": "방송 대시보드에 접근하려면 캐스터 또는 관리자 권한이 필요합니다.",
+   "cardActivityIsHiddenWhileThis_0vav25r": "이 계정이 매치에서 자리를 차지하고 있는 동안에는 카드 활동이 숨겨집니다.",
+   "theBroadcastDashboardIsReadOnly_1yle9cq": "방송 대시보드는 읽기 전용입니다.",
+   "yourRoomRoleChangedButThe_0b0ef3y": "방 역할이 변경되었지만 현재 역할을 복원할 수 없습니다. 다시 연결하는 중…",
+   "onlyPlayersCanChangeSpectatorVisibility_0xlczwu": "플레이어만 관전자 공개 범위를 변경할 수 있습니다.",
+   "couldNotRegisterTheSelectedDeck_1wi08w3": "선택한 덱을 로비에 등록할 수 없습니다.",
+   "roomShellActionsMustUseThe_0cg7mg2": "방 셸 작업은 방 셸 연결을 사용해야 합니다.",
+   "roomSeriesTransportReceivedALive_0yhizqz": "방 시리즈 연결이 실시간 방 작업을 받았습니다.",
+   "realtimeSpectatorAuthorizationIsTemporarilyUnavailable_1gteytk": "실시간 관전 승인을 일시적으로 사용할 수 없습니다.",
+   "theRoomShellIsNotInitialized_08twevo": "방 셸이 아직 초기화되지 않았습니다.",
+   "thisRoomSeatIsNoLonger_0oq0vr0": "이 방 자리는 더 이상 유효하지 않습니다. 방에 다시 참가하거나 방을 다시 만드세요.",
+   "couldNotVerifyYourSignIn_1xs7wwq": "로그인 세션을 확인할 수 없습니다. 연결(또는 광고 차단기)을 확인하고 다시 시도하세요.",
+   "thisPlayerIsNoLongerRegistered_1uhvxd5": "이 플레이어는 더 이상 방에 등록되어 있지 않습니다.",
+   "joinTheRoomBeforeRefreshingCustomization_1jr7qte": "꾸미기 설정을 새로 고치기 전에 방에 참가하세요.",
+   "onlySignedInPlayersParticipatingIn_1o2s6ek": "이 방에 참여 중인 로그인한 플레이어만 꾸미기 설정을 새로 고칠 수 있습니다.",
+   "joinTheRoomBeforeSendingChat_1fvcscu": "채팅을 보내기 전에 방에 참가하세요.",
+   "onlySeatedPlayersCanSendRoom_0mosg8g": "자리에 앉은 플레이어만 방 채팅을 보낼 수 있습니다.",
+   "onlySeatedPlayersAndAuthorizedStaff_1hqrb8c": "자리에 앉은 플레이어와 승인된 스태프 또는 캐스터만 방 채팅을 보낼 수 있습니다.",
+   "thisRoomChatChannelIsNot_1a098ve": "현재 세션에서는 이 방 채팅 채널을 사용할 수 없습니다.",
+   "theSignedInSessionTokenNeeds_0ptk67m": "로그인 세션 토큰을 새로 고쳐야 합니다.",
+   "chatMessagesCannotBeEmpty_0d3m4x6": "채팅 메시지는 비워 둘 수 없습니다.",
+   "thatRoomActionIsNotHandled_0nhgm1l": "해당 방 작업은 실시간 방에서 처리되지 않습니다.",
+   "couldNotAuthorizeTheSoloPlay_0vx1kgs": "솔로 플레이 상대 자리를 승인할 수 없습니다.",
+   "joinTheRoomBeforeSendingRoom_1fcxf34": "방 작업을 보내기 전에 방에 참가하세요.",
+   "onlySeatedPlayersCanChangeRoom_0ggo6xz": "자리에 앉은 플레이어만 방 상태를 변경할 수 있습니다.",
+   "theRoomActionPayloadIsMalformed_1pkd2ik": "방 작업 페이로드 형식이 잘못되었습니다.",
+   "thisRequestWasNotPostedBecause_0385bjo": "스팸이거나 규칙 질문과 관련이 없는 것으로 보여 이 요청은 게시되지 않았습니다. 규칙 질문을 더 명확하게 보낼 수 있습니다.",
+   "questionNotPostedYourAccountIs_1jaxno7": "질문이 게시되지 않았습니다. 계정이 무기한 제한되었습니다. /appeal에서 이의 신청을 요청할 수 있습니다.",
+   "questionNotPostedWeCouldNot_1dlq9v4": "질문이 게시되지 않았습니다. 질문을 이해할 수 없습니다. 카드 이름, 행동, 도움이 필요한 규칙을 추가한 뒤 다시 시도하세요.",
+   "questionNotPostedThisSubmissionOr_1vnpakx": "질문이 게시되지 않았습니다. 이 제출 내용 또는 표시 이름이 심각한 악용으로 신고되었습니다.",
+   "judgeCallsAreAvailableOnlyDuring_1c794pc": "심판 호출은 진행 중인 멀티플레이 게임에서만 사용할 수 있습니다.",
+   "thatJudgeCallRequestIdIs_0jli4lp": "해당 심판 호출 요청 ID는 이미 다른 질문에 연결되어 있습니다.",
+   "couldNotVerifyTheActiveMultiplayer_0ge8qz8": "진행 중인 멀티플레이 게임을 확인할 수 없습니다. 다시 시도하세요.",
+   "thePreviousJudgeCallCouldNot_097mk9z": "이전 심판 호출을 복구할 수 없습니다. 이 요청을 다시 시도하세요.",
+   "thePreviousJudgeCallCouldNot_1f13g3g": "이전 심판 호출을 전달할 수 없습니다. 이 요청을 다시 시도하세요.",
+   "thePreviousJudgeCallCouldNot_1o9oqhb": "이전 심판 호출을 전달할 수 없습니다. 새 요청으로 다시 시도하세요.",
+   "onlyThePlayerWhoRequestedThis_0xq57gh": "이 커뮤니티 질문을 요청한 플레이어만 질문을 닫을 수 있습니다.",
+   "thatCommunityQuestionIsNoLonger_1c8rn54": "해당 커뮤니티 질문은 더 이상 사용할 수 없습니다.",
+   "chooseASavedSealedRegistrationFirst_0hk3jwj": "먼저 저장된 밀봉 등록을 선택하세요.",
+   "theSealedRegistrationDoesNotMatch_0ro9c34": "밀봉 등록이 선택한 저장된 초안과 일치하지 않습니다.",
+   "joinTheRoomBeforeLeavingIt_01q6ial": "방에서 나가기 전에 방에 참가하세요.",
+   "useTheLiveRoomShellTransport_0fx8c7h": "이 방 작업에는 실시간 방 셸 연결을 사용하세요.",
+   "realtimeStateChangedUnexpectedlyResyncingThe_10v5wg9": "실시간 상태가 예기치 않게 변경되었습니다. 실시간 매치를 다시 동기화하는 중입니다.",
+   "refreshTheSimulatorBeforeUsingThis_1ggiz8s": "이 작업을 사용하기 전에 시뮬레이터를 새로 고치세요.",
+   "refreshTheSimulatorBeforeApprovingA_0muvd9e": "체인 항목을 승인하기 전에 시뮬레이터를 새로 고치세요.",
+   "spectatorVisibilityChangedReconnectToContinue_157ixu7": "관전자 공개 범위가 변경되었습니다. 제한된 화면으로 계속하려면 다시 연결하세요.",
+   "roomAuthorizationChangedReconnectToContinue_1tfix9q": "방 권한이 변경되었습니다. 계속하려면 다시 연결하세요.",
+   "thisConnectionSPreviousRoomRole_0vvwd5y": "이 연결의 이전 방 역할이 종료되었습니다. 계속하려면 다시 연결하세요.",
+   "theRealtimeRoomIsConnectedBut_178z0ha": "실시간 방에 연결되었지만 이 메시지 유형은 여기에서 처리되지 않습니다.",
+   "realtimeRoomConnectionFailed_0ib6nww": "실시간 방 연결에 실패했습니다.",
+   "realtimeRoomConnectionLostReconnecting_1ja8rxu": "실시간 방 연결이 끊어졌습니다. 다시 연결하는 중…",
+   "couldNotReturnToTheLobby_080753w": "로비로 돌아갈 수 없습니다. 다시 시도하세요.",
+   "theMatchReturnedToTheLobby_10qttg1": "작업이 완료되기 전에 매치가 로비로 돌아갔습니다.",
+   "returnToLobbyIsOnlyAvailable_0jvdb0v": "\"로비로 돌아가기\"는 비공개 멀티플레이 게임에서만 사용할 수 있습니다.",
+   "thisPlayerHasAlreadyLeftThe_11p4hhs": "이 플레이어는 이미 게임을 떠났습니다.",
+   "waitingForYourFriendToJoin_0quxoj0": "친구가 이 상황에 참가하기를 기다리는 중입니다.",
+   "thisMatchRoomBelongsToAnother_1fu6m7o": "이 매치 방은 다른 로비 복귀 연결에 속해 있습니다.",
+   "theLinkedRoomIsStillBeing_0ciwz3w": "연결된 방이 아직 초기화 중입니다. 다시 시도하세요.",
+   "theLinkedRoomRequestWasRejected_0tlwtm7": "연결된 방 요청이 거부되었습니다.",
+   "seatsAreReservedWhilePlayersDecide_1dim26o": "플레이어가 돌아갈지 결정하는 동안 자리가 예약됩니다.",
+   "couldNotRevokeTheLinkedLobby_1gfkzuu": "연결된 로비 멤버십을 취소할 수 없습니다.",
+   "resolvedLeavePlayerMembershipIsMissing_0jl8bnz": "확정된 퇴장 플레이어 멤버십에 플레이어 ID가 없습니다.",
+   "theReturnLobbyRedirectChainIs_1p2mcub": "로비 복귀 리디렉션 체인이 올바르지 않습니다.",
+   "theLinkedLobbyIsTemporarilyUnavailable_1bhcyed": "연결된 로비를 일시적으로 사용할 수 없습니다.",
+   "theLinkedLobbyReturnedAnInvalid_178578p": "연결된 로비가 잘못된 멤버십 결과를 반환했습니다.",
+   "thePendingReturnLobbyActorCannot_1v86hbw": "대기 중인 로비 복귀 요청자를 복구할 수 없습니다.",
+   "anotherLinkedRoomTransitionIsStill_1bjm7t9": "다른 연결된 방 전환이 아직 초기화 중입니다.",
+   "thisMatchRoomBelongsToAnother_1dodsro": "이 매치 방은 다른 연결된 게임에 속해 있습니다.",
+   "thisMatchHasAlreadyEnded_0pnu5di": "이 매치는 이미 종료되었습니다.",
+   "theLinkedLobbyIsMissingIts_0ckiq5f": "연결된 로비에 기준이 되는 방 셸이 없습니다.",
+   "theReturnedPlayerDoesNotMatch_1gobezj": "돌아온 플레이어가 예약된 자리와 일치하지 않습니다.",
+   "thisReturnLobbySeatWasAlready_176zeks": "이 로비 복귀 자리는 이미 취소되었습니다.",
+   "theReservedReturnLobbySeatIs_1buuh9j": "예약된 로비 복귀 자리를 더 이상 사용할 수 없습니다.",
+   "thisReturnLobbySpectatorAdmissionWas_0dgcuur": "이 로비 복귀 관전자 입장 권한은 이미 취소되었습니다.",
+   "thisRoomDoesNotBelongTo_03bibeg": "이 방은 원래 게임에 속하지 않습니다.",
+   "thisGameHasAlreadyMovedParticipants_07lia17": "이 게임은 이미 참가자를 공유 로비로 옮겼습니다.",
+   "thisPlayerIsNotAdmittedTo_1ap7gfm": "이 플레이어는 연결된 로비에 입장할 수 없습니다.",
+   "generatedBoosterOnlySealedPoolMust_08v2shs": "생성된 부스터 전용 밀봉 카드 풀에는 스타터 키트 메타데이터가 없어야 합니다.",
+   "chooseTheFirstPlayerBeforeSelecting_1qznew2": "멀티플레이 전장을 선택하기 전에 첫 번째 플레이어를 정하세요.",
+   "theFirstPlayerDoesNotContribute_0egcpn9": "이 게임 모드에서는 첫 번째 플레이어가 전장을 제공하지 않습니다.",
+   "yourBattlefieldIsAlreadyLocked_15or31o": "전장이 이미 고정되었습니다.",
+   "couldNotResolveTiedInitiativeRolls_0pmvf4f": "동점이 된 선공 결정 굴림을 해결할 수 없습니다.",
+   "couldNotResolveInitiativeWinner_1dmqm0k": "선공 결정 승자를 확정할 수 없습니다.",
+   "setupPreviewBoardsCanOnlyBe_0w40vjt": "준비 미리 보기 보드는 전장 선택 중에만 새로 고칠 수 있습니다.",
+   "couldNotResolveThisPlayerS_1o7w1yi": "이 플레이어의 선공 결정 참가자를 확정할 수 없습니다.",
+   "onlyTheTeamThatWonInitiative_1yelpc0": "선공 결정에서 이긴 팀만 누가 먼저 할지 정할 수 있습니다.",
+   "couldNotResolveInitiativeCompetitorRepresentative_0oo9hfy": "선공 결정 참가자의 대표를 확정할 수 없습니다.",
+   "championZoneMustBeEmptyBefore_0ap43l8": "카드를 챔피언 영역으로 옮기려면 챔피언 영역이 비어 있어야 합니다.",
+   "counterInitializationFlagMustBeBoolean_18up1nz": "카운터 초기화 플래그는 불리언 값이어야 합니다.",
+   "onlyWhiteCountersOnUnitsCan_0by8m1n": "유닛 위의 흰색 카운터만 유닛 위력으로 초기화할 수 있습니다.",
+   "couldNotCompleteAutoStartSetup_1rr6121": "자동 시작 준비를 완료할 수 없습니다.",
+   "everyPlayerMustHaveADeck_1vp4ni7": "보조 덱 조정을 마치려면 모든 플레이어에게 덱이 있어야 합니다.",
+   "every2v2PlayerMustHaveA_1kasmcn": "모든 2대2 플레이어에게 팀이 배정되어야 합니다.",
+   "theTeamDeckRegistrationsConflict_1niru5k": "팀 덱 등록이 서로 충돌합니다.",
+   "theSideboardedDeckIsNotReady_0735pzn": "보조 덱 조정을 마친 덱이 이 매치에 사용할 준비가 되지 않았습니다.",
+   "aSideboardedDeckIsNotReady_0eywd0j": "보조 덱 조정을 마친 덱 중 하나가 이 매치에 사용할 준비가 되지 않았습니다.",
+   "aRoomCannotContainMoreThan_13kvzpe": "방에는 자리에 앉은 플레이어가 4명을 넘을 수 없습니다.",
+   "everyPlayerMustLoadADeck_1s80nyn": "변형 규칙을 검증하기 전에 모든 플레이어가 덱을 불러와야 합니다.",
+   "thisMultiplayerVariantIsDisabledFor_0pa8hda": "이 멀티플레이 변형 규칙은 공개 방에서 사용할 수 없습니다.",
+   "multiplayerVariantsWithThreeOrFour_1cdlcr3": "플레이어가 3명 또는 4명인 멀티플레이 변형 규칙은 BO1을 사용합니다.",
+   "gameTypeCanOnlyBeChanged_0hop3p0": "게임 유형은 호스트가 만든 멀티플레이 방에서만 변경할 수 있습니다.",
+   "gameTypeCanOnlyBeChanged_0hhn1bk": "게임 유형은 매치가 시작되기 전에만 변경할 수 있습니다.",
+   "onlyTheRoomHostCanChange_0qzp1ko": "방장만 게임 유형을 변경할 수 있습니다.",
+   "chooseASupportedHostedGameType_0nnlpi8": "지원되는 방 게임 유형을 선택하세요.",
+   "teamSeatsCanOnlyBeChanged_1bf3hzj": "팀 자리는 호스트가 만든 2대2 방에서만 변경할 수 있습니다.",
+   "teamSeatsCanOnlyBeChanged_02p6ak1": "팀 자리는 매치가 시작되기 전에만 변경할 수 있습니다.",
+   "theRoomHostMustRemainIn_0f2b30j": "방장은 1번 자리에 있어야 합니다.",
+   "chooseOneOfTheNonHost_0021ds9": "방장이 아닌 팀 자리 중 하나를 선택하세요.",
+   "onlyTheRoomHostCanRandomize_0abg5ku": "방장만 팀을 무작위로 배정할 수 있습니다.",
+   "allFourPlayersMustBeSeated_1bjvf81": "팀을 무작위로 배정하려면 4명의 플레이어가 모두 자리에 앉아야 합니다.",
+   "nextGameIsUnavailableBecauseA_0hsqfxh": "플레이어가 방을 떠나 다음 게임을 시작할 수 없습니다.",
+   "nextGameIsAvailableAfterThe_1x0ubfg": "다음 게임은 멀티플레이 게임이 끝난 후에 시작할 수 있습니다.",
+   "rewindAndForwardAreDisabledIn_0lz961q": "플레이어가 3명 이상인 게임에서는 되감기와 앞으로 감기를 사용할 수 없습니다.",
+   "onlySeatedPlayersCanPerformGameplay_1j4k91z": "자리에 앉은 플레이어만 게임 행동을 할 수 있습니다.",
+   "revealTargetPlayerIdIsInvalid_0n0nv3w": "공개 대상 플레이어 ID가 올바르지 않습니다.",
+   "chooseEitherOneRevealTargetOr_09g6owz": "공개 대상 한 명 또는 공개 범위 중 하나만 선택하세요. 둘 다 선택할 수는 없습니다.",
+   "revealAudienceIsInvalid_11fa86l": "공개 범위가 올바르지 않습니다.",
+   "aTargetPlayerCanOnlyBe_1lodcf7": "대상 플레이어는 상대 카드에 대해서만 선택할 수 있습니다.",
+   "targetPlayerIdIsInvalid_0lzbq35": "대상 플레이어 ID가 올바르지 않습니다.",
+   "forcedMoveFlagMustBeBoolean_1faooqn": "강제 이동 플래그는 불리언 값이어야 합니다.",
+   "transferRecipientMustBeAValid_0hulsk3": "이전받을 플레이어는 유효한 플레이어여야 합니다.",
+   "equipmentCanOnlyBeEquippedFrom_12hd57c": "장비는 기지에서만 장착할 수 있습니다.",
+   "hiddenEquipmentCannotBeEquipped_1dcuq04": "숨겨진 장비는 장착할 수 없습니다.",
+   "attachedEquipmentCannotUseEquip_0tpyp0b": "부착된 장비는 장착을 사용할 수 없습니다.",
+   "hiddenCardsCannotBeEquipTargets_1etgo06": "숨겨진 카드는 장착 대상이 될 수 없습니다.",
+   "equipmentCannotBeAttachedOnAn_1x7owce": "비활성 전장에서는 장비를 부착할 수 없습니다.",
+   "thisRequestDoesNotMatchThe_0sjxd7l": "이 요청이 진행 중인 매치메이킹 검색과 일치하지 않습니다. 다른 검색을 시작하기 전에 현재 검색을 취소하세요.",
+   "theRoomInitializationOperationIsInvalid_1q4ud5z": "방 초기화 작업이 올바르지 않습니다.",
+   "theRoomCreatorAuthorizationDoesNot_0pyfkyl": "방 생성자 권한이 초기화 작업과 일치하지 않습니다.",
+   "theRoomRequestPayloadIsToo_16pjay9": "방 요청 페이로드가 너무 큽니다.",
+   "thisRoomCreationOperationHasExpired_1dipq9u": "이 방 생성 작업은 만료되었습니다. 새 작업 ID로 다시 시작하세요.",
+   "roomCreationRecoveryIsTemporarilyUnavailable_11jug8j": "방 생성 복구를 일시적으로 사용할 수 없습니다. 다시 시도하세요.",
+   "aValidRoomCreationOperationId_1a49i2c": "유효한 방 생성 작업 ID가 필요합니다(8~128자의 문자, 숫자, ':', '_' 또는 '-').",
+   "theRoomServiceIsTakingToo_15tegcb": "방 서비스 응답이 너무 오래 걸립니다. 다시 시도하세요.",
+   "theRoomRequestWasCancelled_1pze61i": "방 요청이 취소되었습니다.",
+   "theRoomServiceReturnedAnInvalid_1hnlgx0": "방 서비스가 잘못된 생성 결과를 반환했습니다. 다시 시도하세요.",
+   "theRoomServiceReturnedAnInvalid_0v3tbf3": "방 서비스가 잘못된 참가 결과를 반환했습니다. 다시 시도하세요.",
+   "theRoomServiceReturnedAnInvalid_0krhnjq": "방 서비스가 잘못된 관전 결과를 반환했습니다. 다시 시도하세요.",
+   "theRoomServiceReturnedAnInvalid_0i79u4s": "방 서비스가 잘못된 자리 결과를 반환했습니다. 다시 시도하세요.",
+   "theRoomServiceReturnedAnInvalid_0x2vxqv": "방 서비스가 잘못된 멤버십 결과를 반환했습니다. 다시 시도하세요.",
+   "theMatchmakingServiceReturnedAnInvalid_1m8p4zh": "매치메이킹 서비스가 잘못된 취소 결과를 반환했습니다. 다시 시도하세요.",
+   "thisDeckCannotBeUsedIn_0tz73ez": "이 덱은 현재 방에서 사용할 수 없습니다.",
+   "signInTokenRefreshIsTemporarily_1pbtb5t": "로그인 토큰을 일시적으로 새로 고칠 수 없습니다. 방은 안전합니다.",
+   "aSignInTokenIsTemporarily_1wuvhrd": "로그인 토큰을 일시적으로 사용할 수 없습니다. 방은 안전합니다.",
+   "theRoomSetupChangedWhileIt_1mwufyc": "준비 중에 방 설정이 변경되었습니다. 다시 시도하세요.",
+   "theRoomSetupChangedWhileCreation_1yo5rah": "생성 대기 중에 방 설정이 변경되었습니다. 다시 시도하세요.",
+   "theRoomServiceReturnedAMismatched_1xyjh2p": "방 서비스가 일치하지 않는 작업 결과를 반환했습니다.",
+   "theSavedMatchSearchCouldNot_0fe6z1m": "저장된 매치 검색을 안전하게 복구할 수 없습니다.",
+   "thePreviousMatchSearchCanNo_1blddc5": "이전 매치 검색을 더 이상 복구할 수 없습니다. 다시 시도하세요.",
+   "cancelTheEarlierMatchSearchBefore_0ikm8pv": "다른 검색을 시작하기 전에 이전 매치 검색을 취소하세요.",
+   "yourSignedInAccountIsStill_0gu4xb3": "로그인한 계정이 아직 동기화 중입니다. 잠시 후 다시 시도하세요.",
+   "thisMatchSearchBelongsToA_0jaf4ky": "이 매치 검색은 다른 로그인 계정에 속해 있습니다. 결과를 복구하려면 검색을 시작한 계정으로 로그인하세요.",
+   "yourSignedInAccountChangedWhile_1fuv3u3": "매치메이킹을 준비하는 동안 로그인한 계정이 변경되었습니다.",
+   "couldNotPrepareMatchmaking_1xtdki2": "매치메이킹을 준비할 수 없습니다.",
+   "theSelectedDeckChangedDuringMatchmaking_1v8xpbm": "매치메이킹 중에 선택한 덱이 변경되었습니다. 취소를 확인하는 중입니다.",
+   "theSelectedDeckChangedSearchingAgain_0ts77h7": "선택한 덱이 변경되었습니다. 현재 덱으로 다시 검색하는 중입니다.",
+   "theSelectedDeckIsNoLonger_1cv3s89": "선택한 덱을 더 이상 사용할 수 없습니다. 덱을 선택하고 다시 검색하세요.",
+   "theSelectedDeckChangedWhileMatchmaking_14j2h5d": "매치메이킹을 준비하는 동안 선택한 덱이 변경되었습니다. 다시 시도하세요.",
+   "cancellationIsStillPendingUseCancel_192gt5u": "취소가 아직 처리 중입니다. \"검색 취소\"를 사용하여 확인하세요.",
+   "couldNotConnectToMatchmaking_0y89oh0": "매치메이킹에 연결할 수 없습니다.",
+   "theSelectedDeckChangedDuringMatchmaking_0w1avk4": "매치메이킹 중에 선택한 덱이 변경되었습니다. 새 검색을 시작하세요.",
+   "theSelectedDeckOrAccountChanged_122nd5o": "매치메이킹 중에 선택한 덱 또는 계정이 변경되었습니다. 취소를 확인하는 중입니다.",
+   "couldNotReconnectToMatchmakingResume_1j60ble": "매치메이킹에 다시 연결할 수 없습니다. 정확한 결과를 확인하려면 \"검색 재개\"를 사용하세요.",
+   "couldNotConnectToMatchmakingTry_03g747t": "매치메이킹에 연결할 수 없습니다. 다시 시도하세요.",
+   "cancellationIsStillPendingTryCancel_1a7k04m": "취소가 아직 처리 중입니다. \"검색 취소\"를 다시 시도하세요.",
+   "theMatchmakingServiceReturnedAMismatched_02admm0": "매치메이킹 서비스가 일치하지 않는 취소 결과를 반환했습니다.",
+   "cancellationResultIsUncertainResumeThe_02j2ydc": "취소 결과가 불확실합니다. 확인하려면 검색을 재개하세요.",
+   "cancellationResultIsUncertainTryCancel_1s2xg23": "취소 결과가 불확실합니다. \"검색 취소\"를 다시 시도하세요.",
+   "theJoinActionWasSuperseded_0tnr7st": "참가 작업이 이후 작업으로 대체되었습니다.",
+   "theRoomServiceReturnedMembershipFor_1iumuvz": "방 서비스가 다른 방의 멤버십을 반환했습니다.",
+   "theSeatActionWasSuperseded_093s4ma": "자리 작업이 이후 작업으로 대체되었습니다.",
+   "theSelectedDeckChangedWhileIt_01q0n2h": "등록하는 동안 선택한 덱이 변경되었습니다. 다시 시도하세요.",
+   "couldNotChangeTheRoomGame_1qgvzer": "방 게임 유형을 변경할 수 없습니다.",
+   "couldNotSwitchSeats_1a09w4f": "자리를 바꿀 수 없습니다.",
+   "couldNotRandomizeTeams_1ovaob8": "팀을 무작위로 배정할 수 없습니다.",
+   "yourSignInTokenCouldNot_1vosjma": "로그인 토큰을 자동으로 새로 고칠 수 없습니다. 다시 연결하거나 다시 로그인하세요.",
+   "signInVerificationIsStillUnavailable_09pt321": "로그인 확인을 여전히 사용할 수 없습니다. 방은 안전합니다. 연결이 복구되면 다시 시도하세요.",
+   "yourSignedInAccountChangedWhile_0cwqcer": "방 접근 권한을 확인하는 동안 로그인한 계정이 변경되었습니다. 다시 시도하세요.",
+   "deckStillSyncingTryAgainIn_0qhl6f4": "덱이 아직 동기화 중입니다. 잠시 후 다시 시도하세요.",
+   "thisSealedFormatIsNotAvailable_0z9lw1a": "이 밀봉 포맷은 공개 매치메이킹에서 사용할 수 없습니다.",
+   "thisSealedFormatWasSentTo_0dae1xx": "이 밀봉 포맷이 잘못된 매치메이킹 풀로 전송되었습니다. 새로 고친 뒤 다시 시도하세요.",
+   "runeDeckIsEmpty_1rw0hof": "룬 덱이 비어 있습니다.",
+   "runeNotFoundInDeck_1vid0jy": "덱에서 룬을 찾을 수 없습니다.",
+   "bestOf1SealedRegistrationsCan_0v1adbl": "BO1 밀봉 등록에는 실물 전장 카드를 최대 3장까지 포함할 수 있습니다.",
+   "rewindCouldNotSafelyReconstructThat_0rhiw6d": "되감기로 해당 시점을 안전하게 재구성할 수 없습니다. 매치를 다시 동기화하는 중입니다.",
+   "thatRewindConfirmationIsNoLonger_0tn9kpf": "해당 되감기 확인은 더 이상 사용할 수 없습니다.",
+   "onlyTheRequestedPlayerCanRespond_0vqfuiy": "요청받은 플레이어만 이 되감기에 응답할 수 있습니다.",
+   "onlyAnOpponentCanApproveOr_020pn21": "상대만 이 되감기를 승인하거나 거절할 수 있으며, 요청자만 취소할 수 있습니다.",
+   "theTimelineChangedSoThatRewind_15udoy2": "타임라인이 변경되어 해당 되감기 요청이 취소되었습니다.",
+   "theOtherPlayerIsNotAvailable_1bq99d3": "다른 플레이어가 이 되감기를 확인할 수 없는 상태입니다.",
+   "noOpponentIsAvailableToConfirm_0n5lh8u": "이 되감기를 확인할 수 있는 상대가 없습니다.",
+   "anotherRewindConfirmationIsAlreadyPending_09tv77z": "다른 되감기 확인이 이미 대기 중입니다.",
+   "theRewindRequestCouldNotBe_166evjw": "되감기 요청을 만들 수 없습니다. 다시 시도하세요.",
+   "forwardIsNoLongerAvailable_0vgf9uh": "앞으로 가기를 더 이상 사용할 수 없습니다.",
+   "forwardCouldNotSafelyRestoreThat_109sua6": "앞으로 가기로 해당 타임라인을 안전하게 복원할 수 없습니다. 매치를 다시 동기화하는 중입니다.",
+   "theRoomSessionChangedTryAgain_0aiy4j0": "방 세션이 변경되었습니다. 다시 시도하세요.",
+   "spectatorsCannotRespondToRewindConfirmations_0rcn3cd": "관전자는 되감기 확인에 응답할 수 없습니다.",
+   "spectatorsCannotNavigateMatchHistory_05z093i": "관전자는 매치 기록을 탐색할 수 없습니다.",
+   "couldNotLoadThatSealedRegistration_1wfqtx7": "해당 밀봉 등록을 불러올 수 없습니다.",
+   "couldNotLoadThatSealedRegistration_1a6t0co": "해당 밀봉 등록을 불러올 수 없습니다. 다시 시도하세요.",
+   "thatSealedRegistrationIsNoLonger_1c9uhig": "해당 밀봉 등록이 더 이상 라이브러리에 없습니다.",
+   "theOriginsQueueOnlyAllowsCards_0rp2r6o": "이 대기열은 Origins 덱만 사용할 수 있습니다.",
+   "deckCreationAndEditingAreTemporarily_13saxd8": "덱 생성 및 편집을 일시적으로 사용할 수 없습니다.",
+   "deckCreationAndEditingAreTemporarily_0cox63n": "예정된 점검 중에는 덱 생성 및 편집을 일시적으로 사용할 수 없습니다.",
+   "deckCreationAndEditingAreTemporarily_1kvlavv": "예정된 점검 시작 30분 전부터 덱 생성 및 편집을 일시적으로 사용할 수 없습니다.",
+   "deckNameIsRequired_03j6bww": "덱 이름을 입력해야 합니다.",
+   "thisDeckMustMeetStandardRules_0igary7": "이 덱을 저장하려면 스탠다드 규칙을 충족해야 합니다.",
+   "signInToSaveThisDeck_0rulrtm": "이 덱을 저장하려면 로그인하세요.",
+   "couldNotSaveDeck_0djucbx": "덱을 저장할 수 없습니다.",
+   "chooseAStarRatingBeforeSending_0xw3q58": "피드백을 보내기 전에 별점을 선택하세요.",
+   "couldNotSendFeedbackRightNow_083idq6": "지금은 피드백을 보낼 수 없습니다.",
+   "thisSeatWasResumedFromAnother_0d0vlkz": "이 좌석은 다른 탭이나 기기에서 재개되었습니다.",
+   "theLiveRealtimeMatchRuntimeCould_1i5kd7g": "실시간 매치 런타임을 여러 번 재시도했지만 자동으로 시작할 수 없었습니다. 연결을 다시 시도하세요.",
+   "theLiveRealtimeMatchRuntimeIs_0jp3ws6": "실시간 매치 런타임을 더 이상 사용할 수 없습니다. 배포나 방 재시작 후 발생할 수 있으며, 진행 중인 게임은 자동으로 재개할 수 없습니다.",
+   "thisRoomIsUnavailableTheServer_1j9f5qr": "이 방을 사용할 수 없습니다: 서버가 더 이상 이 방을 불러올 수 없습니다. 로비로 돌아가 새 게임을 시작하세요.",
+   "theLiveRealtimeMatchRuntimeIs_1us0417": "실시간 매치 런타임이 활성화되지 않았습니다.",
+   "theLiveRealtimeMatchRuntimeIs_0ml1bts": "실시간 매치 런타임이 아직 시작하는 중입니다. 잠시 기다리세요.",
+   "realtimeMatchStateIsResyncingPlease_1ho6u4u": "실시간 매치 상태를 다시 동기화하는 중입니다. 잠시 기다리세요.",
+   "theRealtimeRoomSessionEnded_1q9zu12": "실시간 방 세션이 종료되었습니다.",
+   "theRealtimeRoomConnectionClosedBefore_1o86fgz": "동작이 완료되기 전에 실시간 방 연결이 종료되었습니다.",
+   "theRealtimeRoomConnectionClosedBefore_0dvrzz5": "관전자 공개 범위 업데이트가 완료되기 전에 실시간 방 연결이 종료되었습니다.",
+   "theRealtimeRoomDidNotAcknowledge_1oxiz9v": "실시간 방이 관전자 공개 범위를 확인하지 않았습니다.",
+   "theRealtimeRoomDidNotAcknowledge_0du8hoz": "실시간 방이 해당 동작을 확인하지 않았습니다.",
+   "gameplayActionAlreadyPending_17llbcs": "이미 처리 대기 중인 게임 플레이 동작이 있습니다.",
+   "baronNashorMustCreateAndEnter_1c0kv33": "내셔 남작은 내셔 남작 둥지를 생성하고 그곳에 들어가야 합니다.",
+   "baronPitIsNotActive_1d4y4az": "내셔 남작 둥지가 활성화되지 않았습니다.",
+   "theRequestedGameInstanceDoesNot_1j1cwww": "요청한 게임 인스턴스가 이 매치 방과 일치하지 않습니다.",
+   "joinTheMatchRoomBeforeSending_1spx7ac": "게임 플레이 동작을 보내기 전에 매치 방에 참가하세요.",
+   "theMatchRoomIsNotInitialized_1r3ieqh": "매치 방이 아직 초기화되지 않았습니다.",
+   "aNewerConnectionForThisPlayer_0zs7m7i": "이 플레이어의 새 연결이 매치 세션을 넘겨받았습니다.",
+   "noUndoSnapshotIsAvailable_06u6m5z": "사용할 수 있는 되돌리기 스냅샷이 없습니다.",
+   "thisPlayerCannotActInThe_1pinjyi": "이 플레이어는 아직 매치에서 행동할 수 없습니다.",
+   "thatActionCouldNotBeApplied_1qt9bsk": "해당 동작을 적용할 수 없습니다.",
+   "realtimeSeatAuthorizationIsUnavailable_14ftv18": "실시간 좌석 인증을 사용할 수 없습니다.",
+   "realtimeSpectatorVisibilityCouldNotBe_0dxr124": "실시간 관전자 공개 범위를 복원할 수 없습니다.",
+   "thisSpectatorSessionIsNotAuthorized_03p6bol": "이 관전 세션은 해당 방에 대한 권한이 없습니다.",
+   "realtimeSpectatorAuthorizationIsUnavailable_0um1xrc": "실시간 관전자 인증을 사용할 수 없습니다.",
+   "theMatchRuntimeCouldNotBe_06ixe9z": "관전자를 위한 매치 런타임을 복원할 수 없습니다.",
+   "theMatchRuntimeCouldNotBe_15jrcma": "매치 런타임을 초기화할 수 없습니다.",
+   "theMatchRuntimeIsNotInitialized_1akkauc": "매치 런타임이 아직 초기화되지 않았습니다.",
+   "theMatchRuntimeCouldNotBe_175ldkq": "매치 런타임을 복원할 수 없습니다.",
+   "theGameplayActionPayloadIsMalformed_0of1p39": "게임 플레이 동작 데이터의 형식이 잘못되었습니다.",
+   "thisConnectionCannotActForAnother_00d63x7": "이 연결은 다른 플레이어 대신 행동할 수 없습니다.",
+   "thisActionStillBelongsToThe_1qqciso": "이 동작은 아직 관리형 백엔드에서 처리해야 합니다.",
+   "theMatchActionCouldNotBe_0gpjzeh": "매치 동작을 저장할 수 없습니다. 잠시 후 다시 시도하세요.",
+   "theMatchActionCouldNotBe_12u3t9i": "매치 동작을 확인할 수 없습니다. 잠시 후 다시 시도하세요.",
+   "joinTheMatchRoomBeforeChanging_09fhemr": "관전자 공개 범위를 변경하기 전에 매치 방에 참가하세요.",
+   "onlyTheGrantingPlayerCanChange_0cffmkg": "권한을 부여한 플레이어만 자신의 관전자 공개 범위를 변경할 수 있습니다.",
+   "aSpecificSpectatorGrantRequiresA_0nrf5h7": "특정 관전자에게 권한을 부여하려면 로그인한 관전자 대상이 필요합니다.",
+   "spectatorVisibilityCouldNotBeRestored_1fc3flf": "관전자 공개 범위를 복원할 수 없습니다.",
+   "spectatorVisibilityCouldNotBeSaved_0ol8ptq": "관전자 공개 범위를 저장할 수 없습니다.",
+   "spectatorVisibilityCouldNotBeQueued_1gdshh4": "관전자 공개 범위를 동기화 대기열에 추가할 수 없습니다.",
+   "presenceUpdatesMustIncludeHoverPing_049ry2r": "접속 상태 업데이트에는 호버, 핑, 이모트 또는 입력 중 데이터가 포함되어야 합니다.",
+   "onlyJsonStringMessagesAreSupported_0fxeiys": "현재는 JSON 문자열 메시지만 지원합니다.",
+   "theRealtimeMessagePayloadIsToo_0mseekp": "실시간 메시지 데이터가 너무 큽니다.",
+   "couldNotParseTheRealtimeMessage_1l6twqt": "실시간 메시지 데이터를 해석할 수 없습니다.",
+   "theRealtimeRoomIsConnectedBut_17d878g": "실시간 방은 연결되었지만 게임 플레이 메시지는 여전히 관리형 백엔드를 통해 처리됩니다.",
+   "chooseDocksideLockUpAtA_1cpjazd": "전장에 있는 Dockside Lock-Up을 선택하세요.",
+   "docksideLockUpAlreadyHasA_0mc5blh": "Dockside Lock-Up에 이미 추방된 카드가 있습니다.",
+   "chooseAUnitAtThatBattlefield_14mkz0z": "해당 전장에 있는 유닛을 선택하세요.",
+   "thatCardIsNotLinkedTo_0bojwzc": "이 카드는 이 Dockside Lock-Up과 연결되어 있지 않습니다.",
+   "chooseAnEmpoweredKharoxInPlay_1u3s0jv": "게임판에 있는 강화된 Kharox를 선택하세요.",
+   "kharoxAlreadyPlayedACardFor_1xda5so": "Kharox는 이번 강화로 이미 카드를 사용했습니다.",
+   "chooseAUnitInAnOpponent_06j2jao": "상대 폐기장에 있는 유닛을 선택하세요.",
+   "thatCardCannotBePlayedThere_0b6njir": "이 카드는 그곳에 사용할 수 없습니다.",
+   "chooseASupportedDieType_0dndfyp": "지원되는 주사위 종류를 선택하세요."
+  },
+  "patterns": {
+   "noRoomFoundForCode": [
+    "방 코드가 ",
+    [
+     "code"
+    ],
+    "인 방을 찾을 수 없습니다. 방 코드를 확인한 후 다시 시도하세요."
+   ],
+   "savedRegistrationRequired": [
+    [
+     "action",
+     1,
+     {
+      "room": [
+       "방을 만들기 전에 저장된 ",
+       [
+        "formatKind",
+        1,
+        {
+         "sealed": "밀봉",
+         "other": [
+          [
+           "format"
+          ]
+         ]
+        }
+       ],
+       " 등록을 선택하세요."
+      ],
+      "other": [
+       "매치를 찾기 전에 저장된 ",
+       [
+        "formatKind",
+        1,
+        {
+         "sealed": "밀봉",
+         "other": [
+          [
+           "format"
+          ]
+         ]
+        }
+       ],
+       " 등록을 선택하세요."
+      ]
+     }
+    ]
+   ],
+   "requiredFeedbackField": [
+    [
+     "field",
+     1,
+     {
+      "feedbackPromptId": "피드백 프롬프트 ID",
+      "feedbackClientId": "피드백 클라이언트 ID",
+      "roomCode": "방 코드",
+      "adId": "광고 ID",
+      "adTitle": "광고 제목",
+      "adHref": "광고 링크",
+      "other": [
+       [
+        "field"
+       ]
+      ]
+     }
+    ],
+    "은(는) 필수 항목입니다."
+   ],
+   "changedMatchmakingRegistration": [
+    [
+     "subject",
+     1,
+     {
+      "sealed": "밀봉 등록이 변경되어 이전 매치 찾기가 취소되었습니다.",
+      "other": "덱이 변경되어 이전 매치 찾기가 취소되었습니다."
+     }
+    ]
+   ],
+   "savedDeckLimit": [
+    "저장 가능한 덱 수 한도(",
+    [
+     "limit"
+    ],
+    "개)에 도달했습니다."
+   ],
+   "mainDeckSafetyLimit": [
+    "주 덱에는 카드를 최대 ",
+    [
+     "max"
+    ],
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "장까지",
+      "other": "장까지"
+     }
+    ],
+    " 넣을 수 있습니다. 현재 ",
+    [
+     "found"
+    ],
+    "장입니다."
+   ],
+   "roomApiRequestFailure": [
+    "방 API 요청에 실패했습니다(",
+    [
+     "status"
+    ],
+    ")."
+   ],
+   "missingBattlefields": [
+    [
+     "player"
+    ],
+    "의 덱에 전장 카드가 없습니다."
+   ],
+   "rebuiltOutsidePool": [
+    "다시 구성한 덱에 저장된 ",
+    [
+     "format"
+    ],
+    " 카드 풀에 없는 카드가 포함되어 있습니다."
+   ],
+   "hiddenZone": [
+    [
+     "zone"
+    ],
+    "에 있는 카드만 숨길 수 있습니다."
+   ],
+   "invalidBo3Snapshot": [
+    "BO3 덱 스냅샷이 올바르지 않습니다: ",
+    [
+     "detail"
+    ]
+   ],
+   "ambiguousBo3Snapshot": [
+    "BO3 덱 스냅샷이 모호합니다: ",
+    [
+     "detail"
+    ]
+   ],
+   "missingBo3Snapshot": [
+    [
+     "player"
+    ],
+    "의 BO3 덱 스냅샷이 없습니다. 새 매치를 시작하세요."
+   ],
+   "sealedRegistrationNotReady": [
+    "저장된 ",
+    [
+     "format"
+    ],
+    " 등록을 아직 플레이에 사용할 수 없습니다."
+   ],
+   "mismatchedSealedFormat": [
+    "두 플레이어가 같은 밀봉 형식을 사용해야 합니다. 이 방은 ",
+    [
+     "format"
+    ],
+    "을(를) 사용합니다."
+   ],
+   "missingNextDeck": [
+    "다음 게임에 사용할 ",
+    [
+     "player"
+    ],
+    "의 ",
+    [
+     "deckKind",
+     1,
+     {
+      "submitted": "제출된 덱",
+      "other": "등록된 덱"
+     }
+    ],
+    "을 찾을 수 없습니다."
+   ],
+   "invalidNextDeck": [
+    [
+     "player"
+    ],
+    "의 ",
+    [
+     "deckKind",
+     1,
+     {
+      "submitted": "제출된 덱",
+      "other": "등록된 덱"
+     }
+    ],
+    "은 더 이상 다음 게임에 사용할 수 없습니다."
+   ],
+   "judgeCallRetry": [
+    [
+     "reason",
+     1,
+     {
+      "tooMany": [
+       "심판 호출이 너무 많습니다. ",
+       [
+        "seconds"
+       ],
+       [
+        "secondsPlural",
+        2,
+        {
+         "one": "초",
+         "other": "초"
+        }
+       ],
+       " 후에 다시 시도하세요."
+      ],
+      "other": [
+       "심판 호출을 아직 조정하는 중입니다. ",
+       [
+        "seconds"
+       ],
+       [
+        "secondsPlural",
+        2,
+        {
+         "one": "초",
+         "other": "초"
+        }
+       ],
+       " 후에 다시 시도하세요."
+      ]
+     }
+    ]
+   ],
+   "unknownHeaderIgnored": [
+    "알 수 없는 섹션 제목 \"",
+    [
+     "header"
+    ],
+    "\"입니다. 해당 섹션은 무시했습니다."
+   ],
+   "unknownHeaderSuggestionIgnored": [
+    "알 수 없는 섹션 제목 \"",
+    [
+     "header"
+    ],
+    "\"입니다. \"",
+    [
+     "suggestion"
+    ],
+    "\"을(를) 찾으셨습니까? 해당 섹션은 무시했습니다."
+   ],
+   "unknownHeaderSuggestion": [
+    "알 수 없는 섹션 제목 \"",
+    [
+     "header"
+    ],
+    "\"입니다. \"",
+    [
+     "suggestion"
+    ],
+    "\"을(를) 찾으셨습니까?"
+   ],
+   "couldNotParse": [
+    "\"",
+    [
+     "line"
+    ],
+    "\"을(를) 해석할 수 없습니다. \"",
+    [
+     "example"
+    ],
+    "\" 또는 \"",
+    [
+     "alternative"
+    ],
+    "\" 형식이어야 합니다."
+   ],
+   "cardBeforeHeader": [
+    "카드 항목 \"",
+    [
+     "entry"
+    ],
+    "\"이(가) 알려진 섹션 제목보다 앞에 있어 무시했습니다."
+   ],
+   "deckCodeUnknown": [
+    "덱 코드에 알 수 없는 카드 코드 \"",
+    [
+     "code"
+    ],
+    "\"이(가) 있습니다."
+   ],
+   "unknownCardCode": [
+    [
+     "section"
+    ],
+    "에서 카드 코드 \"",
+    [
+     "code"
+    ],
+    "\"을(를) 찾을 수 없습니다."
+   ],
+   "nameCodeMismatch": [
+    "\"",
+    [
+     "name"
+    ],
+    "\"이(가) 카드 코드 \"",
+    [
+     "code"
+    ],
+    "\"(",
+    [
+     "codeName"
+    ],
+    ")과(와) 일치하지 않습니다."
+   ],
+   "tokenIncluded": [
+    "\"",
+    [
+     "card"
+    ],
+    "\"은(는) 토큰이므로 덱 목록에 넣을 수 없습니다."
+   ],
+   "belongsUnder": [
+    "\"",
+    [
+     "card"
+    ],
+    "\"은(는) ",
+    [
+     "actual"
+    ],
+    "이(가) 아닌 ",
+    [
+     "expected"
+    ],
+    "에 속합니다."
+   ],
+   "invalidSectionCard": [
+    "\"",
+    [
+     "card"
+    ],
+    "\"은(는) 올바른 ",
+    [
+     "section"
+    ],
+    " 카드가 아닙니다."
+   ],
+   "unknownCard": [
+    [
+     "section"
+    ],
+    "에서 카드 \"",
+    [
+     "card"
+    ],
+    "\"을(를) 찾을 수 없습니다.",
+    [
+     "suggestionsPresent",
+     1,
+     {
+      "yes": [
+       " ",
+       [
+        "suggestions"
+       ]
+      ],
+      "other": ""
+     }
+    ]
+   ],
+   "missingSection": [
+    "필수 섹션이 없습니다: ",
+    [
+     "section"
+    ],
+    "."
+   ],
+   "exactCount": [
+    [
+     "section"
+    ],
+    "에는 카드가 정확히 ",
+    [
+     "required"
+    ],
+    [
+     "requiredPlural",
+     2,
+     {
+      "one": "장",
+      "other": "장"
+     }
+    ],
+    " 있어야 합니다. 현재 ",
+    [
+     "found"
+    ],
+    "장입니다."
+   ],
+   "atMostCount": [
+    [
+     "section"
+    ],
+    "에는 카드를 최대 ",
+    [
+     "max"
+    ],
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "장까지",
+      "other": "장까지"
+     }
+    ],
+    " 넣을 수 있습니다. 현재 ",
+    [
+     "found"
+    ],
+    "장입니다."
+   ],
+   "atLeastCount": [
+    [
+     "section"
+    ],
+    "에는 카드가 ",
+    [
+     "required"
+    ],
+    [
+     "requiredPlural",
+     2,
+     {
+      "one": "장",
+      "other": "장"
+     }
+    ],
+    " 이상 있어야 합니다. 현재 ",
+    [
+     "found"
+    ],
+    "장입니다."
+   ],
+   "outsideDomainIdentity": [
+    [
+     "section"
+    ],
+    "에 \"",
+    [
+     "card"
+    ],
+    "\"이(가) 포함되어 있으며, 이 카드의 ",
+    [
+     "cardDomains"
+    ],
+    " ",
+    [
+     "domainCount",
+     1,
+     {
+      "one": "영역은",
+      "other": "영역은"
+     }
+    ],
+    " 이 덱의 ",
+    [
+     "deckDomains"
+    ],
+    " 영역 구성에 속하지 않습니다."
+   ],
+   "signatureCount": [
+    "주 덱에 시그니처 카드가 ",
+    [
+     "count"
+    ],
+    [
+     "countPlural",
+     2,
+     {
+      "one": "장",
+      "other": "장"
+     }
+    ],
+    " 있습니다. 합계 최대 ",
+    [
+     "max"
+    ],
+    "장까지 허용됩니다."
+   ],
+   "rawCharacterLimit": [
+    "덱 목록은 ",
+    [
+     "max"
+    ],
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "자를",
+      "other": "자를"
+     }
+    ],
+    " 넘을 수 없습니다. 현재 ",
+    [
+     "found"
+    ],
+    "자입니다."
+   ],
+   "maxCopies": [
+    [
+     "section"
+    ],
+    "에 \"",
+    [
+     "card"
+    ],
+    "\"이(가) ",
+    [
+     "copies"
+    ],
+    [
+     "copiesPlural",
+     2,
+     {
+      "one": "장",
+      "other": "장"
+     }
+    ],
+    " 있습니다. 최대 ",
+    [
+     "max"
+    ],
+    "장까지 허용됩니다."
+   ],
+   "sideboardCount": [
+    "보조 덱에는 카드를 최대 ",
+    [
+     "max"
+    ],
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "장까지",
+      "other": "장까지"
+     }
+    ],
+    " 넣을 수 있습니다. 현재 ",
+    [
+     "found"
+    ],
+    "장입니다."
+   ],
+   "expandedCardLimit": [
+    "덱 목록에는 카드를 최대 ",
+    [
+     "max"
+    ],
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "장까지",
+      "other": "장까지"
+     }
+    ],
+    " 넣을 수 있습니다. 현재 ",
+    [
+     "found"
+    ],
+    "장입니다."
+   ],
+   "constructedBan": [
+    "\"",
+    [
+     "card"
+    ],
+    "\"은(는) ",
+    [
+     "format"
+    ],
+    "에서 금지되었습니다."
+   ],
+   "crossSectionCopies": [
+    "\"",
+    [
+     "card"
+    ],
+    "\"이(가) 챔피언, 주 덱, 보조 덱을 합쳐 ",
+    [
+     "copies"
+    ],
+    "장 있습니다. 최대 ",
+    [
+     "max"
+    ],
+    "장까지 허용됩니다.",
+    [
+     "splitPresent",
+     1,
+     {
+      "yes": [
+       " 현재 분포: ",
+       [
+        "split"
+       ],
+       "."
+      ],
+      "other": ""
+     }
+    ]
+   ],
+   "signatureLegendMismatch": [
+    [
+     "section"
+    ],
+    "에 \"",
+    [
+     "card"
+    ],
+    "\"이(가) 포함되어 있으며, 이는 ",
+    [
+     "signatureLegend"
+    ],
+    "의 시그니처 ",
+    [
+     "cardType"
+    ],
+    "입니다. 전설이 ",
+    [
+     "legend"
+    ],
+    "일 때는 다른 전설의 시그니처 카드를 사용할 수 없습니다."
+   ],
+   "championLegendMismatch": [
+    "챔피언 섹션에 \"",
+    [
+     "card"
+    ],
+    "\"이(가) 있지만, ",
+    [
+     "legend"
+    ],
+    "의 올바른 챔피언 유닛이 아닙니다. ",
+    [
+     "tag"
+    ],
+    " 태그가 있는 시그니처가 아닌 유닛을 선택하세요."
+   ],
+   "noBattlefields": "덱 목록에 전장이 없습니다.",
+   "noMainDeck": "덱 목록에 주 덱이 없습니다.",
+   "decodedDeckWithoutSingleLegend": "디코딩한 덱에 챔피언 섹션을 추론할 단일 전설이 없습니다. 디코딩 후 챔피언을 직접 선택하세요.",
+   "decodedDeckWithoutClearChampion": "디코딩한 덱에 전설에 맞는 명확한 챔피언 유닛이 없습니다. 디코딩 후 챔피언을 직접 선택하세요.",
+   "decodedDeckWithMultipleChampions": "디코딩한 덱에 전설에 맞는 올바른 챔피언 유닛이 여러 개 있습니다. 디코딩 후 챔피언을 직접 선택하세요.",
+   "pasteDeckCodeFirst": "먼저 Riftbound 덱 코드를 붙여 넣으세요.",
+   "deckIncomplete": "이 덱은 아직 완성되지 않았습니다.",
+   "invalidUnleashedRegistration": "Unleashed 프리 리프트 등록이 올바르지 않습니다.",
+   "noPlayableDeckSaved": "이 카드 풀에 저장된 플레이 가능한 덱이 아직 없습니다.",
+   "registrationNotReady": "이 등록은 아직 플레이에 사용할 수 없습니다.",
+   "missingSavedPoolData": [
+    "이 플레이어의 저장된 ",
+    [
+     "format"
+    ],
+    " 카드 풀 데이터가 없습니다."
+   ],
+   "sealedRegistrationMissingSeed": "저장된 밀봉 등록에 기준 시드나 빌더 선택 정보가 없습니다.",
+   "sealedRegistrationUnsupportedFormat": "저장된 밀봉 등록이 지원되지 않는 형식을 사용합니다.",
+   "sealedPoolNotGenerated": "기준 밀봉 카드 풀을 생성할 수 없습니다.",
+   "invalidSideboardSelection": "보조 덱 선택이 올바르지 않습니다.",
+   "skippedSwapsChampion": "카드 교체를 건너뛴 후에는 제출한 주 덱에서 챔피언을 선택하세요. 보조 덱은 변경하지 않아야 합니다.",
+   "sealedCardLimit": [
+    [
+     "format"
+    ],
+    " 덱에는 ",
+    [
+     "card"
+    ],
+    "을(를) 최대 1장만 넣을 수 있습니다."
+   ],
+   "sealedSideboard": [
+    [
+     "format"
+    ],
+    " 등록에는 보조 덱 섹션을 사용하지 않습니다."
+   ],
+   "championUnit": [
+    "챔피언 \"",
+    [
+     "card"
+    ],
+    "\"은(는) 챔피언 유닛이어야 합니다."
+   ],
+   "invalidBasicRune": [
+    "\"",
+    [
+     "card"
+    ],
+    "\"은(는) 기본 룬 카드가 아닙니다."
+   ],
+   "tokenRegistration": [
+    "\"",
+    [
+     "card"
+    ],
+    "\"은(는) 토큰이므로 ",
+    [
+     "format"
+    ],
+    " 형식에 등록할 수 없습니다."
+   ],
+   "championDomain": [
+    "챔피언 \"",
+    [
+     "card"
+    ],
+    "\"은(는) 사용 중인 영역 중 하나 이상과 일치해야 합니다."
+   ],
+   "coreCount": [
+    "핵심 덱에는 챔피언을 포함해 카드가 ",
+    [
+     "min"
+    ],
+    [
+     "minPlural",
+     2,
+     {
+      "one": "장",
+      "other": "장"
+     }
+    ],
+    " 이상 있어야 합니다. 현재 ",
+    [
+     "found"
+    ],
+    "장입니다."
+   ],
+   "runeCount": [
+    "룬은 총 ",
+    [
+     "required"
+    ],
+    "장이어야 합니다. 현재 ",
+    [
+     "found"
+    ],
+    "장입니다."
+   ],
+   "sealedDomains": [
+    [
+     "format"
+    ],
+    " 덱은 영역을 최대 ",
+    [
+     "max"
+    ],
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "개까지",
+      "other": "개까지"
+     }
+    ],
+    " 사용할 수 있습니다. 현재 ",
+    [
+     "found"
+    ],
+    "개입니다."
+   ],
+   "outsidePool": [
+    [
+     "section"
+    ],
+    "에 저장된 ",
+    [
+     "format"
+    ],
+    " 카드 풀에 없는 카드가 포함되어 있습니다."
+   ],
+   "sideboardLimit": [
+    "보조 덱에는 카드를 최대 ",
+    [
+     "max"
+    ],
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "장까지",
+      "other": "장까지"
+     }
+    ],
+    " 넣을 수 있습니다."
+   ],
+   "sideboardChangesSameCards": "보조 덱 변경은 원래 챔피언, 주 덱, 보조 덱의 카드를 그대로 사용해야 합니다.",
+   "selectedChampionNotFound": "선택한 챔피언을 카드 카탈로그에서 찾을 수 없습니다.",
+   "sideboardChampion": [
+    "챔피언 \"",
+    [
+     "card"
+    ],
+    "\"은(는) ",
+    [
+     "legend"
+    ],
+    "의 올바른 챔피언 유닛이 아닙니다."
+   ],
+   "duplicateManifestInstance": [
+    "밀봉 풀 목록에 중복 인스턴스 \"",
+    [
+     "instance"
+    ],
+    "\"이(가) 있습니다."
+   ],
+   "missingManifestCard": [
+    "밀봉 풀 목록의 카드 \"",
+    [
+     "card"
+    ],
+    "\"이(가) 카드 카탈로그에 없습니다."
+   ],
+   "duplicatePoolInstance": [
+    "카드 풀 인스턴스 \"",
+    [
+     "instance"
+    ],
+    "\"이(가) 중복되었습니다."
+   ],
+   "missingPoolCard": [
+    "카드 풀의 카드 \"",
+    [
+     "card"
+    ],
+    "\"이(가) 카드 카탈로그에 없습니다."
+   ],
+   "duplicateSelectedInstance": [
+    "카드 풀 인스턴스 \"",
+    [
+     "instance"
+    ],
+    "\"이(가) 중복 선택되었습니다."
+   ],
+   "foreignPoolInstance": [
+    "카드 풀 인스턴스 \"",
+    [
+     "instance"
+    ],
+    "\"은(는) 이 밀봉 카드 풀에 속하지 않습니다."
+   ],
+   "invalidPoolSection": [
+    "\"",
+    [
+     "card"
+    ],
+    "\"은(는) ",
+    [
+     "section"
+    ],
+    "에 선택할 수 없습니다."
+   ],
+   "unknownSealedFormat": [
+    "알 수 없는 밀봉 형식 \"",
+    [
+     "format"
+    ],
+    "\"입니다."
+   ],
+   "unsupportedSealedFormat": [
+    "지원되지 않는 밀봉 형식 \"",
+    [
+     "format"
+    ],
+    "\"입니다."
+   ],
+   "invalidSealedRuneDomain": [
+    "\"",
+    [
+     "domain"
+    ],
+    "\"은(는) 올바른 밀봉 룬 영역이 아닙니다."
+   ],
+   "invalidSealedRuneCount": [
+    [
+     "domain"
+    ],
+    " 룬 수는 0 이상의 정수여야 합니다."
+   ],
+   "missingCanonicalRune": [
+    "기준 룬 \"",
+    [
+     "rune"
+    ],
+    "\"이(가) 카드 카탈로그에 없습니다."
+   ],
+   "suggestionSingle": [
+    "\"",
+    [
+     "suggestion"
+    ],
+    "\"을(를) 찾으셨습니까?"
+   ],
+   "suggestionPair": [
+    "\"",
+    [
+     "first"
+    ],
+    "\" 또는 \"",
+    [
+     "second"
+    ],
+    "\"을(를) 찾으셨습니까?"
+   ],
+   "suggestionList": [
+    [
+     "suggestions"
+    ],
+    "을(를) 찾으셨습니까?"
+   ]
+  },
+  "parts": {
+   "suggestionItem": [
+    "“",
+    [
+     "value"
+    ],
+    "”"
+   ],
+   "listSeparator": ", ",
+   "listLastSeparator": ", ",
+   "splitSeparator": ", ",
+   "splitChampion": "챔피언",
+   "splitMainDeck": "주 덱",
+   "splitSideboard": "보조 덱"
+  }
+ }
+}

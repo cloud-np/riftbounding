@@ -1,0 +1,30 @@
+Legend:
+1 Kai'Sa, Daughter of the Void [OGN-247]
+
+Champion:
+1 Kai'Sa, Evolutionary [OGN-112]
+
+Main Deck:
+2 Against the Odds [SFD-001]
+3 Ahri, Inquisitive [OGN-119]
+3 Akali, Brash [RAD-015]
+3 Akali, Deadly Weapon [VEN-021]
+3 Amateur Demolitionist [RAD-001]
+3 Angle Shot [SFD-011]
+3 Annie, Fiery [OGS-001]
+3 Antagonistic Apparatus [RAD-009]
+3 Applied Researchers [VEN-055]
+3 Apprentice Mage [VEN-047]
+3 Arena Kingpin [UNL-001]
+3 Armed Assailant [SFD-002]
+3 Aspiring Engineer [SFD-061]
+1 Assembly Rig [SFD-019]
+
+Battlefields:
+1 Abandoned Hall [UNL-205]
+1 Altar of Blood [UNL-206]
+1 Altar to Unity [OGN-275]
+
+Runes:
+6 Fury Rune [OGN-007]
+6 Mind Rune [OGN-089]

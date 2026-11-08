@@ -1,0 +1,1735 @@
+{
+  "advanced.keywords": "Keywords",
+  "advanced.tags": "Tags",
+  "cardBookmarks.bookmarkSummaryHere": [
+    [
+      "here"
+    ],
+    " here · ",
+    [
+      "total"
+    ],
+    " total"
+  ],
+  "cardBookmarks.bookmarkSummarySaved": [
+    [
+      "count"
+    ],
+    " saved"
+  ],
+  "cardBookmarks.collapseBookmarkedCards": "Collapse bookmarked cards",
+  "cardBookmarks.expandBookmarkedCards": "Expand bookmarked cards",
+  "cardBookmarks.showAllCards": "Show all",
+  "cardBookmarks.showBookmarkedOnly": "Show bookmarked only",
+  "cardBookmarks.showHere": "Show here",
+  "common.advanced": "Advanced",
+  "common.cancel": "Cancel",
+  "common.collapseLabel": [
+    "Collapse ",
+    [
+      "label"
+    ]
+  ],
+  "common.delete": "Delete",
+  "common.edit": "Edit",
+  "common.expandLabel": [
+    "Expand ",
+    [
+      "label"
+    ]
+  ],
+  "common.loading": "Loading...",
+  "common.play": "Play",
+  "common.player": "Player",
+  "common.retry": "Retry",
+  "common.save": "Save",
+  "current.activeFilters": "Active filters",
+  "current.add": "Add",
+  "current.addCardToSection": [
+    "Add ",
+    [
+      "cardName"
+    ],
+    " to ",
+    [
+      "section"
+    ]
+  ],
+  "current.addCardToSelectedSection": [
+    "Add ",
+    [
+      "cardName"
+    ],
+    " to the selected deck section",
+    [
+      "banStatus"
+    ]
+  ],
+  "current.addLink": "Add link",
+  "current.addLink2": "Add Link",
+  "current.addSection": [
+    "Add ",
+    [
+      "section"
+    ]
+  ],
+  "current.addSectionCards": [
+    "Add ",
+    [
+      "section"
+    ],
+    " cards"
+  ],
+  "current.addToSection": [
+    "Add to ",
+    [
+      "section"
+    ]
+  ],
+  "current.allCopies": "All copies",
+  "current.bookmarkPages": "Bookmark pages",
+  "current.bookmarkShelf": "Bookmark shelf",
+  "current.bookmarkedCards": "Bookmarked cards",
+  "current.bookmarkedOnly": "Bookmarked only",
+  "current.bookmarks": "Bookmarks",
+  "current.buildADeck": "Build a deck",
+  "current.cardCopyInSection": [
+    [
+      "cardName"
+    ],
+    ", copy ",
+    [
+      "copy"
+    ],
+    " of ",
+    [
+      "count"
+    ],
+    " in ",
+    [
+      "section"
+    ]
+  ],
+  "current.cardPlaceholder": "Card",
+  "current.cardUnavailableForDeck": [
+    [
+      "cardName"
+    ],
+    " is unavailable for this deck"
+  ],
+  "current.catalogCardsForSection": [
+    [
+      "visible"
+    ],
+    " of ",
+    [
+      "total",
+      2,
+      {
+        "one": [
+          0,
+          " card"
+        ],
+        "other": [
+          0,
+          " cards"
+        ]
+      }
+    ],
+    " for ",
+    [
+      "section"
+    ]
+  ],
+  "current.catalogSections": "Catalog sections",
+  "current.chooseArtFor": [
+    "Choose art for ",
+    [
+      "cardName"
+    ]
+  ],
+  "current.chooseCompatibleLegend": "Choose a compatible Legend before adding this card",
+  "current.chooseWhetherToUpdateThisDeckOrSaveANew": "Choose whether to update this deck or save a new copy before playing.",
+  "current.clearField": [
+    "Clear ",
+    [
+      "label"
+    ]
+  ],
+  "current.clearFilters": "Clear filters",
+  "current.clones2": "Clones",
+  "current.closeFilters": "Close filters",
+  "current.closeLabel": [
+    "Close ",
+    [
+      "label"
+    ]
+  ],
+  "current.commentOnDeck": [
+    "Comment on ",
+    [
+      "name"
+    ]
+  ],
+  "current.communityDeckDetailView": "Community deck detail view",
+  "current.continueBuilding": "Continue building",
+  "current.continueEditing": "Continue editing",
+  "current.copiesOfCardInSection": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " copy"
+        ],
+        "other": [
+          0,
+          " copies"
+        ]
+      }
+    ],
+    " of ",
+    [
+      "cardName"
+    ],
+    " in ",
+    [
+      "section"
+    ]
+  ],
+  "current.currentCatalogueSection": "Current catalogue section",
+  "current.deckGuide": "Deck guide",
+  "current.deckStats.mainDeck": "Main Deck",
+  "current.deckStats.avgEnergy": "Avg Energy",
+  "current.deckStats.avgMight": "Avg Might",
+  "current.deckStats.powerCards": "Power Cards",
+  "current.deckStats.energyCurve": "Energy Curve",
+  "current.deckStats.champion": "Champion",
+  "current.deckStats.energyColumn": [
+    [
+      "cost"
+    ],
+    " Energy · ",
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " card"
+        ],
+        "other": [
+          0,
+          " cards"
+        ]
+      }
+    ]
+  ],
+  "current.deckStats.mightColumn": [
+    [
+      "might"
+    ],
+    " Might · ",
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " unit"
+        ],
+        "other": [
+          0,
+          " units"
+        ]
+      }
+    ]
+  ],
+  "current.deckStats.openingHand": [
+    "Opening hand ",
+    [
+      "percent"
+    ]
+  ],
+  "current.deckStats.powerAndRunes": "Power & Runes",
+  "current.deckStats.domain": "Domain",
+  "current.deckStats.cards": "Cards",
+  "current.deckStats.power": "Power",
+  "current.deckStats.runes": "Runes",
+  "current.deckStats.powerCost": "Power cost",
+  "current.deckStats.unitMight": "Unit Might",
+  "current.deckStats.keywords": "Keywords",
+  "current.deckStats.notAvailable": "N/A",
+  "current.deckStats.empty": "Add main deck cards to see curve and distribution stats.",
+  "current.deckValidationIssues": "Deck validation issues",
+  "current.decreaseCardQuantityIn": [
+    "Decrease ",
+    [
+      "cardName"
+    ],
+    " quantity in ",
+    [
+      "section"
+    ]
+  ],
+  "current.details": "Details",
+  "current.duplicateCardDisplay": "Duplicate card display",
+  "current.editingPaused": "Editing Paused",
+  "current.enterTheDestinationForTheSelectedText": "Enter the destination for the selected text.",
+  "current.everyMatchingCardBanned": "Every matching card is banned. Clear Legal only to show them.",
+  "current.filterCardCount": [
+    [
+      "label"
+    ],
+    ", ",
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " card"
+        ],
+        "other": [
+          0,
+          " cards"
+        ]
+      }
+    ]
+  ],
+  "current.filterCards": "Filter cards",
+  "current.fullArt": "Full Art",
+  "current.increaseCardQuantityIn": [
+    "Increase ",
+    [
+      "cardName"
+    ],
+    " quantity in ",
+    [
+      "section"
+    ]
+  ],
+  "current.issues": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " issue"
+        ],
+        "other": [
+          0,
+          " issues"
+        ]
+      }
+    ]
+  ],
+  "current.loadMoreCards": "Load more cards",
+  "current.loadMoreCardsCount": [
+    "Load ",
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " more card"
+        ],
+        "other": [
+          0,
+          " more cards"
+        ]
+      }
+    ]
+  ],
+  "current.loadingDeckStats": "Loading deck stats...",
+  "current.loadingDecks": "Loading decks",
+  "current.localDraft": "Local draft",
+  "current.localDraftsStillWorkWithoutAnAccountSignInTo": "Local drafts still work without an account. Sign in to sync your library and share completed decks with the community.",
+  "current.maxCopiesReached": [
+    "Maximum ",
+    [
+      "max"
+    ],
+    " copies of \"",
+    [
+      "cardName"
+    ],
+    "\" reached."
+  ],
+  "current.might": "MIGHT",
+  "current.nextBookmarkedCards": "Next bookmarked cards",
+  "current.noBookmarkedCardsMatch": "No bookmarked cards match this section's search and filters.",
+  "current.noCardsMatchCurrentSearch": "No cards match the current search and filters.",
+  "current.openToFinish": "Open to finish",
+  "current.pageOf": [
+    "Page ",
+    [
+      "page"
+    ],
+    " of ",
+    [
+      "total"
+    ]
+  ],
+  "current.playThisDeckInTheSimulator": "Play this deck in the simulator",
+  "current.powerRequirement": [
+    [
+      "domain"
+    ],
+    " power ",
+    [
+      "value"
+    ]
+  ],
+  "current.previewCard": [
+    "Preview ",
+    [
+      "cardName"
+    ]
+  ],
+  "current.previousBookmarkedCards": "Previous bookmarked cards",
+  "current.refreshFailed": "Refresh failed",
+  "current.remove": "Remove",
+  "current.removeBookmarkFrom": [
+    "Remove bookmark from ",
+    [
+      "cardName"
+    ]
+  ],
+  "current.removeFilter": [
+    "Remove ",
+    [
+      "filter"
+    ],
+    " filter"
+  ],
+  "current.saveChangesToDeckBeforePlaying": [
+    "Choose how to save changes to ",
+    [
+      "deckName"
+    ],
+    " before playing."
+  ],
+  "current.sectionCount": [
+    [
+      "section"
+    ],
+    " count ",
+    [
+      "count"
+    ]
+  ],
+  "current.showDuplicateCopiesIndividually": "Show duplicate copies individually",
+  "current.showMore": "Show more",
+  "current.showingCards": [
+    "Showing ",
+    [
+      "visible"
+    ],
+    " of ",
+    [
+      "total"
+    ],
+    " cards."
+  ],
+  "current.signInAgain": "Sign in again",
+  "current.signInToSaveAndPublishDecks": "Sign in to save and publish decks",
+  "current.sortBy": "Sort by",
+  "current.sortCards": "Sort cards",
+  "current.sortCardsWithDirection": [
+    "Sort cards (",
+    [
+      "label"
+    ],
+    ", ",
+    [
+      "direction"
+    ],
+    ")"
+  ],
+  "current.sortCommunityDecks": "Sort community decks",
+  "current.sortSectionDirection": [
+    "Sort ",
+    [
+      "section"
+    ],
+    " ",
+    [
+      "direction"
+    ]
+  ],
+  "current.stackDuplicateCopies": "Stack duplicate copies",
+  "current.stacked": "Stacked",
+  "current.startANewDeckAndItWillAppearHereAutomatically": "Start a new deck and it will appear here automatically.",
+  "current.status": "Status",
+  "current.trending": "Trending",
+  "current.unpublish": "Unpublish",
+  "current.useArtFor": [
+    "Use ",
+    [
+      "art"
+    ],
+    " art for ",
+    [
+      "cardName"
+    ]
+  ],
+  "current.viewCardDetails": "View card details",
+  "current.viewDetailsFor": [
+    "View details for ",
+    [
+      "cardName"
+    ]
+  ],
+  "current.viewDetailsShiftLeftClick": "View details (Shift + left click)",
+  "current.viewRecentDecks": "View recent decks",
+  "current.viewYourDecks": "View your decks",
+  "current.webAddress": "Web address",
+  "current.yourDeckLibraryIsEmpty": "Your deck library is empty",
+  "current.yourDecks": "Your decks",
+  "current.yours": "Yours",
+  "deckCatalog.anyLabel": [
+    "Any ",
+    [
+      "label"
+    ]
+  ],
+  "deckCatalog.cardSection": "Card",
+  "deckCatalog.costSection": "Cost & Might",
+  "deckCatalog.groupBy": "Group by",
+  "deckCatalog.groupCards": "Group cards",
+  "deckCatalog.searchPlaceholder": [
+    "Search ",
+    [
+      "label"
+    ],
+    "..."
+  ],
+  "deckCatalog.showResults": [
+    "Show ",
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " card"
+        ],
+        "other": [
+          0,
+          " cards"
+        ]
+      }
+    ]
+  ],
+  "deckCatalog.sortAndGroup": "Sort and group cards",
+  "deckCatalog.viewOptions": "View",
+  "deckFit.experimental": "Experimental",
+  "deckFit.fit": "Fit",
+  "deckFit.minimum": "Minimum fit",
+  "deckFit.minimumLabel": [
+    "Fit ≥ ",
+    [
+      "score"
+    ]
+  ],
+  "deckFit.suggestions": "Suggestions",
+  "deckLibrary.addComment": "Add a comment",
+  "deckLibrary.affiliateLink": "Affiliate link",
+  "deckLibrary.affiliatePricesUpdated": [
+    "Affiliate link · Prices updated ",
+    [
+      "date"
+    ]
+  ],
+  "deckLibrary.all": "All",
+  "deckLibrary.backToDecks": "Back to Decks",
+  "deckLibrary.battlefields": "Battlefields",
+  "deckLibrary.buyDeckOnTcgplayer": "Buy this Deck on TCGPlayer",
+  "deckLibrary.champion": "Champion",
+  "deckLibrary.clear": "Clear",
+  "deckLibrary.clonedDeckToLibrary": [
+    "Cloned \"",
+    [
+      "name"
+    ],
+    "\" to your deck library."
+  ],
+  "deckLibrary.clones": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " clone"
+        ],
+        "other": [
+          0,
+          " clones"
+        ]
+      }
+    ]
+  ],
+  "deckLibrary.comments": "Comments",
+  "deckLibrary.commentsCount": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " comment"
+        ],
+        "other": [
+          0,
+          " comments"
+        ]
+      }
+    ]
+  ],
+  "deckLibrary.commentsFor": [
+    "Comments for ",
+    [
+      "name"
+    ]
+  ],
+  "deckLibrary.commentsTotal": [
+    [
+      "count"
+    ],
+    " total"
+  ],
+  "deckLibrary.communityDeckNotFound": "Community deck not found",
+  "deckLibrary.communityDeckNotFoundDescription": "This deck is unavailable, private, or no longer exists.",
+  "deckLibrary.communityDeckPage.byAuthor": [
+    "by ",
+    [
+      "author"
+    ]
+  ],
+  "deckLibrary.communityDeckPage.closeToEventList": [
+    [
+      "percent"
+    ],
+    "% like ",
+    [
+      "player"
+    ],
+    "'s #",
+    [
+      "rank"
+    ],
+    " list at ",
+    [
+      "event"
+    ]
+  ],
+  "deckLibrary.communityDeckPage.couldNotLoadComments": "Could not load comments.",
+  "deckLibrary.communityDeckPage.couldNotSaveAuthorName": "Could not update the name.",
+  "deckLibrary.communityDeckPage.moreLegendDecks": [
+    "More ",
+    [
+      "legend"
+    ],
+    " decks"
+  ],
+  "deckLibrary.communityDeckPage.saveAuthorName": "Save name",
+  "deckLibrary.communityDeckPage.seeAll": "See all",
+  "deckLibrary.completeBeforePublishing": "Complete this deck before publishing",
+  "deckLibrary.couldNotCloneDeck": "Could not clone this deck.",
+  "deckLibrary.couldNotDeleteComment": "Could not delete this comment.",
+  "deckLibrary.couldNotDeleteDeck": "Could not delete this deck.",
+  "deckLibrary.couldNotLaunchDeck": "Could not launch this deck.",
+  "deckLibrary.couldNotLoadCommunity": "Could not load community decks.",
+  "deckLibrary.couldNotLoadSaved": "Could not load saved decks.",
+  "deckLibrary.couldNotPostComment": "Could not post this comment.",
+  "deckLibrary.couldNotPublishDeck": "Could not publish this deck.",
+  "deckLibrary.couldNotShareDeck": "Could not open sharing.",
+  "deckLibrary.couldNotUnpublishDeck": "Could not unpublish this deck.",
+  "deckLibrary.couldNotUpdateLike": "Could not update this like.",
+  "deckLibrary.deckEditingUnavailable": "Deck editing temporarily unavailable",
+  "deckLibrary.delete": "Delete",
+  "deckLibrary.deleteCommentBy": [
+    "Delete comment by ",
+    [
+      "name"
+    ]
+  ],
+  "deckLibrary.deleteCommentDescription": "Delete this comment?",
+  "deckLibrary.deleteCommentTitle": "Delete Comment?",
+  "deckLibrary.deleteDeck": [
+    "Delete ",
+    [
+      "name"
+    ]
+  ],
+  "deckLibrary.deleteDeckAndPublicationTitle": "Delete Deck and Remove Publication?",
+  "deckLibrary.deleteDeckTitle": "Delete Deck?",
+  "deckLibrary.deleteNamedAndPublication": [
+    "Delete \"",
+    [
+      "name"
+    ],
+    "\" from your deck library? This will also remove it from Community Decks."
+  ],
+  "deckLibrary.deleteNamedFromLibrary": [
+    "Delete \"",
+    [
+      "name"
+    ],
+    "\" from your deck library?"
+  ],
+  "deckLibrary.deletedDeck": [
+    "Deleted \"",
+    [
+      "name"
+    ],
+    "\"."
+  ],
+  "deckLibrary.domain": "Domain",
+  "deckLibrary.draft": "Draft",
+  "deckLibrary.editingPaused": "Editing paused",
+  "deckLibrary.hearts": "Hearts",
+  "deckLibrary.hub.browseDecks": "Browse decks",
+  "deckLibrary.hub.draft": "Draft",
+  "deckLibrary.hub.eyebrow": "Riftbound / Decks",
+  "deckLibrary.hub.legendsTitle": "Legends",
+  "deckLibrary.hub.shareDeck": [
+    "Share ",
+    [
+      "name"
+    ]
+  ],
+  "deckLibrary.hub.shareDeckMenu": "Share deck",
+  "deckLibrary.hub.signInForDecks": "Sign in to see your decks",
+  "deckLibrary.hub.untitledDraft": "Untitled draft",
+  "deckLibrary.incomplete": "Incomplete",
+  "deckLibrary.legend": "Legend",
+  "deckLibrary.likeDeck": "Like deck",
+  "deckLibrary.loadingComments": "Loading comments...",
+  "deckLibrary.loadingCommunityDecks": "Loading community decks...",
+  "deckLibrary.loadingDeckDots": "Loading deck...",
+  "deckLibrary.loadingPrice": "Loading price...",
+  "deckLibrary.loadingSavedDecks": "Loading saved decks...",
+  "deckLibrary.mainDeck": "Main Deck",
+  "deckLibrary.movedDeckPrivate": [
+    "Moved \"",
+    [
+      "name"
+    ],
+    "\" back to private."
+  ],
+  "deckLibrary.newDeck": "New Deck",
+  "deckLibrary.newDeckBadge": "New",
+  "deckLibrary.noComments": "No comments yet.",
+  "deckLibrary.noCommunityDecks": "No community decks yet.",
+  "deckLibrary.noMatchingCommunity": "No matching community decks",
+  "deckLibrary.nothingTrending": "Nothing trending right now",
+  "deckLibrary.openDeck": [
+    "Open ",
+    [
+      "name"
+    ]
+  ],
+  "deckLibrary.openDeckButton": "Open Deck",
+  "deckLibrary.postComment": "Post Comment",
+  "deckLibrary.priceUnavailable": "Price unavailable",
+  "deckLibrary.private": "Private",
+  "deckLibrary.publicationPaused": "Paused",
+  "deckLibrary.publicationPausedDescription": "Hidden from Community Decks while this deck is incomplete. Complete and save the deck to restore it automatically.",
+  "deckLibrary.publicationPausedMetadata": "Community listing paused",
+  "deckLibrary.publish.clearHighlights": "Clear",
+  "deckLibrary.publish.description": "Description",
+  "deckLibrary.publish.highlights": "Highlight cards",
+  "deckLibrary.publishFirst": "Publish a completed deck from Your Decks to start the feed.",
+  "deckLibrary.publishToCommunity": "Publish to Community Decks",
+  "deckLibrary.published": "Published",
+  "deckLibrary.publishedDeck": [
+    "Published \"",
+    [
+      "name"
+    ],
+    "\" to Community Decks."
+  ],
+  "deckLibrary.recent": "Recent",
+  "deckLibrary.removeFromCommunity": "Remove from Community Decks",
+  "deckLibrary.removePausedPublicationTitle": [
+    [
+      "description"
+    ],
+    " Click to remove the publication."
+  ],
+  "deckLibrary.resumeDraft": "Resume Draft",
+  "deckLibrary.runes": "Runes",
+  "deckLibrary.saveToMyDecks": "Save to my decks",
+  "deckLibrary.savedAt": [
+    "Saved ",
+    [
+      "time"
+    ]
+  ],
+  "deckLibrary.savedLocally": "Saved locally",
+  "deckLibrary.shareWithFriends": "Share with friends",
+  "deckLibrary.shownCount": [
+    [
+      "count"
+    ],
+    " shown"
+  ],
+  "deckLibrary.sideboard": "Sideboard",
+  "deckLibrary.signIn": "Sign in",
+  "deckLibrary.signInPublishFirst": "Sign in to build and publish the first community deck.",
+  "deckLibrary.signInRequired": "Sign in is required for this action.",
+  "deckLibrary.signInToInteract": "to like, clone, or comment.",
+  "deckLibrary.simulatorUnavailable": "The play simulator is not connected to this preview deployment.",
+  "deckLibrary.sort": "Sort",
+  "deckLibrary.stillConnecting": "Still connecting to your account.",
+  "deckLibrary.stillLoadingSaved": "Still loading saved decks.",
+  "deckLibrary.trendingHelp": "Trending decks need recent likes or first-time clones. Try the recent feed while activity builds.",
+  "deckLibrary.tryDifferentFilter": "Try a different legend or domain, or clear the filters to see the full feed.",
+  "deckLibrary.tryNowPausedReason": "Complete and save this deck before trying it in the simulator.",
+  "deckLibrary.unlikeDeck": "Unlike deck",
+  "deckLibrary.untitledDraft": "Untitled Draft",
+  "deckLibrary.updatedAt": [
+    "Updated ",
+    [
+      "time"
+    ]
+  ],
+  "deckbuilder.addCardsFirst": "Add cards first",
+  "deckbuilder.altVariantsCount": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " alt art"
+        ],
+        "other": [
+          0,
+          " alt arts"
+        ]
+      }
+    ]
+  ],
+  "deckbuilder.asc": "Asc",
+  "deckbuilder.ascending": "ascending",
+  "deckbuilder.availability": "Availability",
+  "deckbuilder.availableToAdd": "Available to add",
+  "deckbuilder.banned": "Banned",
+  "deckbuilder.bannedIn": [
+    "Banned in ",
+    [
+      "format"
+    ]
+  ],
+  "deckbuilder.cancel": "Cancel",
+  "deckbuilder.cardEntryWithStatus": [
+    [
+      "entry"
+    ],
+    ", ",
+    [
+      "status"
+    ]
+  ],
+  "deckbuilder.cardsCount": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " card"
+        ],
+        "other": [
+          0,
+          " cards"
+        ]
+      }
+    ]
+  ],
+  "deckbuilder.checkCardCompatibility": "Check deck code compatibility",
+  "deckbuilder.checkingCardCompatibility": "Checking deck code compatibility…",
+  "deckbuilder.checkingSignIn": "Checking sign-in status...",
+  "deckbuilder.chooseArt": "Choose Art",
+  "deckbuilder.chooseExportFormat": "Choose a format to copy.",
+  "deckbuilder.chooseLegendForChampions": "Choose a legend first to see matching champions.",
+  "deckbuilder.chooseLegendForRunes": "Choose a legend first to see matching runes.",
+  "deckbuilder.chooseLegendForSection": [
+    "Choose a legend first to start building the ",
+    [
+      "section"
+    ],
+    "."
+  ],
+  "deckbuilder.closeArtPicker": "Close art picker",
+  "deckbuilder.closeDeckGuide": "Close deck guide",
+  "deckbuilder.closeExportDeckOptions": "Close export deck options",
+  "deckbuilder.compactShareCode": "Compact share code",
+  "deckbuilder.copyDeckCode": "Copy deck code",
+  "deckbuilder.copyDecklist": "Copy decklist",
+  "deckbuilder.copyOfDeck": [
+    "Copy of ",
+    [
+      "name"
+    ]
+  ],
+  "deckbuilder.couldNotCopyDeckCode": "Could not copy the deck code.",
+  "deckbuilder.couldNotCopyDecklist": "Could not copy the decklist.",
+  "deckbuilder.couldNotDeleteDeck": "Could not delete this deck.",
+  "deckbuilder.couldNotLoadDeck": "Could not load this deck.",
+  "deckbuilder.couldNotLoadGuideEditor": "Could not load the guide editor. Please try again.",
+  "deckbuilder.couldNotLoadImporter": "Could not load the deck importer. Please try again.",
+  "deckbuilder.couldNotLoadRequestedSavedDeck": "Couldn’t load your saved deck. Your saved deck is safe.",
+  "deckbuilder.couldNotPublishDeck": "Could not publish this deck.",
+  "deckbuilder.couldNotSaveDeck": "Could not save this deck.",
+  "deckbuilder.couldNotUnpublishDeck": "Could not unpublish this deck.",
+  "deckbuilder.deck": "Deck",
+  "deckbuilder.deckCodeCopied": "Deck code copied",
+  "deckbuilder.deckCodeSupportLoadError": "Deck code export could not load. Try again, or copy the decklist instead.",
+  "deckbuilder.deckCodeUnsupported": "Some cards in this deck cannot be encoded yet. Copy the decklist instead.",
+  "deckbuilder.deckEditingUnavailable": "Deck editing temporarily unavailable",
+  "deckbuilder.deckGuide": "Deck Guide",
+  "deckbuilder.deckGuideDescription": "Add matchup notes, mulligan advice, power turns, and sideboarding plans.",
+  "deckbuilder.deckName": "Deck Name",
+  "deckbuilder.deckNameRequired": "Deck name is required before saving.",
+  "deckbuilder.deckWorkspace": "Deck workspace",
+  "deckbuilder.deckWorkspaceView": "Deck workspace view",
+  "deckbuilder.decklistCopied": "Decklist copied",
+  "deckbuilder.deleteDeckAndPublicationTitle": "Delete Deck and Remove Publication?",
+  "deckbuilder.deleteDeckNamed": [
+    "Delete ",
+    [
+      "name"
+    ]
+  ],
+  "deckbuilder.deleteDeckTitle": "Delete Deck?",
+  "deckbuilder.deleteNamedAndPublication": [
+    "Delete \"",
+    [
+      "name"
+    ],
+    "\" from your deck library? This will also remove it from Community Decks."
+  ],
+  "deckbuilder.deleteNamedFromLibrary": [
+    "Delete \"",
+    [
+      "name"
+    ],
+    "\" from your deck library?"
+  ],
+  "deckbuilder.deletedDeck": [
+    "Deleted \"",
+    [
+      "name"
+    ],
+    "\"."
+  ],
+  "deckbuilder.desc": "Desc",
+  "deckbuilder.descending": "descending",
+  "deckbuilder.direction": "Direction",
+  "deckbuilder.discard": "Discard",
+  "deckbuilder.discardChanges": "Discard Changes",
+  "deckbuilder.discardDraft": "Discard Draft",
+  "deckbuilder.discardDraftDescription": "Discard this local draft and return to your deck library?",
+  "deckbuilder.discardDraftTitle": "Discard Draft?",
+  "deckbuilder.discardLocalChangesDescription": "Discard these local changes and return to your deck library?",
+  "deckbuilder.discardLocalChangesTitle": "Discard Local Changes?",
+  "deckbuilder.domain": "Domain",
+  "deckbuilder.done": "Done",
+  "deckbuilder.dragCardHere": "Drag a card here from the browser or the other card section.",
+  "deckbuilder.dragHereToRemoveFromDeck": "Drag here to remove from deck",
+  "deckbuilder.draggingCatalogCard": [
+    "Dragging ",
+    [
+      "cardName"
+    ],
+    ". Drop it into Main Deck or Sideboard."
+  ],
+  "deckbuilder.draggingDeckCard": [
+    "Dragging ",
+    [
+      "cardName"
+    ],
+    ". Drop it into the other card section or the card browser."
+  ],
+  "deckbuilder.dropCardInBrowserToRemove": [
+    "Drop ",
+    [
+      "cardName"
+    ],
+    " in the card browser to remove one copy from the deck."
+  ],
+  "deckbuilder.dropCardIntoSection": [
+    "Drop ",
+    [
+      "cardName"
+    ],
+    " into ",
+    [
+      "section"
+    ],
+    "."
+  ],
+  "deckbuilder.dropIntoSection": [
+    "Drop into ",
+    [
+      "section"
+    ]
+  ],
+  "deckbuilder.dropToRemoveOneCopy": "Drop to remove one copy",
+  "deckbuilder.editDeckGuide": "Edit deck guide",
+  "deckbuilder.editGuide": "Edit Guide",
+  "deckbuilder.energy": "Energy",
+  "deckbuilder.energyGroupLabel": [
+    [
+      "value"
+    ],
+    " Energy"
+  ],
+  "deckbuilder.exportDeck": "Export deck",
+  "deckbuilder.filter": "Filter",
+  "deckbuilder.fullArtEmpty": "Add cards to see the full-art deck view.",
+  "deckbuilder.groupByDomain": "By Domain",
+  "deckbuilder.groupByEnergy": "By Energy",
+  "deckbuilder.groupByPower": "By Power",
+  "deckbuilder.groupByType": "By Type",
+  "deckbuilder.groupMainDeckList": "Group Main Deck list",
+  "deckbuilder.groupNoGrouping": "No Grouping",
+  "deckbuilder.groupNone": "None",
+  "deckbuilder.guide": "Guide",
+  "deckbuilder.guideSavedWithDeck": "Guide changes will be saved with the deck and shown on the community page when published.",
+  "deckbuilder.importDeckAction": "Import deck",
+  "deckbuilder.incompleteDeckSaveNote": "Incomplete decks can be saved, but they cannot be played yet.",
+  "deckbuilder.legalOnly": "Legal only",
+  "deckbuilder.legality": "Legality",
+  "deckbuilder.list": "List",
+  "deckbuilder.loadingSavedDeck": "Loading your saved deck…",
+  "deckbuilder.localDraftOnly": "Local draft only",
+  "deckbuilder.makePrivate": "Make Private",
+  "deckbuilder.makePrivateConfirmDescription": "This will remove the current Community Deck publication and keep the deck only in your private library.",
+  "deckbuilder.makePrivateConfirmTitle": "Move Deck Back to Private?",
+  "deckbuilder.maxBattlefieldCopiesAlready": [
+    "Only ",
+    [
+      "max"
+    ],
+    " copies of \"",
+    [
+      "cardName"
+    ],
+    "\" are allowed in Battlefields."
+  ],
+  "deckbuilder.might": "Might",
+  "deckbuilder.moveOneCopyToSection": [
+    "Move one copy of ",
+    [
+      "cardName"
+    ],
+    " to ",
+    [
+      "section"
+    ]
+  ],
+  "deckbuilder.moveOneCopyToSectionShortcut": [
+    "Move one copy of ",
+    [
+      "cardName"
+    ],
+    " to ",
+    [
+      "section"
+    ],
+    " (",
+    [
+      "modifier"
+    ],
+    " + right click)"
+  ],
+  "deckbuilder.movedDeckPrivate": [
+    "Moved \"",
+    [
+      "name"
+    ],
+    "\" back to private."
+  ],
+  "deckbuilder.neekoLegends": "Additional Legends",
+  "deckbuilder.neekoLegendsFull": "Neeko already has three legends.",
+  "deckbuilder.newDeck": "New Deck",
+  "deckbuilder.newDeckName": "New Deck Name",
+  "deckbuilder.newDeckNamePlaceholder": "New deck name",
+  "deckbuilder.noDomain": "No Domain",
+  "deckbuilder.noGuide": "No guide added yet.",
+  "deckbuilder.onlyReadyPublish": "Only ready decks can be published.",
+  "deckbuilder.optionalSection": "Optional",
+  "deckbuilder.overview": "Overview",
+  "deckbuilder.playInSimulator": "Play in Simulator",
+  "deckbuilder.power": "Power",
+  "deckbuilder.powerGroupLabel": [
+    [
+      "value"
+    ],
+    " Power"
+  ],
+  "deckbuilder.private": "Private",
+  "deckbuilder.publish": "Publish",
+  "deckbuilder.publishConfirmDescriptionDirty": "This will save your current deck and publish it to Community Decks.",
+  "deckbuilder.publishConfirmTitle": "Publish to Community Decks?",
+  "deckbuilder.publishedDeck": [
+    "Published \"",
+    [
+      "name"
+    ],
+    "\" to Community Decks."
+  ],
+  "deckbuilder.rarity": "Rarity",
+  "deckbuilder.ready": "Ready",
+  "deckbuilder.readyToPlay": "Ready to play",
+  "deckbuilder.resizePanels": "Resize catalog and deck panels",
+  "deckbuilder.restoringDraft": "Restoring your deck draft…",
+  "deckbuilder.retryDeckCode": "Retry deck code check",
+  "deckbuilder.richTextBold": "Bold",
+  "deckbuilder.richTextBulletedList": "Bullet list",
+  "deckbuilder.richTextClearFormatting": "Clear formatting",
+  "deckbuilder.richTextHeading": "Heading",
+  "deckbuilder.richTextInvalidWebAddress": "Enter a valid web address.",
+  "deckbuilder.richTextItalic": "Italic",
+  "deckbuilder.richTextLink": "Link",
+  "deckbuilder.richTextNumberedList": "Numbered list",
+  "deckbuilder.richTextParagraph": "Paragraph",
+  "deckbuilder.richTextPlaceholder": "Share your mulligan plan, power turns, and matchup notes...",
+  "deckbuilder.richTextQuote": "Quote",
+  "deckbuilder.richTextSubheading": "Subheading",
+  "deckbuilder.richTextUnsupportedLink": "Use an HTTP, HTTPS, or email link.",
+  "deckbuilder.saveBeforePublishingError": "Save this deck before publishing it.",
+  "deckbuilder.saveDeck": "Save Deck",
+  "deckbuilder.saved": "Saved",
+  "deckbuilder.savedDeck": "Saved Deck",
+  "deckbuilder.savedDeckMissingOpenedDraft": "That saved deck no longer exists. Your browser draft is now open as a new unsaved deck.",
+  "deckbuilder.saving": "Saving...",
+  "deckbuilder.savingChanges": "Saving changes...",
+  "deckbuilder.searchSectionCards": [
+    "Search ",
+    [
+      "section"
+    ],
+    " cards..."
+  ],
+  "deckbuilder.sectionMainDeck": "Main Deck",
+  "deckbuilder.sectionSideboard": "Sideboard",
+  "deckbuilder.set": "Set",
+  "deckbuilder.showArtVariants": [
+    "Show ",
+    [
+      "count"
+    ],
+    " art variants"
+  ],
+  "deckbuilder.showCompactDeckOverview": "Show compact deck overview",
+  "deckbuilder.showDeckEditingControls": "Show deck editing controls",
+  "deckbuilder.sortCardsTitle": [
+    "Sort cards: ",
+    [
+      "label"
+    ]
+  ],
+  "deckbuilder.sortCopies": "Copies",
+  "deckbuilder.sortDomain": "Domain",
+  "deckbuilder.sortEnergy": "Energy",
+  "deckbuilder.sortMainDeckList": "Sort Main Deck list",
+  "deckbuilder.sortName": "Name",
+  "deckbuilder.sortPower": "Power",
+  "deckbuilder.sortType": "Type",
+  "deckbuilder.startAddingCards": "Start adding cards from the catalog to build this deck.",
+  "deckbuilder.startBuildingToSave": "Start building to save this deck.",
+  "deckbuilder.stats": "Stats",
+  "deckbuilder.thisDeck": "this deck",
+  "deckbuilder.type": "Type",
+  "deckbuilder.unsavedChanges": "Unsaved changes",
+  "deckbuilder.unsavedChangesFound": "Unsaved changes found",
+  "deckbuilder.untitledDeck": "Untitled deck",
+  "deckbuilder.updateDeck": "Update Deck",
+  "deckbuilder.validationIssues": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " validation issue"
+        ],
+        "other": [
+          0,
+          " validation issues"
+        ]
+      }
+    ]
+  ],
+  "search.name": "Name",
+  "sim.social.nameRequired": "Choose the player name friends will see before adding players or sharing your friend code.",
+  "sim.social.playerName": "Player name",
+  "sim.social.savePlayerName": "Save name",
+  "sim.social.setPlayerName": "Set player name",
+  "sim.social.editNickname": "Edit nickname",
+  "sim.social.nickname": "Nickname",
+  "sim.social.nicknamePrivate": "Only you can see this nickname.",
+  "sim.social.nameWhenAdded": [
+    "Name when added: ",
+    [
+      "name"
+    ]
+  ],
+  "sim.social.resetName": "Reset name",
+  "sim.social.saveNickname": "Save",
+  "sim.social.staff": "Staff conversation",
+  "sim.social.staffConversations": "Staff conversations",
+  "sim.social.staffConversation": "Staff conversation · replies welcome",
+  "sim.social.closeConversation": "Close conversation",
+  "sim.social.playerBadges": [
+    "View ",
+    [
+      "name"
+    ],
+    "’s badges"
+  ],
+  "sim.social.badgesLoading": "Loading badges…",
+  "sim.social.badgesFailed": "Could not load badges.",
+  "sim.social.noBadges": "No badges displayed.",
+  "sim.social.loading": "Loading…",
+  "sim.social.loadingHistory": "Loading messages…",
+  "sim.social.historyFailed": "Could not load messages. Please try again.",
+  "sim.social.retry": "Retry",
+  "sim.social.newMessages": "New messages",
+  "sim.social.latest": "Jump to latest",
+  "sim.social.searchFriends": "Search friends",
+  "sim.social.noMatches": "No matching contacts.",
+  "sim.social.blockedAccounts": "Blocked accounts",
+  "sim.social.invalidCode": "Enter a valid 20-character friend code.",
+  "sim.social.selfCode": "This is your own friend code.",
+  "sim.social.alreadyFriends": "You are already friends.",
+  "sim.social.alreadyRequested": "A friend request is already pending.",
+  "sim.social.nowFriends": "You are now friends.",
+  "sim.social.requestSent": "Friend request sent.",
+  "sim.social.friendsLimit": "Your friends list is full. Remove a friend before adding another.",
+  "sim.social.requestsLimit": "There are too many pending requests. Try again later.",
+  "sim.social.rateLimited": "Too many actions. Wait a minute and try again.",
+  "sim.social.requestUnavailable": "This request has changed. Check your requests and try again.",
+  "sim.social.incomingMessage": [
+    "Message from ",
+    [
+      "name"
+    ],
+    ": ",
+    [
+      "message"
+    ]
+  ],
+  "sim.social.unknown": "Status unavailable",
+  "sim.social.title": "Friends & messages",
+  "sim.social.open": "Open friends and messages",
+  "sim.social.trial": "Admin preview",
+  "sim.social.close": "Close",
+  "sim.social.disconnected": "Reconnecting. Status and unread counts may be out of date.",
+  "sim.social.copyCode": "Copy friend code",
+  "sim.social.addHint": "Ask for their friend code, then paste it here to send a request.",
+  "sim.social.sendRequest": "Send friend request",
+  "sim.social.copied": "Copied",
+  "sim.social.copyFailed": "Copy failed",
+  "sim.social.friendCode": "Friend code",
+  "sim.social.friendCodeShort": "Code",
+  "sim.social.add": "Add friend",
+  "sim.social.targetUnavailable": "This player is not available yet. Check the code and ask them to open the Simulator while signed in.",
+  "sim.social.playerUnavailable": "This player can't be added as a friend right now.",
+  "sim.social.contacts": "Friends and conversations",
+  "sim.social.empty": "No friends yet. Use Add friend to send a code, or add someone from their nameplate.",
+  "sim.social.online": "Online",
+  "sim.social.offline": "Offline",
+  "sim.social.incoming": "Friend request received",
+  "sim.social.outgoing": "Friend request sent",
+  "sim.social.friends": "Friends",
+  "sim.social.removed": "Not friends",
+  "sim.social.blocked": "Blocked",
+  "sim.social.choose": "Choose a friend to start a conversation.",
+  "sim.social.message": "Message",
+  "sim.social.accept": "Accept",
+  "sim.social.decline": "Decline",
+  "sim.social.cancel": "Cancel request",
+  "sim.social.remove": "Remove friend",
+  "sim.social.block": "Block",
+  "sim.social.unblock": "Unblock",
+  "sim.social.back": "Back",
+  "sim.social.history": "Message history",
+  "sim.social.older": "Load older messages",
+  "sim.social.noMessages": "No messages yet.",
+  "sim.social.write": "Write a message…",
+  "sim.social.send": "Send",
+  "sim.social.retention": "Messages are kept for 30 days.",
+  "sim.social.failed": "Could not complete this action. Try again.",
+  "sim.social.sendFailed": "Message not confirmed. Retry with the same text to avoid duplicates.",
+  "sim.social.pending": "Request pending",
+  "sim.social.requestNotifications": "Friend request notifications",
+  "sim.social.requestToastTitle": "Friend request",
+  "sim.social.requestToastBody": [
+    [
+      "name"
+    ],
+    " wants to be your friend."
+  ],
+  "sim.social.dismissRequest": "Dismiss friend request notification",
+  "sim.social.viewRequest": "View",
+  "sim.social.requestToastError": "Could not update this request. Please try again.",
+  "sim.social.blockedMessaging": "This account is blocked. This conversation is read-only.",
+  "sim.social.waitingForAcceptance": "Waiting for your friend to accept the request.",
+  "sim.social.removedMessaging": "You are no longer friends. This conversation is read-only.",
+  "sim.social.socialLabel": "Social",
+  "sim.social.launcher": "Friends",
+  "sim.social.openAll": "All friends and requests",
+  "sim.social.showMore": [
+    "Show ",
+    [
+      "count"
+    ],
+    " more"
+  ],
+  "sim.social.boardSections": "Spectators and friends",
+  "sim.social.contactOptions": "Contact options",
+  "sim.social.requests": "Requests",
+  "sim.social.archived": "Previous conversations",
+  "sim.social.receivedRequests": "Received",
+  "sim.social.sentRequests": "Sent",
+  "sim.social.noRequests": "No pending requests.",
+  "sim.social.unreadCount": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " unread message"
+        ],
+        "other": [
+          0,
+          " unread messages"
+        ]
+      }
+    ]
+  ],
+  "sim.social.requestCount": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " friend request"
+        ],
+        "other": [
+          0,
+          " friend requests"
+        ]
+      }
+    ]
+  ],
+  "sim.social.notificationsSummary": [
+    [
+      "messages"
+    ],
+    " unread messages, ",
+    [
+      "requests"
+    ],
+    " friend requests"
+  ],
+  "sim.social.messagePlayer": [
+    "Message ",
+    [
+      "name"
+    ]
+  ],
+  "sim.social.addPlayer": [
+    "Add ",
+    [
+      "name"
+    ],
+    " as a friend"
+  ],
+  "sim.social.inviteFriends": "Invite friends",
+  "sim.social.inviteRoom": [
+    "Invite to room ",
+    [
+      "room"
+    ]
+  ],
+  "sim.social.noOnlineFriends": "No friends are online right now.",
+  "sim.social.checkingPresence": "Checking who is online…",
+  "sim.social.invitePlayer": "Invite as player",
+  "sim.social.inviteSpectator": "Invite as spectator",
+  "sim.social.inviteSent": "Invite sent",
+  "sim.social.addAndInvite": "Add & invite",
+  "sim.social.inviteAfterAccept": "Request sent. They get the invite once they accept.",
+  "sim.social.inviteFailed": "Could not send this invitation. The friend may be busy or offline, or the game may have changed.",
+  "sim.social.invitations": "Game invitations",
+  "sim.social.lobbyInvite": "Game invitation",
+  "sim.social.invitedPlayer": [
+    [
+      "name"
+    ],
+    " invited you to play in room ",
+    [
+      "room"
+    ],
+    "."
+  ],
+  "sim.social.invitedSpectator": [
+    [
+      "name"
+    ],
+    " invited you to spectate room ",
+    [
+      "room"
+    ],
+    "."
+  ],
+  "sim.social.dismissInvite": "Dismiss invitation",
+  "sim.social.joinSpectator": "Spectate",
+  "sim.social.joinPlayer": "Open lobby",
+  "sim.social.reportPlayer": "Report player",
+  "sim.social.reportEvidence": "Recent messages from this conversation will be included for moderator review.",
+  "sim.social.reportSent": "Your report has been sent to the moderation team.",
+  "sim.social.watchGame": "Watch game",
+  "sim.social.watchFriend": [
+    "Watch ",
+    [
+      "name"
+    ],
+    "’s game"
+  ],
+  "sim.social.inGame": "In a game",
+  "sim.social.watchingGame": "Watching a game",
+  "sim.social.inviteFriendsWatch": "Invite friends to watch",
+  "sim.social.inviteRole": "Invite to",
+  "sim.social.invite": "Invite",
+  "sim.social.inviteFriend": [
+    "Invite ",
+    [
+      "name"
+    ]
+  ],
+  "sim.social.invitedFriend": [
+    "Invited ",
+    [
+      "name"
+    ]
+  ],
+  "sim.social.noAvailableFriends": "No online friends are available to invite.",
+  "sim.social.sealedSharePool": "Sealed pool",
+  "sim.social.sealedShareSetup": "Sealed setup",
+  "sim.social.sealedShareOwnPool": "You shared a Sealed pool",
+  "sim.social.sealedShareOwnSetup": "You shared a Sealed setup",
+  "sim.social.sealedSharePreview": "Shared a Sealed pool",
+  "sim.social.sealedShareOpen": "Open",
+  "sim.social.sealedSharePacks": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " pack"
+        ],
+        "other": [
+          0,
+          " packs"
+        ]
+      }
+    ]
+  ],
+  "sim.social.sealedShareMixSet": [
+    [
+      "count"
+    ],
+    " ",
+    [
+      "set"
+    ]
+  ],
+  "sim.social.deckShareKicker": "Deck",
+  "sim.social.deckShareOwn": "You shared a deck",
+  "sim.social.deckSharePreview": "Shared a deck",
+  "sim.social.deckShareOpen": "Open",
+  "sim.social.deckSharePlay": "Play",
+  "sim.social.deckShareCards": [
+    [
+      "count",
+      2,
+      {
+        "one": [
+          0,
+          " card"
+        ],
+        "other": [
+          0,
+          " cards"
+        ]
+      }
+    ]
+  ],
+  "sim.social.deckShareTitle": "Share deck",
+  "sim.social.deckShareButton": "Share",
+  "sim.social.deckShareNamed": [
+    "Share ",
+    [
+      "name"
+    ]
+  ],
+  "sim.social.deckShareFriends": "Send to a friend",
+  "sim.social.deckShareSendTo": [
+    "Send to ",
+    [
+      "name"
+    ]
+  ],
+  "sim.social.deckShareSending": "Sending…",
+  "sim.social.deckShareSent": "Sent",
+  "sim.social.deckShareSentTo": [
+    "Sent to ",
+    [
+      "name"
+    ]
+  ],
+  "sim.social.deckShareSendFailed": "Couldn't send. Try again.",
+  "sim.social.deckShareSignIn": "Sign in",
+  "sim.social.deckShareCopyLink": "Copy link",
+  "sim.social.deckShareCopied": "Link copied",
+  "sim.social.deckShareNative": "Share with another app",
+  "sim.social.deckShareUnavailable": "This deck can't be shared right now.",
+  "sim.social.deckShareAllFriends": [
+    "All friends (",
+    [
+      "count"
+    ],
+    ")"
+  ],
+  "sim.social.deckBroadcastTitle": "Share with all friends",
+  "sim.social.deckBroadcastNote": "Add a note",
+  "sim.social.deckBroadcastSend": "Share",
+  "sim.social.deckBroadcastSending": "Sharing…",
+  "sim.social.deckBroadcastSent": "Shared",
+  "sim.social.deckBroadcastFailed": "Couldn’t share. Try again.",
+  "sim.social.deckPostReportEvidence": "This post and its recent replies will be included for moderator review.",
+  "sim.social.deckShareNoFriends": "No friends yet.",
+  "sim.social.replayShare": "Replay",
+  "sim.social.replayShareOwn": "You shared a replay",
+  "sim.social.replaySharePreview": "Shared a replay",
+  "sim.social.partyInvite": "Party invitation",
+  "sim.social.invitedParty": [
+    [
+      "name"
+    ],
+    " invites you to queue ",
+    [
+      "table"
+    ],
+    " together."
+  ],
+  "web.advanced.abilities": "Abilities",
+  "web.catalog.scrollSectionsLeft": "Scroll catalog sections left",
+  "web.catalog.scrollSectionsRight": "Scroll catalog sections right",
+  "web.deckLibrary.actionsUnavailable": "Deck actions unavailable",
+  "web.deckLibrary.allDecks": "All decks",
+  "web.deckLibrary.clearSearch": "Clear search",
+  "web.deckLibrary.filterStatus": "Filter your decks by status",
+  "web.deckLibrary.loadOlderComments": "Load older comments",
+  "web.deckLibrary.loadingActions": "Loading deck actions",
+  "web.deckLibrary.nameAZ": "Name A–Z",
+  "web.deckLibrary.noSearchResults": "No matching decks",
+  "web.deckLibrary.olderCommentsError": "Could not load older comments.",
+  "web.deckLibrary.recentlyUpdated": "Recently updated",
+  "web.deckLibrary.searchDecks": "Search your decks",
+  "web.deckLibrary.searchHelp": "Try another name, legend, or status, or clear the filters to see all your decks.",
+  "web.deckLibrary.searchPlaceholder": "Search by deck name or legend…",
+  "web.deckLibrary.shownRefreshing": [
+    [
+      "count"
+    ],
+    " shown · Refreshing…"
+  ],
+  "web.deckLibrary.sortDecks": "Sort your decks",
+  "web.deckWorkspace.update": "Update",
+  "web.deckWorkspace.mobileSummary": [
+    [
+      "cards"
+    ],
+    " · ",
+    [
+      "status"
+    ]
+  ],
+  "web.deckWorkspace.openDeckTitle": "Open this deck?",
+  "web.deckWorkspace.startNewDeckTitle": "Start a new deck?",
+  "web.deckWorkspace.openDeckAction": "Opening this deck",
+  "web.deckWorkspace.startFreshAction": "Starting fresh",
+  "web.deckWorkspace.unsavedNamedDescription": [
+    "You have unsaved work in “",
+    [
+      "draftName"
+    ],
+    "”. ",
+    [
+      "action"
+    ],
+    " will discard it."
+  ],
+  "web.deckWorkspace.unsavedDescription": [
+    "Your current draft has unsaved work. ",
+    [
+      "action"
+    ],
+    " will discard it."
+  ],
+  "web.deckWorkspace.unsavedDraft": "Unsaved Draft",
+  "web.deckWorkspace.continueEditing": "Continue Editing",
+  "web.deckWorkspace.discardOpenDeck": "Discard & Open Deck",
+  "web.deckWorkspace.discardStartNew": "Discard & Start New",
+  "web.deckWorkspace.showDeckOnly": "Show deck only",
+  "web.deckWorkspace.showCardBrowser": "Show card browser",
+  "web.deckWorkspace.expandDeckFullscreen": "Expand deck to full screen",
+  "web.deckWorkspace.exitFullscreenDeck": "Exit full-screen deck view",
+  "web.deckWorkspace.buyDeckWithPrice": [
+    "Buy deck · ",
+    [
+      "price"
+    ]
+  ],
+  "web.deckWorkspace.fullArtCardSize": "Full Art card size",
+  "web.deckWorkspace.smallCards": "Small cards",
+  "web.deckWorkspace.mediumCards": "Medium cards",
+  "web.deckWorkspace.largeCards": "Large cards",
+  "web.deckWorkspace.smallCardSizeShort": "S",
+  "web.deckWorkspace.mediumCardSizeShort": "M",
+  "web.deckWorkspace.largeCardSizeShort": "L",
+  "web.deckWorkspace.cardSizeStep": [
+    "Card size ",
+    [
+      "step"
+    ],
+    " of ",
+    [
+      "total"
+    ]
+  ],
+  "web.deckWorkspace.sizeStep": [
+    "Size ",
+    [
+      "step"
+    ],
+    " of ",
+    [
+      "total"
+    ]
+  ],
+  "web.events.attribution": [
+    "Data provided by ",
+    [
+      "link",
+      "TopDeck.gg"
+    ]
+  ],
+  "web.export.buildingPreview": "Building preview…",
+  "web.export.closeWallpaperExport": "Close wallpaper export",
+  "web.export.copyImage": "Copy image",
+  "web.export.copyingImage": "Copying image",
+  "web.export.copyingImageProgress": "Copying image…",
+  "web.export.creatingWallpaper": "Creating wallpaper",
+  "web.export.creatingWallpaperProgress": "Creating wallpaper…",
+  "web.export.downloadPng": "Download PNG",
+  "web.export.downloadWallpaper": "Download wallpaper",
+  "web.export.exportWallpaper": "Export wallpaper",
+  "web.export.imageCopied": "Copied!",
+  "web.export.lastSuccessfulPreview": [
+    "Last successful ",
+    [
+      "preview"
+    ]
+  ],
+  "web.export.preview": "Preview",
+  "web.export.previewCouldNotUpdate": "Preview couldn’t update",
+  "web.export.previewUnavailableDownload": "Preview unavailable. You can still download the wallpaper.",
+  "web.export.previewUpdateFailedShowingLast": "Preview could not update. Showing the last successful preview.",
+  "web.export.previewUpdated": "Preview updated.",
+  "web.export.resolution": "Resolution",
+  "web.export.updating": "Updating",
+  "web.export.updatingPreview": "Updating preview…",
+  "web.export.wallpaperCopyError": "Could not copy the image. Please try again or download the PNG.",
+  "web.export.wallpaperDirection": "Direction",
+  "web.export.wallpaperDirectionAria": "Sort deck image direction",
+  "web.export.wallpaperDownloaded": "Wallpaper downloaded",
+  "web.export.wallpaperError": "Could not create the wallpaper image. Please try again.",
+  "web.export.wallpaperGroup": "Group",
+  "web.export.wallpaperGroupAria": "Group deck image Main Deck",
+  "web.export.wallpaperGroupedBy": [
+    "grouped by ",
+    [
+      "group"
+    ]
+  ],
+  "web.export.wallpaperMenuDescription": "16:9 PNG · 1080p to 4K",
+  "web.export.wallpaperNotGrouped": "not grouped",
+  "web.export.wallpaperPreviewGroups.domain": "domain",
+  "web.export.wallpaperPreviewGroups.energy": "energy",
+  "web.export.wallpaperPreviewGroups.power": "power",
+  "web.export.wallpaperPreviewGroups.type": "type",
+  "web.export.wallpaperPreviewLabel": [
+    "Deck wallpaper preview. Main Deck ",
+    [
+      "groupDescription"
+    ],
+    ", sorted by ",
+    [
+      "sort"
+    ],
+    " ",
+    [
+      "direction"
+    ],
+    ". Download size ",
+    [
+      "resolution"
+    ],
+    "."
+  ],
+  "web.export.wallpaperQrCode": "QR code",
+  "web.export.wallpaperScanToPlay": "Scan to play",
+  "web.export.wallpaperSortAria": "Sort deck image cards",
+  "web.export.wallpaperSortBy": "Sort by",
+  "web.import.reduceMainDeck": [
+    "Reduce the Main Deck to ",
+    [
+      "count"
+    ],
+    " cards before importing."
+  ],
+  "web.publication.viewPage": "View published page",
+  "web.publication.openCommunityPage": "Open the community page",
+  "web.publication.linkCopied": "Community link copied",
+  "web.publication.copyLink": "Copy community link",
+  "web.publication.completeToShare": "Complete and save the deck to share again",
+  "web.publication.shareableUrl": "Shareable community URL",
+  "web.publication.makePrivate": "Make private",
+  "web.publication.removeFromCommunity": "Remove from Community Decks",
+  "web.publication.publishedDeck": "Published deck",
+  "web.publication.pausedDescription": "This listing is paused until the deck is ready again.",
+  "web.publication.menuDescription": "View, share, or change visibility.",
+  "web.publication.closeOptions": "Close published deck options",
+  "web.publication.pausedShort": "Listing paused until the deck is ready again.",
+  "web.publication.options": "Published deck options",
+  "web.publication.paused": "Publication paused",
+  "web.publication.copyLinkError": "Could not copy the community link.",
+  "web.publication.copyLinkManual": "Could not copy the community link. Open the published page to copy it manually."
+}

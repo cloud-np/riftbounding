@@ -1,0 +1,4475 @@
+{
+  "common": {
+    "brand": "Rift Atlas",
+    "staffNavigation": {
+      "appeals": "Appeals",
+      "bans": "Bans",
+      "feedback": "Feedback",
+      "lobby": "Lobby",
+      "mail": "Mail",
+      "players": "Players",
+      "reports": "Reports",
+      "rewards": "Rewards",
+      "roles": "Role management",
+      "sections": "Staff sections",
+      "staffTools": "Staff Tools",
+      "web": "Web"
+    },
+    "done": "Done",
+    "languageEnglish": "EN",
+    "languageChinese": "Simplified Chinese",
+    "switchToEnglish": "Switch to English",
+    "switchToChinese": "Switch to Simplified Chinese",
+    "currentLanguage": [
+      "Current language: ",
+      [
+        "language"
+      ]
+    ],
+    "collapseLabel": [
+      "Collapse ",
+      [
+        "label"
+      ]
+    ],
+    "expandLabel": [
+      "Expand ",
+      [
+        "label"
+      ]
+    ],
+    "advanced": "Advanced",
+    "advancedSearch": "Advanced Search",
+    "cards": "Cards",
+    "decks": "Decks",
+    "play": "Play",
+    "sets": "Sets",
+    "sealed": "Sealed",
+    "sealedSimulator": "Sealed Simulator",
+    "search": "Search",
+    "searchCards": "Search cards...",
+    "searchCardsWithExample": "Search cards… (try t:unit d:fury)",
+    "random": "Random",
+    "contact": "Contact",
+    "support": "Support",
+    "buyMeACoffee": "Buy me a coffee",
+    "supportRiftAtlas": "Support Rift Atlas",
+    "supportRiftAtlasOnCoffee": "Support Rift Atlas on Buy Me a Coffee",
+    "theme": "Theme",
+    "language": "Language",
+    "notifications": "Notifications",
+    "discord": "Discord",
+    "joinDiscord": "Join the Discord",
+    "joinRiftAtlasDiscord": "Join the Rift Atlas Discord",
+    "followRiftAtlasOnX": "Follow us on X",
+    "account": "Account",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "loadingSignIn": "Loading sign in...",
+    "loadingSignUp": "Loading sign up...",
+    "download": "Download",
+    "share": "Share",
+    "save": "Save",
+    "cancel": "Cancel",
+    "copy": "Copy",
+    "card": "Card",
+    "breadcrumb": "Breadcrumb",
+    "close": "Close",
+    "open": "Open",
+    "select": "Select",
+    "selected": "Selected",
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "submit": "Submit",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "rename": "Rename",
+    "import": "Import",
+    "export": "Export",
+    "start": "Start",
+    "join": "Join",
+    "leave": "Leave",
+    "ready": "Ready",
+    "notReady": "Not Ready",
+    "player": "Player",
+    "opponent": "Opponent",
+    "confirmAction": "Confirm Action",
+    "continue": "Continue",
+    "events": "Events",
+    "accountStaging": {
+      "title": "Staging sign-in check",
+      "descriptionWeb": "This checks the account session used by the staging website. Sign in through the ordinary app to test the complete flow.",
+      "descriptionSimulator": "This checks the account session used by the staging simulator. Sign in through the ordinary app to test the complete flow.",
+      "unavailable": "Sign-in service is unavailable.",
+      "failed": "Sign-in failed.",
+      "destinationError": "Unexpected sign-in destination.",
+      "serverSession": "Server session",
+      "signedIn": [
+        "Signed in as ",
+        [
+          "name"
+        ],
+        "."
+      ],
+      "account": "Account:",
+      "tokenFailed": "Token issuance failed.",
+      "tokenIssued": "A short-lived access token was issued successfully.",
+      "checkToken": "Check access token",
+      "signOut": "Sign out",
+      "sessionFailed": "Session check failed.",
+      "signedOut": "Signed out.",
+      "otherApp": "Check the shared session in the other app",
+      "signIn": "Sign in",
+      "challenge": "Complete the verification, then choose a provider or request an email code.",
+      "codeSent": "Email code requested. Check your inbox.",
+      "email": "Email",
+      "sendCode": "Send email code",
+      "code": "Email code",
+      "verifyCode": "Verify code",
+      "loading": "Checking session…",
+      "notCompleted": "Sign-in could not be completed.",
+      "openApp": "Open the app"
+    },
+    "accountAuth": {
+      "signInTitle": "Sign in to Rift Atlas",
+      "signUpTitle": "Create your Rift Atlas account",
+      "checkEmailTitle": "Check your email",
+      "verifyDeviceTitle": "Verify it's you",
+      "resetTitle": "Reset your password",
+      "continueWith": [
+        "Continue with ",
+        [
+          "provider"
+        ]
+      ],
+      "or": "or",
+      "email": "Email address",
+      "playerName": "Player name",
+      "password": "Password",
+      "newPassword": "New password",
+      "code": "Verification code",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "passwordHint": "At least 12 characters",
+      "continue": "Continue",
+      "verify": "Verify",
+      "resetPassword": "Reset password",
+      "working": "Please wait…",
+      "useDifferentEmail": "Use a different email",
+      "forgotPassword": "Forgot password?",
+      "useCode": "Email me a sign-in code",
+      "usePassword": "Use your password instead",
+      "useCodeSignUp": "Sign up with an email code instead",
+      "usePasswordSignUp": "Sign up with a password instead",
+      "codeSentTo": [
+        "We sent a 6-digit code to ",
+        [
+          "email"
+        ],
+        "."
+      ],
+      "deviceCodeSent": [
+        "This browser is new to your account. Enter the code we sent to ",
+        [
+          "email"
+        ],
+        "."
+      ],
+      "resetCodeSent": [
+        "Enter the code we sent to ",
+        [
+          "email"
+        ],
+        " and choose a new password."
+      ],
+      "resendCode": "Resend code",
+      "resendIn": [
+        "Resend in ",
+        [
+          "seconds"
+        ],
+        "s"
+      ],
+      "passwordReset": "Password reset. Sign in with your new password.",
+      "noAccount": "New to Rift Atlas?",
+      "signUpLink": "Create an account",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "signInIncomplete": "Sign-in didn't finish",
+      "tryAgain": "Try again",
+      "oauthError": "Sign-in did not finish. Please try again.",
+      "providerCancelled": "Sign-in was cancelled.",
+      "providerEmailUnverified": "That account has no verified email address. Verify it with the provider or sign in with email.",
+      "providerLinkedElsewhere": "That account is already connected to a different Rift Atlas account.",
+      "invalidCredentials": "Incorrect email or password.",
+      "invalidPassword": "Your current password is incorrect.",
+      "invalidCode": "That code is incorrect.",
+      "codeExpired": "That code has expired. Request a new one.",
+      "codeAttempts": "Too many incorrect codes. Request a new one.",
+      "codeCooldown": "A code was just sent. Wait a minute before requesting another.",
+      "codeLimit": "Too many codes requested. Try again later.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidPlayerName": "That player name can't be used.",
+      "playerNameLimit": "Too many player name changes. Try again later.",
+      "passwordLocked": "Too many failed password attempts. Sign in with an email code or reset your password.",
+      "passwordLockedFor": [
+        "Too many failed password attempts. Sign in with an email code, reset your password, or try again in ",
+        [
+          "minutes",
+          2,
+          {
+            "one": [
+              0,
+              " minute"
+            ],
+            "other": [
+              0,
+              " minutes"
+            ]
+          }
+        ],
+        "."
+      ],
+      "accountLocked": "This account is locked. Reset your password to unlock it.",
+      "accountUnavailable": "This account can't be used to sign in.",
+      "rateLimited": "Too many attempts. Please wait before trying again.",
+      "rateLimitedFor": [
+        "Too many attempts. Try again in ",
+        [
+          "minutes",
+          2,
+          {
+            "one": [
+              0,
+              " minute"
+            ],
+            "other": [
+              0,
+              " minutes"
+            ]
+          }
+        ],
+        "."
+      ],
+      "reauthenticate": "Sign in again before changing your account.",
+      "passwordCompromised": "This password appears in a known data breach. Choose a different password.",
+      "captchaFailed": "The security check didn't complete. Try again, or reload the page.",
+      "invalidRequest": "We could not complete this request. Check your details and try again.",
+      "unavailable": "The account service is unavailable. Please try again.",
+      "writesClosed": "Account changes are paused for maintenance. Try again later.",
+      "lastSignInMethod": "Add another sign-in method before disconnecting this one.",
+      "accountMenu": "Account",
+      "manageAccount": "Manage account",
+      "signOut": "Sign out",
+      "close": "Close",
+      "retry": "Retry",
+      "change": "Change",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "notSet": "Not set",
+      "signInAgain": "Sign in again",
+      "profile": "Profile",
+      "security": "Security",
+      "sessions": "Sessions",
+      "otherDevices": "Other devices",
+      "emailSection": "Email address",
+      "newEmail": "New email address",
+      "sendCode": "Send code",
+      "emailChanged": "Email address updated.",
+      "choosePlayerName": "Choose your player name",
+      "save": "Save",
+      "playerNameChanged": "Player name updated.",
+      "updateEmailsOptIn": "Email me occasional Rift Atlas updates",
+      "updateEmails": "Update emails",
+      "updateEmailsHint": "Occasional Rift Atlas news",
+      "updateEmailsTitle": "Get Rift Atlas updates by email?",
+      "updateEmailsBody": "Occasional news about features and new sets. You can change this anytime in Manage account.",
+      "updateEmailsDecline": "No thanks",
+      "updateEmailsAccept": "Yes, email me",
+      "currentPassword": "Current password",
+      "setPassword": "Set password",
+      "changePassword": "Change password",
+      "passwordChanged": "Password changed. Other devices were signed out.",
+      "passwordSet": "Password set.",
+      "connections": "Connected accounts",
+      "connected": "Connected",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "manage": "Manage",
+      "revokeOthers": "Sign out other devices",
+      "othersSignedOut": "Other devices were signed out.",
+      "deleteAccount": "Delete account",
+      "deleteDescription": "Permanently close this account and sign out everywhere. You will lose access to saved content. Published contributions, anonymous statistics and required records are retained. This cannot be undone.",
+      "deleteConfirmation": "Type your current email address to confirm",
+      "deletePermanently": "Permanently delete my account"
+    }
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "description": "Rift Atlas could not load this page. Your saved browser data is unchanged.",
+    "retry": "Try again",
+    "backHome": "Back to home"
+  },
+  "search": {
+    "ascending": "ascending",
+    "descending": "descending",
+    "catalogTitle": "Riftbound Card Database",
+    "catalogEyebrow": "Riftbound / Card index",
+    "browseRiftboundSets": "Browse Riftbound sets",
+    "browseSets": "Browse sets",
+    "precisionSearchEyebrow": "Riftbound / Precision search",
+    "loading": "Loading...",
+    "images": "Images",
+    "text": "Text",
+    "sortedBy": "sorted by",
+    "sort": "Sort",
+    "resetFilters": "Reset filters",
+    "cardsFound": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " card"
+          ],
+          "other": [
+            0,
+            " cards"
+          ]
+        }
+      ]
+    ],
+    "wherePrefix": [
+      " where ",
+      [
+        "description"
+      ]
+    ],
+    "nameOrTextIncludes": [
+      "name or text includes \"",
+      [
+        "query"
+      ],
+      "\""
+    ],
+    "nameIncludes": [
+      "name includes \"",
+      [
+        "name"
+      ],
+      "\""
+    ],
+    "nameIs": [
+      "name is “",
+      [
+        "name"
+      ],
+      "”"
+    ],
+    "textIncludes": [
+      "text includes \"",
+      [
+        "text"
+      ],
+      "\""
+    ],
+    "statComparison": [
+      [
+        "stat"
+      ],
+      " ",
+      [
+        "comparator"
+      ],
+      " ",
+      [
+        "value"
+      ]
+    ],
+    "notCondition": [
+      "not ",
+      [
+        "condition"
+      ]
+    ],
+    "or": " or ",
+    "orGroup": [
+      "(",
+      [
+        "conditions"
+      ],
+      ")"
+    ],
+    "typeIs": [
+      "type is ",
+      [
+        "type"
+      ]
+    ],
+    "supertypeIs": [
+      "special card is ",
+      [
+        "supertype"
+      ]
+    ],
+    "domainIs": [
+      "domain is ",
+      [
+        "domain"
+      ]
+    ],
+    "rarityIs": [
+      "rarity is ",
+      [
+        "rarity"
+      ]
+    ],
+    "setIs": [
+      "set is ",
+      [
+        "set"
+      ]
+    ],
+    "hasKeyword": [
+      "has keyword ",
+      [
+        "keyword"
+      ]
+    ],
+    "hasSubtypes": [
+      "has subtypes ",
+      [
+        "subtypes"
+      ]
+    ],
+    "hasTags": [
+      "has tags ",
+      [
+        "tags"
+      ]
+    ],
+    "altVersions": "alt versions",
+    "tokens": "tokens",
+    "includingExtras": [
+      " including ",
+      [
+        "extras"
+      ]
+    ],
+    "loadingMoreCards": "Loading more cards...",
+    "and": " and ",
+    "name": "Name",
+    "id": "ID",
+    "cost": "Cost",
+    "might": "Might",
+    "type": "Type",
+    "domain": "Domain",
+    "battlefields": "Battlefields",
+    "noCards": "No cards found. Try a different search.",
+    "editFilter": [
+      "Edit ",
+      [
+        "filter"
+      ],
+      " filter"
+    ],
+    "syntaxBasicTitle": "Basic Search",
+    "syntaxBasicBody": "Just type words to search card names:",
+    "syntaxFiltersTitle": "Filters",
+    "syntaxFiltersBody": "Filter values are one word unless quoted, like",
+    "syntaxNumericTitle": "Numeric Filters",
+    "syntaxOperatorsTitle": "Operators",
+    "syntaxExactCost": "Exact cost",
+    "syntaxCostOrLess": "Cost 2 or less",
+    "syntaxMightPlus": "Might 4+",
+    "syntaxNotSpell": "NOT a spell",
+    "syntaxOr": "OR",
+    "cardText": "Card text",
+    "exhaustSymbol": "Exhaust symbol",
+    "energyCost": "Energy cost",
+    "hasAbility": [
+      "has ",
+      [
+        "ability"
+      ],
+      " ability"
+    ],
+    "syntaxAbility": "Ability kind"
+  },
+  "advanced": {
+    "title": "Advanced Search",
+    "cardName": "Card Name",
+    "namePlaceholder": "Any words in the name, e.g. \"Jinx\"",
+    "text": "Text",
+    "textPlaceholder": "Any text, e.g. \"draw a card\"",
+    "cardType": "Card type",
+    "cardRarity": "Card rarity",
+    "cardSet": "Card set",
+    "cardKeywords": "Card keywords",
+    "cardTags": "Card tags",
+    "anyTag": "Any tag",
+    "exclusionFilters": "Exclusion filters",
+    "noExclusions": "No exclusions",
+    "clearAllExclusions": "Clear all exclusions",
+    "searchExclusions": "Search exclusions...",
+    "preservedOne": "this filter",
+    "preservedMany": [
+      [
+        "count"
+      ],
+      " filters"
+    ],
+    "preservedPronounOne": "it",
+    "preservedPronounMany": "they",
+    "allCards": "All cards",
+    "textHelp": "Enter text that should appear in the card text box.",
+    "type": "Type",
+    "anyType": "Any type",
+    "typeHelp": "Choose a card type to filter results.",
+    "show": "Show",
+    "tokens": "Tokens",
+    "domains": "Domains",
+    "domainHelp": "Select one or more domains to filter by.",
+    "keywords": "Keywords",
+    "anyKeyword": "Any keyword",
+    "keywordHelp": "Filter by card keywords and mechanics.",
+    "subtypes": "Subtypes",
+    "available": [
+      [
+        "count"
+      ],
+      " available"
+    ],
+    "selectSubtypes": [
+      "Select subtypes (",
+      [
+        "count"
+      ],
+      " available)"
+    ],
+    "championTags": "Champion tags",
+    "tags": "Tags",
+    "subtypeHelp": "Click to expand and select subtypes.",
+    "rarity": "Rarity",
+    "anyRarity": "Any rarity",
+    "set": "Set",
+    "anySet": "Any set",
+    "arcaneBoxSet": "Arcane Box Set",
+    "energyCost": "Energy cost",
+    "powerCost": "Power cost",
+    "equalTo": "equal to",
+    "lessThan": "less than",
+    "lessThanOrEqual": "less than or equal",
+    "greaterThan": "greater than",
+    "greaterThanOrEqual": "greater than or equal",
+    "numberPlaceholder": [
+      "e.g. \"",
+      [
+        "number"
+      ],
+      "\""
+    ],
+    "energyHelp": "Filter by Energy cost (numeric resource).",
+    "powerHelp": "Filter by Power cost (domain-specific resource).",
+    "includeAltArts": "Include alternate arts in results",
+    "altArtsHelp": "When enabled, cards with the same name will also appear.",
+    "domainFuryDescription": "Aggression, Damage, Reckless",
+    "domainCalmDescription": "Defense, Tricks, Reaction",
+    "domainMindDescription": "Planning, Draw, Hidden",
+    "domainBodyDescription": "Ramp, Buffs, Ready",
+    "domainChaosDescription": "Discard, Trash, Hidden",
+    "domainOrderDescription": "Tokens, Sacrifice, Deathknell",
+    "search": "Search with these options",
+    "reset": "Reset filters"
+  },
+  "nav": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "openMoreMenu": "Open more menu",
+    "closeMoreMenu": "Close more menu",
+    "more": "More",
+    "syntaxHelp": "Search syntax help",
+    "examples": "Examples"
+  },
+  "play": {
+    "launch": "Launch Rift Atlas",
+    "launchSimulator": "Launch Simulator",
+    "openSimulator": "Open simulator",
+    "title": "Rift Atlas Play Simulator"
+  },
+  "playPage": {
+    "simulatorEyebrow": "Rift Atlas / Simulator",
+    "heroIntro": "Find an opponent in Quick Match, host a room for friends, or test a deck on your own, right in your browser.",
+    "browserReady": "Free to play · No download required",
+    "stillPreview": "Still preview",
+    "motionPreview": "Motion preview",
+    "motionUnavailable": "Motion unavailable",
+    "playMotionPreview": [
+      "Play ",
+      [
+        "label"
+      ],
+      " motion preview"
+    ],
+    "retryMotionPreview": [
+      "Retry ",
+      [
+        "label"
+      ],
+      " motion preview"
+    ],
+    "pauseMotionPreview": [
+      "Pause ",
+      [
+        "label"
+      ],
+      " motion preview"
+    ],
+    "featureRewindLabel": "Rewind",
+    "featureAutoPayLabel": "Auto-pay",
+    "boardAlt": "Rift Atlas simulator with Rebuke on the chain targeting the opposing Kai'Sa, Survivor at a battlefield.",
+    "quickMatch": "Quick Match",
+    "quickMatchDescription": "Constructed or Sealed, Best of 1 or Best of 3, against the next player in the queue.",
+    "privateRoom": "Private Room",
+    "privateRoomDescription": "Duel, free-for-all or 2v2 with up to four players. Invite friends or share the room code.",
+    "soloRoom": "Solo Room",
+    "soloRoomDescription": "Test a deck on your own, or play both sides of a game.",
+    "spectate": "Spectate",
+    "spectateDescription": "Enter a room code to watch a match in progress.",
+    "rewindCurrentDescription": "Take back your last action instead of rebuilding the board by hand.",
+    "rewindCurrentAlt": "Rift Atlas simulator showing a recycled card action being rewound.",
+    "autoPayCurrentDescription": "Auto-pay exhausts and recycles the runes a card needs, and the match log records every payment.",
+    "autoPayCurrentAlt": "Rift Atlas simulator showing automatic payment for a card cost.",
+    "conquerPrompts": "Conquer prompts",
+    "conquerPromptsDescription": "When a unit takes a battlefield, a prompt beside it offers the right reward, such as Conquer + Score. In showdowns it also shows who has focus and lets you pass it.",
+    "conquerPromptsAlt": "Rift Atlas simulator showing a unit moving to a battlefield and the conquer and score prompt.",
+    "online": "online.",
+    "moreFeatures": "More features",
+    "bringDeckTitle": "Deck import",
+    "bringDeckDescription": "Paste a list or deck code, or open any Rift Atlas deck straight in the simulator.",
+    "sealedTitle": "Sealed",
+    "sealedDescription": "Open packs, build from your pool, and take it into Quick Match or a room.",
+    "friendsTitle": "Friends & messages",
+    "friendsDescription": "Add friends by code, chat, and invite them straight into your room.",
+    "customizeTitle": "Customize",
+    "customizeDescription": "Playmats, sleeves, board lines and emotes.",
+    "touchTitle": "Phones and tablets",
+    "touchDescription": "A touch layout made for small screens, with nothing to install.",
+    "languagesTitle": "English, 简体中文, Français, 한국어",
+    "languagesDescription": "Switch languages any time. Card text and artwork follow your language where available, with English used when a translation is missing."
+  },
+  "card": {
+    "download": "Download",
+    "share": "Share",
+    "energy": "Energy",
+    "might": "Might",
+    "information": "Card Information",
+    "set": "Set:",
+    "rarity": "Rarity:",
+    "domain": "Domain:",
+    "domains": "Domains:",
+    "cardNumber": "Card Number:",
+    "keywords": "Keywords:",
+    "otherPrints": "Other Prints",
+    "otherPrintNavigation": "Other print navigation",
+    "scrollOtherPrintsLeft": "Scroll other prints left",
+    "scrollOtherPrintsRight": "Scroll other prints right",
+    "moreCards": "More cards",
+    "viewAll": "View all →",
+    "notFound": "Card Not Found",
+    "prices": "Prices",
+    "foilOnly": "Foil only",
+    "syncingPrices": "Syncing prices...",
+    "loadingPrices": "Loading prices...",
+    "nearMint": [
+      "Near Mint ",
+      [
+        "printing"
+      ]
+    ],
+    "conditionNearMint": "Near Mint",
+    "conditionLightlyPlayed": "Lightly Played",
+    "conditionModeratelyPlayed": "Moderately Played",
+    "conditionHeavilyPlayed": "Heavily Played",
+    "conditionDamaged": "Damaged",
+    "conditionUnknown": [
+      "Unknown condition (",
+      [
+        "condition"
+      ],
+      ")"
+    ],
+    "foil": "Foil",
+    "normal": "Normal",
+    "printingUnknown": [
+      "Unknown printing (",
+      [
+        "printing"
+      ],
+      ")"
+    ],
+    "pricingData": "Pricing data",
+    "noNearMint": "No Near Mint pricing available",
+    "buyOnTcgplayer": "Buy on TCGPlayer",
+    "affiliateNotice": "Affiliate link — we may earn a commission.",
+    "pricingUnavailable": "Pricing data not yet available for this card",
+    "priceUnavailable": "Price unavailable",
+    "englishTextFallbackNotice": "Missing translated text is shown in English.",
+    "allCardsLoaded": [
+      "All ",
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " card"
+          ],
+          "other": [
+            0,
+            " cards"
+          ]
+        }
+      ],
+      " loaded."
+    ],
+    "allCardsShown": [
+      "All ",
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " card"
+          ],
+          "other": [
+            0,
+            " cards"
+          ]
+        }
+      ],
+      " shown."
+    ]
+  },
+  "sets": {
+    "allSets": "All Sets",
+    "announced": "Announced",
+    "announcedLabel": [
+      [
+        "name"
+      ],
+      ", announced"
+    ],
+    "browseCards": [
+      "Browse ",
+      [
+        "name"
+      ],
+      " cards"
+    ],
+    "filterSets": "Filter sets...",
+    "index": "Index",
+    "sortedBy": "Sorted by",
+    "release": "Release",
+    "releaseIndexEyebrow": "Riftbound / Release index",
+    "releasedCardCount": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " card"
+          ],
+          "other": [
+            0,
+            " cards"
+          ]
+        }
+      ]
+    ],
+    "previewCardCount": [
+      "Unreleased · ",
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " preview card"
+          ],
+          "other": [
+            0,
+            " preview cards"
+          ]
+        }
+      ]
+    ],
+    "status": "Status",
+    "title": "Sets",
+    "name": "Name",
+    "cards": "Cards",
+    "numberOfCards": "No. of Cards",
+    "setCount": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " set"
+          ],
+          "other": [
+            0,
+            " sets"
+          ]
+        }
+      ]
+    ],
+    "summarySetCount": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " set"
+          ],
+          "other": [
+            0,
+            " sets"
+          ]
+        }
+      ]
+    ],
+    "summaryCardCount": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " total card"
+          ],
+          "other": [
+            0,
+            " total cards"
+          ]
+        }
+      ]
+    ],
+    "releaseQuarter": [
+      "Q",
+      [
+        "quarter"
+      ],
+      " ",
+      [
+        "year"
+      ]
+    ],
+    "totalCards": "total cards",
+    "sets": "sets",
+    "previewAlt": [
+      [
+        "name"
+      ],
+      " preview"
+    ],
+    "tbd": "TBD"
+  },
+  "contact": {
+    "eyebrow": "Contact Rift Atlas",
+    "headline": "Feedback, bugs, partnerships, or a deck-tech lead.",
+    "directEmail": "Direct email",
+    "directEmailBody": "Prefer email? Write to",
+    "fastestResponse": "What gets the fastest response",
+    "fastestResponseBody": "Bug reports with the exact page, a search query, deck link, or card ID. Feature requests also help when they describe the workflow that is currently blocked.",
+    "supportProject": "Support the project",
+    "supportProjectBody": "If the site saves you time, the new support link in the header goes straight to Buy Me a Coffee.",
+    "openBuyMeACoffee": "Open Buy Me a Coffee",
+    "sendMessage": "Send a message",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "nameRequired": "Please enter your name.",
+    "emailRequired": "Please enter your email address.",
+    "emailInvalid": "Enter a valid email address.",
+    "subjectRequired": "Please enter a subject.",
+    "messageRequired": "Please enter a message.",
+    "messageTooShort": [
+      "Message must be at least ",
+      [
+        "count"
+      ],
+      " characters."
+    ],
+    "subjectPlaceholder": "Bug report, partnership, feedback, feature request...",
+    "messagePlaceholder": "Tell us what you need and include any card IDs, deck links, or repro steps that help.",
+    "sending": "Sending...",
+    "send": "Send Message",
+    "success": "Message sent. We'll get back to you soon.",
+    "failed": "Failed to send your message.",
+    "privacyNotice": "By sending a message, you consent to Rift Atlas receiving your submission and replying by email if needed. Unsent drafts are stored in your browser until they are cleared or submitted. See the",
+    "privacyPolicy": "Privacy Policy"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "theme": "Theme",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode",
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  },
+  "utility": {
+    "contactRiftAtlas": "Contact Rift Atlas",
+    "support": "Support",
+    "footer": "Footer",
+    "footerDisclaimer": "Rift Atlas was created under Riot Games' \"Legal Jibber Jabber\" policy using assets owned by Riot Games. Riot Games does not endorse or sponsor this project.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  },
+  "current": {
+    "artists": {
+      "title": "Artists",
+      "eyebrow": "The art of Rift Atlas",
+      "directoryHeading": "Meet the artists and communities.",
+      "description": "Browse their playmats, sleeves, and tokens, and find links to more of their work.",
+      "allArtists": "All artists",
+      "viewProfile": "View artwork & artist profile",
+      "profileTitle": [
+        [
+          "artist"
+        ],
+        " · Artwork"
+      ],
+      "gallery": "The collection",
+      "galleryHint": "Select a work to take a closer look.",
+      "openArtwork": [
+        "View ",
+        [
+          "artwork"
+        ]
+      ],
+      "customize": "Explore customization",
+      "membershipTitle": "Bring their artwork to your table",
+      "membershipDescription": "These cosmetics are included with an active Champion membership or above.",
+      "formats": {
+        "playmat": "Playmat",
+        "sleeve": "Card sleeve",
+        "token": "Token artwork"
+      },
+      "profiles": {
+        "eunah": "The illustrator behind Void Hunter, a violet-and-cyan sleeve illustration for your decks and battlefields.",
+        "nickangerPng": "Super Galaxy Snack Force: a full-crew playmat and six matching sleeve colorways by nickangerPNG.",
+        "glitchedGoober": "Meet the Riftbuds and Pengu: GlitchedGoober’s illustrated takes on the tokens at your table.",
+        "poroPack": "The Poro Pack’s collection brings poros to your table with a matching playmat and sleeves.",
+        "luindimas": "Playmat and sleeve artwork by Luindimas, with sketch and color variants to explore.",
+        "vesomnia": "Vesomnia’s collection pairs a playmat with Akali sleeve artwork.",
+        "lootPixie": "Loot Pixie’s collection spans pastel playmats and illustrated tokens for your games.",
+        "paintedByLibby": "Libby McCombs, known as Painted by Libby, creates Riftbound and TCG artwork, including Evelynn and Lulu playmats."
+      },
+      "directoryLabel": [
+        "The artist collection · ",
+        [
+          "count"
+        ],
+        " creators"
+      ],
+      "artistLabel": "Rift Atlas artist",
+      "creatorLabel": "Creator",
+      "communityLabel": "Community",
+      "artistProfile": [
+        "Explore ",
+        [
+          "artist"
+        ],
+        "’s artwork"
+      ],
+      "workCount": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " artwork"
+            ],
+            "other": [
+              0,
+              " artworks"
+            ]
+          }
+        ]
+      ],
+      "closeViewer": "Close artwork viewer",
+      "previousArtwork": "Previous artwork",
+      "nextArtwork": "Next artwork"
+    },
+    "unavailable": "Unavailable",
+    "cardCategory": [
+      "Riftbound ",
+      [
+        "type"
+      ],
+      " card"
+    ],
+    "combineCardTextCatalogueDetailsAndGameplayRequirements": "Combine card text, catalogue details, and gameplay requirements.",
+    "formSubmissionsGoThroughResendAndDirectMailToHello": "Form submissions go through Resend, and direct mail to hello@riftatlas.com can be forwarded through the inbound webhook.",
+    "configureNextPublicConvexUrlInThisAppSoThe": "Configure NEXT_PUBLIC_CONVEX_URL in this app so the website can talk to the shared simulator backend.",
+    "skipToMainContent": "Skip to main content",
+    "legalNotice": "Legal Notice",
+    "providerIdentificationAndContactDetailsForRiftAtlas": "Provider identification and contact details for Rift Atlas.",
+    "providerInformationUnderSection5Ddg": "Provider Information Under Section 5 DDG",
+    "germany": "Germany",
+    "representedBy": "Represented By",
+    "managingDirectorStefanGRlitz": "Managing Director: Stefan Görlitz",
+    "commercialRegister": "Commercial Register",
+    "registerCourtAmtsgerichtBielefeld": "Register Court: Amtsgericht Bielefeld",
+    "registrationNumberHrb46215": "Registration Number: HRB 46215",
+    "email": "Email:",
+    "youCanAlsoUseThe": "You can also use the",
+    "contactPage": "contact page",
+    "responsibleForContent": "Responsible For Content",
+    "sGoerlitzUgHaftungsbeschrNktRepresentedByStefanGRlitz": "S. Goerlitz UG (haftungsbeschränkt), represented by Stefan Görlitz, is responsible for this site's own content. Address as listed above.",
+    "consumerDisputeResolution": "Consumer Dispute Resolution",
+    "weAreNotWillingToParticipateInDisputeResolutionProceedings": "We are not willing to participate in dispute resolution proceedings before a consumer arbitration board.",
+    "fanProjectNotice": "Fan Project Notice",
+    "riftAtlasIsAnUnofficialFanProjectForRiftboundLeague": "Rift Atlas is an unofficial fan project for Riftbound: League of Legends Trading Card Game. Riftbound, League of Legends, Riot Games, and related names, logos, card images, and game materials are the property of Riot Games or their respective rights holders. Riot Games does not endorse or sponsor Rift Atlas.",
+    "legal": "Legal",
+    "lastUpdated": "Last updated",
+    "brandResources": "Brand resources",
+    "riftAtlasMediaKit": "Rift Atlas Media Kit",
+    "officialRasterLogosApplicationIconsAndPreparedSocialArtwork": "Official raster logos, application icons, and prepared social artwork.",
+    "downloadCompleteKit": "Download complete kit",
+    "riftAtlasPrimaryMark": "Rift Atlas primary mark",
+    "riftAtlasPrimaryLockup": "Rift Atlas primary lockup",
+    "primaryMark": "Primary mark",
+    "primaryLockup": "Primary lockup",
+    "applicationIcon": "Application icon",
+    "socialImage": "Social image",
+    "alternatives": "Alternatives",
+    "monochromeArtwork": "Monochrome artwork",
+    "useOnlyWhenThePrimaryColorTreatmentCannotMaintainClear": "Use only when the primary color treatment cannot maintain clear contrast.",
+    "whiteRiftAtlasLockup": "White Rift Atlas lockup",
+    "whiteLockup": "White lockup",
+    "blackRiftAtlasLockup": "Black Rift Atlas lockup",
+    "blackLockup": "Black lockup",
+    "useTheIdentityClearly": "Use the identity clearly",
+    "keepTheArtworkIntact": "Keep the artwork intact",
+    "mediaKitUsePrimary": "Use the gold hexagon with blue fill as the primary identity.",
+    "mediaKitKeepProportional": "Keep the artwork proportional and leave clear space around it.",
+    "mediaKitProductName": "Write the product name as “Rift Atlas” in ordinary text.",
+    "mediaKitNativeDimensions": "Keep raster exports at or below their native dimensions.",
+    "mediaKitNoRecolor": "Do not recolor, stretch, rotate, crop, or rearrange the logo.",
+    "mediaKitNoEffects": "Do not add outlines, shadows, glows, or decorative effects.",
+    "mediaKitMaintainContrast": "Do not place the artwork where contrast is too low.",
+    "mediaKitNoWordmarkBody": "Do not use the raster wordmark as a replacement for body text.",
+    "opensInANewTab": "(opens in a new tab)",
+    "riftAtlasSimulator": "Rift Atlas Simulator",
+    "playRiftbound": "Play Riftbound",
+    "bringASavedDeckOrPasteAListThenFind": "Bring a saved deck or paste a list. Then find an opponent, create a private room, play solo, play sealed, or spectate.",
+    "chooseADeck": "Choose a deck",
+    "inANewTabForPlayersSupportAndUpdates": "in a new tab. For players, support, and updates,",
+    "riftAtlasSimulatorBoardShowingBothPlayersTheirCardsAnd": "Rift Atlas simulator board showing both players, their cards and hands, and the match controls.",
+    "waysToPlay": "Ways to play",
+    "chooseHowYou": "Choose how you",
+    "wantToPlay": "want to play.",
+    "playTools": "Play tools",
+    "makePlaying": "Make playing",
+    "aLittleEasier": "a little easier.",
+    "playJsonPageDescription": "Launch page for the unofficial Rift Atlas online simulator with matchmaking, private rooms, solo practice, sealed play, and spectating.",
+    "playFeatureQuickMatchmaking": "Quick matchmaking",
+    "playFeaturePrivateRoom": "Private room-code multiplayer",
+    "playFeatureSoloTesting": "Solo deck testing",
+    "playFeatureConstructedSealed": "Constructed and sealed play",
+    "playFeatureSpectating": "Spectating",
+    "playFeatureSavedDeckImport": "Saved-deck and decklist import",
+    "playFeatureAssistance": "Rewind, auto-pay, and showdown assistance",
+    "openTheSimulator": "Open the simulator.",
+    "orByEmailing": "or by emailing",
+    "termsOfService": "Terms of Service",
+    "theseTermsGovernYourUseOfRiftAtlasAndExplain": "These terms govern your use of Rift Atlas, including optional Metafy memberships and digital entitlements, the limits of the service, the fan-project status of the site, and your responsibilities when using it.",
+    "unofficialFanProject": "Unofficial fan project",
+    "riftAtlasIsAnUnofficialFanProjectForRiftboundLeague2": "Rift Atlas is an unofficial fan project for Riftbound: League of Legends Trading Card Game. It is created under Riot Games' \"Legal Jibber Jabber\" policy using assets owned by Riot Games. Rift Atlas is not affiliated with, endorsed by, or sponsored by Riot Games.",
+    "useOfTheSite": "Use of the site",
+    "youMayUseRiftAtlasForPersonalInformationalAndCommunity": "You may use Rift Atlas for personal, informational, and community purposes. You may not use the site in a way that damages the service, interferes with other users, bypasses access controls, attempts unauthorized access, or violates applicable law.",
+    "accuracyAndAvailability": "Accuracy and availability",
+    "riftAtlasAimsToKeepCardDataSearchResultsAnd": "Rift Atlas aims to keep card data, search results, and other tools useful and current, but the site is provided on an \"as is\" and \"as available\" basis. Content may be incomplete, outdated, inaccurate, or temporarily unavailable.",
+    "youAreResponsibleForVerifyingImportantInformationEspeciallyWherePrices": "You are responsible for verifying important information, especially where prices, event preparation, competitive decisions, or outside purchases are concerned.",
+    "thirdPartyServicesAndLinks": "Third-party services and links",
+    "riftAtlasLinksToOrReliesOnThirdPartyServices": "Rift Atlas links to or relies on third-party services, including Clerk for authentication, Convex for account-linked application data, Vercel for hosting, Cloudflare for realtime infrastructure and asset delivery, Resend for email, Metafy for optional membership billing and verification, card pricing sources, optional support links, and the multiplayer simulator hosted at play.riftatlas.com. Those services are controlled by their own operators, are subject to their own terms, and may change or become unavailable at any time.",
+    "intellectualProperty": "Intellectual property",
+    "riftboundLeagueOfLegendsRiotGamesAndRelatedNamesLogos": "Riftbound, League of Legends, Riot Games, and related names, logos, card assets, and other game materials belong to Riot Games and their respective rights holders.",
+    "exceptForThirdPartyMaterialsAndRiotOwnedAssetsThe": "Except for third-party materials and Riot-owned assets, Rift Atlas branding, commissioned cosmetic assets, site layout, original text, code, and original compilations remain the property of Rift Atlas or their named licensors and artists, as applicable.",
+    "metafyMembershipsTitle": "Metafy memberships and digital entitlements",
+    "metafyBillingBody": "Metafy operates membership checkout, payment processing, renewals, cancellation, and applicable refunds or billing disputes under the terms shown on Metafy. Rift Atlas does not receive or store your full payment-card details. The price, billing interval, and benefits shown on the Metafy checkout page at purchase govern that membership.",
+    "metafyEntitlementsBody": "While an eligible Metafy membership is active and connected to the same Rift Atlas account, every paid tier grants its matching Rift Atlas badge and Discord role. Champion, Legend, and Signature Legend also grant access to the standard Simulator customization catalog; Legend and Signature Legend additionally grant their respective special tier nameplates. These are limited, personal, non-transferable digital access rights; they do not grant ownership of artwork, software, Riot-owned materials, or a commercial relationship with Riot Games.",
+    "metafyLifecycleBody": "Canceling on Metafy may leave entitlements active until the paid period ends. Expiration, loss of access reported by Metafy, or a downgrade removes benefits that the current tier no longer includes. Saved customization selections may be retained but will not be applied while they are inaccessible.",
+    "metafyDisconnectBody": "Disconnecting Metafy from Rift Atlas immediately disables membership-linked entitlements and verification, but it does not cancel the membership or stop billing on Metafy. Membership cancellation and billing changes must be completed through Metafy.",
+    "otherSupportBody": "Other optional support or donation links that do not expressly list a Rift Atlas digital entitlement support the fan project only and grant no membership access or ownership rights.",
+    "liabilityLimits": "Liability limits",
+    "toTheMaximumExtentPermittedByLawRiftAtlasIs": "To the maximum extent permitted by law, Rift Atlas is not liable for losses, damages, or costs arising from your use of, or inability to use, the site or linked third-party services.",
+    "changesAndContact": "Changes and contact",
+    "riftAtlasMayUpdateOrDiscontinueAnyPartOfThe": "Rift Atlas may update or discontinue parts of the site and may update these terms as the service changes. The current terms and their effective date will remain posted here, and material changes affecting active memberships will be communicated when required by applicable law.",
+    "questionsAboutTheseTermsCanBeSentThroughThe": "Questions about these terms can be sent through the",
+    "riftboundCardsDecks": "Riftbound cards, decks,",
+    "andPlay": "and play.",
+    "searchCardsBuildDecksBrowseCommunityListsOrStartA": "Search cards, build decks, browse community lists, or start a game.",
+    "homepageShortcuts": "Homepage shortcuts",
+    "browseTheGallery": "Browse the gallery",
+    "viewSets": "View sets",
+    "buildAndShareDecks": "Build and share decks.",
+    "createADeckTuneTheListSaveItOrBrowse": "Create a deck, tune the list, save it, or browse decks from the community.",
+    "buildADeck": "Build a deck",
+    "exploreCommunityDecks": "Explore community decks",
+    "aRiftAtlasOnlineMatchInProgress": "A Rift Atlas online match in progress",
+    "playOnlineOrPracticeSealed": "Play online or practice sealed.",
+    "takeASavedDeckIntoSoloOrOnlinePlayOr": "Take a saved deck into solo or online play, or build from a fresh sealed pool.",
+    "playOnline": "Play online",
+    "trySealed": "Try sealed",
+    "searchRiftboundCards": "Search Riftbound cards",
+    "searchByNameTextTypeOrDomain": "Search by name, text, type, or domain…",
+    "someFiltersArePreservedAsSyntax": "Some filters are preserved as syntax",
+    "advancedSearchCanTEdit": "Advanced Search can’t edit",
+    "willRemainInYourSearch": "will remain in your search.",
+    "reviewInSyntaxSearch": "Review in syntax search",
+    "removePreservedFilters": "Remove preserved filters",
+    "cardProfile": "Card profile",
+    "rulesText": "Rules Text",
+    "playProfile": "Play profile",
+    "energyCostComparison": "Energy cost comparison",
+    "energyCostValue": "Energy cost value",
+    "powerCostComparison": "Power cost comparison",
+    "powerCostValue": "Power cost value",
+    "include": "Include",
+    "altVersions": "Alt versions",
+    "catalogue": "Catalogue",
+    "excludeCardsMatching": "Exclude cards matching",
+    "removeCardsThatMatchAnySelectedValueChoosingFuryAnd": "Remove cards that match any selected value. Choosing Fury and Spell removes all Fury cards and all Spells.",
+    "compiledQuery": "Compiled query",
+    "clearAll": "Clear all",
+    "riftAtlasHome": "Rift Atlas home",
+    "submitCardSearch": "Submit card search",
+    "clearCardSearch": "Clear card search",
+    "searchFilterSuggestions": "Search filter suggestions",
+    "useTheUpAndDownArrowKeysToNavigateSuggestions": "Use the up and down arrow keys to navigate suggestions, Enter to choose, and Escape to close.",
+    "navigate": "↑↓ Navigate",
+    "enterSelect": "Enter Select",
+    "escClose": "Esc Close",
+    "typeAValueToFinish": "Type a value to finish",
+    "searchSyntax": "Search Syntax",
+    "closeSearchSyntaxHelp": "Close search syntax help",
+    "justTypeWordsToSearchNamesAndCardText": "Just type words to search names and card text:",
+    "cardName": "Card name",
+    "signature": "Signature",
+    "keyword": "Keyword",
+    "tag": "Tag",
+    "primary": "Primary",
+    "loadingCards": "Loading cards",
+    "cardView": "Card view",
+    "sortCardsBy": "Sort cards by",
+    "scrollSidewaysToSeeAllCardDetails": "Scroll sideways to see all card details.",
+    "name": "NAME",
+    "cost": "COST",
+    "type": "TYPE",
+    "domain": "DOMAIN",
+    "might": "MIGHT",
+    "noCardsFound": "No cards found",
+    "tryABroaderSearchOrClearTheActiveFiltersTo": "Try a broader search, or clear the active filters to return to the full gallery.",
+    "clearFilters": "Clear filters",
+    "cardsShown": "cards shown.",
+    "closeCardDetails": "Close card details",
+    "openFullCardPage": "Open full card page",
+    "fullCardPage": "Full card page",
+    "rules": "Rules",
+    "flavorText": "Flavor text",
+    "cardNumber": "Card Number",
+    "noCurrentPricingAvailable": "No current pricing available",
+    "backToFilters": "Back to filters",
+    "noMatchingOptions": "No matching options",
+    "newerUpdates": "Newer updates",
+    "olderUpdates": "Older updates",
+    "changelog": "Changelog",
+    "changelogEntries": "Changelog entries",
+    "editingPaused": "Editing Paused",
+    "updated": "Updated",
+    "clones": "clones",
+    "comments": "comments",
+    "communityDeckDetailView": "Community deck detail view",
+    "closeConfirmation": "Close confirmation",
+    "website": "Website",
+    "deckGuide": "Deck guide",
+    "addLink": "Add link",
+    "enterTheDestinationForTheSelectedText": "Enter the destination for the selected text.",
+    "webAddress": "Web address",
+    "addLink2": "Add Link",
+    "likes": "likes",
+    "trendingCommunityDecks": "Trending community decks",
+    "browseAll": "Browse all",
+    "noRecentActivityYet": "No recent activity yet.",
+    "continueEditing": "Continue editing",
+    "openToFinish": "Open to finish",
+    "localDraft": "Local draft",
+    "continueBuilding": "Continue building",
+    "communityDeck": "Community deck",
+    "yours": "Yours",
+    "playThisDeckInTheSimulator": "Play this deck in the simulator",
+    "total": "total",
+    "closeComments": "Close comments",
+    "viewRecentDecks": "View recent decks",
+    "viewYourDecks": "View your decks",
+    "loadingDecks": "Loading decks",
+    "deckView": "Deck view",
+    "yourDecks": "Your decks",
+    "community": "Community",
+    "signInAgain": "Sign in again",
+    "signInToSaveAndPublishDecks": "Sign in to save and publish decks",
+    "localDraftsStillWorkWithoutAnAccountSignInTo": "Local drafts still work without an account. Sign in to sync your library and share completed decks with the community.",
+    "yourDeckLibraryIsEmpty": "Your deck library is empty",
+    "startANewDeckAndItWillAppearHereAutomatically": "Start a new deck and it will appear here automatically.",
+    "filterCommunityDecksByLegend": "Filter community decks by legend",
+    "sortCommunityDecks": "Sort community decks",
+    "trending": "Trending",
+    "clones2": "Clones",
+    "refreshFailed": "Refresh failed",
+    "showMore": "Show more",
+    "bookmarkShelf": "Bookmark shelf",
+    "bookmarks": "Bookmarks",
+    "bookmarkedOnly": "Bookmarked only",
+    "bookmarkPages": "Bookmark pages",
+    "previousBookmarkedCards": "Previous bookmarked cards",
+    "nextBookmarkedCards": "Next bookmarked cards",
+    "bookmarkedCards": "Bookmarked cards",
+    "showing": "Showing",
+    "loadMoreCards": "Load more cards",
+    "cardsLoaded": "cards loaded.",
+    "sortCards": "Sort cards",
+    "sortDirectionChange": [
+      "Sort direction: ",
+      [
+        "current"
+      ],
+      ". Change to ",
+      [
+        "next"
+      ],
+      "."
+    ],
+    "sortDirectionTitle": [
+      "Sort ",
+      [
+        "direction"
+      ]
+    ],
+    "sortByField": [
+      "Sort by ",
+      [
+        "field"
+      ]
+    ],
+    "sortByFieldCurrent": [
+      "Sort by ",
+      [
+        "field"
+      ],
+      ", currently ",
+      [
+        "direction"
+      ]
+    ],
+    "viewCardPrint": [
+      "View ",
+      [
+        "cardName"
+      ],
+      " print ",
+      [
+        "cardId"
+      ]
+    ],
+    "viewCardVariant": [
+      "View ",
+      [
+        "cardName"
+      ],
+      " (",
+      [
+        "cardId"
+      ],
+      ")"
+    ],
+    "copiesOfCardInSection": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " copy"
+          ],
+          "other": [
+            0,
+            " copies"
+          ]
+        }
+      ],
+      " of ",
+      [
+        "cardName"
+      ],
+      " in ",
+      [
+        "section"
+      ]
+    ],
+    "cardCopyInSection": [
+      [
+        "cardName"
+      ],
+      ", copy ",
+      [
+        "copy"
+      ],
+      " of ",
+      [
+        "count"
+      ],
+      " in ",
+      [
+        "section"
+      ]
+    ],
+    "viewDetailsFor": [
+      "View details for ",
+      [
+        "cardName"
+      ]
+    ],
+    "chooseArtFor": [
+      "Choose art for ",
+      [
+        "cardName"
+      ]
+    ],
+    "previewCard": [
+      "Preview ",
+      [
+        "cardName"
+      ]
+    ],
+    "decreaseCardQuantityIn": [
+      "Decrease ",
+      [
+        "cardName"
+      ],
+      " quantity in ",
+      [
+        "section"
+      ]
+    ],
+    "increaseCardQuantityIn": [
+      "Increase ",
+      [
+        "cardName"
+      ],
+      " quantity in ",
+      [
+        "section"
+      ]
+    ],
+    "useArtFor": [
+      "Use ",
+      [
+        "art"
+      ],
+      " art for ",
+      [
+        "cardName"
+      ]
+    ],
+    "removeBookmarkFrom": [
+      "Remove bookmark from ",
+      [
+        "cardName"
+      ]
+    ],
+    "bookmarkCard": [
+      "Bookmark ",
+      [
+        "cardName"
+      ]
+    ],
+    "foilActionLabel": [
+      [
+        "action"
+      ],
+      ", foil"
+    ],
+    "maxCopiesReached": [
+      "Maximum ",
+      [
+        "max"
+      ],
+      " copies of \"",
+      [
+        "cardName"
+      ],
+      "\" reached."
+    ],
+    "addCardToSection": [
+      "Add ",
+      [
+        "cardName"
+      ],
+      " to ",
+      [
+        "section"
+      ]
+    ],
+    "cardUnavailableForDeck": [
+      [
+        "cardName"
+      ],
+      " is unavailable for this deck"
+    ],
+    "addToSection": [
+      "Add to ",
+      [
+        "section"
+      ]
+    ],
+    "chooseCompatibleLegend": "Choose a compatible Legend before adding this card",
+    "addCardToSelectedSection": [
+      "Add ",
+      [
+        "cardName"
+      ],
+      " to the selected deck section",
+      [
+        "banStatus"
+      ]
+    ],
+    "sealedDeckName": [
+      [
+        "setName"
+      ],
+      " Sealed"
+    ],
+    "cardSelectionAction": [
+      [
+        "action"
+      ],
+      " ",
+      [
+        "cardName"
+      ],
+      [
+        "status"
+      ]
+    ],
+    "removeCardFromChampion": [
+      "Remove ",
+      [
+        "cardName"
+      ],
+      " from Champion slot"
+    ],
+    "chooseCardAsChampion": [
+      "Choose ",
+      [
+        "cardName"
+      ],
+      " as Champion"
+    ],
+    "removeCardFromMainDeck": [
+      "Remove ",
+      [
+        "cardName"
+      ],
+      " from Main Deck"
+    ],
+    "addCardToMainDeck": [
+      "Add ",
+      [
+        "cardName"
+      ],
+      " to Main Deck"
+    ],
+    "addCard": [
+      "Add ",
+      [
+        "cardName"
+      ]
+    ],
+    "runeLimitReached": [
+      [
+        "count"
+      ],
+      " rune limit reached"
+    ],
+    "searchWithinPlaceholder": [
+      "Search ",
+      [
+        "label"
+      ],
+      "..."
+    ],
+    "noAdditionalCardAvailable": [
+      "No additional ",
+      [
+        "cardName"
+      ],
+      " available"
+    ],
+    "allCopiesSelectedOrSectionFull": "Every available copy is already selected or its section is full",
+    "everyMatchingCardBanned": "Every matching card is banned. Clear Legal only to show them.",
+    "noBookmarkedCardsMatch": "No bookmarked cards match this section's search and filters.",
+    "noCardsMatchCurrentSearch": "No cards match the current search and filters.",
+    "selectCard": [
+      "Select ",
+      [
+        "cardName"
+      ]
+    ],
+    "deselectCard": [
+      "Deselect ",
+      [
+        "cardName"
+      ]
+    ],
+    "cardBackFor": [
+      [
+        "label"
+      ],
+      " card back"
+    ],
+    "status": "Status",
+    "clearField": [
+      "Clear ",
+      [
+        "label"
+      ]
+    ],
+    "sortCardsWithDirection": [
+      "Sort cards (",
+      [
+        "label"
+      ],
+      ", ",
+      [
+        "direction"
+      ],
+      ")"
+    ],
+    "quantityFor": [
+      [
+        "label"
+      ],
+      " quantity"
+    ],
+    "decreaseQuantityCurrent": [
+      "Decrease ",
+      [
+        "label"
+      ],
+      " quantity, currently ",
+      [
+        "value"
+      ]
+    ],
+    "increaseQuantityCurrent": [
+      "Increase ",
+      [
+        "label"
+      ],
+      " quantity, currently ",
+      [
+        "value"
+      ]
+    ],
+    "closeLabel": [
+      "Close ",
+      [
+        "label"
+      ]
+    ],
+    "sortSectionDirection": [
+      "Sort ",
+      [
+        "section"
+      ],
+      " ",
+      [
+        "direction"
+      ]
+    ],
+    "filterCardCount": [
+      [
+        "label"
+      ],
+      ", ",
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " card"
+          ],
+          "other": [
+            0,
+            " cards"
+          ]
+        }
+      ]
+    ],
+    "removeFilter": [
+      "Remove ",
+      [
+        "filter"
+      ],
+      " filter"
+    ],
+    "issues": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " issue"
+          ],
+          "other": [
+            0,
+            " issues"
+          ]
+        }
+      ]
+    ],
+    "powerRequirement": [
+      [
+        "domain"
+      ],
+      " power ",
+      [
+        "value"
+      ]
+    ],
+    "numberExample": [
+      "e.g. ",
+      [
+        "number"
+      ]
+    ],
+    "fullArt": "Full Art",
+    "weekNumber": [
+      "Week ",
+      [
+        "week"
+      ]
+    ],
+    "changelogNavigation": "Changelog navigation",
+    "changelogNavigationBottom": "Changelog navigation, bottom",
+    "sortBy": "Sort by",
+    "filterCards": "Filter cards",
+    "currentCatalogueSection": "Current catalogue section",
+    "closeFilters": "Close filters",
+    "catalogSections": "Catalog sections",
+    "activeFilters": "Active filters",
+    "add": "Add",
+    "remove": "Remove",
+    "details": "Details",
+    "viewDetailsShiftLeftClick": "View details (Shift + left click)",
+    "viewCardDetails": "View card details",
+    "deckValidationIssues": "Deck validation issues",
+    "duplicateCardDisplay": "Duplicate card display",
+    "stackDuplicateCopies": "Stack duplicate copies",
+    "stacked": "Stacked",
+    "showDuplicateCopiesIndividually": "Show duplicate copies individually",
+    "allCopies": "All copies",
+    "riftboundDeckList": "Riftbound deck list",
+    "errors": "Errors",
+    "loadingDeckStats": "Loading deck stats...",
+    "chooseWhetherToUpdateThisDeckOrSaveANew": "Choose whether to update this deck or save a new copy before playing.",
+    "savedDecksAreReconnectingYourCurrentDraftIsSafeTry": "Saved decks are reconnecting. Your current draft is safe; try again in a moment.",
+    "loadingDeckStatistics": "Loading deck statistics…",
+    "preRiftSealed": "Pre-Rift Sealed",
+    "changeSet": "Change set",
+    "openPoolDetails": "Open pool details",
+    "poolDetails": "Pool details",
+    "openSavedDrafts": "Open saved drafts",
+    "drafts": "Drafts",
+    "openSavedDrafts2": "Open Saved Drafts",
+    "newPool": "New Pool",
+    "chosenChampion": "Chosen Champion",
+    "suggested": "Suggested",
+    "anyMix": "any mix",
+    "fillSuggested": "Fill suggested",
+    "useSuggestedMix": "Use suggested mix",
+    "closeSavedDrafts": "Close saved drafts",
+    "seed": "Seed",
+    "lastSaved": "Last saved",
+    "filterSavedDraftsBySet": "Filter saved drafts by set",
+    "allSets": "All sets",
+    "loadingSavedSealedDrafts": "Loading saved sealed drafts…",
+    "noSavedDraftsMatchThisSetFilter": "No saved drafts match this set filter.",
+    "closeDrawSimulator": "Close draw simulator",
+    "total2": "Total",
+    "poolDetails2": "Pool Details",
+    "closePoolDetails": "Close pool details",
+    "treatmentOdds": "Treatment odds",
+    "vendettaBoosterAltRuneCodesAndPullRatesHaveNot": "Vendetta booster Alt Rune pull rates have not been published. Nexus Night rune promos are excluded, so Alt Rune hits are not currently simulated.",
+    "alternateArtAndOvernumberedTreatmentsReplaceARareEpicSlot": "Alternate art and Overnumbered treatments replace a rare/epic slot.",
+    "chaseSlotTreatments": "Only one slot per pack can hold an Alt Art, Special Art, Overnumbered or Ultimate Rare card, so a pack has at most one.",
+    "ultimateRarePackOdds": [
+      "Ultimate Rare in ~1 in ",
+      [
+        "oneIn",
+        4
+      ],
+      " packs."
+    ],
+    "eligibleCardsAreSampledUniformlyWithinEachSlotPoolWith": "Eligible cards are sampled uniformly within each slot pool, with replacement. Alt-art and Overnumbered replacement rolls are independent simulator assumptions.",
+    "distinctPackCollation": "Cards don't repeat within a pack, and the extra foil's rarity follows how often each rarity appears in a pack.",
+    "independentTreatmentRolls": "Alt-art and Overnumbered replacement rolls are independent simulator assumptions.",
+    "starterKitCardsAreModeledAsNonFoilBecausePublished": "Starter-kit cards are modeled as non-foil because published kit details do not specify their finish. Ordinary foil Rune frequency is also unpublished and is not currently modeled.",
+    "signedLegendCardsWithoutAnAvailableScanAreLabeledAnd": "Signed Legend cards without an available scan are labeled and temporarily use their unsigned Overnumbered art.",
+    "filterSets": "Filter sets",
+    "sortSetsBy": "Sort sets by",
+    "weCouldnTOpenThisPage": "We couldn't open this page.",
+    "tryAgain": "Try again",
+    "reloadPage": "Reload page",
+    "returningToTheLobby": "Returning to the lobby…",
+    "weCouldnTReopenTheLobby": "We couldn't reopen the lobby.",
+    "playAs": "Play as",
+    "leaveTheRoomAndReturnToTheMainLobby": "Leave the room and return to the main lobby.",
+    "playFromHidden": "Play from Hidden",
+    "revealed": "Revealed",
+    "empower": "Empower",
+    "disempower": "Disempower",
+    "approve": "Approve",
+    "flow": "Flow",
+    "openBoardActionPanel": "Open board action panel.",
+    "applyMinusCounter": "Apply minus counter",
+    "applyPlusCounter": "Apply plus counter",
+    "openEmoteWheelShortcutE": "Open emote wheel. Shortcut: E.",
+    "openBoardTogglesPanel": "Open board toggles panel.",
+    "decreaseLegendXpCounter": "Decrease legend XP counter",
+    "increaseLegendXpCounter": "Increase legend XP counter",
+    "autoPayChampionCost": "Auto pay champion cost",
+    "autoPayCardCost": "Auto pay card cost",
+    "floatEnergyDropArea": "Float energy drop area",
+    "chooseACardLabel": "Choose a card label",
+    "chooseACustomLabel": "Choose a custom label",
+    "hideToViewBoard": "Hide to view board",
+    "chain": "CHAIN",
+    "hiddenBattlefieldPlaceholder": "Hidden battlefield placeholder",
+    "closeShowdownPanel": "Close showdown panel",
+    "switchSeat": "Switch Seat",
+    "yourScoreTrack": "Your score track",
+    "opponentScoreTrack": "Opponent score track",
+    "rightClick": "Right click",
+    "gameInfoAndHotkeys": "Game info and hotkeys",
+    "closeGameInfo": "Close game info",
+    "saveLabel": "Save label",
+    "cancelLabelEdit": "Cancel label edit",
+    "selectACardToAddCounters": "Add counters to a card",
+    "gameSettings": "Game settings",
+    "personalPreferencesSavedInThisBrowser": "Personal preferences saved in this browser",
+    "display": "Display",
+    "cardSize": "Card size",
+    "previewSize": "Preview size",
+    "opponentCosmetics": "Opponent cosmetics",
+    "intensity": "Intensity",
+    "smaller": "Smaller",
+    "default": "Default",
+    "larger": "Larger",
+    "audio": "Audio",
+    "soundEffects": "Sound effects",
+    "muted": "Muted",
+    "fullMix": "Full mix",
+    "addOpponent": "Add opponent",
+    "practiceRoom": "Practice room",
+    "howDoYouWantToPlay": "How do you want to play?",
+    "aFocusedSandboxForOpeningHandsSequencingAndCleanTurn": "A focused sandbox for opening hands, sequencing, and clean turn practice.",
+    "startGoldfish": "Start Goldfish",
+    "twoSidedPractice": "Two-Sided Practice",
+    "chooseAnOpponentDeckSideboardBothListsAndMakeEvery": "Choose an opponent deck, sideboard both lists, and make every decision for both seats.",
+    "chooseOpponentDeck": "Choose opponent deck",
+    "importOpponentDeck": "Import opponent deck",
+    "pasteOrImportAnOpponentDeck": "Paste or import an opponent deck",
+    "active": "active",
+    "pool": "pool",
+    "runesFixed": "Runes Fixed",
+    "opponentBattlefieldCardBack": "Opponent battlefield card back",
+    "blankBattlefieldPlaceholder": "Blank battlefield placeholder",
+    "chooseARandomOpponentBattlefield": "Choose a random opponent battlefield",
+    "battlefieldCardBack": "Battlefield card back",
+    "chooseRandomBattlefield": "Choose random battlefield",
+    "opponentHandCardBack": "Opponent hand card back",
+    "handCardBack": "Hand card back",
+    "bothLockedIn": "Both Locked In",
+    "opponentKept": "Opponent kept",
+    "dismissMaintenanceNotice": "Dismiss maintenance notice",
+    "dismissNotification": "Dismiss notification",
+    "loadingGameBoard": "Loading game board...",
+    "assets": "Assets",
+    "theDeckLibraryIsReconnectingYourCurrentSelectionIsSafe": "The deck library is reconnecting. Your current selection is safe; close this window and try again in a moment.",
+    "noSavedDecksYetSaveADeckToStartBuilding": "No saved decks yet. Save a deck to start building your library.",
+    "needsUpdate": "Needs update",
+    "lastUsed": "Last used",
+    "lastChanged": "Last changed",
+    "theRegistrationLibraryIsReconnectingYourCurrentSelectionIsSafe": "The registration library is reconnecting. Your current selection is safe; close this window and try again in a moment.",
+    "closeDeckEditor": "Close deck editor",
+    "challengerTcg": "Challenger TCG",
+    "tcgplayerAffiliateAd": "TCGplayer affiliate ad",
+    "shopRiftboundOnTcgplayer": "Shop Riftbound on TCGplayer",
+    "metafyCosmeticsBanner": {
+      "eyebrow": "Members only",
+      "ariaLabel": "Rift Atlas membership cosmetics",
+      "title": "Dress up your board",
+      "artBy": [
+        "Art by ",
+        [
+          "artists"
+        ]
+      ]
+    },
+    "metafyEmotesBanner": {
+      "eyebrow": "Members only",
+      "ariaLabel": "Rift Atlas membership emotes and artwork",
+      "title": "Say it with Poros",
+      "subtitle": "Animated emotes, sleeves and tokens."
+    },
+    "eventStart": "Event start",
+    "oneFixedInstantShownWithDateChangesAndDaylightSaving": "One fixed instant, shown with date changes and daylight-saving offsets included.",
+    "riftatlasTournamentPromotion": "RiftAtlas tournament promotion",
+    "premierTournamentSeries": "Premier Tournament Series",
+    "officialBroadcastProducedByTurnEmSideways": "Official broadcast produced by Turn'em Sideways",
+    "officialBroadcast": "Official Broadcast",
+    "prizePool": "Prize Pool",
+    "entry": "Entry",
+    "playerCap": "Player Cap",
+    "eventStructure": "Event Structure",
+    "groups": "Groups",
+    "swiss": "Swiss",
+    "5Rounds": "5 Rounds",
+    "championship": "Championship",
+    "top16": "Top 16",
+    "registerNow": "Register Now",
+    "deckPanelView": "Deck panel view",
+    "deckRules": "Deck Rules",
+    "explainDeckRules": "Explain deck rules",
+    "officialDeckSizesCopyLimitsSectionRulesAndBansApply": "official deck sizes, copy limits, section rules, and bans apply. A battlefield is required; Best-of-3 requires three distinct battlefield choices.",
+    "thoseConstructionRulesAreWaivedForCustomPlayKnownCards": "those construction rules are waived for custom play. Known cards and a main deck are still required; missing battlefield choices are filled with blank card backs.",
+    "new": "NEW",
+    "roomCode": "Room Code",
+    "dismiss": "Dismiss",
+    "publicMatchmakingUnavailable": "Public matchmaking unavailable",
+    "homepageNavigation": "Homepage navigation",
+    "preservedFiltersRemain": [
+      "Advanced Search can’t edit ",
+      [
+        "description"
+      ],
+      ", but ",
+      [
+        "pronoun"
+      ],
+      " will remain in your search."
+    ],
+    "removePreservedFilter": [
+      "Remove preserved filter ",
+      [
+        "filter"
+      ]
+    ],
+    "searchCardsAction": "Search cards",
+    "cardResults": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " card"
+          ],
+          "other": [
+            0,
+            " cards"
+          ]
+        }
+      ]
+    ],
+    "loadMoreCardsCount": [
+      "Load ",
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " more card"
+          ],
+          "other": [
+            0,
+            " more cards"
+          ]
+        }
+      ]
+    ],
+    "optionsFor": [
+      [
+        "label"
+      ],
+      " options"
+    ],
+    "chooseOneOrMore": "Choose one or more",
+    "selectedOptionsCount": [
+      [
+        "count"
+      ],
+      " selected"
+    ],
+    "searchOptionsPlaceholder": "Search options...",
+    "searchWithin": [
+      "Search ",
+      [
+        "label"
+      ]
+    ],
+    "clearSearchWithin": [
+      "Clear ",
+      [
+        "label"
+      ],
+      " search"
+    ],
+    "selectionFor": [
+      [
+        "label"
+      ],
+      ": ",
+      [
+        "selection"
+      ]
+    ],
+    "pageOf": [
+      "Page ",
+      [
+        "page"
+      ],
+      " of ",
+      [
+        "total"
+      ]
+    ],
+    "sectionCount": [
+      [
+        "section"
+      ],
+      " count ",
+      [
+        "count"
+      ]
+    ],
+    "addSectionCards": [
+      "Add ",
+      [
+        "section"
+      ],
+      " cards"
+    ],
+    "addSection": [
+      "Add ",
+      [
+        "section"
+      ]
+    ],
+    "showingCards": [
+      "Showing ",
+      [
+        "visible"
+      ],
+      " of ",
+      [
+        "total"
+      ],
+      " cards."
+    ],
+    "saveChangesToDeckBeforePlaying": [
+      "Choose how to save changes to ",
+      [
+        "deckName"
+      ],
+      " before playing."
+    ],
+    "chooseNewNameForDeck": [
+      "Choose a new name for ",
+      [
+        "deckName"
+      ],
+      "."
+    ],
+    "catalogCardsForSection": [
+      [
+        "visible"
+      ],
+      " of ",
+      [
+        "total",
+        2,
+        {
+          "one": [
+            0,
+            " card"
+          ],
+          "other": [
+            0,
+            " cards"
+          ]
+        }
+      ],
+      " for ",
+      [
+        "section"
+      ]
+    ],
+    "starterPoolSummary": [
+      "One ",
+      [
+        "starterCards"
+      ],
+      "-card starter kit plus ",
+      [
+        "boosters"
+      ],
+      " boosters creates this ",
+      [
+        "totalCards"
+      ],
+      "-card pool."
+    ],
+    "treatmentRatesEstimate": "Treatment rates are Origins-based configurable estimates; Vendetta rates are unpublished.",
+    "treatmentRatesPublished": "Treatment rates use published odds.",
+    "epicPackOdds": [
+      "Epic replaces a rare slot in ~1 in ",
+      [
+        "oneIn"
+      ],
+      " packs."
+    ],
+    "treatmentPackOdds": [
+      "Alt-art ~1 in ",
+      [
+        "altArtOneIn"
+      ],
+      " packs, Overnumbered ~1 in ",
+      [
+        "overnumberedOneIn"
+      ],
+      " packs, Signature Overnumbered ~1 in ",
+      [
+        "signatureOneIn"
+      ],
+      " packs."
+    ],
+    "alternateRunePackOdds": [
+      "Alternate rune ~1 in ",
+      [
+        "oneIn"
+      ],
+      " packs."
+    ],
+    "starterKitsEqualWeight": [
+      "The simulator gives each of the ",
+      [
+        "count"
+      ],
+      " validated starter kits equal weight."
+    ],
+    "packContents": [
+      "Each pack has ",
+      [
+        "common"
+      ],
+      " common, ",
+      [
+        "uncommon"
+      ],
+      " uncommon, ",
+      [
+        "rareOrEpic"
+      ],
+      " foil rare-or-better, ",
+      [
+        "foil"
+      ],
+      " additional foil, and ",
+      [
+        "inserts",
+        2,
+        {
+          "one": [
+            0,
+            " insert slot"
+          ],
+          "other": [
+            0,
+            " insert slots"
+          ]
+        }
+      ],
+      "."
+    ],
+    "commonCollation": [
+      "The simulator assumes common collation includes one card from each of the ",
+      [
+        "domains"
+      ],
+      " domains",
+      [
+        "additional",
+        2,
+        {
+          "=0": ".",
+          "one": [
+            ", with ",
+            0,
+            " additional common slot."
+          ],
+          "other": [
+            ", with ",
+            0,
+            " additional common slots."
+          ]
+        }
+      ]
+    ],
+    "insertSlotAssumption": [
+      "Ordinary insert slots use ",
+      [
+        "setName"
+      ],
+      " token and canonical rune cards with an assumed 50/50 split."
+    ],
+    "changePreRiftSet": [
+      "Change Pre-Rift set. Current set: ",
+      [
+        "setName"
+      ]
+    ],
+    "chooseDestinationForCard": [
+      "Choose destination for ",
+      [
+        "cardName"
+      ]
+    ],
+    "selectedCount": [
+      [
+        "count"
+      ],
+      " selected"
+    ],
+    "firstGameInfoHint": "Select Help for controls and board tips.",
+    "standardLabel": "Standard:",
+    "unrestrictedLabel": "Unrestricted:",
+    "hotkeyContextBanish": "Banish from hand, base, battlefield, or chain spell",
+    "hotkeyContextBurnMainDeck": "Burn the top card of your main deck",
+    "hotkeyContextChainAdd": "Add a card or battlefield marker effect to the Chain",
+    "cardPlaceholder": "Card",
+    "clearSelection": "Clear Selection",
+    "trashSelectionHelp": "Use card actions for one card, or select multiple cards to banish or recycle. Recycle returns selected cards to your deck in random order.",
+    "banishedSelectionHelp": "Use card actions for one card, or select multiple cards to trash or recycle. Recycle returns selected cards to your deck in random order.",
+    "reviewTrashPile": "Review the cards in this trash pile.",
+    "reviewBanishedZone": "Review the cards in this banished zone.",
+    "vendettaPreRift": "Vendetta Pre-Rift",
+    "standard": "Standard",
+    "unrestricted": "Unrestricted",
+    "standardDeckRulesDescription": "Official construction rules and card bans apply; battlefields are required.",
+    "unrestrictedDeckRulesDescription": "Waives construction limits and bans. Missing battlefield choices use blank card backs.",
+    "roomAvailableToResume": [
+      "Previous game · ",
+      [
+        "roomCode"
+      ]
+    ],
+    "savedRoomHelp": "Resume this game, or leave it to play again.",
+    "cancelMatchSearchBeforeResume": "Cancel your search to resume this game, or leave it.",
+    "resumeRoom": "Resume",
+    "empowerCard": [
+      "Empower ",
+      [
+        "cardName"
+      ]
+    ],
+    "disempowerCard": [
+      "Disempower ",
+      [
+        "cardName"
+      ]
+    ],
+    "hideCardFromOpponent": [
+      "Hide ",
+      [
+        "cardName"
+      ],
+      " from opponent"
+    ],
+    "revealCardToOpponent": [
+      "Reveal ",
+      [
+        "cardName"
+      ],
+      " to opponent"
+    ],
+    "equipCard": [
+      "Equip ",
+      [
+        "cardName"
+      ]
+    ],
+    "cardPreview": [
+      [
+        "cardName"
+      ],
+      " card preview"
+    ],
+    "markFlowFor": [
+      "Mark flow for ",
+      [
+        "cardName"
+      ]
+    ],
+    "clearFlowFor": [
+      "Clear flow for ",
+      [
+        "cardName"
+      ]
+    ],
+    "flowOn": "Flow On",
+    "openBanishedCards": [
+      "Open ",
+      [
+        "owner"
+      ],
+      " banished cards"
+    ],
+    "increaseCounter": [
+      "Increase ",
+      [
+        "counter"
+      ],
+      " counter"
+    ],
+    "removeCounter": [
+      "Remove ",
+      [
+        "counter"
+      ],
+      " counter"
+    ],
+    "decreaseCounter": [
+      "Decrease ",
+      [
+        "counter"
+      ],
+      " counter"
+    ],
+    "addCounter": [
+      "Add ",
+      [
+        "counter"
+      ],
+      " counter"
+    ],
+    "addOneCounter": "Add 1",
+    "subtractOneCounter": "Subtract 1",
+    "scrollCounterHint": "Adjust counter",
+    "scrollCounterDescription": "Scroll up to add 1; down to subtract 1.",
+    "editCardLabel": [
+      "Edit label ",
+      [
+        "label"
+      ]
+    ],
+    "deleteCardLabel": [
+      "Delete label ",
+      [
+        "label"
+      ]
+    ],
+    "chooseCardLabelNamed": [
+      "Choose ",
+      [
+        "label"
+      ],
+      " label"
+    ],
+    "editLabelForCard": [
+      "Edit label for ",
+      [
+        "cardName"
+      ]
+    ],
+    "setYourScore": [
+      "Set your score to ",
+      [
+        "score"
+      ]
+    ],
+    "renameDeckNamed": [
+      "Rename ",
+      [
+        "name"
+      ]
+    ],
+    "selectNamed": [
+      "Select ",
+      [
+        "name"
+      ]
+    ],
+    "deleteDeckNamed": [
+      "Delete deck ",
+      [
+        "name"
+      ]
+    ],
+    "switchThemeMode": [
+      "Switch to ",
+      [
+        "theme"
+      ],
+      " mode"
+    ],
+    "skipDrawPhase": "Skip Draw Phase",
+    "enableSetting": [
+      "Enable ",
+      [
+        "setting"
+      ],
+      "."
+    ],
+    "disableSetting": [
+      "Disable ",
+      [
+        "setting"
+      ],
+      "."
+    ],
+    "redCounterName": "red",
+    "whiteCounterName": "white",
+    "empowered": "Empowered",
+    "assault": "Assault",
+    "showNamed": [
+      "Show ",
+      [
+        "name"
+      ]
+    ],
+    "namedInfo": [
+      [
+        "name"
+      ],
+      " info"
+    ],
+    "selectAll": "Select All",
+    "patchNotes": "Patch Notes",
+    "mediaKit": "Media Kit",
+    "searchPaused": "Search paused",
+    "reconnectingToMatchmaking": "Reconnecting to matchmaking",
+    "searchMayStillBeActive": "Your search may still be active. Resume to check for a match.",
+    "reconnectAttempt": [
+      "Reconnect attempt ",
+      [
+        "attempt"
+      ],
+      " of ",
+      [
+        "total"
+      ],
+      "..."
+    ],
+    "sealedMatchmakingUnlocks": [
+      [
+        "event"
+      ],
+      " public matchmaking unlocks when the format is active."
+    ],
+    "sealedMatchmakingVendettaOnly": "Public sealed matchmaking is available only for Vendetta Pre-Rift.",
+    "spectatingPlayer": [
+      "Spectating: ",
+      [
+        "playerName"
+      ]
+    ],
+    "playerSeat": [
+      [
+        "seat"
+      ],
+      ": ",
+      [
+        "playerName"
+      ]
+    ],
+    "commentOnDeck": [
+      "Comment on ",
+      [
+        "name"
+      ]
+    ],
+    "unpublish": "Unpublish",
+    "customization": {
+      "newCosmetic": "New",
+      "newCosmeticsAvailable": "New cosmetics available",
+      "boardLines": {
+        "title": "Board lines",
+        "name": "Ink Lines",
+        "legendName": "Legend Lines",
+        "signatureLegendName": "Signature Lines",
+        "defaultName": "Default",
+        "locked": "Legend+",
+        "signatureLegendLocked": "Signature Legend"
+      },
+      "pointsRail": {
+        "title": "Points rail",
+        "name": "Ink Seals",
+        "defaultName": "Default",
+        "locked": "Legend+",
+        "legendName": "Legend Rail",
+        "signatureLegendName": "Signature Rail",
+        "signatureLegendLocked": "Signature Legend"
+      },
+      "emotes": {
+        "poroSet": "Poro pals",
+        "animated": "Animated emotes",
+        "locked": "Locked",
+        "lockedPremiumEmote": [
+          [
+            "emote"
+          ],
+          " (requires Legend)"
+        ],
+        "title": "Emote wheel",
+        "allEmotes": "All emotes",
+        "lockedEmote": [
+          [
+            "emote"
+          ],
+          " (locked)"
+        ],
+        "slotLabel": [
+          "Position ",
+          [
+            "position"
+          ],
+          ": ",
+          [
+            "emote"
+          ]
+        ],
+        "help": "Drag an emote onto the wheel. Drag between positions to swap.",
+        "swapped": [
+          "Swapped positions ",
+          [
+            "first"
+          ],
+          " and ",
+          [
+            "second"
+          ],
+          "."
+        ],
+        "equipped": [
+          [
+            "emote"
+          ],
+          " equipped in position ",
+          [
+            "position"
+          ],
+          "."
+        ],
+        "keyboardHelp": "Press Space to pick up an emote, use the arrow keys to choose a wheel position, then press Space to drop. Escape cancels.",
+        "pickedUp": [
+          [
+            "emote"
+          ],
+          " picked up. Choose a position with the arrow keys and press Space to drop."
+        ],
+        "canceled": "Drag canceled."
+      },
+      "badgeUnlock": {
+        "equipped": "Equipped",
+        "error": "Couldn’t save your choice. Please try again.",
+        "title": [
+          [
+            "count",
+            2,
+            {
+              "one": "You earned a new badge",
+              "other": "You earned new badges"
+            }
+          ]
+        ],
+        "description": "A little recognition, ready for your profile. Choose which badges you want to show.",
+        "available": "Ready to display",
+        "customize": "Customize badges",
+        "notNow": "Not now",
+        "dismiss": "Dismiss unlock notification",
+        "cosmeticTitle": "You unlocked new cosmetics",
+        "cosmeticDescription": "Ready to equip on your board whenever you like.",
+        "mixedTitle": "You unlocked something new",
+        "mixedDescription": "New badges for your profile and new cosmetics for your board.",
+        "cosmeticAvailable": "Ready to equip",
+        "until": [
+          "Until ",
+          [
+            "date"
+          ]
+        ],
+        "openCustomize": "Open Customize",
+        "gotIt": "Got it"
+      },
+      "metadataTitle": "Customize your Rift Atlas board",
+      "metadataDescription": "Connect Metafy, manage supporter recognition, and choose your Simulator playmat and sleeves.",
+      "eyebrow": "Rift Atlas membership",
+      "title": "Customization",
+      "description": "Playmats, sleeves and member cosmetics.",
+      "headerEyebrow": "Creator Studio",
+      "backToLobby": "Back to Lobby",
+      "openCustomize": "Customize",
+      "considerSupporting": "Consider supporting us",
+      "considerSupportingShort": "Support us",
+      "alreadySubscribed": "Already subscribed?",
+      "membershipUpgradeRequired": [
+        [
+          "currentTier"
+        ],
+        " member · Requires ",
+        [
+          "requiredTier"
+        ],
+        "+"
+      ],
+      "membershipIncludesDesign": "Included with your membership",
+      "membershipTitle": "Membership",
+      "membershipMonthlyPrice": [
+        [
+          "price"
+        ],
+        "/month"
+      ],
+      "membershipTierIncluded": [
+        "Included with ",
+        [
+          "tier"
+        ],
+        " membership"
+      ],
+      "stripeMembership": {
+        "cancelCheckout": "Cancel unfinished checkout",
+        "choose": [
+          "Choose ",
+          [
+            "tier"
+          ],
+          " membership"
+        ],
+        "manage": "Manage subscription in Link",
+        "pending": "We’re confirming your membership. This can take a moment after checkout.",
+        "unavailable": "Membership checkout is temporarily unavailable. Try again in a moment.",
+        "error": "We couldn’t open checkout. Please try again.",
+        "existing": "You already have a membership. Refresh to see its details.",
+        "active": [
+          [
+            "tier"
+          ],
+          " membership"
+        ],
+        "accessibleLabel": [
+          "Rift Atlas · Membership: ",
+          [
+            "status"
+          ]
+        ],
+        "viewDirect": "Or subscribe directly to RiftAtlas",
+        "metafyExisting": "Already subscribed through Metafy?",
+        "paymentAttention": "Your membership payment needs attention.",
+        "title": "RiftAtlas membership",
+        "signInToChoose": "Sign in to continue",
+        "opening": "Opening checkout…",
+        "checkoutPending": "Checkout pending",
+        "noMembership": "Choose a membership",
+        "notRenewing": [
+          [
+            "tier"
+          ],
+          " · Not renewing"
+        ],
+        "billedOnMetafy": [
+          "Your ",
+          [
+            "tier"
+          ],
+          " membership is billed through Metafy. Manage it there; you don’t need a second subscription."
+        ],
+        "billedDirect": [
+          "Your ",
+          [
+            "tier"
+          ],
+          " membership is billed directly through RiftAtlas. Open your RiftAtlas membership to manage billing."
+        ],
+        "manageMetafy": "Manage your membership on Metafy",
+        "manageDirect": "Manage your RiftAtlas membership",
+        "unfinished": [
+          "Unfinished ",
+          [
+            "tier"
+          ],
+          " checkout"
+        ],
+        "unfinishedHint": "Your checkout is unfinished. Continue it, or cancel it to choose a different tier.",
+        "delayed": "We couldn’t confirm your membership yet. Check again before starting another checkout.",
+        "confirmed": "Your membership is active. Your benefits are ready.",
+        "retryVerification": "Check membership again",
+        "renews": [
+          "Next renewal: ",
+          [
+            "date"
+          ],
+          "."
+        ],
+        "ends": [
+          "Your benefits remain active until ",
+          [
+            "date"
+          ],
+          ". Your subscription will not renew."
+        ],
+        "metafyConnected": "Metafy membership connected",
+        "metafyNotRenewing": "Metafy membership · Not renewing",
+        "join": "Become a member",
+        "details": "Membership details",
+        "continueWith": [
+          "Continue with ",
+          [
+            "tier"
+          ]
+        ],
+        "facts": "Billed monthly · Cancel anytime · Tax added at checkout · Gameplay stays free",
+        "tierLabel": "Membership tier",
+        "unlockWith": [
+          "Unlock with ",
+          [
+            "tier"
+          ]
+        ],
+        "discordConnect": [
+          "Connect Discord to get your ",
+          [
+            "tier"
+          ],
+          " role."
+        ],
+        "connectDiscord": "Connect Discord",
+        "chooseCosmetics": "Choose cosmetics",
+        "discordJoin": [
+          "Join the RiftAtlas Discord to get your ",
+          [
+            "tier"
+          ],
+          " role."
+        ],
+        "joinDiscord": "Join Discord",
+        "discordRoleActive": [
+          [
+            "tier"
+          ],
+          " role active on Discord"
+        ],
+        "discordRolePending": [
+          "Your ",
+          [
+            "tier"
+          ],
+          " role reaches Discord within the hour."
+        ]
+      },
+      "stateDisconnectedShort": "Not connected",
+      "stateCancelingShort": [
+        [
+          "tier"
+        ],
+        " · Not renewing"
+      ],
+      "closeMembership": "Close membership",
+      "signedOutTitle": "Sign in to customize",
+      "signedOutDescription": "Sign in to Rift Atlas first, then connect Metafy from this page.",
+      "signIn": "Sign in",
+      "connect": "Connect Metafy",
+      "connecting": "Opening Metafy…",
+      "refresh": "Refresh membership",
+      "refreshing": "Checking membership…",
+      "renewConnection": "Renew Metafy connection",
+      "disconnect": "Disconnect",
+      "disconnecting": "Disconnecting…",
+      "viewPlans": "Visit us on Metafy",
+      "refreshThrottled": "Please wait a moment before refreshing your membership again.",
+      "providerNotConfigured": "Metafy linking is not configured in this environment yet. Your saved appearance is unchanged.",
+      "providerUnavailable": "Metafy verification is temporarily unavailable. Try again in a moment. Your saved appearance is unchanged.",
+      "connectionError": "Rift Atlas could not update your Metafy connection. Try again in a moment.",
+      "reconnectRequired": "Your Metafy connection needs to be renewed.",
+      "connectionInterrupted": "Metafy didn't finish linking. Connect again to retry.",
+      "connectionPaused": "Metafy connections are paused. Try again later.",
+      "connectionThrottled": "Please wait a moment before trying again.",
+      "connectionMismatch": "That Metafy account doesn't match the one linked to your account.",
+      "reloadToContinue": "Reload the page to continue.",
+      "unfinishedConnection": "Your Metafy account is connected but has not been verified by Rift Atlas yet. Finish verification or disconnect it safely.",
+      "finishConnection": "Finish connection",
+      "disconnectConfirm": "Disconnect Metafy from Rift Atlas? Your Rift Atlas membership access will end immediately, but Metafy billing will continue until you cancel it there.",
+      "disconnectBillingNotice": "Disconnecting disables Rift Atlas access immediately. It does not cancel billing on Metafy.",
+      "stateDisconnected": "Metafy is not connected",
+      "stateConnected": "Connected · Free",
+      "stateConnectedShort": "Free",
+      "stateConnectedFree": "Connected · Community Member",
+      "stateActive": [
+        "Connected · ",
+        [
+          "tier"
+        ]
+      ],
+      "stateCanceling": [
+        [
+          "tier"
+        ],
+        " · active until Metafy expires the membership"
+      ],
+      "stateInactive": "Membership inactive",
+      "stateProviderError": "Membership verification needs attention",
+      "lastVerified": [
+        "Last verified ",
+        [
+          "date"
+        ]
+      ],
+      "workspaceLoading": "Loading your customization workspace…",
+      "workspaceUnavailable": "Customization data is temporarily unavailable.",
+      "boardTitle": "Board cosmetics",
+      "customizationOptions": "Customization options",
+      "boardDescription": "Choose one playmat and separate sleeves for your main deck, rune deck, and battlefield deck.",
+      "navigatorUnlock": "Member designs",
+      "freeCosmetics": "Free with your account",
+      "voucher": {
+        "button": "Voucher",
+        "title": "Redeem a voucher",
+        "codeLabel": "Voucher code",
+        "codePlaceholder": "Enter code",
+        "apply": "Apply",
+        "applying": "Applying…",
+        "close": "Close voucher popover",
+        "invalid": "That code isn’t valid.",
+        "expired": "That code has expired.",
+        "exhausted": "That code has been fully redeemed.",
+        "alreadyRedeemed": "You already redeemed this code.",
+        "rateLimited": "Too many attempts. Try again in a few minutes.",
+        "limitReached": "Your account can’t hold any more unlocks right now.",
+        "error": "Couldn’t redeem the code. Please try again.",
+        "scopeAll": "All cosmetics",
+        "scopeCreator": [
+          "All ",
+          [
+            "creator"
+          ],
+          " cosmetics"
+        ],
+        "scopeUnknown": "Cosmetic"
+      },
+      "history": {
+        "button": "History",
+        "title": "Account history",
+        "close": "Close history",
+        "loading": "Loading…",
+        "error": "Couldn’t load your history. Please try again.",
+        "empty": "Nothing here yet.",
+        "voucherRedeemed": [
+          "Voucher ",
+          [
+            "code"
+          ],
+          " · ",
+          [
+            "scope"
+          ]
+        ],
+        "voucherExpired": [
+          "Voucher ",
+          [
+            "code"
+          ],
+          " expired"
+        ],
+        "voucherRevoked": [
+          "Voucher ",
+          [
+            "code"
+          ],
+          " revoked"
+        ],
+        "rewardGranted": [
+          "Unlocked · ",
+          [
+            "scope"
+          ]
+        ],
+        "rewardExpired": [
+          "Access ended · ",
+          [
+            "scope"
+          ]
+        ],
+        "rewardRevoked": [
+          "Access removed · ",
+          [
+            "scope"
+          ]
+        ],
+        "badgeGranted": [
+          "Badge earned · ",
+          [
+            "badge"
+          ]
+        ],
+        "badgeRevoked": [
+          "Badge removed · ",
+          [
+            "badge"
+          ]
+        ],
+        "metafyLinked": "Metafy account connected",
+        "metafyDisconnected": "Metafy account disconnected",
+        "membershipStarted": [
+          [
+            "tier"
+          ],
+          " membership started"
+        ],
+        "membershipUpgraded": [
+          "Upgraded from ",
+          [
+            "from"
+          ],
+          " to ",
+          [
+            "to"
+          ]
+        ],
+        "membershipDowngraded": [
+          "Changed from ",
+          [
+            "from"
+          ],
+          " to ",
+          [
+            "to"
+          ]
+        ],
+        "membershipEnded": "Membership ended"
+      },
+      "customizationStaged": "Board customization is staged and not enabled in this environment yet.",
+      "lockedSelectionNotice": "Your saved selections are remembered, but the default appearance is used until eligible access returns.",
+      "playmat": "Playmat",
+      "deckSleeve": "Card sleeve",
+      "deckSleeveDescription": "Used for the main deck and hidden cards in hand or on a battlefield.",
+      "runeDeckSleeve": "Rune deck sleeve",
+      "battlefieldSleeve": "Battlefield sleeve",
+      "sleeves": "Sleeves",
+      "otherCosmetics": "Other",
+      "nameplates": "Nameplates",
+      "nameplatesDescription": "Choose the frame shown around your name in matches.",
+      "nameplateUnlock": "Legend or Signature Legend",
+      "accountBadges": "Account badges",
+      "accountBadgesDescription": "Choose up to five badges, including your membership badge. Badges appear in the order you select them.",
+      "activeBadgeCount": [
+        [
+          "count"
+        ],
+        " of ",
+        [
+          "max"
+        ],
+        " account badges selected"
+      ],
+      "selectedBadgeCount": [
+        [
+          "count"
+        ],
+        " of ",
+        [
+          "max"
+        ],
+        " account badges selected"
+      ],
+      "badgeLimitReached": "Badge limit reached",
+      "badgeSelectedPosition": [
+        "Selected in position ",
+        [
+          "position"
+        ]
+      ],
+      "badgeSelectionOverflow": "Only five badges can be shown. Remove one to choose which badges stay visible.",
+      "tierBadgeActive": [
+        [
+          "tier"
+        ],
+        " tier badge enabled"
+      ],
+      "tierBadgeLocked": "Connect an active paid membership to show its tier badge.",
+      "noAccountBadge": "No account badge",
+      "unavailableBadge": "Unavailable badge",
+      "communityHelperAutoUpgrade": "Upgrades automatically as you answer more questions",
+      "badgeNoLongerAvailable": "No longer available",
+      "unavailableBadgeSelectionNotice": "Some saved badges are no longer available; your other earned badges remain active.",
+      "noEarnedBadges": "No earned account badges are available yet.",
+      "paidTier": "Paid tier",
+      "legendPlus": "Legend+",
+      "defaultOption": "Riftbound default",
+      "defaultCardBack": "Default card back",
+      "chooseCatalogItem": "Choose an appearance for this slot.",
+      "closeCatalog": "Close appearance picker",
+      "selected": "Selected",
+      "locked": "Champion",
+      "variant": "Variant",
+      "artBy": [
+        "Art by ",
+        [
+          "artist",
+          [
+            "name"
+          ]
+        ]
+      ],
+      "artByFor": [
+        "Art by ",
+        [
+          "artist",
+          [
+            "name"
+          ]
+        ],
+        " for ",
+        [
+          "community",
+          [
+            "communityName"
+          ]
+        ]
+      ],
+      "artistCreditsTitle": "Meet the artists",
+      "artistCreditsDescription": "We partner with artists to bring original playmats, sleeves, and tokens to Rift Atlas.",
+      "artistDetailsDescription": "Meet the artists behind the collection, see what they created, and explore more of their work.",
+      "artistWorkDescription": "Artwork featured in the Rift Atlas collection.",
+      "previewArtistArtwork": [
+        "Preview ",
+        [
+          "artwork"
+        ]
+      ],
+      "artistSocials": "Follow & support the artist",
+      "creatorSocials": "Follow & support the creator",
+      "communitySocials": "Follow & support the community",
+      "artistStore": "Store",
+      "artistAdultContent": "Contains adult content (18+)",
+      "artistSocialLabel": [
+        [
+          "artist"
+        ],
+        " on ",
+        [
+          "platform"
+        ]
+      ],
+      "closeArtistCredits": "Close artist details",
+      "playmatIntensity": "Artwork visibility",
+      "playmatIntensityFaint": "Faint",
+      "playmatIntensityFull": "Full artwork",
+      "playmatContrast": "Contrast",
+      "playmatContrastSoft": "Soft",
+      "playmatContrastOriginal": "Original",
+      "playZoneGlass": "Glass behind play zones",
+      "playZoneFrost": "Glass strength",
+      "playZoneFrostClear": "Clear",
+      "playZoneFrostFrosted": "Frosted",
+      "playmatControls": "Adjust",
+      "playmatAnimations": "Playmat motion",
+      "playmatStatic": "Static",
+      "playmatAnimated": "Animated",
+      "hideBoardChrome": "Hide standard board chrome",
+      "on": "On",
+      "off": "Off",
+      "recognitionTitle": "Supporter recognition",
+      "recognitionDescription": "Every paid tier can show its current badge; Legend and Signature Legend can also use their special tier nameplate.",
+      "tierBadge": "Metafy tier badge",
+      "defaultNameplate": "Default nameplate",
+      "recognitionLocked": "Connect an active paid membership for its badge; tier nameplates begin at Legend.",
+      "previewTitle": "Live appearance preview",
+      "previewDescription": "The preview uses only approved public visual IDs—the same payload opponents and spectators receive.",
+      "previewPlayer": "You",
+      "previewOpponent": "Opponent",
+      "previewMainDeck": "Main",
+      "previewRuneDeck": "Runes",
+      "previewBattlefields": "Battlefields",
+      "fullscreenPreview": "View full board",
+      "fullscreenPreviewDescription": "Interactive read-only Simulator board preview.",
+      "closeFullscreenPreview": "Close full board preview",
+      "saving": "Saving…",
+      "saved": "Saved",
+      "saveError": "Could not save that change. Your previous selection is still active.",
+      "retrySave": "Retry save",
+      "callbackTitle": "Finishing your Metafy connection",
+      "callbackDescription": "Rift Atlas is securely completing the account link and will return you to Customize.",
+      "catalog": {
+        "artists": {
+          "glitchedGoober": "Glitched Goober",
+          "lootPixie": "Loot Pixie",
+          "luindimas": "LUINDIMAS",
+          "vesomnia": "Vesomnia",
+          "eunah": "Eunah",
+          "nickangerPng": "nickangerPNG",
+          "poroPack": "The Poro Pack",
+          "paintedByLibby": "Painted by Libby"
+        },
+        "items": {
+          "luindimasPlaymat": "LUINDIMAS Playmat",
+          "vesomniaPlaymat": "Vesomnia Playmat",
+          "akaliSleeves": "Akali Sleeves",
+          "luindimasSleeves": "LUINDIMAS Sleeves",
+          "lootPixiePoroPack": "The Poro Pack",
+          "lootPixiePoroPackPlaymat": "The Poro Pack Playmat",
+          "lootPixiePlaymat": "Loot Pixie Playmat",
+          "snackForceNova": "Snack Force Nova",
+          "snackForceRadiant": "Snack Force Radiant",
+          "snackForceSleeves": "Snack Force",
+          "starfall": "Rift Atlas Starfall",
+          "riftAtlasSleeves": "Rift Atlas Sleeves",
+          "superGalaxySnackForce": "Super Galaxy Snack Force",
+          "voidHunter": "Void Hunter",
+          "paintedByLibbyEvelynn": "Evelynn",
+          "paintedByLibbyLulu": "Lulu"
+        },
+        "variants": {
+          "blue": "Blue",
+          "green": "Green",
+          "mint": "Mint",
+          "orange": "Orange",
+          "original": "Original",
+          "sketch": "Sketch",
+          "silver": "Silver",
+          "pink": "Pink",
+          "purple": "Purple",
+          "red": "Red",
+          "starfallAetherBlue": "Aether Blue",
+          "starfallEmber": "Ember",
+          "starfallSunset": "Sunset",
+          "starfallVerdant": "Verdant",
+          "yellow": "Yellow"
+        }
+      },
+      "membershipLoading": "Loading your membership…",
+      "cosmeticPreviewDesigns": "Choose a design",
+      "cosmeticPreviewLocked": "Locked — cannot equip",
+      "cosmeticPreviewOnly": "Preview only",
+      "cosmeticPreviewNotEquipped": "Not equipped for games. Your saved appearance is unchanged.",
+      "closeCosmeticPreview": "Back to collection",
+      "cosmeticPreviewSignIn": "Sign in to equip this free design.",
+      "aboutMembership": "About membership",
+      "previewCosmetic": [
+        "Preview ",
+        [
+          "name"
+        ]
+      ],
+      "cosmeticPreviewAction": "Preview",
+      "replayEmotePreview": "Replay animation",
+      "legendNameplate": "Legend nameplate",
+      "signatureLegendNameplate": "Signature Legend nameplate",
+      "tokens": {
+        "title": "Tokens",
+        "description": "Choose a token to browse its available artwork.",
+        "recruit": "Recruit",
+        "bird": "Bird",
+        "gold": "Gold",
+        "mech": "Mech",
+        "sandSoldier": "Sand Soldier",
+        "shadowClone": "Shadow Clone",
+        "sprite": "Sprite",
+        "tentacle": "Tentacle",
+        "baronPit": "Baron Pit",
+        "bomb": "Bomb",
+        "lootPixie": "LootPixie",
+        "riftbuds": "Riftbuds",
+        "pengu": "Pengu",
+        "zaun": "Zaun",
+        "demacia": "Demacia",
+        "noxus": "Noxus",
+        "default": "Default",
+        "selected": "Equipped",
+        "choose": [
+          "Use ",
+          [
+            "token"
+          ],
+          " · ",
+          [
+            "variant"
+          ]
+        ],
+        "unlock": [
+          "Unlock ",
+          [
+            "token"
+          ],
+          " · ",
+          [
+            "variant"
+          ]
+        ],
+        "lockedTier": "Locked · Champion+",
+        "close": "Close token artwork",
+        "selectToken": "Tokens with alternate artwork"
+      },
+      "previewLayout": "Preview layout",
+      "previewLayouts": {
+        "desktop": "Desktop",
+        "tablet": "Tablet",
+        "phone": "Phone"
+      },
+      "membershipMetafyProvider": "Metafy subscription",
+      "membershipMetafyTitle": "RiftAtlas on Metafy"
+    },
+    "membershipPage": {
+      "title": "Membership",
+      "metaTitle": "Membership tiers",
+      "metaDescription": "Rift Atlas membership tiers with badges, playmats, sleeves, tokens, animated emotes, Ink Seals and nameplates.",
+      "heading": "Membership tiers",
+      "everythingIn": [
+        "Everything in ",
+        [
+          "tier"
+        ],
+        ", plus"
+      ],
+      "badge": [
+        [
+          "tier"
+        ],
+        " badge with your membership months"
+      ],
+      "community": "Member role on Discord",
+      "cosmetics": [
+        [
+          "count"
+        ],
+        " member playmats, sleeves and tokens"
+      ],
+      "purpleName": "Purple name in social",
+      "goldName": "Gold name in social",
+      "browseCosmetics": "Browse member cosmetics",
+      "memberCosmetics": "Member playmats, sleeves and tokens",
+      "heroDescription": "Playmats, sleeves, tokens, animated emotes and nameplates by Rift Atlas artists.",
+      "fromPrice": [
+        "From ",
+        [
+          "price"
+        ],
+        "/month"
+      ],
+      "compareHeading": "Compare tiers",
+      "zoneStyles": "Zone borders and points rails",
+      "choose": "Choose",
+      "cosmeticsHeading": "Member cosmetics",
+      "playmats": "Playmats",
+      "fromTier": [
+        [
+          "tier"
+        ],
+        " and up"
+      ],
+      "designs": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " design"
+            ],
+            "other": [
+              0,
+              " designs"
+            ]
+          }
+        ]
+      ],
+      "badgeAny": "Tier badge with your membership months",
+      "tierStyle": [
+        [
+          "nameplate"
+        ],
+        ", zone borders and points rail"
+      ],
+      "inkStyle": "Ink-style zone borders and points rail"
+    },
+    "openDiceWheelShortcutShiftR": "Choose a die and roll it. Shortcut: hold Shift+R.",
+    "deckStats": {
+      "mainDeck": "Main Deck",
+      "avgEnergy": "Avg Energy",
+      "avgMight": "Avg Might",
+      "powerCards": "Power Cards",
+      "energyCurve": "Energy Curve",
+      "champion": "Champion",
+      "energyColumn": [
+        [
+          "cost"
+        ],
+        " Energy · ",
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " card"
+            ],
+            "other": [
+              0,
+              " cards"
+            ]
+          }
+        ]
+      ],
+      "mightColumn": [
+        [
+          "might"
+        ],
+        " Might · ",
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " unit"
+            ],
+            "other": [
+              0,
+              " units"
+            ]
+          }
+        ]
+      ],
+      "openingHand": [
+        "Opening hand ",
+        [
+          "percent"
+        ]
+      ],
+      "powerAndRunes": "Power & Runes",
+      "domain": "Domain",
+      "cards": "Cards",
+      "power": "Power",
+      "runes": "Runes",
+      "powerCost": "Power cost",
+      "unitMight": "Unit Might",
+      "keywords": "Keywords",
+      "notAvailable": "N/A",
+      "empty": "Add main deck cards to see curve and distribution stats."
+    }
+  },
+  "web": {
+    "advanced": {
+      "syntax": {
+        "indicator": "Syntax-only logic",
+        "controlled": [
+          [
+            "facet"
+          ],
+          " is controlled by syntax-only logic."
+        ],
+        "controlledPlural": [
+          [
+            "facet"
+          ],
+          " are controlled by syntax-only logic."
+        ],
+        "clearToUse": [
+          "Clear the ",
+          [
+            "facet"
+          ],
+          " syntax to use this control."
+        ],
+        "linkedAndUnmapped": [
+          "This syntax also affects ",
+          [
+            "facets"
+          ],
+          " and includes logic with no form control. Removing it clears the complete linked syntax."
+        ],
+        "linked": [
+          "This syntax also affects ",
+          [
+            "facets"
+          ],
+          ". Removing it clears the complete linked syntax."
+        ],
+        "unmapped": "This syntax also includes logic with no form control. Removing it clears the complete linked syntax.",
+        "editAria": [
+          "Edit ",
+          [
+            "facet"
+          ],
+          " syntax"
+        ],
+        "editQuery": "Edit query",
+        "removeLinkedAria": [
+          "Remove linked syntax controlling ",
+          [
+            "facet"
+          ]
+        ],
+        "clearAria": [
+          "Clear ",
+          [
+            "facet"
+          ],
+          " syntax"
+        ],
+        "removeLinked": "Remove linked syntax",
+        "clear": [
+          "Clear ",
+          [
+            "facet"
+          ],
+          " syntax"
+        ],
+        "removedAnnouncement": [
+          [
+            "facet"
+          ],
+          " linked syntax removed."
+        ],
+        "clearedAnnouncement": [
+          [
+            "facet"
+          ],
+          " syntax cleared."
+        ],
+        "compiledDescriptionPreserved": "Some logic can only be edited here; the form keeps it intact.",
+        "compiledDescription": "Edit the syntax directly or use the controls above.",
+        "facets": {
+          "name": {
+            "label": "Card name",
+            "action": "card name"
+          },
+          "text": {
+            "label": "Rules text",
+            "action": "rules text"
+          },
+          "type": {
+            "label": "Type",
+            "action": "type"
+          },
+          "rarity": {
+            "label": "Rarity",
+            "action": "rarity"
+          },
+          "domain": {
+            "label": "Domains",
+            "action": "domain"
+          },
+          "set": {
+            "label": "Set",
+            "action": "set"
+          },
+          "keyword": {
+            "label": "Keywords",
+            "action": "keyword"
+          },
+          "tag": {
+            "label": "Tags",
+            "action": "tag"
+          },
+          "energy": {
+            "label": "Energy cost",
+            "action": "energy cost"
+          },
+          "power": {
+            "label": "Power cost",
+            "action": "power cost"
+          },
+          "might": {
+            "label": "Might",
+            "action": "might"
+          },
+          "ability": {
+            "label": "Abilities",
+            "action": "ability"
+          }
+        }
+      },
+      "abilities": "Abilities",
+      "mightComparison": "Might comparison",
+      "mightValue": "Might value",
+      "includeExclude": "Include & exclude"
+    },
+    "catalog": {
+      "cardBrowserControls": "Card browser controls",
+      "sizeSmallest": "Smallest cards",
+      "sizeSmall": "Small cards",
+      "sizeMedium": "Medium cards",
+      "sizeLarge": "Large cards",
+      "sizeLargest": "Largest cards",
+      "sizeDescription": [
+        [
+          "label"
+        ],
+        ", size ",
+        [
+          "step"
+        ],
+        " of ",
+        [
+          "total"
+        ]
+      ],
+      "customLogic": "Custom logic",
+      "filterBy": [
+        "Filter cards by ",
+        [
+          "label"
+        ]
+      ],
+      "allTypes": "All types",
+      "allDomains": "All domains",
+      "customFilterTitle": [
+        "This ",
+        [
+          "label"
+        ],
+        " filter uses custom query logic. Edit it in All filters."
+      ],
+      "customFilterHelp": "This filter uses custom query logic. Use All filters to edit it.",
+      "cardVersions": "Card versions",
+      "includeAlternateVersions": "Include alternate versions",
+      "includeTokens": "Include tokens",
+      "allFilters": "All filters",
+      "list": "List",
+      "ascendingShort": "Asc",
+      "descendingShort": "Desc",
+      "showMoreCards": [
+        "Show ",
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " more card"
+            ],
+            "other": [
+              0,
+              " more cards"
+            ]
+          }
+        ]
+      ],
+      "scrollSectionsLeft": "Scroll catalog sections left",
+      "scrollSectionsRight": "Scroll catalog sections right",
+      "allCosts": "Any cost",
+      "costValue": [
+        "Cost ",
+        [
+          "value"
+        ]
+      ],
+      "altVersionsShort": "Alts",
+      "moreFiltersActive": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " more filter active"
+            ],
+            "other": [
+              0,
+              " more filters active"
+            ]
+          }
+        ]
+      ]
+    },
+    "globalCardSearch": {
+      "title": "Search cards",
+      "placeholder": "Search cards by name or collector number…",
+      "close": "Close card search",
+      "instructions": "Card suggestions appear after two characters. Use the up and down arrow keys to navigate, Enter to open a card, and Escape to close.",
+      "suggestions": "Card suggestions",
+      "searching": "Searching…",
+      "minimumQuery": "Type at least two characters to find a card.",
+      "noMatches": "No matching cards.",
+      "openingCard": "Opening card…",
+      "fuzzySearch": "Fuzzy card search",
+      "navigateHint": "↑↓ Navigate",
+      "openHint": "Enter Open",
+      "closeHint": "Esc Close",
+      "openQuickSearch": [
+        "Open quick card search (",
+        [
+          "shortcut"
+        ],
+        ")"
+      ],
+      "selectionError": "That card could not be opened. Please try again."
+    },
+    "deckWorkspace": {
+      "update": "Update",
+      "mobileSummary": [
+        [
+          "cards"
+        ],
+        " · ",
+        [
+          "status"
+        ]
+      ],
+      "openDeckTitle": "Open this deck?",
+      "startNewDeckTitle": "Start a new deck?",
+      "openDeckAction": "Opening this deck",
+      "startFreshAction": "Starting fresh",
+      "unsavedNamedDescription": [
+        "You have unsaved work in “",
+        [
+          "draftName"
+        ],
+        "”. ",
+        [
+          "action"
+        ],
+        " will discard it."
+      ],
+      "unsavedDescription": [
+        "Your current draft has unsaved work. ",
+        [
+          "action"
+        ],
+        " will discard it."
+      ],
+      "unsavedDraft": "Unsaved Draft",
+      "continueEditing": "Continue Editing",
+      "discardOpenDeck": "Discard & Open Deck",
+      "discardStartNew": "Discard & Start New",
+      "showDeckOnly": "Show deck only",
+      "showCardBrowser": "Show card browser",
+      "expandDeckFullscreen": "Expand deck to full screen",
+      "exitFullscreenDeck": "Exit full-screen deck view",
+      "buyDeckWithPrice": [
+        "Buy deck · ",
+        [
+          "price"
+        ]
+      ],
+      "fullArtCardSize": "Full Art card size",
+      "smallCards": "Small cards",
+      "mediumCards": "Medium cards",
+      "largeCards": "Large cards",
+      "smallCardSizeShort": "S",
+      "mediumCardSizeShort": "M",
+      "largeCardSizeShort": "L",
+      "cardSizeStep": [
+        "Card size ",
+        [
+          "step"
+        ],
+        " of ",
+        [
+          "total"
+        ]
+      ],
+      "sizeStep": [
+        "Size ",
+        [
+          "step"
+        ],
+        " of ",
+        [
+          "total"
+        ]
+      ]
+    },
+    "deckLibrary": {
+      "filterStatus": "Filter your decks by status",
+      "allDecks": "All decks",
+      "sortDecks": "Sort your decks",
+      "recentlyUpdated": "Recently updated",
+      "nameAZ": "Name A–Z",
+      "searchDecks": "Search your decks",
+      "searchPlaceholder": "Search by deck name or legend…",
+      "clearSearch": "Clear search",
+      "noSearchResults": "No matching decks",
+      "searchHelp": "Try another name, legend, or status, or clear the filters to see all your decks.",
+      "loadingActions": "Loading deck actions",
+      "loadOlderComments": "Load older comments",
+      "refreshCommentsError": "Could not refresh the newest comments.",
+      "olderCommentsError": "Could not load older comments.",
+      "actionsUnavailable": "Deck actions unavailable",
+      "shownRefreshing": [
+        [
+          "count"
+        ],
+        " shown · Refreshing…"
+      ]
+    },
+    "export": {
+      "creatingWallpaper": "Creating wallpaper",
+      "creatingWallpaperProgress": "Creating wallpaper…",
+      "wallpaperDownloaded": "Wallpaper downloaded",
+      "downloadWallpaper": "Download wallpaper",
+      "copyImage": "Copy image",
+      "imageCopied": "Copied!",
+      "copyingImage": "Copying image",
+      "copyingImageProgress": "Copying image…",
+      "downloadPng": "Download PNG",
+      "wallpaperCopyError": "Could not copy the image. Please try again or download the PNG.",
+      "wallpaperDescription": "Branded 16:9 deck image",
+      "wallpaperError": "Could not create the wallpaper image. Please try again.",
+      "wallpaperMenuDescription": "16:9 PNG · 1080p to 4K",
+      "wallpaperGroup": "Group",
+      "wallpaperSortBy": "Sort by",
+      "wallpaperDirection": "Direction",
+      "wallpaperQrCode": "QR code",
+      "wallpaperScanToPlay": "Scan to play",
+      "wallpaperGroupAria": "Group deck image Main Deck",
+      "wallpaperSortAria": "Sort deck image cards",
+      "wallpaperDirectionAria": "Sort deck image direction",
+      "wallpaperNotGrouped": "not grouped",
+      "wallpaperGroupedBy": [
+        "grouped by ",
+        [
+          "group"
+        ]
+      ],
+      "wallpaperPreviewGroups": {
+        "type": "type",
+        "energy": "energy",
+        "power": "power",
+        "domain": "domain"
+      },
+      "wallpaperPreviewLabel": [
+        "Deck wallpaper preview. Main Deck ",
+        [
+          "groupDescription"
+        ],
+        ", sorted by ",
+        [
+          "sort"
+        ],
+        " ",
+        [
+          "direction"
+        ],
+        ". Download size ",
+        [
+          "resolution"
+        ],
+        "."
+      ],
+      "updatingPreview": "Updating preview…",
+      "buildingPreview": "Building preview…",
+      "previewUpdateFailedShowingLast": "Preview could not update. Showing the last successful preview.",
+      "previewUnavailableDownload": "Preview unavailable. You can still download the wallpaper.",
+      "previewUpdated": "Preview updated.",
+      "preview": "Preview",
+      "lastSuccessfulPreview": [
+        "Last successful ",
+        [
+          "preview"
+        ]
+      ],
+      "updating": "Updating",
+      "previewCouldNotUpdate": "Preview couldn’t update",
+      "closeWallpaperExport": "Close wallpaper export",
+      "exportWallpaper": "Export wallpaper",
+      "resolution": "Resolution"
+    },
+    "import": {
+      "reduceMainDeck": [
+        "Reduce the Main Deck to ",
+        [
+          "count"
+        ],
+        " cards before importing."
+      ]
+    },
+    "publication": {
+      "viewPage": "View published page",
+      "openCommunityPage": "Open the community page",
+      "linkCopied": "Community link copied",
+      "copyLink": "Copy community link",
+      "completeToShare": "Complete and save the deck to share again",
+      "shareableUrl": "Shareable community URL",
+      "makePrivate": "Make private",
+      "removeFromCommunity": "Remove from Community Decks",
+      "publishedDeck": "Published deck",
+      "pausedDescription": "This listing is paused until the deck is ready again.",
+      "menuDescription": "View, share, or change visibility.",
+      "closeOptions": "Close published deck options",
+      "pausedShort": "Listing paused until the deck is ready again.",
+      "options": "Published deck options",
+      "paused": "Publication paused",
+      "copyLinkError": "Could not copy the community link.",
+      "copyLinkManual": "Could not copy the community link. Open the published page to copy it manually."
+    },
+    "search": {
+      "suggestions": "Search suggestions",
+      "syntaxWarningTitle": "Search syntax needs attention.",
+      "syntaxWarningDescription": "Results use the part of the query that could be understood.",
+      "operatorNotSpell": "NOT a spell",
+      "operatorSameCategory": "Same category — OR",
+      "operatorDifferentCategories": "Different categories — AND",
+      "operatorExplicitAnd": "Explicit AND — require both",
+      "operatorExplicitOr": "Explicit OR",
+      "operatorGroup": "Group logic first",
+      "operatorExcludeGroup": "Exclude a whole group",
+      "operatorHelp": "Spaces combine choices within one category and narrow across different categories. Use AND or OR when you want to override that default, and balanced parentheses to group expressions. Parentheses inside quotes are searched as text.",
+      "diagnostics": {
+        "maxDepth": [
+          "Search groups can be nested at most ",
+          [
+            "maxDepth"
+          ],
+          " levels."
+        ],
+        "missingClose": "Add a closing parenthesis to finish this group.",
+        "emptyGroup": "Search groups cannot be empty.",
+        "unmatchedClose": "This closing parenthesis has no matching opening parenthesis.",
+        "andBefore": "AND needs a search expression before it.",
+        "andAfter": "AND needs a search expression after it.",
+        "orAfter": "OR needs a search expression after it."
+      }
+    },
+    "sealed": {
+      "savedDraftNotFound": "Saved sealed draft not found.",
+      "historicalManifestUnavailable": "This saved pool's historical data is preserved, but its exact card manifest is unavailable, so it cannot be restored safely.",
+      "loadDraftError": "Could not load this sealed draft.",
+      "preRiftTitle": "Pre-Rift Sealed",
+      "noLoadedDraftsForFormat": "No loaded drafts match this format filter.",
+      "loadingOlderDrafts": "Loading older drafts…",
+      "loadOlderDrafts": "Load older drafts"
+    },
+    "builderStory": {
+      "ariaLabel": "RiftAtlas builder story",
+      "mobileHeadline": "Six months of RiftAtlas",
+      "desktopHeadline": "Six months of building RiftAtlas",
+      "readStory": "Read the story",
+      "dismiss": "Dismiss builder story announcement"
+    },
+    "home": {
+      "findCard": "Find a card.",
+      "buildDeck": "Build a deck.",
+      "startGame": "Start a game.",
+      "intro": "Rift Atlas brings your Riftbound cards, decks, and games together. Look up a card, build and share a list, or play for free in your browser.",
+      "startHere": "Start here",
+      "buildHint": "Create your next list",
+      "playHint": "With friends or solo",
+      "sealedHint": "Open packs. Build. Play.",
+      "simulatorTitle": "Play Riftbound in your browser.",
+      "simulatorDescription": "Find an opponent, open a private room with friends, or practice solo. Rewind, auto-pay, and card previews help you keep the game moving."
+    },
+    "events": {
+      "eyebrow": "Riftbound / Tournament results",
+      "metaTitle": "Riftbound tournament results and decklists",
+      "metaDescription": "Standings, top cuts and every decklist from recent Riftbound tournaments. Open any list or play it in the simulator.",
+      "empty": "No tournament results yet.",
+      "attribution": [
+        "Data provided by ",
+        [
+          "link",
+          "TopDeck.gg"
+        ]
+      ],
+      "playerCount": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " player"
+            ],
+            "other": [
+              0,
+              " players"
+            ]
+          }
+        ]
+      ],
+      "online": "Online",
+      "winner": "Winner",
+      "rank": [
+        "#",
+        [
+          "rank"
+        ]
+      ],
+      "decklist": "Decklist",
+      "metaShare": "Share",
+      "players": "Players",
+      "topCut": "Top 8",
+      "winRate": "Win rate",
+      "player": "Player",
+      "record": "Record",
+      "allStandings": [
+        "All ",
+        [
+          "count"
+        ],
+        " standings"
+      ],
+      "eventMetaTitle": [
+        [
+          "name"
+        ],
+        ": results and decklists"
+      ],
+      "eventMetaDescription": [
+        "Top cut, standings and decklists from ",
+        [
+          "name"
+        ],
+        " (",
+        [
+          "players"
+        ],
+        " players, ",
+        [
+          "date"
+        ],
+        ")."
+      ],
+      "roundsWithTopCut": [
+        [
+          "rounds"
+        ],
+        " rounds + top ",
+        [
+          "topCut"
+        ]
+      ],
+      "rounds": [
+        [
+          "rounds"
+        ],
+        " rounds"
+      ],
+      "fieldStrength": [
+        "Field Elo ",
+        [
+          "elo"
+        ]
+      ],
+      "viewOnTopDeck": "View on TopDeck.gg",
+      "topCutTitle": [
+        "Top ",
+        [
+          "count"
+        ]
+      ],
+      "metaTitleSection": "Metagame",
+      "standings": "Standings",
+      "allEvents": "All events",
+      "cardUsageTitle": "In tournament decks",
+      "cardUsageSummary": [
+        [
+          "lists",
+          2,
+          {
+            "one": [
+              0,
+              " list"
+            ],
+            "other": [
+              0,
+              " lists"
+            ]
+          }
+        ],
+        " · ",
+        [
+          "recent"
+        ],
+        " in the last 30 days"
+      ],
+      "premierTitle": "Premier events",
+      "moreEvents": "More events",
+      "sizeFilter": "Event size",
+      "minPlayers": [
+        [
+          "count"
+        ],
+        "+ players"
+      ],
+      "allSizes": "All",
+      "date": "Date",
+      "event": "Event",
+      "roundsColumn": "Rounds",
+      "roundsCell": [
+        [
+          "rounds"
+        ],
+        " + top ",
+        [
+          "topCut"
+        ]
+      ],
+      "decklists": "Lists",
+      "decklistCount": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " decklist"
+            ],
+            "other": [
+              0,
+              " decklists"
+            ]
+          }
+        ]
+      ],
+      "allLegends": [
+        "All ",
+        [
+          "count"
+        ],
+        " legends"
+      ],
+      "lastDays": [
+        "Last ",
+        [
+          "days"
+        ],
+        " days"
+      ]
+    },
+    "judges": {
+      "eyebrow": "Riftbound / Community judges",
+      "title": "Top judges",
+      "metaTitle": "Top community judges",
+      "metaDescription": "Rift Atlas community judges with the most answered rules questions, all time and in the last 30 days.",
+      "allTime": "All time",
+      "recent": [
+        "Last ",
+        [
+          "days"
+        ],
+        " days"
+      ],
+      "answers": "Answers",
+      "empty": "No answers yet.",
+      "unavailable": "The leaderboard is unavailable right now.",
+      "months": "Months",
+      "monthMetaTitle": [
+        "Top community judges · ",
+        [
+          "month"
+        ]
+      ],
+      "monthMetaDescription": [
+        "Rift Atlas community judges with the most answered rules questions in ",
+        [
+          "month"
+        ],
+        "."
+      ]
+    },
+    "deckPreview": {
+      "eyebrow": "Riftbound deck",
+      "byAuthor": [
+        "by ",
+        [
+          "author"
+        ]
+      ],
+      "cardCount": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " card"
+            ],
+            "other": [
+              0,
+              " cards"
+            ]
+          }
+        ]
+      ]
+    },
+    "deckPosts": {
+      "fromFriends": "From your friends",
+      "showMore": "Show more",
+      "you": "You",
+      "replies": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " reply"
+            ],
+            "other": [
+              0,
+              " replies"
+            ]
+          }
+        ]
+      ],
+      "threadTitle": "Replies",
+      "replyPlaceholder": "Write a reply",
+      "replyFailed": "Couldn’t send. Try again.",
+      "threadFull": "This thread is full.",
+      "deletePost": "Delete post",
+      "confirmDeletePost": "Confirm delete",
+      "deletePostFailed": "Couldn’t delete. Try again.",
+      "deleteReply": "Delete reply",
+      "reportReply": "Report reply",
+      "postFrom": [
+        "Post from ",
+        [
+          "name"
+        ]
+      ],
+      "send": "Send",
+      "rateLimited": "Too many replies. Wait a minute and try again.",
+      "ownPost": "Your post"
+    },
+    "abilities": {
+      "activated": "Activated",
+      "exhaust": "Exhaust",
+      "triggered": "Triggered",
+      "passive": "Passive",
+      "replacement": "Replacement",
+      "delayed": "Delayed"
+    }
+  },
+  "sim": {
+    "score": {
+      "tiers": {
+        "member": {
+          "name": "Community Member",
+          "short": "MEM"
+        },
+        "supporter": {
+          "name": "Supporter",
+          "short": "SUP"
+        },
+        "champion": {
+          "name": "Champion",
+          "short": "CHAMP"
+        },
+        "legend": {
+          "name": "Legend",
+          "short": "LEG"
+        },
+        "signature_legend": {
+          "name": "Signature Legend",
+          "short": "SIG"
+        }
+      }
+    },
+    "social": {
+      "nameRequired": "Choose the player name friends will see before adding players or sharing your friend code.",
+      "playerName": "Player name",
+      "savePlayerName": "Save name",
+      "setPlayerName": "Set player name",
+      "editNickname": "Edit nickname",
+      "nickname": "Nickname",
+      "nicknamePrivate": "Only you can see this nickname.",
+      "nameWhenAdded": [
+        "Name when added: ",
+        [
+          "name"
+        ]
+      ],
+      "resetName": "Reset name",
+      "saveNickname": "Save",
+      "staff": "Staff conversation",
+      "staffConversations": "Staff conversations",
+      "staffConversation": "Staff conversation · replies welcome",
+      "closeConversation": "Close conversation",
+      "playerBadges": [
+        "View ",
+        [
+          "name"
+        ],
+        "’s badges"
+      ],
+      "badgesLoading": "Loading badges…",
+      "badgesFailed": "Could not load badges.",
+      "noBadges": "No badges displayed.",
+      "loading": "Loading…",
+      "loadingHistory": "Loading messages…",
+      "historyFailed": "Could not load messages. Please try again.",
+      "retry": "Retry",
+      "newMessages": "New messages",
+      "latest": "Jump to latest",
+      "searchFriends": "Search friends",
+      "noMatches": "No matching contacts.",
+      "blockedAccounts": "Blocked accounts",
+      "invalidCode": "Enter a valid 20-character friend code.",
+      "selfCode": "This is your own friend code.",
+      "alreadyFriends": "You are already friends.",
+      "alreadyRequested": "A friend request is already pending.",
+      "nowFriends": "You are now friends.",
+      "requestSent": "Friend request sent.",
+      "friendsLimit": "Your friends list is full. Remove a friend before adding another.",
+      "requestsLimit": "There are too many pending requests. Try again later.",
+      "rateLimited": "Too many actions. Wait a minute and try again.",
+      "requestUnavailable": "This request has changed. Check your requests and try again.",
+      "incomingMessage": [
+        "Message from ",
+        [
+          "name"
+        ],
+        ": ",
+        [
+          "message"
+        ]
+      ],
+      "unknown": "Status unavailable",
+      "title": "Friends & messages",
+      "open": "Open friends and messages",
+      "trial": "Admin preview",
+      "close": "Close",
+      "disconnected": "Reconnecting. Status and unread counts may be out of date.",
+      "copyCode": "Copy friend code",
+      "addHint": "Ask for their friend code, then paste it here to send a request.",
+      "sendRequest": "Send friend request",
+      "copied": "Copied",
+      "copyFailed": "Copy failed",
+      "friendCode": "Friend code",
+      "friendCodeShort": "Code",
+      "add": "Add friend",
+      "targetUnavailable": "This player is not available yet. Check the code and ask them to open the Simulator while signed in.",
+      "playerUnavailable": "This player can't be added as a friend right now.",
+      "contacts": "Friends and conversations",
+      "empty": "No friends yet. Use Add friend to send a code, or add someone from their nameplate.",
+      "online": "Online",
+      "offline": "Offline",
+      "incoming": "Friend request received",
+      "outgoing": "Friend request sent",
+      "friends": "Friends",
+      "removed": "Not friends",
+      "blocked": "Blocked",
+      "choose": "Choose a friend to start a conversation.",
+      "message": "Message",
+      "accept": "Accept",
+      "decline": "Decline",
+      "cancel": "Cancel request",
+      "remove": "Remove friend",
+      "block": "Block",
+      "unblock": "Unblock",
+      "back": "Back",
+      "history": "Message history",
+      "older": "Load older messages",
+      "noMessages": "No messages yet.",
+      "write": "Write a message…",
+      "send": "Send",
+      "retention": "Messages are kept for 30 days.",
+      "failed": "Could not complete this action. Try again.",
+      "sendFailed": "Message not confirmed. Retry with the same text to avoid duplicates.",
+      "pending": "Request pending",
+      "requestNotifications": "Friend request notifications",
+      "requestToastTitle": "Friend request",
+      "requestToastBody": [
+        [
+          "name"
+        ],
+        " wants to be your friend."
+      ],
+      "dismissRequest": "Dismiss friend request notification",
+      "viewRequest": "View",
+      "requestToastError": "Could not update this request. Please try again.",
+      "blockedMessaging": "This account is blocked. This conversation is read-only.",
+      "waitingForAcceptance": "Waiting for your friend to accept the request.",
+      "removedMessaging": "You are no longer friends. This conversation is read-only.",
+      "socialLabel": "Social",
+      "launcher": "Friends",
+      "openAll": "All friends and requests",
+      "showMore": [
+        "Show ",
+        [
+          "count"
+        ],
+        " more"
+      ],
+      "boardSections": "Spectators and friends",
+      "contactOptions": "Contact options",
+      "requests": "Requests",
+      "archived": "Previous conversations",
+      "receivedRequests": "Received",
+      "sentRequests": "Sent",
+      "noRequests": "No pending requests.",
+      "unreadCount": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " unread message"
+            ],
+            "other": [
+              0,
+              " unread messages"
+            ]
+          }
+        ]
+      ],
+      "requestCount": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " friend request"
+            ],
+            "other": [
+              0,
+              " friend requests"
+            ]
+          }
+        ]
+      ],
+      "notificationsSummary": [
+        [
+          "messages"
+        ],
+        " unread messages, ",
+        [
+          "requests"
+        ],
+        " friend requests"
+      ],
+      "messagePlayer": [
+        "Message ",
+        [
+          "name"
+        ]
+      ],
+      "addPlayer": [
+        "Add ",
+        [
+          "name"
+        ],
+        " as a friend"
+      ],
+      "inviteFriends": "Invite friends",
+      "inviteRoom": [
+        "Invite to room ",
+        [
+          "room"
+        ]
+      ],
+      "noOnlineFriends": "No friends are online right now.",
+      "checkingPresence": "Checking who is online…",
+      "invitePlayer": "Invite as player",
+      "inviteSpectator": "Invite as spectator",
+      "inviteSent": "Invite sent",
+      "addAndInvite": "Add & invite",
+      "inviteAfterAccept": "Request sent. They get the invite once they accept.",
+      "inviteFailed": "Could not send this invitation. The friend may be busy or offline, or the game may have changed.",
+      "invitations": "Game invitations",
+      "lobbyInvite": "Game invitation",
+      "invitedPlayer": [
+        [
+          "name"
+        ],
+        " invited you to play in room ",
+        [
+          "room"
+        ],
+        "."
+      ],
+      "invitedSpectator": [
+        [
+          "name"
+        ],
+        " invited you to spectate room ",
+        [
+          "room"
+        ],
+        "."
+      ],
+      "dismissInvite": "Dismiss invitation",
+      "joinSpectator": "Spectate",
+      "joinPlayer": "Open lobby",
+      "reportPlayer": "Report player",
+      "reportEvidence": "Recent messages from this conversation will be included for moderator review.",
+      "reportSent": "Your report has been sent to the moderation team.",
+      "watchGame": "Watch game",
+      "watchFriend": [
+        "Watch ",
+        [
+          "name"
+        ],
+        "’s game"
+      ],
+      "inGame": "In a game",
+      "watchingGame": "Watching a game",
+      "inviteFriendsWatch": "Invite friends to watch",
+      "inviteRole": "Invite to",
+      "invite": "Invite",
+      "inviteFriend": [
+        "Invite ",
+        [
+          "name"
+        ]
+      ],
+      "invitedFriend": [
+        "Invited ",
+        [
+          "name"
+        ]
+      ],
+      "noAvailableFriends": "No online friends are available to invite.",
+      "sealedSharePool": "Sealed pool",
+      "sealedShareSetup": "Sealed setup",
+      "sealedShareOwnPool": "You shared a Sealed pool",
+      "sealedShareOwnSetup": "You shared a Sealed setup",
+      "sealedSharePreview": "Shared a Sealed pool",
+      "sealedShareOpen": "Open",
+      "sealedSharePacks": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " pack"
+            ],
+            "other": [
+              0,
+              " packs"
+            ]
+          }
+        ]
+      ],
+      "sealedShareMixSet": [
+        [
+          "count"
+        ],
+        " ",
+        [
+          "set"
+        ]
+      ],
+      "deckShareKicker": "Deck",
+      "deckShareOwn": "You shared a deck",
+      "deckSharePreview": "Shared a deck",
+      "deckShareOpen": "Open",
+      "deckSharePlay": "Play",
+      "deckShareCards": [
+        [
+          "count",
+          2,
+          {
+            "one": [
+              0,
+              " card"
+            ],
+            "other": [
+              0,
+              " cards"
+            ]
+          }
+        ]
+      ],
+      "deckShareTitle": "Share deck",
+      "deckShareButton": "Share",
+      "deckShareNamed": [
+        "Share ",
+        [
+          "name"
+        ]
+      ],
+      "deckShareFriends": "Send to a friend",
+      "deckShareSendTo": [
+        "Send to ",
+        [
+          "name"
+        ]
+      ],
+      "deckShareSending": "Sending…",
+      "deckShareSent": "Sent",
+      "deckShareSentTo": [
+        "Sent to ",
+        [
+          "name"
+        ]
+      ],
+      "deckShareSendFailed": "Couldn't send. Try again.",
+      "deckShareSignIn": "Sign in",
+      "deckShareCopyLink": "Copy link",
+      "deckShareCopied": "Link copied",
+      "deckShareNative": "Share with another app",
+      "deckShareUnavailable": "This deck can't be shared right now.",
+      "deckShareAllFriends": [
+        "All friends (",
+        [
+          "count"
+        ],
+        ")"
+      ],
+      "deckBroadcastTitle": "Share with all friends",
+      "deckBroadcastNote": "Add a note",
+      "deckBroadcastSend": "Share",
+      "deckBroadcastSending": "Sharing…",
+      "deckBroadcastSent": "Shared",
+      "deckBroadcastFailed": "Couldn’t share. Try again.",
+      "deckPostReportEvidence": "This post and its recent replies will be included for moderator review.",
+      "deckShareNoFriends": "No friends yet.",
+      "replayShare": "Replay",
+      "replayShareOwn": "You shared a replay",
+      "replaySharePreview": "Shared a replay",
+      "partyInvite": "Party invitation",
+      "invitedParty": [
+        [
+          "name"
+        ],
+        " invites you to queue ",
+        [
+          "table"
+        ],
+        " together."
+      ]
+    }
+  }
+}

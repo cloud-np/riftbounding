@@ -1,0 +1,366 @@
+{
+ "schemaVersion": "1",
+ "source": "extracted from playapp 02h7l-jglwkxb.js (module 65770, chunk 34432) — sealed set configs",
+ "domains": [
+  "Fury",
+  "Calm",
+  "Mind",
+  "Body",
+  "Chaos",
+  "Order"
+ ],
+ "setOrder": [
+  "OGN",
+  "SFD",
+  "UNL",
+  "VEN",
+  "RAD"
+ ],
+ "mixPrefix": "mix-",
+ "seedLayoutPrefixes": [
+  "p.",
+  "s."
+ ],
+ "starterKitMakersNote": "starter kits live in preset-decks.json sealedFormats",
+ "setConfigs": {
+  "OGN": {
+   "setCode": "OGN",
+   "setName": "Origins",
+   "canonicalRunes": {
+    "Fury": "OGN-007",
+    "Calm": "OGN-042",
+    "Mind": "OGN-089",
+    "Body": "OGN-126",
+    "Chaos": "OGN-166",
+    "Order": "OGN-214"
+   },
+   "treatments": {
+    "baseNumberStart": 1,
+    "baseNumberEnd": 298,
+    "overnumberedStart": 299,
+    "overnumberedEnd": 310,
+    "alternateArtSuffixes": [
+     "A"
+    ],
+    "runeCodes": [
+     "OGN-007",
+     "OGN-042",
+     "OGN-089",
+     "OGN-126",
+     "OGN-166",
+     "OGN-214"
+    ],
+    "alternateRuneCodes": [
+     "OGN-007A",
+     "OGN-042A",
+     "OGN-089A",
+     "OGN-126A",
+     "OGN-166A",
+     "OGN-214A"
+    ],
+    "signedOvernumberSuffix": "S",
+    "signedOvernumberedCodes": [
+     "OGN-299S",
+     "OGN-300S",
+     "OGN-301S",
+     "OGN-302S",
+     "OGN-303S",
+     "OGN-304S",
+     "OGN-305S",
+     "OGN-306S",
+     "OGN-307S",
+     "OGN-308S",
+     "OGN-309S",
+     "OGN-310S"
+    ],
+    "specialArtCodes": [],
+    "tokenCodes": [
+     "OGN-999"
+    ]
+   },
+   "odds": {
+    "epicPerPack": 0.25,
+    "alternateArtPerBox": 2,
+    "alternateRunePerBox": 1,
+    "overnumberedPerBox": 0.3333333333333333,
+    "signedOvernumberedShare": 0.1,
+    "isEstimate": true
+   },
+   "excludedCardCodes": [
+    "OGN-036A",
+    "OGN-068A",
+    "OGN-111A",
+    "OGN-159A",
+    "OGN-197B",
+    "OGN-202B",
+    "OGN-246B",
+    "OGN-303A"
+   ]
+  },
+  "SFD": {
+   "setCode": "SFD",
+   "setName": "Spiritforged",
+   "canonicalRunes": {
+    "Fury": "SFD-R01",
+    "Calm": "SFD-R02",
+    "Mind": "SFD-R03",
+    "Body": "SFD-R04",
+    "Chaos": "SFD-R05",
+    "Order": "SFD-R06"
+   },
+   "treatments": {
+    "baseNumberStart": 1,
+    "baseNumberEnd": 221,
+    "overnumberedStart": 222,
+    "overnumberedEnd": 251,
+    "alternateArtSuffixes": [
+     "A"
+    ],
+    "alternateRuneCodes": [
+     "SFD-R01A",
+     "SFD-R02A",
+     "SFD-R03A",
+     "SFD-R04A",
+     "SFD-R05A",
+     "SFD-R06A"
+    ],
+    "signedOvernumberSuffix": "S",
+    "signedOvernumberedCodes": [
+     "SFD-223S",
+     "SFD-224S",
+     "SFD-225S",
+     "SFD-227S",
+     "SFD-228S",
+     "SFD-230S",
+     "SFD-232S",
+     "SFD-233S",
+     "SFD-235S",
+     "SFD-236S",
+     "SFD-237S",
+     "SFD-239S"
+    ],
+    "signedOvernumberedCardTypes": [
+     "Unit"
+    ],
+    "specialArtCodes": [],
+    "runeCodePrefix": "SFD-R",
+    "tokenCodePrefix": "SFD-T"
+   },
+   "odds": {
+    "epicPerPack": 0.25,
+    "alternateArtPerBox": 2,
+    "alternateRunePerBox": 1,
+    "overnumberedPerBox": 0.3333333333333333,
+    "signedOvernumberedShare": 0.1,
+    "isEstimate": true
+   },
+   "excludedCardCodes": []
+  },
+  "UNL": {
+   "setCode": "UNL",
+   "setName": "Unleashed",
+   "canonicalRunes": {
+    "Fury": "UNL-R01A",
+    "Calm": "UNL-R02A",
+    "Mind": "UNL-R03A",
+    "Body": "UNL-R04A",
+    "Chaos": "UNL-R05A",
+    "Order": "UNL-R06A"
+   },
+   "treatments": {
+    "baseNumberStart": 1,
+    "baseNumberEnd": 219,
+    "overnumberedStart": 220,
+    "overnumberedEnd": 238,
+    "alternateArtSuffixes": [
+     "A"
+    ],
+    "runeCodes": [
+     "UNL-R01A",
+     "UNL-R02A",
+     "UNL-R03A",
+     "UNL-R04A",
+     "UNL-R05A",
+     "UNL-R06A"
+    ],
+    "alternateRuneCodes": [],
+    "signedOvernumberSuffix": "S",
+    "signedOvernumberedCodes": [
+     "UNL-226S",
+     "UNL-227S",
+     "UNL-228S",
+     "UNL-229S",
+     "UNL-230S",
+     "UNL-231S",
+     "UNL-232S",
+     "UNL-233S",
+     "UNL-234S",
+     "UNL-235S",
+     "UNL-236S",
+     "UNL-237S"
+    ],
+    "specialArtCodes": [],
+    "runeCodePrefix": "UNL-R",
+    "tokenCodePrefix": "UNL-T"
+   },
+   "odds": {
+    "epicPerPack": 0.25,
+    "alternateArtPerBox": 2,
+    "alternateRunePerBox": 0,
+    "overnumberedPerBox": 0.3333333333333333,
+    "signedOvernumberedShare": 0.1,
+    "isEstimate": true
+   },
+   "excludedCardCodes": []
+  },
+  "VEN": {
+   "setCode": "VEN",
+   "setName": "Vendetta",
+   "canonicalRunes": {
+    "Fury": "VEN-R01",
+    "Calm": "VEN-R02",
+    "Mind": "VEN-R03",
+    "Body": "VEN-R04",
+    "Chaos": "VEN-R05",
+    "Order": "VEN-R06"
+   },
+   "treatments": {
+    "baseNumberStart": 1,
+    "baseNumberEnd": 166,
+    "overnumberedStart": 167,
+    "overnumberedEnd": 197,
+    "alternateArtSuffixes": [
+     "A"
+    ],
+    "alternateRuneCodes": [],
+    "signedOvernumberSuffix": "S",
+    "signedOvernumberedCodes": [
+     "VEN-189S",
+     "VEN-190S",
+     "VEN-191S",
+     "VEN-192S",
+     "VEN-193S",
+     "VEN-194S",
+     "VEN-195S",
+     "VEN-196S",
+     "VEN-197S"
+    ],
+    "specialArtCodes": [
+     "VEN-SP1",
+     "VEN-SP2",
+     "VEN-SP3",
+     "VEN-SP4",
+     "VEN-SP5",
+     "VEN-SP6"
+    ],
+    "runeCodePrefix": "VEN-R",
+    "tokenCodePrefix": "VEN-T"
+   },
+   "odds": {
+    "epicPerPack": 0.25,
+    "alternateArtPerBox": 2,
+    "alternateRunePerBox": 0,
+    "overnumberedPerBox": 0.3333333333333333,
+    "signedOvernumberedShare": 0.1,
+    "isEstimate": true
+   },
+   "excludedCardCodes": [
+    "VEN-041A",
+    "VEN-041P",
+    "VEN-069B",
+    "VEN-155A"
+   ]
+  },
+  "RAD": {
+   "setCode": "RAD",
+   "setName": "Radiance",
+   "canonicalRunes": {
+    "Fury": "RAD-R01",
+    "Calm": "RAD-R02",
+    "Mind": "RAD-R03",
+    "Body": "RAD-R04",
+    "Chaos": "RAD-R05",
+    "Order": "RAD-R06"
+   },
+   "treatments": {
+    "baseNumberStart": 1,
+    "baseNumberEnd": 167,
+    "overnumberedStart": 168,
+    "overnumberedEnd": 184,
+    "alternateArtSuffixes": [
+     "A"
+    ],
+    "alternateRuneCodes": [
+     "RAD-R01A",
+     "RAD-R02A",
+     "RAD-R03A",
+     "RAD-R04A",
+     "RAD-R05A",
+     "RAD-R06A"
+    ],
+    "signedOvernumberSuffix": "S",
+    "signedOvernumberedCodes": [
+     "RAD-168S",
+     "RAD-169S",
+     "RAD-170S",
+     "RAD-171S",
+     "RAD-172S",
+     "RAD-173S",
+     "RAD-174S",
+     "RAD-175S",
+     "RAD-176S",
+     "RAD-178S",
+     "RAD-179S",
+     "RAD-180S",
+     "RAD-181S",
+     "RAD-182S",
+     "RAD-183S"
+    ],
+    "signedOvernumberedCardTypes": [
+     "Legend",
+     "Unit"
+    ],
+    "specialArtCodes": [
+     "RAD-SP1",
+     "RAD-SP2",
+     "RAD-SP3",
+     "RAD-SP4",
+     "RAD-SP5"
+    ],
+    "ultimateRareCodes": [
+     "RAD-184"
+    ],
+    "runeCodePrefix": "RAD-R",
+    "tokenCodePrefix": "RAD-T"
+   },
+   "odds": {
+    "epicPerPack": 0.25,
+    "alternateArtPerBox": 2,
+    "alternateRunePerBox": 1,
+    "overnumberedPerBox": 0.3333333333333333,
+    "signedOvernumberedShare": 0.1,
+    "isEstimate": true,
+    "ultimateRarePerPack": 0.00025,
+    "specialArtShare": 0.5
+   },
+   "excludedCardCodes": [
+    "RAD-015C",
+    "RAD-015P",
+    "RAD-038C",
+    "RAD-038P",
+    "RAD-085P",
+    "RAD-086AP",
+    "RAD-086BP",
+    "RAD-086P",
+    "RAD-110AP",
+    "RAD-110P",
+    "RAD-R01BP",
+    "RAD-R02BP",
+    "RAD-R03BP",
+    "RAD-R04BP",
+    "RAD-R05BP",
+    "RAD-R06BP"
+   ]
+  }
+ }
+}

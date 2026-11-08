@@ -1,0 +1,1677 @@
+{
+ "$comment": "Compiled next-intl catalog (keys are `key_<hash>`; hash is derived from the key path and is identical across locales). Source chunk: 1t3kr4xds6byf.js",
+ "locale": "zh-CN",
+ "ui": {
+  "exact": {
+   "anActiveLegendOrHigherMembership_15fpunm": "魄罗表情需要有效的 Legend 或更高等级会员资格。",
+   "signInToManageCommunityDecks_0jnr3ma": "请登录后管理社区卡组。",
+   "commentTextIsRequired_1x2vk1m": "请输入评论内容。",
+   "publishedDeckNotFound_062d0k3": "找不到已发布的卡组。",
+   "savedDeckNotFound_1lv2mum": "找不到已保存的卡组。",
+   "onlyReadyDecksCanBePublished_0sphywb": "只有完整卡组可以发布。",
+   "onlyReadyDecksCanBeLiked_0ek2d5e": "只有完整卡组可以点赞。",
+   "onlyReadyDecksCanBeCommented_0n5h7bs": "只有完整卡组可以评论。",
+   "commentNotFound_11kj1b7": "找不到该评论。",
+   "onlyReadyDecksCanBeCloned_1pve3gy": "只有完整卡组可以克隆。",
+   "signInToManageSavedDecks_0a710e4": "请登录后管理已保存的卡组。",
+   "chooseOrImportADeckFirst_1hnk5ei": "请先选择或导入一个卡组。",
+   "loadingTheLatestSavedDeck_1vbvs01": "正在加载最新的已保存卡组……",
+   "loadingTheRequestedSavedDeck_0f7droe": "正在加载指定的已保存卡组……",
+   "theDeckLibraryIsReconnectingTry_0kum4ue": "卡组库正在重新连接，请稍后重试。",
+   "signInToLoadASaved_1da1a5t": "请登录后加载已保存卡组。",
+   "thatSavedDeckNoLongerExists_0tj1nvm": "该已保存卡组已不存在。",
+   "thatSavedDeckCouldNotBe_00bzies": "无法加载该已保存卡组。",
+   "thisDeckCannotBeAssignedUnder_0ijpa35": "此卡组不符合无限制规则，无法分配。",
+   "thisDeckIsNotReadyTo_05cv6v5": "此卡组尚不能用于对战。",
+   "waitForTheSavedDeckLibrary_195l2lz": "请等待卡组库完成登录。",
+   "signInToLoadTheSelected_1yijkd6": "请登录后加载所选已保存卡组。",
+   "theSelectedDeckChangedWhileIt_11vg34a": "加载过程中所选卡组已更改，请重试。",
+   "theSelectedSavedDeckNoLonger_0thrt30": "所选已保存卡组已不存在，请选择其他卡组。",
+   "theSelectedSavedDeckCouldNot_108kfug": "无法加载所选已保存卡组，请重试或选择其他卡组。",
+   "theSelectedSavedDeckIsIncomplete_1k286kn": "所选已保存卡组尚未完成。",
+   "couldNotChangeTheSelectedDeck_0wo0y8j": "无法更改所选卡组，请重试。",
+   "theSavedDeckForThatAction_1vtq7ys": "该操作使用的已保存卡组尚未完成。",
+   "theDeckLibraryIsReconnectingYour_1v68ly7": "卡组库正在重新连接。你的房间操作已保留，请稍后重试。",
+   "theRestoredDeckIsIncomplete_04ponpv": "恢复的卡组尚未完成。",
+   "thisSavedDeckIsUnavailableChoose_0azqcmy": "此已保存卡组不可用，请选择其他卡组。",
+   "thisSavedDeckCouldNotBe_1mer660": "无法加载此已保存卡组，请选择其他卡组。",
+   "thisDeckNeedsAnUpdateBefore_0qv79sx": "此卡组需要更新后才能对战。",
+   "theDeckEditorIsNotConnected_1y0x6vc": "此预览部署未连接卡组编辑器。",
+   "yourPreviouslySelectedSavedDeckIs_036a7k3": "之前选择的已保存卡组已不可用，请选择其他卡组。",
+   "yourPreviouslySelectedSavedDeckCould_1gl915h": "无法读取之前选择的已保存卡组，请选择其他卡组。",
+   "theDeckLibraryIsReconnectingPlease_0qdnks2": "卡组库正在重新连接，请稍后重试。",
+   "signInToRenameASaved_182qv37": "请登录后重命名已保存卡组。",
+   "signInToDeleteASaved_15jvcl2": "请登录后删除已保存卡组。",
+   "couldNotDeleteSavedDeck_1xk9fd8": "无法删除已保存卡组。",
+   "couldNotLoadThatSavedDeck_1i1simk": "无法加载该已保存卡组。",
+   "signInCompletedButThatSaved_0gje15s": "登录已完成，但该已保存卡组无效。",
+   "signInCompletedButThatSaved_1vtnq9s": "登录已完成，但该已保存卡组已不可用。",
+   "yourSaveRequestIsPreservedThe_0k9rldv": "保存请求已保留。卡组库仍在重新连接；请稍后再次尝试保存。",
+   "savedDeckContentsAreMissing_0eg1j1z": "已保存的卡组缺少卡组内容。",
+   "savedDeckContentsAreInvalid_1qd3q4u": "已保存的卡组内容无效。",
+   "storedDeckCodeIsEmpty_0qo96hh": "已保存的卡组代码为空。",
+   "generatedSealedPoolIdentityDoesNot_1hkd133": "生成的现开牌池标识与所请求的赛制和种子不匹配。",
+   "generatedSealedPoolMustContainExactly_0czx1eu": "生成的现开牌池必须正好包含两个起始套件领域。",
+   "signInToManageSavedSealed_02zn16m": "请登录后管理已保存的现开草稿。",
+   "draftNameIsRequired_06irvp0": "需要填写草稿名称。",
+   "savedSealedDraftNotFound_1b23kcs": "找不到已保存的现开草稿。",
+   "aSavedSealedDraftCannotChange_0v734o0": "已保存的现开草稿不能更改牌池种子。",
+   "aSavedSealedDraftCannotChange_1pfqnig": "已保存的现开草稿不能更改现开赛制。",
+   "sealedPoolMustContainExactlyTwo_0znnqwv": "现开牌池必须正好包含两个起始套件领域。",
+   "registeredDeckIsNotInThis_00used2": "登记的卡组不属于此现开牌池。",
+   "thisHistoricalSealedDraftHasAn_0ltpsxf": "此历史现开草稿的归档牌池清单无效。未更改任何数据。",
+   "thisHistoricalSealedDraftSArchived_1fmwhqd": "此历史现开草稿的归档清单与已保存的牌池标识不匹配。未更改任何数据。",
+   "thisHistoricalSealedRegistrationCannotBe_1q3gk67": "由于确切的牌池清单不可用，此历史现开赛登记无法用于对战。",
+   "thisHistoricalSealedDraftHasInconsistent_1icpqse": "此历史现开草稿的归档状态不一致。未更改任何数据。",
+   "thisHistoricalSealedRegistrationUsesA_1al8ue2": "此历史现开赛登记使用的牌池版本已无法用于对战。",
+   "thisHistoricalSealedRegistrationSArchived_1phzjmq": "此历史现开赛登记的归档牌池与其可用清单不再匹配。",
+   "thisHistoricalSealedRegistrationNoLonger_009hzek": "此历史现开赛登记与已保存的牌池选择不再匹配。",
+   "thisSealedRegistrationCouldNotBe_15uyx5m": "无法安全加载此现开赛登记。",
+   "fromRecipientsSubjectAndMessageBody_1lgbeu2": "发件人、收件人、主题和邮件正文均为必填项。",
+   "senderMustBeAValidRiftatlas_09vfomq": "发件人必须是有效的 @riftatlas.com 地址。",
+   "authRiftatlasComIsReservedFor_09hkmy1": "auth@riftatlas.com 仅用于账号邮件。",
+   "pleaseEnterValidRecipientEmailAddresses_1xk29da": "请输入有效的收件人电子邮件地址。",
+   "unableToSendTheEmail_11uqwp2": "无法发送邮件。",
+   "aReplySubjectAndMessageBody_0v732kl": "需要填写回复主题和正文。",
+   "unableToLoadTheOriginalEmail_08uqqwl": "无法加载原始邮件。",
+   "unableToLoadSelectedMessage_00njk01": "无法加载所选邮件。",
+   "thisMessageDoesNotExposeA_1v8so9p": "此邮件未提供回复地址。",
+   "unableToSendTheReply_0aawxqy": "无法发送回复。",
+   "aMessageIdAndSourceAre_0n3fxh9": "需要提供邮件编号和来源。",
+   "unableToDeleteMail_09i38wx": "无法删除邮件。",
+   "unableToLoadOlderMail_1ebey5w": "无法加载更早的邮件。",
+   "aMessageIdAttachmentIdAnd_193dn83": "需要提供邮件编号、附件编号和来源。",
+   "unableToLoadTheAttachment_0vo0ggj": "无法加载附件。",
+   "attachmentsMustIncludeValidBase64File_1i6yngc": "附件必须包含有效的 Base64 文件内容。",
+   "attachmentsMustBe10FilesOr_0fsa7y5": "附件最多 10 个，总大小不得超过 40 MB。",
+   "unauthorized_08zqttz": "未获授权。",
+   "forbidden_1crr79w": "禁止访问。",
+   "mailClientIsNotConfiguredCorrectly_1uvuh1n": "邮件客户端配置不正确。",
+   "soloPlayIsMissingItsFirst_03xoky1": "单人模式缺少首个玩家席位。",
+   "thisRoomUsesAnUnsupportedSetup_10pqg2z": "此房间使用不受支持的开局顺序。请新建房间。",
+   "theSeededRoomUsesAnUnsupported_0snqce4": "预置房间使用了不受支持的开局顺序。",
+   "chooseAnOpponentOrContinueWithout_0q75p36": "选择战场前，请先选择对手，或选择不添加对手并继续。",
+   "couldNotDetermineWhoChoosesThe_0yy6gi0": "无法确定由谁选择先手玩家。",
+   "submitADeckBeforeChoosingA_158jagd": "请先提交卡组，再选择战场。",
+   "selectedBattlefieldWasNotFoundAmong_0mquvhi": "所选战场不在你剩余的战场中。",
+   "selectedBattlefieldWasNotFoundIn_0irviq7": "所选战场不在你的卡组列表中。",
+   "signInToRestoreTheCurrent_1rp8khd": "请登录后恢复当前房间身份。",
+   "theRoomMembershipResponseDidNot_1o68zj0": "房间成员信息与当前房间不匹配。",
+   "noRemainingBattlefieldsAreAvailableTo_0jy50co": "没有剩余战场可供随机选择。",
+   "yourDeckHasNoBattlefieldCards_1act2sf": "你的卡组中没有可供随机选择的战场牌。",
+   "noBattlefieldIsAvailableForRandom_0fsg9e5": "没有可供随机选择的战场。",
+   "initiativeRollRequiresExactlyTwoPlayers_0bj27pk": "先手掷骰需要正好两名玩家。",
+   "youAlreadyRolledThisInitiativeRound_059zbxa": "你在本轮先手掷骰中已经掷过了。",
+   "firstPlayerChoiceIsNotOpen_1egpu5a": "尚未开放先手玩家选择。",
+   "onlyTheRandomlyChosenPlayerCan_0irhph1": "只有随机选中的玩家可以决定谁先手。",
+   "selectedFirstPlayerDoesNotExist_0hv0vtc": "所选先手玩家不在此房间中。",
+   "soloTurnOrderIsOnlyAvailable_1864y7h": "只有单人练习可以选择回合顺序。",
+   "turnOrderChoiceIsNotOpen_10ztc8a": "尚未开放回合顺序选择。",
+   "onlyTheHostCanChooseTurn_1gp8ckl": "只有房主可以在单人练习中选择回合顺序。",
+   "autoStartSetupIsOnlyAvailable_086d0al": "只有测试模式可以自动完成开局设置。",
+   "autoStartSetupRequiresExactlyTwo_1774118": "自动完成开局设置需要正好两名玩家。",
+   "couldNotResolveInitiativeAutomatically_0c78xeo": "无法自动确定先手。",
+   "couldNotResolveFirstPlayerChooser_1vfdtlz": "无法确定先手选择者。",
+   "firstPlayerChooserDoesNotExist_0yctu5k": "先手选择者不在此房间中。",
+   "submitADeckBeforeSideboarding_0lyow59": "请先提交卡组，再调整备牌。",
+   "afterSkippingCardSwapsChooseA_0gvlylk": "跳过备牌调整后，请从提交的主牌中选择英雄。备牌必须保持不变。",
+   "thereIsNoAcceptedRequestTo_0nr2fce": "当前没有已通过的跳过备牌调整请求。",
+   "skippingSideboardingIsOnlyAvailableIn_024wsby": "只有 BO1 构筑比赛可以跳过备牌调整。",
+   "multiplayerSideboardingCanOnlyBeSkipped_0hka5ve": "只有所有玩家都同意后，才能在多人比赛中跳过备牌调整。",
+   "aSideboardingSkipRequestIsOnly_0s9ilgk": "只有多人 BO1 构筑比赛可以请求跳过备牌调整。",
+   "aSideboardingSkipRequestNeedsAt_1d9nd8g": "请求跳过备牌调整至少需要两名玩家。",
+   "anotherRequestToSkipSideboardingIs_016sf5b": "已有一个跳过备牌调整的请求正在等待回应。",
+   "aPlayerDoesNotHaveA_1qzyjjl": "有玩家缺少可恢复的已提交卡组。",
+   "thereIsNoPendingRequestTo_18nicwz": "当前没有等待回应的跳过备牌调整请求。",
+   "onlyTheRequesterCanCancelA_0oar4r4": "只有请求者可以取消跳过备牌调整的请求。",
+   "theRequesterHasAlreadyAgreedTo_1adje0l": "请求者已经同意跳过备牌调整。",
+   "cannotStartGameBeforeFirstPlayer_00ooomo": "确定先手玩家后才能开始对局。",
+   "firstPlayerDoesNotExistIn_0w6zgb7": "先手玩家不在房间中。",
+   "couldNotStartTheFirstTurn_06hgr2x": "无法开始第一个回合。",
+   "cannotBuildGameplayRuntimeStartPayload_1afkk2u": "缺少卡组，无法开始对局。",
+   "playerIsNotInThisRoom_0cet0qr": "该玩家不在此房间中。",
+   "goldfishSetupCanOnlyBeConfirmed_0rffp60": "只能在备牌调整前确认单人练习设置。",
+   "goldfishSetupCanOnlyBeConfirmed_0nevgmf": "只能在选择战场前确认单人练习设置。",
+   "onlyTheSoloRoomHostCan_1g2fl83": "只有单人房间的房主可以确认单人练习设置。",
+   "autoStartIsOnlyAvailableDuring_0z3ae7g": "只有开局设置期间可以自动开始。",
+   "sideboardingIsNotOpenYet_1x7yq9j": "尚未开放备牌调整。",
+   "battlefieldSelectionIsNotOpenYet_1q5kz30": "尚未开放战场选择。",
+   "chooseABattlefield_1013xj5": "请选择一处战场。",
+   "initiativeRollIsNotOpenYet_1vnk4w3": "尚未开放先手掷骰。",
+   "mulliganIsNotOpenYet_0vw2qyt": "尚未开放调度。",
+   "mulliganIsNotAvailableUntilBoards_13kdosn": "场面初始化后才能调度。",
+   "youCanMulliganUpTo2_0qyfq2e": "你最多可以调度 2 张牌。",
+   "oneOrMoreSelectedMulliganCards_03zsjgs": "所选调度卡牌中有一张或多张不在你的手牌中。",
+   "observedTurnStateIsRequired_0tdk0p2": "需要提供当前回合状态。",
+   "observedTurnStateIsInvalid_1ht7dhq": "当前回合状态无效。",
+   "mainDeckIsEmpty_1pwk55c": "主牌堆为空。",
+   "cardNotFoundInDeck_0cvcvcg": "在牌堆中找不到该卡牌。",
+   "cardIsNotCurrentlyRevealedFrom_0q86odj": "该卡牌目前并未从牌堆展示。",
+   "chooseLookedAtDeckCardsFirst_0gujx2u": "请先处理正在查看的牌堆卡牌。",
+   "allMainDeckCardsAreAlready_1cgbkdn": "主牌堆中的所有卡牌均已处于查看状态。",
+   "deckShuffleModeIsInvalid_125qut7": "牌堆洗牌模式无效。",
+   "noExhaustedRunesToReady_0v30ngc": "没有可变为活跃状态的休眠符文。",
+   "paymentBatchCannotBeEmpty_1ovx8ce": "必须选择至少一项支付资源。",
+   "paymentBatchIsInvalid_0c75gxi": "所选支付资源无效。",
+   "floatingResourceBatchCannotBeEmpty_13cwuj2": "必须选择至少一项临时资源。",
+   "floatingResourceBatchIsInvalid_0hgow12": "所选临时资源无效。",
+   "runeBatchCannotBeEmpty_1aw7b0y": "必须选择至少一枚符文。",
+   "runeBatchIsInvalid_13cpp3m": "所选符文无效。",
+   "cardNotFoundInTheSelected_1mtmkhj": "在所选区域中找不到该卡牌。",
+   "notEnoughFloatingEnergyForAuto_0uv0b51": "临时法力不足，无法自动支付。",
+   "notEnoughFloatingPowerForAuto_00e228g": "临时符能不足，无法自动支付。",
+   "autoPayEnergyRunesContainDuplicates_1mfa28y": "自动支付选择了重复的法力支付符文。",
+   "autoPayPowerRunesContainDuplicates_05bcox9": "自动支付选择了重复的符能支付符文。",
+   "autoPayEnergyRuneNotFound_1czggpo": "符文区中找不到自动支付所选的法力支付符文。",
+   "autoPayPowerRuneNotFound_0bk6n4x": "符文区中找不到自动支付所选的符能支付符文。",
+   "autoPayCannotExhaustARune_1em17uj": "自动支付不能使已处于休眠状态的符文再次变为休眠状态。",
+   "thisCardDoesNotHaveThe_0y28qis": "此卡牌没有待命机制。",
+   "onlyCardsInChampionCanBe_0rg7pnn": "只有英雄区中的卡牌可以设为待命。",
+   "invalidHiddenToggleZone_0bg6vb4": "无法在此区域切换待命状态。",
+   "battlefieldCardsCannotBeSetHidden_1ontmo0": "战场卡牌不能设为待命。",
+   "onlyCardsInTheSpecifiedBattlefield_07777m1": "只有指定战场中的卡牌可以展示。",
+   "onlyCardsInTheSpecifiedBattlefield_0cmhinj": "只有指定战场中的卡牌可以向对手展示。",
+   "onlyHiddenCardsCanBeRevealed_1n5rygh": "只有待命卡牌可以向对手展示。",
+   "legendCannotBeMovedToAnother_08o00zv": "传奇不能移动到其他区域。",
+   "onlyRunesInRuneAreaCan_0p106bn": "只有符文区中的符文可以在该区域重新排序。",
+   "runesInRuneAreaCannotBe_1ml0j79": "符文区中的符文不能移动到该区域。",
+   "cardCannotBeMovedToThe_09g6m77": "卡牌不能移动到所选区域。",
+   "trashBatchCannotBeEmpty_0bx6sl6": "必须选择至少一张要放入废牌堆的卡牌。",
+   "offBoardCardBatchCannotBe_1bhy3ho": "必须选择至少一张场外卡牌。",
+   "offBoardCardBatchMustMove_0t8hxlo": "场外卡牌必须移动到另一个区域。",
+   "tokensCannotBeCreatedInThat_0a0gsxf": "不能在该区域创建指示物。",
+   "cardsInThatZoneCannotBe_1omzb2l": "不能复制该区域中的卡牌。",
+   "opponentBoardIsNotAvailable_0gp04qw": "对手场面不可用。",
+   "hiddenCardsCannotBeDuplicated_0fu6on5": "不能复制待命卡牌。",
+   "cardControlCanOnlyBeTransferred_0bnvog9": "只有场上的卡牌可以转移控制权。",
+   "cannotTransferControlOfHiddenCards_1b719f6": "不能转移待命卡牌的控制权。",
+   "equipmentCannotBeAttachedToItself_0vi6p1p": "装备不能贴附到自身。",
+   "equipmentCardNotFound_0s54phg": "找不到该装备卡牌。",
+   "unitCardNotFound_15m1wj8": "找不到该单位卡牌。",
+   "unitIsNotInAValid_10xi0l6": "该单位不在可装配装备的区域。",
+   "onlyGearCardsCanBeEquipped_05uxl2p": "只有装备卡可以装配。",
+   "thisGearDoesNotHaveThe_1lchers": "此装备没有装配关键词。",
+   "equipmentCanOnlyBeAttachedTo_17ti7xq": "装备只能贴附到单位上。",
+   "equipmentCannotBeEquippedFromThat_0g168jd": "不能从该区域装配装备。",
+   "cardsInThatZoneCannotBe_1ywiahu": "该区域中的卡牌不能放回主牌堆。",
+   "trashIsEmpty_04p63kk": "废牌堆为空。",
+   "floatingResourceAdjustmentMustBeFinite_0z4q2w1": "临时资源调整值必须是有限数值。",
+   "floatingResourceAdjustmentMustChangeThe_1ti52xu": "临时资源调整必须改变当前数值。",
+   "legendXpAdjustmentMustBeFinite_0vsbaim": "传奇经验调整值必须是有限数值。",
+   "legendXpAdjustmentMustChangeThe_0q9hc43": "传奇经验调整必须改变当前数值。",
+   "mightAdjustmentMustBeFinite_1drqrei": "战力调整值必须是有限数值。",
+   "mightAdjustmentMustChangeTheValue_0l8g8g4": "战力调整必须改变当前数值。",
+   "mightCanOnlyBeAdjustedOn_0e3jjfr": "只能调整场上单位区域中的战力。",
+   "cardNotFoundForMightAdjustment_0kyd7l5": "找不到要调整战力的卡牌。",
+   "cannotAdjustMightOnHiddenCards_10skzlg": "不能调整待命卡牌的战力。",
+   "onlyUnitCardsCanHaveTheir_1lez5h3": "只有单位卡牌可以调整战力。",
+   "counterAdjustmentMustBeFinite_1p1rpcv": "计数标记调整值必须是有限数值。",
+   "counterAdjustmentMustChangeTheValue_1me42g7": "计数标记调整必须改变当前数值。",
+   "countersCanOnlyBeAdjustedOn_0lluq09": "只能调整场上区域中的计数标记。",
+   "invalidCounterColor_0theebb": "计数标记颜色无效。",
+   "cardNotFoundForCounterAdjustment_0gsrj6q": "找不到要调整计数标记的卡牌。",
+   "cannotAdjustCountersOnHiddenCards_0holh3k": "不能调整待命卡牌上的计数标记。",
+   "cardLabelsMustContainVisibleText_1wvg186": "卡牌标签必须包含可见文字。",
+   "invalidCardLabelSlot_0p95cd2": "卡牌标签位置无效。",
+   "cardNotFoundForLabelUpdate_1u0uscm": "找不到要更新标签的卡牌。",
+   "cannotLabelHiddenCards_1m163nv": "不能为待命卡牌添加标签。",
+   "noFloatingResourcesToClear_1efwjin": "没有可清除的临时资源。",
+   "expectedExhaustionStateIsRequired_1nio9lz": "需要提供预期的活跃或休眠状态。",
+   "championCannotBeExhausted_051r9px": "英雄不能变为休眠状态。",
+   "cardNotFoundForExhaustToggle_0tzo0wx": "找不到要切换活跃或休眠状态的卡牌。",
+   "cardsInThatZoneCannotBe_13lgn18": "不能移除该区域中的卡牌。",
+   "chainEntryIdIsRequired_0p6v8c8": "需要提供结算链条目编号。",
+   "chainResolveApprovalStateIsRequired_1vxzr79": "需要提供结算链结算确认状态。",
+   "theChainIsFull_19xwr1u": "结算链已满。",
+   "thatActionWouldAddOrRemove_0sbfqof": "该操作会在符文区或符文牌堆中增加或移除符文，因此未执行。",
+   "optionalShowdownPassStateIsRequired_11tjnr7": "需要提供法术对决中的可选放弃行动状态。",
+   "onlyPlayersWithIvernGreenFather_1fby2ly": "只有使用“艾翁，翠神”的玩家可以设置草丛。",
+   "thisMatchmakingMatchEndsAutomaticallyWhen_00cnmdl": "重连宽限时间用尽后，此匹配对局将自动结束。",
+   "thisMatchCannotBeClaimed_0qfwkq5": "此对局无法判定胜利。",
+   "yourOpponentReconnectedOrHasNot_06kxl7l": "对手已重新连接，或断线尚未满一分钟。",
+   "signInToEndThisMatch_0qp7zxk": "请登录后结束此对局。",
+   "thisMatchHasAlreadyChangedRefresh_0snyrvz": "对局已发生变化，请刷新房间后重试。",
+   "bestOf3DeckSnapshotIs_1sf9i6e": "缺少 BO3 卡组快照。",
+   "bestOf3RequiresExactly3_0fi2ka4": "BO3 需要正好选择 3 处不同的战场。",
+   "savedSealedRegistrationsCanOnlyBe_044grnt": "已保存的现开登记只能用于现开房间。",
+   "theSavedSealedRegistrationIsMissing_1kedpxw": "已保存的现开登记缺少用于还原牌池的种子或构筑选择数据。",
+   "savedSealedRegistrationIsNotReady_01aiiu6": "已保存的现开登记尚不能用于对战。",
+   "loadADeckBeforeContinuing_0kr72gi": "请先加载卡组再继续。",
+   "loadAValidDeckBeforeContinuing_1tnesfo": "请先加载有效卡组再继续。",
+   "joinTheRoomBeforeChangingDecks_1w2ttyt": "请先加入房间，再更改卡组。",
+   "constructedDeckSubmissionIsUnavailableIn_11iwi8j": "现开房间不能提交构筑卡组。",
+   "deckChangesAreLockedAfterSideboarding_13umovm": "备牌调整完成后不能再更改卡组。",
+   "deckChangesAreLockedAfterChoosing_0b6nrpi": "选择战场后不能再更改卡组。",
+   "deckChangesAreLockedAfterGame_0wmz9zx": "BO3 的第一局结束后不能再更改卡组。",
+   "deckChangesAreOnlyAvailableBefore_0twfj0e": "只能在开局设置锁定前更改卡组。",
+   "theOpponentDeckCanNoLonger_0wpg19c": "此开局阶段已不能再更改对手卡组。",
+   "signInToLoadThisSaved_16u93gm": "请登录后加载此已保存卡组。",
+   "signInCompletedButTheRoom_0zfts99": "登录已完成，但无法恢复该房间操作。",
+   "theSavedDeckForThatAction_1g45ehp": "该操作使用的已保存卡组无效。",
+   "theSavedDeckForThatAction_1n7ltbh": "该操作使用的已保存卡组已不可用。",
+   "clipboardIsUnavailableCopyTheRoom_0lt66yg": "剪贴板不可用。请手动复制房间码。",
+   "couldNotCopyRoomCodePlease_1olkntj": "无法复制房间码。请手动复制。",
+   "readyCheckIsOnlyAvailableIn_119o6vq": "只有房主创建的等待房间可以进行准备确认。",
+   "readyCheckIsOnlyAvailableIn_03j7zub": "只有在等待房间中可以进行准备确认。",
+   "loadADeckBeforeMarkingYourself_16pkrzd": "请先加载卡组，再将自己标记为准备就绪。",
+   "manualMatchStartIsOnlyAvailable_02cvldn": "只有房主创建的房间可以手动开始比赛。",
+   "theMatchCanOnlyBeStarted_1vca4zc": "只能从等待房间开始比赛。",
+   "onlyTheRoomHostCanStart_1rsgh7e": "只有房主可以开始单人模式。",
+   "singlePlayerCanOnlyBeStarted_1877v33": "房间中只有你一人时才能开始单人模式。",
+   "loadAValidDeckBeforeStarting_15cmz0h": "请先加载有效卡组，再开始单人模式。",
+   "bothPlayersMustBeInThe_0qq6ixi": "两名玩家都进入房间后才能开始。",
+   "bothPlayersMustLoadADeck_0npzqee": "两名玩家都加载卡组后才能开始。",
+   "bothPlayersMustChooseSavedSealed_0lqqc8a": "两名玩家都选择已保存的现开登记后才能开始。",
+   "bothPlayersMustChooseRegistrationsFor_14ad325": "两名玩家必须选择相同现开赛制的登记。",
+   "bothPlayersMustClickReadyBefore_1a85v7v": "两名玩家都点击“准备”后才能开始。",
+   "couldNotStartTheMatch_1ms5u81": "无法开始比赛。",
+   "couldNotUpdateTheRoomDeck_1djpk6c": "无法更新房间卡组，请重试。",
+   "couldNotAddTheOpponentSeat_1aqpb1q": "无法添加对手席位，请重试。",
+   "couldNotUpdateTheRoomRegistration_1ppdbp0": "无法更新房间登记，请重试。",
+   "initiativeRollFailedPleaseTryAgain_0nbag7k": "先手掷骰失败，请重试。",
+   "realtimeConnectionIsUnavailablePleaseTry_0zvfj3j": "实时连接不可用，请重试。",
+   "theRealtimeRoomDidNotConfirm_1boaqfs": "实时房间未确认该操作，请重试。",
+   "tooManyPendingActionsWaitingFor_0pur10j": "待处理操作过多，正在等待服务器同步。",
+   "theCardChangedBeforeThisAction_0cuko2e": "卡牌在操作完成前已发生变化，请重试。",
+   "actionFailedPleaseTryAgain_0swfpnt": "操作失败，请重试。",
+   "autoPayCouldNotCompleteBecause_0iu7fsn": "卡牌或可用资源已发生变化，无法完成自动支付。未消耗任何资源。",
+   "matchSearchPausedResumeToConfirm_0shok0b": "匹配搜索已暂停，请恢复以确认状态。",
+   "matchSearchTimedOutTryAgain_0bcma9e": "匹配搜索已超时，请重试。",
+   "couldNotCreateRoom_1knjyxm": "无法创建房间。",
+   "couldNotLoadTheSelectedDeck_06ykmae": "无法加载所选卡组。",
+   "cancellationResultIsStillBeingConfirmed_0zl2ra2": "仍在确认取消结果，请恢复搜索。",
+   "matchResultIsStillBeingConfirmed_10xm6w2": "仍在确认匹配结果，请恢复搜索。",
+   "couldNotFindARandomMatch_13yizet": "无法找到随机对手。",
+   "cancellationWasNotConfirmedReconnectAnd_1b27f9s": "未能确认取消结果，请重新连接后重试。",
+   "cancellationResultIsUncertainResumeSearch_0k7mb0j": "取消结果尚不确定，请恢复搜索以确认状态。",
+   "cancellationWasNotSentResumeSearch_1cfho1o": "取消请求未发送，请恢复搜索以重新连接。",
+   "theMatchmakingConnectionIsNotReady_1c1j8km": "匹配连接尚无法取消，请先重新连接。",
+   "couldNotCancelMatchmakingSearch_088ow55": "无法取消匹配搜索。",
+   "pleaseEnterARoomCode_0e22qes": "请输入房间码。",
+   "couldNotSwitchToSpectator_0wcr11j": "无法切换为观战者。",
+   "couldNotTakeAPlayerSeat_0kw9llz": "无法加入玩家席位。",
+   "yourSavedDeckChangedReviewIt_1q4x0hq": "你保存的卡组已更改，请检查后重新准备。",
+   "couldNotUpdateYourReadyState_1jfkxn1": "无法更新你的准备状态。",
+   "couldNotChangeTheRoomMatch_0ogvcrr": "无法更改房间赛制。",
+   "couldNotChangeTheRoomDeck_05c5blp": "无法更改房间卡组规则。",
+   "couldNotChangeTheRoomPlay_1xjip2a": "无法更改房间游玩模式。",
+   "couldNotConfirmLeavingTheRoom_1749hnw": "无法确认已离开房间。你的房间仍然可用，请重试。",
+   "couldNotOpenWinnerConfirmation_1k5i08d": "无法打开胜者确认。",
+   "couldNotStartTheNextGame_0uqhsip": "无法开始下一局。",
+   "couldNotDecodeThatDeckCode_04zo4b4": "无法解析该卡组代码。",
+   "newGamesDeckCreationAndDeck_070slu0": "维护开始前 30 分钟及维护期间，新对局、卡组创建和卡组编辑将暂时不可用。",
+   "couldNotUpdateSpectatorVisibility_18s9fmj": "无法更新观战者可见范围。",
+   "couldNotReportTheGameWinner_1svk9wp": "无法报告本局胜者。",
+   "couldNotRequestARematch_0y8rzub": "无法请求再战。",
+   "playerBoardIsNotInitialized_0otefrn": "玩家场面尚未初始化。",
+   "cardNotFoundInSelectedZone_1x78duy": "在所选区域中找不到该卡牌。",
+   "turncountMustBeAPositiveNumber_1m8f9qu": "回合数必须为正数。",
+   "starsMustBeBetween1And_0hbume5": "评分必须介于 1 到 5 星之间。",
+   "lobbyPlayModeCanOnlyBe_1kmq3ux": "只有房主创建的房间可以更改大厅游玩模式。",
+   "lobbyPlayModeCanOnlyBe_057fnih": "只能在比赛开始前更改大厅游玩模式。",
+   "onlyTheRoomHostCanChange_1x9p5xl": "只有房主可以更改游玩模式。",
+   "deckRulesCanOnlyBeChanged_0ux77uu": "只有房主创建的房间可以更改卡组规则。",
+   "deckRulesCanOnlyBeChanged_04tevwa": "只能在比赛开始前更改卡组规则。",
+   "onlyTheRoomHostCanChange_0vfsw4n": "只有房主可以更改卡组规则。",
+   "deckRulesCanOnlyBeChanged_00pbdoi": "只有房主创建的构筑房间可以更改卡组规则。",
+   "chooseStandardOrUnrestrictedDeckRules_09a2pzo": "请选择标准或无限制卡组规则。",
+   "lobbyMatchFormatCanOnlyBe_1lebw20": "只有房主创建的房间可以更改大厅赛制。",
+   "lobbyMatchFormatCanOnlyBe_0h20860": "只能在比赛开始前更改大厅赛制。",
+   "onlyTheRoomHostCanChange_0oxwnae": "只有房主可以更改赛制。",
+   "allPlayersInTheRoomMust_04jiqia": "房间中的所有玩家都必须登录才能使用 BO3。",
+   "signInToPlayOrSpectate_0uklrkq": "此环境无法登录游玩或观战。",
+   "checkingSignInStatus_07dlw7q": "正在检查登录状态……",
+   "signInToPlayOrSpectate_0a8emds": "请登录后游玩或观战。",
+   "newRoomIsMissingItsInitial_1s0mwxr": "新房间缺少初始玩家。",
+   "soloPlayIsCurrentlyAvailableFor_0nsbxns": "单人模式目前仅支持构筑卡组。",
+   "noPlayerSeatIsAvailableIn_1qxduet": "此房间没有可用的玩家席位。",
+   "thisPlayerIsNotSeatedIn_1ep1684": "该玩家在此房间中没有席位。",
+   "startTheGameBeforeReportingA_073tugp": "请先开始对局，再报告结果。",
+   "nextGameRequiresBothPlayersTo_0h9e81s": "两名玩家都在房间中才能开始下一局。",
+   "bestOf3GamesAdvanceThrough_0r0y2yv": "BO3 通过确认胜者推进，而不是使用“开始下一局”。",
+   "gameResultConfirmationIsOnlyAvailable_1kf4j5p": "只有 BO3 可以确认对局结果。",
+   "bestOf3ResultConfirmationRequires_09w0012": "BO3 结果确认需要两名玩家都在场。",
+   "gameResultReportingIsOnlyAvailable_1rrlx9q": "只有 BO3 可以报告对局结果。",
+   "bestOf3ResultReportingRequires_1cj2w07": "BO3 结果报告需要两名玩家都在场。",
+   "selectedWinnerIsNotInThis_058wfaa": "所选胜者不在此房间中。",
+   "couldNotResolveTheNextGame_0l9p68p": "无法确定下一局的先手玩家。",
+   "aNextRoomCodeIsRequired_1web297": "需要下一个房间码才能继续此 BO3。",
+   "rematchIsOnlyAvailableForBest_0xfjehp": "只有 BO3 可以再战。",
+   "rematchIsOnlyAvailableAfterThe_14wefh6": "BO3 完成后才能再战。",
+   "bestOf3RematchRequiresBoth_066q2fq": "BO3 再战需要两名玩家都在场。",
+   "rematchIsUnavailableBecauseAPlayer_0aqlbfs": "有玩家已离开房间，无法再战。",
+   "aNextRoomCodeIsRequired_1555xj2": "需要下一个房间码才能开始再战。",
+   "anOpponentCanOnlyBeAdded_10p22o8": "只能在单人练习的备牌调整锁定前添加对手。",
+   "anOpponentCanOnlyBeAdded_0k39ycl": "只能在单人模式的开局设置期间添加对手。",
+   "onlyTheSoloRoomHostCan_03tt82x": "只有单人房间的房主可以添加对手。",
+   "chooseASavedSealedRegistrationFor_19ozf7w": "请为对手选择一份已保存的现开登记。",
+   "chooseADeckForTheOpponent_0ai4wpd": "请为对手选择一套卡组。",
+   "theOpponentRegistrationCanNoLonger_1fvfhq0": "此开局阶段已不能再更改对手登记。",
+   "anOpponentSelectionIsAlreadyBeing_0c4uejy": "正在分配对手席位，请稍候。",
+   "couldNotAddTheOpponentRegistration_0c0iari": "无法添加对手登记，请重试。",
+   "couldNotAssignThatRegistrationTo_0p6xm2w": "无法将该登记分配给对手席位。",
+   "sealedRegistrationSelectionIsOnlyAvailable_1of8fej": "只有大厅设置期间可以选择现开登记。",
+   "matchmakingIsReconnectingTryAgainIn_1lkx2ff": "匹配服务正在重新连接，请稍后重试。",
+   "matchmakingIsWakingUpTryAgain_0nev07e": "匹配服务正在启动，请稍后重试。",
+   "matchmakingIsBusyTryAgainIn_1umiovt": "匹配服务繁忙，请稍后重试。",
+   "youAreStartingSearchesTooQuickly_1oys0hu": "你开始搜索的频率过快，请稍等片刻后重试。",
+   "couldNotUpdateMatchmakingSearch_1abxucu": "无法更新匹配搜索。",
+   "matchmakingServiceTimedOutTryAgain_0eu5occ": "匹配服务响应超时，请重试。",
+   "theAssignedMatchIsTooOld_161slbv": "分配的对局已过期，无法重新打开。请重新搜索。",
+   "theAssignedMatchIsNoLonger_1jow6it": "分配的对局已不可用。请重新搜索。",
+   "partiesAreAvailableInMultiplayerQuick_093lh4b": "队伍仅适用于多人快速匹配。",
+   "teammatesMayNotShareAChampion_09n6rht": "队友不能使用相同的英雄传奇或战场。",
+   "thePartyIsAlreadySearching_0dsxei2": "队伍已在搜索中。",
+   "thePartyIsFull_09twvu9": "队伍已满。",
+   "onlyThePartyLeaderCanChoose_1rrp08n": "只有队长可以选择牌桌。",
+   "stopTheSearchBeforeChangingThe_0potf6r": "请先停止搜索再更改牌桌。",
+   "thePartyHasTooManyMembers_0e0hy5z": "队伍人数超过了这张牌桌的座位数。",
+   "stopTheSearchBeforeChangingYour_0bqdeoq": "请先停止搜索再更换卡组。",
+   "onlyThePartyLeaderCanStart_0ijalua": "只有队长可以开始搜索。",
+   "thisTableIsNotAvailableFor_05858cw": "队伍无法使用这张牌桌。",
+   "everyMemberMustBeConnectedAnd_1uma0h1": "所有成员都必须在线并已就绪。",
+   "theSavedRoomMembershipHasChanged_1cb0r2o": "已保存的房间身份已更改。",
+   "thisGameIsBeingLeftStart_0zpludl": "正在退出这场对局。请开始或加入其他对局。",
+   "cancelTheMatchSearchBeforeResuming_00eis3d": "恢复已保存的房间前，请先取消匹配搜索。",
+   "couldNotConfirmTheMatchedRoom_1m1eu0y": "无法确认已匹配的房间。",
+   "couldNotAllocateAMatchRoom_1akh7mn": "无法分配比赛房间。",
+   "couldNotInitializeTheMatchRoom_0v4h4by": "无法初始化比赛房间。",
+   "theMatchServiceIsNotReady_1jxy4vi": "匹配服务尚未准备好处理此请求。",
+   "matchedRoomIsNoLongerAvailable_18dnbwp": "已匹配的房间已不可用。",
+   "theMatchServiceRejectedTheClaim_1le4cc5": "匹配服务在更改房间前拒绝了该请求。",
+   "theMatchmakingClaimConflictsWithThis_1uoiifc": "匹配请求与此房间冲突。",
+   "pleaseEnterYourPlayerName_0tyrk4e": "请输入玩家名称。",
+   "noRoomFoundCheckTheCode_1vjddlj": "没有找到房间。请检查房间码后重试。",
+   "couldNotJoinOrSpectateThis_0mx2vas": "无法加入或观战此房间。",
+   "gameplayTransportIsNotReady_0sbn5i8": "对局连接尚未就绪。",
+   "unsupportedMatchmakingMode_0vsjuq3": "不支持此匹配模式。",
+   "multiplayerTablesAreAvailableInConstructed_1c35bws": "多人牌桌仅适用于构筑模式。",
+   "unsupportedMatchmakingPool_1gwxhi4": "不支持此匹配队列。",
+   "unsupportedMatchFormat_1tx6qpy": "不支持此赛制。",
+   "pasteAValidDeckBeforeSearching_07x2h3e": "请先粘贴有效卡组，再搜索对局。",
+   "theSubmittedDeckListIsToo_1in7gcz": "提交的卡组列表过大。",
+   "chooseASavedVendettaPreRift_1ixc4be": "请先选择已保存的《化神争锋》裂隙前登记，再开始搜索。",
+   "publicSealedMatchmakingIsAvailableOnly_04gz0r6": "公开现开匹配目前仅支持《化神争锋》裂隙前赛制。",
+   "aMatchmakingSearchIdentifierIsRequired_1b180fg": "需要提供匹配搜索编号。",
+   "theMatchmakingSearchIdentifierIsMalformed_1momuvu": "匹配搜索编号格式错误。",
+   "signInBeforeSearchingForA_1w8yx3f": "请先登录，再搜索对局。",
+   "chooseAValidSavedVendettaPre_0tqjyjo": "请先选择有效且已保存的《化神争锋》裂隙前登记，再开始搜索。",
+   "matchmakingWasUpdatedRefreshThePage_13j608b": "匹配服务已更新。请刷新页面并重新搜索。",
+   "thisMatchmakingSearchIsNoLonger_1wit4rm": "此匹配搜索已结束。请重新搜索。",
+   "thisMatchmakingSearchBelongsToA_09npke9": "此匹配搜索属于其他队列。",
+   "theQuickMatchQueueIsFull_057mhh0": "快速匹配队列已满，请稍后重试。",
+   "couldNotVerifyTheMatchmakingCancellation_1oysu4d": "无法确认匹配已取消，请重试。",
+   "theMatchmakingMessagePayloadIsToo_1ytibvw": "匹配消息数据过大。",
+   "theMatchmakingMessageIsMalformed_0mcyci2": "匹配消息格式错误。",
+   "noRewindTargetIsAvailable_0bple4x": "没有可回退的目标。",
+   "rewindTheLatestSoloLabAction_1sji7re": "请先回退单人实验室中的最新操作。",
+   "theRoomChangedInAWay_15cfh7o": "房间状态已发生变化，无法执行该回退。",
+   "theRoomStateDoesNotAllow_0kyxp8i": "当前房间状态不允许该更改。",
+   "theRoomCodeDoesNotMatch_1c98zz8": "房间码与请求的比赛房间不匹配。",
+   "invalidLinkedRoomTransitionRecoveryCould_10wyg59": "无法清除无效的关联房间过渡恢复状态。",
+   "linkedRoomTransitionRecoveryIsTemporarily_0h1swxi": "关联房间过渡恢复暂时不可用。",
+   "storedLinkedRoomSeedIntentBelongs_1yn2at1": "已存储的关联房间初始化请求属于其他房间。",
+   "theNextGameIsStillBeing_0hiqrkr": "下一局仍在初始化。请重试。",
+   "previousRoomSpectatorLookupReturnedAn_14oifms": "上一房间的观战权限查询返回了无效的策略快照。",
+   "previousRoomSpectatorLookupReturnedAn_1cr4jeu": "上一房间的观战权限查询返回了无效的会话。",
+   "previousRoomSpectatorLookupOmittedThe_1qd2u5m": "上一房间的观战权限查询未包含请求的会话。",
+   "previousRoomSpectatorAccessIsTemporarily_1p5i7et": "上一房间的观战权限暂时不可用。",
+   "linkedSpectatorAccessSnapshotIsInvalid_134zy3s": "关联观战权限快照无效。",
+   "linkedSpectatorAccessSnapshotIsIncomplete_1n20j6n": "关联观战权限快照不完整。",
+   "runtimeCheckpointsRequireAnEmptyRewind_0rbqek8": "运行时检查点要求回退索引为空。",
+   "requiredRuntimeCheckpointDidNotSelect_030esan": "所需的运行时检查点未指定原因。",
+   "signInVerificationIsTemporarilyUnavailable_1lij300": "登录验证服务暂时不可用。请重试。",
+   "couldNotAllocateTheNextRoom_0yivkj1": "无法分配下一局房间。",
+   "theAllocatedLinkedRoomBelongsTo_1g5qxyx": "已分配的关联房间属于其他对局。",
+   "couldNotInitializeTheLinkedRoom_1dwpd6m": "无法初始化关联房间。",
+   "roomNotFound_13ueqlr": "找不到该房间。",
+   "joinedPlayerResultIsMissingA_1hpte2f": "加入房间的玩家结果缺少玩家编号。",
+   "thisSeatIsNoLongerIn_0uejcit": "此席位已不在房间中。",
+   "resolvedRoomPlayerIsMissingFrom_0nyjvsr": "已解析的房间玩家不在房间状态中。",
+   "anotherNextGameTransitionIsStill_0ptrtzu": "另一个下一局过渡仍在初始化。",
+   "thePendingNextGameTransitionNo_0v1wx0c": "待处理的下一局过渡已不再与此房间匹配。",
+   "theStoredLinkedRoomTransitionNo_15x3gu2": "已存储的关联房间过渡已无法生成后续房间。",
+   "theLinkedRoomTransitionDidNot_0jggzbg": "关联房间过渡未生成后续房间。",
+   "theGameplayActionIsInvalid_01j5sm9": "该对局操作无效。",
+   "thisPlayerHasAlreadyLeftThe_1hhkj8z": "该玩家已离开房间。",
+   "thisSeatIsBoundToA_1r4xzr0": "此席位已绑定至其他登录账号。",
+   "theRoomActionIsInvalid_04hjnco": "该房间操作无效。",
+   "theSpectatorSessionCouldNotBe_1t10kf7": "无法退出观战会话。",
+   "theMatchHitAnUnexpectedRuntime_1x5cr7v": "对局遇到意外的运行时错误，服务器已重新发送最新快照。",
+   "theMatchHitAnUnexpectedRuntime_0bahwk2": "对局遇到意外的运行时错误。",
+   "theStoredMatchRuntimeIsInvalid_0856fvs": "已保存的对局运行状态无效，无法恢复。",
+   "requiredInitialRoomStateCouldNot_0rng0qz": "无法发送所需的初始房间状态。",
+   "requestBodyMustBeValidJson_081p8ba": "请求正文必须是有效的 JSON。",
+   "theRoomSettingsAreInvalid_0j1yd75": "房间设置无效。",
+   "coordinatorRoomNotFound_0cc2jth": "找不到协调服务房间。",
+   "aValidRoomApiActionIs_1kgobzu": "必须提供有效的房间 API 操作。",
+   "thisRoomControlRequestIsNot_19nbgmn": "此房间控制请求未获授权。",
+   "thisRoomApiActionIsNot_0f8yvat": "不支持此房间 API 操作。",
+   "theRoomRequestWasInterruptedTry_17lt6ym": "房间请求已中断。请重试。",
+   "couldNotReachTheRoomService_0bs5fh2": "无法连接房间服务。请重试。",
+   "theRoomServiceReturnedAnInvalid_0211gn3": "房间服务返回了无效响应。请重试。",
+   "theRoomServiceReturnedAnInvalid_0yj6y9f": "房间服务返回的大厅切换结果无效。请重试。",
+   "theRoomServiceIsTemporarilyUnavailable_1f539lx": "房间服务暂时不可用。请重试。",
+   "thisBroadcastRoomHasExpired_1eqoxdq": "此转播房间已过期。",
+   "theBroadcastRoomCouldNotBe_1qks1cf": "无法恢复转播房间。",
+   "casterOrAdminAccessIsRequired_0xoqb03": "需要解说员或管理员权限才能访问转播控制台。",
+   "cardActivityIsHiddenWhileThis_0vav25r": "此账号在本场对局中占有席位，因此卡牌活动已隐藏。",
+   "theBroadcastDashboardIsReadOnly_1yle9cq": "转播控制台为只读模式。",
+   "yourRoomRoleChangedButThe_0b0ef3y": "你的房间身份已更改，但无法恢复当前身份。正在重新连接……",
+   "onlyPlayersCanChangeSpectatorVisibility_0xlczwu": "只有玩家可以更改观战者可见范围。",
+   "couldNotRegisterTheSelectedDeck_1wi08w3": "无法在大厅中登记所选卡组。",
+   "roomShellActionsMustUseThe_0cg7mg2": "房间状态操作必须通过房间状态连接发送。",
+   "roomSeriesTransportReceivedALive_0yhizqz": "房间系列连接收到了实时房间操作。",
+   "realtimeSpectatorAuthorizationIsTemporarilyUnavailable_1gteytk": "实时观战授权暂时不可用。",
+   "theRoomShellIsNotInitialized_08twevo": "房间状态尚未初始化。",
+   "thisRoomSeatIsNoLonger_0oq0vr0": "此房间席位已失效。请重新加入或创建房间。",
+   "couldNotVerifyYourSignIn_1xs7wwq": "无法验证你的登录会话。请检查网络连接（或广告拦截器）后重试。",
+   "thisPlayerIsNoLongerRegistered_1uhvxd5": "该玩家已不再登记于此房间。",
+   "joinTheRoomBeforeRefreshingCustomization_1jr7qte": "请先加入房间，再刷新外观设置。",
+   "onlySignedInPlayersParticipatingIn_1o2s6ek": "只有已登录并参与此房间的玩家才能刷新外观设置。",
+   "joinTheRoomBeforeSendingChat_1fvcscu": "请先加入房间，再发送聊天消息。",
+   "onlySeatedPlayersCanSendRoom_0mosg8g": "只有拥有席位的玩家可以发送房间聊天消息。",
+   "onlySeatedPlayersAndAuthorizedStaff_1hqrb8c": "只有拥有席位的玩家以及获授权的工作人员或解说员可以发送房间聊天消息。",
+   "thisRoomChatChannelIsNot_1a098ve": "当前会话无法使用此房间聊天频道。",
+   "theSignedInSessionTokenNeeds_0ptk67m": "登录会话令牌需要刷新。",
+   "chatMessagesCannotBeEmpty_0d3m4x6": "聊天消息不能为空。",
+   "thatRoomActionIsNotHandled_0nhgm1l": "当前实时房间不支持该房间操作。",
+   "couldNotAuthorizeTheSoloPlay_0vx1kgs": "无法授权单人模式的对手席位。",
+   "joinTheRoomBeforeSendingRoom_1fcxf34": "请先加入房间，再发送房间操作。",
+   "onlySeatedPlayersCanChangeRoom_0ggo6xz": "只有拥有席位的玩家可以更改房间状态。",
+   "theRoomActionPayloadIsMalformed_1pkd2ik": "房间操作数据格式错误。",
+   "thisRequestWasNotPostedBecause_0385bjo": "此请求似乎是垃圾信息或与规则问题无关，因此未发布。你可以更清楚地描述规则问题后重新提交。",
+   "questionNotPostedYourAccountIs_1jaxno7": "问题未发布。你的账号已被无限期限制。你可以前往 /appeal 提出申诉。",
+   "questionNotPostedWeCouldNot_1dlq9v4": "问题未发布。我们无法理解这个问题。请补充卡牌名称、所进行的操作以及你需要帮助的规则，然后重试。",
+   "questionNotPostedThisSubmissionOr_1vnpakx": "问题未发布。此提交内容或显示名称被判定存在严重滥用。",
+   "judgeCallsAreAvailableOnlyDuring_1c794pc": "只有在进行中的多人对局里才能呼叫裁判。",
+   "thatJudgeCallRequestIdIs_0jli4lp": "该裁判请求编号已关联到另一个问题。",
+   "couldNotVerifyTheActiveMultiplayer_0ge8qz8": "无法验证当前多人对局，请重试。",
+   "thePreviousJudgeCallCouldNot_097mk9z": "无法恢复之前的裁判请求，请重新提交。",
+   "thePreviousJudgeCallCouldNot_1f13g3g": "无法发送之前的裁判请求，请重新提交。",
+   "thePreviousJudgeCallCouldNot_1o9oqhb": "无法发送之前的裁判请求，请重新发起请求。",
+   "onlyThePlayerWhoRequestedThis_0xq57gh": "只有发起此社区规则问题的玩家才能将其关闭。",
+   "thatCommunityQuestionIsNoLonger_1c8rn54": "该社区规则问题已不可用。",
+   "chooseASavedSealedRegistrationFirst_0hk3jwj": "请先选择已保存的现开登记。",
+   "theSealedRegistrationDoesNotMatch_0ro9c34": "该现开登记与所选的已保存草稿不匹配。",
+   "joinTheRoomBeforeLeavingIt_01q6ial": "请先加入房间，再离开房间。",
+   "useTheLiveRoomShellTransport_0fx8c7h": "请通过实时房间连接执行此房间操作。",
+   "realtimeStateChangedUnexpectedlyResyncingThe_10v5wg9": "实时状态意外变化，正在重新同步对局。",
+   "refreshTheSimulatorBeforeUsingThis_1ggiz8s": "请刷新模拟器后再执行此操作。",
+   "refreshTheSimulatorBeforeApprovingA_0muvd9e": "请刷新模拟器后再确认结算链条目。",
+   "spectatorVisibilityChangedReconnectToContinue_157ixu7": "观战者可见范围已更改。请重新连接以继续使用受限视图。",
+   "roomAuthorizationChangedReconnectToContinue_1tfix9q": "房间授权已变化，请重新连接以继续。",
+   "thisConnectionSPreviousRoomRole_0vvwd5y": "此连接先前的房间身份已结束，请重新连接以继续。",
+   "theRealtimeRoomIsConnectedBut_178z0ha": "实时房间已连接，但当前连接不处理此类消息。",
+   "realtimeRoomConnectionFailed_0ib6nww": "实时房间连接失败。",
+   "realtimeRoomConnectionLostReconnecting_1ja8rxu": "实时房间连接已断开，正在重新连接……",
+   "couldNotReturnToTheLobby_080753w": "无法返回大厅。请重试。",
+   "theMatchReturnedToTheLobby_10qttg1": "对局已返回大厅，因此该操作未能完成。",
+   "returnToLobbyIsOnlyAvailable_0jvdb0v": "“返回大厅”仅可用于私人多人对局。",
+   "thisPlayerHasAlreadyLeftThe_11p4hhs": "该玩家已经离开对局。",
+   "waitingForYourFriendToJoin_0quxoj0": "正在等待好友加入此对局局面。",
+   "thisMatchRoomBelongsToAnother_1fu6m7o": "此比赛房间已关联到另一项返回大厅流程。",
+   "theLinkedRoomIsStillBeing_0ciwz3w": "关联房间仍在初始化。请重试。",
+   "theLinkedRoomRequestWasRejected_0tlwtm7": "关联房间请求被拒绝。",
+   "seatsAreReservedWhilePlayersDecide_1dim26o": "玩家决定是否返回期间，席位会被保留。",
+   "couldNotRevokeTheLinkedLobby_1gfkzuu": "无法撤销进入关联大厅的资格。",
+   "resolvedLeavePlayerMembershipIsMissing_0jl8bnz": "离场玩家的成员信息缺少玩家 ID。",
+   "theReturnLobbyRedirectChainIs_1p2mcub": "返回大厅的重定向链无效。",
+   "theLinkedLobbyIsTemporarilyUnavailable_1bhcyed": "关联大厅暂时不可用。",
+   "theLinkedLobbyReturnedAnInvalid_178578p": "关联大厅返回的加入状态无效。",
+   "thePendingReturnLobbyActorCannot_1v86hbw": "无法恢复待处理的返回大厅请求发起者。",
+   "anotherLinkedRoomTransitionIsStill_1bjm7t9": "另一项关联房间切换仍在初始化。",
+   "thisMatchRoomBelongsToAnother_1dodsro": "此比赛房间已关联到另一场对局。",
+   "thisMatchHasAlreadyEnded_0pnu5di": "本场比赛已经结束。",
+   "theLinkedLobbyIsMissingIts_0ckiq5f": "关联大厅缺少服务器记录的房间状态。",
+   "theReturnedPlayerDoesNotMatch_1gobezj": "返回的玩家与保留席位不匹配。",
+   "thisReturnLobbySeatWasAlready_176zeks": "用于返回大厅的席位已被撤销。",
+   "theReservedReturnLobbySeatIs_1buuh9j": "保留的返回大厅席位已不可用。",
+   "thisReturnLobbySpectatorAdmissionWas_0dgcuur": "该观战者返回大厅的权限已被撤销。",
+   "thisRoomDoesNotBelongTo_03bibeg": "此房间与来源对局不匹配。",
+   "thisGameHasAlreadyMovedParticipants_07lia17": "此对局已将参与者移至共享大厅。",
+   "thisPlayerIsNotAdmittedTo_1ap7gfm": "该玩家未获准进入关联大厅。",
+   "generatedBoosterOnlySealedPoolMust_08v2shs": "生成的纯补充包现开牌池不得包含起始套件元数据。",
+   "chooseTheFirstPlayerBeforeSelecting_1qznew2": "选择多人战场前，请先确定先手玩家。",
+   "theFirstPlayerDoesNotContribute_0egcpn9": "在此游戏模式中，先手玩家不提供战场。",
+   "yourBattlefieldIsAlreadyLocked_15or31o": "你的战场已锁定。",
+   "couldNotResolveTiedInitiativeRolls_0pmvf4f": "先手掷骰持续平局，无法判定结果。",
+   "couldNotResolveInitiativeWinner_1dmqm0k": "无法确定先手掷骰获胜方。",
+   "setupPreviewBoardsCanOnlyBe_0w40vjt": "只有在战场选择阶段才能刷新开局预览场面。",
+   "couldNotResolveThisPlayerS_1o7w1yi": "无法确定该玩家在先手掷骰中代表哪一方。",
+   "onlyTheTeamThatWonInitiative_1yelpc0": "只有先手掷骰获胜的队伍才能决定由谁先手。",
+   "couldNotResolveInitiativeCompetitorRepresentative_0oo9hfy": "无法确定先手掷骰参与方的代表玩家。",
+   "championZoneMustBeEmptyBefore_0ap43l8": "英雄区必须为空，才能将卡牌移入其中。",
+   "counterInitializationFlagMustBeBoolean_18up1nz": "计数标记初始化标志必须为布尔值。",
+   "onlyWhiteCountersOnUnitsCan_0by8m1n": "只有单位上的白色计数标记才能以该单位的战力为初始值。",
+   "couldNotCompleteAutoStartSetup_1rr6121": "无法完成自动开局设置。",
+   "everyPlayerMustHaveADeck_1vp4ni7": "所有玩家都必须拥有卡组，才能完成备牌调整。",
+   "every2v2PlayerMustHaveA_1kasmcn": "每名 2v2 玩家都必须分配队伍。",
+   "theTeamDeckRegistrationsConflict_1niru5k": "队伍卡组登记存在冲突。",
+   "theSideboardedDeckIsNotReady_0735pzn": "调整备牌后的卡组尚未满足本场比赛要求。",
+   "aSideboardedDeckIsNotReady_0eywd0j": "有一套调整备牌后的卡组尚未满足本场比赛要求。",
+   "aRoomCannotContainMoreThan_13kvzpe": "一个房间最多只能有四名拥有席位的玩家。",
+   "everyPlayerMustLoadADeck_1s80nyn": "所有玩家都必须加载卡组，才能验证游戏类型。",
+   "thisMultiplayerVariantIsDisabledFor_0pa8hda": "公开房间已禁用此多人游戏类型。",
+   "multiplayerVariantsWithThreeOrFour_1cdlcr3": "三人或四人多人游戏使用 BO1。",
+   "gameTypeCanOnlyBeChanged_0hop3p0": "只能在房主创建的多人房间中更改游戏类型。",
+   "gameTypeCanOnlyBeChanged_0hhn1bk": "只能在比赛开始前更改游戏类型。",
+   "onlyTheRoomHostCanChange_0qzp1ko": "只有房主可以更改游戏类型。",
+   "chooseASupportedHostedGameType_0nnlpi8": "请选择受支持的房间游戏类型。",
+   "teamSeatsCanOnlyBeChanged_1bf3hzj": "只能在房主创建的 2v2 房间中更改队伍席位。",
+   "teamSeatsCanOnlyBeChanged_02p6ak1": "只能在比赛开始前更改队伍席位。",
+   "theRoomHostMustRemainIn_0f2b30j": "房主必须留在 1 号席位。",
+   "chooseOneOfTheNonHost_0021ds9": "请选择一个非房主的队伍席位。",
+   "onlyTheRoomHostCanRandomize_0abg5ku": "只有房主可以随机分配队伍。",
+   "allFourPlayersMustBeSeated_1bjvf81": "四名玩家全部入座后才能随机分配队伍。",
+   "nextGameIsUnavailableBecauseA_0hsqfxh": "有玩家已离开房间，无法开始下一局。",
+   "nextGameIsAvailableAfterThe_1x0ubfg": "多人对局结束后才能开始下一局。",
+   "rewindAndForwardAreDisabledIn_0lz961q": "三人或更多玩家的对局中已禁用回退和前进。",
+   "onlySeatedPlayersCanPerformGameplay_1j4k91z": "只有拥有席位的玩家可以执行对局操作。",
+   "revealTargetPlayerIdIsInvalid_0n0nv3w": "展示目标玩家编号无效。",
+   "chooseEitherOneRevealTargetOr_09g6owz": "请选择一名展示目标玩家或一个展示范围，不能同时选择两者。",
+   "revealAudienceIsInvalid_11fa86l": "展示范围无效。",
+   "aTargetPlayerCanOnlyBe_1lodcf7": "只有对手的卡牌才能选择目标玩家。",
+   "targetPlayerIdIsInvalid_0lzbq35": "目标玩家编号无效。",
+   "forcedMoveFlagMustBeBoolean_1faooqn": "强制移动标记必须为布尔值。",
+   "transferRecipientMustBeAValid_0hulsk3": "控制权转移接收者必须是有效玩家。",
+   "equipmentCanOnlyBeEquippedFrom_12hd57c": "只能从基地装配装备。",
+   "hiddenEquipmentCannotBeEquipped_1dcuq04": "待命的装备不能装配。",
+   "attachedEquipmentCannotUseEquip_0tpyp0b": "已贴附的装备不能使用“装配”。",
+   "hiddenCardsCannotBeEquipTargets_1etgo06": "待命卡牌不能成为“装配”的目标。",
+   "equipmentCannotBeAttachedOnAn_1x7owce": "不能在未激活的战场上贴附装备。",
+   "thisRequestDoesNotMatchThe_0sjxd7l": "此请求与当前匹配搜索不符。请先取消当前搜索，再开始新的搜索。",
+   "theRoomInitializationOperationIsInvalid_1q4ud5z": "房间初始化操作无效。",
+   "theRoomCreatorAuthorizationDoesNot_0pyfkyl": "房间创建者授权与初始化操作不匹配。",
+   "theRoomRequestPayloadIsToo_16pjay9": "房间请求数据过大。",
+   "thisRoomCreationOperationHasExpired_1dipq9u": "此房间创建操作已过期。请使用新的操作编号重新开始。",
+   "roomCreationRecoveryIsTemporarilyUnavailable_11jug8j": "房间创建恢复暂时不可用。请重试。",
+   "aValidRoomCreationOperationId_1a49i2c": "需要有效的房间创建操作编号（8–128 个字母、数字、“:”、“_”或“-”）。",
+   "theRoomServiceIsTakingToo_15tegcb": "房间服务响应时间过长。请重试。",
+   "theRoomRequestWasCancelled_1pze61i": "房间请求已取消。",
+   "theRoomServiceReturnedAnInvalid_1hnlgx0": "房间服务返回了无效的创建结果。请重试。",
+   "theRoomServiceReturnedAnInvalid_0v3tbf3": "房间服务返回了无效的加入结果。请重试。",
+   "theRoomServiceReturnedAnInvalid_0krhnjq": "房间服务返回了无效的观战结果。请重试。",
+   "theRoomServiceReturnedAnInvalid_0i79u4s": "房间服务返回了无效的席位结果。请重试。",
+   "theRoomServiceReturnedAnInvalid_0x2vxqv": "房间服务返回了无效的成员身份结果。请重试。",
+   "theMatchmakingServiceReturnedAnInvalid_1m8p4zh": "匹配服务返回了无效的取消结果。请重试。",
+   "thisDeckCannotBeUsedIn_0tz73ez": "此卡组不能在当前房间中使用。",
+   "signInTokenRefreshIsTemporarily_1pbtb5t": "登录令牌暂时无法刷新。你的房间不会受影响。",
+   "aSignInTokenIsTemporarily_1wuvhrd": "登录令牌暂时不可用。你的房间不会受影响。",
+   "theRoomSetupChangedWhileIt_1mwufyc": "准备过程中房间设置已更改。请重试。",
+   "theRoomSetupChangedWhileCreation_1yo5rah": "等待创建房间期间，房间设置已更改。请重试。",
+   "theRoomServiceReturnedAMismatched_1xyjh2p": "房间服务返回的操作结果不匹配。",
+   "theSavedMatchSearchCouldNot_0fe6z1m": "无法安全恢复已保存的匹配搜索。",
+   "thePreviousMatchSearchCanNo_1blddc5": "无法再恢复先前的匹配搜索。请重试。",
+   "cancelTheEarlierMatchSearchBefore_0ikm8pv": "请先取消之前的匹配搜索，再开始新的搜索。",
+   "yourSignedInAccountIsStill_0gu4xb3": "你的登录账号仍在同步。请稍后重试。",
+   "thisMatchSearchBelongsToA_0jaf4ky": "此匹配搜索属于另一个登录账号。请使用发起搜索的账号登录以恢复结果。",
+   "yourSignedInAccountChangedWhile_1fuv3u3": "准备匹配期间，你的登录账号已更改。",
+   "couldNotPrepareMatchmaking_1xtdki2": "无法准备匹配。",
+   "theSelectedDeckChangedDuringMatchmaking_1v8xpbm": "匹配期间所选卡组已更改。正在确认取消结果。",
+   "theSelectedDeckChangedSearchingAgain_0ts77h7": "所选卡组已更改。正在使用当前卡组重新搜索。",
+   "theSelectedDeckIsNoLonger_1cv3s89": "所选卡组已不可用。请选择卡组后重新搜索。",
+   "theSelectedDeckChangedWhileMatchmaking_14j2h5d": "准备匹配期间所选卡组已更改。请重试。",
+   "cancellationIsStillPendingUseCancel_192gt5u": "取消仍在处理中。请使用“取消搜索”确认结果。",
+   "couldNotConnectToMatchmaking_0y89oh0": "无法连接匹配服务。",
+   "theSelectedDeckChangedDuringMatchmaking_0w1avk4": "匹配期间所选卡组已更改。请开始新的搜索。",
+   "theSelectedDeckOrAccountChanged_122nd5o": "匹配期间所选卡组或账号已更改。正在确认取消结果。",
+   "couldNotReconnectToMatchmakingResume_1j60ble": "无法重新连接匹配服务。请使用“恢复搜索”检查确切结果。",
+   "couldNotConnectToMatchmakingTry_03g747t": "无法连接匹配服务。请重试。",
+   "cancellationIsStillPendingTryCancel_1a7k04m": "取消仍在处理中。请再次尝试“取消搜索”。",
+   "theMatchmakingServiceReturnedAMismatched_02admm0": "匹配服务返回的取消结果不匹配。",
+   "cancellationResultIsUncertainResumeThe_02j2ydc": "取消结果尚不确定。请恢复搜索以确认结果。",
+   "cancellationResultIsUncertainTryCancel_1s2xg23": "取消结果尚不确定。请再次尝试“取消搜索”。",
+   "theJoinActionWasSuperseded_0tnr7st": "加入操作已被后续操作取代。",
+   "theRoomServiceReturnedMembershipFor_1iumuvz": "房间服务返回了其他房间的成员身份。",
+   "theSeatActionWasSuperseded_093s4ma": "席位操作已被后续操作取代。",
+   "theSelectedDeckChangedWhileIt_01q0n2h": "登记过程中所选卡组已更改。请重试。",
+   "couldNotChangeTheRoomGame_1qgvzer": "无法更改房间游戏类型。",
+   "couldNotSwitchSeats_1a09w4f": "无法切换席位。",
+   "couldNotRandomizeTeams_1ovaob8": "无法随机分配队伍。",
+   "yourSignInTokenCouldNot_1vosjma": "无法自动刷新你的登录令牌。请重试连接或重新登录。",
+   "signInVerificationIsStillUnavailable_09pt321": "登录验证仍不可用。你的房间状态仍然安全；请在连接恢复后重试。",
+   "yourSignedInAccountChangedWhile_0cwqcer": "确认房间访问权限期间，你的登录账号已更改。请重试。",
+   "deckStillSyncingTryAgainIn_0qhl6f4": "卡组仍在同步。请稍后重试。",
+   "thisSealedFormatIsNotAvailable_0z9lw1a": "此现开赛制不支持公开匹配。",
+   "thisSealedFormatWasSentTo_0dae1xx": "此现开赛制被发送到了错误的匹配池。请刷新后重试。",
+   "runeDeckIsEmpty_1rw0hof": "符文牌堆为空。",
+   "runeNotFoundInDeck_1vid0jy": "符文牌堆中找不到该符文。",
+   "bestOf1SealedRegistrationsCan_0v1adbl": "BO1 现开登记最多可包含 3 张实体战场牌。",
+   "rewindCouldNotSafelyReconstructThat_0rhiw6d": "无法安全重建至该回退点，正在重新同步对局。",
+   "thatRewindConfirmationIsNoLonger_0tn9kpf": "该回退确认已不可用。",
+   "onlyTheRequestedPlayerCanRespond_0vqfuiy": "只有收到请求的玩家可以响应此次回退。",
+   "onlyAnOpponentCanApproveOr_020pn21": "只有对手可以同意或拒绝此次回退；只有请求者可以取消请求。",
+   "theTimelineChangedSoThatRewind_15udoy2": "时间线已更改，因此该回退请求已取消。",
+   "theOtherPlayerIsNotAvailable_1bq99d3": "另一名玩家当前无法确认此次回退。",
+   "noOpponentIsAvailableToConfirm_0n5lh8u": "当前没有可确认此次回退的对手。",
+   "anotherRewindConfirmationIsAlreadyPending_09tv77z": "已有另一个回退确认正在等待处理。",
+   "theRewindRequestCouldNotBe_166evjw": "无法创建回退请求，请重试。",
+   "forwardIsNoLongerAvailable_0vgf9uh": "前进操作已不可用。",
+   "forwardCouldNotSafelyRestoreThat_109sua6": "前进操作无法安全恢复该时间线，正在重新同步对局。",
+   "theRoomSessionChangedTryAgain_0aiy4j0": "房间会话已更改，请重试。",
+   "spectatorsCannotRespondToRewindConfirmations_0rcn3cd": "观战者不能响应回退确认。",
+   "spectatorsCannotNavigateMatchHistory_05z093i": "观战者不能浏览对局历史。",
+   "couldNotLoadThatSealedRegistration_1wfqtx7": "无法加载该现开登记。",
+   "couldNotLoadThatSealedRegistration_1a6t0co": "无法加载该现开登记，请重试。",
+   "thatSealedRegistrationIsNoLonger_1c9uhig": "该现开登记已不在你的登记库中。",
+   "theOriginsQueueOnlyAllowsCards_0rp2r6o": "起源队列仅允许使用起源和试炼之地中的卡牌。",
+   "deckCreationAndEditingAreTemporarily_13saxd8": "卡组创建和编辑暂时不可用。",
+   "deckCreationAndEditingAreTemporarily_0cox63n": "计划维护期间，卡组创建和编辑暂时不可用。",
+   "deckCreationAndEditingAreTemporarily_1kvlavv": "计划维护开始前 30 分钟起，卡组创建和编辑将暂时不可用。",
+   "deckNameIsRequired_03j6bww": "需要填写卡组名称。",
+   "thisDeckMustMeetStandardRules_0igary7": "此卡组必须符合标准构筑规则才能保存。",
+   "signInToSaveThisDeck_0rulrtm": "请登录后保存此卡组。",
+   "couldNotSaveDeck_0djucbx": "无法保存卡组。",
+   "chooseAStarRatingBeforeSending_0xw3q58": "发送反馈前请选择星级。",
+   "couldNotSendFeedbackRightNow_083idq6": "暂时无法发送反馈。",
+   "thisSeatWasResumedFromAnother_0d0vlkz": "此席位已从另一个标签页或设备恢复。",
+   "theLiveRealtimeMatchRuntimeCould_1i5kd7g": "实时对局服务多次重试后仍无法自动启动。请重试连接。",
+   "theLiveRealtimeMatchRuntimeIs_0jp3ws6": "实时对局服务已不可用。这可能发生在版本更新或房间重启后，当前对局无法自动恢复。",
+   "thisRoomIsUnavailableTheServer_1j9f5qr": "此房间不可用：服务器已无法加载该房间。请返回大厅开始新的对局。",
+   "theLiveRealtimeMatchRuntimeIs_1us0417": "实时对局服务尚未激活。",
+   "theLiveRealtimeMatchRuntimeIs_0ml1bts": "实时对局服务仍在启动中，请稍候。",
+   "realtimeMatchStateIsResyncingPlease_1ho6u4u": "实时对局状态正在重新同步，请稍候。",
+   "theRealtimeRoomSessionEnded_1q9zu12": "实时房间会话已结束。",
+   "theRealtimeRoomConnectionClosedBefore_1o86fgz": "实时房间连接在操作完成前已关闭。",
+   "theRealtimeRoomConnectionClosedBefore_0dvrzz5": "实时房间连接在观战可见性更新完成前已关闭。",
+   "theRealtimeRoomDidNotAcknowledge_1oxiz9v": "实时房间未确认观战可见性更新。",
+   "theRealtimeRoomDidNotAcknowledge_0du8hoz": "实时房间未确认该操作。",
+   "gameplayActionAlreadyPending_17llbcs": "已有对局操作正在等待处理。",
+   "baronNashorMustCreateAndEnter_1c0kv33": "纳什男爵必须创建并进入男爵巢穴。",
+   "baronPitIsNotActive_1d4y4az": "男爵巢穴尚未激活。",
+   "theRequestedGameInstanceDoesNot_1j1cwww": "请求的游戏实例与此比赛房间不匹配。",
+   "joinTheMatchRoomBeforeSending_1spx7ac": "请先加入比赛房间，再发送对局操作。",
+   "theMatchRoomIsNotInitialized_1r3ieqh": "比赛房间尚未初始化。",
+   "aNewerConnectionForThisPlayer_0zs7m7i": "此玩家已有新的连接接管了对局会话。",
+   "noUndoSnapshotIsAvailable_06u6m5z": "没有可用的回退快照。",
+   "thisPlayerCannotActInThe_1pinjyi": "该玩家目前还不能在对局中操作。",
+   "thatActionCouldNotBeApplied_1qt9bsk": "无法应用该操作。",
+   "realtimeSeatAuthorizationIsUnavailable_14ftv18": "实时席位授权不可用。",
+   "realtimeSpectatorVisibilityCouldNotBe_0dxr124": "无法恢复实时观战可见性。",
+   "thisSpectatorSessionIsNotAuthorized_03p6bol": "此观战会话未获准进入该房间。",
+   "realtimeSpectatorAuthorizationIsUnavailable_0um1xrc": "实时观战授权不可用。",
+   "theMatchRuntimeCouldNotBe_06ixe9z": "无法为观战者恢复对局服务。",
+   "theMatchRuntimeCouldNotBe_15jrcma": "无法初始化对局服务。",
+   "theMatchRuntimeIsNotInitialized_1akkauc": "对局服务尚未初始化。",
+   "theMatchRuntimeCouldNotBe_175ldkq": "无法恢复对局服务。",
+   "theGameplayActionPayloadIsMalformed_0of1p39": "对局操作数据格式错误。",
+   "thisConnectionCannotActForAnother_00d63x7": "此连接不能代替其他玩家操作。",
+   "thisActionStillBelongsToThe_1qqciso": "该操作仍应由托管后端处理。",
+   "theMatchActionCouldNotBe_0gpjzeh": "无法保存对局操作。请稍后重试。",
+   "theMatchActionCouldNotBe_12u3t9i": "无法确认对局操作的处理状态。请稍后重试。",
+   "joinTheMatchRoomBeforeChanging_09fhemr": "请先加入比赛房间，再更改观战可见性。",
+   "onlyTheGrantingPlayerCanChange_0cffmkg": "只有授权的玩家可以更改其观战可见性。",
+   "aSpecificSpectatorGrantRequiresA_0nrf5h7": "指定观战授权需要已登录的观战者身份。",
+   "spectatorVisibilityCouldNotBeRestored_1fc3flf": "无法恢复观战可见性。",
+   "spectatorVisibilityCouldNotBeSaved_0ol8ptq": "无法保存观战可见性。",
+   "spectatorVisibilityCouldNotBeQueued_1gdshh4": "无法将观战可见性加入同步队列。",
+   "presenceUpdatesMustIncludeHoverPing_049ry2r": "在线状态更新必须包含悬停、标记、表情或输入状态。",
+   "onlyJsonStringMessagesAreSupported_0fxeiys": "目前仅支持 JSON 字符串消息。",
+   "theRealtimeMessagePayloadIsToo_0mseekp": "实时消息数据过大。",
+   "couldNotParseTheRealtimeMessage_1l6twqt": "无法解析实时消息数据。",
+   "theRealtimeRoomIsConnectedBut_17d878g": "实时房间已连接，但对局操作仍由服务器处理。",
+   "chooseDocksideLockUpAtA_1cpjazd": "请选择战场上的码头囚笼。",
+   "docksideLockUpAlreadyHasA_0mc5blh": "码头囚笼已有一张被放逐的卡牌。",
+   "chooseAUnitAtThatBattlefield_14mkz0z": "请选择该战场上的一名单位。",
+   "thatCardIsNotLinkedTo_0bojwzc": "该卡牌未与此码头囚笼关联。",
+   "chooseAnEmpoweredKharoxInPlay_1u3s0jv": "请选择场上已强化的卡洛克斯。",
+   "kharoxAlreadyPlayedACardFor_1xda5so": "卡洛克斯本次强化已打出过一张卡牌。",
+   "chooseAUnitInAnOpponent_06j2jao": "请选择对手废牌堆中的一名单位。",
+   "thatCardCannotBePlayedThere_0b6njir": "该卡牌无法打出到那里。",
+   "chooseASupportedDieType_0dndfyp": "请选择支持的骰子类型。"
+  },
+  "patterns": {
+   "noRoomFoundForCode": [
+    "未找到房间码为 ",
+    [
+     "code"
+    ],
+    " 的房间。请检查房间码后重试。"
+   ],
+   "savedRegistrationRequired": [
+    [
+     "action",
+     1,
+     {
+      "room": [
+       "创建房间前请选择已保存的",
+       [
+        "formatKind",
+        1,
+        {
+         "sealed": "现开",
+         "other": [
+          [
+           "format"
+          ]
+         ]
+        }
+       ],
+       "登记。"
+      ],
+      "other": [
+       "搜索匹配前请选择已保存的",
+       [
+        "formatKind",
+        1,
+        {
+         "sealed": "现开",
+         "other": [
+          [
+           "format"
+          ]
+         ]
+        }
+       ],
+       "登记。"
+      ]
+     }
+    ]
+   ],
+   "requiredFeedbackField": [
+    [
+     "field",
+     1,
+     {
+      "feedbackPromptId": "反馈提示编号",
+      "feedbackClientId": "反馈客户端编号",
+      "roomCode": "房间码",
+      "adId": "推荐内容编号",
+      "adTitle": "推荐内容标题",
+      "adHref": "推荐内容链接",
+      "other": [
+       [
+        "field"
+       ]
+      ]
+     }
+    ],
+    "为必填项。"
+   ],
+   "changedMatchmakingRegistration": [
+    [
+     "subject",
+     1,
+     {
+      "sealed": "你的现开登记已更改，因此之前的匹配搜索已取消。",
+      "other": "你的卡组已更改，因此之前的匹配搜索已取消。"
+     }
+    ]
+   ],
+   "savedDeckLimit": [
+    "已达到已保存卡组数量上限（",
+    [
+     "limit"
+    ],
+    "）。"
+   ],
+   "mainDeckSafetyLimit": [
+    "主牌最多可包含 ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "张卡牌",
+      "other": "张卡牌"
+     }
+    ],
+    "，当前有 ",
+    [
+     "found"
+    ],
+    " 张。"
+   ],
+   "roomApiRequestFailure": [
+    "房间 API 请求失败（",
+    [
+     "status"
+    ],
+    "）。"
+   ],
+   "missingBattlefields": [
+    [
+     "player"
+    ],
+    " 的卡组缺少战场牌。"
+   ],
+   "rebuiltOutsidePool": [
+    "重组后的卡组包含不在已保存的",
+    [
+     "format"
+    ],
+    "牌池中的卡牌。"
+   ],
+   "hiddenZone": [
+    "只有",
+    [
+     "zone"
+    ],
+    "中的卡牌可以设为待命。"
+   ],
+   "invalidBo3Snapshot": [
+    "BO3 卡组快照无效：",
+    [
+     "detail"
+    ]
+   ],
+   "ambiguousBo3Snapshot": [
+    "BO3 卡组快照存在歧义：",
+    [
+     "detail"
+    ]
+   ],
+   "missingBo3Snapshot": [
+    "缺少 ",
+    [
+     "player"
+    ],
+    " 的 BO3 卡组快照。请开始一场新比赛。"
+   ],
+   "sealedRegistrationNotReady": [
+    "已保存的",
+    [
+     "format"
+    ],
+    "登记尚不能用于对战。"
+   ],
+   "mismatchedSealedFormat": [
+    "两名玩家必须使用相同的现开赛制。此房间使用",
+    [
+     "format"
+    ],
+    "。"
+   ],
+   "missingNextDeck": [
+    "找不到 ",
+    [
+     "player"
+    ],
+    " 用于下一局的",
+    [
+     "deckKind",
+     1,
+     {
+      "submitted": "已提交卡组",
+      "other": "已登记卡组"
+     }
+    ],
+    "。"
+   ],
+   "invalidNextDeck": [
+    [
+     "player"
+    ],
+    " 的",
+    [
+     "deckKind",
+     1,
+     {
+      "submitted": "已提交卡组",
+      "other": "已登记卡组"
+     }
+    ],
+    "已不再适用于下一局。"
+   ],
+   "judgeCallRetry": [
+    [
+     "reason",
+     1,
+     {
+      "tooMany": [
+       "裁判请求过于频繁。请在 ",
+       [
+        "seconds"
+       ],
+       " ",
+       [
+        "secondsPlural",
+        2,
+        {
+         "one": "秒后重试",
+         "other": "秒后重试"
+        }
+       ],
+       "。"
+      ],
+      "other": [
+       "裁判请求仍在协调中。请在 ",
+       [
+        "seconds"
+       ],
+       " ",
+       [
+        "secondsPlural",
+        2,
+        {
+         "one": "秒后重试",
+         "other": "秒后重试"
+        }
+       ],
+       "。"
+      ]
+     }
+    ]
+   ],
+   "unknownHeaderIgnored": [
+    "未知分区标题“",
+    [
+     "header"
+    ],
+    "”。该分区已忽略。"
+   ],
+   "unknownHeaderSuggestionIgnored": [
+    "未知分区标题“",
+    [
+     "header"
+    ],
+    "”。你是指“",
+    [
+     "suggestion"
+    ],
+    "”吗？该分区已忽略。"
+   ],
+   "unknownHeaderSuggestion": [
+    "未知分区标题“",
+    [
+     "header"
+    ],
+    "”。你是指“",
+    [
+     "suggestion"
+    ],
+    "”吗？"
+   ],
+   "couldNotParse": [
+    "无法解析“",
+    [
+     "line"
+    ],
+    "”。格式应类似“",
+    [
+     "example"
+    ],
+    "”或“",
+    [
+     "alternative"
+    ],
+    "”。"
+   ],
+   "cardBeforeHeader": [
+    "卡牌条目“",
+    [
+     "entry"
+    ],
+    "”出现在已知分区标题之前，已忽略。"
+   ],
+   "deckCodeUnknown": [
+    "卡组代码中存在未知卡牌编号“",
+    [
+     "code"
+    ],
+    "”。"
+   ],
+   "unknownCardCode": [
+    "在",
+    [
+     "section"
+    ],
+    "中找不到卡牌编号“",
+    [
+     "code"
+    ],
+    "”。"
+   ],
+   "nameCodeMismatch": [
+    "“",
+    [
+     "name"
+    ],
+    "”与卡牌编号“",
+    [
+     "code"
+    ],
+    "”（",
+    [
+     "codeName"
+    ],
+    "）不匹配。"
+   ],
+   "tokenIncluded": [
+    "“",
+    [
+     "card"
+    ],
+    "”是指示物，不能加入卡组列表。"
+   ],
+   "belongsUnder": [
+    "“",
+    [
+     "card"
+    ],
+    "”应放在",
+    [
+     "expected"
+    ],
+    "，而不是",
+    [
+     "actual"
+    ],
+    "。"
+   ],
+   "invalidSectionCard": [
+    "“",
+    [
+     "card"
+    ],
+    "”不是有效的",
+    [
+     "section"
+    ],
+    "卡牌。"
+   ],
+   "unknownCard": [
+    "在",
+    [
+     "section"
+    ],
+    "中找不到卡牌“",
+    [
+     "card"
+    ],
+    "”。",
+    [
+     "suggestionsPresent",
+     1,
+     {
+      "yes": [
+       [
+        "suggestions"
+       ]
+      ],
+      "other": ""
+     }
+    ]
+   ],
+   "missingSection": [
+    "缺少必需分区：",
+    [
+     "section"
+    ],
+    "。"
+   ],
+   "exactCount": [
+    [
+     "section"
+    ],
+    "必须正好包含 ",
+    [
+     "required"
+    ],
+    " ",
+    [
+     "requiredPlural",
+     2,
+     {
+      "one": "张卡牌",
+      "other": "张卡牌"
+     }
+    ],
+    "。当前为 ",
+    [
+     "found"
+    ],
+    " 张。"
+   ],
+   "atMostCount": [
+    [
+     "section"
+    ],
+    "最多可包含 ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "张卡牌",
+      "other": "张卡牌"
+     }
+    ],
+    "。当前为 ",
+    [
+     "found"
+    ],
+    " 张。"
+   ],
+   "atLeastCount": [
+    [
+     "section"
+    ],
+    "必须至少包含 ",
+    [
+     "required"
+    ],
+    " ",
+    [
+     "requiredPlural",
+     2,
+     {
+      "one": "张卡牌",
+      "other": "张卡牌"
+     }
+    ],
+    "。当前为 ",
+    [
+     "found"
+    ],
+    " 张。"
+   ],
+   "outsideDomainIdentity": [
+    [
+     "section"
+    ],
+    "包含“",
+    [
+     "card"
+    ],
+    "”，其",
+    [
+     "cardDomains"
+    ],
+    [
+     "domainCount",
+     1,
+     {
+      "one": "领域",
+      "other": "领域"
+     }
+    ],
+    "不属于此卡组的",
+    [
+     "deckDomains"
+    ],
+    "领域体系。"
+   ],
+   "signatureCount": [
+    "主牌包含 ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "countPlural",
+     2,
+     {
+      "one": "张专属卡牌",
+      "other": "张专属卡牌"
+     }
+    ],
+    "。合计最多允许 ",
+    [
+     "max"
+    ],
+    " 张。"
+   ],
+   "rawCharacterLimit": [
+    "卡组列表不能超过 ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "个字符",
+      "other": "个字符"
+     }
+    ],
+    "。当前为 ",
+    [
+     "found"
+    ],
+    " 个字符。"
+   ],
+   "maxCopies": [
+    [
+     "section"
+    ],
+    "包含 ",
+    [
+     "copies"
+    ],
+    " ",
+    [
+     "copiesPlural",
+     2,
+     {
+      "one": "张“",
+      "other": "张“"
+     }
+    ],
+    [
+     "card"
+    ],
+    "”。最多允许 ",
+    [
+     "max"
+    ],
+    " 张。"
+   ],
+   "sideboardCount": [
+    "备牌最多可包含 ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "张卡牌",
+      "other": "张卡牌"
+     }
+    ],
+    "。当前为 ",
+    [
+     "found"
+    ],
+    " 张。"
+   ],
+   "expandedCardLimit": [
+    "卡组列表最多可包含 ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "张卡牌",
+      "other": "张卡牌"
+     }
+    ],
+    "。当前为 ",
+    [
+     "found"
+    ],
+    " 张。"
+   ],
+   "constructedBan": [
+    "“",
+    [
+     "card"
+    ],
+    "”在",
+    [
+     "format"
+    ],
+    "中禁用。"
+   ],
+   "crossSectionCopies": [
+    "“",
+    [
+     "card"
+    ],
+    "”在英雄、主牌和备牌中合计有 ",
+    [
+     "copies"
+    ],
+    " 张。最多允许 ",
+    [
+     "max"
+    ],
+    " 张。",
+    [
+     "splitPresent",
+     1,
+     {
+      "yes": [
+       "当前分布：",
+       [
+        "split"
+       ],
+       "。"
+      ],
+      "other": ""
+     }
+    ]
+   ],
+   "signatureLegendMismatch": [
+    [
+     "section"
+    ],
+    "包含“",
+    [
+     "card"
+    ],
+    "”，这是",
+    [
+     "signatureLegend"
+    ],
+    "的专属",
+    [
+     "cardType"
+    ],
+    "。当你的传奇是",
+    [
+     "legend"
+    ],
+    "时，不能使用其他传奇类型的专属牌。"
+   ],
+   "championLegendMismatch": [
+    "英雄分区包含“",
+    [
+     "card"
+    ],
+    "”，它不是",
+    [
+     "legend"
+    ],
+    "的合法英雄单位。请选择带有",
+    [
+     "tag"
+    ],
+    "标签的非专属单位。"
+   ],
+   "noBattlefields": "卡组列表中没有战场。",
+   "noMainDeck": "卡组列表中没有主牌。",
+   "decodedDeckWithoutSingleLegend": "解析出的卡组没有唯一传奇，无法推断英雄分区。请在解析后手动选择英雄。",
+   "decodedDeckWithoutClearChampion": "解析出的卡组没有明确的对应英雄单位。请在解析后手动选择英雄。",
+   "decodedDeckWithMultipleChampions": "解析出的卡组有多个合法英雄单位。请在解析后手动选择英雄。",
+   "pasteDeckCodeFirst": "请先粘贴《符文战场》卡组代码。",
+   "deckIncomplete": "此卡组尚未完成。",
+   "invalidUnleashedRegistration": "无效的破限现开赛登记。",
+   "noPlayableDeckSaved": "此牌池尚未保存可用于对战的卡组。",
+   "registrationNotReady": "此登记尚不能用于对战。",
+   "missingSavedPoolData": [
+    "此玩家缺少已保存的",
+    [
+     "format"
+    ],
+    "牌池数据。"
+   ],
+   "sealedRegistrationMissingSeed": "已保存的现开赛登记缺少用于还原牌池的种子或构筑选择数据。",
+   "sealedRegistrationUnsupportedFormat": "已保存的现开赛登记使用了不受支持的赛制。",
+   "sealedPoolNotGenerated": "无法生成该登记对应的现开赛牌池。",
+   "invalidSideboardSelection": "无效的备牌选择。",
+   "skippedSwapsChampion": "跳过备牌调整后，请从提交的主牌中选择英雄。备牌必须保持不变。",
+   "sealedCardLimit": [
+    [
+     "format"
+    ],
+    "卡组最多可包含 1 张",
+    [
+     "card"
+    ],
+    "。"
+   ],
+   "sealedSideboard": [
+    [
+     "format"
+    ],
+    "登记不使用备牌分区。"
+   ],
+   "championUnit": [
+    "英雄“",
+    [
+     "card"
+    ],
+    "”必须是英雄单位。"
+   ],
+   "invalidBasicRune": [
+    "“",
+    [
+     "card"
+    ],
+    "”不是基础符文卡。"
+   ],
+   "tokenRegistration": [
+    "“",
+    [
+     "card"
+    ],
+    "”是指示物，不能登记到",
+    [
+     "format"
+    ],
+    "赛制中。"
+   ],
+   "championDomain": [
+    "英雄“",
+    [
+     "card"
+    ],
+    "”必须匹配至少一个已使用的领域。"
+   ],
+   "coreCount": [
+    "核心卡组必须至少包含 ",
+    [
+     "min"
+    ],
+    " ",
+    [
+     "minPlural",
+     2,
+     {
+      "one": "张卡牌",
+      "other": "张卡牌"
+     }
+    ],
+    "（含英雄）。当前为 ",
+    [
+     "found"
+    ],
+    " 张。"
+   ],
+   "runeCount": [
+    "符文总数必须为 ",
+    [
+     "required"
+    ],
+    " 枚。当前为 ",
+    [
+     "found"
+    ],
+    " 枚。"
+   ],
+   "sealedDomains": [
+    [
+     "format"
+    ],
+    "卡组最多可使用 ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "个领域",
+      "other": "个领域"
+     }
+    ],
+    "。当前为 ",
+    [
+     "found"
+    ],
+    " 个。"
+   ],
+   "outsidePool": [
+    [
+     "section"
+    ],
+    "包含不在已保存的",
+    [
+     "format"
+    ],
+    "牌池中的卡牌。"
+   ],
+   "sideboardLimit": [
+    "备牌最多可包含 ",
+    [
+     "max"
+    ],
+    " ",
+    [
+     "maxPlural",
+     2,
+     {
+      "one": "张卡牌",
+      "other": "张卡牌"
+     }
+    ],
+    "。"
+   ],
+   "sideboardChangesSameCards": "备牌调整必须使用原英雄、主牌和备牌中的同一批卡牌。",
+   "selectedChampionNotFound": "在卡牌目录中找不到所选英雄。",
+   "sideboardChampion": [
+    "英雄“",
+    [
+     "card"
+    ],
+    "”不是",
+    [
+     "legend"
+    ],
+    "的合法英雄单位。"
+   ],
+   "duplicateManifestInstance": [
+    "现开牌池清单包含重复实例“",
+    [
+     "instance"
+    ],
+    "”。"
+   ],
+   "missingManifestCard": [
+    "现开牌池清单中的卡牌“",
+    [
+     "card"
+    ],
+    "”不在卡牌目录中。"
+   ],
+   "duplicatePoolInstance": [
+    "牌池实例“",
+    [
+     "instance"
+    ],
+    "”重复出现。"
+   ],
+   "missingPoolCard": [
+    "牌池卡牌“",
+    [
+     "card"
+    ],
+    "”不在卡牌目录中。"
+   ],
+   "duplicateSelectedInstance": [
+    "牌池实例“",
+    [
+     "instance"
+    ],
+    "”被重复选择。"
+   ],
+   "foreignPoolInstance": [
+    "牌池实例“",
+    [
+     "instance"
+    ],
+    "”不属于此现开牌池。"
+   ],
+   "invalidPoolSection": [
+    "“",
+    [
+     "card"
+    ],
+    "”不能选入",
+    [
+     "section"
+    ],
+    "。"
+   ],
+   "unknownSealedFormat": [
+    "未知现开赛制“",
+    [
+     "format"
+    ],
+    "”。"
+   ],
+   "unsupportedSealedFormat": [
+    "不支持的现开赛制“",
+    [
+     "format"
+    ],
+    "”。"
+   ],
+   "invalidSealedRuneDomain": [
+    "“",
+    [
+     "domain"
+    ],
+    "”不是有效的现开符文领域。"
+   ],
+   "invalidSealedRuneCount": [
+    [
+     "domain"
+    ],
+    "符文数量必须是非负整数。"
+   ],
+   "missingCanonicalRune": [
+    "标准符文“",
+    [
+     "rune"
+    ],
+    "”不在卡牌目录中。"
+   ],
+   "suggestionSingle": [
+    "你是指“",
+    [
+     "suggestion"
+    ],
+    "”吗？"
+   ],
+   "suggestionPair": [
+    "你是指“",
+    [
+     "first"
+    ],
+    "”或“",
+    [
+     "second"
+    ],
+    "”吗？"
+   ],
+   "suggestionList": [
+    "你是指",
+    [
+     "suggestions"
+    ],
+    "吗？"
+   ]
+  },
+  "parts": {
+   "suggestionItem": [
+    "“",
+    [
+     "value"
+    ],
+    "”"
+   ],
+   "listSeparator": "、",
+   "listLastSeparator": "、",
+   "splitSeparator": "、",
+   "splitChampion": "英雄",
+   "splitMainDeck": "主牌",
+   "splitSideboard": "备牌"
+  }
+ }
+}

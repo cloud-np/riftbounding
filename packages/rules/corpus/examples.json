@@ -1,0 +1,1607 @@
+[
+  {
+    "index": 0,
+    "rule": "103.1",
+    "text": "A unit reads in part “If [Name] is in your deck, choose 3 different legends in addition to your starting legend.” This decision is made while building the deck."
+  },
+  {
+    "index": 1,
+    "rule": "103.1",
+    "text": "The rules of a game mode read in part “Choose an additional Chosen Champion with a different Champion Tag and Domain than your Champion Legend. Place it in the Champion Zone at the start of the game alongside your other Chosen Champion. Your deck’s Domain Identity includes that additional Chosen Champion’s Domain, if applicable.” The Chosen Champion chosen this way is decided while building the deck."
+  },
+  {
+    "index": 2,
+    "rule": "103.3.a.2",
+    "text": "Loose Cannon has the tag Jinx. Therefore, a player could choose Jinx, Rebel or Jinx, Demolitionist as their Chosen Champion, because they also have the tag Jinx."
+  },
+  {
+    "index": 3,
+    "rule": "103.3.a.2",
+    "text": "Tibbers has the tag Annie, but it is a signature unit, not a champion unit. It cannot be your Chosen Champion, even if your Champion Legend has the tag Annie."
+  },
+  {
+    "index": 4,
+    "rule": "103.3.a.3",
+    "text": "A player chose Jinx, Rebel as their Chosen Champion. One copy of Jinx, Rebel starts the game in their Chosen Champion zone. Any additional copies of Jinx, Rebel in their Main Deck, their hand, their trash, or on the board also count as their Chosen Champion for any game rules and effects that care about Chosen Champion status during the game."
+  },
+  {
+    "index": 5,
+    "rule": "103.3.b.1",
+    "text": "A deck could include Volibear, Furious as its Chosen Champion and still include 2 more copies of Volibear, Furious in their Main Deck."
+  },
+  {
+    "index": 6,
+    "rule": "103.3.b.2",
+    "text": "A deck could include 3 copies of Yasuo, Remorseful and 3 copies of Yasuo, Windrider, because they have different names."
+  },
+  {
+    "index": 7,
+    "rule": "127.1",
+    "text": "Bo didn't bring a deck, so Alice loans him a deck. During the game, Bo is considered the owner of those cards, even though legally they belong to Alice."
+  },
+  {
+    "index": 8,
+    "rule": "128.4",
+    "text": "Cards in a player's hand are owned by that player. Only that player may read or look at their faces."
+  },
+  {
+    "index": 9,
+    "rule": "128.4",
+    "text": "If a player controls a facedown card at a battlefield, that player and only that player may read or look at that card's face, regardless of who owns that card."
+  },
+  {
+    "index": 10,
+    "rule": "128.6",
+    "text": "A card effect reads, “Play a unit from your hand, ignoring its costs.” Although the effect does not say “may”, the player can choose not to perform the action even if they have a unit in their hand, because the effect specifies a card type."
+  },
+  {
+    "index": 11,
+    "rule": "130.6",
+    "text": "The Trash is Public Information because all cards there have their front face presented even while stacked."
+  },
+  {
+    "index": 12,
+    "rule": "132.3",
+    "text": "Chemtech Enforcer in English and its counterpart in Chinese are considered the same card, despite the Name element on the card reading differently."
+  },
+  {
+    "index": 13,
+    "rule": "132.4",
+    "text": "Kai’Sa, Evolutionary and Kai’Sa, Survivor both have the short name Kai’Sa, but they have different names. You can include 3 of each in your deck under normal deckbuilding rules. If one of them is your Chosen Champion, the other is not."
+  },
+  {
+    "index": 14,
+    "rule": "133.3",
+    "text": "A \"non-unit card\" is any card that is not a unit."
+  },
+  {
+    "index": 15,
+    "rule": "133.3",
+    "text": "A \"unit\" is any game object that is a unit, regardless of any other categories it belongs to."
+  },
+  {
+    "index": 16,
+    "rule": "133.3.a",
+    "text": "A \"Yeti\" refers to a game object with the Yeti tag on the board."
+  },
+  {
+    "index": 17,
+    "rule": "133.3.a",
+    "text": "A \"spell\" refers to a spell on the chain, because spells cannot exist as game objects on the board."
+  },
+  {
+    "index": 18,
+    "rule": "133.3.a",
+    "text": "A \"spell in your trash\" refers to a spell card in your trash because the effect specifies the zone in question."
+  },
+  {
+    "index": 19,
+    "rule": "135.2.b.3",
+    "text": "An instruction says “as you play me, kill a unit as an additional cost.” That instruction will execute as the card is being played. If the card is given Repeat and the Repeat cost is paid, this instruction will not execute because the Repeat execution does not happen until resolution of the spell, after this instruction has executed."
+  },
+  {
+    "index": 20,
+    "rule": "135.2.b.5.a",
+    "text": "Void Seeker is made up of two instructions. The first is “deal 4 to a unit at a battlefield.” Here “deal 4” is the game action, while “a unit at a battlefield,” is its complement. The second instruction, “draw 1,” has no complement."
+  },
+  {
+    "index": 21,
+    "rule": "135.2.b.5.a",
+    "text": "Teemo, Strategist’s defend trigger reads “When I defend, choose an enemy unit here and reveal the top 5 cards of your Main Deck. Deal 1 to that unit for each card with Hidden revealed this way, then recycle the revealed cards.” There are four instructions here: “choose an enemy unit here,” “reveal the top 5 cards of your Main Deck,” “deal 1 to that unit for each card with Hidden revealed this way,” and “recycle the revealed cards.”"
+  },
+  {
+    "index": 22,
+    "rule": "135.2.b.5.b",
+    "text": "A spell reads in part “If you’ve gained a point this turn, draw 1, then discard 1.” In order for either of the instructions that follow the “If you’ve gained a point this turn,” conditional clause to execute, the condition must be true."
+  },
+  {
+    "index": 23,
+    "rule": "135.2.b.5.b",
+    "text": "Rogue Assassin is a legend that reads in part “[Action][>] [E]: If it's your turn, move a friendly unit in a showdown to base and if I'm [Empowered], ready it.” The first conditional clause in the activated ability applies to all subsequent instructions in the same sentence. The second conditional clause, “if I’m [Empowered],” only applies to the instruction that immediately follows it."
+  },
+  {
+    "index": 24,
+    "rule": "135.2.b.6",
+    "text": "An ability reads “When you play me, draw 1.” The trigger condition for this ability is not an instruction. “Draw 1,” is the only instruction included in the ability."
+  },
+  {
+    "index": 25,
+    "rule": "135.2.b.6",
+    "text": "An ability reads “If a unit would die, banish it instead.” The text “If a unit would die,” is not an instruction of the ability."
+  },
+  {
+    "index": 26,
+    "rule": "135.2.b.6",
+    "text": "An ability reads “As I’m revealed from your Main Deck, Add [2].” The text “As I’m revealed from your Main Deck,” is not an instruction of the ability."
+  },
+  {
+    "index": 27,
+    "rule": "135.2.b.7",
+    "text": "Rampage is a spell that reads “As you play this, you may pay [C] as an additional cost.” and “Choose a friendly unit and an enemy unit. If you paid the additional cost, give the friendly unit +2 [Might] this turn. They deal damage equal to their Mights to each other.” If another player gains control of Rampage, although they are not the one who paid the cost, the “if you paid the additional cost,” condition will still be fulfilled."
+  },
+  {
+    "index": 28,
+    "rule": "135.2.b.7",
+    "text": "Back Off is a spell that reads in part “If you played this from your hand, draw 1.” On resolution, Back Off checks if it was played from hand. If another player gained control of Back Off, as long as the card was played from hand, the condition will be true and the controller of the spell will draw 1."
+  },
+  {
+    "index": 29,
+    "rule": "135.2.e.6.c",
+    "text": "Defiant Dance is a Calm and Chaos spell. Its cost is [1][C]. The power component of that cost can be paid with either [G] or [P]."
+  },
+  {
+    "index": 30,
+    "rule": "135.2.e.6.c",
+    "text": "Tibbers is a Fury and Chaos Unit. If Tibbers is granted the Accelerate keyword, the power component of the optional additional cost can be paid with either [R] or [P]."
+  },
+  {
+    "index": 31,
+    "rule": "136.2.d",
+    "text": "Guardian Angel’s effect text reads “If I would die, kill Guardian Angel instead. Heal me, exhaust me, and recall me.”"
+  },
+  {
+    "index": 32,
+    "rule": "136.2.d",
+    "text": "Brutalizer’s effect text reads “If this was attached to me this turn, I have an additional +2 [M].” The “this” in the effect text refers to the attached Brutalizer."
+  },
+  {
+    "index": 33,
+    "rule": "138.1",
+    "text": "The card Void Seeker features a quote from the character Kai'Sa. It does not have the Kai'Sa tag and has no gameplay connection to the Champion unit Kai'Sa."
+  },
+  {
+    "index": 34,
+    "rule": "142.3.b",
+    "text": "A unit reads in part “Your damage can’t be prevented.” This refers to the damage marked by that player."
+  },
+  {
+    "index": 35,
+    "rule": "142.4.b",
+    "text": "A unit has 5 [M] and 3 damage marked on it. Frigid Touch is played targeting that unit. When it resolves, the unit’s Might becomes 3, and it will have lethal damage marked on it."
+  },
+  {
+    "index": 36,
+    "rule": "142.4.b",
+    "text": "A unit has 0 [M]. In order to have lethal damage marked on it, it must have at least 1 damage marked on it."
+  },
+  {
+    "index": 37,
+    "rule": "142.4.c",
+    "text": "Elder Dragon’s passive ability reads “Any amount of your damage is enough to kill enemy units.” This alters the Lethal Damage value for enemy units that have damage marked by you."
+  },
+  {
+    "index": 38,
+    "rule": "143.2.a.1",
+    "text": "A card reads in part “Choose a unit. Its base Might becomes 5 this turn.” This applies an effect in the trait-altering layer."
+  },
+  {
+    "index": 39,
+    "rule": "143.2.a.1",
+    "text": "A card reads in part “Choose a unit. Increase its Might to 5 this turn.” This applies an effect in the arithmetic layer."
+  },
+  {
+    "index": 40,
+    "rule": "152.2",
+    "text": "Gear are played to Base unless an effect specifies otherwise. A gear played from Facedown, which is specified to be played to the Battlefield it was played from, will enter at that Battlefield. Gear can also become located at a Battlefield if they are attached to a unit who becomes located at a Battlefield. A Gear that is a Unit can move to a Battlefield. See rule 811. Hidden for more information. See rule 716. Attachment for more information."
+  },
+  {
+    "index": 41,
+    "rule": "158.2",
+    "text": "A spell says \"Choose a unit. Kill it the next time it takes damage this turn.\" and \"[Legion] — Kill it now instead.\" If the Legion condition is satisfied, the unit is killed immediately and the instruction to kill it the next time it takes damage is negated, even if the unit remains on the board somehow."
+  },
+  {
+    "index": 42,
+    "rule": "178.3",
+    "text": "A unit that is also a gear can be affected by spells and abilities like the Ruination or Thermo Beam that say “Kill all units,” or “Kill all gear.” A unit that is also a gear can be targeted by spells and abilities like Vengeance or Rocket Barrage that say “Kill a unit,” or “Kill a gear.”"
+  },
+  {
+    "index": 43,
+    "rule": "185.2.d",
+    "text": "A token unit is a unit. It enters exhausted, can take the standard move action, deals damage equal to its Might in combat, is destroyed if it takes damage equal to or greater than its might, can be chosen or otherwise affected by spells or abilities that choose or affect units, etc."
+  },
+  {
+    "index": 44,
+    "rule": "185.2.e",
+    "text": "Token runes will be recycled to the Rune Deck. Token units, gear, and spells will be recycled to the Main Deck. Token battlefields and legends can’t be recycled."
+  },
+  {
+    "index": 45,
+    "rule": "185.3.a.2",
+    "text": "Deceiver’s conquer effect creates a 0 [M] Reflection unit token and applies a copy effect to that token. The copy effect will append all copyable traits, including the cost of the unit to be copied. This appends a cost to the Reflection token."
+  },
+  {
+    "index": 46,
+    "rule": "185.3.b.1",
+    "text": "A card reads in part “As you play this, pick a domain. All units and gear are that domain.” If that card is in play, any unit and gear tokens will have the chosen domain appended to them."
+  },
+  {
+    "index": 47,
+    "rule": "190.6.b",
+    "text": "The Arena’s Greatest is a battlefield that reads “At the start of each player's first Beginning Phase, that player gains 1 point.” This ability will usually trigger while the battlefield has no controller. If it does, the Turn Player goes through the steps of adding the ability to the chain and receives priority after doing so, exactly as if they controlled the ability."
+  },
+  {
+    "index": 48,
+    "rule": "190.6.c",
+    "text": "Abandoned Hall is a battlefield that reads “When a player plays a spell, they may give a unit they control here +1 might this turn.” The ability indicates that the player who played the spell makes the choice, so that player takes responsibility for putting the ability on the chain and makes all choices. They control the triggered ability."
+  },
+  {
+    "index": 49,
+    "rule": "204.1.b",
+    "text": "Legion Marauder is a unit that reads in part “[Empower] — [1] or [C].” This is functionally short for “[1] or [C]: Empower me. Play only if not empowered.” When finalizing the ability to the chain, the controller of the chain item will choose one of the base costs to pay. That is the base cost of the ability."
+  },
+  {
+    "index": 50,
+    "rule": "204.1.c",
+    "text": "Overzealous Fan is a unit that reads “When I defend, you may kill me to move an attacking unit to its base.” In order to finalize the ability to the chain, its controller must kill Overzealous Fan."
+  },
+  {
+    "index": 51,
+    "rule": "204.3.a",
+    "text": "Bullet Time is a spell that reads “Pay any amount of [A] to deal that much damage to all enemy units at a battlefield.” As the spell resolves, its controller pays any amount of [A] as a cost, and deals that much damage to all units at a battlefield as the effect."
+  },
+  {
+    "index": 52,
+    "rule": "204.3.a",
+    "text": "Ancient Henge is a gear that reads “[Reaction][>] [E]: Pay any amount of Energy to Add that much [A].” As the ability resolves, its controller pays any amount of Energy as a cost, and Adds that much [A] as the effect."
+  },
+  {
+    "index": 53,
+    "rule": "204.3.a",
+    "text": "Insightful Investigator is a unit that reads “When you play me, choose an opponent. They reveal their hand. You may pay 2 XP to choose a card from their hand. If you do, they discard that card and draw 1.” As the ability resolves, its controller may pay 2 XP as a cost, and chooses a card from that player’s hand as the effect."
+  },
+  {
+    "index": 54,
+    "rule": "204.4",
+    "text": "Mageseeker Investigator reads in part “Opponents must pay [A] for each unit beyond the first to move multiple units to my battlefield at the same time.” This is an applied cost."
+  },
+  {
+    "index": 55,
+    "rule": "205",
+    "text": "A card effect reads, “When I attack, you may pay [4][C]. If you do, kill a unit here.” Paying [4][C] in this way is not a cost of the ability, base or otherwise, but a game action being performed by a player. The later instruction checks whether the game action was performed, not whether a cost was paid—if paying [4][C] was replaced for any reason, the later linked instruction will not execute."
+  },
+  {
+    "index": 56,
+    "rule": "206",
+    "text": "Sky Splitter is a spell that costs [8] and says in part “This spell's Energy cost is reduced by the highest Might among units you control.” Lux, Illuminated is a unit that says “When you play a spell that costs 5 or more, give me +3 [M] this turn.” If a player who controls Lux plays Sky Splitter, Lux’s ability will trigger, regardless of how much was actually paid for Sky Splitter."
+  },
+  {
+    "index": 57,
+    "rule": "206",
+    "text": "Defy is a spell which reads “Counter a spell that costs no more than [4] and no more than [A].” Rocket Barrage is a spell that costs [4][C] and has a Repeat cost of [4][C]. Rocket Barrage is a legal target for Defy even if Rocket Barrage’s Repeat cost is paid, because Defy only checks the printed or copied cost of its target."
+  },
+  {
+    "index": 58,
+    "rule": "206",
+    "text": "Atakhan is a unit that reads in part “You may kill a friendly unit as an additional cost to play me. If you do, I cost [1] less for each Energy it costs and [Y] less for each Power it costs.” If a player plays Atakhan and chooses to kill a Reflection token that is currently a copy of Noxus Hopeful, Atakhan will cost [4] less."
+  },
+  {
+    "index": 59,
+    "rule": "206.1",
+    "text": "A card reads “When you play an activated ability with Energy cost [7] or more, you may exhaust me to ready up to 2 runes.” A gear has an activated ability that reads “[12], Banish this: Choose an opponent. Banish all units they control. This ability costs [1] less for each point the chosen opponent has.” The ability of the first card will trigger when the activated ability is played, even if the chosen opponent has 6 or more points."
+  },
+  {
+    "index": 60,
+    "rule": "206.1",
+    "text": "An equipment has an ability that reads “Equip [4][A]. This ability costs [1] less for each occupied enemy battlefield.” If its controller plays a unit with Weaponmaster, the Weaponmaster trigger will refer to the cost including the alterations. This is because Weaponmaster specifies that it includes modifications to the cost."
+  },
+  {
+    "index": 61,
+    "rule": "313.1.a",
+    "text": "A player with Focus may not play spells or activate abilities that don't have the Action or Reaction keywords."
+  },
+  {
+    "index": 62,
+    "rule": "324.1",
+    "text": "When a Combat Cleanup is invoked, the Combat section defines what steps are added to the Cleanup. See rule 468. The Resolution Step for more information."
+  },
+  {
+    "index": 63,
+    "rule": "324.1",
+    "text": "When an End of Turn Cleanup is invoked, the End of Turn Phase subsection defines what steps are added to the Cleanup. See rule 317. The Ending Phase for more information."
+  },
+  {
+    "index": 64,
+    "rule": "346.1",
+    "text": "the Combat Chain opens as a result of triggered abilities being added to the chain, so when the last item on the Combat Chain resolves and the turn returns to an Open State, Focus will not pass."
+  },
+  {
+    "index": 65,
+    "rule": "355.5.a",
+    "text": "\"Stun a unit at a battlefield\" is a Choice."
+  },
+  {
+    "index": 66,
+    "rule": "355.5.a",
+    "text": "\"Kill all gear\" is not a Choice."
+  },
+  {
+    "index": 67,
+    "rule": "355.5.b",
+    "text": "A unit with a triggered ability that says \"When I'm played, kill a unit\" does not require you to choose a target as it's played. The target will be chosen when the ability triggers."
+  },
+  {
+    "index": 68,
+    "rule": "355.5.b",
+    "text": "Targon’s Peak reads “When you conquer here, ready up to 2 runes at the end of this turn.” Readying up to 2 runes at the end of the turn is the effect of a delayed trigger; any choices involved are not made when finalizing the conquer effect but when finalizing the resulting delayed trigger at the end of the turn."
+  },
+  {
+    "index": 69,
+    "rule": "355.11.b",
+    "text": "A player plays Fox-Fire, a spell that says in part “Kill any number of units at a battlefield with total Might 4 or less.” That player chooses four 1 [M] Recruit tokens at a single battlefield. As a Reaction, another player gives two of those Recruits +1 [M], so the Recruits’ Mights are 1, 1, 2, and 2. Then Fox-Fire resolves. The Recruits no longer have total Might 4 or less, so Fox-Fire’s controller must choose a legal subset of the original targets to affect. They could choose to kill the two 2 [M] Recruits, or the two 1 [M] Recruits plus one 2 [M] Recruit. The units they choose are Fox-Fire’s remaining legal targets. They can’t choose to affect units at the same battlefield that weren’t initially chosen as targets. They can, however, choose to affect units that were initially chosen as targets that left the chosen battlefield before Fox-Fire resolved as long as those units are all located at the same battlefield."
+  },
+  {
+    "index": 70,
+    "rule": "355.11.b.1",
+    "text": "A player plays Bellow’s Breath, a spell that reads in part “Deal 1 to up to 3 units at the same location.” They choose 3 units at the same battlefield. In reaction to Bellow’s Breath, the controller of those units plays Flash, moving two of them to base. On resolution of Bellow’s Breath, Bellow’s Breath’s controller cannot choose one unit in base and not the other. They may choose either of the legal subsets; the one unit remaining at the battlefield, or the two units in base."
+  },
+  {
+    "index": 71,
+    "rule": "355.14.c",
+    "text": "A player playing a spell that instructs them to \"Split 5 damage\" may only choose up to 5 units, but may choose fewer."
+  },
+  {
+    "index": 72,
+    "rule": "355.14.h.1",
+    "text": "A player plays Alpha Strike, which reads in part “Choose a friendly unit. It deals damage equal to its Might split among enemy units at battlefields.” They target their 5 [M] unit and five 1 [M] enemy Recruits at battlefields. In reaction, their opponent plays Feral Strength targeting one of their recruits, and Frigid Touch targeting the 5 [M] unit. When Alpha Strike resolves, they have 3 damage to split, and must choose which targets cease being targets. They can’t choose for 4 of the units to cease being targets so that they can deal 3 to the 3 [M] recruit. They can only choose at most 2 of the targets to cease being targets."
+  },
+  {
+    "index": 73,
+    "rule": "355.16",
+    "text": "A player plays a card which reads “As an additional cost to play this, kill the unit you control with the most Might. Give a friendly unit +[M] equal to the killed unit’s Might this turn. Predict 2.” They cannot choose to target their unit with the highest Might during this step of finalization."
+  },
+  {
+    "index": 74,
+    "rule": "355.17",
+    "text": "Here to Help is a spell that reads in part “You may play a unit from your hand to a battlefield you control.” If its controller decides to play a unit, they must play it to a battlefield they control."
+  },
+  {
+    "index": 75,
+    "rule": "355.17",
+    "text": "Rek’Sai, Swarm Queen is a unit that reads “When I attack, you may reveal the top 2 cards of your Main Deck. You may banish one, then play it. If it is a unit, you may play it here. Recycle the rest.” The “you may play it here,” portion of this ability is not a mandatory requirement, because the player isn’t required to play the unit to that location."
+  },
+  {
+    "index": 76,
+    "rule": "355.17.a",
+    "text": "Here to Help is played from facedown at Targon’s Peak. Its controller chooses to play a Dune Drake from hand. The other battlefield is Dragon Roost. When finalizing Dune Drake, they choose to pay the [A][A] additional cost from Dragon Roost. There are two competing mandatory requirements here: playing Dune Drake to Targon’s Peak, or playing it to Dragon Roost. Dune Drake’s controller must choose one of those requirements to satisfy, and ignore the rest."
+  },
+  {
+    "index": 77,
+    "rule": "355.17.a",
+    "text": "If Here to Help were played from hand, and its controller controlled both battlefields, if they paid the [A][A] additional cost, they would have no choice but to play Dune Drake to Dragon Roost as it would satisfy both mandatory requirements."
+  },
+  {
+    "index": 78,
+    "rule": "355.17.b",
+    "text": "Perched Grimwyrm is a unit that reads “Play me only to a battlefield you conquered this turn.” If a player plays Perched Grimwyrm via Here to Help and they haven’t conquered a battlefield this turn, Perched Grimwyrm will fail to finalize. Although Here to Help presents a mandatory requirement, Perched Grimwyrm’s restriction on being played overrides it."
+  },
+  {
+    "index": 79,
+    "rule": "355.17.b",
+    "text": "Mageseeker Warden is a unit that reads in part “While I'm at a battlefield, opponents can only play units to their base.” If a player attempts to play a Perched Grimwyrm to a battlefield they’ve conquered this turn while their opponent controls a Mageseeker Warden at a battlefield, the Perched Grimwyrm will fail to finalize."
+  },
+  {
+    "index": 80,
+    "rule": "356.1.b.3",
+    "text": "Legion Rearguard is a Fury unit that costs 2 Energy and 0 Power and has Accelerate. A player plays Legion Rearguard and is instructed to ignore its costs, but chooses to pay the Accelerate cost. They ignore Legion Rearguard's Base Cost of 2 Energy, but the optional additional cost of 1 Energy and 1 Fury Power is added to its Total Cost and must be paid."
+  },
+  {
+    "index": 81,
+    "rule": "356.2.a.1",
+    "text": "A unit has the passive ability \"As an additional cost to play me, kill a friendly unit.\" To play that unit, a player must kill a friendly unit."
+  },
+  {
+    "index": 82,
+    "rule": "356.2.b.1",
+    "text": "A unit has the ability \"As you play me, you may discard 1 as an additional cost. If you do, reduce my cost by [2].\" While playing the unit, its controller declares their intention to pay the additional cost in step 2, applies that additional cost in rule 356.2, applies the discount granted by paying that cost in rule 356.4, and discards a card to pay that additional cost in rule 357.2."
+  },
+  {
+    "index": 83,
+    "rule": "356.4.c",
+    "text": "Ezreal, Prodigy reads “optional additional costs you pay cost [1] or [A] less.” When playing a Frigid Touch and choosing to pay the additional cost in step 2, as soon as the additional cost is added to the cost of the spell, Ezreal, Prodigy’s discount is applied to it."
+  },
+  {
+    "index": 84,
+    "rule": "356.4.e",
+    "text": "Eager Apprentice says \"While I'm at a battlefield, the Energy costs for spells you play is reduced by [1], to a minimum of [1].\" A player who controls Eager Apprentice and a unit with 7 Might plays Sky Splitter, a spell that costs 8 Energy and says \"This spell's Energy cost is reduced by the highest Might among units you control.\" That player can choose to apply Eager Apprentice's discount first, reducing Sky Splitter's Energy cost to 7, then apply Sky Splitter's discount, reducing its Energy cost to 0. If they applied these discounts in the other order, Sky Splitter's Energy cost would be 1."
+  },
+  {
+    "index": 85,
+    "rule": "356.4.f.1",
+    "text": "Clockwork Keeper is a unit that costs 2 Energy and 0 Power and says \"As you play me, you may pay [C] as an additional cost. If you do, draw 1.\" A player controls a card that says \"Units you play cost [A] less.\" That player plays Clockwork Keeper and chooses to pay the optional additional cost of [C]. They will draw a card, even though the optional additional cost was reduced to 0."
+  },
+  {
+    "index": 86,
+    "rule": "356.4.g",
+    "text": "Rhasa, the Sunderer reads “I cost [1] less for each card in your trash.” The value of this discount depends on the number of cards in the trash. That value is checked during this step when the discount is applied to Rhasa’s cost. If the number of cards in his controller’s trash changes at a later point in the finalization process, that will not affect the value checked during this step or the total cost calculated in this step."
+  },
+  {
+    "index": 87,
+    "rule": "356.7",
+    "text": "A card reads \"As an additional cost to play me, kill a friendly unit.\" Killing a friendly unit is an additional cost to play that card."
+  },
+  {
+    "index": 88,
+    "rule": "357.2",
+    "text": "A card reads in part “As an additional cost to play me, kill a friendly unit and discard a unit.” When paying the costs for that card, its controller can pay those two costs in any order; they can kill a friendly unit first and then discard a unit, or they can discard a unit and then kill a friendly unit."
+  },
+  {
+    "index": 89,
+    "rule": "357.2.a",
+    "text": "A player plays Cruel Patron, which says \"As an additional cost to play me, kill a friendly unit.\" They also control Zhonya’s Hourglass, which says “If a friendly unit would die, kill this instead. Heal that unit, exhaust it, and recall it.” They choose to kill a friendly unit during step 3, but as they pay the cost in step 4, Zhonya’s Hourglass replaces that unit’s death. The cost is considered paid, and the player can continue playing Cruel Patron."
+  },
+  {
+    "index": 90,
+    "rule": "357.3",
+    "text": "A player plays a card which reads “as an additional cost to play this, you may kill a friendly unit. Give a friendly unit +2 [M] this turn. If you paid the cost, give that unit +7 [M] this turn instead” If they chose to pay the cost, they must choose to kill a unit other than the targeted unit unless they have no choice."
+  },
+  {
+    "index": 91,
+    "rule": "358.1",
+    "text": "If the card chose targets, ensure that the targets are legal."
+  },
+  {
+    "index": 92,
+    "rule": "358.1",
+    "text": "If the card made choices that had restrictions or requirements, ensure that restrictions were followed and that the requirements were met as appropriate. See rule 355. Make Relevant Choices for more information."
+  },
+  {
+    "index": 93,
+    "rule": "358.3",
+    "text": "Check that a spell's execution does not create a state where a Battlefield has Units controlled by 3 different players."
+  },
+  {
+    "index": 94,
+    "rule": "358.3",
+    "text": "Check that a permanent is not played to a base other than that of its controller."
+  },
+  {
+    "index": 95,
+    "rule": "358.3.a",
+    "text": "Flash is a spell that reads in part “Move up to 2 friendly units to base.” Vilemaw’s Lair is a battlefield that reads “Units can’t move from here to base.” Flash is legal to play choosing a unit at Vilemaw’s Lair; on resolution of the spell, the move instruction will be negated."
+  },
+  {
+    "index": 96,
+    "rule": "358.4",
+    "text": "If the state is Showdown Closed and the card was the one that Closed the state, ensure that it has [Action] or [Reaction]."
+  },
+  {
+    "index": 97,
+    "rule": "358.4",
+    "text": "If the state is Closed and the card wasn’t the one that Closed the state, ensure that it has [Reaction]."
+  },
+  {
+    "index": 98,
+    "rule": "359.3.e.2.a",
+    "text": "Temporal Breach is a spell that reads in part “Banish a unit, then its owner plays it to the same location, ignoring its cost.” By default, the only targeting restrictions on the spell are that the target is a unit, and that the unit is able to be chosen by the spell. However, if Temporal Breach is played from facedown, it gains the restriction that it must choose from among game objects at the battlefield it was played from. If the unit it chooses moves to a different location, that unit will be an illegal target on resolution of Temporal Breach."
+  },
+  {
+    "index": 99,
+    "rule": "359.3.e.3",
+    "text": "A spell targets \"a unit at a battlefield.\" A player reacts with a spell that moves the unit to base, then another player reacts with a spell that moves it back to that battlefield, then the original spell resolves. The unit is a legal target."
+  },
+  {
+    "index": 100,
+    "rule": "359.3.e.5",
+    "text": "A player plays Void Seeker, a spell that says \"Deal 4 to a unit at a battlefield. Draw 1.\" The unit's controller uses a Reaction to move the unit to their base. Since the unit is no longer a legal target, it is not dealt any damage. Void Seeker's controller still draws 1."
+  },
+  {
+    "index": 101,
+    "rule": "359.3.e.5",
+    "text": "A player plays Bellow’s Breath targeting a unit in combat that reads in part “I can’t be chosen by enemy spells and abilities unless I’m in combat.” In reaction, that unit’s controller plays Flash, moving the unit to their base. The unit is no longer in combat, so it is no longer a legal target for Bellow’s Breath. The unit will be unaffected by Bellow’s Breath as it resolves."
+  },
+  {
+    "index": 102,
+    "rule": "359.3.e.5",
+    "text": "A player plays Hidden Blade from the facedown zone at a battlefield, targeting an enemy unit. In reaction to Hidden Blade, their opponent plays Tideturner from facedown at another battlefield, choosing to swap locations with the unit Hidden Blade targeted. When Hidden Blade resolves, the chosen unit is no longer at the appropriate battlefield, so any instructions related to that unit are ignored."
+  },
+  {
+    "index": 103,
+    "rule": "359.3.e.6",
+    "text": "A player plays Ride the Wind choosing to move their unit at Vilemaw’s Lair to base. Base is a legal move destination for Ride the Wind, but on resolution of Ride the Wind’s effect, the move instruction will be negated because Vilemaw’s restriction makes the instruction impossible."
+  },
+  {
+    "index": 104,
+    "rule": "359.3.e.6",
+    "text": "A player plays Hidden Blade targeting a unit at a battlefield. In reaction to Hidden Blade, the unit’s controller plays Flash, moving it to base. Hidden Blade’s instruction “Kill a unit.” will be ignored on resolution of the spell."
+  },
+  {
+    "index": 105,
+    "rule": "359.3.e.8",
+    "text": "Singularity reads “deal 6 to each of up to two units.” The instruction will execute even if one of those units is made unavailable before the spell begins."
+  },
+  {
+    "index": 106,
+    "rule": "359.3.e.9",
+    "text": "A spell has the instruction \"Deal 2 to a unit at a battlefield.\" Before that instruction can execute, the chosen unit is moved to its base. The instruction will not be executed, because it specifies that the unit it chooses must be at a Battlefield, and by the time it attempted to execute, the unit was no longer valid as a choice."
+  },
+  {
+    "index": 107,
+    "rule": "359.3.e.9.a",
+    "text": "When a player moves their Volibear, Furious to an occupied enemy battlefield and combat initiates, Volibear’s attack trigger goes on the chain targeting three of the units at that battlefield. In reaction, the defending player plays Flash moving two of the three units back. That player cannot then target the attack trigger with Repulse, which reads “Choose a friendly unit at a battlefield. Counter an enemy spell or ability that chooses it and no other friendly unit.” If the defending player instead played Heedless Resurrection twice, killing the two units, Repulse can legally target the attack trigger, because two of the targets have changed to a non-board zone."
+  },
+  {
+    "index": 108,
+    "rule": "359.3.e.10",
+    "text": "A player plays a spell that reads \"Deal 2 to a unit at a battlefield\" with no other instructions, and chooses an enemy unit at a battlefield. They also control a unit with the ability \"When you play a spell, give me +1 [M] this turn.\" Before the spell resolves, the chosen unit is moved to its base. The spell resolves and its only instruction cannot be executed, but the unit's ability still triggers as the spell resolves and gives it +1 [M]."
+  },
+  {
+    "index": 109,
+    "rule": "359.3.e.11",
+    "text": "A player plays a spell that says \"Discard 2, then draw 2.\" If their hand is empty, the instruction to discard 2 will be negated. They'll still draw 2. If they had 1 card in hand, they would discard it and draw 2."
+  },
+  {
+    "index": 110,
+    "rule": "359.3.e.14",
+    "text": "Hidden Blade reads “Kill a unit at a battlefield. Its controller draws 2.” The “its” in the second instruction references the unit in the first, so the two instructions of the spell are linked."
+  },
+  {
+    "index": 111,
+    "rule": "359.3.e.14.a",
+    "text": "Hidden Blade reads “Kill a unit at a battlefield. Its controller draws 2.” If the chosen unit changes zones or moves to base in reaction to Hidden Blade, the spell will mistarget and the first instruction will be ignored. If the first instruction is ignored, the second instruction will not execute and the unit’s controller will not draw 2."
+  },
+  {
+    "index": 112,
+    "rule": "359.3.e.14.b",
+    "text": "Hidden Blade reads “Kill a unit at a battlefield. Its controller draws 2.” This effect is split into two instructions: killing the unit and the targeted unit’s controller drawing 2. The later linked instruction doesn’t reference an action directly, so it will execute even if the kill action of the earlier linked action is negated."
+  },
+  {
+    "index": 113,
+    "rule": "359.3.e.14.b",
+    "text": "Deathgrip reads “Kill a friendly unit. If you do, give +[M] equal to its Might to another friendly unit this turn.” If the friendly unit in question is not killed by Deathgrip because its death is replaced with another event, the later linked instruction will not execute because “if you do” directly references the game action."
+  },
+  {
+    "index": 114,
+    "rule": "359.3.e.14.b",
+    "text": "Ride the Wind is a spell that reads in part “Move a friendly unit and ready it.” Vilemaw’s Lair is a battlefield that reads “Units can’t move from here to base.” If Ride the Wind is played on a unit at Vilemaw’s Lair choosing the base as its destination, the move instruction will be negated on resolution by the passive ability of Vilemaw’s Lair, but the ready instruction will still execute."
+  },
+  {
+    "index": 115,
+    "rule": "359.3.e.14.c",
+    "text": "A spell reads “Deal 3 to an enemy unit at a battlefield. If you do, heal units you control at the same location as that unit.” If some but not all of that damage is prevented, the later linked instruction will still execute."
+  },
+  {
+    "index": 116,
+    "rule": "359.3.e.14.c",
+    "text": "A spell reads “Banish an enemy unit at a battlefield, then play it to any battlefield. Then if you do, do this: stun all enemy units there.” A player plays it targeting a unit that has a passive replacement effect that reads “I enter in base.” The replacement effect causes the unit to enter in base, but this does not prevent the reflexive trigger of the spell from being placed on the chain. All that matters is that the unit was played."
+  },
+  {
+    "index": 117,
+    "rule": "359.3.e.16",
+    "text": "Targon’s Peak is a battlefield that reads in part “When you conquer here, ready up to 2 runes at the end of this turn.” If Targon’s Peak is conquered during the Ending Phase after the beginning of the ending step, such as via an effect like Thrill of the Hunt, the delayed trigger will not be generated."
+  },
+  {
+    "index": 118,
+    "rule": "359.3.e.16",
+    "text": "Hostile Takeover is a spell that reads “Take control of an enemy unit at a battlefield. Ready it.” and “Lose control of that unit and recall it at end of turn.” If Hostile Takeover is played during the Ending Phase, its delayed triggered ability will not trigger. “At end of turn” and “at the end of this turn” are synonymous, so it will not trigger again."
+  },
+  {
+    "index": 119,
+    "rule": "359.3.e.16",
+    "text": "Akshan, Mischievous reads in part “When you play me, if you paid the additional cost, move an enemy gear to your base. You control it until I leave the board. If it's an Equipment, attach it to me.” If Akshan leaves the board in reaction to his play effect, the delayed passive ability “You control it until I leave the board,” will not be generated. You will not gain control of the targeted gear even for a moment."
+  },
+  {
+    "index": 120,
+    "rule": "359.3.f.3",
+    "text": "Lillia, Fae Fawn reads “when I move from a location, play a 3 [M] Sprite token with Temporary there.” If Lillia moves to a battlefield, her triggered ability will be placed on the chain and it will note the location she moved from when it does so. If she moves to a non-board zone in reaction to the triggered ability on the chain, it will not affect where the Sprite token will be played when the triggered ability resolves."
+  },
+  {
+    "index": 121,
+    "rule": "359.3.f.3.b",
+    "text": "Iascylla reads “When I hold, at the start of your next Main Phase, you may move an enemy unit to this battlefield.” The “this battlefield” in her delayed triggered ability refers to the battlefield she held, and so will be referenced from the trigger condition, when the triggered ability is generated."
+  },
+  {
+    "index": 122,
+    "rule": "359.3.f.4",
+    "text": "Yasuo, Remorseful reads “when I attack, deal damage equal to my Might to an enemy unit here.” Yasuo moves to an occupied enemy battlefield and his attack trigger goes on the chain. In reaction to the attack trigger, the defending player plays a hidden Hostile Takeover and gains control of Yasuo. The triggered ability is unaffected by Yasuo changing controllers, and “enemy” is in reference to the triggered ability itself, so it will resolve with no issue."
+  },
+  {
+    "index": 123,
+    "rule": "359.3.f.4",
+    "text": "In reaction to the same Yasuo, Remorseful trigger, say the defending player had instead played a spell that reads “[Reaction]. Gain control of a triggered ability. You may make new choices for it.” They chose the attack trigger. When Yasuo’s attack trigger resolves, if they didn’t make new choices for the trigger, the controller of the triggered ability will no longer be an enemy to the targeted unit, so the triggered ability will mistarget and do nothing. If they instead chose Yasuo with the attack trigger, he would be an enemy unit to the triggered ability and so it would deal damage equal to his Might to himself."
+  },
+  {
+    "index": 124,
+    "rule": "364.1",
+    "text": "\"I get +1 [M] while you have 2 or more cards in your hand.\""
+  },
+  {
+    "index": 125,
+    "rule": "364.1",
+    "text": "\"Friendly Yordles at my battlefield have [Shield].\""
+  },
+  {
+    "index": 126,
+    "rule": "364.3.a",
+    "text": "\"While I'm attacking or defending alone, I have +2 [M].\""
+  },
+  {
+    "index": 127,
+    "rule": "364.3.a",
+    "text": "\"If an opponent controls a battlefield, I enter ready.\""
+  },
+  {
+    "index": 128,
+    "rule": "366.1",
+    "text": "The passive ability \"Play me only during an opponent's turn.\" applies in any zone from which that card can be played."
+  },
+  {
+    "index": 129,
+    "rule": "366.1",
+    "text": "Undying Legion has a passive ability that reads “[Legion][>] You may play me from your trash for [3][C].” That passive ability only applies when Undying Legion is in the trash."
+  },
+  {
+    "index": 130,
+    "rule": "369.1",
+    "text": "Zhonya's Hourglass reads \"The next time a friendly unit would die, kill this instead. Heal that unit, exhaust it, and recall it.\" This is a replacement effect that alters the execution of any Game Effect that would kill a friendly unit."
+  },
+  {
+    "index": 131,
+    "rule": "369.1",
+    "text": "Undertitan is a unit that reads in part “As I’m revealed from your deck, [Add] [2].” This is a replacement effect that alters the execution of any Game Effect that reveals Undertitan from your deck."
+  },
+  {
+    "index": 132,
+    "rule": "369.2",
+    "text": "Burning Out is a replacement effect."
+  },
+  {
+    "index": 133,
+    "rule": "369.2",
+    "text": "Preventing Damage is a replacement effect."
+  },
+  {
+    "index": 134,
+    "rule": "369.3",
+    "text": "Master Yi, Honed reads “I enter ready.” This applies a replacement effect to the way that units normally enter. The event of him entering exhausted is replaced by one where he enters ready."
+  },
+  {
+    "index": 135,
+    "rule": "369.3",
+    "text": "Baron Nashor reads “As you play me, add the Baron Pit battlefield token to the board if it's not there already. If you do, I enter there.” The last sentence of his ability is a replacement effect that replaces the event of him entering at his original play location with him entering at the Baron Pit if it was created."
+  },
+  {
+    "index": 136,
+    "rule": "370.1.a",
+    "text": "The moment that results from a unit being killed is an event that can be referenced by game effects, or even skipped entirely."
+  },
+  {
+    "index": 137,
+    "rule": "370.1.a",
+    "text": "The moment that results from a unit becoming Mighty is an event that can be referenced by game effects, or even skipped entirely."
+  },
+  {
+    "index": 138,
+    "rule": "370.1.a.1",
+    "text": "Zhonya’s Hourglass reads in part “If a friendly unit would die, kill this instead. Heal that unit, exhaust it, and recall it.” A unit’s death being replaced by Zhonya’s Hourglass is the same as the kill action that caused that death not occurring."
+  },
+  {
+    "index": 139,
+    "rule": "370.1.a.1",
+    "text": "A card reads in part “The next time an enemy unit would become Mighty this turn, banish it instead. Its controller plays a 3 [M] Mech unit token to its location.” A unit becoming Mighty being replaced by this effect means the unit never became Mighty—no effects that trigger on units becoming Mighty will trigger."
+  },
+  {
+    "index": 140,
+    "rule": "370.1.a.2",
+    "text": "A spell reads in part “Kill up to two units at battlefields.” When that spell resolves, the units targeted are killed simultaneously because their deaths result from the same game action."
+  },
+  {
+    "index": 141,
+    "rule": "370.1.a.2",
+    "text": "A spell reads in part “Kill a friendly unit. If you do, kill an enemy unit with no more Might than it.” When that spell resolves, the units are not killed simultaneously. There are two kill game actions being performed in the instructions of the spell. The friendly unit is killed first, followed by the enemy unit."
+  },
+  {
+    "index": 142,
+    "rule": "370.1.b.1",
+    "text": "Undertitan is a unit that reads in part “As I’m revealed from your deck, [Add] [2].” The event of Undertitan being revealed from your deck is replaced by Undertitan being revealed from your deck and adding [2] Energy to your Rune Pool."
+  },
+  {
+    "index": 143,
+    "rule": "370.1.c.1",
+    "text": "Nocturne, Horrifying reads in part “As you look at or reveal me from the top of your deck, you may banish me. If you do, you may play me for [A].” Because Nocturne’s replacement effect replaces an event that applies while he is in a secret zone, it applies to the event of him being looked at or revealed from the top of a player’s Main Deck simultaneously with that event occurring."
+  },
+  {
+    "index": 144,
+    "rule": "370.1.c.1",
+    "text": "A card reads in part “If you would burn this, you may burn this and an additional card instead.” Because the replacement effect applies to the card while it is in a secret zone, it applies simultaneously with the event occurring. Another card reads “If a player would put a card into their trash from their Main Deck, banish it instead.” This replacement effect is active on the board, and thus applies before the qualifying event occurs. Because these replacement effects are applied at different timings, they are applied in order. The card will be banished first, and subsequently its replacement effect will have nothing to replace."
+  },
+  {
+    "index": 145,
+    "rule": "370.2",
+    "text": "A player plays a spell that reads “gear you control become 1 [M] gear units this turn.” They control two copies of Zhonya’s Hourglass when the spell resolves. If one of those copies is killed, both of their Replacement Effects will be applied. Whichever is applied first, that Replacement Effect can’t be applied again. When it is applied, it kills its source, which creates an event the other can apply its Replacement Effect to. Once they’ve both applied their Replacement Effect to the original death event and the event that replaced it, they cannot go any further. At that point, whichever Zhonya’s Hourglass applied its Replacement Effect last will die."
+  },
+  {
+    "index": 146,
+    "rule": "370.3",
+    "text": "A unit that reads “if a unit you control would die, you may banish me from your trash instead. If you do, heal that unit, exhaust it and recall it.” The first unit dies simultaneously with a 1 [M] Recruit token. It does not enter the trash before the Recruit dies, so it will not be able to replace its death."
+  },
+  {
+    "index": 147,
+    "rule": "370.4",
+    "text": "Soraka, Wanderer has a Replacement Effect that reads, “If another unit you control here would die, if it has less Might than me, instead heal it, exhaust it, and recall it.” Soraka’s replacement can be applied to any qualifying event that occurs simultaneously with her leaving the board, including to units that die simultaneously with her."
+  },
+  {
+    "index": 148,
+    "rule": "371.2.b",
+    "text": "Zilean, Time mage reads “Once each turn, if you would play a token unit while I'm at a battlefield, you may play that token and an additional copy of it instead.” When his controller plays a token, they can choose not to apply the replacement effect to that event. If they do, they can choose to apply it to a later event of a token being played."
+  },
+  {
+    "index": 149,
+    "rule": "373",
+    "text": "Two units controlled by the same player die in the same cleanup. That player also controls Zhonya’s Hourglass. They must decide which event to apply Zhonya’s Hourglass to first."
+  },
+  {
+    "index": 150,
+    "rule": "373.1.a",
+    "text": "Two units die simultaneously. One of those units has their death replaced by being healed, exhausted, and recalled. The healing, exhausting, and recalling of that unit will be performed before the other dies."
+  },
+  {
+    "index": 151,
+    "rule": "373.2",
+    "text": "Soraka, Wanderer reads “If another unit you control here would die, if it has less Might than me, instead heal it, exhaust it, and recall it.” Soraka dies simultaneously with two 1 [M] Recruit tokens at the same battlefield and two 1 [M] Recruit tokens in base. Soraka has a Guardian Angel attached to her when she dies, which appends “If I would die, kill Guardian Angel instead. Heal me, exhaust me, and recall me” to Soraka’s rules text. There are several possible ways to order the Replacement Effects being applied to the various events: If Soraka’s Replacement Effect is applied first, it saves the Recruits at the same battlefield as her but not the Recruits in base. If the Replacement Effect appended by Guardian Angel then saves Soraka, she cannot apply her Replacement Effect to the Recruits in base as her Replacement Effect has already been applied to an event simultaneous with it dying. If the Replacement Effect appended by Guardian Angel is applied first, it saves Soraka and recalls her - then when Soraka’s Replacement Effect is applied, it can only save the Recruits in base."
+  },
+  {
+    "index": 152,
+    "rule": "375",
+    "text": "Treasure Hunter reads “When I move, play a Gold gear token exhausted.” A Replacement Effect that says “if you would play a token gear, play that token and an additional copy instead” is applied to the event of the Gold gear token being played. The additional copy will also be exhausted, as it inherits the “exhausted” modification."
+  },
+  {
+    "index": 153,
+    "rule": "375",
+    "text": "Another Replacement Effect says “if you would play a token, draw 1 instead.” The modification from Treasure Hunter’s ability cannot apply, so we ignore it."
+  },
+  {
+    "index": 154,
+    "rule": "375",
+    "text": "A spell reads “play a ready 3 [M] Mech token. Then do this: Give it Temporary.” A Replacement Effect that says “if you would play a unit token, play that token and a 1 [M] Recruit token instead” is applied to the event of the Mech token being made. The Recruit token enters ready and is given Temporary."
+  },
+  {
+    "index": 155,
+    "rule": "377.1",
+    "text": "\"[2]: Draw 1\" is an activated ability. The cost is 2 energy. The effect is to draw 1 card."
+  },
+  {
+    "index": 156,
+    "rule": "377.2.b",
+    "text": "Ultrasoft Poro reads “[E]: Play two 1 [M] Bird unit tokens with [Deflect]. Use this ability only while I'm at a battlefield.” In order to activate the ability, Ultrasoft Poro must be located at a battlefield."
+  },
+  {
+    "index": 157,
+    "rule": "383.1.b",
+    "text": "Wraith of Echoes reads “The first time another friendly unit dies each turn, draw 1.” That ability hasn’t triggered yet this turn. Two other friendly units die simultaneously (say, due to combat damage). The Wraith’s controller chooses one of those deaths to trigger Wraith’s ability."
+  },
+  {
+    "index": 158,
+    "rule": "383.2.a.1",
+    "text": "Sona, Harmonious reads “At the end of your turn, if I'm at a battlefield, ready up to 4 friendly runes.” Her Trigger Ability’s Condition will be fulfilled in the Ending Step, but the Triggered Ability will only be placed on the chain if she is located at a battlefield when the Condition is fulfilled. If she is removed in reaction to the triggered ability, it will still resolve."
+  },
+  {
+    "index": 159,
+    "rule": "383.2.a.1",
+    "text": "Loose Cannon reads “At the start of your Beginning Phase, draw 1 if you have one or fewer cards in your hand.” The “if you have one or fewer cards in your hand” conditional statement is not immediately after the trigger condition, so it is part of the effect and not the condition."
+  },
+  {
+    "index": 160,
+    "rule": "383.2.c.1",
+    "text": "Immortal Phoenix says “When you kill a unit with a spell, you may pay [1][C] to play me from your trash.” This ability triggers if Immortal Phoenix is in your trash immediately after you kill a unit with a spell, even if the unit you killed with a spell was that Immortal Phoenix."
+  },
+  {
+    "index": 161,
+    "rule": "383.2.c.2",
+    "text": "Viktor, Leader says “When another non-Recruit unit you control dies, play a 1 [M] Recruit unit token into your base.” This ability triggers if Viktor is on the board immediately after another non-Recruit unit you control dies. It does not trigger if Viktor and another non-Recruit unit you control die during the same game action (for instance, if they are both killed in the same Cleanup due to the damage dealt by Unchecked Power)."
+  },
+  {
+    "index": 162,
+    "rule": "383.2.c.3",
+    "text": "If a game object has a deathknell ability, which triggers on the game object dying, it will be processed and placed on the chain just prior to the game object being placed in the trash, during the event of the game object dying."
+  },
+  {
+    "index": 163,
+    "rule": "383.2.c.3",
+    "text": "Treasure Trove has a triggered ability that triggers as it “leaves the board.” Such a triggered ability is processed and placed on the chain just before Treasure Trove completes the action of leaving the board by being moved to another zone."
+  },
+  {
+    "index": 164,
+    "rule": "383.2.c.3.a",
+    "text": "If a unit’s death is replaced by an event of that unit being healed, exhausted, and recalled, that unit’s Deathknell abilities will not trigger, as the unit’s death event is replaced and does not occur."
+  },
+  {
+    "index": 165,
+    "rule": "383.2.c.3.a",
+    "text": "If Treasure Trove’s being killed is replaced with it being banished, it will still trigger just before the banish action is executed."
+  },
+  {
+    "index": 166,
+    "rule": "383.2.c.3.b",
+    "text": "A unit reads in part “When I leave the board, deal 2 to a unit where I was.” Its controller plays Retreat on the unit, returning it to hand. Before the unit is returned to hand, the triggered ability is placed on the chain and the necessary information about that unit is noted. When the triggered ability is being finalized, we can identify the former location of the unit in question with the noted information."
+  },
+  {
+    "index": 167,
+    "rule": "383.3.a",
+    "text": "Tideturner reads “When you play me, you may choose a unit you control at another location. Move me to its location and it to my original location.” This “you may” appears as the first part of its effect, so the choice represents whether or not to perform the triggered ability."
+  },
+  {
+    "index": 168,
+    "rule": "383.3.a.3",
+    "text": "Ornn, Blacksmith reads “When you play me or when I hold, look at the top 4 cards of your Main Deck. You may reveal a gear from among them and draw it. Then recycle the rest.” This “you may” does not appear as the first part of its effect, so the choice is made on resolution. The ability is always finalized to the chain."
+  },
+  {
+    "index": 169,
+    "rule": "383.3.b",
+    "text": "Ekko, Recurrent reads “[Deathknell][>] Recycle me to ready your runes.” In this case, “recycle me to ready your runes” is a cost within instructions that appears at the beginning of the effect of the ability, and thus “recycle me” is taken as the base cost of the triggered ability."
+  },
+  {
+    "index": 170,
+    "rule": "383.3.b",
+    "text": "Insightful Investigator reads “When you play me, choose an opponent. They reveal their hand. You may pay 2 XP to choose a card from their hand. If you do, they discard that card and draw 1.” The “pay 2 XP” is a cost within instructions, but because it does not appear in the first part of the effect, it is not taken as the base cost of the triggered ability. Paying 2 XP is performed on resolution."
+  },
+  {
+    "index": 171,
+    "rule": "383.3.e.2.b",
+    "text": "A player controls a unit that reads in part “Once each turn, when an enemy unit dies, you may banish it.” When an enemy Recruit token dies, the triggered ability goes on the chain. If they choose not to perform the ability on finalization, it is removed from the chain. When a Stalwart Poro dies later in the turn, they can choose to trigger it then."
+  },
+  {
+    "index": 172,
+    "rule": "383.4.g.1",
+    "text": "Reckoner’s Arena reads “When you hold here, activate the conquer effects of units here.” For each unit at the battlefield, you will check the trigger condition of their conquer effects to see if the condition has been fulfilled, treating the conquer portion of the condition as having been fulfilled. If all of the conditions are fulfilled for a conquer effect, it is placed on the chain as if it had just triggered. If any of the non-conquer parts of the condition are not fulfilled, it will not be placed on the chain."
+  },
+  {
+    "index": 173,
+    "rule": "383.4.g.1",
+    "text": "A spell reads “Activate the play effects of your gear.” For each gear you control, you will treat it as if you had just played the gear and check the other conditions of that gear. If all of the conditions are fulfilled for a play effect, it is placed on the chain as if it had just triggered."
+  },
+  {
+    "index": 174,
+    "rule": "383.4.g.2",
+    "text": "Red Brambleback is a unit that reads in part “Your conquer effects for conquering here trigger an additional time.” Reckoner’s Arena is a battlefield that reads “When you hold here, activate the conquer effects of units here.” The conquer effects that were activated in this way were not the result of a conquer occurring, so they will not trigger an additional time from Red Brambleback’s passive ability if it is located there."
+  },
+  {
+    "index": 175,
+    "rule": "385.2",
+    "text": "The triggered ability \"When you conquer, you may discard 1 to return this from your trash to your hand.\" triggers while the card it's on is in the trash, and not anywhere else."
+  },
+  {
+    "index": 176,
+    "rule": "386.2.b",
+    "text": "Zilean, Time mage reads “Once each turn, if you would play a token unit while I'm at a battlefield, you may play that token and an additional copy of it instead.” When his controller plays a token, they can choose not to apply the replacement effect to that event. If they do, they can choose to apply it to a later event of a token being played."
+  },
+  {
+    "index": 177,
+    "rule": "386.2.b",
+    "text": "A player controls a unit that reads in part “Once each turn, when an enemy unit dies, you may banish it.” When an enemy Recruit token dies, the triggered ability goes on the chain. If they choose not to perform the ability on finalization, it is removed from the chain. When a Stalwart Poro dies later in the turn, they can choose to perform it then."
+  },
+  {
+    "index": 178,
+    "rule": "388.4",
+    "text": "Death From Below is a spell that reads in part “Then, if it had 3 might or less, do this: You may play this from your trash for [A].” The reflexive trigger is added to the chain when the spell is resolving, and then on finalization of the reflexive trigger its controller will decide if they want to perform the effect. If they don’t, it is removed from the chain."
+  },
+  {
+    "index": 179,
+    "rule": "392",
+    "text": "Ravenborn Tome reads “The next spell you play this turn deals 1 Bonus Damage.” This is a Delayed Passive Ability that passively adds 1 Bonus Damage to just the next spell played. The next spell is a specific time, and the 1 Bonus Damage is a passive ability."
+  },
+  {
+    "index": 180,
+    "rule": "392",
+    "text": "Noxian Guillotine reads “Choose a unit. Kill it the next time it takes damage this turn.” When the chosen unit takes damage is the specified time, and killing it is the condition for a Delayed Triggered Ability."
+  },
+  {
+    "index": 181,
+    "rule": "396",
+    "text": "The Zero Drive is an Equipment gear whose rules text reads in part “[3][B], Banish this: Play all units banished with this, ignoring their costs.” The Zero Drive’s effect text reads “[Deathnkell][>] Banish me.” The granted Deathknell ability is linked with the Zero Drive’s activated ability."
+  },
+  {
+    "index": 182,
+    "rule": "398",
+    "text": "The Zero Drive is an Equipment gear whose rules text reads in part “[3][B], Banish this: Play all units banished with this, ignoring their costs.” Any units banished by effects other than component Linked Abilities in the same set as the activated ability cannot be played when resolving the activated ability."
+  },
+  {
+    "index": 183,
+    "rule": "411.1.b.3",
+    "text": "A player can't use the Standard Move discretionary action to move a unit to a Battlefield that's already occupied by Units controlled by two other players."
+  },
+  {
+    "index": 184,
+    "rule": "411.2.b",
+    "text": "A player may Draw during the Draw Phase on their turn or when instructed to do so by a spell or ability. They can't choose to Draw at any other time."
+  },
+  {
+    "index": 185,
+    "rule": "412.1",
+    "text": "Cull the Weak is a spell that reads “Each player kills one of their units.” When the spell resolves, each player picks a unit they control and kills that unit. They are responsible for the death of their own unit."
+  },
+  {
+    "index": 186,
+    "rule": "412.4",
+    "text": "A gear reads “When you move an enemy unit, you may exhaust this to [Stun] it.” It will trigger whenever a move game action that you are responsible for causes an enemy unit to move. If an opponent plays a spell that reads “choose a Battlefield. Each player may move a unit they don’t control to that battlefield,” and a player that controls the gear chooses to move an enemy unit, their gear will trigger."
+  },
+  {
+    "index": 187,
+    "rule": "415.3.a",
+    "text": "A unit's Standard Move exhausts the unit as a cost."
+  },
+  {
+    "index": 188,
+    "rule": "415.4",
+    "text": "A spell says \"As an additional cost to play this, you may exhaust a friendly unit.\" An exhausted friendly unit may not be exhausted again as the additional cost for the spell, and the additional cost has not been paid."
+  },
+  {
+    "index": 189,
+    "rule": "417.3",
+    "text": "Vi, Destructive has the ability \"Recycle 1 from your trash: Give me +1 [M] this turn.\" Each time a player activates the ability, they must recycle 1 card from their trash to pay its cost. If they have no cards in their trash, they can't activate the ability, because they can't pay its cost."
+  },
+  {
+    "index": 190,
+    "rule": "417.5",
+    "text": "Garbage Grabber has the ability \"Recycle 3 from your trash, [1], [E]: Draw \" To pay the cost of activating this ability, its controller chooses 3 cards from their trash and places them on the bottom of their Main Deck in a random order."
+  },
+  {
+    "index": 191,
+    "rule": "417.6",
+    "text": "Dr. Mundo, Expert has the ability \"At the start of your Beginning Phase, recycle 3 from your trash.\" As that ability resolves, its controller recycles 3 cards from their trash. If there are fewer than 3 cards in that player's trash, they recycle as many as they can."
+  },
+  {
+    "index": 192,
+    "rule": "418.1.e.1",
+    "text": "A unit reads “when I take damage, give me +2 [M] this turn.” A spell is played that Prevents the next 3 damage the unit would take. If a player plays Hextech Ray targeting the unit, it will take no damage and its triggered ability will not trigger. If that player had played Void Seeker instead, it would be Dealt 1 and trigger its ability."
+  },
+  {
+    "index": 193,
+    "rule": "418.6.a",
+    "text": "Void Seeker is a spell that reads “Deal 4 to a unit at a battlefield. Draw 1.” The damage that Void Seeker instructs you to deal is dealt by Void Seeker."
+  },
+  {
+    "index": 194,
+    "rule": "418.6.b.2.a",
+    "text": "Iron Ballista is a gear that says “[E]: Deal 2 to a unit at a battlefield.” This damage is dealt both by a gear and by an ability."
+  },
+  {
+    "index": 195,
+    "rule": "418.6.b.3",
+    "text": "Challenge is a spell that reads “Choose a friendly unit and an enemy unit. They deal damage equal to their Mights to each other.” The damage that Challenge causes to be dealt is dealt by the chosen units, not by Challenge."
+  },
+  {
+    "index": 196,
+    "rule": "418.6.b.4",
+    "text": "If a player plays Challenge targeting a friendly unit and an enemy unit, the controller of the enemy unit is responsible for the damage dealt by their unit. Any effects that trigger “when you deal damage” that that player controls will trigger."
+  },
+  {
+    "index": 197,
+    "rule": "418.8",
+    "text": "Riven, Shattered reads in part “When I attack, choose an enemy unit here. Deal 2 to it for each Equipment attached to me.” If Riven has three Equipment attached to her, she will deal one instance of 6 damage, not three instances of 2 damage."
+  },
+  {
+    "index": 198,
+    "rule": "420.3.b.2",
+    "text": "Bone Skewer is a spell that reads in part “Choose a battlefield. An opponent reveals their hand. You may choose a unit from it. They play that unit to that battlefield, ignoring any and all costs.” The chosen battlefield isn’t checked on finalization of the resulting game object but when the spell itself is resolving."
+  },
+  {
+    "index": 199,
+    "rule": "420.3.b.2",
+    "text": "A spell reads in part “Play a unit from your trash to an enemy occupied battlefield, ignoring its Energy cost.” On finalization, they can choose any enemy occupied battlefield to play the unit to. If no such battlefield exists as the unit is being finalized, it will fail to finalize."
+  },
+  {
+    "index": 200,
+    "rule": "420.3.b.2",
+    "text": "Rek’Sai, Swarm Queen is a unit that reads “When I attack, you may reveal the top 2 cards of your Main Deck. You may banish one, then play it. If it is a unit, you may play it here. Recycle the rest.” The attack trigger adds a permission to the normal valid locations for the played unit, that being “here.” The “here” in Rek’Sai’s ability is a referent, whose information is checked when the ability resolves. As such, it will not check on finalization of the unit being played."
+  },
+  {
+    "index": 201,
+    "rule": "420.4.b",
+    "text": "A player plays a spell, which is countered by Defy. Any Legion abilities of game objects controlled by that same player will be active."
+  },
+  {
+    "index": 202,
+    "rule": "420.4.b",
+    "text": "A player plays a spell, which is countered by Defy. If that player plays Battering Ram and has played no other cards that turn, it will cost [4] Energy."
+  },
+  {
+    "index": 203,
+    "rule": "420.5",
+    "text": "Astral Heron is a unit that reads “When you play your first card each turn, if I'm at a battlefield, the next card you play this turn costs [2][A][A] less.” This effect applies a discount to the next card the play game action, discretionary or limited, is performed on."
+  },
+  {
+    "index": 204,
+    "rule": "422.3",
+    "text": "Cards that players Hide with the Hidden keyword can be Played for [0] on any subsequent turn as a property of the Hidden keyword."
+  },
+  {
+    "index": 205,
+    "rule": "423.3",
+    "text": "A card has the ability \"Discard 2: Deal 2 damage to a unit at a battlefield.\" To activate the ability, the card's controller must have at least 2 cards in hand and must be able to discard them."
+  },
+  {
+    "index": 206,
+    "rule": "423.4",
+    "text": "Undercover Agent has the ability \"[Deathknell][>] Discard 2, then draw 2. (When I die, get the effect.)\" If Undercover Agent's controller has 2 or more cards in hand, they must discard 2. If they have 1 card in hand, they discard 1, and the rest of the discard instruction is negated. If they have no cards in hand, the entire discard instruction is negated. Regardless of how many cards they discard, they then draw 2."
+  },
+  {
+    "index": 207,
+    "rule": "424.1.a.1",
+    "text": "Eclipse Herald has the ability \"When you stun an enemy unit, ready me and give me +1 [M] this turn.\" Its controller plays a spell that reads \"Stun a unit.\" They may choose a unit that's already stunned, but if they do, Eclipse Herald will not trigger."
+  },
+  {
+    "index": 208,
+    "rule": "425.1.a.2",
+    "text": "If a card is being Revealed from the top of a player's Main Deck, it is still the top card of that player's Main Deck."
+  },
+  {
+    "index": 209,
+    "rule": "425.3",
+    "text": "\"Reveal 2 cards from the top of your Main Deck\" would be executed by taking the two cards from the top of your Main Deck, and then presenting them to all players to clearly read and understand at the table. Then, when all players have had a chance to understand the revealed information, return them to the top of the Main Deck in the same order."
+  },
+  {
+    "index": 210,
+    "rule": "425.3.a",
+    "text": "A card reads “Choose an opponent and reveal your hand. That player picks a card in your hand. You may play the rest this turn, ignoring their costs.” When instructed to reveal their hand, that player reveals the cards currently in their hand."
+  },
+  {
+    "index": 211,
+    "rule": "425.4.a",
+    "text": "\"Reveal 2 cards from the top of your Main Deck. Put one into your hand and Recycle the other\" would be executed by taking the top two cards from your Main Deck, presenting them to the table, and once every player present has had a chance to understand them you would make the selection of one of them to add to your hand. The one you did not select would then be Recycled to the bottom of the Main Deck."
+  },
+  {
+    "index": 212,
+    "rule": "427.1.c",
+    "text": "A spell reads \"Buff a unit. Then, if it was buffed this way, draw a card.\" It will place a buff counter on a unit that has no buff counter, and then its controller will draw a card. However, if the player chooses a unit with a buff counter on it already, then the card will not be drawn."
+  },
+  {
+    "index": 213,
+    "rule": "427.1.c",
+    "text": "A unit reads “When you buff me, ready me.” If that unit is chosen for a game effect that would buff it and it is already buffed, its ability will not trigger."
+  },
+  {
+    "index": 214,
+    "rule": "428.3.a",
+    "text": "A spell reads \"Banish the top card of your Main Deck. When you conquer this turn, draw it.\" This card effect allows you to draw the banished card from banishment if a condition is met. If more than one of these effects is played, each one triggers separately. Each card will be drawn separately. If the turn player passes the turn without playing the card, the card remains in banishment indefinitely. If the same player plays another copy of the same spell, banishes another card, and satisfies its condition, they could play the new banished card, but not the original banished card. See rule 394. Linked Abilities for more information."
+  },
+  {
+    "index": 215,
+    "rule": "429.1.a.1.b",
+    "text": "Draven, Audacious reads in part “When I die in combat, choose an opponent. They gain 1 point.” The ability triggers when Draven himself dies, so it will go on the chain first when a kill instruction is performed on Draven, before he is put in the trash."
+  },
+  {
+    "index": 216,
+    "rule": "429.5.d",
+    "text": "There is a spell that says “Do this twice: Deal 3 to a unit.” Immortal Phoenix is a unit that says “When you kill a unit with a spell, you may pay [1][C] to play me from your trash.” A player plays the spell while Immortal Phoenix is in their trash. The “do this” phrasing means that it has a reflexive triggered ability, which places two triggered abilities on the chain. As each of those triggered abilities resolve, it deals damage to the unit chosen for that ability. If one of these abilities deals lethal damage to a unit, both the spell and its ability are considered sources of the damage, and so both the spell and its ability receive attribution for killing the unit. This means that the spell’s controller killed a unit with a spell, so Immortal Phoenix’s ability will trigger."
+  },
+  {
+    "index": 217,
+    "rule": "430.3",
+    "text": "A player can add Energy and Power through any means before initiating the process of playing a spell. After initiating that process, in the Pay Costs step, they may activate Add Reactions to add Energy or Power to pay costs."
+  },
+  {
+    "index": 218,
+    "rule": "430.3",
+    "text": "A player moves two units to a battlefield where their opponent controls a Mageseeker Investigator. Although they have no window of priority, they may activate Add Reactions to pay for the applied cost from Mageseeker Investigator, and those abilities finalize and resolve immediately."
+  },
+  {
+    "index": 219,
+    "rule": "431.2",
+    "text": "A spell reads \"Channel 1 rune exhausted.\" As that spell resolves, its controller puts the top rune of their rune deck onto the board and that rune enters the board exhausted rather than ready."
+  },
+  {
+    "index": 220,
+    "rule": "432.2.d",
+    "text": "A player attempts to draw 1 during their Draw Phase while their Main Deck is empty. That player instead recycles their trash into their Main Deck, randomizing it as normal, then chooses an opponent to gain 1 point, and then draws 1."
+  },
+  {
+    "index": 221,
+    "rule": "432.3.c",
+    "text": "If a player has no cards in their deck or their trash and they go to draw 1, they will begin to burn out repeatedly. After the first burn out is processed, any subsequent burnout that brings a player to a number of points greater than the Victory Score and more than any opponent will cause them to win the game."
+  },
+  {
+    "index": 222,
+    "rule": "433.1.a",
+    "text": "A unit with 3 base Might and Shield 2 is in combat as a Defender. Since Shield applies, its current Might is 5. A player chooses it as the target for Last Stand, a spell that reads in part “Double a friendly unit's Might this turn.” Its current Might is 5, so it gets +5 Might this turn, for a current Might of 10. After combat, Shield no longer applies, but the +5 Might from Last Stand does, so the unit’s Might is 8."
+  },
+  {
+    "index": 223,
+    "rule": "435.5",
+    "text": "An exhausted equipment being attached to a unit does not ready the equipment."
+  },
+  {
+    "index": 224,
+    "rule": "438.5.a",
+    "text": "A unit with 2 [M] is being assigned damage in the combat damage step. The unit has “prevent the first 3 damage I would take each combat.” The unit would need to be assigned 5 damage in order to have lethal damage assigned to it."
+  },
+  {
+    "index": 225,
+    "rule": "439.1.a",
+    "text": "A player with Green Father as their legend conquers Navori Fighting Pit. They choose to place the Green Father conquer effect on the chain after the Navori Fighting Pit conquer effect. When the Green Father trigger resolves, Navori Fighting Pit is replaced with Brush. Although the Navori Fighting Pit has been replaced, the “here” in its triggered ability still can have its information referenced, because the Brush inherited all statuses and conditions. The unit Navori Fighting Pit’s triggered ability has targeted will still be a legal target on resolution."
+  },
+  {
+    "index": 226,
+    "rule": "440.2.c",
+    "text": "“Play a 1 [M] Recruit token” specifies a zone where the token is Created to implicitly, by specifying the token is played and thus created on the chain."
+  },
+  {
+    "index": 227,
+    "rule": "440.2.c",
+    "text": "“Create a 1 [M] Recruit token” does not specify a zone, so the Recruit token will be created at any location on the board that it can be played to."
+  },
+  {
+    "index": 228,
+    "rule": "444.1.a",
+    "text": "A card reads in part “Choose an enemy unit. Skip the next time that unit would move this turn.” This is a replacement effect that replaces the event of a unit moving with nothing."
+  },
+  {
+    "index": 229,
+    "rule": "444.1.a",
+    "text": "A card reads in part “Skip your Draw phase.” This is a replacement effect that replaces a player’s Draw Phase with nothing."
+  },
+  {
+    "index": 230,
+    "rule": "444.1.a",
+    "text": "A card reads in part “Choose a player. They skip their next point from conquering this turn.” This is a replacement effect that replaces the 1 point gained when conquering with nothing."
+  },
+  {
+    "index": 231,
+    "rule": "445.1.b",
+    "text": "[0] is not a resource that can be removed from the Rune Pool. As a cost, it is paid without performing the pay game action. This cannot be declined."
+  },
+  {
+    "index": 232,
+    "rule": "446.3",
+    "text": "Zilean, Time Mage is a unit that reads “Once each turn, if you would play a token unit while I'm at a battlefield, you may play that token and an additional copy of it instead.” The additional copy played by Zilean’s replacement effect has no printed traits of its own. Its printed traits are those of the token it is a copy of."
+  },
+  {
+    "index": 233,
+    "rule": "459.1",
+    "text": "An Equipment is attached to a unit at a battlefield, so the Equipment is present at that battlefield. If the unit dies, the Equipment will be recalled during the next cleanup."
+  },
+  {
+    "index": 234,
+    "rule": "467.2.c.3",
+    "text": "If a player has 5 damage to distribute among four 3 Might units, they may not choose to assign 2 damage to one of the units and 1 damage to each of the remaining 3. They must assign 3 damage to one, and the remaining 2 to another."
+  },
+  {
+    "index": 235,
+    "rule": "467.2.c.4",
+    "text": "If a player has 5 damage to distribute among four 3 Might units and those units each have 1 damage already marked on them, that player may not assign more than 2 damage to any of those units."
+  },
+  {
+    "index": 236,
+    "rule": "467.2.c.4.a",
+    "text": "A unit with 3 [M] is being assigned damage in the combat damage step. There are other units without damage assigned to them with the same controller. The unit has a delayed replacement effect applied to it that reads “Double all damage that would be dealt to it this turn.” When assigning damage, the assigning player can only choose to assign 1 or 2 damage to this unit—when doing so, the assigned damage is doubled to 2 or 4 damage respectively. The minimum applied value such that the unit would take lethal damage in this way is 4 damage."
+  },
+  {
+    "index": 237,
+    "rule": "467.2.c.5",
+    "text": "A unit with 2 [M] is being assigned damage in the combat damage step. The unit has “prevent the first 3 damage I would take each combat.” The unit would need to be assigned 5 damage in order to have lethal damage assigned to it."
+  },
+  {
+    "index": 238,
+    "rule": "467.2.c.5",
+    "text": "The attacking player is assigning their 3 [M] worth of damage to two defending units with 2 [M] each. One of the units has a delayed replacement effect applied to it that reads “Double all damage that would be dealt to it this turn.” The attacking player assigns two damage to the other defending unit, then when assigning damage to the unit with the delayed replacement effect they assign 2 damage to it; 1 damage that doubles to 2 damage as it is assigned to the unit. When that damage is dealt, it doesn’t get doubled again—the doubling is considered to have already happened during damage assignment."
+  },
+  {
+    "index": 239,
+    "rule": "467.2.c.5",
+    "text": "The attacking player is assigning their 3 [M] worth of damage to a 2 [M] unit. That unit has a prevent value of two being applied to it, as well as the effect of Lotus Trap, doubling the damage dealt to them. Both of these replacement effects apply to the assignment of damage, in the order of the controller of the 2 [M] unit’s choice. If they choose to order the replacement effects so that the prevent value is applied first, the unit will prevent 2 of the assigned damage, then the last 1 point of damage will be doubled to 2. The unit will have 4 damage assigned to it. When damage is dealt, the unit will take 2 damage. If they choose the other order, the unit will have 6 damage assigned to it, 2 of which will be prevented. When damage is dealt, the unit will take 4 damage."
+  },
+  {
+    "index": 240,
+    "rule": "467.2.c.6",
+    "text": "A player is assigning damage to the following units: a unit with Tank (\"I must be assigned combat damage first.\"); a unit with Backline (\"I must be assigned combat damage last.\"); and another unit without any abilities. That player must assign combat damage first to the unit with Tank, then to the unit with no abilities, then to the unit with Backline."
+  },
+  {
+    "index": 241,
+    "rule": "467.2.c.7",
+    "text": "A player is assigning damage to the following units: two units with Tank (\"I must be assigned combat damage first.\") and one unit with no abilities. That player chooses one of the units with Tank and assigns combat damage to it. Then they must assign any remaining damage first to the other unit with Tank, then to the unit with no abilities."
+  },
+  {
+    "index": 242,
+    "rule": "467.2.c.8",
+    "text": "Caitlyn, Patrolling with the Backline ability (\"I must be assigned combat damage last.\") has been given the Tank ability (\"I must be assigned combat damage first.\"). A player is assigning damage to this Caitlyn with Tank and two units with no abilities. That player can’t fulfill both of Caitlyn’s damage requirements, so they may choose to assign damage to Caitlyn first, fulfilling the Tank requirement, or last, fulfilling the Backline requirement. They can’t choose to apply damage to Caitlyn in between the other two units, because that wouldn’t fulfill either requirement."
+  },
+  {
+    "index": 243,
+    "rule": "467.2.c.9",
+    "text": "Two copies of Caitlyn, Patrolling with the Backline ability (\"I must be assigned combat damage last.\") have been given the Tank ability (\"I must be assigned combat damage first.\"). A player assigning damage to these two Caitlyns and one unit with no abilities could choose to fulfill both Caitlyns’ Tank requirements by assigning them both damage before the other unit."
+  },
+  {
+    "index": 244,
+    "rule": "467.2.c.10",
+    "text": "Kayn, Unleashed says “If I have moved twice this turn, I don't take damage.” While Kayn can’t take damage, it is ignored for the purposes of assigning lethal damage in combat."
+  },
+  {
+    "index": 245,
+    "rule": "467.2.c.10",
+    "text": "Counter Strike says “Choose a unit. The next time that unit would be dealt damage this turn, prevent it.” The unit in question has a replacement effect applied to it, but it still can be dealt damage. Thus, it is not exempt from considerations of mandatory assignment."
+  },
+  {
+    "index": 246,
+    "rule": "478.1.a",
+    "text": "A 4 [M] unit reads in part “While I’m [Mighty], I’m a Yeti.” Another unit reads in part “I have all tags of units you control.” When the 4 [M] unit is buffed, the layers for all game objects are evaluated. While evaluating the layers for the second unit, it requires us to pause and evaluate the layers for all other units. When we’re evaluating the layers for the 4 [M] unit, after all is said and done, the unit has the Yeti tag. Once we’ve evaluated all units, we go back to evaluating the second unit, and at that time it has the Yeti tag as well."
+  },
+  {
+    "index": 247,
+    "rule": "478.1.c",
+    "text": "A 4 [M] unit reads “If there is a [Mighty] enemy unit here, I have +5 [M].” Both players control one of these units at a battlefield during combat. Each one is buffed. A third player plays Siphon Power, which reads “Choose a battlefield. Give friendly units there +1 [M] this turn, and enemy units there -1 [M] this turn, to a minimum of 1 [M].” Both of the units there are given -1 [M]. Because they have effects that reference each other, they have a dependency chain. After evaluating their layers simultaneously, layer by layer, both units will be 4 [M]."
+  },
+  {
+    "index": 248,
+    "rule": "478.4",
+    "text": "Fiora, Victorious has printed Might 4 and says “While I'm Mighty, I have Deflect, Ganking, and Shield.” If a player places a buff on Fiora, her Might is increased in the Arithmetic layer, after the layer for Ability-Altering Effects. The Ability-Altering Effect layer is then re-checked and the abilities Deflect, Ganking, and Shield applied. Since each effect has been applied once and there are no other effects to apply, Fiora’s characteristics are finalized as 5 Might with Deflect, Ganking, and Shield. While a buffed Fiora, Victorious is in combat as a defender, an additional +1 Might will be applied in the Arithmetic layer, giving her 6 Might and the 3 keywords."
+  },
+  {
+    "index": 249,
+    "rule": "478.4",
+    "text": "A buffed Fiora, Victorious is in combat as a defender when her buff is removed. Reevaluating the layers in sequence, she no longer gains Deflect, Ganking, and Shield during the Ability-Altering Effect layer, so when the Arithmetic layer is evaluated, neither the buff (which is gone) nor Shield (which she no longer has) apply. She goes directly from 6 Might with three keywords to 4 Might with no keywords."
+  },
+  {
+    "index": 250,
+    "rule": "479.1.b",
+    "text": "A player triggers Leblanc, Deceiver’s hold effect and plays a Reflection token, making it a copy of Honest Broker. That player then plays Mirror Image, targeting the Reflection token. When the Mirror Image Reflection token is played, it copies all of the copyable traits of the original Reflection token - which are currently those of Honest Broker which it is a copy of. That player will have three units named Honest Broker in play, two of which are token Copies with Temporary."
+  },
+  {
+    "index": 251,
+    "rule": "479.1.b.1",
+    "text": "The copyable traits include the printed versions of the following traits: Name, Supertype, Type, Tags, Cost, Domain, Rules Text, Effect Text, Might, Might Bonus, Flavor Text, Art"
+  },
+  {
+    "index": 252,
+    "rule": "479.1.d",
+    "text": "Svellsongur is an Equipment that reads in part “As this is attached to a unit, copy that unit's text to this Equipment's effect text for as long as this is attached to it.” This is a copy effect that is applied in this layer."
+  },
+  {
+    "index": 253,
+    "rule": "479.2.b",
+    "text": "A permanent has the ability \"Other friendly units are Yordles.\" Other friendly units gain the Yordle tag in this layer."
+  },
+  {
+    "index": 254,
+    "rule": "479.3.b",
+    "text": "A permanent has the ability \"Other friendly units have [Vision].\" Other friendly units gain the Vision keyword in this layer."
+  },
+  {
+    "index": 255,
+    "rule": "479.4.b",
+    "text": "If an effect gives a unit “-4 [M] to a min of 1 this turn” choosing a unit with 2 [M], then the effect will generate -1 [M] this turn."
+  },
+  {
+    "index": 256,
+    "rule": "479.4.b",
+    "text": "A unit reads “Units you control here have their Might increased to 5 [M].” This is a passive ability, so it will not snapshot."
+  },
+  {
+    "index": 257,
+    "rule": "479.4.b",
+    "text": "A spell reads “Increase a friendly unit’s Might to 5 [M].” This effect is applied once, with an unlimited duration. Because it isn’t from a passive ability, it will snapshot."
+  },
+  {
+    "index": 258,
+    "rule": "479.4.c",
+    "text": "A player plays Last Stand, which reads “Double a friendly unit's Might this turn. Give it Temporary.” The player declares a 2 [M] unit as the target during finalization. In reaction to Last Stand, an opponent plays Eclipse targeting the 2 [M] unit. When Last Stand resolves, the unit is -2 [M]. Last Stand instructs its controller to increase the unit’s Might by its current amount, -2, when the double action is performed. This is not possible, so the unit’s Might is increased by 0 instead."
+  },
+  {
+    "index": 259,
+    "rule": "479.4.f",
+    "text": "An effect says “I cost [1] less for each card you've played this turn, to a minimum of [1].” The cost is modified in this layer."
+  },
+  {
+    "index": 260,
+    "rule": "481",
+    "text": "A unit with 4 [M] is under the effects of a passive ability that reads “Units you control here have their Might increased to 5 [M].” Its controller plays Discipline on the unit, giving it +2 [M]. When applying Layer alterations, both effects are applied in the same layer. If we apply the passive ability first, the passive ability will give +1 [M] while the Discipline effect will give +2 [M]. If we apply them in the other order, the Discipline effect will give +2 [M], and the passive ability will give +0 [M]. The passive ability is altered by the sequence of applications, so it depends on the Discipline effect."
+  },
+  {
+    "index": 261,
+    "rule": "481.1",
+    "text": "A unit with 4 [M] is under the effects of a passive ability that reads “Units you control here have their Might increased to 5 [M].” Its controller plays a spell that reads “Give a unit +2 [M], to a maximum of 5 [M].” If we apply the passive ability first, the passive ability will apply +1 [M] and the spell effect will apply +0 [M]. If we apply the spell effect first, it will apply +1 [M] while the passive ability applies +0 [M]. Both effects are altered by the sequence of applications, so we can’t establish a dependency."
+  },
+  {
+    "index": 262,
+    "rule": "481.2",
+    "text": "A unit with 4[M] is under the effects of a passive ability that reads “Units you control here have their Might increased to 5 [M].” Its controller plays Discipline on the unit. As previously established, the passive ability depends on the Discipline effect. We apply the Discipline effect first, giving the unit +2 [M], and then immediately apply the passive ability that depends on it. The unit’s final Might is 6 [M]."
+  },
+  {
+    "index": 263,
+    "rule": "491.8.b.1",
+    "text": "A player may not induce their partner to retreat, and then conquer a Battlefield their teammate was controlling."
+  },
+  {
+    "index": 264,
+    "rule": "491.8.e",
+    "text": "\"When you play me, ready a friendly unit\" could target a player's own Units or their teammate's Units."
+  },
+  {
+    "index": 265,
+    "rule": "652.2.c",
+    "text": "A battlefield reads \"Units here have +1 [M].\" If that battlefield's owner concedes and the battlefield is removed from the game as a result, units there immediately cease to get +1 [M]."
+  },
+  {
+    "index": 266,
+    "rule": "709",
+    "text": "A Unit with Might 4 that gets +1 [M] becomes Mighty."
+  },
+  {
+    "index": 267,
+    "rule": "709",
+    "text": "A Unit with Might 5 that gets +1 [M] does not become Mighty, because it was already Mighty."
+  },
+  {
+    "index": 268,
+    "rule": "710",
+    "text": "A unit with a base Might of 3 is targeted by a spell that reads \"A unit gets +3 [M] this turn.\" As that spell resolves, its Might changes from 3 to 6, and it becomes Mighty. When that effect expires at the end of the turn, it will no longer be Mighty."
+  },
+  {
+    "index": 269,
+    "rule": "711",
+    "text": "A unit in the trash is Mighty if its printed Might is 5 or greater. It doesn't matter if there were effects raising or lowering its might while it was on the board."
+  },
+  {
+    "index": 270,
+    "rule": "715.2",
+    "text": "Singularity is a spell that says “Deal 6 to each of up to two units.” A player plays Singularity while they also control Annie, Fiery, a unit that says “Your spells and abilities deal 1 Bonus Damage.” Singularity deals 1 Bonus Damage to both of its targets, dealing 7 to each."
+  },
+  {
+    "index": 271,
+    "rule": "715.3",
+    "text": "Volibear, Furious is a unit that says in part “When I attack, deal 5 damage split among any number of enemy units here.” A player attacks with Volibear, Furious while they also control Annie, Fiery, a unit that says “Your spells and abilities deal 1 Bonus Damage.” Volibear, Furious now deals 6 damage split among any number of enemy units at its location, and can choose to split that damage among up to 6 units rather than the usual 5."
+  },
+  {
+    "index": 272,
+    "rule": "715.4",
+    "text": "Teemo, Strategist is a unit that reads in part “When I defend, choose an enemy unit here and reveal the top 5 cards of your Main Deck. Deal 1 to that unit for each card with Hidden revealed this way, then recycle the revealed cards.” He has Rabadon’s Deathcrown attached to him. An enemy unit moves to the battlefield where Teemo is located and a combat opens there. Teemo’s controller reveals the top 5 cards of their Main Deck and reveals no cards with Hidden. Although the ability has 3 Bonus Damage from Rabadon’s Deathcrown, no deal action is performed for the Bonus Damage to apply to."
+  },
+  {
+    "index": 273,
+    "rule": "715.4.a",
+    "text": "A unit has prevent 3 applied to them. The unit is located at the Void Gate battlefield. An opponent targets the unit with Hextech Ray. Hextech Ray deals 4 damage to the unit, including the Bonus Damage from Void Gate, which the prevent effect will prevent 3 of. The unit takes 1 damage."
+  },
+  {
+    "index": 274,
+    "rule": "719.4.a",
+    "text": "If the top-most card becomes stunned, it does not affect the state of any attached cards."
+  },
+  {
+    "index": 275,
+    "rule": "719.4.a",
+    "text": "If an attached card becomes empowered, it does not affect the state of its top-most card."
+  },
+  {
+    "index": 276,
+    "rule": "722.2",
+    "text": "Spinning Axe is a gear with [Temporary]. While it’s attached and its rules text is inactive, its [Temporary] ability doesn’t trigger. However, a spell that reads “Destroy a gear with [Temporary]” could still choose and destroy Spinning Axe."
+  },
+  {
+    "index": 277,
+    "rule": "727.1",
+    "text": "Noxus Hopeful has “[Legion][>] I cost [2] less.” [Legion] is short for the condition “if you have played another card this turn, this card gains [Text],” while “I cost [2] less” is the dependent ability."
+  },
+  {
+    "index": 278,
+    "rule": "727.1.a.1",
+    "text": "Legion specifies the duration of its condition: “if you have played another card this turn.” This turn is the duration."
+  },
+  {
+    "index": 279,
+    "rule": "727.1.a.1",
+    "text": "A dependent keyword that is short for “Until you have spent [3] this turn” would include a limitation on its condition."
+  },
+  {
+    "index": 280,
+    "rule": "727.1.a.1",
+    "text": "A dependent keyword that is short for “After you’ve attacked this turn” would include a time after which the condition is active."
+  },
+  {
+    "index": 281,
+    "rule": "727.1.b.2",
+    "text": "Gustwalker has “[Level 3][>] I have +1 [M] and Ganking.” As long as its controller has 3 XP, Gustwalker’s Ganking is active."
+  },
+  {
+    "index": 282,
+    "rule": "727.1.b.3",
+    "text": "A unit reads “[Level 11][>>][Legion][>] When you conquer, gain 1 point.” In order for the conquer effect of the unit to be active, its controller must have 11 XP and have finalized a card other than the unit that turn."
+  },
+  {
+    "index": 283,
+    "rule": "738",
+    "text": "The First Player plays, through some means, two Time Warps during their turn. The Time Warps create two Additional Turns for their controller and insert them into the turn queue after the current turn. If the turn queue is represented as [> A > B > C > D >], then these Additional Turns will appear as [> A > A* > A* > B > C > D >]. After the last Additional Turn is played, the queue returns to its previously queued turns. The “*” denotes that a turn is an Additional Turn."
+  },
+  {
+    "index": 284,
+    "rule": "738",
+    "text": "The First Player plays Promising Future during their turn, during the resolution of which the Second and Fourth Player choose, banish, and play one Time Warp each. The Fourth Player’s Time Warp resolves first, inserting an Additional Turn for them in the queue as such: [> A > D* > B > C > D >]. The Second Player’s Time Warp resolves afterwards, inserting that turn: [> A > B* > D* > B > C > D >]. When the First Player passes the turn, the Second Player will take their turn, followed by the Fourth Player, after which the queue returns to its previously queued turns."
+  },
+  {
+    "index": 285,
+    "rule": "753.3",
+    "text": "If a card is played from facedown, it gains the restriction that it can only target game objects at the battlefield it was played from unless its targeting is restricted in such a way that choosing a unit at that battlefield is impossible. If a player makes new choices for such a card, they must still choose from among objects at that battlefield."
+  },
+  {
+    "index": 286,
+    "rule": "757.1",
+    "text": "Ruin Runner’s passive ability reads “I can’t be chosen by enemy spells and abilities.”"
+  },
+  {
+    "index": 287,
+    "rule": "758.2",
+    "text": "A 1 [M] unit reads “I can’t be chosen by enemy spells or abilities with Energy cost less than my Might.” That unit is targeted by an enemy Falling Star; in reaction to the Falling Star, the unit’s controller plays Discipline targeting that unit, bringing its Might to 3 [M]. If Falling Star resolved at that point, the unit would be unaffected by it as it resolves. Falling Star’s controller plays Eclipse before Falling Star resolves, bringing the unit’s Might to -1 [M]. When Falling Star resolves now, the unit is affected by the spell and has 6 damage marked. It dies in the following cleanup."
+  },
+  {
+    "index": 288,
+    "rule": "758.2.a",
+    "text": "Alpha Wildclaw and Vilemaw are controlled by the same player and located at a battlefield. An opponent targets Vilemaw with Rebuke. Before Rebuke resolves, Vilemaw’s controller plays Discipline targeting Alpha Wildclaw, making Vilemaw no longer a legal target. Rebuke’s controller then targets Alpha Wildclaw with Star-Crossed. When Star-Crossed resolves, Alpha Wildclaw’s passive ability no longer applies to Vilemaw, making it a legal target for Rebuke. After all spells and abilities have resolved, both Vilemaw and Alpha Wildclaw will be returned to hand."
+  },
+  {
+    "index": 289,
+    "rule": "761.1",
+    "text": "“Kai’Sa, Evolutionary” identifies the card Kai’Sa, Evolutionary."
+  },
+  {
+    "index": 290,
+    "rule": "761.2",
+    "text": "“The blue Kai’Sa,” “the 6 [M] Kai’Sa” or “the [6] Energy Kai’Sa” are sufficient to identify Kai’Sa, Evolutionary when there are no other cards that satisfy those traits."
+  },
+  {
+    "index": 291,
+    "rule": "761.2",
+    "text": "If there is only one unit with Kato in their name, saying “Kato” is sufficient to identify the card in question even if the exact name of the card is “Kato the Arm.”"
+  },
+  {
+    "index": 292,
+    "rule": "766",
+    "text": "A spell reads “Ignore Deflect while paying this spell’s costs.” Any instances of the Deflect keyword on relevant units are treated as inactive while paying the costs of the spell."
+  },
+  {
+    "index": 293,
+    "rule": "766",
+    "text": "A unit reads “You ignore Backline while assigning combat damage here.” While assigning combat damage in the combat damage step with this unit present, any instances of Backline on enemy units is treated as inactive. The unit’s controller can assign damage to any units with Backline as if they didn’t have it."
+  },
+  {
+    "index": 294,
+    "rule": "767",
+    "text": "A spell reads in part “Ignore Deflect while paying this spell’s costs.” If another player attempts to play a spell targeting the same units that the above spell does, that other spell will not ignore Deflect."
+  },
+  {
+    "index": 295,
+    "rule": "767",
+    "text": "A unit reads “You ignore Backline while assigning combat damage here.” Any other player assigning combat damage at the same location as that unit will not be able to ignore Backline."
+  },
+  {
+    "index": 296,
+    "rule": "806.3",
+    "text": "Playing a Unit with Action still has the inherent restrictions of playing Units without Action. It can only be played to the controlling player's base or a battlefield they control."
+  },
+  {
+    "index": 297,
+    "rule": "807.2",
+    "text": "Petty Officer has Assault. It is chosen as the target of Cleave, which says \"Give a unit [Assault 3] this turn.\" After Cleave resolves, Petty Officer has Assault 4 this turn."
+  },
+  {
+    "index": 298,
+    "rule": "808.1.d.1",
+    "text": "Draven, Audacious is killed in combat. Draven reads in part “When I die in combat, choose an opponent. They gain 1 point.” Draven’s controller has a Zhonya’s Hourglass in base. Draven’s death is replaced by him being healed, recalled, and exhausted. Draven’s triggered ability will be removed from the chain."
+  },
+  {
+    "index": 299,
+    "rule": "809.1.c.1",
+    "text": "A Fury spell targets an Order unit with Deflect. The Power used to pay the Deflect cost can be any Domain; it does not need to match the Domain of the spell or the target."
+  },
+  {
+    "index": 300,
+    "rule": "811.1.d.2",
+    "text": "Emperor’s Divide is a spell with hidden that reads in part “Move any number of friendly units at a battlefield to their base.” When this spell is played from facedown, all units chosen for the spell must be located at the same battlefield it was played from."
+  },
+  {
+    "index": 301,
+    "rule": "811.1.d.3",
+    "text": "Blastcone Fae is a unit with Hidden and “When you play me, give a unit -2 [M] this turn, to a minimum of 1 [M].” Because this is a play effect, its target must be chosen from among units at the battlefield it was played to if Blastcone Fae was played from facedown."
+  },
+  {
+    "index": 302,
+    "rule": "811.1.d.3",
+    "text": "Tideturner is a unit with Hidden and “When you play me, you may choose a unit you control at another location. Move me to its location and it to my original location.” Because its play effect has a targeting restriction that can never be fulfilled by a unit at its battlefield, its target may be chosen freely from among the available options."
+  },
+  {
+    "index": 303,
+    "rule": "811.1.d.3",
+    "text": "A spell reads in part “The next unit you play this turn can be played to any battlefield.” After playing that spell, a player plays Blastcone Fae from facedown to a battlefield other than the one where it was hidden. Blastcone Fae’s play effect must choose targets from among units at the battlefield Blastcone Fae was played to, not the one it was played from."
+  },
+  {
+    "index": 304,
+    "rule": "811.1.d.3.a",
+    "text": "A unit reads in part “When you play me, kill another friendly unit.” If it is played from the facedown zone, the play effect must choose a friendly unit at the battlefield the unit was played from. If the unit is no longer on the board when the play effect attempts to finalize, it will not be able to choose a legal target. If the unit is no longer on the board when the play effect attempts to resolve, the play effect will not be able to reference the information of where the unit was played from, and it will mistarget."
+  },
+  {
+    "index": 305,
+    "rule": "811.1.d.4",
+    "text": "Smoke and Mirrors is a spell that reads in part “Choose a unit you control and another unit you control at a different location.” If Smoke and Mirrors is played from facedown, the first unit chosen can be chosen at the battlefield Smoke and Mirrors was played from, so it must be. The second unit chosen explicitly restricts targeting in a way that makes this impossible, so it can be chosen from any location."
+  },
+  {
+    "index": 306,
+    "rule": "811.2",
+    "text": "Stand United is a spell that has Hidden and says “Buff a friendly unit. Buffs give an additional +1 might to friendly units this turn.” If it’s played from facedown, the first part of its ability must choose a friendly unit at the same battlefield, but the second part of its ability affects all friendly units with buffs, no matter where they are."
+  },
+  {
+    "index": 307,
+    "rule": "812.2",
+    "text": "One card has three different Legion Abilities. The Legion Text of all three abilities will be active as long as one card has been finalized by the card's controller earlier in the same turn."
+  },
+  {
+    "index": 308,
+    "rule": "814.2",
+    "text": "Stalwart Poro has Shield. It is chosen as the target of Block, which says \"Give a unit [Shield 3] and [Tank] this turn.\" After Block resolves, Stalwart Poro has Shield 4 this turn."
+  },
+  {
+    "index": 309,
+    "rule": "820.1.d.1",
+    "text": "Desert’s Call is a spell with [Repeat] [2] and “Play a 2 [M] Sand Soldier unit token.” If its controller pays its Repeat cost as they play it, the card’s instruction to play a Sand Soldier is executed twice, as though the card says “Play a 2 [M] Sand Soldier unit token. Play a 2 [M] Sand Soldier unit token.”"
+  },
+  {
+    "index": 310,
+    "rule": "820.1.d.1",
+    "text": "A unit reads in part “When I attack or defend, you may deal damage equal to my Might to an enemy unit here,” and “My abilities have [Repeat] — Discard 1.” When its ability triggers, if its controller pays the Repeat cost as they play it, the ability’s instruction to deal damage equal to the unit’s Might is executed twice, as though the ability says “Deal damage equal to my Might to an enemy unit here. Deal damage equal to my Might to an enemy unit here.”"
+  },
+  {
+    "index": 311,
+    "rule": "820.2.a",
+    "text": "Rocket Barrage is a spell with [Repeat] [4][C] and “Choose one — Deal 4 to a unit in a base. [or] Kill a gear.” If Rocket Barrage’s controller pays its Repeat cost as they play it, they may choose the same mode or a different one, and if they choose the same mode, may choose the same target or a different one. If they choose “Kill a gear” twice and choose two different gear, they must specify which gear is the first target and which is the second. As the spell resolves, those two gear will be killed in the chosen order."
+  },
+  {
+    "index": 312,
+    "rule": "822.1.d",
+    "text": "Rengar, Trophy Hunter reads in part “I can [Ambush] to a battlefield where there are enemy units, even if you don't have units there.” This ability expands the normal permissions of the Ambush keyword to include battlefields where there are enemy units."
+  },
+  {
+    "index": 313,
+    "rule": "822.1.d",
+    "text": "A card reads in part “Opponents can only [Ambush] at any time they could play cards with [Action].” This ability introduces a restriction to when opponents can play cards with Ambush."
+  },
+  {
+    "index": 314,
+    "rule": "831.2",
+    "text": "Clanging Sentry reads “Your Mechs have [Disarm].” If you play a second Clanging Sentry, both of them will have Disarm 2."
+  },
+  {
+    "index": 315,
+    "rule": "832.1.c.1",
+    "text": "A unit reads in part “[Show Off] five units with different names,” and “When you play me, kill all other units. If you showed off, the next unit you play this turn costs [1] less for each killed unit.”"
+  },
+  {
+    "index": 316,
+    "rule": "832.1.c.3",
+    "text": "A unit reads in part “[Show Off] five units with different names.” When showing off as part of playing that unit, units may be revealed from hand or picked from among friendly units on the board, as long as the group of units picked and revealed satisfies the specified quality."
+  },
+  {
+    "index": 317,
+    "rule": "832.1.c.4",
+    "text": "A spell reads “[Show Off] a Mech” and “As an additional cost to play this, discard 1.” When finalizing the spell, the same Mech being shown off can be discarded to the mandatory additional cost without preventing the spell from being finalized."
+  },
+  {
+    "index": 318,
+    "rule": "832.1.d",
+    "text": "Primordial Roar is a spell that reads “[Show Off] a unit,” and “If you showed off a unit, deal damage equal to that unit's Might to a unit.”"
+  },
+  {
+    "index": 319,
+    "rule": "832.1.d.1",
+    "text": "Primordial Roar is played showing off a friendly unit with 4 [M] and an enemy unit with 3 [M]. In reaction to Primordial Roar, an opponent plays Frigid Touch, giving the friendly unit -2 [M] this turn. Because the information was checked when the friendly unit was shown off, the spell still deals 4 damage to the enemy unit, killing it."
+  },
+  {
+    "index": 320,
+    "rule": "832.2.a",
+    "text": "A card reads in part “Spells you play have ‘[Show Off] a Mighty unit.’ and ‘If you showed off, this costs [A] less.” If a spell that reads in part “[Show Off] a spell with Energy cost [7] or more,” and “If you showed off, this can’t be countered.” is played by the same controller, showing off a Mighty unit will not be sufficient to satisfy both abilities that reference showing off because they refer to instances of the show off keyword granted by different sources."
+  }
+]

@@ -1,0 +1,1585 @@
+{
+ "locale": "zh-CN",
+ "source": "1wtthi75czt6u.js",
+ "sentences": {
+  "sentence": {
+   "closedDeckPeek": "关闭了主牌堆查看。",
+   "shuffledDeck": "洗了主牌堆。",
+   "revealedHand": "向对手展示了手牌。",
+   "hidHand": "向对手隐藏了手牌。",
+   "revealedHiddenBoardCard": "向对手展示了一张场上待命卡牌。",
+   "hidHiddenBoardCard": "不再向对手展示一张场上待命卡牌。",
+   "revealedHandCard": "展示了一张手牌。",
+   "hidHandCard": "隐藏了一张手牌。",
+   "endedTurn": "结束了自己的回合。",
+   "queuedTimeWarpTurn": "使用时间扭曲安排了一个额外回合。",
+   "canceledTimeWarpTurn": "取消了时间扭曲的一个额外回合。",
+   "channeledRune": "召出一枚休眠的符文。",
+   "readiedAllRunes": "使所有符文变为活跃状态。",
+   "autoPaidCardCosts": "自动支付了卡牌费用。",
+   "autoPaid": "完成了自动支付。",
+   "madePayment": "完成了一次支付。",
+   "endedBeginningPhase": "结束了回合开始阶段。",
+   "clearedFloatingResources": "清空了临时资源。",
+   "passedFocus": "传递了焦点。",
+   "autoSelectedLastBattlefield": "自动选择了最后一个可用战场。",
+   "chooseTurnOrderThenMulligan": "选择先手或后手，然后可调度至多 2 张卡牌。",
+   "chooseTurnOrderThenSideboard": "选择先手或后手，然后进行备牌调整。",
+   "chooseSoloFirstSeat": "选择单人练习中哪个席位先手。",
+   "chooseSoloFirstSeatThenSideboard": "选择单人练习中哪个席位先手，然后进行备牌调整。",
+   "battlefieldsLockedRollD20": "双方战场均已锁定。掷一枚 d20 决定先手。",
+   "choosesStarter": "选择本局由谁先手。",
+   "lockedRandomBattlefield": "随机选择并锁定了一个战场。",
+   "lockedBattlefield": "选择并锁定了一个战场。",
+   "rolledD20": "掷了一枚 d20。",
+   "rolledDie": [
+    "掷了一枚 d",
+    [
+     "sides"
+    ],
+    "，结果为 ",
+    [
+     "result"
+    ],
+    "。"
+   ],
+   "goldfishSecondMulligan": "选择在单人练习中后手。可调度至多 2 张卡牌。",
+   "goldfishFirstMulligan": "选择在单人练习中先手。可调度至多 2 张卡牌。",
+   "goldfishSecondSideboard": "选择在单人练习中后手。请先调整备牌，再进行调度。",
+   "goldfishFirstSideboard": "选择在单人练习中先手。请先调整备牌，再进行调度。",
+   "autoStartedTestSetup": "自动完成了测试设置。",
+   "updatedSideboarding": "更新了备牌调整。",
+   "lockedSideboarding": "锁定了备牌调整。",
+   "confirmedChampion": "确认了所选英雄。",
+   "skippedCardSwapsConfirmChampions": "所有玩家均同意跳过备牌调整。已恢复提交的卡组。请在抽取起手牌前确认所选英雄。",
+   "bothChampionsLockedMulligan": "双方英雄已锁定。最多可调度 2 张牌。",
+   "allChampionsLockedMulligan": "所有英雄已锁定。每位玩家最多可调度 2 张牌。",
+   "skippedSideboarding": "跳过了备牌调整。",
+   "requestedSkipSideboarding": "请求所有玩家跳过备牌调整。",
+   "acceptedSkipSideboarding": "接受了跳过备牌调整的请求。",
+   "declinedSkipSideboarding": "拒绝了跳过备牌调整的请求。",
+   "canceledSkipSideboarding": "取消了跳过备牌调整的请求。",
+   "bothSkippedSideboardingMulligan": "双方同意跳过备牌调整。已恢复双方提交的原始卡组。现在可调度至多 2 张卡牌。",
+   "allSkippedSideboardingMulligan": "所有玩家同意跳过备牌调整。已恢复所有玩家提交的原始卡组。所有玩家现在可调度至多 2 张卡牌。",
+   "allSkippedSideboardingChooseBattlefields": "所有玩家同意跳过备牌调整。已恢复所有玩家提交的原始卡组。请选择战场。",
+   "bothSideboardsAutoLockedMulligan": "双方备牌已自动锁定。现在可调度至多 2 张卡牌。",
+   "bothSideboardsAutoLockedChooseBattlefields": "双方备牌已自动锁定。请选择战场。",
+   "allSideboardsAutoLockedMulligan": "所有备牌均已自动锁定。所有玩家现在可调度至多 2 张卡牌。",
+   "allSideboardsAutoLockedChooseBattlefields": "所有备牌均已自动锁定。请选择战场。",
+   "bothSideboardsLockedMulligan": "双方备牌均已锁定。现在可调度至多 2 张卡牌。",
+   "allSideboardsLockedMulligan": "所有备牌均已锁定。所有玩家现在可调度至多 2 张卡牌。",
+   "bothSideboardsLockedChooseUnusedBattlefield": "双方备牌均已锁定。每位玩家现在应选择一个尚未使用的战场。",
+   "bothSideboardsLockedChooseBattlefield": "双方备牌均已锁定。每位玩家现在应选择一个战场。",
+   "continuedWithoutOpponent": "选择不等待对手并继续。",
+   "bothMulligansComplete": "双方调度均已完成。对局开始。",
+   "allMulligansComplete": "所有玩家均已完成调度。对局开始。",
+   "isReady": "已准备。",
+   "isNoLongerReady": "已取消准备。",
+   "startedSinglePlayer": "开始了单人模式。",
+   "startedMatch": "开始了比赛。",
+   "filledOpponentSeat": "填充了对手席位。",
+   "randomizedTeams": "随机分配了队伍。",
+   "rewound": "回退至上一次操作之前。",
+   "restoredTimeline": "使用前进恢复了之前的时间线。",
+   "runeBatch": [
+    [
+     "clauses"
+    ],
+    "。"
+   ],
+   "payment": [
+    [
+     "auto",
+     1,
+     {
+      "yes": "自动",
+      "other": ""
+     }
+    ],
+    "支付了 ",
+    [
+     "resources"
+    ],
+    [
+     "details"
+    ],
+    "。"
+   ],
+   "forfeitedMatch": [
+    [
+     "actor",
+     1,
+     {
+      "anonymous": "一名玩家",
+      "other": ""
+     }
+    ],
+    "因断线超时被判负。",
+    [
+     "winnerKind",
+     1,
+     {
+      "opposition": "对方",
+      "other": [
+       [
+        "winnerPadEnd"
+       ]
+      ]
+     }
+    ],
+    "赢得本场比赛。"
+   ],
+   "departedMatchWinner": [
+    [
+     "actor",
+     1,
+     {
+      "anonymous": "一名玩家",
+      "other": ""
+     }
+    ],
+    [
+     "departure",
+     1,
+     {
+      "conceded": "认输了",
+      "concededMatch": "认输了本场比赛",
+      "lobby": "返回了大厅",
+      "left": "离开了游戏",
+      "other": "因断线超时被判负"
+     }
+    ],
+    "。",
+    [
+     "winnerKind",
+     1,
+     {
+      "opposition": "对方",
+      "other": [
+       [
+        "winnerPadEnd"
+       ]
+      ]
+     }
+    ],
+    "赢得本场比赛。"
+   ],
+   "departedEliminated": [
+    [
+     "actor",
+     1,
+     {
+      "anonymous": "一名玩家",
+      "other": ""
+     }
+    ],
+    [
+     "departure",
+     1,
+     {
+      "conceded": "认输并被淘汰。",
+      "concededMatch": "认输本场比赛并被淘汰。",
+      "lobby": "返回大厅并被淘汰。",
+      "left": "离开游戏并被淘汰。",
+      "other": "因断线超时被判负并淘汰。"
+     }
+    ]
+   ],
+   "departedWinner": [
+    [
+     "actor",
+     1,
+     {
+      "anonymous": "一名玩家",
+      "other": ""
+     }
+    ],
+    [
+     "departure",
+     1,
+     {
+      "conceded": "认输了",
+      "concededMatch": "认输了本场比赛",
+      "lobby": "返回了大厅",
+      "left": "离开了游戏",
+      "other": "因断线超时被判负"
+     }
+    ],
+    "。",
+    [
+     "winnerKind",
+     1,
+     {
+      "opposition": "对方",
+      "other": [
+       [
+        "winnerPadEnd"
+       ]
+      ]
+     }
+    ],
+    "获胜。"
+   ],
+   "lookedAtTopCards": [
+    "查看了主牌堆顶的 ",
+    [
+     "count"
+    ],
+    " 张卡牌。"
+   ],
+   "lookedAtTopRune": "查看了符文牌堆顶的一枚符文。",
+   "lookedAtTopRunes": [
+    "查看了符文牌堆顶的 ",
+    [
+     "count"
+    ],
+    " 枚符文。"
+   ],
+   "lookedAtBottomCard": "查看了主牌堆底的一张卡牌。",
+   "recycledLookedAtCards": [
+    "将查看过的 ",
+    [
+     "count"
+    ],
+    " 张卡牌以随机顺序置于主牌堆底。"
+   ],
+   "recycledAllLookedAtCards": "将查看过的卡牌置于主牌堆底。",
+   "recycledLookedAtCard": "将一张查看过的卡牌置于主牌堆底。",
+   "recycledLookedAtRunes": [
+    "将查看过的 ",
+    [
+     "count"
+    ],
+    " 枚符文置于符文牌堆底。"
+   ],
+   "recycledAllLookedAtRunes": "将查看过的符文置于符文牌堆底。",
+   "recycledLookedAtRune": "将一枚查看过的符文置于符文牌堆底。",
+   "putLookedAtCardOnTop": "将一张查看过的卡牌置于主牌堆顶。",
+   "changedLookedAtCardVisibility": [
+    [
+     "visibility",
+     1,
+     {
+      "revealed": "展示",
+      "other": "隐藏"
+     }
+    ],
+    "了一张查看过的卡牌。"
+   ],
+   "changedLookedAtCardsVisibility": [
+    [
+     "visibility",
+     1,
+     {
+      "revealed": "展示",
+      "other": "隐藏"
+     }
+    ],
+    "了查看过的卡牌。"
+   ],
+   "changedLookedAtRuneVisibility": [
+    [
+     "visibility",
+     1,
+     {
+      "revealed": "展示",
+      "other": "隐藏"
+     }
+    ],
+    "了一枚查看过的符文。"
+   ],
+   "changedLookedAtRunesVisibility": [
+    [
+     "visibility",
+     1,
+     {
+      "revealed": "展示",
+      "other": "隐藏"
+     }
+    ],
+    "了查看过的符文。"
+   ],
+   "closedRuneDeckPeek": "关闭了符文牌堆查看。",
+   "shuffledKeepingRecycled": [
+    "洗了尚未回收的主牌堆卡牌，并将 ",
+    [
+     "count"
+    ],
+    " 张已回收卡牌保留在主牌堆底。"
+   ],
+   "drewCards": [
+    "抽了 ",
+    [
+     "count"
+    ],
+    " 张卡牌。"
+   ],
+   "burnedCards": [
+    "将主牌堆顶的 ",
+    [
+     "count"
+    ],
+    " 张卡牌置入废牌堆。"
+   ],
+   "movedCardsFromDeck": [
+    "将 ",
+    [
+     "count"
+    ],
+    " 张卡牌从主牌堆移至",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "unlinkedFrom": [
+    "解除了",
+    [
+     "cardPad"
+    ],
+    "与",
+    [
+     "sourcePadStart"
+    ],
+    "的关联。"
+   ],
+   "unlinked": [
+    "解除了",
+    [
+     "cardPadStart"
+    ],
+    "的关联。"
+   ],
+   "banishedTopCardWith": [
+    "通过",
+    [
+     "sourcePad"
+    ],
+    "放逐了主牌堆顶的",
+    [
+     "cardPadStart"
+    ],
+    "。"
+   ],
+   "banishedTopCard": [
+    "放逐了主牌堆顶的",
+    [
+     "cardPadStart"
+    ],
+    "。"
+   ],
+   "banishedWithSource": [
+    "通过",
+    [
+     "sourcePad"
+    ],
+    "放逐了",
+    [
+     "cardPadStart"
+    ],
+    "。"
+   ],
+   "killedToPlayFromBanished": [
+    "摧毁了",
+    [
+     "sourcePadStart"
+    ],
+    "，以此将",
+    [
+     "cardPad"
+    ],
+    "从放逐区打出到",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "playedFromOpponentTrashWith": [
+    "通过",
+    [
+     "sourcePad"
+    ],
+    "将",
+    [
+     "cardPad"
+    ],
+    "从对手的废牌堆打出到",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "movedTopCard": [
+    "将主牌堆顶的卡牌移至",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "movedACardFromDeck": [
+    "将一张卡牌从主牌堆移至",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "playedFromTopOfDeck": [
+    "从主牌堆顶将",
+    [
+     "cardPad"
+    ],
+    "打出到",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "movedCardFromDeck": [
+    "将",
+    [
+     "cardPad"
+    ],
+    "从主牌堆移至",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "playedTokens": [
+    [
+     "count",
+     2,
+     {
+      "=1": "将一个",
+      "other": [
+       "将 ",
+       [
+        "count"
+       ],
+       " 个"
+      ]
+     }
+    ],
+    [
+     "token"
+    ],
+    "打出到",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "movedToRuneDeck": [
+    "将",
+    [
+     "card"
+    ],
+    "移至符文牌堆",
+    [
+     "position",
+     1,
+     {
+      "top": "顶",
+      "other": "底"
+     }
+    ],
+    "。"
+   ],
+   "putHiddenCard": [
+    "将一张卡牌以待命状态打出到",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "movedHiddenCard": [
+    "将一张待命卡牌移至",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "playedFromZoneTo": [
+    "将",
+    [
+     "cardPad"
+    ],
+    "从",
+    [
+     "source"
+    ],
+    "打出到",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "removedToken": [
+    "将",
+    [
+     "token"
+    ],
+    "移出对局。"
+   ],
+   "movedCardsToTrash": [
+    "将 ",
+    [
+     "count"
+    ],
+    " 张卡牌从",
+    [
+     "source"
+    ],
+    "移至废牌堆。"
+   ],
+   "movedSelectedCards": [
+    "将从",
+    [
+     "source"
+    ],
+    "选择的 ",
+    [
+     "count"
+    ],
+    " 张卡牌移至",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "movedCardToTrash": [
+    "将",
+    [
+     "cardPad"
+    ],
+    "从",
+    [
+     "source"
+    ],
+    "移至废牌堆。"
+   ],
+   "recycledSelectedCards": [
+    "将从",
+    [
+     "source"
+    ],
+    "选择的 ",
+    [
+     "count"
+    ],
+    " 张卡牌以随机顺序回收到主牌堆。"
+   ],
+   "gaveControl": [
+    "将",
+    [
+     "cardPad"
+    ],
+    "的控制权交给了对手。"
+   ],
+   "equippedACard": "装配了一张卡牌。",
+   "equipped": [
+    "将",
+    [
+     "cardPad"
+    ],
+    "装配给",
+    [
+     "targetPadStart"
+    ],
+    "。"
+   ],
+   "movedIntoDeck": [
+    "将",
+    [
+     "cardPad"
+    ],
+    "移至主牌堆",
+    [
+     "position",
+     1,
+     {
+      "top": "顶",
+      "other": "底"
+     }
+    ],
+    "。"
+   ],
+   "recycledTrashCards": [
+    "将废牌堆中的 ",
+    [
+     "count"
+    ],
+    " 张卡牌以随机顺序回收到主牌堆。"
+   ],
+   "usedGoldTokenGainedPower": "使用了一个金币装备指示物并获得 1 点临时符能。",
+   "usedGoldToken": "使用了一个金币装备指示物。",
+   "exhaustedRemovedGainedPower": [
+    "使",
+    [
+     "cardPadStart"
+    ],
+    "变为休眠状态，将其移出对局，并获得 1 点临时符能。"
+   ],
+   "exhaustedRemoved": [
+    "使",
+    [
+     "cardPadStart"
+    ],
+    "变为休眠状态并将其移出对局。"
+   ],
+   "exhaustedTrashedGainedPower": [
+    "使",
+    [
+     "cardPadStart"
+    ],
+    "变为休眠状态，将其置入废牌堆，并获得 1 点临时符能。"
+   ],
+   "exhausted": [
+    "使",
+    [
+     "cardPadStart"
+    ],
+    "变为休眠状态。"
+   ],
+   "readied": [
+    "使",
+    [
+     "cardPad"
+    ],
+    "变为活跃状态。"
+   ],
+   "setScore": [
+    "将分数设为 ",
+    [
+     "score"
+    ],
+    "（",
+    [
+     "delta"
+    ],
+    "）。"
+   ],
+   "adjustedScore": [
+    "将分数调整为 ",
+    [
+     "score"
+    ],
+    "。"
+   ],
+   "scoredAtTurnStart": [
+    "在回合开始时获得 ",
+    [
+     "points"
+    ],
+    " 分。分数：",
+    [
+     "from"
+    ],
+    " → ",
+    [
+     "to"
+    ],
+    "。"
+   ],
+   "adjustedFloatingResources": [
+    "将临时资源调整为 ",
+    [
+     "energy"
+    ],
+    " 点法力和 ",
+    [
+     "power"
+    ],
+    " 点符能。"
+   ],
+   "adjustedFloatingResource": [
+    "将临时",
+    [
+     "resource",
+     1,
+     {
+      "energy": "法力",
+      "other": "符能"
+     }
+    ],
+    "调整为 ",
+    [
+     "value"
+    ],
+    "。"
+   ],
+   "appliedBuff": [
+    "为",
+    [
+     "cardPad"
+    ],
+    "添加了增益。"
+   ],
+   "consumedBuff": [
+    "移除了",
+    [
+     "cardPad"
+    ],
+    "的一层增益。"
+   ],
+   "madeUnitWithOrianna": [
+    "通过奥莉安娜使",
+    [
+     "cardPad"
+    ],
+    "成为单位。"
+   ],
+   "addedLegendWithNeeko": [
+    "通过妮蔻将",
+    [
+     "cardPad"
+    ],
+    "加入传奇区。"
+   ],
+   "returnedAdditionalLegend": [
+    "将",
+    [
+     "cardPad"
+    ],
+    "放回额外传奇。"
+   ],
+   "changedXp": [
+    "将传奇经验值",
+    [
+     "direction",
+     1,
+     {
+      "increased": "提高",
+      "other": "降低"
+     }
+    ],
+    "至 ",
+    [
+     "xp"
+    ],
+    "（",
+    [
+     "delta"
+    ],
+    "）。"
+   ],
+   "duplicatedOpponentCard": [
+    "将对手的",
+    [
+     "cardPad"
+    ],
+    "复制到了基地。"
+   ],
+   "duplicatedInZone": [
+    "复制了",
+    [
+     "zonePadEnd"
+    ],
+    "中的",
+    [
+     "cardPadStart"
+    ],
+    "。"
+   ],
+   "removedFromPlay": [
+    "将",
+    [
+     "cardPad"
+    ],
+    "移出对局。"
+   ],
+   "playedFromZone": [
+    "从",
+    [
+     "source"
+    ],
+    "打出了",
+    [
+     "cardPadStart"
+    ],
+    "。"
+   ],
+   "recycledFromChainToTop": [
+    "将结算链中的",
+    [
+     "cardPad"
+    ],
+    "回收到主牌堆顶。"
+   ],
+   "recycledFromChainToBottom": [
+    "将结算链中的",
+    [
+     "cardPad"
+    ],
+    "回收到主牌堆底。"
+   ],
+   "banishedFromChain": [
+    "放逐了结算链中的",
+    [
+     "cardPadStart"
+    ],
+    "。"
+   ],
+   "markedRepeat": [
+    "将",
+    [
+     "cardPad"
+    ],
+    "标记为回响。"
+   ],
+   "clearedRepeat": [
+    "清除了",
+    [
+     "cardPad"
+    ],
+    "的回响标记。"
+   ],
+   "chainResolved": [
+    "结算链已结算：",
+    [
+     "card"
+    ],
+    "。"
+   ],
+   "replacedWithBrush": [
+    "将",
+    [
+     "zonePadEnd"
+    ],
+    "替换为草丛。"
+   ],
+   "restored": [
+    "恢复了",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "passedFocusAt": [
+    "在",
+    [
+     "zonePadEnd"
+    ],
+    "传递了焦点。"
+   ],
+   "endedShowdownResponses": [
+    "结束了",
+    [
+     "zonePadEnd"
+    ],
+    "的法术对决响应。"
+   ],
+   "dismissedShowdown": [
+    "取消了",
+    [
+     "zonePadEnd"
+    ],
+    "的法术对决。"
+   ],
+   "conqueredAndScored": [
+    "征服了",
+    [
+     "zone"
+    ],
+    "，并获得 ",
+    [
+     "count"
+    ],
+    " 分。"
+   ],
+   "conqueredAndDrew": [
+    "征服了",
+    [
+     "zone"
+    ],
+    "，并抽了 ",
+    [
+     "count"
+    ],
+    " 张卡牌。"
+   ],
+   "conquered": [
+    "征服了",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "movedToZone": [
+    "将",
+    [
+     "cardPad"
+    ],
+    "移至",
+    [
+     "zone"
+    ],
+    "。"
+   ],
+   "rolls": [
+    [
+     "rolls"
+    ]
+   ],
+   "rolledD20By": [
+    [
+     "competitor"
+    ],
+    " 掷了一枚 d20。"
+   ],
+   "teamInitiativeSetup": [
+    [
+     "format"
+    ],
+    "设置以先手掷骰开始。双方队伍各掷一枚 d20。"
+   ],
+   "playerInitiativeSetup": [
+    [
+     "format"
+    ],
+    "设置以先手掷骰开始。所有 ",
+    [
+     "count"
+    ],
+    " 名玩家各掷一枚 d20。"
+   ],
+   "allBattlefieldsLockedSideboard": [
+    "全部 ",
+    [
+     "count"
+    ],
+    " 个战场均已锁定。所有玩家现在进行备牌调整。"
+   ],
+   "allBattlefieldsLockedMulligan": [
+    "全部 ",
+    [
+     "count"
+    ],
+    " 个战场均已锁定。所有玩家现在可调度至多 2 张卡牌。"
+   ],
+   "competitorWonInitiative": [
+    [
+     "competitor"
+    ],
+    " 以 ",
+    [
+     "high"
+    ],
+    " 比 ",
+    [
+     "low"
+    ],
+    " 赢得先手决定权，并选择由谁先手。"
+   ],
+   "wonInitiative": [
+    "以 ",
+    [
+     "high"
+    ],
+    " 比 ",
+    [
+     "low"
+    ],
+    " 赢得先手决定权，并选择由谁先手。"
+   ],
+   "mustChooseStarterBoth": [
+    [
+     "competitor"
+    ],
+    " 必须选择由谁先手。调度开始后，双方各抽 4 张卡牌。"
+   ],
+   "mustChooseStarterAll": [
+    [
+     "competitor"
+    ],
+    " 必须选择由谁先手。调度开始后，所有玩家各抽 4 张卡牌。"
+   ],
+   "previousLoserChooses": "上一局的败者选择本局由谁先手。",
+   "competitorChoseStarterBattlefields": [
+    [
+     "competitor"
+    ],
+    " 选择由 ",
+    [
+     "player"
+    ],
+    " 先手。战场贡献者现在选择各自的战场。"
+   ],
+   "choseStarterMulligan": [
+    "选择由 ",
+    [
+     "player"
+    ],
+    " 先手。双方现在均可调度至多 2 张卡牌。"
+   ],
+   "choseStarterSideboard": [
+    "选择由 ",
+    [
+     "player"
+    ],
+    " 先手。双方现在进行备牌调整。"
+   ],
+   "choseStarterBattlefields": [
+    "选择由 ",
+    [
+     "player"
+    ],
+    " 先手。战场贡献者现在选择各自的战场。"
+   ],
+   "updatedRegistration": [
+    "更新了",
+    [
+     "format"
+    ],
+    "登记。"
+   ],
+   "lockedRegistration": [
+    "锁定了",
+    [
+     "format"
+    ],
+    "登记。"
+   ],
+   "bothRegistrationsLockedChooseUnused": [
+    "双方",
+    [
+     "format"
+    ],
+    "登记均已锁定。每位玩家现在应选择一个尚未使用的战场。"
+   ],
+   "bothRegistrationsLockedChoose": [
+    "双方",
+    [
+     "format"
+    ],
+    "登记均已锁定。每位玩家现在应选择一个战场。"
+   ],
+   "bothRegistrationsLockedMulligan": [
+    "双方",
+    [
+     "format"
+    ],
+    "登记均已锁定。现在可调度至多 2 张卡牌。"
+   ],
+   "allRegistrationsLockedMulligan": [
+    "所有",
+    [
+     "format"
+    ],
+    "登记均已锁定。所有玩家现在可调度至多 2 张卡牌。"
+   ],
+   "finalizedMulligan": [
+    "完成了调度（回收 ",
+    [
+     "recycled"
+    ],
+    " 张，重抽 ",
+    [
+     "redrawn"
+    ],
+    " 张）。"
+   ],
+   "submittedDeck": [
+    "提交了卡组（",
+    [
+     "cards"
+    ],
+    " 张主牌，",
+    [
+     "battlefields"
+    ],
+    " 张战场）。"
+   ],
+   "selectedRegistration": [
+    "选择了",
+    [
+     "format"
+    ],
+    "登记。"
+   ],
+   "changedRoomFormat": [
+    "将房间赛制改为 ",
+    [
+     "format"
+    ],
+    "。"
+   ],
+   "changedDeckRules": [
+    "将卡组规则改为",
+    [
+     "format"
+    ],
+    "。"
+   ],
+   "movedToSeat": [
+    "移至玩家席位 ",
+    [
+     "seat"
+    ],
+    "。"
+   ],
+   "changedGameType": [
+    "将游戏类型改为",
+    [
+     "format"
+    ],
+    "。"
+   ],
+   "recycledToFloat": [
+    "回收了",
+    [
+     "sourceKind",
+     1,
+     {
+      "runes": [
+       " ",
+       [
+        "source"
+       ]
+      ],
+      "other": [
+       [
+        "sourcePadStart"
+       ]
+      ]
+     }
+    ],
+    "，获得 ",
+    [
+     "resources"
+    ],
+    "。"
+   ],
+   "recycled": [
+    "回收了",
+    [
+     "cardPadStart"
+    ],
+    "。"
+   ],
+   "performedCardActivity": "进行了卡牌操作。"
+  },
+  "phrase": {
+   "runes": [
+    [
+     "count"
+    ],
+    " 枚",
+    [
+     "icon"
+    ],
+    [
+     "domainLabel"
+    ],
+    "符文"
+   ],
+   "runesChanneled": [
+    [
+     "count"
+    ],
+    " 枚休眠的",
+    [
+     "icon"
+    ],
+    [
+     "domainLabel"
+    ],
+    "符文"
+   ],
+   "resources": [
+    [
+     "kind",
+     1,
+     {
+      "both": [
+       [
+        "energy"
+       ],
+       " 点法力和 ",
+       [
+        "power"
+       ],
+       " 点符能"
+      ],
+      "energy": [
+       [
+        "energy"
+       ],
+       " 点法力"
+      ],
+      "other": [
+       [
+        "power"
+       ],
+       " 点符能"
+      ]
+     }
+    ]
+   ],
+   "floatingResources": [
+    [
+     "kind",
+     1,
+     {
+      "both": [
+       [
+        "energy"
+       ],
+       " 点临时法力和 ",
+       [
+        "power"
+       ],
+       " 点临时符能"
+      ],
+      "energy": [
+       [
+        "energy"
+       ],
+       " 点临时法力"
+      ],
+      "other": [
+       [
+        "power"
+       ],
+       " 点临时符能"
+      ]
+     }
+    ]
+   ],
+   "paymentDetails": [
+    "（",
+    [
+     "details"
+    ],
+    "）"
+   ],
+   "paymentDetail": {
+    "float": [
+     "使用临时资源 ",
+     [
+      "resources"
+     ]
+    ],
+    "exhaust": [
+     "使 ",
+     [
+      "count"
+     ],
+     " 枚符文变为休眠状态"
+    ],
+    "recycle": [
+     "回收",
+     [
+      "sourceKind",
+      1,
+      {
+       "runes": [
+        " ",
+        [
+         "source"
+        ]
+       ],
+       "other": [
+        [
+         "sourcePad"
+        ]
+       ]
+      }
+     ],
+     [
+      "gain",
+      1,
+      {
+       "yes": [
+        "并获得 ",
+        [
+         "energy"
+        ],
+        " 点临时法力"
+       ],
+       "other": ""
+      }
+     ]
+    ],
+    "countedCard": [
+     [
+      "count"
+     ],
+     " 张",
+     [
+      "card"
+     ]
+    ],
+    "gold": [
+     [
+      "count"
+     ],
+     " 个金币装备指示物"
+    ],
+    "card": [
+     [
+      "card"
+     ]
+    ]
+   },
+   "runeBatch": {
+    "channel": [
+     "召出 ",
+     [
+      "runes"
+     ]
+    ],
+    "exhaust": [
+     "使 ",
+     [
+      "runes"
+     ],
+     "变为休眠状态"
+    ],
+    "ready": [
+     "使 ",
+     [
+      "runes"
+     ],
+     "变为活跃状态"
+    ],
+    "recycleFloat": [
+     "回收了 ",
+     [
+      "runes"
+     ],
+     "并获得 ",
+     [
+      "energy"
+     ],
+     " 点临时法力"
+    ],
+    "recycle": [
+     "回收了 ",
+     [
+      "runes"
+     ]
+    ]
+   },
+   "token": {
+    "named": [
+     [
+      "stem"
+     ],
+     "指示物"
+    ],
+    "generic": "指示物"
+   },
+   "team": [
+    "队伍 ",
+    [
+     "number"
+    ]
+   ],
+   "roll": [
+    [
+     "competitor"
+    ],
+    " 掷出了 ",
+    [
+     "roll"
+    ],
+    "。"
+   ]
+  },
+  "list": {
+   "runeBatch": {
+    "pair": [
+     [
+      "first"
+     ],
+     "；",
+     [
+      "rest"
+     ]
+    ],
+    "start": [
+     [
+      "first"
+     ],
+     "；",
+     [
+      "rest"
+     ]
+    ],
+    "middle": [
+     [
+      "first"
+     ],
+     "；",
+     [
+      "rest"
+     ]
+    ],
+    "end": [
+     [
+      "first"
+     ],
+     "；",
+     [
+      "rest"
+     ]
+    ]
+   },
+   "paymentDetails": {
+    "pair": [
+     [
+      "first"
+     ],
+     "；",
+     [
+      "rest"
+     ]
+    ],
+    "start": [
+     [
+      "first"
+     ],
+     "；",
+     [
+      "rest"
+     ]
+    ],
+    "middle": [
+     [
+      "first"
+     ],
+     "；",
+     [
+      "rest"
+     ]
+    ],
+    "end": [
+     [
+      "first"
+     ],
+     "；",
+     [
+      "rest"
+     ]
+    ]
+   },
+   "rolls": {
+    "pair": [
+     [
+      "first"
+     ],
+     [
+      "rest"
+     ]
+    ],
+    "start": [
+     [
+      "first"
+     ],
+     [
+      "rest"
+     ]
+    ],
+    "middle": [
+     [
+      "first"
+     ],
+     [
+      "rest"
+     ]
+    ],
+    "end": [
+     [
+      "first"
+     ],
+     [
+      "rest"
+     ]
+    ]
+   },
+   "runes": {
+    "pair": [
+     [
+      "first"
+     ],
+     "和 ",
+     [
+      "rest"
+     ]
+    ],
+    "start": [
+     [
+      "first"
+     ],
+     "、",
+     [
+      "rest"
+     ]
+    ],
+    "middle": [
+     [
+      "first"
+     ],
+     "、",
+     [
+      "rest"
+     ]
+    ],
+    "end": [
+     [
+      "first"
+     ],
+     "和 ",
+     [
+      "rest"
+     ]
+    ]
+   }
+  },
+  "label": {
+   "zone": {
+    "hand": "手牌",
+    "base": "基地",
+    "trash": "废牌堆",
+    "banished": "放逐区",
+    "battlefieldA": "战场 A",
+    "battlefieldB": "战场 B",
+    "battlefieldC": "战场 C",
+    "runeArea": "符文区",
+    "championArea": "英雄区",
+    "deck": "主牌堆",
+    "deckPeek": "主牌堆查看区",
+    "topOfDeck": "主牌堆顶",
+    "bottomOfDeck": "主牌堆底",
+    "legendArea": "传奇区",
+    "chain": "结算链",
+    "baronPit": "男爵巢穴",
+    "brush": "草丛",
+    "blankBattlefield": "空白战场"
+   },
+   "object": {
+    "aCard": "一张卡牌",
+    "card": "卡牌"
+   },
+   "domain": {
+    "body": "摧破",
+    "calm": "翠意",
+    "chaos": "混沌",
+    "fury": "炽烈",
+    "mind": "灵光",
+    "order": "序理"
+   },
+   "format": {
+    "bestOf1": "BO1",
+    "bestOf3": "BO3",
+    "standard": "标准",
+    "unrestricted": "无限制",
+    "sealed": "现开赛",
+    "unleashedPreRift": "破限现开赛",
+    "vendettaPreRift": "《化神争锋》裂隙前",
+    "radiancePreRift": "《辉耀群星》裂隙前"
+   }
+  }
+ }
+}

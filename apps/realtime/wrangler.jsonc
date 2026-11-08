@@ -1,0 +1,48 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rift-realtime",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    // Development default; set ENVIRONMENT=production on deployed environments.
+    "ENVIRONMENT": "development",
+  },
+  // Better Auth database (@cloud-np/auth + better-auth 1.6.33). Local `wrangler dev` and
+  // `pnpm --filter realtime auth:bootstrap` share this D1 database. Replace the placeholder id
+  // with the real D1 database id in production (or define it in the deploy environment).
+  "d1_databases": [
+    {
+      "binding": "AUTH_DB",
+      "database_name": "riftbound-auth",
+      "database_id": "00000000-0000-4000-8000-000000000001",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "Coordinator",
+        "class_name": "Coordinator",
+      },
+      {
+        "name": "Match",
+        "class_name": "Match",
+      },
+      {
+        "name": "Matchmaking",
+        "class_name": "Matchmaking",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["GameRoom"],
+    },
+    {
+      "tag": "v2",
+      "new_sqlite_classes": ["Coordinator", "Match", "Matchmaking"],
+    },
+  ],
+}

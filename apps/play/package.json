@@ -1,0 +1,42 @@
+{
+  "name": "play",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port 3000",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "node e2e/solo.mjs && node e2e/multiplayer.mjs",
+    "test:e2e:solo": "node e2e/solo.mjs",
+    "test:e2e:multiplayer": "node e2e/multiplayer.mjs"
+  },
+  "dependencies": {
+    "@cloud-np/auth": "workspace:*",
+    "@rift/cards": "workspace:*",
+    "@rift/engine": "workspace:*",
+    "@rift/i18n": "workspace:*",
+    "@rift/protocol": "workspace:*",
+    "@rift/sync": "workspace:*",
+    "@rive-app/react-canvas": "4.37.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^14.5.0",
+    "next": "^16.4.2",
+    "partysocket": "^1.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}

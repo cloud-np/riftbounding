@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens copied verbatim from the original site bundle
+ * (.recon/site/dl/_next/static/immutable/chunks/2wc4toplanayo.css + 3go3sf_kw5o6g.css).
+ * Light theme is the default; `.dark` is applied by the theme bootstrap (next-themes
+ * compatible: localStorage key "theme", values light | dark | system).
+ */
+:root {
+  --background: #fcfcfc;
+  --foreground: #090a13;
+  --card: #14151f;
+  --card-foreground: #e6e7ef;
+  --panel: #fff;
+  --popover: #fcfcfc;
+  --popover-foreground: #090a13;
+  --primary: #0073d2;
+  --primary-foreground: #fcfcfc;
+  --secondary: #eaebf2;
+  --secondary-foreground: #20212b;
+  --muted: #eaebf2;
+  --muted-foreground: #535461;
+  --accent: #eaebf2;
+  --accent-foreground: #20212b;
+  --destructive: #d40924;
+  --destructive-foreground: #fcfcfc;
+  --border: #d6d7de;
+  --input: #d6d7de;
+  --ring: #0073d2;
+  --chart-1: #f05100;
+  --chart-2: #009588;
+  --chart-3: #104e64;
+  --chart-4: #fcbb00;
+  --chart-5: #f99c00;
+  --radius: 0.375rem;
+  --sidebar: #f4f5f8;
+  --sidebar-foreground: #090a13;
+  --sidebar-primary: #0073d2;
+  --sidebar-primary-foreground: #fcfcfc;
+  --sidebar-accent: #eaebf2;
+  --sidebar-accent-foreground: #20212b;
+  --sidebar-border: #d6d7de;
+  --sidebar-ring: #0073d2;
+  --motif-glow-1: #258cf41f;
+  --motif-glow-2: #f5b13d1a;
+  --motif-grain-1: #0f172a05;
+  --motif-grain-2: #0f172a03;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #1b1c26;
+  --foreground: #e6e7ef;
+  --card: #14151f;
+  --card-foreground: #e6e7ef;
+  --panel: #14151f;
+  --popover: #14151f;
+  --popover-foreground: #e6e7ef;
+  --primary: #00b0d6;
+  --primary-foreground: #f8f8f8;
+  --secondary: #2c2d38;
+  --secondary-foreground: #e6e7ef;
+  --muted: #2c2d38;
+  --muted-foreground: #8e8f95;
+  --accent: #2c2d38;
+  --accent-foreground: #e6e7ef;
+  --destructive: #82181a;
+  --destructive-foreground: #fb2c36;
+  --border: #383a45;
+  --input: #20212b;
+  --ring: #00b0d6;
+  --chart-1: #1447e6;
+  --chart-2: #00bb7f;
+  --chart-3: #f99c00;
+  --chart-4: #ac4bff;
+  --chart-5: #ff2357;
+  --sidebar: #14151f;
+  --sidebar-foreground: #e6e7ef;
+  --sidebar-primary: #00b0d6;
+  --sidebar-primary-foreground: #f8f8f8;
+  --sidebar-accent: #2c2d38;
+  --sidebar-accent-foreground: #e6e7ef;
+  --sidebar-border: #383a45;
+  --sidebar-ring: #00b0d6;
+  --motif-glow-1: #3abff824;
+  --motif-glow-2: #f5b83d1f;
+  --motif-grain-1: #ffffff04;
+  --motif-grain-2: #ffffff02;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --default-font-family: var(--font-geist-sans);
+  --default-mono-font-family: var(--font-geist-mono);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-panel: var(--panel);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@utility font-brand {
+  font-family: var(--font-brand), var(--font-geist-sans), sans-serif;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+@utility page-shell {
+  width: min(100%, 90rem);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 2vw, 2rem);
+}
+
+/* Membership button skin, copied from the original site stylesheet. */
+.web-metafy-membership [data-riftatlas-membership-button] {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--foreground);
+  filter: none;
+  outline-color: var(--ring);
+  border-radius: 9999px;
+  transition:
+    background-color 0.15s,
+    opacity 0.15s;
+}
+
+.web-metafy-membership [data-riftatlas-membership-button]:hover,
+.web-metafy-membership [data-riftatlas-membership-button]:focus-visible,
+.web-metafy-membership [data-riftatlas-membership-button][data-connected="true"] {
+  opacity: 1;
+}
+
+.web-metafy-membership [data-riftatlas-membership-button]:hover {
+  background-color: color-mix(in oklab, var(--secondary) 65%, transparent);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+
+  html {
+    background-color: var(--background);
+    overscroll-behavior: none;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    overscroll-behavior: none;
+    background-image:
+      radial-gradient(900px 520px at 12% -8%, var(--motif-glow-1), transparent 55%),
+      radial-gradient(1000px 700px at 92% 108%, var(--motif-glow-2), transparent 60%),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 1px,
+        var(--motif-grain-1) 1px 1.5px,
+        transparent 1.5px 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent 0 1.5px,
+        var(--motif-grain-2) 1.5px 2px,
+        transparent 2px 4.5px
+      );
+    background-position:
+      50%,
+      50%,
+      -2px -2px,
+      4px 7px;
+    background-size:
+      auto,
+      auto,
+      90px 90px,
+      120px 120px;
+  }
+
+  select option,
+  select optgroup {
+    background-color: var(--popover);
+    color: var(--popover-foreground);
+  }
+
+  select option:disabled {
+    color: color-mix(in oklab, var(--popover-foreground) 62%, transparent);
+  }
+
+  html:not([data-platform-modifier="meta"]) [data-platform-modifier-only="meta"],
+  html[data-platform-modifier="meta"] [data-platform-modifier-only="control"] {
+    display: none !important;
+  }
+}

@@ -1,0 +1,605 @@
+{
+  "source": "riftatlas.com RSC payload (route_decks.html) EN",
+  "messages": {
+    "playInSimulator": "Play in Simulator",
+    "savedDeck": "Saved Deck",
+    "untitledDeck": "Untitled deck",
+    "sectionLegend": "Legend",
+    "sectionChampion": "Champion",
+    "sectionMainDeck": "Main Deck",
+    "sectionBattlefields": "Battlefields",
+    "sectionRunes": "Runes",
+    "sectionSideboard": "Sideboard",
+    "name": "Name",
+    "energy": "Energy",
+    "power": "Power",
+    "might": "Might",
+    "type": "Type",
+    "domain": "Domain",
+    "rarity": "Rarity",
+    "set": "Set",
+    "ascending": "ascending",
+    "descending": "descending",
+    "sortLabel": [
+      [
+        "field"
+      ],
+      " ",
+      [
+        "direction"
+      ]
+    ],
+    "sortBy": "Sort By",
+    "direction": "Direction",
+    "asc": "Asc",
+    "desc": "Desc",
+    "parserErrors": "Parser Errors",
+    "warnings": "Warnings",
+    "readyToImport": "Ready to Import",
+    "empty": "Empty",
+    "deckList": "Deck List",
+    "importDeck": "Import Deck",
+    "importDeckAction": "Import deck",
+    "importDeckList": "Import deck list",
+    "openDeckCodeInput": "Open deck code input",
+    "useDeckCode": "Use Deck Code",
+    "deckCode": "Deck Code",
+    "deckCodeHelp": "Paste a deck code to load the full deck list.",
+    "pasteDeckCode": "Paste deck code...",
+    "cancel": "Cancel",
+    "loadDeck": "Load Deck",
+    "closeDeckImport": "Close deck import",
+    "pasteDeckExport": "Paste Riftbound deck export here...",
+    "importValidation": "Import Validation",
+    "pasteDeckListPrimary": "Paste a deck list to preview counts and validation.",
+    "pasteDeckListSecondary": "You can import unfinished lists here and keep fixing them in the deck editor.",
+    "countLegend": [
+      [
+        "count"
+      ],
+      "/1 legend"
+    ],
+    "countChampion": [
+      [
+        "count"
+      ],
+      "/1 champion"
+    ],
+    "countMainDeck": [
+      [
+        "count"
+      ],
+      "/39 main deck"
+    ],
+    "countBattlefields": [
+      [
+        "count"
+      ],
+      "/3 battlefields"
+    ],
+    "countRunes": [
+      [
+        "count"
+      ],
+      "/12 runes"
+    ],
+    "countSideboard": [
+      [
+        "count"
+      ],
+      " sideboard cards"
+    ],
+    "pasteDeckExportContinue": "Paste a deck export to continue.",
+    "resolveParserErrors": "Resolve parser errors before importing.",
+    "importWithErrors": "Import into the editor and keep fixing the list there.",
+    "importWithWarnings": "Warnings are okay. You can still import and continue editing.",
+    "importReady": "Import this list into the deck editor when you're ready.",
+    "chooseArt": "Choose Art",
+    "closeArtPicker": "Close art picker",
+    "showArtVariants": [
+      "Show ",
+      [
+        "count"
+      ],
+      " art variants"
+    ],
+    "fullArtEmpty": "Add cards to see the full-art deck view.",
+    "dropIntoSection": [
+      "Drop into ",
+      [
+        "section"
+      ]
+    ],
+    "dragCardHere": "Drag a card here from the browser or the other card section.",
+    "dropCardInBrowserToRemove": [
+      "Drop ",
+      [
+        "cardName"
+      ],
+      " in the card browser to remove one copy from the deck."
+    ],
+    "dropCardIntoSection": [
+      "Drop ",
+      [
+        "cardName"
+      ],
+      " into ",
+      [
+        "section"
+      ],
+      "."
+    ],
+    "draggingCatalogCard": [
+      "Dragging ",
+      [
+        "cardName"
+      ],
+      ". Drop it into Main Deck or Sideboard."
+    ],
+    "draggingDeckCard": [
+      "Dragging ",
+      [
+        "cardName"
+      ],
+      ". Drop it into the other card section or the card browser."
+    ],
+    "dropToRemoveOneCopy": "Drop to remove one copy",
+    "dragHereToRemoveFromDeck": "Drag here to remove from deck",
+    "alt": "alt",
+    "altVariantsCount": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " alt art"
+          ],
+          "other": [
+            0,
+            " alt arts"
+          ]
+        }
+      ]
+    ],
+    "banned": "Banned",
+    "bannedIn": [
+      "Banned in ",
+      [
+        "format"
+      ]
+    ],
+    "bannedIncluded": "Banned included",
+    "includeBannedCards": "Include banned cards",
+    "energyBetween": [
+      "Energy between ",
+      [
+        "min"
+      ],
+      " and ",
+      [
+        "max"
+      ]
+    ],
+    "powerBetween": [
+      "Power between ",
+      [
+        "min"
+      ],
+      " and ",
+      [
+        "max"
+      ]
+    ],
+    "chooseLegendForChampions": "Choose a legend first to see matching champions.",
+    "chooseLegendForSection": [
+      "Choose a legend first to start building the ",
+      [
+        "section"
+      ],
+      "."
+    ],
+    "chooseChampionForSection": [
+      "Choose a champion first to unlock the ",
+      [
+        "section"
+      ],
+      "."
+    ],
+    "chooseLegendForRunes": "Choose a legend first to see matching runes.",
+    "noCardsBannedHidden": "No cards match right now. Banned cards are hidden by default, so turn on Include banned cards if you want them in the catalog.",
+    "noCardsSearch": "No cards match this search.",
+    "checkingSignIn": "Checking sign-in status...",
+    "savingChanges": "Saving changes...",
+    "unsavedChanges": "Unsaved changes",
+    "savedAt": [
+      "Saved ",
+      [
+        "time"
+      ]
+    ],
+    "savedToLibrary": "Saved to your deck library",
+    "localDraftOnly": "Local draft only",
+    "startBuildingToSave": "Start building to save this deck.",
+    "deck": "Deck",
+    "deckWorkspace": "Deck workspace",
+    "overview": "Overview",
+    "showDeckEditingControls": "Show deck editing controls",
+    "showCompactDeckOverview": "Show compact deck overview",
+    "import": "Import",
+    "exportDeck": "Export deck",
+    "copied": "Copied",
+    "editDeckGuide": "Edit deck guide",
+    "guide": "Guide",
+    "editGuide": "Edit Guide",
+    "published": "Published",
+    "private": "Private",
+    "deckWorkspaceView": "Deck workspace view",
+    "list": "List",
+    "stats": "Stats",
+    "saveBeforePublishing": "Save the deck before publishing it.",
+    "onlyReadyPublish": "Only ready decks can be published.",
+    "makePrivateTitle": "Move this deck back to private.",
+    "publishTitle": "Publish this deck to Community Decks.",
+    "deleteDeckNamed": [
+      "Delete ",
+      [
+        "name"
+      ]
+    ],
+    "deckName": "Deck Name",
+    "validationIssues": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " validation issue"
+          ],
+          "other": [
+            0,
+            " validation issues"
+          ]
+        }
+      ]
+    ],
+    "discardChanges": "Discard Changes",
+    "discardDraft": "Discard Draft",
+    "saving": "Saving...",
+    "updateDeck": "Update Deck",
+    "saved": "Saved",
+    "saveDeck": "Save Deck",
+    "unsavedChangesFound": "Unsaved changes found",
+    "newDeck": "New Deck",
+    "newDeckName": "New Deck Name",
+    "copyOfDeck": [
+      "Copy of ",
+      [
+        "name"
+      ]
+    ],
+    "newDeckNamePlaceholder": "New deck name",
+    "deckGuide": "Deck Guide",
+    "deckGuideDescription": "Add matchup notes, mulligan advice, power turns, and sideboarding plans.",
+    "closeDeckGuide": "Close deck guide",
+    "noGuide": "No guide added yet.",
+    "guideSavedWithDeck": "Guide changes will be saved with the deck and shown on the community page when published.",
+    "richTextInvalidWebAddress": "Enter a valid web address.",
+    "richTextUnsupportedLink": "Use an HTTP, HTTPS, or email link.",
+    "done": "Done",
+    "deckNameRequired": "Deck name is required before saving.",
+    "couldNotLoadDeck": "Could not load this deck.",
+    "couldNotSaveDeck": "Could not save this deck.",
+    "saveBeforePublishingError": "Save this deck before publishing it.",
+    "makePrivateConfirmTitle": "Move Deck Back to Private?",
+    "makePrivateConfirmDescription": "This will remove the current Community Deck publication and keep the deck only in your private library.",
+    "makePrivate": "Make Private",
+    "couldNotUnpublishDeck": "Could not unpublish this deck.",
+    "movedDeckPrivate": [
+      "Moved \"",
+      [
+        "name"
+      ],
+      "\" back to private."
+    ],
+    "publishConfirmTitle": "Publish to Community Decks?",
+    "publishConfirmDescriptionDirty": "This will save your current deck and publish it to Community Decks.",
+    "publishConfirmDescriptionSaved": "This will publish this saved deck to Community Decks.",
+    "publish": "Publish",
+    "couldNotPublishDeck": "Could not publish this deck.",
+    "publishedDeck": [
+      "Published \"",
+      [
+        "name"
+      ],
+      "\" to Community Decks."
+    ],
+    "incompleteDeckSaveNote": "Incomplete decks can be saved, but they cannot be played yet.",
+    "renameSavedDeckPrompt": "Rename saved deck",
+    "couldNotRenameDeck": "Could not rename this deck.",
+    "renaming": "Renaming...",
+    "deleteSavedDeckTitle": "Delete Saved Deck?",
+    "deleteNamedFromLibrary": [
+      "Delete \"",
+      [
+        "name"
+      ],
+      "\" from your deck library?"
+    ],
+    "deleteDeckTitle": "Delete Deck?",
+    "deleteDeckAndPublicationTitle": "Delete Deck and Remove Publication?",
+    "deleteNamedAndPublication": [
+      "Delete \"",
+      [
+        "name"
+      ],
+      "\" from your deck library? This will also remove it from Community Decks."
+    ],
+    "thisDeck": "this deck",
+    "couldNotDeleteDeck": "Could not delete this deck.",
+    "deletedDeck": [
+      "Deleted \"",
+      [
+        "name"
+      ],
+      "\"."
+    ],
+    "savedDeckMissingOpenedDraft": "That saved deck no longer exists. Your browser draft is now open as a new unsaved deck.",
+    "deckLoadedFromCode": "Deck loaded from deck code.",
+    "couldNotDecodeDeckCode": "Could not decode that deck code.",
+    "couldNotCopyDecklist": "Could not copy the decklist.",
+    "couldNotCopyDeckCode": "Could not copy the deck code.",
+    "addCardsToCopyDecklist": "Add cards to copy a decklist",
+    "addCardsFirst": "Add cards first",
+    "decklistCopied": "Decklist copied",
+    "deckCodeCopied": "Deck code copied",
+    "copyDecklist": "Copy decklist",
+    "plainTextCardList": "Plain-text card list",
+    "copyDeckCode": "Copy deck code",
+    "retryDeckCode": "Retry deck code check",
+    "checkingCardCompatibility": "Checking deck code compatibility…",
+    "deckCodeUnsupported": "Some cards in this deck cannot be encoded yet. Copy the decklist instead.",
+    "deckCodeSupportLoadError": "Deck code export could not load. Try again, or copy the decklist instead.",
+    "compactShareCode": "Compact share code",
+    "checkCardCompatibility": "Check deck code compatibility",
+    "chooseExportFormat": "Choose a format to copy.",
+    "closeExportDeckOptions": "Close export deck options",
+    "moveOneCopyToSection": [
+      "Move one copy of ",
+      [
+        "cardName"
+      ],
+      " to ",
+      [
+        "section"
+      ]
+    ],
+    "moveOneCopyToSectionShortcut": [
+      "Move one copy of ",
+      [
+        "cardName"
+      ],
+      " to ",
+      [
+        "section"
+      ],
+      " (",
+      [
+        "modifier"
+      ],
+      " + right click)"
+    ],
+    "cardEntryWithStatus": [
+      [
+        "entry"
+      ],
+      ", ",
+      [
+        "status"
+      ]
+    ],
+    "legality": "Legality",
+    "legalOnly": "Legal only",
+    "availability": "Availability",
+    "availableToAdd": "Available to add",
+    "discardLocalChangesTitle": "Discard Local Changes?",
+    "discardDraftTitle": "Discard Draft?",
+    "discardLocalChangesDescription": "Discard these local changes and return to your deck library?",
+    "discardDraftDescription": "Discard this local draft and return to your deck library?",
+    "discard": "Discard",
+    "startAddingCards": "Start adding cards from the catalog to build this deck.",
+    "deckEditingUnavailable": "Deck editing temporarily unavailable",
+    "cardsForSection": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " card"
+          ],
+          "other": [
+            0,
+            " cards"
+          ]
+        }
+      ],
+      " for ",
+      [
+        "section"
+      ]
+    ],
+    "cardsOfForSection": [
+      [
+        "count"
+      ],
+      " of ",
+      [
+        "total"
+      ],
+      " cards for ",
+      [
+        "section"
+      ]
+    ],
+    "searchSectionCards": [
+      "Search ",
+      [
+        "section"
+      ],
+      " cards..."
+    ],
+    "sortCards": [
+      "Sort cards (",
+      [
+        "label"
+      ],
+      ")"
+    ],
+    "sortCardsTitle": [
+      "Sort cards: ",
+      [
+        "label"
+      ]
+    ],
+    "filter": "Filter",
+    "clearFilters": "Clear Filters",
+    "resizePanels": "Resize catalog and deck panels",
+    "closeDeckWorkspace": "Close deck workspace",
+    "readyToPlay": "Ready to play",
+    "cardsCount": [
+      [
+        "count",
+        2,
+        {
+          "one": [
+            0,
+            " card"
+          ],
+          "other": [
+            0,
+            " cards"
+          ]
+        }
+      ]
+    ],
+    "mobileSummary": [
+      [
+        "cards"
+      ],
+      " · ",
+      [
+        "status"
+      ]
+    ],
+    "savedDecks": "Saved Decks",
+    "savedDecksDescription": "Shared with the simulator through the existing Convex backend.",
+    "signIn": "Sign in",
+    "loadingSavedDecks": "Loading saved decks...",
+    "reconnectingSavedDeck": "Reconnecting to your saved deck… Your saved deck is safe.",
+    "couldNotLoadRequestedSavedDeck": "Couldn’t load your saved deck. Your saved deck is safe.",
+    "loadingSavedDeck": "Loading your saved deck…",
+    "restoringDraft": "Restoring your deck draft…",
+    "couldNotLoadImporter": "Could not load the deck importer. Please try again.",
+    "couldNotLoadGuideEditor": "Could not load the guide editor. Please try again.",
+    "noSharedDecks": "No shared decks yet. Save your current draft to start the library.",
+    "ready": "Ready",
+    "incomplete": "Incomplete",
+    "updatedAt": [
+      "Updated ",
+      [
+        "time"
+      ]
+    ],
+    "load": "Load",
+    "rename": "Rename",
+    "delete": "Delete",
+    "signInDeckFeatures": "Sign in to unlock account features. Your local draft still stays on this device.",
+    "loadingDeckEditor": "Loading deck editor",
+    "unavailableTitle": "Deckbuilder unavailable",
+    "unavailableBody": [
+      "Configure ",
+      [
+        "code",
+        "NEXT_PUBLIC_CONVEX_URL"
+      ],
+      " in this app so the website can talk to the shared simulator backend."
+    ],
+    "maintenanceTitle": "Deckbuilder temporarily unavailable",
+    "maintenanceDisabledDuring": "Deck creation and editing are temporarily disabled during scheduled maintenance.",
+    "maintenanceDisabledBefore": "Deck creation and editing are temporarily disabled starting 30 minutes before scheduled maintenance.",
+    "groupMainDeckList": "Group Main Deck list",
+    "groupNone": "None",
+    "groupNoGrouping": "No Grouping",
+    "groupByType": "By Type",
+    "groupByEnergy": "By Energy",
+    "groupByPower": "By Power",
+    "energyGroupLabel": [
+      [
+        "value"
+      ],
+      " Energy"
+    ],
+    "powerGroupLabel": [
+      [
+        "value"
+      ],
+      " Power"
+    ],
+    "groupByDomain": "By Domain",
+    "noDomain": "No Domain",
+    "sortMainDeckList": "Sort Main Deck list",
+    "sortMainDeckAscending": "Sort Main Deck ascending",
+    "sortMainDeckDescending": "Sort Main Deck descending",
+    "sortName": "Name",
+    "sortType": "Type",
+    "sortEnergy": "Energy",
+    "sortPower": "Power",
+    "sortDomain": "Domain",
+    "sortCopies": "Copies",
+    "maxBattlefieldCopiesAlready": [
+      "Only ",
+      [
+        "max"
+      ],
+      " copies of \"",
+      [
+        "cardName"
+      ],
+      "\" are allowed in Battlefields."
+    ],
+    "neekoLegendsFull": "Neeko already has three legends.",
+    "neekoLegends": "Additional Legends",
+    "maxCopiesAlready": [
+      "You already have the maximum ",
+      [
+        "max"
+      ],
+      " copies of \"",
+      [
+        "cardName"
+      ],
+      "\". ",
+      [
+        "locationSummary"
+      ]
+    ],
+    "richTextPlaceholder": "Share your mulligan plan, power turns, and matchup notes...",
+    "richTextUrlPrompt": "Enter a URL",
+    "richTextParagraph": "Paragraph",
+    "richTextHeading": "Heading",
+    "richTextSubheading": "Subheading",
+    "richTextQuote": "Quote",
+    "richTextBold": "Bold",
+    "richTextItalic": "Italic",
+    "richTextBulletedList": "Bullet list",
+    "richTextNumberedList": "Numbered list",
+    "richTextLink": "Link",
+    "richTextClearFormatting": "Clear formatting",
+    "editHistory": "Deck edit history",
+    "undoEdit": "Undo",
+    "redoEdit": "Redo",
+    "optionalSection": "Optional"
+  }
+}

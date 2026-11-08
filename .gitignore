@@ -1,0 +1,48 @@
+# dependencies
+node_modules
+
+# builds
+.next
+.next-*/
+.wrangler
+dist
+*.tsbuildinfo
+
+# orchestration
+.orchestrator/
+
+# recon dumps (specs/ and reports/ stay tracked)
+.recon/site/
+.recon/pretty/
+.recon/tools*/node_modules
+.recon/browser/
+
+# logs / os
+*.log
+.DS_Store
+
+# assets — binary / scraped files stay local, never uploaded
+apps/play/public/riftbound/static/
+apps/site/public/
+.recon/screens/
+.recon/raw/
+.recon/api/sitemap*.xml
+**/.verify/
+*.png
+*.webp
+*.jpg
+*.jpeg
+*.gif
+*.avif
+*.ico
+*.mp4
+*.webm
+*.mp3
+*.ogg
+*.wav
+*.riv
+*.woff
+*.woff2
+*.ttf
+*.otf
+*.pdf

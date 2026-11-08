@@ -1,0 +1,2282 @@
+{
+ "schemaVersion": "preset-decks-v1",
+ "note": "The simulator embeds no constructed preset/starter/featured decks. The only decklists in the bundles are the sealed Pre-Rift starter kits below (playapp module 534432 / site module 34432). All constructed decks are user-created (Convex) or pasted as text / deck codes.",
+ "sealedFormatIds": {
+  "unleashed": "unleashed-prerift-v1",
+  "vendetta": "vendetta-prerift-v1",
+  "radiance": "radiance-prerift-v1",
+  "vendettaSealed": "vendetta-sealed"
+ },
+ "mixSealed": {
+  "prefix": "mix-",
+  "grammar": "mix-<setLower><count>-... ; sets in canonical order OGN,SFD,UNL,VEN; <=12 packs total e.g. mix-ogn2-unl3"
+ },
+ "setMeta": {
+  "OGN": {
+   "setName": "Origins",
+   "canonicalRunes": {
+    "Fury": "OGN-007",
+    "Calm": "OGN-042",
+    "Mind": "OGN-089",
+    "Body": "OGN-126",
+    "Chaos": "OGN-166",
+    "Order": "OGN-214"
+   },
+   "baseNumberEnd": 298,
+   "overnumbered": [
+    299,
+    310
+   ]
+  },
+  "SFD": {
+   "setName": "Spiritforged",
+   "canonicalRunes": {
+    "Fury": "SFD-R01",
+    "Calm": "SFD-R02",
+    "Mind": "SFD-R03",
+    "Body": "SFD-R04",
+    "Chaos": "SFD-R05",
+    "Order": "SFD-R06"
+   },
+   "baseNumberEnd": 221,
+   "overnumbered": [
+    222,
+    251
+   ]
+  },
+  "UNL": {
+   "setName": "Unleashed",
+   "canonicalRunes": {
+    "Fury": "UNL-R01A",
+    "Calm": "UNL-R02A",
+    "Mind": "UNL-R03A",
+    "Body": "UNL-R04A",
+    "Chaos": "UNL-R05A",
+    "Order": "UNL-R06A"
+   },
+   "baseNumberEnd": 219,
+   "overnumbered": [
+    220,
+    238
+   ]
+  },
+  "VEN": {
+   "setName": "Vendetta",
+   "canonicalRunes": {
+    "Fury": "VEN-R01",
+    "Calm": "VEN-R02",
+    "Mind": "VEN-R03",
+    "Body": "VEN-R04",
+    "Chaos": "VEN-R05",
+    "Order": "VEN-R06"
+   },
+   "baseNumberEnd": 166,
+   "overnumbered": [
+    167,
+    197
+   ]
+  },
+  "RAD": {
+   "setName": "Radiance",
+   "canonicalRunes": {
+    "Fury": "RAD-R01",
+    "Calm": "RAD-R02",
+    "Mind": "RAD-R03",
+    "Body": "RAD-R04",
+    "Chaos": "RAD-R05",
+    "Order": "RAD-R06"
+   },
+   "baseNumberEnd": 167,
+   "overnumbered": [
+    168,
+    184
+   ]
+  }
+ },
+ "sealedFormats": [
+  {
+   "id": "radiance-prerift-v1",
+   "label": "Radiance · Pre-Rift",
+   "setCode": "RAD",
+   "poolKind": "pre-rift",
+   "status": "active",
+   "publicPlay": true,
+   "matchmakingPool": "upcoming",
+   "expectedStarterKitCount": 9,
+   "starterKitSize": 15,
+   "starterChampionRarity": "Rare",
+   "booster": {
+    "packsPerPool": 5,
+    "packsPerBox": 24,
+    "commonSlots": 7,
+    "guaranteedDomainCommons": true,
+    "uncommonSlots": 3,
+    "rareOrEpicSlots": 2,
+    "foilSlots": 1,
+    "tokenOrRuneSlots": 1,
+    "chaseSlot": true
+   },
+   "odds": {
+    "epicPerPack": 0.25,
+    "alternateArtPerBox": 2,
+    "alternateRunePerBox": 1,
+    "overnumberedPerBox": 0.3333333333333333,
+    "signedOvernumberedShare": 0.1,
+    "ultimateRarePerPack": 0.00025,
+    "specialArtShare": 0.5,
+    "isEstimate": true
+   },
+   "excludedCardCodes": [
+    "RAD-015C",
+    "RAD-015P",
+    "RAD-038C",
+    "RAD-038P",
+    "RAD-085P",
+    "RAD-086AP",
+    "RAD-086BP",
+    "RAD-086P",
+    "RAD-110AP",
+    "RAD-110P",
+    "RAD-R01BP",
+    "RAD-R02BP",
+    "RAD-R03BP",
+    "RAD-R04BP",
+    "RAD-R05BP",
+    "RAD-R06BP"
+   ],
+   "starterKits": [
+    {
+     "id": "ekko",
+     "name": "Ekko",
+     "status": "complete",
+     "legendCardCode": "RAD-139",
+     "cards": [
+      {
+       "cardCode": "RAD-139",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "RAD-061",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "RAD-060",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-050",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-058",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-049",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-009",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-008",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-003",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-005",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-051",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-010",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-006",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-002",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-162",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "evelynn",
+     "name": "Evelynn",
+     "status": "complete",
+     "legendCardCode": "RAD-153",
+     "cards": [
+      {
+       "cardCode": "RAD-153",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "RAD-109",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "RAD-077",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-081",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-076",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-095",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-099",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-105",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-103",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-097",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-102",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-098",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-100",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-070",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-157",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "jarvan-iv",
+     "name": "Jarvan IV",
+     "status": "complete",
+     "legendCardCode": "RAD-155",
+     "cards": [
+      {
+       "cardCode": "RAD-155",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "RAD-133",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "RAD-080",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-078",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-075",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-072",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-128",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-129",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-070",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-121",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-117",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-123",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-116",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-073",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-163",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "ksante",
+     "name": "K'Sante",
+     "status": "complete",
+     "legendCardCode": "RAD-147",
+     "cards": [
+      {
+       "cardCode": "RAD-147",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "RAD-086",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "RAD-077",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-081",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-078",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-083",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-072",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-031",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-070",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-032",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-025",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-024",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-071",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-073",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-161",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "mordekaiser",
+     "name": "Mordekaiser",
+     "status": "complete",
+     "legendCardCode": "RAD-143",
+     "cards": [
+      {
+       "cardCode": "RAD-143",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "RAD-020",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "RAD-125",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-118",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-126",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-119",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-120",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-014",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-005",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-006",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-007",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-124",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-002",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-116",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-166",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "orianna",
+     "name": "Orianna",
+     "status": "complete",
+     "legendCardCode": "RAD-145",
+     "cards": [
+      {
+       "cardCode": "RAD-145",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "RAD-042",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "RAD-030",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-031",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-037",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-049",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-054",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-053",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-035",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-024",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-052",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-056",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-025",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-033",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-163",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "riven",
+     "name": "Riven",
+     "status": "complete",
+     "legendCardCode": "RAD-149",
+     "cards": [
+      {
+       "cardCode": "RAD-149",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "RAD-043",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "RAD-104",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-093",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-105",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-097",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-031",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-026",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-027",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-035",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-034",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-029",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-028",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-025",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-163",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "seraphine",
+     "name": "Seraphine",
+     "status": "complete",
+     "legendCardCode": "RAD-151",
+     "cards": [
+      {
+       "cardCode": "RAD-151",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "RAD-065",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "RAD-122",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-125",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-118",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-120",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-049",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-057",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-053",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-059",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-048",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-047",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-127",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-116",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-159",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "ziggs",
+     "name": "Ziggs",
+     "status": "complete",
+     "legendCardCode": "RAD-141",
+     "cards": [
+      {
+       "cardCode": "RAD-141",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "RAD-112",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "RAD-094",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-093",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-099",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-105",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-097",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-014",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-001",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-005",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-006",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-096",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-106",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-012",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "RAD-165",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "unleashed-prerift-v1",
+   "label": "Unleashed · Pre-Rift",
+   "setCode": "UNL",
+   "poolKind": "pre-rift",
+   "status": "active",
+   "publicPlay": false,
+   "matchmakingPool": "upcoming",
+   "expectedStarterKitCount": 6,
+   "starterKitSize": 15,
+   "booster": {
+    "packsPerPool": 5,
+    "packsPerBox": 24,
+    "commonSlots": 7,
+    "guaranteedDomainCommons": true,
+    "uncommonSlots": 3,
+    "rareOrEpicSlots": 2,
+    "foilSlots": 1,
+    "tokenOrRuneSlots": 1
+   },
+   "odds": {
+    "epicPerPack": 0.25,
+    "alternateArtPerBox": 2,
+    "alternateRunePerBox": 1,
+    "overnumberedPerBox": 0.3333333333333333,
+    "signedOvernumberedShare": 0.1,
+    "isEstimate": true
+   },
+   "excludedCardCodes": [],
+   "starterKits": [
+    {
+     "id": "khazix",
+     "name": "Kha'Zix",
+     "status": "complete",
+     "legendCardCode": "UNL-201",
+     "cards": [
+      {
+       "cardCode": "UNL-201",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "UNL-143",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "UNL-136",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-092",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-095",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-124",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-127",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-101",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-102",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-096",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-135",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-097",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-129",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-126",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-214",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "master-yi",
+     "name": "Master Yi",
+     "status": "complete",
+     "legendCardCode": "UNL-191",
+     "cards": [
+      {
+       "cardCode": "UNL-191",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "UNL-113",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "UNL-031",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-039",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-094",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-107",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-040",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-038",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-043",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-047",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-108",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-034",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-091",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-100",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-213",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "jhin",
+     "name": "Jhin",
+     "status": "complete",
+     "legendCardCode": "UNL-181",
+     "cards": [
+      {
+       "cardCode": "UNL-181",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "UNL-022",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "UNL-061",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-074",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-065",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-013",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-009",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-004",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-073",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-062",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-017",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-064",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-069",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-005",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-211",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "diana",
+     "name": "Diana",
+     "status": "complete",
+     "legendCardCode": "UNL-197",
+     "cards": [
+      {
+       "cardCode": "UNL-197",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "UNL-079",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "UNL-134",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-131",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-065",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-121",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-071",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-063",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-125",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-072",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-128",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-122",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-130",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-066",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-205",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "vi",
+     "name": "Vi",
+     "status": "complete",
+     "legendCardCode": "UNL-187",
+     "cards": [
+      {
+       "cardCode": "UNL-187",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "UNL-176",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "UNL-153",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-002",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-007",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-152",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-155",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-006",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-163",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-017",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-001",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-160",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-012",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-018",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-218",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "ivern",
+     "name": "Ivern",
+     "status": "complete",
+     "legendCardCode": "UNL-195",
+     "cards": [
+      {
+       "cardCode": "UNL-195",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "UNL-051",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "UNL-046",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-032",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-036",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-159",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-154",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-155",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-156",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-033",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-166",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-044",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-160",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-167",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "UNL-217",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "vendetta-prerift-v1",
+   "label": "Vendetta · Pre-Rift",
+   "setCode": "VEN",
+   "poolKind": "pre-rift",
+   "status": "active",
+   "publicPlay": false,
+   "matchmakingPool": "upcoming",
+   "expectedStarterKitCount": 9,
+   "starterKitSize": 15,
+   "starterChampionRarity": "Rare",
+   "booster": {
+    "packsPerPool": 5,
+    "packsPerBox": 24,
+    "commonSlots": 7,
+    "guaranteedDomainCommons": true,
+    "uncommonSlots": 3,
+    "rareOrEpicSlots": 2,
+    "foilSlots": 1,
+    "tokenOrRuneSlots": 1
+   },
+   "odds": {
+    "epicPerPack": 0.25,
+    "alternateArtPerBox": 2,
+    "alternateRunePerBox": 0,
+    "overnumberedPerBox": 0.3333333333333333,
+    "signedOvernumberedShare": 0.1,
+    "isEstimate": true
+   },
+   "excludedCardCodes": [
+    "VEN-041A",
+    "VEN-041P",
+    "VEN-069B",
+    "VEN-155A"
+   ],
+   "starterKits": [
+    {
+     "id": "jayce",
+     "name": "Jayce",
+     "status": "complete",
+     "legendCardCode": "VEN-149",
+     "cards": [
+      {
+       "cardCode": "VEN-149",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "VEN-088",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "VEN-058",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-059",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-060",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-082",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-047",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-048",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-051",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-054",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-073",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-075",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-076",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-077",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-161",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "kennen",
+     "name": "Kennen",
+     "status": "complete",
+     "legendCardCode": "VEN-155",
+     "cards": [
+      {
+       "cardCode": "VEN-155",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "VEN-135",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "VEN-093",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-098",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-099",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-100",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-116",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-120",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-121",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-122",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-101",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-104",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-105",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-127",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-165",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "akali",
+     "name": "Akali",
+     "status": "complete",
+     "legendCardCode": "VEN-139",
+     "cards": [
+      {
+       "cardCode": "VEN-139",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "VEN-038",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "VEN-009",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-011",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-012",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-033",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-001",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-002",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-004",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-008",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-024",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-026",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-028",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-031",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-166",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "ambessa",
+     "name": "Ambessa",
+     "status": "complete",
+     "legendCardCode": "VEN-153",
+     "cards": [
+      {
+       "cardCode": "VEN-153",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "VEN-084",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "VEN-078",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-082",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-127",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-128",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-070",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-071",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-072",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-074",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-118",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-119",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-122",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-123",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-163",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "nasus",
+     "name": "Nasus",
+     "status": "complete",
+     "legendCardCode": "VEN-145",
+     "cards": [
+      {
+       "cardCode": "VEN-145",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "VEN-063",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "VEN-025",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-029",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-030",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-047",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-049",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-050",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-051",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-053",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-032",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-036",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-037",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-057",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-160",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "zed",
+     "name": "Zed",
+     "status": "complete",
+     "legendCardCode": "VEN-143",
+     "cards": [
+      {
+       "cardCode": "VEN-143",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "VEN-112",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "VEN-010",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-012",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-103",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-105",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-002",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-004",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-007",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-008",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-094",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-095",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-096",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-100",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-165",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "shen",
+     "name": "Shen",
+     "status": "complete",
+     "legendCardCode": "VEN-147",
+     "cards": [
+      {
+       "cardCode": "VEN-147",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "VEN-042",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "VEN-032",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-034",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-126",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-129",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-024",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-025",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-027",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-028",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-117",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-118",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-119",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-123",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-159",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "renekton",
+     "name": "Renekton",
+     "status": "complete",
+     "legendCardCode": "VEN-141",
+     "cards": [
+      {
+       "cardCode": "VEN-141",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "VEN-019",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "VEN-009",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-012",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-078",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-083",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-001",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-005",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-006",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-008",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-070",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-071",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-072",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-074",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-162",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    },
+    {
+     "id": "mel",
+     "name": "Mel",
+     "status": "complete",
+     "legendCardCode": "VEN-151",
+     "cards": [
+      {
+       "cardCode": "VEN-151",
+       "count": 1,
+       "role": "legend"
+      },
+      {
+       "cardCode": "VEN-110",
+       "count": 1,
+       "role": "champion"
+      },
+      {
+       "cardCode": "VEN-057",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-059",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-104",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-106",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-047",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-048",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-049",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-051",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-053",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-054",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-093",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-095",
+       "count": 1,
+       "role": "mainDeck"
+      },
+      {
+       "cardCode": "VEN-163",
+       "count": 1,
+       "role": "battlefield"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "vendetta-sealed",
+   "label": "Vendetta · Sealed",
+   "setCode": "VEN",
+   "poolKind": "booster-only",
+   "status": "active",
+   "publicPlay": false,
+   "matchmakingPool": "standard",
+   "booster": {
+    "packsPerPool": 6,
+    "packsPerBox": 24,
+    "commonSlots": 7,
+    "guaranteedDomainCommons": true,
+    "uncommonSlots": 3,
+    "rareOrEpicSlots": 2,
+    "foilSlots": 1,
+    "tokenOrRuneSlots": 1
+   },
+   "odds": {
+    "epicPerPack": 0.25,
+    "alternateArtPerBox": 2,
+    "alternateRunePerBox": 0,
+    "overnumberedPerBox": 0.3333333333333333,
+    "signedOvernumberedShare": 0.1,
+    "isEstimate": true
+   },
+   "excludedCardCodes": [
+    "VEN-041A",
+    "VEN-041P",
+    "VEN-069B",
+    "VEN-155A"
+   ],
+   "starterKits": []
+  }
+ ],
+ "starterKitSummary": {
+  "radiance-prerift-v1": [
+   "Ekko",
+   "Evelynn",
+   "Jarvan IV",
+   "K'Sante",
+   "Mordekaiser",
+   "Orianna",
+   "Riven",
+   "Seraphine",
+   "Ziggs"
+  ],
+  "unleashed-prerift-v1": [
+   "Kha'Zix",
+   "Master Yi",
+   "Jhin",
+   "Diana",
+   "Vi",
+   "Ivern"
+  ],
+  "vendetta-prerift-v1": [
+   "Jayce",
+   "Kennen",
+   "Akali",
+   "Ambessa",
+   "Nasus",
+   "Zed",
+   "Shen",
+   "Renekton",
+   "Mel"
+  ]
+ },
+ "knownSealedPreconDomains": {
+  "radiance-prerift-v1": "derived at pool generation from the kit legend + champion units: first two domains found, else first domain twice"
+ }
+}

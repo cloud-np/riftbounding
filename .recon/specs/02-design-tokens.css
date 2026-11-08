@@ -1,0 +1,2653 @@
+/* ============================================================================
+   02-design-tokens.css
+   VERBATIM design tokens extracted from the Riftbound simulator web app
+   play.riftatlas.com — .recon/site/playapp/dl/_next/static/immutable/chunks/*.css
+   Extracted 2026-10-22. Values are copied byte-for-byte (no reordering).
+   Sections:
+     0. @layer declaration order
+     1. @layer theme — :root,:host (Tailwind v4 defaults + app tokens)
+     2. Custom-property blocks outside @layer theme (incl. .gb-board)
+     3. @font-face
+     4. @keyframes
+     5. @property registrations
+   ============================================================================ */
+
+/* ==========================================================================
+   0. @layer DECLARATION ORDER (verbatim)
+   The chunks contain no `@layer a,b;` statement; order = first-appearance order
+   of the layer blocks in 1sj2l8ggay34g.css:
+   ========================================================================== */
+@layer properties;
+@layer theme;
+@layer base;
+@layer components;
+@layer utilities;
+
+/* ==========================================================================
+   1. @layer theme  (1sj2l8ggay34g.css)
+   ========================================================================== */
+
+/* --- Tailwind v4 default theme + app-specific tokens (single :root,:host block) --- */
+:root,:host {
+  /* -- --font-sans -- */
+  --font-sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* -- --font-mono -- */
+  --font-mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* -- --color -- */
+  --color-red-100:#ffe2e2;
+  --color-red-200:#ffcaca;
+  --color-red-300:#ffa3a3;
+  --color-red-500:#fb2c36;
+  --color-red-950:#460809;
+  --color-amber-50:#fffbeb;
+  --color-amber-100:#fef3c6;
+  --color-amber-200:#fee685;
+  --color-amber-300:#ffd236;
+  --color-amber-950:#461901;
+  --color-emerald-50:#ecfdf5;
+  --color-emerald-100:#d0fae5;
+  --color-emerald-200:#a4f4cf;
+  --color-emerald-300:#5ee9b5;
+  --color-emerald-900:#004e3b;
+  --color-emerald-950:#002c22;
+  --color-teal-50:#f0fdfa;
+  --color-teal-200:#96f7e4;
+  --color-cyan-50:#ecfeff;
+  --color-cyan-100:#cefafe;
+  --color-cyan-200:#a2f4fd;
+  --color-cyan-300:#53eafd;
+  --color-sky-100:#dff2fe;
+  --color-sky-200:#b8e6fe;
+  --color-sky-300:#77d4ff;
+  --color-sky-500:#00a5ef;
+  --color-sky-800:#005986;
+  --color-rose-100:#ffe4e6;
+  --color-rose-200:#ffccd3;
+  --color-rose-300:#ffa2ae;
+  --color-slate-50:#f8fafc;
+  --color-slate-100:#f1f5f9;
+  --color-slate-200:#e2e8f0;
+  --color-slate-300:#cad5e2;
+  --color-slate-400:#90a1b9;
+  --color-slate-500:#62748e;
+  --color-slate-600:#45556c;
+  --color-slate-700:#314158;
+  --color-slate-800:#1d293d;
+  --color-slate-900:#0f172b;
+  --color-slate-950:#020618;
+  --color-black:#000;
+  --color-white:#fff;
+  /* -- --spacing -- */
+  --spacing:.25rem;
+  /* -- --container -- */
+  --container-xs:20rem;
+  --container-sm:24rem;
+  --container-md:28rem;
+  --container-lg:32rem;
+  --container-xl:36rem;
+  --container-2xl:42rem;
+  --container-3xl:48rem;
+  --container-4xl:56rem;
+  --container-5xl:64rem;
+  --container-7xl:80rem;
+  /* -- --text -- */
+  --text-xs:.75rem;
+  --text-xs--line-height:calc(1 / .75);
+  --text-sm:.875rem;
+  --text-sm--line-height:calc(1.25 / .875);
+  --text-base:1rem;
+  --text-base--line-height:calc(1.5 / 1);
+  --text-lg:1.125rem;
+  --text-lg--line-height:calc(1.75 / 1.125);
+  --text-xl:1.25rem;
+  --text-xl--line-height:calc(1.75 / 1.25);
+  --text-2xl:1.5rem;
+  --text-2xl--line-height:calc(2 / 1.5);
+  --text-3xl:1.875rem;
+  --text-3xl--line-height:calc(2.25 / 1.875);
+  --text-4xl:2.25rem;
+  --text-4xl--line-height:calc(2.5 / 2.25);
+  /* -- --font-weight -- */
+  --font-weight-light:300;
+  --font-weight-normal:400;
+  --font-weight-medium:500;
+  --font-weight-semibold:600;
+  --font-weight-bold:700;
+  --font-weight-extrabold:800;
+  --font-weight-black:900;
+  /* -- --tracking -- */
+  --tracking-tight:-.025em;
+  --tracking-normal:0em;
+  --tracking-wide:.025em;
+  --tracking-wider:.05em;
+  --tracking-widest:.1em;
+  /* -- --leading -- */
+  --leading-tight:1.25;
+  --leading-snug:1.375;
+  --leading-relaxed:1.625;
+  /* -- --radius -- */
+  --radius-xs:.125rem;
+  --radius-sm:.25rem;
+  --radius-md:.375rem;
+  --radius-lg:.5rem;
+  --radius-xl:.75rem;
+  --radius-2xl:1rem;
+  /* -- --drop-shadow -- */
+  --drop-shadow-lg:0 4px 4px #00000026;
+  --drop-shadow-xl:0 9px 7px #0000001a;
+  /* -- --ease -- */
+  --ease-in:cubic-bezier(.4, 0, 1, 1);
+  --ease-out:cubic-bezier(0, 0, .2, 1);
+  --ease-in-out:cubic-bezier(.4, 0, .2, 1);
+  /* -- --animate -- */
+  --animate-spin:spin 1s linear infinite;
+  --animate-ping:ping 1s cubic-bezier(0, 0, .2, 1) infinite;
+  --animate-pulse:pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
+  /* -- --blur -- */
+  --blur-xs:4px;
+  --blur-sm:8px;
+  --blur-md:12px;
+  --blur-xl:24px;
+  --blur-3xl:64px;
+  /* -- --perspective -- */
+  --perspective-distant:1200px;
+  /* -- --default -- */
+  --default-transition-duration:.15s;
+  --default-transition-timing-function:cubic-bezier(.4, 0, .2, 1);
+  --default-font-family:var(--font-sans);
+  --default-mono-font-family:var(--font-mono);
+  /* -- APP-SPECIFIC (Riftbound) -- */
+  --color-bg-top:#1d324d;
+  --color-bg-bottom:#1a2b43;
+  --color-text-main:#f2f5f7;
+  --color-text-soft:#bfd5e3;
+  --color-text-dim:#8ea7ba;
+  --color-foreground:#f2f5f7;
+  --color-border:#8496b86b;
+  --color-background:#060c18e6;
+  --color-secondary:#1e293bb8;
+  --color-primary:#74efff;
+  --color-muted-foreground:#9eb2ca;
+  --color-ring:#74efff;
+  --color-destructive:#ff9a9a;
+  --color-gb-bg-0:#0e2049;
+  --color-gb-bg-1:#0b1a3d;
+  --color-gb-bg-2:#07132f;
+  --color-gb-text-main:#eef4ff;
+  --color-gb-ornament-ink:#ecf3ff85;
+  --color-gb-ornament-soft:#bcd0ff57;
+}
+
+/* --- @supports (color:lab(0% 0 0)) override — the lab() duplicates of the hex values above --- */
+@supports (color:lab(0% 0 0)) {
+:root,:host {
+  /* -- --color -- */
+  --color-red-100:lab(92.243% 10.2865 3.83865);
+  --color-red-200:lab(86.017% 19.8815 7.75869);
+  --color-red-300:lab(76.5514% 36.422 15.5335);
+  --color-red-500:lab(55.4814% 75.0732 48.8528);
+  --color-red-950:lab(13.003% 29.04 16.7519);
+  --color-amber-50:lab(98.6252% -.635922 8.42309);
+  --color-amber-100:lab(95.916% -1.21653 23.111);
+  --color-amber-200:lab(91.7203% -.505269 49.9084);
+  --color-amber-300:lab(86.4156% 6.13147 78.3961);
+  --color-amber-950:lab(15.8111% 20.9107 23.3752);
+  --color-emerald-50:lab(97.8462% -6.94966 1.85487);
+  --color-emerald-100:lab(94.9004% -17.0769 5.63836);
+  --color-emerald-200:lab(90.2247% -31.039 9.47084);
+  --color-emerald-300:lab(83.9203% -48.7124 13.8849);
+  --color-emerald-900:lab(28.8637% -26.9249 5.45986);
+  --color-emerald-950:lab(15.0582% -17.9507 2.38369);
+  --color-teal-50:lab(98.3189% -4.74921 -.111711);
+  --color-teal-200:lab(90.7612% -33.1343 -.542295);
+  --color-cyan-50:lab(98.3304% -5.97432 -2.62108);
+  --color-cyan-100:lab(95.3146% -13.8285 -6.84732);
+  --color-cyan-200:lab(91.0821% -24.0435 -12.8306);
+  --color-cyan-300:lab(85.3886% -36.7636 -21.5716);
+  --color-sky-100:lab(94.3709% -4.56053 -8.23453);
+  --color-sky-200:lab(88.6983% -11.3978 -16.8488);
+  --color-sky-300:lab(80.3307% -20.2945 -31.385);
+  --color-sky-500:lab(63.3038% -18.433 -51.0407);
+  --color-sky-800:lab(35.164% -9.57692 -34.4068);
+  --color-rose-100:lab(92.8221% 9.86832 2.60075);
+  --color-rose-200:lab(86.806% 19.1909 4.07754);
+  --color-rose-300:lab(76.6339% 38.3549 9.68835);
+  --color-slate-50:lab(98.1434% -.369519 -1.05966);
+  --color-slate-100:lab(96.286% -.852436 -2.46847);
+  --color-slate-200:lab(91.7353% -.998765 -4.76968);
+  --color-slate-300:lab(84.7652% -1.94535 -7.93337);
+  --color-slate-400:lab(65.5349% -2.25151 -14.5072);
+  --color-slate-500:lab(48.0876% -2.03595 -16.5814);
+  --color-slate-600:lab(35.5623% -1.74978 -15.4316);
+  --color-slate-700:lab(26.9569% -1.47016 -15.6993);
+  --color-slate-800:lab(16.132% -.318035 -14.6672);
+  --color-slate-900:lab(7.78673% 1.82345 -15.0537);
+  --color-slate-950:lab(1.76974% 1.32743 -9.28855);
+}
+}
+
+/* --- @layer properties — Tailwind runtime custom-property registrations/defaults --- */
+/* @layer properties > @supports (((-webkit-hyphens:none)) and (not (margin-trim:inline))) or ((-moz-orient:inline) and (not (color:rgb(from red r g b)))) */
+:root,:host {
+  --card-pose-rotation:0;
+}
+
+/* @layer properties > @supports (((-webkit-hyphens:none)) and (not (margin-trim:inline))) or ((-moz-orient:inline) and (not (color:rgb(from red r g b)))) */
+*,:before,:after,::backdrop {
+  --tw-translate-x:0;
+  --tw-translate-y:0;
+  --tw-translate-z:0;
+  --tw-scale-x:1;
+  --tw-scale-y:1;
+  --tw-scale-z:1;
+  --tw-rotate-x:initial;
+  --tw-rotate-y:initial;
+  --tw-rotate-z:initial;
+  --tw-skew-x:initial;
+  --tw-skew-y:initial;
+  --tw-scroll-snap-strictness:proximity;
+  --tw-space-y-reverse:0;
+  --tw-space-x-reverse:0;
+  --tw-divide-x-reverse:0;
+  --tw-border-style:solid;
+  --tw-divide-y-reverse:0;
+  --tw-gradient-position:initial;
+  --tw-gradient-from:#0000;
+  --tw-gradient-via:#0000;
+  --tw-gradient-to:#0000;
+  --tw-gradient-stops:initial;
+  --tw-gradient-via-stops:initial;
+  --tw-gradient-from-position:0%;
+  --tw-gradient-via-position:50%;
+  --tw-gradient-to-position:100%;
+  --tw-leading:initial;
+  --tw-font-weight:initial;
+  --tw-tracking:initial;
+  --tw-ordinal:initial;
+  --tw-slashed-zero:initial;
+  --tw-numeric-figure:initial;
+  --tw-numeric-spacing:initial;
+  --tw-numeric-fraction:initial;
+  --tw-shadow:0 0 #0000;
+  --tw-shadow-color:initial;
+  --tw-shadow-alpha:100%;
+  --tw-inset-shadow:0 0 #0000;
+  --tw-inset-shadow-color:initial;
+  --tw-inset-shadow-alpha:100%;
+  --tw-ring-color:initial;
+  --tw-ring-shadow:0 0 #0000;
+  --tw-inset-ring-color:initial;
+  --tw-inset-ring-shadow:0 0 #0000;
+  --tw-ring-inset:initial;
+  --tw-ring-offset-width:0px;
+  --tw-ring-offset-color:#fff;
+  --tw-ring-offset-shadow:0 0 #0000;
+  --tw-outline-style:solid;
+  --tw-blur:initial;
+  --tw-brightness:initial;
+  --tw-contrast:initial;
+  --tw-grayscale:initial;
+  --tw-hue-rotate:initial;
+  --tw-invert:initial;
+  --tw-opacity:initial;
+  --tw-saturate:initial;
+  --tw-sepia:initial;
+  --tw-drop-shadow:initial;
+  --tw-drop-shadow-color:initial;
+  --tw-drop-shadow-alpha:100%;
+  --tw-drop-shadow-size:initial;
+  --tw-backdrop-blur:initial;
+  --tw-backdrop-brightness:initial;
+  --tw-backdrop-contrast:initial;
+  --tw-backdrop-grayscale:initial;
+  --tw-backdrop-hue-rotate:initial;
+  --tw-backdrop-invert:initial;
+  --tw-backdrop-opacity:initial;
+  --tw-backdrop-saturate:initial;
+  --tw-backdrop-sepia:initial;
+  --tw-duration:initial;
+  --tw-ease:initial;
+  --tw-text-shadow-color:initial;
+  --tw-text-shadow-alpha:100%;
+  --tw-content:"";
+}
+
+/* ==========================================================================
+   2. CUSTOM-PROPERTY-DEFINING BLOCKS OUTSIDE @layer theme
+   (all six chunks; only --* declarations are reproduced, except :root/.hub-theme/.gb-board
+   which are reproduced in full; blocks whose only custom props are Tailwind --tw-* plumbing
+   are omitted)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   source chunk: 1sj2l8ggay34g.css  (236 token blocks)
+   -------------------------------------------------------------------------- */
+/* @layer base */
+html,body {
+  --lightningcss-light:;
+  --lightningcss-dark:initial;
+}
+/* @layer components */
+.expected-action-button {
+  --expected-action-outline:#c9e2ff57;
+  --expected-action-ring:#c9e2ff47;
+  --expected-action-ring-strong:#e7f2ff85;
+  --expected-action-glow:#71a8f742;
+  --expected-action-glow-soft:#71a8f71f;
+  --expected-action-ring-offset-block:-2px;
+  --expected-action-ring-offset-inline:-2px;
+  --expected-action-ring-offset-left:var(--expected-action-ring-offset-inline);
+  --expected-action-ring-offset-right:var(--expected-action-ring-offset-inline);
+  --expected-action-ring-clip:none;
+  --expected-action-transform-origin:center;
+  --expected-action-split-shadow:0 0 0 #0000;
+  --expected-action-split-shadow-strong:0 0 0 #0000;
+}
+/* @layer components */
+.expected-action-button--approval {
+  --expected-action-outline:#d3e8ff6b;
+  --expected-action-ring:#bddbff57;
+  --expected-action-ring-strong:#eff8ff94;
+  --expected-action-glow:#6cadff4d;
+  --expected-action-glow-soft:#6cadff24;
+}
+/* @layer components */
+.expected-action-button--showdown {
+  --expected-action-outline:#ffbe9661;
+  --expected-action-ring:#ffae704d;
+  --expected-action-ring-strong:#ffdeb58a;
+  --expected-action-glow:#ff845642;
+  --expected-action-glow-soft:#ff84561f;
+}
+/* @layer components */
+.expected-action-button--split-left {
+  --expected-action-ring-offset-block:-1px;
+  --expected-action-ring-offset-right:0px;
+  --expected-action-ring-clip:none;
+  --expected-action-split-shadow:-3px 0 7px var(--expected-action-glow-soft);
+  --expected-action-split-shadow-strong:-5px 0 10px var(--expected-action-glow);
+  --expected-action-transform-origin:right center;
+}
+/* @layer components */
+.expected-action-button--split-right {
+  --expected-action-ring-offset-block:-1px;
+  --expected-action-ring-offset-left:0px;
+  --expected-action-ring-clip:none;
+  --expected-action-split-shadow:3px 0 7px var(--expected-action-glow-soft);
+  --expected-action-split-shadow-strong:5px 0 10px var(--expected-action-glow);
+  --expected-action-transform-origin:left center;
+}
+/* @layer components */
+.gb-card-action-button {
+  --gb-card-action-icon:#c7d8e9;
+  --gb-card-action-icon-hover:#f4fbff;
+  --gb-card-action-rim:#9ec2de94;
+  --gb-card-action-rim-hover:#c5e7f6eb;
+  --gb-card-action-halo:#4dbbe057;
+  --gb-card-action-surface:radial-gradient(circle at 32% 24%, #3b5e7bfc 0%, #1b3753fc 44%, #081627 100%);
+  --gb-card-action-surface-hover:radial-gradient(circle at 32% 24%, #4b7797 0%, #1f4565 46%, #081c31 100%);
+}
+/* @layer components */
+.gb-card-action-button--danger {
+  --gb-card-action-icon:#e9bcc7;
+  --gb-card-action-icon-hover:#fff2f5;
+  --gb-card-action-rim:#d3899c9e;
+  --gb-card-action-rim-hover:#fab8c7e6;
+  --gb-card-action-halo:#e0446a61;
+  --gb-card-action-surface:radial-gradient(circle at 32% 24%, #703a4dfc 0%, #442131fc 48%, #1e101a 100%);
+  --gb-card-action-surface-hover:radial-gradient(circle at 32% 24%, #8b4156 0%, #542336 50%, #27111d 100%);
+}
+/* @layer components */
+.gb-card-action-button--resource {
+  --gb-card-action-icon:#ead9ac;
+  --gb-card-action-icon-hover:#fff5d5;
+  --gb-card-action-rim:#d5b87099;
+  --gb-card-action-rim-hover:#f7dc97eb;
+  --gb-card-action-halo:#dea83657;
+  --gb-card-action-surface:radial-gradient(circle at 32% 24%, #675328fc 0%, #3e3018fc 48%, #1c150d 100%);
+  --gb-card-action-surface-hover:radial-gradient(circle at 32% 24%, #7f652d 0%, #4e3c19 50%, #231a0d 100%);
+}
+/* @layer components */
+.gb-card-action-button--positive {
+  --gb-card-action-icon:#c5ead8;
+  --gb-card-action-icon-hover:#effff7;
+  --gb-card-action-rim:#84ccaa99;
+  --gb-card-action-rim-hover:#b1efd2eb;
+  --gb-card-action-halo:#48c48b57;
+  --gb-card-action-surface:radial-gradient(circle at 32% 24%, #346950fc 0%, #1b4132fc 48%, #0b1e18 100%);
+  --gb-card-action-surface-hover:radial-gradient(circle at 32% 24%, #3e8260 0%, #1f523c 50%, #0c261c 100%);
+}
+/* @layer components */
+.gb-card-action-button--active {
+  --gb-card-action-icon:#d9f5ff;
+  --gb-card-action-icon-hover:#f5fdff;
+  --gb-card-action-rim:#70cfedbd;
+  --gb-card-action-rim-hover:#b7effff5;
+  --gb-card-action-halo:#37c0e46b;
+  --gb-card-action-surface:radial-gradient(circle at 32% 24%, #2f748e 0%, #134963 48%, #072030 100%);
+  --gb-card-action-surface-hover:radial-gradient(circle at 32% 24%, #3b8faa 0%, #165b77 50%, #07283a 100%);
+}
+/* @layer components */
+.gb-card-action-button--time-warp {
+  --gb-card-action-icon:#e4faf4;
+  --gb-card-action-icon-hover:#f4fffb;
+  --gb-card-action-rim:#9cecdccc;
+  --gb-card-action-rim-hover:#c8f5e9f5;
+  --gb-card-action-halo:#51ceb66b;
+  --gb-card-action-surface:radial-gradient(circle at 32% 24%, #347a72 0%, #1b4f4f 48%, #0a252c 100%);
+  --gb-card-action-surface-hover:radial-gradient(circle at 32% 24%, #409287 0%, #205f5d 50%, #0b2c33 100%);
+}
+/* @layer utilities */
+.\[color-scheme\:dark\],.scheme-dark {
+  --lightningcss-light:;
+  --lightningcss-dark:initial;
+}
+/* @layer utilities */
+.\[--account-dialog-top\:clamp\(1rem\,calc\(50dvh_-_21rem\)\,10dvh\)\] {
+  --account-dialog-top:clamp(1rem, calc(50dvh - 21rem), 10dvh);
+}
+/* @layer utilities */
+.\[--base-legend-clearance\:max\(0rem\,calc\(var\(--left-lanes-x\)-var\(--lane-left-x\)\)\)\] {
+  --base-legend-clearance:max(0rem, calc(var(--left-lanes-x) - var(--lane-left-x)));
+}
+/* @layer utilities */
+.\[--battlefield-side-gap\:calc\(var\(--card-width\)\*0\.92\)\] {
+  --battlefield-side-gap:calc(var(--card-width) * .92);
+}
+/* @layer utilities */
+.\[--battlefield-side-gap\:calc\(var\(--card-width\)\*1\.22\)\] {
+  --battlefield-side-gap:calc(var(--card-width) * 1.22);
+}
+/* @layer utilities */
+.\[--battlefield-side-gap\:calc\(var\(--score-track-rail-width\)\*1\.35_\+_0\.5rem\)\] {
+  --battlefield-side-gap:calc(var(--score-track-rail-width) * 1.35 + .5rem);
+}
+/* @layer utilities */
+.\[--battlefield-side-gap\:max\(6\.3rem\,calc\(var\(--card-width\)\*1\.64\)\,calc\(var\(--score-track-rail-width\)\+var\(--track-player-nudge\)\+var\(--track-player-nudge\)\+var\(--score-track-lane-clearance\)\+var\(--score-track-lane-clearance\)\)\)\] {
+  --battlefield-side-gap:max(6.3rem, calc(var(--card-width) * 1.64), calc(var(--score-track-rail-width) + var(--track-player-nudge) + var(--track-player-nudge) + var(--score-track-lane-clearance) + var(--score-track-lane-clearance)));
+}
+/* @layer utilities */
+.\[--board-side-utility-edge-gap\:0\.5rem\] {
+  --board-side-utility-edge-gap:.5rem;
+}
+/* @layer utilities */
+.\[--board-side-utility-width\:min\(9\.4rem\,calc\(var\(--battlefield-side-gap\)-1rem\)\)\] {
+  --board-side-utility-width:min(9.4rem, calc(var(--battlefield-side-gap) - 1rem));
+}
+/* @layer utilities */
+.\[--deck-hand-shelf-lift\:0\.5rem\] {
+  --deck-hand-shelf-lift:.5rem;
+}
+/* @layer utilities */
+.\[--disconnect-badge-thickness\:1\.76rem\] {
+  --disconnect-badge-thickness:1.76rem;
+}
+/* @layer utilities */
+.\[--hand-left-inset\:calc\(var\(--rune-deck-lane-x\)\+\(var\(--card-width\)\*2\.34\)\+\(var\(--card-width\)\*0\.057692\)\)\] {
+  --hand-left-inset:calc(var(--rune-deck-lane-x) + (var(--card-width) * 2.34) + (var(--card-width) * .057692));
+}
+/* @layer utilities */
+.\[--hand-right-inset\:calc\(var\(--card-width\)\*3\.653846\)\] {
+  --hand-right-inset:calc(var(--card-width) * 3.65385);
+}
+/* @layer utilities */
+.\[--identity-badge-height\:2\.6rem\] {
+  --identity-badge-height:2.6rem;
+}
+/* @layer utilities */
+.\[--identity-badge-height\:4\.5rem\] {
+  --identity-badge-height:4.5rem;
+}
+/* @layer utilities */
+.\[--identity-badge-height\:max\(4\.25rem\,calc\(var\(--track-node-size\)\*1\.18\+0\.32rem\+var\(--identity-badge-height-delta\)\)\)\] {
+  --identity-badge-height:max(4.25rem, calc(var(--track-node-size) * 1.18 + .32rem + var(--identity-badge-height-delta)));
+}
+/* @layer utilities */
+.\[--identity-badge-width\:13rem\] {
+  --identity-badge-width:13rem;
+}
+/* @layer utilities */
+.\[--identity-badge-width\:100\%\] {
+  --identity-badge-width:100%;
+}
+/* @layer utilities */
+.\[--identity-badge-width\:min\(10\.3rem\,calc\(var\(--battlefield-side-gap\)-0\.5rem\)\)\] {
+  --identity-badge-width:min(10.3rem, calc(var(--battlefield-side-gap) - .5rem));
+}
+/* @layer utilities */
+.\[--identity-rail-width\:var\(--identity-badge-width\)\] {
+  --identity-rail-width:var(--identity-badge-width);
+}
+/* @layer utilities */
+.\[--lane-front-natural-y\:calc\(var\(--card-width\)\*0\.682692\)\] {
+  --lane-front-natural-y:calc(var(--card-width) * .682692);
+}
+/* @layer utilities */
+.\[--lane-front-y\:min\(var\(--lane-front-natural-y\)\,max\(0rem\,calc\(var\(--lane-pile-y\)-var\(--lane-row-gap-y\)\)\)\)\] {
+  --lane-front-y:min(var(--lane-front-natural-y), max(0rem, calc(var(--lane-pile-y) - var(--lane-row-gap-y))));
+}
+/* @layer utilities */
+.\[--lane-left-x\:calc\(var\(--card-width\)\*1\.175\)\] {
+  --lane-left-x:calc(var(--card-width) * 1.175);
+}
+/* @layer utilities */
+.\[--lane-pile-natural-y\:clamp\(calc\(var\(--card-width\)\*0\.42\)\,calc\(var\(--card-width\)\*1\.211538-3\.1dvh\)\,calc\(var\(--card-width\)\*0\.846154\)\)\] {
+  --lane-pile-natural-y:clamp(calc(var(--card-width) * .42), calc(var(--card-width) * 1.21154 - 3.1dvh), calc(var(--card-width) * .846154));
+}
+/* @layer utilities */
+.\[--lane-pile-viewport-max\:clamp\(0rem\,calc\(8dvh\+0\.38rem-env\(safe-area-inset-bottom\)\)\,calc\(8dvh\+0\.38rem\)\)\] {
+  --lane-pile-viewport-max:clamp(0rem, calc(8dvh + .38rem - env(safe-area-inset-bottom)), calc(8dvh + .38rem));
+}
+/* @layer utilities */
+.\[--lane-pile-y\:min\(var\(--lane-pile-natural-y\)\,var\(--lane-pile-viewport-max\)\)\] {
+  --lane-pile-y:min(var(--lane-pile-natural-y), var(--lane-pile-viewport-max));
+}
+/* @layer utilities */
+.\[--lane-right-main-x\:calc\(var\(--card-width\)\*0\.03\+var\(--wide-legend-base-clearance\)-var\(--right-lane-main-gap-offset\)\)\] {
+  --lane-right-main-x:calc(var(--card-width) * .03 + var(--wide-legend-base-clearance) - var(--right-lane-main-gap-offset));
+}
+/* @layer utilities */
+.\[--lane-right-side-x\:calc\(var\(--card-width\)\*-0\.086538\+var\(--wide-legend-base-clearance\)\+var\(--right-lane-side-gap-offset\)\)\] {
+  --lane-right-side-x:calc(var(--card-width) * -.086538 + var(--wide-legend-base-clearance) + var(--right-lane-side-gap-offset));
+}
+/* @layer utilities */
+.\[--lane-row-gap-y\:clamp\(0\.46rem\,calc\(var\(--card-width\)\*0\.09\)\,0\.7rem\)\] {
+  --lane-row-gap-y:clamp(.46rem, calc(var(--card-width) * .09), .7rem);
+}
+/* @layer utilities */
+.\[--left-lanes-x\:calc\(var\(--battlefield-side-gap\)-var\(--player-layer-inline-pad\)\)\] {
+  --left-lanes-x:calc(var(--battlefield-side-gap) - var(--player-layer-inline-pad));
+}
+/* @layer utilities */
+.\[--player-action-column-width\:max\(calc\(var\(--card-width\)\*1\.153846\)\,7\.05rem\)\] {
+  --player-action-column-width:max(calc(var(--card-width) * 1.15385), 7.05rem);
+}
+/* @layer utilities */
+.\[--player-board-row-gap\:clamp\(0\.32rem\,calc\(var\(--card-width\)\*0\.075\)\,0\.58rem\)\] {
+  --player-board-row-gap:clamp(.32rem, calc(var(--card-width) * .075), .58rem);
+}
+/* @layer utilities */
+.\[--player-lane-column-width\:calc\(var\(--card-width\)\*1\.153846\)\] {
+  --player-lane-column-width:calc(var(--card-width) * 1.15385);
+}
+/* @layer utilities */
+.\[--player-layer-inline-pad\:0\.16rem\] {
+  --player-layer-inline-pad:.16rem;
+}
+/* @layer utilities */
+.\[--right-lane-main-gap-offset\:calc\(var\(--card-width\)\*0\.04\)\] {
+  --right-lane-main-gap-offset:calc(var(--card-width) * .04);
+}
+/* @layer utilities */
+.\[--right-lane-side-gap-offset\:calc\(var\(--card-width\)\*0\.12\)\] {
+  --right-lane-side-gap-offset:calc(var(--card-width) * .12);
+}
+/* @layer utilities */
+.\[--rune-deck-edge-lift\:0\.5rem\] {
+  --rune-deck-edge-lift:.5rem;
+}
+/* @layer utilities */
+.\[--rune-deck-lane-y\:calc\(var\(--lane-pile-y\)\+clamp\(0\.22rem\,calc\(var\(--card-width\)\*0\.055\)\,0\.42rem\)\)\] {
+  --rune-deck-lane-y:calc(var(--lane-pile-y) + clamp(.22rem, calc(var(--card-width) * .055), .42rem));
+}
+/* @layer utilities */
+.\[--rune-play-width\:calc\(var\(--card-width\)\*5\.45\)\] {
+  --rune-play-width:calc(var(--card-width) * 5.45);
+}
+/* @layer utilities */
+.\[--score-track-column-gap\:calc\(var\(--track-node-size\)\*0\.34\)\] {
+  --score-track-column-gap:calc(var(--track-node-size) * .34);
+}
+/* @layer utilities */
+.\[--score-track-lane-clearance\:clamp\(0\.625rem\,calc\(var\(--card-width\)\*0\.12\)\,0\.9rem\)\] {
+  --score-track-lane-clearance:clamp(.625rem, calc(var(--card-width) * .12), .9rem);
+}
+/* @layer utilities */
+.\[--score-track-rail-width\:calc\(var\(--track-node-size\)\*2\+var\(--score-track-column-gap\)\)\] {
+  --score-track-rail-width:calc(var(--track-node-size) * 2 + var(--score-track-column-gap));
+}
+/* @layer utilities */
+.\[--score-track-stagger-offset\:calc\(var\(--track-row-size\)\*0\.5\)\] {
+  --score-track-stagger-offset:calc(var(--track-row-size) * .5);
+}
+/* @layer utilities */
+.\[--score-track-terminal-offset\:calc\(var\(--track-node-size\)\*0\.5\)\] {
+  --score-track-terminal-offset:calc(var(--track-node-size) * .5);
+}
+/* @layer utilities */
+.\[--score-track-terminal-offset\:calc\(var\(--track-node-size\)\*0\.42\)\] {
+  --score-track-terminal-offset:calc(var(--track-node-size) * .42);
+}
+/* @layer utilities */
+.\[--track-edge-inset\:calc\(\(var\(--battlefield-side-gap\)-var\(--score-track-rail-width\)\)\/2\)\] {
+  --track-edge-inset:calc((var(--battlefield-side-gap) - var(--score-track-rail-width)) / 2);
+}
+/* @layer utilities */
+.\[--track-node-size\:clamp\(0\.9rem\,1\.55vw\,1\.28rem\)\] {
+  --track-node-size:clamp(.9rem, 1.55vw, 1.28rem);
+}
+/* @layer utilities */
+.\[--track-node-size\:clamp\(2\.7rem\,2\.55cqw\,3\.9rem\)\] {
+  --track-node-size:clamp(2.7rem, 2.55cqw, 3.9rem);
+}
+/* @layer utilities */
+.\[--track-node-winning-size\:calc\(var\(--track-node-size\)\*1\.14\)\] {
+  --track-node-winning-size:calc(var(--track-node-size) * 1.14);
+}
+/* @layer utilities */
+.\[--track-node-winning-size\:calc\(var\(--track-node-size\)\*1\.24\)\] {
+  --track-node-winning-size:calc(var(--track-node-size) * 1.24);
+}
+/* @layer utilities */
+.\[--track-opponent-score-top\:calc\(var\(--identity-badge-edge-inset\)\+var\(--identity-badge-height\)\+var\(--identity-track-gap\)\)\] {
+  --track-opponent-score-top:calc(var(--identity-badge-edge-inset) + var(--identity-badge-height) + var(--identity-track-gap));
+}
+/* @layer utilities */
+.\[--track-player-bottom\:calc\(var\(--identity-badge-edge-inset\)\+var\(--identity-badge-height\)\+var\(--identity-track-gap\)\)\] {
+  --track-player-bottom:calc(var(--identity-badge-edge-inset) + var(--identity-badge-height) + var(--identity-track-gap));
+}
+/* @layer utilities */
+.\[--track-row-size\:calc\(var\(--track-node-size\)\*1\.26\)\] {
+  --track-row-size:calc(var(--track-node-size) * 1.26);
+}
+/* @layer utilities */
+.\[--track-row-size\:calc\(var\(--track-node-size\)\*1\.42\)\] {
+  --track-row-size:calc(var(--track-node-size) * 1.42);
+}
+/* @layer utilities */
+.\[--turn-control-bottom\:calc\(var\(--battlefield-inset\)-0\.36rem\)\] {
+  --turn-control-bottom:calc(var(--battlefield-inset) - .36rem);
+}
+/* @layer utilities */
+.\[--wide-board-extra\:max\(0\,calc\(var\(--board-scale\)-1\)\)\] {
+  --wide-board-extra:max(0, calc(var(--board-scale) - 1));
+}
+/* @layer utilities */
+.\[--wide-legend-base-clearance\:min\(calc\(var\(--card-width\)\*var\(--wide-board-extra\)\*0\.55\)\,calc\(var\(--board-right-safety-gutter\)\*0\.72\)\)\] {
+  --wide-legend-base-clearance:min(calc(var(--card-width) * var(--wide-board-extra) * .55), calc(var(--board-right-safety-gutter) * .72));
+}
+/* @layer utilities > @media (min-width:40rem) */
+.sm\:\[--identity-badge-height\:3rem\] {
+  --identity-badge-height:3rem;
+}
+/* @layer utilities > @media (min-width:40rem) */
+.sm\:\[--identity-badge-height\:6rem\] {
+  --identity-badge-height:6rem;
+}
+/* @layer utilities > @media (min-width:40rem) */
+.sm\:\[--identity-badge-width\:18rem\] {
+  --identity-badge-width:18rem;
+}
+/* @layer utilities > @media (min-width:40rem) */
+.sm\:\[--track-node-size\:clamp\(1rem\,1\.55vw\,1\.28rem\)\] {
+  --track-node-size:clamp(1rem, 1.55vw, 1.28rem);
+}
+/* @layer utilities > @container (min-width:64rem) */
+.\@5xl\:\[--deck-stats-bar-max\:4\.5rem\] {
+  --deck-stats-bar-max:4.5rem;
+}
+:root {
+  --account-surface:#0f172a;
+  --account-surface-muted:#0b1222;
+  --account-surface-raised:#1e293b;
+  --account-input:#020617;
+  --account-border:#334155;
+  --account-text:#f1f5f9;
+  --account-text-muted:#94a3b8;
+  --account-accent:#67e8f9;
+  --account-focus:#67e8f9;
+  --account-primary:#67e8f9;
+  --account-primary-text:#020617;
+  --account-danger:#fca5a5;
+  --account-success:#6ee7b7;
+}
+.hub-theme {
+  --color-bg-top:#0b1019;
+  --color-bg-bottom:#05070d;
+  --color-bg-accent:#182334;
+  --color-text-main:#eef3ff;
+  --color-text-soft:#b9c7da;
+  --color-text-dim:#9387a5;
+  --color-foreground:#eef3ff;
+  --color-border:#c1a46757;
+  --color-background:#0d0c16f0;
+  --color-secondary:#221a2fb8;
+  font-family:var(--font-ui), "Segoe UI", sans-serif;
+  background:repeating-linear-gradient(0deg, transparent 0 1px, #ffffff02 1px 1.5px, transparent 1.5px 4px), repeating-linear-gradient(90deg, transparent 0 1.5px, #ffffff01 1.5px 2px, transparent 2px 4.5px), linear-gradient(180deg, var(--color-bg-top), var(--color-bg-bottom));
+}
+.hub-persistent-controls-frame {
+  --hub-controls-gutter:.5rem;
+}
+/* @media (min-width:40rem) */
+.hub-persistent-controls-frame {
+  --hub-controls-gutter:1rem;
+}
+/* @media (min-width:48rem) */
+.hub-persistent-controls-frame {
+  --hub-controls-gutter:1.5rem;
+}
+/* @media (min-width:64rem) */
+.hub-persistent-controls-frame {
+  --hub-controls-gutter:2rem;
+}
+/* @media (max-width:40rem),(max-width:60rem) and (max-height:32rem) */
+.hub-persistent-controls-frame:has([data-testid=simulator-lobby-header]) {
+  --hub-controls-gutter:0rem;
+}
+.gb-board {
+  --board-scale:1;
+  --board-right-safety-gutter:1.5rem;
+  --card-width:5.2rem;
+  --card-height:7.24286rem;
+  --card-peek-width:clamp(8.8rem, 24.2vw, 15.4rem);
+  --card-radius-main:.3rem;
+  --card-radius-tight:.24rem;
+  --card-radius-peek:.28rem;
+  --card-body-size:clamp(.5rem, calc(var(--card-width) * .098), .7rem);
+  --card-title-size:clamp(.56rem, calc(var(--card-width) * .108), .78rem);
+  --card-badge-micro-size:clamp(.42rem, calc(var(--card-width) * .082), .58rem);
+  --card-buff-badge-inset:clamp(.14rem, calc(var(--card-width) * .031), .22rem);
+  --card-buff-badge-height:clamp(1.06rem, calc(var(--card-width) * .223), 1.3rem);
+  --card-buff-badge-min-width:clamp(2.1rem, calc(var(--card-width) * .45), 2.72rem);
+  --card-buff-badge-value-min-width:clamp(.86rem, calc(var(--card-width) * .185), 1.12rem);
+  --card-buff-badge-value-pad-x:clamp(.14rem, calc(var(--card-width) * .031), .2rem);
+  --card-buff-badge-label-pad-x:clamp(.18rem, calc(var(--card-width) * .038), .26rem);
+  --card-buff-remove-hit-width:clamp(2.9rem, calc(var(--card-width) * .58), 3.55rem);
+  --card-buff-remove-hit-height:clamp(1.32rem, calc(var(--card-width) * .27), 1.58rem);
+  --card-buff-remove-pad-x:clamp(.16rem, calc(var(--card-width) * .035), .24rem);
+  --card-buff-remove-icon-size:clamp(.82rem, calc(var(--card-width) * .17), 1.04rem);
+  --card-buff-remove-x-size:clamp(.54rem, calc(var(--card-width) * .113), .72rem);
+  --card-duplicate-badge-height:clamp(.96rem, calc(var(--card-width) * .196), 1.14rem);
+  --card-label-chip-height:clamp(1.1rem, calc(var(--card-width) * .23), 1.4rem);
+  --card-label-chip-font-size:clamp(.57rem, calc(var(--card-width) * .105), .75rem);
+  --card-label-chip-pad-x:clamp(.22rem, calc(var(--card-width) * .046), .32rem);
+  --card-label-chip-pad-y:clamp(.08rem, calc(var(--card-width) * .015), .12rem);
+  --card-label-chip-radius:.28rem;
+  --card-label-stack-gap:clamp(.12rem, calc(var(--card-width) * .027), .18rem);
+  --card-label-stack-left:clamp(.14rem, calc(var(--card-width) * .031), .22rem);
+  --card-label-stack-width-offset:.4rem;
+  --card-label-action-size:clamp(1rem, calc(var(--card-width) * .208), 1.28rem);
+  --card-label-action-icon-size:clamp(.42rem, calc(var(--card-width) * .088), .56rem);
+  --card-counter-height:clamp(1.58rem, calc(var(--card-width) * .35), 2.12rem);
+  --card-counter-control-height:clamp(1.36rem, calc(var(--card-width) * .3), 1.84rem);
+  --card-counter-controls-height:calc(var(--card-counter-height) + var(--card-counter-control-height));
+  --card-counter-track-width:clamp(4.2rem, calc(var(--card-width) * .942), 5.72rem);
+  --card-counter-slot-width:clamp(2.02rem, calc(var(--card-width) * .45), 2.72rem);
+  --card-counter-min-width:clamp(1.82rem, calc(var(--card-width) * .4), 2.48rem);
+  --card-counter-clear-width:clamp(1.32rem, calc(var(--card-width) * .296), 1.76rem);
+  --card-counter-clear-icon-size:clamp(.78rem, calc(var(--card-width) * .173), 1.02rem);
+  --card-counter-pad-x:clamp(.28rem, calc(var(--card-width) * .062), .4rem);
+  --card-counter-font-size:clamp(.98rem, calc(var(--card-width) * .219), 1.34rem);
+  --card-counter-control-font-size:clamp(1.04rem, calc(var(--card-width) * .235), 1.44rem);
+  --card-counter-radius:clamp(.32rem, calc(var(--card-width) * .069), .46rem);
+  --card-counter-control-radius:clamp(.3rem, calc(var(--card-width) * .065), .42rem);
+  --card-battlefield-body-size:clamp(.48rem, calc(var(--card-width) * .092), .66rem);
+  --card-battlefield-title-size:clamp(.54rem, calc(var(--card-width) * .104), .74rem);
+  --card-action-hover-label-size:clamp(.54rem, calc(var(--card-width) * .104), .7rem);
+  --card-action-hover-detail-size:clamp(.48rem, calc(var(--card-width) * .094), .62rem);
+  --board-action-font-size:clamp(.72rem, calc(var(--card-width) * .132), .92rem);
+  --board-floating-label-size:clamp(.56rem, calc(var(--card-width) * .105), .72rem);
+  --board-floating-value-size:clamp(.72rem, calc(var(--card-width) * .132), .92rem);
+  --board-micro-label-size:clamp(.48rem, calc(var(--card-width) * .09), .62rem);
+  --board-pill-font-size:clamp(.68rem, calc(var(--card-width) * .126), .9rem);
+  --zone-label-size:clamp(.46rem, calc(var(--card-width) * .088), .64rem);
+  --zone-label-compact-size:clamp(.52rem, calc(var(--card-width) * .102), .68rem);
+  --zone-count-size:clamp(.54rem, calc(var(--card-width) * .102), .7rem);
+  --rune-zone-count-size:clamp(.7rem, calc(var(--card-width) * .132), .92rem);
+  --player-band-size:40%;
+  --battlefield-overlap:3.2rem;
+  --battlefield-inset:calc(var(--player-band-size) - var(--battlefield-overlap));
+  --bg-0:#0e2049;
+  --bg-1:#0b1a3d;
+  --bg-2:#07132f;
+  --panel:#152857;
+  --panel-soft:#10224b;
+  --line:#d6e2ff4d;
+  --line-strong:#e9f1ff80;
+  --sep:#c0d3ff3d;
+  --sep-soft:#c0d3ff29;
+  --sep-strong:#d5e5ff61;
+  --text-main:#eef4ff;
+  --text-soft:#ccdbf7;
+  --text-dim:#94a9d3;
+  --accent-green:#78ddb7;
+  --accent-orange:#ffbb6e;
+  --play-area-bg:#d6e2ff0d;
+  --play-lane-bg:#e2ecff0f;
+  --ornament-ink:#ecf3ff85;
+  --ornament-soft:#bcd0ff57;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  container-type:inline-size;
+}
+.gb-board-glass-optics {
+  --frost:var(--play-zone-frost,.3);
+}
+.gb-playmat-zone-frosted:before,.gb-playmat-resources-frosted>[data-resources-content]:before,[data-touch-layout=true] .gb-playmat-resources-frosted:before,.gb-playmat-battlefield-frost {
+  --frost:var(--play-zone-frost,.3);
+  --frost-curve:calc(var(--frost) * var(--frost));
+  --pane-tone:brightness(1);
+}
+.gb-playmat-zone-frosted[data-zone-owner=self]:before,.gb-playmat-battlefield-frost-bottom {
+  --glass-intensity:var(--self-glass-intensity,1);
+}
+.gb-playmat-zone-frosted[data-zone-owner=opponent]:before,.gb-playmat-battlefield-frost-top {
+  --glass-intensity:var(--opponent-glass-intensity,1);
+}
+[data-player-layer=self] .gb-playmat-resources-frosted {
+  --glass-intensity:var(--self-glass-intensity,1);
+}
+[data-player-layer=opponent] .gb-playmat-resources-frosted {
+  --glass-intensity:var(--opponent-glass-intensity,1);
+}
+.gb-playmat-resources-frosted>[data-resources-content]:before,[data-touch-layout=true] .gb-playmat-resources-frosted:before {
+  --pane-tint:calc(.2 + var(--frost) * .25);
+  --pane-tone:brightness(.7);
+}
+:is([data-board-lines],[data-lines-frame]) {
+  --lines-edge:.7rem;
+  --ink-corner:1.9rem;
+  --ink-pile-corner:1.4rem;
+  --ink-tick:.5rem 1.25rem;
+  --ink-tick-flat:1.25rem .5rem;
+}
+[data-board-arrangement=phone-portrait] :is([data-board-lines],[data-lines-frame]) {
+  --lines-edge:.5rem;
+  --ink-corner:1.35rem;
+  --ink-pile-corner:1rem;
+  --ink-tick:.36rem .9rem;
+  --ink-tick-flat:.9rem .36rem;
+}
+[data-board-lines=ink] {
+  --lines-alpha:.66;
+  --lines-corner:var(--ink-corner);
+  --lines-pile-corner:var(--ink-pile-corner);
+  --lines-tick:var(--ink-tick);
+  --lines-corner-at:0px;
+  --lines-edge-trim:0px;
+  --lines-corner-top-left:url(/board-lines/corner-top-left.svg);
+  --lines-corner-top-right:url(/board-lines/corner-top-right.svg);
+  --lines-corner-bottom-left:url(/board-lines/corner-bottom-left.svg);
+  --lines-corner-bottom-right:url(/board-lines/corner-bottom-right.svg);
+  --lines-tick-left:url(/board-lines/tick-left.svg);
+  --lines-tick-right:url(/board-lines/tick-right.svg);
+  --lines-edge-horizontal:url(/board-lines/edge-horizontal.svg);
+  --lines-edge-vertical:url(/board-lines/edge-vertical.svg);
+}
+:is([data-board-lines=legend],[data-board-lines=signature_legend]) {
+  --lines-alpha:.92;
+  --lines-header-reach:.26;
+  --lines-corner:calc(var(--lines-edge) * 64 / 18);
+  --lines-pile-corner:calc(var(--lines-edge) * 2.6);
+  --lines-tick:var(--lines-edge) calc(var(--lines-edge) * 2.5);
+  --lines-corner-at:calc(var(--lines-edge) / 2 - var(--lines-corner) * .11);
+  --lines-edge-trim:calc(var(--lines-corner) * .6);
+}
+[data-board-lines=legend] {
+  --lines-corner-top-left:url(/board-lines/legend/corner-top-left.svg);
+  --lines-corner-top-right:url(/board-lines/legend/corner-top-right.svg);
+  --lines-corner-bottom-left:url(/board-lines/legend/corner-bottom-left.svg);
+  --lines-corner-bottom-right:url(/board-lines/legend/corner-bottom-right.svg);
+  --lines-tick-left:url(/board-lines/legend/tick-left.svg);
+  --lines-tick-right:url(/board-lines/legend/tick-right.svg);
+  --lines-edge-horizontal:url(/board-lines/legend/edge-horizontal.svg);
+  --lines-edge-vertical:url(/board-lines/legend/edge-vertical.svg);
+}
+[data-board-lines=signature_legend] {
+  --lines-corner-top-left:url(/board-lines/signature-legend/corner-top-left.svg);
+  --lines-corner-top-right:url(/board-lines/signature-legend/corner-top-right.svg);
+  --lines-corner-bottom-left:url(/board-lines/signature-legend/corner-bottom-left.svg);
+  --lines-corner-bottom-right:url(/board-lines/signature-legend/corner-bottom-right.svg);
+  --lines-tick-left:url(/board-lines/signature-legend/tick-left.svg);
+  --lines-tick-right:url(/board-lines/signature-legend/tick-right.svg);
+  --lines-edge-horizontal:url(/board-lines/signature-legend/edge-horizontal.svg);
+  --lines-edge-vertical:url(/board-lines/signature-legend/edge-vertical.svg);
+}
+.gb-lines-zone-header {
+  --lines-header-inset:calc(var(--lines-corner) * .3);
+  --lines-header-drop:calc(var(--lines-corner) * var(--lines-header-reach,.16));
+}
+.gb-lines-zone-header.rotate-180 {
+  --lines-header-drop:calc(var(--lines-corner) * var(--lines-header-reach,.16) * -1);
+}
+.gb-board-layer[data-lines-frame] {
+  --top-alpha:.66;
+  --bottom-alpha:.66;
+  --frame-line:linear-gradient(#dde8ff75 0 0);
+  --frame-inset:calc(var(--lines-edge) / 2);
+  --frame-half:calc(50% - var(--lines-edge) / 2);
+  --frame-top:var(--frame-line) 50% var(--frame-inset) / calc(100% - var(--lines-edge)) 1px no-repeat, var(--frame-line) var(--frame-inset) var(--frame-inset) / 1px var(--frame-half) no-repeat, var(--frame-line) right var(--frame-inset) top var(--frame-inset) / 1px var(--frame-half) no-repeat;
+  --frame-bottom:var(--frame-line) 50% calc(100% - var(--frame-inset)) / calc(100% - var(--lines-edge)) 1px no-repeat, var(--frame-line) left var(--frame-inset) bottom var(--frame-inset) / 1px var(--frame-half) no-repeat, var(--frame-line) right var(--frame-inset) bottom var(--frame-inset) / 1px var(--frame-half) no-repeat;
+  --field-top:radial-gradient(circle, var(--color-gb-ornament-ink) 0 1px, transparent 1px) top left / .4rem .4rem no-repeat, radial-gradient(circle, var(--color-gb-ornament-ink) 0 1px, transparent 1px) top right / .4rem .4rem no-repeat, linear-gradient(var(--color-gb-ornament-ink) 0 0) top left / 1.15rem 1px no-repeat, linear-gradient(var(--color-gb-ornament-ink) 0 0) top left / 1px 1.1rem no-repeat, linear-gradient(var(--color-gb-ornament-ink) 0 0) top right / 1.05rem 1px no-repeat, linear-gradient(var(--color-gb-ornament-ink) 0 0) top right / 1px 1.15rem no-repeat, radial-gradient(120% 100% at 50% 0, transparent 66%, var(--color-gb-ornament-soft) 68% 70%, transparent 72%) top center / 1.15rem .5rem no-repeat;
+  --field-bottom:radial-gradient(circle, var(--color-gb-ornament-ink) 0 1px, transparent 1px) bottom left / .4rem .4rem no-repeat, radial-gradient(circle, var(--color-gb-ornament-ink) 0 1px, transparent 1px) bottom right / .4rem .4rem no-repeat, linear-gradient(var(--color-gb-ornament-ink) 0 0) bottom left / 1.1rem 1px no-repeat, linear-gradient(var(--color-gb-ornament-ink) 0 0) bottom left / 1px 1.05rem no-repeat, linear-gradient(var(--color-gb-ornament-ink) 0 0) bottom right / 1.15rem 1px no-repeat, linear-gradient(var(--color-gb-ornament-ink) 0 0) bottom right / 1px 1.15rem no-repeat, radial-gradient(120% 100% at 50% 100%, transparent 66%, var(--color-gb-ornament-soft) 68% 70%, transparent 72%) bottom center / 1.15rem .5rem no-repeat;
+}
+.gb-board-layer[data-lines-frame][data-state-border] {
+  --frame-line:linear-gradient(transparent 0 0);
+}
+.gb-board-layer[data-top-board-lines=ink] {
+  --top-corner:var(--ink-corner);
+  --top-corner-left:url(/board-lines/corner-top-left.svg);
+  --top-corner-right:url(/board-lines/corner-top-right.svg);
+  --top-edge-horizontal:url(/board-lines/edge-horizontal.svg);
+  --top-edge-vertical:url(/board-lines/edge-vertical.svg);
+  --top-edge-trim:var(--frame-inset);
+  --field-top:url(/board-lines/tick-top.svg) top center / var(--ink-tick-flat) no-repeat;
+}
+.gb-board-layer[data-bottom-board-lines=ink] {
+  --bottom-corner:var(--ink-corner);
+  --bottom-corner-left:url(/board-lines/corner-bottom-left.svg);
+  --bottom-corner-right:url(/board-lines/corner-bottom-right.svg);
+  --bottom-edge-horizontal:url(/board-lines/edge-horizontal.svg);
+  --bottom-edge-vertical:url(/board-lines/edge-vertical.svg);
+  --bottom-edge-trim:var(--frame-inset);
+  --field-bottom:url(/board-lines/tick-bottom.svg) bottom center / var(--ink-tick-flat) no-repeat;
+}
+.gb-board-layer:is([data-top-board-lines=legend],[data-top-board-lines=signature_legend]) {
+  --top-alpha:.92;
+  --top-corner:calc(var(--lines-edge) * 64 / 18);
+  --top-edge-trim:calc(var(--frame-inset) + var(--top-corner) * .5);
+  --field-top:none;
+}
+.gb-board-layer:is([data-bottom-board-lines=legend],[data-bottom-board-lines=signature_legend]) {
+  --bottom-alpha:.92;
+  --bottom-corner:calc(var(--lines-edge) * 64 / 18);
+  --bottom-edge-trim:calc(var(--frame-inset) + var(--bottom-corner) * .5);
+  --field-bottom:none;
+}
+.gb-board-layer[data-top-board-lines=legend] {
+  --top-corner-left:url(/board-lines/legend/corner-top-left.svg);
+  --top-corner-right:url(/board-lines/legend/corner-top-right.svg);
+  --top-tick:url(/board-lines/legend/tick-top.svg);
+  --top-edge-horizontal:url(/board-lines/legend/edge-horizontal.svg);
+  --top-edge-vertical:url(/board-lines/legend/edge-vertical.svg);
+}
+.gb-board-layer[data-bottom-board-lines=legend] {
+  --bottom-corner-left:url(/board-lines/legend/corner-bottom-left.svg);
+  --bottom-corner-right:url(/board-lines/legend/corner-bottom-right.svg);
+  --bottom-tick:url(/board-lines/legend/tick-bottom.svg);
+  --bottom-edge-horizontal:url(/board-lines/legend/edge-horizontal.svg);
+  --bottom-edge-vertical:url(/board-lines/legend/edge-vertical.svg);
+}
+.gb-board-layer[data-top-board-lines=signature_legend] {
+  --top-corner-left:url(/board-lines/signature-legend/corner-top-left.svg);
+  --top-corner-right:url(/board-lines/signature-legend/corner-top-right.svg);
+  --top-tick:url(/board-lines/signature-legend/tick-top.svg);
+  --top-edge-horizontal:url(/board-lines/signature-legend/edge-horizontal.svg);
+  --top-edge-vertical:url(/board-lines/signature-legend/edge-vertical.svg);
+}
+.gb-board-layer[data-bottom-board-lines=signature_legend] {
+  --bottom-corner-left:url(/board-lines/signature-legend/corner-bottom-left.svg);
+  --bottom-corner-right:url(/board-lines/signature-legend/corner-bottom-right.svg);
+  --bottom-tick:url(/board-lines/signature-legend/tick-bottom.svg);
+  --bottom-edge-horizontal:url(/board-lines/signature-legend/edge-horizontal.svg);
+  --bottom-edge-vertical:url(/board-lines/signature-legend/edge-vertical.svg);
+}
+.gb-board-layer[data-top-board-lines] {
+  --top-corner-at:calc(var(--frame-inset) + .5px - var(--top-corner) * .11);
+  --frame-top:var(--top-corner-left) left var(--top-corner-at) top var(--top-corner-at) / var(--top-corner) no-repeat, var(--top-corner-right) right var(--top-corner-at) top var(--top-corner-at) / var(--top-corner) no-repeat, var(--top-tick,none) center top calc(var(--frame-inset) + .5px - var(--lines-edge) * .39) / calc(var(--lines-edge) * 2.5) var(--lines-edge) no-repeat, var(--top-edge-horizontal) 50% .5px / calc(100% - var(--top-edge-trim) * 2) var(--lines-edge) no-repeat, var(--top-edge-vertical) .5px var(--top-edge-trim) / var(--lines-edge) calc(50% - var(--top-edge-trim)) no-repeat, var(--top-edge-vertical) right .5px top var(--top-edge-trim) / var(--lines-edge) calc(50% - var(--top-edge-trim)) no-repeat;
+}
+.gb-board-layer[data-bottom-board-lines] {
+  --bottom-corner-at:calc(var(--frame-inset) + .5px - var(--bottom-corner) * .11);
+  --frame-bottom:var(--bottom-corner-left) left var(--bottom-corner-at) bottom var(--bottom-corner-at) / var(--bottom-corner) no-repeat, var(--bottom-corner-right) right var(--bottom-corner-at) bottom var(--bottom-corner-at) / var(--bottom-corner) no-repeat, var(--bottom-tick,none) center bottom calc(var(--frame-inset) + .5px - var(--lines-edge) * .39) / calc(var(--lines-edge) * 2.5) var(--lines-edge) no-repeat, var(--bottom-edge-horizontal) 50% calc(100% - .5px) / calc(100% - var(--bottom-edge-trim) * 2) var(--lines-edge) no-repeat, var(--bottom-edge-vertical) left .5px bottom var(--bottom-edge-trim) / var(--lines-edge) calc(50% - var(--bottom-edge-trim)) no-repeat, var(--bottom-edge-vertical) right .5px bottom var(--bottom-edge-trim) / var(--lines-edge) calc(50% - var(--bottom-edge-trim)) no-repeat;
+}
+.gb-board-layer.gb-battlefield-hide-top-chrome {
+  --frame-top:none;
+}
+.gb-board-layer.gb-battlefield-hide-bottom-chrome {
+  --frame-bottom:none;
+}
+.gb-board-layer[data-lines-frame]:before {
+  --frame-alpha:linear-gradient(to bottom, rgb(0 0 0/var(--top-alpha)) 50%, rgb(0 0 0/var(--bottom-alpha)) 50%);
+}
+.gb-board[data-lines-controls=ink] {
+  --lines-box:url(/board-lines/box.svg);
+}
+.gb-board[data-lines-controls=legend] {
+  --lines-box:url(/board-lines/legend/box.svg);
+}
+.gb-board[data-lines-controls=signature_legend] {
+  --lines-box:url(/board-lines/signature-legend/box.svg);
+}
+[data-customization-board-preview] [data-board-lines] {
+  --ink-corner:1.15rem;
+  --ink-tick:.34rem .85rem;
+  --lines-edge:.4rem;
+}
+.identityRailTurn {
+  --identity-rail-clip-ms:.52s;
+  --identity-rail-opacity-ms:.52s;
+  --identity-rail-side-bleed:.42rem;
+  --identity-rail-side-cut:calc(var(--identity-rail-side-bleed) * -1);
+}
+.identityRailTurnOn {
+  --identity-rail-clip-ms:.52s;
+  --identity-rail-opacity-ms:.52s;
+}
+.identityRailTurnOff {
+  --identity-rail-clip-ms:.52s;
+  --identity-rail-opacity-ms:.52s;
+}
+.handRail {
+  --hand-shelf-height:clamp(1rem, 22%, 2.4rem);
+}
+.handRevealButton {
+  --hand-reveal-size:1.65rem;
+}
+/* @media (pointer:coarse) */
+:where(:root:not([data-sim-pointer=mouse])) .handRevealButton {
+  --hand-reveal-size:2.75rem;
+}
+.gb-board[data-suppress-board-hover-tone=false] .handRail .handFanSlot:where([data-card-action-hover-active=true]) {
+  --fan-hover-raise:-12px;
+}
+.gb-board .handRail[data-hand-drag-active=true] .handFanSlot,:where(:root:not([data-sim-pointer=touch])) .gb-board .handRail[data-hand-drag-active=true] .handFanSlot:hover {
+  --fan-hover-raise:0px;
+}
+.gb-board[data-suppress-board-hover-tone=true] .handRail .handFanSlot,:where(:root:not([data-sim-pointer=touch])) .gb-board[data-suppress-board-hover-tone=true] .handRail .handFanSlot:hover {
+  --fan-hover-raise:0px;
+}
+:root[data-sim-pointer=touch] .gb-board .handRail .handFanSlot {
+  --fan-hover-raise:0px!important;
+}
+.scoreTrackNodeConstellation {
+  --track-label-size:calc(var(--track-node-size) * .48);
+  --track-node-rim:#8eb2d24d;
+  --track-node-ring:#96bee41a;
+  --track-node-sheen:#8cbae217;
+  --track-node-face:#0c213e;
+  --track-node-goal:#d6b270;
+}
+:where(:root:not([data-sim-pointer=touch])) .scoreTrackNodeInteractive:hover {
+  --track-node-rim:#b1d5ef6b;
+}
+.scoreTrackNodeWinning {
+  --track-label-size:calc(var(--track-node-winning-size) * .46);
+}
+.scoreTrackNodeConstellation[data-reached=true] {
+  --track-node-rim:var(--track-node-accent);
+}
+/* @supports (color:color-mix(in lab, red, red)) */
+.scoreTrackNodeConstellation[data-reached=true] {
+  --track-node-rim:color-mix(in srgb, var(--track-node-accent) 36%, #a6cce93d);
+}
+.scoreTrackNodeConstellation[data-reached=true] {
+  --track-node-ring:var(--track-node-accent);
+}
+/* @supports (color:color-mix(in lab, red, red)) */
+.scoreTrackNodeConstellation[data-reached=true] {
+  --track-node-ring:color-mix(in srgb, var(--track-node-accent) 22%, transparent);
+}
+.scoreTrackNodeConstellation[data-reached=true] {
+  --track-node-sheen:#8cbae229;
+  --track-node-face:#10284a;
+}
+.scoreTrackNodeConstellation[data-winning=true] {
+  --track-node-rim:var(--track-node-goal);
+}
+/* @supports (color:color-mix(in lab, red, red)) */
+.scoreTrackNodeConstellation[data-winning=true] {
+  --track-node-rim:color-mix(in srgb, var(--track-node-goal) 52%, transparent);
+}
+.scoreTrackNodeConstellation[data-winning=true] {
+  --track-node-ring:var(--track-node-goal);
+}
+/* @supports (color:color-mix(in lab, red, red)) */
+.scoreTrackNodeConstellation[data-winning=true] {
+  --track-node-ring:color-mix(in srgb, var(--track-node-goal) 20%, transparent);
+}
+.scoreTrackNodeConstellation[data-winning=true][data-reached=true] {
+  --track-node-ring:var(--track-node-goal);
+}
+/* @supports (color:color-mix(in lab, red, red)) */
+.scoreTrackNodeConstellation[data-winning=true][data-reached=true] {
+  --track-node-ring:color-mix(in srgb, var(--track-node-goal) 34%, transparent);
+}
+.identityBadgeTotem {
+  --identity-badge-max-size:2rem;
+  --identity-frame-padding-bottom:.4rem;
+  --identity-frame-padding-top:.9rem;
+  --identity-frame-extension:0rem;
+}
+.identityBadgeTotem[data-has-timer=true] {
+  --identity-frame-extension:.22rem;
+}
+.identityBadgeTotem [data-identity-badge-row] {
+  --identity-badge-gap:.1rem;
+}
+.identityBadgeTotem [data-identity-badge-item] {
+  --identity-badge-size:min(var(--identity-badge-max-size), 100cqh, calc((100cqw - (var(--identity-badge-count) - 1) * var(--identity-badge-gap)) / var(--identity-badge-count)));
+}
+.identityBadgeFrame {
+  --identity-badge-accent:#91bbdb70;
+  --identity-badge-accent-soft:#71a1c629;
+  --identity-badge-art:linear-gradient(transparent, transparent);
+}
+.identityBadgeFramePlayer {
+  --identity-badge-accent:#75e5d06b;
+  --identity-badge-accent-soft:#4fb29f26;
+}
+.identityBadgeFrameOpponent {
+  --identity-badge-accent:#e7b97566;
+  --identity-badge-accent-soft:#ae753f24;
+}
+.identityBadgePopup {
+  --identity-badge-accent:#91bbdb70;
+  --identity-badge-accent-soft:#71a1c629;
+}
+.identityBadgePopup[data-identity-popup=player] {
+  --identity-badge-accent:#75e5d06b;
+  --identity-badge-accent-soft:#4fb29f26;
+}
+.identityBadgePopup[data-identity-popup=opponent] {
+  --identity-badge-accent:#e7b97566;
+  --identity-badge-accent-soft:#ae753f24;
+}
+.identityBadgeFrameCartographer {
+  --identity-badge-accent:#c493e280;
+  --identity-badge-accent-soft:#9154b52b;
+  --identity-badge-art:url(/ui/nameplates/metafy-legend-review.webp) center / 100% 100% no-repeat;
+  --identity-nameplate-art-block-inset:-.24rem;
+  --identity-nameplate-art-inline-inset:-.46rem;
+}
+.identityBadgeFrameAtlasPatron {
+  --identity-badge-accent:#ebcc828f;
+  --identity-badge-accent-soft:#5d8ee22b;
+  --identity-badge-art:url(/ui/nameplates/metafy-signature-legend-review.webp) center / 100% 100% no-repeat;
+  --identity-nameplate-art-block-inset:-.34rem;
+  --identity-nameplate-art-inline-inset:-.62rem;
+}
+.identityBadgePopup.identityBadgeFrameCartographer {
+  --identity-badge-accent:#c493e280;
+  --identity-badge-accent-soft:#9154b52b;
+}
+.identityBadgePopup.identityBadgeFrameAtlasPatron {
+  --identity-badge-accent:#ebcc828f;
+  --identity-badge-accent-soft:#5d8ee22b;
+}
+.identityBadgeClock {
+  --identity-clock-accent:#91bbdb7a;
+  --identity-clock-glow:#71a1c61c;
+}
+.identityBadgeClock[data-variant=player] {
+  --identity-clock-accent:#75e5d085;
+  --identity-clock-glow:#4fb29f1f;
+}
+.identityBadgeClock[data-variant=opponent] {
+  --identity-clock-accent:#e7b97580;
+  --identity-clock-glow:#ae753f1c;
+}
+.identityBadgeClock.identityBadgeClockCartographer {
+  --identity-clock-accent:#cc91e194;
+  --identity-clock-art:url(/ui/nameplates/metafy-legend-clock.webp);
+  --identity-clock-glow:#a162bb33;
+}
+.identityBadgeClock.identityBadgeClockAtlasPatron {
+  --identity-clock-accent:#f0cd77a8;
+  --identity-clock-art:url(/ui/nameplates/metafy-signature-legend-clock.webp);
+  --identity-clock-glow:#4e84e638;
+}
+.gb-board[data-tablet-compact=true] {
+  --compact-sidebar-width:3.25rem;
+}
+.gb-board:not([data-board-arrangement=phone-portrait])[data-board-short=true] {
+  --rail-divider-display:none;
+}
+.gb-board:not([data-board-arrangement=phone-portrait])[data-board-tight-rail=true] {
+  --rail-segment-height:clamp(1.25rem, calc((var(--sim-visible-height,100dvh) - 98px) / 11), 1.75rem);
+  --rail-divider-display:block;
+}
+:root {
+  --game-selection-backdrop:#0308129e;
+  --game-selection-focus-border:#88e0ffb8;
+  --game-selection-focus-glow:#4ca6d02e;
+}
+.tablet-chain-panel[data-chain-dock=rail] {
+  --chain-rail-card:var(--chain-rail-card-height,3.15rem);
+}
+.tablet-chain-card {
+  --compact-chain-card-height:min(20rem, calc(var(--sim-visible-height,100dvh) - 7rem));
+}
+.tablet-sidebar[data-open-panel=sidebar] .tablet-chain-panel {
+  --chain-stack-height-limit:max(0rem, calc(100cqh - 8.8rem));
+}
+.gb-board[data-tablet-layout=false] [data-player-layer] {
+  --hand-left-inset:calc(var(--rune-deck-lane-x) + max(var(--card-width) * 2.39769, var(--card-width) + 7.5rem * var(--desktop-ui-scale,1)));
+}
+.touch-card-preview {
+  --card-label-chip-height:1.3rem;
+  --card-label-chip-font-size:.65rem;
+  --card-label-chip-radius:.2rem;
+  --card-label-chip-pad-x:.3rem;
+  --card-label-stack-gap:.2rem;
+  --card-label-stack-left:.25rem;
+  --card-label-stack-width-offset:.5rem;
+}
+.touch-counter-column {
+  --counter-control-bg:linear-gradient(170deg, #203750fa, #13263cf5);
+  --counter-control-border:#718aa680;
+  --counter-badge-bg:linear-gradient(172deg, #fcfeff, #e2e9f6);
+  --counter-badge-color:#1f324c;
+  --counter-badge-border:#e4ecf7db;
+  --counter-item-y:22px;
+}
+.touch-counter-column[data-counter-color=red] {
+  --counter-control-bg:linear-gradient(170deg, #452636fa, #281d2df5);
+  --counter-control-border:#b56f7a99;
+  --counter-badge-bg:linear-gradient(172deg, #ad2626, #761717);
+  --counter-badge-color:#ffebee;
+  --counter-badge-border:#ffbebebd;
+  --counter-item-y:76px;
+}
+.touch-counter-column button,.touch-counter-column output {
+  --counter-from-x:calc(var(--counter-origin-x,72px) - var(--counter-item-x));
+  --counter-from-y:calc(var(--counter-origin-y,49px) - var(--counter-item-y));
+}
+.touch-counter-column button:first-of-type {
+  --counter-item-x:22px;
+}
+.touch-counter-column button:nth-of-type(2) {
+  --counter-item-x:122px;
+}
+.touch-counter-column button:last-child {
+  --counter-item-x:172px;
+}
+.touch-counter-column output {
+  --counter-item-x:72px;
+}
+.touch-counter-column button:disabled,.touch-label-picker button:disabled {
+  --counter-control-opacity:.45;
+}
+.time-warp-turn-group {
+  --time-warp-cancel-height:1.75rem;
+  --time-warp-cancel-gap:.2rem;
+}
+.gb-board[data-tablet-layout=false][data-tablet-compact=true] {
+  --compact-ui-scale:max(1, var(--desktop-ui-scale));
+  --compact-sidebar-width:calc(3.25rem * var(--compact-ui-scale));
+  --board-side-utility-width:min(calc(9.4rem * var(--compact-ui-scale)), calc(var(--battlefield-side-gap) - 1rem));
+}
+[data-player-layer][data-touch-layout=false] {
+  --hero-lane-y:min(var(--lane-front-y), max(0rem, calc(100% + var(--player-board-row-gap) + var(--lane-pile-y) - var(--deck-hand-shelf-lift) - var(--card-height))));
+}
+.gb-board[data-tablet-layout=true] {
+  --tablet-hand-height:calc(var(--card-height) * var(--tablet-hand-card-scale));
+  --tablet-player-band:calc(var(--card-height) + var(--tablet-hand-height) + var(--touch-player-band-padding));
+  --tablet-opponent-band:30%;
+  --player-band-size:var(--tablet-player-band);
+  --battlefield-inset:var(--tablet-player-band);
+}
+[data-player-layer][data-touch-layout=true] {
+  --base-legend-clearance:0rem;
+  --left-lanes-x:0rem;
+  --lane-front-y:0rem;
+  --lane-right-main-x:0rem;
+  --lane-right-side-x:0rem;
+  --lane-pile-y:.5rem;
+  --rune-deck-lane-x:0rem;
+  --rune-deck-lane-y:.5rem;
+}
+[data-touch-layout=true] .handRevealButton {
+  --hand-reveal-size:1.875rem;
+}
+.gb-board[data-board-density=regular] [data-touch-layout=true] .handRevealButton {
+  --hand-reveal-size:2.75rem;
+}
+.battlefield-border-line {
+  --might-mask-outset:1px;
+}
+.gb-board-layer[data-might-border][data-lines-frame]:before {
+  --might-mask-outset:calc(1px + var(--frame-inset));
+}
+.gb-board-layer[data-might-border]:after {
+  --might-mask-outset:-.12rem;
+}
+.battlefield-might[data-might-glass] .battlefield-might-surface:before {
+  --frost:var(--play-zone-frost,.3);
+}
+.gb-board-layer[data-top-board-lines] [data-battlefield-might-side=opponent] {
+  --side-edge-vertical:var(--top-edge-vertical);
+  --side-alpha:var(--top-alpha);
+}
+.gb-board-layer[data-bottom-board-lines] [data-battlefield-might-side=self] {
+  --side-edge-vertical:var(--bottom-edge-vertical);
+  --side-alpha:var(--bottom-alpha);
+}
+.gb-board[data-tablet-layout=true] {
+  --battlefield-token-left:-.5rem;
+  --battlefield-token-top:calc(50% - .85rem);
+}
+[data-battlefield-card-rows] {
+  --battlefield-card-edge-shift:calc((var(--card-height) - var(--card-width)) / 2);
+}
+.tablet-sidebar[data-compact=false] .tablet-chain-panel {
+  --chain-stack-height-limit:max(0rem, calc(55cqh - 8.8rem));
+}
+.gb-board[data-player-identity-placement=raised] {
+  --track-player-bottom:calc(var(--tablet-player-band) + var(--identity-badge-height) + var(--identity-track-gap));
+}
+.gb-board[data-tablet-layout=true][data-board-density=narrow] [data-battlefield-surface] {
+  --tablet-battlefield-columns:repeat(2, minmax(0, 1fr));
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] {
+  --phone-toolbar-height:3.9rem;
+  --phone-toolbar-start:7.5rem;
+  --phone-toolbar-group-gap:.45rem;
+  --phone-toolbar-bar-chrome:calc(.25rem + 2px);
+  --phone-toolbar-action-extra:.25rem;
+  --phone-toolbar-button-width:min(2.5rem, calc(( 100vw - var(--phone-toolbar-start) - .75rem - 3 * var(--phone-toolbar-bar-chrome) - 2 * var(--phone-toolbar-group-gap) - 2 * var(--phone-toolbar-action-extra) ) / 7));
+  --phone-toolbar-action-width:calc(var(--phone-toolbar-button-width) + var(--phone-toolbar-action-extra));
+  --phone-score-height:3.7rem;
+  --phone-nameplate-height:3.7rem;
+  --phone-supply-card-height:var(--card-height);
+  --phone-supply-card-width:var(--card-width);
+  --phone-hero-card-width:calc(var(--phone-supply-card-width) * 1.2);
+  --phone-hero-card-height:calc(var(--phone-supply-card-height) * 1.2);
+  --phone-zone-row-height:max(var(--phone-hero-card-height), calc(( var(--board-field-height) - 2 * var(--tablet-hand-height) - 2 * var(--phone-score-height) - 1.8rem ) / 6));
+  --phone-supply-height:var(--phone-zone-row-height);
+  --pile-stack-spread-scale:.14;
+  --tablet-player-band:calc(var(--phone-zone-row-height) + var(--tablet-hand-height) + var(--phone-supply-height) + .9rem);
+  --battlefield-side-gap:.4rem;
+  --battlefield-inset:calc(var(--tablet-player-band) + var(--phone-score-height));
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-player-area=leftLanes],.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-battlefield-surface] {
+  --card-width:var(--placed-card-width);
+  --card-height:var(--placed-card-height);
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-player-area=legend],.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-player-area=champion] {
+  --card-width:var(--phone-hero-card-width);
+  --card-height:var(--phone-hero-card-height);
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-touch-layout=true] .tablet-rune-pile,.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-player-area=main],.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-player-area=trash] {
+  --card-width:var(--phone-supply-card-width);
+  --card-height:var(--phone-supply-card-height);
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] .handRail {
+  --phone-hand-control-size:min(1.75rem, calc((var(--card-height) - .4rem) / 3));
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-player-identity-rail] {
+  --identity-badge-width:5.6rem;
+  --identity-badge-height:var(--phone-nameplate-height);
+  --identity-rail-width:5.6rem;
+  --track-node-size:max(1.5rem, calc(var(--phone-supply-card-width) * .44));
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] .identityBadgeTotem {
+  --identity-badge-max-size:1.25rem;
+  --identity-frame-padding-bottom:.25rem;
+  --identity-frame-padding-top:.55rem;
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-player-identity-rail=opponent] {
+  --identity-badge-opponent-nudge:0rem;
+  --identity-badge-width:5.6rem;
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-board-player-scores],.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-board-opponent-scores] {
+  --track-node-size:max(1.5rem, calc(var(--phone-supply-card-width) * .44));
+  --track-node-winning-size:max(1.85rem, calc(var(--track-node-size) * 1.2333));
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] .tablet-sidebar-rail[data-replay-toolbar=true] {
+  --phone-toolbar-button-width:min(2.5rem, calc(( 100vw - var(--phone-toolbar-start) - 1rem - 2 * var(--phone-toolbar-bar-chrome) - var(--phone-toolbar-group-gap) ) / 5));
+}
+.gb-board-layer.rotate-180,[data-compact-observer-player-layer] {
+  --card-counter-player-rotation:180deg;
+  --card-counter-stack-direction:-1;
+}
+[data-card-counter-frame] {
+  --card-counter-bottom:calc(var(--card-counter-height) * -1 * (1 / 3 + var(--card-counter-progress) * 4 / 15) * var(--card-counter-density-scale,1));
+}
+[data-card-counter-frame]>div {
+  --card-counter-visible-width:calc(var(--card-width) * (1 - var(--card-counter-progress)) + var(--card-height) * var(--card-counter-progress));
+  --card-counter-previous-width:calc(var(--card-width) * (1 - var(--card-counter-previous-exhausted,0)) + var(--card-height) * var(--card-counter-previous-exhausted,0));
+  --card-counter-row-half:calc(50% * var(--card-counter-density-scale,1));
+  --card-counter-on-card-shift:max(0px, var(--card-counter-visible-width) / 2 - 50% * var(--card-counter-density-scale,1));
+  --card-counter-free-shift:max(-1 * var(--card-counter-on-card-shift), min(max(0px, (var(--card-counter-visible-width) + var(--card-counter-previous-width)) / 4 - var(--card-counter-stack-step,100rem) / 2), var(--card-counter-on-card-shift), var(--card-counter-attached-limit,100rem) - .15rem - var(--card-counter-row-half)));
+  --card-counter-gear-shift:max(0px, var(--card-counter-visible-width) / 2 - var(--card-counter-row-half));
+}
+[data-card-counter-frame]>[data-card-counter-single] {
+  --card-counter-row-half:calc(var(--card-counter-slot-width) / 2 * var(--card-counter-density-scale,1));
+}
+/* @media (max-width:640px),(max-height:500px) */
+.gb-board {
+  --card-counter-height:clamp(1.25rem, calc(var(--card-width) * .28), 1.7rem);
+  --card-counter-track-width:clamp(3.36rem, calc(var(--card-width) * .754), 4.58rem);
+  --card-counter-slot-width:clamp(1.62rem, calc(var(--card-width) * .36), 2.18rem);
+  --card-counter-min-width:clamp(1.46rem, calc(var(--card-width) * .32), 1.98rem);
+  --card-counter-pad-x:clamp(.22rem, calc(var(--card-width) * .05), .32rem);
+  --card-counter-font-size:clamp(.8rem, calc(var(--card-width) * .175), 1.07rem);
+  --card-counter-radius:clamp(.26rem, calc(var(--card-width) * .055), .37rem);
+}
+[data-has-below-actions=true] {
+  --card-list-below-reserve:calc(3.5rem + env(safe-area-inset-bottom,0px));
+}
+:where(:root[data-sim-pointer=touch]) [data-has-below-actions=true] {
+  --card-list-below-reserve:calc(4.75rem + env(safe-area-inset-bottom,0px));
+}
+.gb-deck-peek {
+  --card-peek-width:clamp(8rem, 14vw, 10rem);
+}
+/* @media (max-width:600px) */
+.gb-deck-peek {
+  --card-peek-width:calc((100vw - 2.875rem) / 3);
+}
+/* @media (max-height:500px) and (max-width:1100px) */
+.gb-deck-peek {
+  --card-peek-width:min(7rem, calc((var(--sim-visible-height,100dvh) - var(--card-height) - 10rem) * 63 / 88));
+}
+/* @media (min-width:601px) and (min-height:501px),(min-width:1101px) */
+:root:not([data-sim-pointer=touch]) .gb-deck-peek {
+  --card-peek-width:clamp(12rem, 18vw, 14rem);
+}
+:root[data-sim-pointer=touch] .gb-board .handRevealButton {
+  --hand-reveal-size:2.75rem;
+}
+:root[data-sim-pointer=mouse] .gb-board .handRevealButton {
+  --hand-reveal-size:min(1.65rem, var(--phone-hand-control-size,1.65rem));
+}
+/* @media (pointer:coarse),(max-width:768px) */
+.tablet-sidebar[data-compact=false][data-supplementary-sidebar=true] .tablet-chain-panel {
+  --chain-stack-height-limit:max(0rem, calc(100cqh - 5rem));
+}
+.card-unit-tag {
+  --unit-tag-portrait-size:calc(1.3em + 10px);
+}
+.gb-board [data-card-label-stack] {
+  --card-label-stack-top:min(1.48rem, calc(var(--card-width) * .285));
+}
+.gb-board [data-card-label-stack]:has(>:nth-child(3)) {
+  --card-label-chip-fit-height:min(var(--card-label-chip-height), calc(( var(--card-height) - var(--card-label-stack-top) - 2 * var(--card-label-stack-gap) - .2rem ) / 3));
+}
+.gb-board [data-card-label-stack]:has(>:nth-child(4)) {
+  --card-label-chip-fit-height:min(var(--card-label-chip-height), calc(( var(--card-height) - var(--card-label-stack-top) - 3 * var(--card-label-stack-gap) - .2rem ) / 4));
+}
+.touch-card-menu[data-mode=labels] {
+  --label-sheet-height:min(800px, calc(var(--sim-visible-height,100dvh) - 16px));
+}
+.gb-neeko-legend-stack {
+  --neeko-overhang:calc((var(--card-height) - var(--card-width)) / 2);
+}
+.gb-neeko-borrowed-legend {
+  --neeko-self-exhausted:0;
+  --neeko-start-exhausted:0;
+}
+.gb-neeko-borrowed-legend[data-exhausted] {
+  --neeko-self-exhausted:1;
+}
+.gb-neeko-starting-legend[data-exhausted]~.gb-neeko-borrowed-legend {
+  --neeko-start-exhausted:1;
+}
+.gb-board[data-tablet-layout=true][data-board-arrangement=phone-portrait] [data-player-layer][data-touch-layout=true][data-neeko-borrowed-legends] {
+  --neeko-phone-gap:.15rem;
+}
+.gb-resources-popover {
+  --text-soft:#ccdbf7;
+  --board-floating-label-size:.62rem;
+}
+.gb-neeko-legends-control {
+  --neeko-portrait-size:clamp(1.05rem, calc(var(--card-width) * .25), 1.4rem);
+  --neeko-control-padding:.12rem;
+  --neeko-control-edge-inset:calc(var(--neeko-portrait-size) * .5 + var(--neeko-control-padding) + 1px);
+}
+.gb-neeko-legends-control[data-compact] {
+  --neeko-portrait-size:clamp(.5rem, calc(var(--card-width) * .26), .8rem);
+  --neeko-control-padding:.06rem;
+}
+.gb-neeko-starting-legend[data-exhausted]:has([data-card-label-stack])>.gb-neeko-legends-control {
+  --neeko-control-edge-inset:-2px;
+}
+.gb-neeko-borrowed-tag {
+  --neeko-tag-size:clamp(.9rem, calc(var(--card-width) * .3), 1.5rem);
+}
+.gb-board .gb-neeko-borrowed-legend[data-compact] .gb-neeko-borrowed-tag {
+  --neeko-tag-size:clamp(.45rem, calc(var(--card-width) * .24), .75rem);
+}
+.card-banish-links {
+  --banish-link-size:clamp(20px, calc(var(--card-width,64px) * .34), 38px);
+}
+.hover-preview-banish-links {
+  --hover-banish-size:3rem;
+}
+
+/* --------------------------------------------------------------------------
+   source chunk: 0mq6k3dqx1du5.css  (5 token blocks)
+   -------------------------------------------------------------------------- */
+.Mjaeqa_variable {
+  --font-ui:"Bricolage Grotesque", "Bricolage Grotesque Fallback";
+}
+.lPk_nq_variable {
+  --font-heading:"Cardo", "Cardo Fallback";
+}
+.HIv3uW_variable {
+  --font-brand:"Rajdhani", "Rajdhani Fallback";
+}
+._81nrpa_variable {
+  --font-support-script:"Cookie", "Cookie Fallback";
+}
+.hcW62G_frame[data-board-lines] {
+  --ink-corner:1.25rem;
+  --ink-tick:.36rem .9rem;
+  --lines-edge:.36rem;
+}
+
+/* --------------------------------------------------------------------------
+   source chunk: 1z02gj58hv2tl.css  (20 token blocks)
+   -------------------------------------------------------------------------- */
+.x5f_1a_showcaseRail {
+  --track-node-size:1.25rem;
+  --track-node-winning-size:calc(var(--track-node-size) * 1.14);
+  --track-row-size:calc(var(--track-node-size) * 1.26);
+  --score-track-column-gap:calc(var(--track-node-size) * .34);
+  --score-track-rail-width:calc(var(--track-node-size) * 2 + var(--score-track-column-gap));
+  --score-track-stagger-offset:calc(var(--track-row-size) * .5);
+  --score-track-terminal-offset:calc(var(--track-node-size) * .42);
+  --battlefield-side-gap:calc(var(--score-track-rail-width) * 1.35 + .5rem);
+}
+.x5f_1a_showcaseRow {
+  --track-node-size:min(1.6rem, 18cqi);
+  --track-node-winning-size:calc(var(--track-node-size) * 1.16);
+}
+.x5f_1a_membershipRow {
+  --track-node-size:min(2.4rem, 13cqi);
+}
+._4RegNa_root {
+  --rail-compact:0;
+  --rail-accent:#b7f4d9;
+}
+._4RegNa_root[data-tone=amber] {
+  --rail-accent:#ffdab2;
+}
+._4RegNa_board {
+  --ink-board-width:min(calc(var(--score-track-rail-width) * 1.35), calc(var(--battlefield-side-gap) - .5rem));
+  --number-scale:1.08;
+}
+._4RegNa_number {
+  --number-size:max(10px, min(calc(var(--track-node-size,34px) * .57), calc(210px / (var(--point-count) + 1)), 25px));
+}
+._4RegNa_number:before {
+  --bead-tint:#4f88a6;
+}
+._4RegNa_point[data-reached=false] ._4RegNa_number:before {
+  --bead-tint:#527080b3;
+}
+._4RegNa_point[data-active=true] ._4RegNa_number:before {
+  --bead-tint:var(--rail-accent);
+}
+._4RegNa_point[data-winning=true] ._4RegNa_number:before,._4RegNa_point[data-terminal=true] ._4RegNa_number:before {
+  --bead-tint:#c9a961;
+}
+._4RegNa_point[data-active=true] ._4RegNa_number {
+  --number-emphasis:1.15;
+}
+._4RegNa_root[data-compact=true] {
+  --number-scale:1;
+}
+._4RegNa_root[data-compact=true] ._4RegNa_number {
+  --number-size:max(10px, min(3.8vw, 17px, calc(150px / var(--point-count))));
+}
+/* @container (max-width:380px) */
+._4RegNa_preview {
+  --rail-compact:1;
+}
+[data-board-arrangement=phone-portrait] ._4RegNa_board {
+  --rail-compact:1;
+}
+[data-board-arrangement=phone-portrait] ._4RegNa_board ._4RegNa_number {
+  --number-size:max(10px, min(13px, calc(150px / var(--point-count))));
+}
+.ZQOajW_point,.ZQOajW_connector {
+  --tier-metal:#d39572;
+  --tier-accent:#b27ae0;
+  --tier-numeral:#8d8291;
+  --tier-numeral-reached:#ecd0bb;
+  --tier-numeral-goal:#a3918a;
+  --tier-numeral-active:#fff3e8;
+  --tier-numeral-glow:#b268e8bf;
+  --weld-arc:#efd9ff;
+  --weld-glow:#a35cff;
+  --weld-hot:#fff4dc;
+  --weld-ember:#ff8740;
+  --weld-crest:#c98bff;
+}
+.ZQOajW_point[data-tier-point=signature_legend],.ZQOajW_connector[data-rail-style=signature_legend] {
+  --tier-metal:#e9bb5f;
+  --tier-accent:#5f8cff;
+  --tier-numeral:#8e8f9d;
+  --tier-numeral-reached:#f4e0a8;
+  --tier-numeral-goal:#a59d89;
+  --tier-numeral-active:#fffaea;
+  --tier-numeral-glow:#f3b13fb3;
+  --weld-arc:#dce8ff;
+  --weld-glow:#3f74ff;
+  --weld-hot:#fffbec;
+  --weld-ember:#ffb43c;
+  --weld-crest:#f2f8ff;
+}
+.ZQOajW_point {
+  --track-label-size:calc(var(--track-node-size) * .5);
+}
+
+/* --------------------------------------------------------------------------
+   source chunk: 3ij80xvxm0krf.css  (1 token blocks)
+   -------------------------------------------------------------------------- */
+.tRRuzG_variable {
+  --font-ui:"Bricolage Grotesque", "Bricolage Grotesque Fallback";
+}
+
+/* --------------------------------------------------------------------------
+   source chunk: 3of7_4i02s81l.css  (8 token blocks)
+   -------------------------------------------------------------------------- */
+.F-0CCa_surface,.F-0CCa_transport {
+  --replay-scale:calc(var(--replay-bar-height,28) / 28);
+  --replay-transport:calc(var(--replay-bar-height,28) * 1px);
+}
+.F-0CCa_surface {
+  --replay-board-inset:var(--replay-transport);
+}
+.F-0CCa_timeline {
+  --timeline-fill:#769aa6;
+  --timeline-track:#394954;
+  --timeline-thumb:#96c7d4;
+  --timeline-thumb-scale:.5;
+  --timeline-thumb-glow:transparent;
+  --timeline-track-height:calc(3px * var(--replay-scale));
+}
+.F-0CCa_timeline:focus-within {
+  --timeline-fill:#96c7d4;
+  --timeline-track:#536570;
+  --timeline-thumb:#c3e7ef;
+  --timeline-thumb-scale:.75;
+  --timeline-thumb-glow:#96c7d424;
+}
+/* @media (hover:hover) and (pointer:fine) */
+.F-0CCa_timeline:hover {
+  --timeline-fill:#96c7d4;
+  --timeline-track:#536570;
+  --timeline-thumb:#c3e7ef;
+}
+/* @media (pointer:coarse),(max-width:768px) */
+.F-0CCa_surface,.F-0CCa_transport {
+  --replay-scale:1;
+  --replay-transport:calc(44px + env(safe-area-inset-bottom));
+}
+/* @media (pointer:coarse),(max-width:768px) */
+.F-0CCa_timeline {
+  --timeline-thumb-scale:.875;
+}
+/* @media (pointer:coarse),(max-width:768px) */
+.F-0CCa_timeline:hover,.F-0CCa_timeline:focus-within {
+  --timeline-thumb-scale:.875;
+}
+
+/* ==========================================================================
+   3. @font-face
+   No @font-face exists in the six playapp chunks except in:
+     - 0mq6k3dqx1du5.css (27 rules: Bricolage Grotesque / Cardo / Rajdhani / Cookie + fallbacks)
+     - 3ij80xvxm0krf.css (4 rules: Bricolage Grotesque + fallback — duplicates of 0mq6k3dqx1du5)
+   Site-wide CSS (.recon/site/dl/_next/static/immutable/chunks/3zwv5emfciwu9.css)
+   also carries 11 @font-face rules (listed after the playapp ones).
+   ========================================================================== */
+
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Bricolage Grotesque;
+  font-style:normal;
+  font-weight:200 800;
+  font-stretch:100%;
+  font-display:swap;
+  src:url(../media/033400d475fad6b1-s.11x_mcju407z-.woff2)format("woff2");
+  unicode-range:U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Bricolage Grotesque;
+  font-style:normal;
+  font-weight:200 800;
+  font-stretch:100%;
+  font-display:swap;
+  src:url(../media/26daee0352f50a5f-s.456c9vb2_utt8.woff2)format("woff2");
+  unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Bricolage Grotesque;
+  font-style:normal;
+  font-weight:200 800;
+  font-stretch:100%;
+  font-display:swap;
+  src:url(../media/017d9bea37084d9b-s.2fl0vhx7oyatw.woff2)format("woff2");
+  unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Bricolage Grotesque Fallback;
+  src:local(Arial);
+  ascent-override:88.21%;
+  descent-override:25.61%;
+  line-gap-override:0.0%;
+  size-adjust:105.43%
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url(../media/2398750189264eb0-s.1lmxljg8sa5j9.woff2)format("woff2");
+  unicode-range:U+304-305,U+308,U+331,U+10330-1034A
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url(../media/15b9ad075e32470e-s.3aai-os1ei0jz.woff2)format("woff2");
+  unicode-range:U+1F??
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url(../media/9d902f45f70721f6-s.04sqbdklrr445.woff2)format("woff2");
+  unicode-range:U+370-377,U+37A-37F,U+384-38A,U+38C,U+38E-3A1,U+3A3-3FF
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url(../media/71219f1ff7d7ea4c-s.1tr71bz91wwua.woff2)format("woff2");
+  unicode-range:U+307-308,U+590-5FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url(../media/e6fc7b4195d20e03-s.3hfy2ong6hq30.woff2)format("woff2");
+  unicode-range:U+10300-1032F
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url(../media/c7ddc3557fe34236-s.164ieg-3a1vz0.woff2)format("woff2");
+  unicode-range:U+16A0-16F8
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url(../media/4f2de60414593548-s.3d2ljqcslzjf-.woff2)format("woff2");
+  unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url(../media/3a17eb8ee29221c2-s.32hc92k1fam7t.woff2)format("woff2");
+  unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/1fc1eb2160bd58ee-s.06vn__yq43d93.woff2)format("woff2");
+  unicode-range:U+304-305,U+308,U+331,U+10330-1034A
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/02154e5125fbbe3a-s.00q-fu8z0a_0-.woff2)format("woff2");
+  unicode-range:U+1F??
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/b69c4e503ec3bbb9-s.1i-ylbi5goxhp.woff2)format("woff2");
+  unicode-range:U+370-377,U+37A-37F,U+384-38A,U+38C,U+38E-3A1,U+3A3-3FF
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/4fb235633583330a-s.0-xc3nt3riq1e.woff2)format("woff2");
+  unicode-range:U+307-308,U+590-5FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/17595fa729802087-s.30e6a54e2kj2g.woff2)format("woff2");
+  unicode-range:U+10300-1032F
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/4b2cca604f68c12b-s.2083tdnb10u00.woff2)format("woff2");
+  unicode-range:U+16A0-16F8
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/47b947a1671a2d81-s.2_uvhuw_da5_g.woff2)format("woff2");
+  unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/002ba41204ab122f-s.2ovhm67f8q4xf.woff2)format("woff2");
+  unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cardo Fallback;
+  src:local(Times New Roman);
+  ascent-override:94.16%;
+  descent-override:34.59%;
+  line-gap-override:0.0%;
+  size-adjust:105.17%
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Rajdhani;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/63e49db46351d020-s.3350r5fxyxk06.woff2)format("woff2");
+  unicode-range:U+900-97F,U+1CD0-1CF4,U+1CF7-1CF9,U+200C-200D,U+20A8,U+20B9,U+20F0,U+25CC,U+A830-A839,U+A8E0-A8FF,U+11B00-11B0A
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Rajdhani;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/35f9213b86bccda4-s.3ijeh6eokbi46.woff2)format("woff2");
+  unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Rajdhani;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/3206eb66b875a5b3-s.3gjg6tthudz5a.woff2)format("woff2");
+  unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Rajdhani Fallback;
+  src:local(Arial);
+  ascent-override:102.12%;
+  descent-override:37.99%;
+  line-gap-override:0.0%;
+  size-adjust:91.07%
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cookie;
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url(../media/9961582d6c850e2c-s.2b0muupxyo0_x.woff2)format("woff2");
+  unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
+}
+/* from 0mq6k3dqx1du5.css */
+@font-face{
+  font-family:Cookie Fallback;
+  src:local(Arial);
+  ascent-override:118.83%;
+  descent-override:48.19%;
+  line-gap-override:0.0%;
+  size-adjust:66.4%
+}
+/* ---- site-wide chunk: .recon/site/dl/_next/static/immutable/chunks/3zwv5emfciwu9.css ---- */
+@font-face{
+  font-family:GeistMono;
+  src:url(../media/GeistMono_Variable.p.2u63thiw2vdry.woff2)format("woff2");
+  font-display:swap;
+  font-weight:100 900
+}
+@font-face{
+  font-family:GeistSans;
+  src:url(../media/Geist_Variable-s.p.3ycegl481jp62.woff2)format("woff2");
+  font-display:swap;
+  font-weight:100 900
+}
+@font-face{
+  font-family:GeistSans Fallback;
+  src:local(Arial);
+  ascent-override:94.56%;
+  descent-override:27.76%;
+  line-gap-override:0.0%;
+  size-adjust:106.28%
+}
+@font-face{
+  font-family:Bricolage Grotesque;
+  font-style:normal;
+  font-weight:200 800;
+  font-stretch:100%;
+  font-display:swap;
+  src:url(../media/033400d475fad6b1-s.11x_mcju407z-.woff2)format("woff2");
+  unicode-range:U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB
+}
+@font-face{
+  font-family:Bricolage Grotesque;
+  font-style:normal;
+  font-weight:200 800;
+  font-stretch:100%;
+  font-display:swap;
+  src:url(../media/26daee0352f50a5f-s.456c9vb2_utt8.woff2)format("woff2");
+  unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF
+}
+@font-face{
+  font-family:Bricolage Grotesque;
+  font-style:normal;
+  font-weight:200 800;
+  font-stretch:100%;
+  font-display:swap;
+  src:url(../media/017d9bea37084d9b-s.2fl0vhx7oyatw.woff2)format("woff2");
+  unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
+}
+@font-face{
+  font-family:Bricolage Grotesque Fallback;
+  src:local(Arial);
+  ascent-override:88.21%;
+  descent-override:25.61%;
+  line-gap-override:0.0%;
+  size-adjust:105.43%
+}
+@font-face{
+  font-family:Rajdhani;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/63e49db46351d020-s.3350r5fxyxk06.woff2)format("woff2");
+  unicode-range:U+900-97F,U+1CD0-1CF4,U+1CF7-1CF9,U+200C-200D,U+20A8,U+20B9,U+20F0,U+25CC,U+A830-A839,U+A8E0-A8FF,U+11B00-11B0A
+}
+@font-face{
+  font-family:Rajdhani;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/35f9213b86bccda4-s.3ijeh6eokbi46.woff2)format("woff2");
+  unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF
+}
+@font-face{
+  font-family:Rajdhani;
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(../media/3206eb66b875a5b3-s.p.3gjg6tthudz5a.woff2)format("woff2");
+  unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
+}
+@font-face{
+  font-family:Rajdhani Fallback;
+  src:local(Arial);
+  ascent-override:102.12%;
+  descent-override:37.99%;
+  line-gap-override:0.0%;
+  size-adjust:91.07%
+}
+
+/* ==========================================================================
+   4. @keyframes (verbatim, complete)
+   ========================================================================== */
+
+/* from 1sj2l8ggay34g.css */
+@keyframes simulator-entry-recovery-reveal{
+  0%{
+    opacity:0;
+    visibility:hidden
+  }
+  to{
+    opacity:1;
+    pointer-events:auto;
+    visibility:visible
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes simulator-entry-loading-hold{
+  0%,to{
+    visibility:visible
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes gb-playmat-fissure-fill{
+  0%{
+    opacity:.7;
+    transform:translateY(-150px)
+  }
+  to{
+    opacity:.7;
+    transform:translateY(134px)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes cardMaterialize{
+  0%{
+    opacity:.45
+  }
+  to{
+    opacity:1
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes showdownPanelFadeIn{
+  0%{
+    opacity:0;
+    filter:saturate(.92)brightness(.95)
+  }
+  to{
+    opacity:1;
+    filter:none
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes showdownActionPulse{
+  0%,to{
+    filter:saturate()brightness()
+  }
+  50%{
+    filter:saturate(1.08)brightness(1.08)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes expectedActionButtonPulse{
+  0%,to{
+    opacity:.3;
+    transform:scale(.997)
+  }
+  50%{
+    opacity:.78;
+    transform:scale(1.008)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes expectedActionButtonSplitPulse{
+  0%,to{
+    opacity:.34
+  }
+  50%{
+    opacity:.78
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes showdownBattlefieldPulse{
+  0%,to{
+    box-shadow:0 0 0 1px #94ceff14,0 0 #78ddb700
+  }
+  50%{
+    box-shadow:0 0 0 1px #a4e0ff2e,0 0 20px 2px #78ddb72e
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes showdownBattlefieldAura{
+  0%,to{
+    opacity:.22
+  }
+  50%{
+    opacity:.56
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes gbPingFlash{
+  0%{
+    opacity:var(--gb-ping-opacity-0,0);
+    transform:scale(var(--gb-ping-scale-0,1))
+  }
+  28%{
+    opacity:var(--gb-ping-opacity-1,1);
+    transform:scale(var(--gb-ping-scale-1,1))
+  }
+  62%{
+    opacity:var(--gb-ping-opacity-2,.4);
+    transform:scale(var(--gb-ping-scale-2,1))
+  }
+  to{
+    opacity:var(--gb-ping-opacity-3,0);
+    transform:scale(var(--gb-ping-scale-3,1))
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes gbPingPulse{
+  0%{
+    opacity:var(--gb-ping-opacity-0,0);
+    transform:scale(var(--gb-ping-scale-0,1))
+  }
+  14%{
+    opacity:var(--gb-ping-opacity-1,1);
+    transform:scale(var(--gb-ping-scale-1,1))
+  }
+  52%{
+    opacity:var(--gb-ping-opacity-2,.4);
+    transform:scale(var(--gb-ping-scale-2,1))
+  }
+  to{
+    opacity:var(--gb-ping-opacity-3,0);
+    transform:scale(var(--gb-ping-scale-3,1))
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes gbPingInnerPulse{
+  0%{
+    opacity:var(--gb-ping-opacity-0,0);
+    transform:scale(var(--gb-ping-scale-0,1))
+  }
+  18%{
+    opacity:var(--gb-ping-opacity-1,1);
+    transform:scale(var(--gb-ping-scale-1,1))
+  }
+  56%{
+    opacity:var(--gb-ping-opacity-2,.4);
+    transform:scale(var(--gb-ping-scale-2,1))
+  }
+  to{
+    opacity:var(--gb-ping-opacity-3,0);
+    transform:scale(var(--gb-ping-scale-3,1))
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes gbPingCornerPulse{
+  0%{
+    opacity:var(--gb-ping-opacity-0,0);
+    transform:scale(var(--gb-ping-scale-0,1))
+  }
+  14%{
+    opacity:var(--gb-ping-opacity-1,1);
+    transform:scale(var(--gb-ping-scale-1,1))
+  }
+  54%{
+    opacity:var(--gb-ping-opacity-2,.4);
+    transform:scale(var(--gb-ping-scale-2,1))
+  }
+  to{
+    opacity:var(--gb-ping-opacity-3,0);
+    transform:scale(var(--gb-ping-scale-3,1))
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes scoreTrackConnectorSurge{
+  0%{
+    opacity:0;
+    stroke-dashoffset:1.04px
+  }
+  12%{
+    opacity:.72
+  }
+  72%{
+    opacity:1
+  }
+  to{
+    opacity:0;
+    stroke-dashoffset:-.22px
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes scoreTrackNodeLand{
+  0%{
+    filter:brightness(.72)saturate(.86);
+    transform:scale(.82)
+  }
+  32%{
+    filter:brightness(1.64)saturate(1.18);
+    transform:scale(1.22)
+  }
+  54%{
+    filter:brightness(1.04)saturate(1.04);
+    transform:scale(.93)
+  }
+  74%{
+    filter:brightness(1.2)saturate(1.08);
+    transform:scale(1.09)
+  }
+  to{
+    filter:brightness();
+    transform:scale(1)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes scoreTrackNodePulse{
+  0%{
+    opacity:0;
+    transform:scale(.32)
+  }
+  30%{
+    opacity:.84;
+    transform:scale(.76)
+  }
+  64%{
+    opacity:.28;
+    transform:scale(1)
+  }
+  to{
+    opacity:0;
+    transform:scale(1.16)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes scoreTrackNodeChargeArrival{
+  0%{
+    opacity:0;
+    transform:scale(.56)
+  }
+  30%{
+    opacity:.76;
+    transform:scale(.82)
+  }
+  50%{
+    opacity:1;
+    transform:scale(1.14)
+  }
+  70%{
+    opacity:.72;
+    transform:scale(.95)
+  }
+  to{
+    opacity:0;
+    transform:scale(1)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes scoreTrackNodeLabelArrival{
+  0%{
+    opacity:.25;
+    transform:scale(.58)
+  }
+  34%{
+    opacity:1;
+    transform:scale(1.42)
+  }
+  56%{
+    transform:scale(.88)
+  }
+  76%{
+    transform:scale(1.12)
+  }
+  to{
+    opacity:1;
+    transform:scale(1)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes initiative-decision-reveal{
+  0%{
+    opacity:0;
+    margin-top:6px
+  }
+  to{
+    opacity:1;
+    margin-top:0
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes banished-pop-card{
+  0%{
+    opacity:0;
+    scale:.25
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes banished-pop-action{
+  0%{
+    opacity:0;
+    translate:-.6rem
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes banished-pop-action-left{
+  0%{
+    opacity:0;
+    translate:.6rem
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes touch-counter-unfold{
+  0%{
+    opacity:0;
+    transform:translate(var(--counter-from-x), var(--counter-from-y)) scale(.62)
+  }
+  70%{
+    opacity:var(--counter-control-opacity,1);
+    transform:translate(calc(var(--counter-from-x) * -.02), calc(var(--counter-from-y) * -.02)) scale(1.035)
+  }
+  to{
+    opacity:var(--counter-control-opacity,1);
+    transform:none
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes touch-counter-tick{
+  0%{
+    opacity:.6;
+    transform:translateY(3px)scale(.92)
+  }
+  65%{
+    opacity:1;
+    transform:translateY(-1px)scale(1.05)
+  }
+  to{
+    opacity:1;
+    transform:none
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes time-warp-sweep{
+  0%,45%{
+    opacity:0;
+    transform:translate(-160%)skew(-18deg)
+  }
+  60%{
+    opacity:.4
+  }
+  80%,to{
+    opacity:0;
+    transform:translate(360%)skew(-18deg)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes touch-hold-option{
+  0%{
+    opacity:0;
+    transform:translateY(28px)scale(.6)
+  }
+  55%{
+    opacity:1;
+    transform:translateY(-4px)scale(1.04)
+  }
+  78%{
+    transform:translateY(1px)scale(.985)
+  }
+  to{
+    opacity:1;
+    transform:translateY(0)scale(1)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes touch-hold-preview{
+  0%{
+    opacity:0;
+    transform:translateY(22px)rotate(-3deg)scale(.78)
+  }
+  60%{
+    opacity:1;
+    transform:translateY(-3px)rotate(.5deg)scale(1.02)
+  }
+  to{
+    opacity:1;
+    transform:translateY(0)rotate(0)scale(1)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes touch-hold-fade{
+  0%{
+    opacity:0
+  }
+  to{
+    opacity:1
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes banish-links-lift{
+  0%{
+    translate:0 calc(6px - 100%)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes banish-links-step-back{
+  0%{
+    translate:0 -6px
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes banish-link-leave{
+  to{
+    opacity:0;
+    margin-right:calc(var(--banish-link-size) * -.62);
+    scale:.4
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes spin{
+  to{
+    transform:rotate(360deg)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes ping{
+  75%,to{
+    opacity:0;
+    transform:scale(2)
+  }
+}
+
+/* from 1sj2l8ggay34g.css */
+@keyframes pulse{
+  50%{
+    opacity:.5
+  }
+}
+
+/* from 0mq6k3dqx1du5.css */
+@keyframes riftatlas-mark-star-turn{
+  0%{
+    transform:rotate(0)scale(1)
+  }
+  32%{
+    transform:rotate(42deg)scale(1.16)
+  }
+  to{
+    transform:rotate(90deg)scale(1)
+  }
+}
+
+/* from 0mq6k3dqx1du5.css */
+@keyframes riftatlas-mark-star-glow{
+  0%{
+    opacity:0;
+    transform:scale(.45)
+  }
+  30%{
+    opacity:1;
+    transform:scale(1)
+  }
+  to{
+    opacity:0;
+    transform:scale(1.3)
+  }
+}
+
+/* from 0mq6k3dqx1du5.css */
+@keyframes riftatlas-tier-mark-out{
+  0%{
+    opacity:1;
+    transform:scale(1)
+  }
+  to{
+    opacity:0;
+    transform:scale(.88)
+  }
+}
+
+/* from 0mq6k3dqx1du5.css */
+@keyframes riftatlas-tier-mark-in{
+  0%{
+    opacity:0;
+    transform:scale(.8)
+  }
+  55%{
+    opacity:1
+  }
+  to{
+    opacity:1;
+    transform:scale(1)
+  }
+}
+
+/* from 0mq6k3dqx1du5.css */
+@keyframes riftatlas-tier-mark-halo{
+  0%{
+    opacity:0;
+    transform:scale(.6)
+  }
+  35%{
+    opacity:1
+  }
+  to{
+    opacity:0;
+    transform:scale(1.25)
+  }
+}
+
+/* from 0mq6k3dqx1du5.css */
+@keyframes riftatlas-tier-mark-sheen{
+  0%{
+    transform:translate(-130%)skew(-16deg)
+  }
+  to{
+    transform:translate(240%)skew(-16deg)
+  }
+}
+
+/* from 3of7_4i02s81l.css */
+@keyframes Q62dXa_lobby-exit{
+  0%,52%{
+    opacity:1
+  }
+  90%,to{
+    opacity:0
+  }
+}
+
+/* from 3of7_4i02s81l.css */
+@keyframes Q62dXa_artwork{
+  0%,76%{
+    opacity:1
+  }
+  to{
+    opacity:0
+  }
+}
+
+/* from 3of7_4i02s81l.css */
+@keyframes F-0CCa_inspectionNoticeShake{
+  0%,to{
+    transform:translate(0)
+  }
+  20%,60%{
+    transform:translate(-3px)
+  }
+  40%,80%{
+    transform:translate(3px)
+  }
+}
+
+/* from 3of7_4i02s81l.css */
+@keyframes zZWz6q_tag-swing{
+  0%{
+    transform:perspective(160px)rotate(0)rotateY(0)
+  }
+  18%{
+    transform:perspective(160px)rotate(18deg)rotateY(38deg)
+  }
+  38%{
+    transform:perspective(160px)rotate(-13deg)rotateY(-24deg)
+  }
+  58%{
+    transform:perspective(160px)rotate(7deg)rotateY(12deg)
+  }
+  78%{
+    transform:perspective(160px)rotate(-3deg)rotateY(-4deg)
+  }
+  to{
+    transform:perspective(160px)rotate(0)rotateY(0)
+  }
+}
+
+/* from 3of7_4i02s81l.css */
+@keyframes zZWz6q_tag-glint{
+  0%{
+    opacity:0;
+    transform:translate(-130%)skew(-14deg)
+  }
+  25%{
+    opacity:1
+  }
+  to{
+    opacity:0;
+    transform:translate(300%)skew(-14deg)
+  }
+}
+
+/* ==========================================================================
+   5. @property registrations (1sj2l8ggay34g.css)
+   ~70 Tailwind --tw-* registrations (syntax:"*";inherits:false) exist; only the
+   app-specific one is reproduced in full:
+   ========================================================================== */
+@property --card-pose-rotation{
+  syntax:"<number>";
+  inherits:true;
+  initial-value:0
+}

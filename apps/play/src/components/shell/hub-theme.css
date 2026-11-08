@@ -1,0 +1,158 @@
+/*
+ * Lobby-specific gaps not covered by the shared simulator stylesheet
+ * (`src/styles/riftbound-app.css`): the membership crest mark, the Radiance
+ * "NEW" hanger, the quiet utility button, and the account-dialog tokens.
+ *
+ * The original `.hub-theme`, `.lobby-*`, `.input-field` and phone-header rules are
+ * already part of the shared stylesheet; keeping only the gaps here avoids
+ * duplicating (and diverging from) that source of truth.
+ */
+
+:root {
+  --account-surface: #0f172a;
+  --account-surface-muted: #0b1222;
+  --account-surface-raised: #1e293b;
+  --account-input: #020617;
+  --account-border: #334155;
+  --account-text: #f1f5f9;
+  --account-text-muted: #94a3b8;
+  --account-accent: #67e8f9;
+  --account-focus: #67e8f9;
+  --account-primary: #67e8f9;
+  --account-primary-text: #020617;
+  --account-danger: #fca5a5;
+  --account-success: #6ee7b7;
+}
+
+/* Quiet utility buttons ("Game history", "Customize"). */
+.hub-theme .btn-standard {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text-soft);
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+.hub-theme .btn-standard:hover:not(:disabled) {
+  border-color: rgba(182, 229, 255, 0.34);
+  background: rgba(18, 28, 44, 0.82);
+  color: var(--color-text-main);
+}
+
+/* Membership crest mark (header, builder bar and promo card). */
+.riftatlas-mark {
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  display: inline-block;
+  position: relative;
+}
+.riftatlas-mark > span {
+  position: absolute;
+  inset: 0;
+}
+.riftatlas-mark-crest,
+.riftatlas-mark-star {
+  background: var(--riftatlas-mark-light) 0 0 / 200% 100% no-repeat;
+}
+:is(.dark, .hub-theme) .riftatlas-mark :is(.riftatlas-mark-crest, .riftatlas-mark-star) {
+  background-image: var(--riftatlas-mark-dark);
+}
+.riftatlas-mark-star {
+  transform-origin: 75.94% 21.37%;
+  background-position: 100% 0;
+}
+.riftatlas-mark > .riftatlas-mark-glow {
+  opacity: 0;
+  background: radial-gradient(closest-side, #ffc4288c, #ffc4282e 55%, #0000);
+  border-radius: 9999px;
+  width: 70%;
+  height: 70%;
+  inset: 21.37% auto auto 75.94%;
+  translate: -50% -50%;
+}
+
+/* "NEW" hanging tag on the Radiance play-mode button. */
+.zZWz6q_hanger {
+  z-index: 2;
+  pointer-events: none;
+  justify-items: center;
+  display: grid;
+  position: absolute;
+  top: -0.22rem;
+  right: 0.2rem;
+}
+.zZWz6q_pin {
+  background: radial-gradient(circle at 35% 35%, #fff3cf, #c99a3d 70%);
+  border-radius: 999px;
+  width: 0.3rem;
+  height: 0.3rem;
+  box-shadow: 0 1px 2px #0000008c;
+}
+.zZWz6q_swing {
+  filter: drop-shadow(0 3px 3px #00000073);
+  transform-origin: 50% 0;
+  justify-items: center;
+  margin-top: -0.15rem;
+  display: grid;
+}
+.zZWz6q_string {
+  background: linear-gradient(#e9d39a, #e9d39aa6);
+  width: 1px;
+  height: 0.6rem;
+}
+.zZWz6q_tag {
+  color: #1b1631;
+  clip-path: polygon(25% 0, 75% 0, 100% 30%, 100% 100%, 0 100%, 0 30%);
+  letter-spacing: 0.1em;
+  background: linear-gradient(160deg, #fbe7ad 0%, #ecc768 52%, #b7a2ff 100%);
+  place-items: center;
+  padding: 0.46rem 0.34rem 0.26rem;
+  font-size: 0.48rem;
+  font-weight: 800;
+  line-height: 1;
+  display: grid;
+  position: relative;
+  overflow: hidden;
+}
+.zZWz6q_tag::before {
+  content: "";
+  background: #3a2f55;
+  border-radius: 999px;
+  width: 0.18rem;
+  height: 0.18rem;
+  position: absolute;
+  top: 0.12rem;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+/* The shared stylesheet emits base utilities after responsive variants, so the
+ * account sheet needs explicit desktop dimensions to match the original. */
+@media (min-width: 40rem) {
+  dialog[data-account-dialog] {
+    width: min(27rem, calc(100vw - 2rem)) !important;
+    height: fit-content !important;
+    max-height: calc(100dvh - 2rem) !important;
+    top: clamp(1rem, calc(50dvh - 21rem), 10dvh) !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    border: 1px solid var(--account-border);
+    border-radius: 0.75rem;
+    box-shadow: 0 24px 60px -28px rgb(0 0 0 / 0.6);
+  }
+  dialog[data-account-dialog] > div {
+    height: auto !important;
+    max-height: calc(100dvh - 2rem) !important;
+  }
+  dialog[data-account-dialog] > div > div {
+    min-height: 0;
+  }
+}
+@media (max-width: 40rem) {
+  dialog[data-account-dialog] > div {
+    height: 100% !important;
+  }
+}

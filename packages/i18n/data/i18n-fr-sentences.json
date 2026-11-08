@@ -1,0 +1,1843 @@
+{
+ "locale": "fr",
+ "source": "0r12sly2zwo8g.js",
+ "sentences": {
+  "sentence": {
+   "closedDeckPeek": "A fermé l’aperçu du deck.",
+   "shuffledDeck": "A mélangé son deck.",
+   "revealedHand": "A révélé sa main.",
+   "hidHand": "A caché sa main.",
+   "revealedHiddenBoardCard": "A révélé une carte cachée sur le plateau.",
+   "hidHiddenBoardCard": "A de nouveau caché une carte cachée sur le plateau.",
+   "revealedHandCard": "A révélé une carte de sa main.",
+   "hidHandCard": "A caché une carte de sa main.",
+   "endedTurn": "A terminé son tour.",
+   "queuedTimeWarpTurn": "A programmé un tour supplémentaire avec Distorsion temporelle.",
+   "canceledTimeWarpTurn": "A annulé un tour supplémentaire de Distorsion temporelle.",
+   "channeledRune": "A canalisé une rune.",
+   "readiedAllRunes": "A préparé toutes ses runes.",
+   "autoPaidCardCosts": "A payé automatiquement les coûts des cartes.",
+   "autoPaid": "A payé automatiquement.",
+   "madePayment": "A effectué un paiement.",
+   "endedBeginningPhase": "A terminé la phase de départ.",
+   "clearedFloatingResources": "A vidé ses ressources flottantes.",
+   "passedFocus": "A passé la focalisation.",
+   "autoSelectedLastBattlefield": "A sélectionné automatiquement le dernier champ de bataille restant.",
+   "chooseTurnOrderThenMulligan": "Choisissez de jouer en premier ou en second, puis faites un mulligan de 2 cartes au maximum.",
+   "chooseTurnOrderThenSideboard": "Choisissez de jouer en premier ou en second, puis ajustez votre deck avec la réserve.",
+   "chooseSoloFirstSeat": "Choisissez quelle place joue le premier tour en jeu solo.",
+   "chooseSoloFirstSeatThenSideboard": "Choisissez quelle place joue le premier tour en jeu solo, puis ajustez votre deck avec la réserve.",
+   "battlefieldsLockedRollD20": "Les deux champs de bataille sont verrouillés. Lancez un d20 pour déterminer le premier joueur.",
+   "choosesStarter": "Choisit qui commence cette partie.",
+   "lockedRandomBattlefield": "A verrouillé un champ de bataille aléatoire.",
+   "lockedBattlefield": "A verrouillé un champ de bataille.",
+   "rolledD20": "A lancé un d20.",
+   "rolledDie": [
+    "A lancé un d",
+    [
+     "sides"
+    ],
+    " : ",
+    [
+     "result"
+    ],
+    "."
+   ],
+   "goldfishSecondMulligan": "A choisi de s’entraîner en jouant en second. Mulligan de 2 cartes au maximum.",
+   "goldfishFirstMulligan": "A choisi de s’entraîner en jouant en premier. Mulligan de 2 cartes au maximum.",
+   "goldfishSecondSideboard": "A choisi de s’entraîner en jouant en second. Ajustement avec la réserve avant le mulligan.",
+   "goldfishFirstSideboard": "A choisi de s’entraîner en jouant en premier. Ajustement avec la réserve avant le mulligan.",
+   "autoStartedTestSetup": "A lancé automatiquement la mise en place de test.",
+   "updatedSideboarding": "A mis à jour l’ajustement de réserve.",
+   "lockedSideboarding": "A verrouillé l’ajustement de réserve.",
+   "confirmedChampion": "A confirmé son champion élu.",
+   "skippedCardSwapsConfirmChampions": "Tous les joueurs ont accepté de passer les échanges de cartes. Les decks soumis ont été restaurés. Confirmez les champions élus avant de piocher les mains de départ.",
+   "bothChampionsLockedMulligan": "Les deux champions sont verrouillés. Mulligan de 2 cartes au maximum.",
+   "allChampionsLockedMulligan": "Tous les champions sont verrouillés. Chaque joueur peut faire un mulligan de 2 cartes au maximum.",
+   "skippedSideboarding": "A passé l’ajustement de réserve.",
+   "requestedSkipSideboarding": "A demandé que tous les joueurs passent l’ajustement de réserve.",
+   "acceptedSkipSideboarding": "A accepté la demande de passer l’ajustement de réserve.",
+   "declinedSkipSideboarding": "A refusé la demande de passer l’ajustement de réserve.",
+   "canceledSkipSideboarding": "A annulé la demande de passer l’ajustement de réserve.",
+   "bothSkippedSideboardingMulligan": "Les deux joueurs ont accepté de passer l’ajustement de réserve. Leurs decks soumis ont été restaurés. Mulligan de 2 cartes au maximum.",
+   "allSkippedSideboardingMulligan": "Tous les joueurs ont accepté de passer l’ajustement de réserve. Leurs decks soumis ont été restaurés. Chaque joueur peut faire un mulligan de 2 cartes au maximum.",
+   "allSkippedSideboardingChooseBattlefields": "Tous les joueurs ont accepté de passer l’ajustement de réserve. Leurs decks soumis ont été restaurés. Choisissez les champs de bataille.",
+   "bothSideboardsAutoLockedMulligan": "Les deux réserves ont été verrouillées automatiquement. Mulligan de 2 cartes au maximum.",
+   "bothSideboardsAutoLockedChooseBattlefields": "Les deux réserves ont été verrouillées automatiquement. Choisissez les champs de bataille.",
+   "allSideboardsAutoLockedMulligan": "Toutes les réserves ont été verrouillées automatiquement. Chaque joueur peut faire un mulligan de 2 cartes au maximum.",
+   "allSideboardsAutoLockedChooseBattlefields": "Toutes les réserves ont été verrouillées automatiquement. Choisissez les champs de bataille.",
+   "bothSideboardsLockedMulligan": "Les deux réserves sont verrouillées. Mulligan de 2 cartes au maximum.",
+   "allSideboardsLockedMulligan": "Toutes les réserves sont verrouillées. Chaque joueur peut faire un mulligan de 2 cartes au maximum.",
+   "bothSideboardsLockedChooseUnusedBattlefield": "Les deux réserves sont verrouillées. Chaque joueur doit maintenant choisir un champ de bataille inutilisé.",
+   "bothSideboardsLockedChooseBattlefield": "Les deux réserves sont verrouillées. Chaque joueur doit maintenant choisir un champ de bataille.",
+   "continuedWithoutOpponent": "A continué sans adversaire.",
+   "bothMulligansComplete": "Les deux mulligans sont terminés. La partie commence.",
+   "allMulligansComplete": "Tous les mulligans sont terminés. La partie commence.",
+   "isReady": "Est prêt.",
+   "isNoLongerReady": "N’est plus prêt.",
+   "startedSinglePlayer": "A lancé le mode solo.",
+   "startedMatch": "A lancé le match.",
+   "filledOpponentSeat": "A rempli la place adverse.",
+   "randomizedTeams": "A réparti les équipes aléatoirement.",
+   "rewound": "A rembobiné jusqu’avant sa dernière action.",
+   "restoredTimeline": "A utilisé Avancer pour restaurer la chronologie précédente.",
+   "runeBatch": [
+    "A ",
+    [
+     "clauses"
+    ],
+    "."
+   ],
+   "payment": [
+    [
+     "auto",
+     1,
+     {
+      "yes": "A payé automatiquement",
+      "other": "A payé"
+     }
+    ],
+    " ",
+    [
+     "resources"
+    ],
+    [
+     "details"
+    ],
+    "."
+   ],
+   "forfeitedMatch": [
+    [
+     "actor",
+     1,
+     {
+      "anonymous": "Un joueur a déclaré forfait après une déconnexion.",
+      "other": "A déclaré forfait après une déconnexion."
+     }
+    ],
+    " ",
+    [
+     "winnerKind",
+     1,
+     {
+      "opposition": "Le camp adverse",
+      "other": [
+       [
+        "winner"
+       ]
+      ]
+     }
+    ],
+    " remporte le match."
+   ],
+   "departedMatchWinner": [
+    [
+     "actor",
+     1,
+     {
+      "anonymous": [
+       "Un joueur ",
+       [
+        "departure",
+        1,
+        {
+         "conceded": "a abandonné.",
+         "concededMatch": "a abandonné le match.",
+         "lobby": "a regagné le salon.",
+         "left": "a quitté la partie.",
+         "other": "a déclaré forfait après une déconnexion."
+        }
+       ]
+      ],
+      "other": [
+       [
+        "departure",
+        1,
+        {
+         "conceded": "A abandonné.",
+         "concededMatch": "A abandonné le match.",
+         "lobby": "A regagné le salon.",
+         "left": "A quitté la partie.",
+         "other": "A déclaré forfait après une déconnexion."
+        }
+       ]
+      ]
+     }
+    ],
+    " ",
+    [
+     "winnerKind",
+     1,
+     {
+      "opposition": "Le camp adverse",
+      "other": [
+       [
+        "winner"
+       ]
+      ]
+     }
+    ],
+    " remporte le match."
+   ],
+   "departedEliminated": [
+    [
+     "actor",
+     1,
+     {
+      "anonymous": [
+       "Un joueur ",
+       [
+        "departure",
+        1,
+        {
+         "conceded": "a abandonné et a été éliminé.",
+         "concededMatch": "a abandonné le match et a été éliminé.",
+         "lobby": "a regagné le salon et a été éliminé.",
+         "left": "a quitté la partie et a été éliminé.",
+         "other": "a déclaré forfait après une déconnexion et a été éliminé."
+        }
+       ]
+      ],
+      "other": [
+       [
+        "departure",
+        1,
+        {
+         "conceded": "A abandonné et a été éliminé.",
+         "concededMatch": "A abandonné le match et a été éliminé.",
+         "lobby": "A regagné le salon et a été éliminé.",
+         "left": "A quitté la partie et a été éliminé.",
+         "other": "A déclaré forfait après une déconnexion et a été éliminé."
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "departedWinner": [
+    [
+     "actor",
+     1,
+     {
+      "anonymous": [
+       "Un joueur ",
+       [
+        "departure",
+        1,
+        {
+         "conceded": "a abandonné.",
+         "concededMatch": "a abandonné le match.",
+         "lobby": "a regagné le salon.",
+         "left": "a quitté la partie.",
+         "other": "a déclaré forfait après une déconnexion."
+        }
+       ]
+      ],
+      "other": [
+       [
+        "departure",
+        1,
+        {
+         "conceded": "A abandonné.",
+         "concededMatch": "A abandonné le match.",
+         "lobby": "A regagné le salon.",
+         "left": "A quitté la partie.",
+         "other": "A déclaré forfait après une déconnexion."
+        }
+       ]
+      ]
+     }
+    ],
+    " Victoire : ",
+    [
+     "winnerKind",
+     1,
+     {
+      "opposition": "le camp adverse",
+      "other": [
+       [
+        "winner"
+       ]
+      ]
+     }
+    ],
+    "."
+   ],
+   "lookedAtTopCards": [
+    [
+     "count",
+     2,
+     {
+      "one": "A regardé la carte du dessus de son deck.",
+      "other": [
+       "A regardé les ",
+       [
+        "count"
+       ],
+       " cartes du dessus de son deck."
+      ]
+     }
+    ]
+   ],
+   "lookedAtTopRune": "A regardé la rune du dessus de son deck de runes.",
+   "lookedAtTopRunes": [
+    "A regardé les ",
+    [
+     "count"
+    ],
+    " runes du dessus de son deck de runes."
+   ],
+   "lookedAtBottomCard": "A regardé une carte du dessous de son deck.",
+   "recycledLookedAtCards": [
+    "A recyclé ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "carte regardée",
+      "other": "cartes regardées"
+     }
+    ],
+    " sous son deck, dans un ordre aléatoire."
+   ],
+   "recycledAllLookedAtCards": "A recyclé les cartes regardées sous son deck.",
+   "recycledLookedAtCard": "A recyclé une carte regardée sous son deck.",
+   "recycledLookedAtRunes": [
+    "A recyclé ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "rune regardée",
+      "other": "runes regardées"
+     }
+    ],
+    " sous son deck de runes."
+   ],
+   "recycledAllLookedAtRunes": "A recyclé les runes regardées sous son deck de runes.",
+   "recycledLookedAtRune": "A recyclé une rune regardée sous son deck de runes.",
+   "putLookedAtCardOnTop": "A remis une carte regardée sur le dessus de son deck.",
+   "changedLookedAtCardVisibility": [
+    "A ",
+    [
+     "visibility",
+     1,
+     {
+      "revealed": "révélé",
+      "other": "caché"
+     }
+    ],
+    " une carte regardée."
+   ],
+   "changedLookedAtCardsVisibility": [
+    "A ",
+    [
+     "visibility",
+     1,
+     {
+      "revealed": "révélé",
+      "other": "caché"
+     }
+    ],
+    " les cartes regardées."
+   ],
+   "changedLookedAtRuneVisibility": [
+    "A ",
+    [
+     "visibility",
+     1,
+     {
+      "revealed": "révélé",
+      "other": "caché"
+     }
+    ],
+    " une rune regardée."
+   ],
+   "changedLookedAtRunesVisibility": [
+    "A ",
+    [
+     "visibility",
+     1,
+     {
+      "revealed": "révélé",
+      "other": "caché"
+     }
+    ],
+    " les runes regardées."
+   ],
+   "closedRuneDeckPeek": "A fermé l’aperçu du deck de runes.",
+   "shuffledKeepingRecycled": [
+    "A mélangé les cartes non recyclées de son deck, en gardant ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "carte recyclée",
+      "other": "cartes recyclées"
+     }
+    ],
+    " en dessous."
+   ],
+   "drewCards": [
+    "A pioché ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    "."
+   ],
+   "burnedCards": [
+    "A mis ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    " du dessus de son deck dans la défausse."
+   ],
+   "movedCardsFromDeck": [
+    "A déplacé ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    " du deck vers ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "unlinkedFrom": [
+    "A dissocié ",
+    [
+     "card"
+    ],
+    " ",
+    [
+     "sourceDe"
+    ],
+    "."
+   ],
+   "unlinked": [
+    "A dissocié ",
+    [
+     "card"
+    ],
+    "."
+   ],
+   "banishedTopCardWith": [
+    "A banni ",
+    [
+     "card"
+    ],
+    " du dessus de son deck avec ",
+    [
+     "source"
+    ],
+    "."
+   ],
+   "banishedTopCard": [
+    "A banni ",
+    [
+     "card"
+    ],
+    " du dessus de son deck."
+   ],
+   "banishedWithSource": [
+    "A banni ",
+    [
+     "card"
+    ],
+    " avec ",
+    [
+     "source"
+    ],
+    "."
+   ],
+   "killedToPlayFromBanished": [
+    "A éliminé ",
+    [
+     "source"
+    ],
+    " pour jouer ",
+    [
+     "card"
+    ],
+    " depuis la zone de bannissement sur ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "playedFromOpponentTrashWith": [
+    "A joué ",
+    [
+     "card"
+    ],
+    " depuis la défausse d’un adversaire sur ",
+    [
+     "zone"
+    ],
+    " avec ",
+    [
+     "source"
+    ],
+    "."
+   ],
+   "movedTopCard": [
+    "A déplacé la carte du dessus de son deck vers ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "movedACardFromDeck": [
+    "A déplacé une carte du deck vers ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "playedFromTopOfDeck": [
+    "A joué ",
+    [
+     "card"
+    ],
+    " du dessus de son deck sur ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "movedCardFromDeck": [
+    "A déplacé ",
+    [
+     "card"
+    ],
+    " du deck vers ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "playedTokens": [
+    "A joué ",
+    [
+     "count",
+     2,
+     {
+      "=1": "une",
+      "other": [
+       [
+        "count"
+       ]
+      ]
+     }
+    ],
+    " ",
+    [
+     "token"
+    ],
+    " sur ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "movedToRuneDeck": [
+    "A placé ",
+    [
+     "card"
+    ],
+    " ",
+    [
+     "position",
+     1,
+     {
+      "top": "sur le dessus de",
+      "other": "sous"
+     }
+    ],
+    " son deck de runes."
+   ],
+   "putHiddenCard": [
+    "A posé une carte cachée sur ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "movedHiddenCard": [
+    "A déplacé une carte cachée vers ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "playedFromZoneTo": [
+    "A joué ",
+    [
+     "card"
+    ],
+    " depuis ",
+    [
+     "source"
+    ],
+    " sur ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "removedToken": [
+    "A retiré une ",
+    [
+     "token"
+    ],
+    " du jeu."
+   ],
+   "movedCardsToTrash": [
+    "A déplacé ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    " ",
+    [
+     "sourceDe"
+    ],
+    " vers la défausse."
+   ],
+   "movedSelectedCards": [
+    "A déplacé ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "carte sélectionnée",
+      "other": "cartes sélectionnées"
+     }
+    ],
+    " ",
+    [
+     "sourceDe"
+    ],
+    " vers ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "movedCardToTrash": [
+    "A déplacé ",
+    [
+     "card"
+    ],
+    " ",
+    [
+     "sourceDe"
+    ],
+    " vers la défausse."
+   ],
+   "recycledSelectedCards": [
+    "A recyclé ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "carte sélectionnée",
+      "other": "cartes sélectionnées"
+     }
+    ],
+    " ",
+    [
+     "sourceDe"
+    ],
+    " dans son deck, dans un ordre aléatoire."
+   ],
+   "gaveControl": [
+    "A cédé le contrôle ",
+    [
+     "cardDe"
+    ],
+    "."
+   ],
+   "equippedACard": "A équipé une carte.",
+   "equipped": [
+    "A équipé ",
+    [
+     "card"
+    ],
+    " sur ",
+    [
+     "target"
+    ],
+    "."
+   ],
+   "movedIntoDeck": [
+    "A placé ",
+    [
+     "card"
+    ],
+    " ",
+    [
+     "position",
+     1,
+     {
+      "top": "sur le dessus de",
+      "other": "sous"
+     }
+    ],
+    " son deck."
+   ],
+   "recycledTrashCards": [
+    "A recyclé ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    " de la défausse dans son deck, dans un ordre aléatoire."
+   ],
+   "usedGoldTokenGainedPower": "A utilisé une création PO et a obtenu 1 essence runique flottante.",
+   "usedGoldToken": "A utilisé une création PO.",
+   "exhaustedRemovedGainedPower": [
+    "A épuisé ",
+    [
+     "card"
+    ],
+    ", l’a retiré du jeu et a obtenu 1 essence runique flottante."
+   ],
+   "exhaustedRemoved": [
+    "A épuisé ",
+    [
+     "card"
+    ],
+    " et l’a retiré du jeu."
+   ],
+   "exhaustedTrashedGainedPower": [
+    "A épuisé ",
+    [
+     "card"
+    ],
+    ", l’a mis dans la défausse et a obtenu 1 essence runique flottante."
+   ],
+   "exhausted": [
+    "A épuisé ",
+    [
+     "card"
+    ],
+    "."
+   ],
+   "readied": [
+    "A préparé ",
+    [
+     "card"
+    ],
+    "."
+   ],
+   "setScore": [
+    "A fixé le score à ",
+    [
+     "score"
+    ],
+    " (",
+    [
+     "delta"
+    ],
+    ")."
+   ],
+   "adjustedScore": [
+    "A ajusté le score à ",
+    [
+     "score"
+    ],
+    "."
+   ],
+   "scoredAtTurnStart": [
+    "A marqué ",
+    [
+     "points"
+    ],
+    " ",
+    [
+     "points",
+     2,
+     {
+      "one": "point",
+      "other": "points"
+     }
+    ],
+    " au début du tour. Score : ",
+    [
+     "from"
+    ],
+    " → ",
+    [
+     "to"
+    ],
+    "."
+   ],
+   "adjustedFloatingResources": [
+    "A ajusté les ressources flottantes à ",
+    [
+     "energy"
+    ],
+    " énergie et ",
+    [
+     "power"
+    ],
+    " essence runique."
+   ],
+   "adjustedFloatingResource": [
+    "A ajusté ",
+    [
+     "resource",
+     1,
+     {
+      "energy": "l’énergie flottante",
+      "other": "l’essence runique flottante"
+     }
+    ],
+    " à ",
+    [
+     "value"
+    ],
+    "."
+   ],
+   "appliedBuff": [
+    "A appliqué un buff ",
+    [
+     "cardA"
+    ],
+    "."
+   ],
+   "consumedBuff": [
+    "A consommé un buff ",
+    [
+     "cardDe"
+    ],
+    "."
+   ],
+   "madeUnitWithOrianna": [
+    "A transformé ",
+    [
+     "card"
+    ],
+    " en unité avec Orianna."
+   ],
+   "addedLegendWithNeeko": [
+    "A ajouté ",
+    [
+     "card"
+    ],
+    " à sa zone de légende avec Neeko."
+   ],
+   "returnedAdditionalLegend": [
+    "A renvoyé ",
+    [
+     "card"
+    ],
+    " dans ses légendes supplémentaires."
+   ],
+   "changedXp": [
+    "A ",
+    [
+     "direction",
+     1,
+     {
+      "increased": "augmenté",
+      "other": "diminué"
+     }
+    ],
+    " l’XP à ",
+    [
+     "xp"
+    ],
+    " (",
+    [
+     "delta"
+    ],
+    ")."
+   ],
+   "duplicatedOpponentCard": [
+    "A dupliqué ",
+    [
+     "card"
+    ],
+    " de l’adversaire dans sa base."
+   ],
+   "duplicatedInZone": [
+    "A dupliqué ",
+    [
+     "card"
+    ],
+    " dans ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "removedFromPlay": [
+    "A retiré ",
+    [
+     "card"
+    ],
+    " du jeu."
+   ],
+   "playedFromZone": [
+    "A joué ",
+    [
+     "card"
+    ],
+    " depuis ",
+    [
+     "source"
+    ],
+    "."
+   ],
+   "recycledFromChainToTop": [
+    "A recyclé ",
+    [
+     "card"
+    ],
+    " de la chaîne sur le dessus de son deck."
+   ],
+   "recycledFromChainToBottom": [
+    "A recyclé ",
+    [
+     "card"
+    ],
+    " de la chaîne sous son deck."
+   ],
+   "banishedFromChain": [
+    "A banni ",
+    [
+     "card"
+    ],
+    " de la chaîne."
+   ],
+   "markedRepeat": [
+    "A ajouté un marqueur Répétition ",
+    [
+     "cardA"
+    ],
+    "."
+   ],
+   "clearedRepeat": [
+    "A retiré le marqueur Répétition ",
+    [
+     "cardDe"
+    ],
+    "."
+   ],
+   "chainResolved": [
+    "Chaîne résolue : ",
+    [
+     "card"
+    ],
+    "."
+   ],
+   "replacedWithBrush": [
+    "A remplacé ",
+    [
+     "zone"
+    ],
+    " par des hautes herbes."
+   ],
+   "restored": [
+    "A restauré ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "passedFocusAt": [
+    "A passé la focalisation sur ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "endedShowdownResponses": [
+    "A mis fin aux réponses de la confrontation sur ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "dismissedShowdown": [
+    "A annulé la confrontation sur ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "conqueredAndScored": [
+    "A conquis ",
+    [
+     "zone"
+    ],
+    " et marqué ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "point",
+      "other": "points"
+     }
+    ],
+    "."
+   ],
+   "conqueredAndDrew": [
+    "A conquis ",
+    [
+     "zone"
+    ],
+    " et pioché ",
+    [
+     "count"
+    ],
+    " ",
+    [
+     "count",
+     2,
+     {
+      "one": "carte",
+      "other": "cartes"
+     }
+    ],
+    "."
+   ],
+   "conquered": [
+    "A conquis ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "movedToZone": [
+    "A déplacé ",
+    [
+     "card"
+    ],
+    " vers ",
+    [
+     "zone"
+    ],
+    "."
+   ],
+   "rolls": [
+    [
+     "rolls"
+    ]
+   ],
+   "rolledD20By": [
+    [
+     "competitor"
+    ],
+    " a lancé un d20."
+   ],
+   "teamInitiativeSetup": [
+    "La mise en place du format ",
+    [
+     "format"
+    ],
+    " commence par un jet d’initiative. Les deux équipes lancent un d20."
+   ],
+   "playerInitiativeSetup": [
+    "La mise en place du format ",
+    [
+     "format"
+    ],
+    " commence par un jet d’initiative. Les ",
+    [
+     "count"
+    ],
+    " joueurs lancent un d20."
+   ],
+   "allBattlefieldsLockedSideboard": [
+    "Les ",
+    [
+     "count"
+    ],
+    " champs de bataille sont verrouillés. Tous les joueurs ajustent maintenant leur deck avec la réserve."
+   ],
+   "allBattlefieldsLockedMulligan": [
+    "Les ",
+    [
+     "count"
+    ],
+    " champs de bataille sont verrouillés. Chaque joueur peut faire un mulligan de 2 cartes au maximum."
+   ],
+   "competitorWonInitiative": [
+    [
+     "competitor"
+    ],
+    " remporte l’initiative (",
+    [
+     "high"
+    ],
+    " contre ",
+    [
+     "low"
+    ],
+    ") et décide qui joue en premier."
+   ],
+   "wonInitiative": [
+    "Remporte l’initiative (",
+    [
+     "high"
+    ],
+    " contre ",
+    [
+     "low"
+    ],
+    ") et décide qui joue en premier."
+   ],
+   "mustChooseStarterBoth": [
+    [
+     "competitor"
+    ],
+    " doit choisir qui commence. Les deux joueurs piocheront 4 cartes au début du mulligan."
+   ],
+   "mustChooseStarterAll": [
+    [
+     "competitor"
+    ],
+    " doit choisir qui commence. Tous les joueurs piocheront 4 cartes au début du mulligan."
+   ],
+   "previousLoserChooses": "Le perdant de la partie précédente choisit qui commence cette partie.",
+   "competitorChoseStarterBattlefields": [
+    [
+     "competitor"
+    ],
+    " a choisi que ",
+    [
+     "player"
+    ],
+    " joue le premier tour. Les joueurs qui fournissent les champs de bataille choisissent maintenant leurs champs de bataille."
+   ],
+   "choseStarterMulligan": [
+    "A choisi que ",
+    [
+     "player"
+    ],
+    " joue le premier tour. Les deux joueurs peuvent maintenant faire un mulligan de 2 cartes au maximum."
+   ],
+   "choseStarterSideboard": [
+    "A choisi que ",
+    [
+     "player"
+    ],
+    " joue le premier tour. Les deux joueurs ajustent maintenant leur deck avec la réserve."
+   ],
+   "choseStarterBattlefields": [
+    "A choisi que ",
+    [
+     "player"
+    ],
+    " joue le premier tour. Les joueurs qui fournissent les champs de bataille choisissent maintenant leurs champs de bataille."
+   ],
+   "updatedRegistration": [
+    "A mis à jour son inscription au format ",
+    [
+     "format"
+    ],
+    "."
+   ],
+   "lockedRegistration": [
+    "A verrouillé son inscription au format ",
+    [
+     "format"
+    ],
+    "."
+   ],
+   "bothRegistrationsLockedChooseUnused": [
+    "Les deux inscriptions au format ",
+    [
+     "format"
+    ],
+    " sont verrouillées. Chaque joueur doit maintenant choisir un champ de bataille inutilisé."
+   ],
+   "bothRegistrationsLockedChoose": [
+    "Les deux inscriptions au format ",
+    [
+     "format"
+    ],
+    " sont verrouillées. Chaque joueur doit maintenant choisir un champ de bataille."
+   ],
+   "bothRegistrationsLockedMulligan": [
+    "Les deux inscriptions au format ",
+    [
+     "format"
+    ],
+    " sont verrouillées. Mulligan de 2 cartes au maximum."
+   ],
+   "allRegistrationsLockedMulligan": [
+    "Toutes les inscriptions au format ",
+    [
+     "format"
+    ],
+    " sont verrouillées. Chaque joueur peut faire un mulligan de 2 cartes au maximum."
+   ],
+   "finalizedMulligan": [
+    "A finalisé son mulligan (",
+    [
+     "recycled"
+    ],
+    " ",
+    [
+     "recycled",
+     2,
+     {
+      "one": "carte recyclée",
+      "other": "cartes recyclées"
+     }
+    ],
+    ", ",
+    [
+     "redrawn"
+    ],
+    " ",
+    [
+     "redrawn",
+     2,
+     {
+      "one": "repiochée",
+      "other": "repiochées"
+     }
+    ],
+    ")."
+   ],
+   "submittedDeck": [
+    "A soumis un deck (",
+    [
+     "cards"
+    ],
+    " ",
+    [
+     "cards",
+     2,
+     {
+      "one": "carte du deck principal",
+      "other": "cartes du deck principal"
+     }
+    ],
+    ", ",
+    [
+     "battlefields"
+    ],
+    " ",
+    [
+     "battlefields",
+     2,
+     {
+      "one": "champ de bataille",
+      "other": "champs de bataille"
+     }
+    ],
+    ")."
+   ],
+   "selectedRegistration": [
+    "A sélectionné une inscription au format ",
+    [
+     "format"
+    ],
+    "."
+   ],
+   "changedRoomFormat": [
+    "A défini le format de la salle sur ",
+    [
+     "format"
+    ],
+    "."
+   ],
+   "changedDeckRules": [
+    "A défini les règles de deck sur ",
+    [
+     "format"
+    ],
+    "."
+   ],
+   "movedToSeat": [
+    "A pris la place de joueur ",
+    [
+     "seat"
+    ],
+    "."
+   ],
+   "changedGameType": [
+    "A défini le type de partie sur ",
+    [
+     "format"
+    ],
+    "."
+   ],
+   "recycledToFloat": [
+    "A recyclé ",
+    [
+     "source"
+    ],
+    " pour obtenir ",
+    [
+     "resources"
+    ],
+    "."
+   ],
+   "recycled": [
+    "A recyclé ",
+    [
+     "card"
+    ],
+    "."
+   ],
+   "performedCardActivity": "A effectué une action sur une carte."
+  },
+  "phrase": {
+   "runes": [
+    [
+     "count"
+    ],
+    " ",
+    [
+     "icon"
+    ],
+    [
+     "count",
+     2,
+     {
+      "one": "rune",
+      "other": "runes"
+     }
+    ],
+    [
+     "domain",
+     1,
+     {
+      "none": "",
+      "other": [
+       " ",
+       [
+        "domainLabel"
+       ]
+      ]
+     }
+    ]
+   ],
+   "runesChanneled": [
+    [
+     "count"
+    ],
+    " ",
+    [
+     "icon"
+    ],
+    [
+     "count",
+     2,
+     {
+      "one": "rune",
+      "other": "runes"
+     }
+    ],
+    [
+     "domain",
+     1,
+     {
+      "none": "",
+      "other": [
+       " ",
+       [
+        "domainLabel"
+       ]
+      ]
+     }
+    ]
+   ],
+   "resources": [
+    [
+     "kind",
+     1,
+     {
+      "both": [
+       [
+        "energy"
+       ],
+       " énergie et ",
+       [
+        "power"
+       ],
+       " essence runique"
+      ],
+      "energy": [
+       [
+        "energy"
+       ],
+       " énergie"
+      ],
+      "other": [
+       [
+        "power"
+       ],
+       " essence runique"
+      ]
+     }
+    ]
+   ],
+   "floatingResources": [
+    [
+     "kind",
+     1,
+     {
+      "both": [
+       [
+        "energy"
+       ],
+       " énergie flottante et ",
+       [
+        "power"
+       ],
+       " essence runique flottante"
+      ],
+      "energy": [
+       [
+        "energy"
+       ],
+       " énergie flottante"
+      ],
+      "other": [
+       [
+        "power"
+       ],
+       " essence runique flottante"
+      ]
+     }
+    ]
+   ],
+   "paymentDetails": [
+    " (",
+    [
+     "details"
+    ],
+    ")"
+   ],
+   "paymentDetail": {
+    "float": [
+     "utilisation de ",
+     [
+      "floatingResources"
+     ]
+    ],
+    "exhaust": [
+     "épuisement de ",
+     [
+      "count"
+     ],
+     " ",
+     [
+      "count",
+      2,
+      {
+       "one": "rune",
+       "other": "runes"
+      }
+     ]
+    ],
+    "recycle": [
+     "recyclage ",
+     [
+      "sourceDe"
+     ],
+     [
+      "gain",
+      1,
+      {
+       "yes": [
+        ", +",
+        [
+         "energy"
+        ],
+        " énergie flottante"
+       ],
+       "other": ""
+      }
+     ]
+    ],
+    "countedCard": [
+     [
+      "count"
+     ],
+     " × ",
+     [
+      "card"
+     ]
+    ],
+    "gold": [
+     [
+      "count"
+     ],
+     " ",
+     [
+      "count",
+      2,
+      {
+       "one": "création PO",
+       "other": "créations PO"
+      }
+     ]
+    ],
+    "card": [
+     [
+      "card"
+     ]
+    ]
+   },
+   "runeBatch": {
+    "channel": [
+     "canalisé ",
+     [
+      "runes"
+     ]
+    ],
+    "exhaust": [
+     "épuisé ",
+     [
+      "runes"
+     ]
+    ],
+    "ready": [
+     "préparé ",
+     [
+      "runes"
+     ]
+    ],
+    "recycleFloat": [
+     "recyclé ",
+     [
+      "runes"
+     ],
+     " pour obtenir ",
+     [
+      "energy"
+     ],
+     " énergie flottante"
+    ],
+    "recycle": [
+     "recyclé ",
+     [
+      "runes"
+     ]
+    ]
+   },
+   "token": {
+    "named": [
+     [
+      "plural",
+      1,
+      {
+       "yes": [
+        "créations ",
+        [
+         "stem"
+        ]
+       ],
+       "other": [
+        "création ",
+        [
+         "stem"
+        ]
+       ]
+      }
+     ]
+    ],
+    "generic": [
+     [
+      "plural",
+      1,
+      {
+       "yes": "créations",
+       "other": "création"
+      }
+     ]
+    ]
+   },
+   "team": [
+    "Équipe ",
+    [
+     "number"
+    ]
+   ],
+   "roll": [
+    [
+     "competitor"
+    ],
+    " a obtenu ",
+    [
+     "roll"
+    ],
+    "."
+   ]
+  },
+  "list": {
+   "runeBatch": {
+    "pair": [
+     [
+      "first"
+     ],
+     " et ",
+     [
+      "rest"
+     ]
+    ],
+    "start": [
+     [
+      "first"
+     ],
+     ", ",
+     [
+      "rest"
+     ]
+    ],
+    "middle": [
+     [
+      "first"
+     ],
+     ", ",
+     [
+      "rest"
+     ]
+    ],
+    "end": [
+     [
+      "first"
+     ],
+     " et ",
+     [
+      "rest"
+     ]
+    ]
+   },
+   "paymentDetails": {
+    "pair": [
+     [
+      "first"
+     ],
+     " ; ",
+     [
+      "rest"
+     ]
+    ],
+    "start": [
+     [
+      "first"
+     ],
+     " ; ",
+     [
+      "rest"
+     ]
+    ],
+    "middle": [
+     [
+      "first"
+     ],
+     " ; ",
+     [
+      "rest"
+     ]
+    ],
+    "end": [
+     [
+      "first"
+     ],
+     " ; ",
+     [
+      "rest"
+     ]
+    ]
+   },
+   "rolls": {
+    "pair": [
+     [
+      "first"
+     ],
+     " ",
+     [
+      "rest"
+     ]
+    ],
+    "start": [
+     [
+      "first"
+     ],
+     " ",
+     [
+      "rest"
+     ]
+    ],
+    "middle": [
+     [
+      "first"
+     ],
+     " ",
+     [
+      "rest"
+     ]
+    ],
+    "end": [
+     [
+      "first"
+     ],
+     " ",
+     [
+      "rest"
+     ]
+    ]
+   },
+   "runes": {
+    "pair": [
+     [
+      "first"
+     ],
+     " et ",
+     [
+      "rest"
+     ]
+    ],
+    "start": [
+     [
+      "first"
+     ],
+     ", ",
+     [
+      "rest"
+     ]
+    ],
+    "middle": [
+     [
+      "first"
+     ],
+     ", ",
+     [
+      "rest"
+     ]
+    ],
+    "end": [
+     [
+      "first"
+     ],
+     " et ",
+     [
+      "rest"
+     ]
+    ]
+   }
+  },
+  "label": {
+   "zone": {
+    "hand": "la main",
+    "base": "la base",
+    "trash": "la défausse",
+    "banished": "la zone de bannissement",
+    "battlefieldA": "le champ de bataille A",
+    "battlefieldB": "le champ de bataille B",
+    "battlefieldC": "le champ de bataille C",
+    "runeArea": "la zone des runes",
+    "championArea": "la zone de champion",
+    "deck": "le deck",
+    "deckPeek": "l’aperçu du deck",
+    "topOfDeck": "le dessus du deck",
+    "bottomOfDeck": "le dessous du deck",
+    "legendArea": "la zone de légende",
+    "chain": "la chaîne",
+    "baronPit": "l’antre du baron",
+    "brush": "les hautes herbes",
+    "blankBattlefield": "le champ de bataille vierge"
+   },
+   "object": {
+    "aCard": "une carte",
+    "card": "carte"
+   },
+   "domain": {
+    "body": "de corps",
+    "calm": "de calme",
+    "chaos": "de chaos",
+    "fury": "de fureur",
+    "mind": "d’esprit",
+    "order": "d’ordre"
+   },
+   "format": {
+    "bestOf1": "BO1",
+    "bestOf3": "BO3",
+    "standard": "Standard",
+    "unrestricted": "Sans restriction",
+    "sealed": "Scellé",
+    "unleashedPreRift": "Unleashed Pre-Rift",
+    "vendettaPreRift": "Vendetta Pre-Rift",
+    "radiancePreRift": "Radiance Pre-Rift"
+   }
+  }
+ }
+}

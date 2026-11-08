@@ -1,0 +1,343 @@
+{
+  "$meta": {
+    "source": ".recon/pretty/playapp/0aed5y6vhcy22.js (modules 846015/137427/923639) — client game-log formatter",
+    "note": "English is the canonical language: the server sends English log text; the client parses it back into {key, params} and re-renders it with the locale catalog (fr/ko/zh-CN chunks 0r12sly2zwo8g.js, 0p4ahzekegpbg.js, 1wtthi75czt6u.js plus card-text chunks). Templates below use {param}=simple param, {param:selectName}=ICU select; select option sets are listed per key in $selects.",
+    "pluralization": "Trailing s? in templates marks optional English plural (e.g. card(s), cards?, runes?) matching the parser regexes.",
+    "structured": "sentence.payment / sentence.runeBatch / sentence.rolls are multi-part entries composed via phrase/list sub-messages.",
+    "phraseNote": "phrase.* / list.* ICU catalogs (runeBatch, paymentDetails, runes, resources, floatingResources, token, team, roll, list joiners) live server-side; only fr/ko/zh-CN copies ship in the bundles. English output is the literal text produced by the server."
+  },
+  "$selects": {
+    "sentence.forfeitedMatch": {
+      "actor": {
+        "anonymous": "A player ",
+        "other": ""
+      }
+    },
+    "sentence.departedMatchWinner": {
+      "departure": {
+        "conceded": "conceded",
+        "concededMatch": "conceded the match",
+        "lobby": "returned to the lobby",
+        "left": "left the game",
+        "disconnected": "forfeited after disconnecting"
+      },
+      "actor": {
+        "anonymous": "A player ",
+        "other": ""
+      }
+    },
+    "sentence.departedEliminated": {
+      "departure": {
+        "conceded": "conceded",
+        "concededMatch": "conceded the match",
+        "lobby": "returned to the lobby",
+        "left": "left the game",
+        "disconnected": "forfeited after disconnecting"
+      },
+      "actor": {
+        "anonymous": "A player ",
+        "other": ""
+      }
+    },
+    "sentence.departedWinner": {
+      "departure": {
+        "conceded": "conceded",
+        "concededMatch": "conceded the match",
+        "lobby": "returned to the lobby",
+        "left": "left the game",
+        "disconnected": "forfeited after disconnecting"
+      },
+      "winners": {
+        "wins": "one",
+        "win": "many"
+      },
+      "actor": {
+        "anonymous": "A player ",
+        "other": ""
+      }
+    },
+    "sentence.payment": {
+      "auto": {
+        "yes": "auto-",
+        "no": ""
+      }
+    },
+    "sentence.rolledDie": {},
+    "sentence.movedToRuneDeck": {
+      "position": {
+        "top": "top",
+        "bottom": "bottom"
+      }
+    },
+    "sentence.movedIntoDeck": {
+      "position": {
+        "top": "top",
+        "bottom": "bottom"
+      }
+    },
+    "sentence.changedLookedAtCardVisibility": {
+      "visibility": {
+        "revealed": "revealed",
+        "hid": "hid"
+      }
+    },
+    "sentence.changedLookedAtCardsVisibility": {
+      "visibility": {
+        "revealed": "revealed",
+        "hid": "hid"
+      }
+    },
+    "sentence.changedLookedAtRuneVisibility": {
+      "visibility": {
+        "revealed": "revealed",
+        "hid": "hid"
+      }
+    },
+    "sentence.changedLookedAtRunesVisibility": {
+      "visibility": {
+        "revealed": "revealed",
+        "hid": "hid"
+      }
+    },
+    "sentence.changedXp": {
+      "direction": {
+        "increased": "Increased",
+        "decreased": "Decreased"
+      }
+    },
+    "sentence.adjustedFloatingResource": {
+      "resource": {
+        "energy": "energy",
+        "power": "power"
+      }
+    }
+  },
+  "sentence.acceptedSkipSideboarding": "Accepted the request to skip sideboarding.",
+  "sentence.addedLegendWithNeeko": "added {card} to their legend area with Neeko.",
+  "sentence.adjustedFloatingResource": "adjusted floating {resource} to {value}.",
+  "sentence.adjustedFloatingResources": "adjusted floating resources to {energy} energy and {power} power.",
+  "sentence.adjustedScore": "adjusted score to {score}.",
+  "sentence.allBattlefieldsLockedMulligan": "all {count} battlefields are locked. All players may mulligan up to 2 cards.",
+  "sentence.allBattlefieldsLockedSideboard": "all {count} battlefields are locked. All players now sideboard.",
+  "sentence.allChampionsLockedMulligan": "All champions are locked. All players may mulligan up to 2 cards.",
+  "sentence.allMulligansComplete": "All mulligans are complete. Starting the game.",
+  "sentence.allRegistrationsLockedMulligan": "all {format} registrations are locked. All players may mulligan up to 2 cards.",
+  "sentence.allSideboardsAutoLockedChooseBattlefields": "All sideboards were auto-locked. Choose battlefields.",
+  "sentence.allSideboardsAutoLockedMulligan": "All sideboards were auto-locked. All players may mulligan up to 2 cards.",
+  "sentence.allSideboardsLockedMulligan": "All sideboards are locked. All players may mulligan up to 2 cards.",
+  "sentence.allSkippedSideboardingChooseBattlefields": "All players agreed to skip sideboarding. Their submitted decks were restored. Choose battlefields.",
+  "sentence.allSkippedSideboardingMulligan": "All players agreed to skip sideboarding. Their submitted decks were restored. All players may mulligan up to 2 cards.",
+  "sentence.appliedBuff": "applied buff to {card}.",
+  "sentence.autoPaid": "Auto-paid.",
+  "sentence.autoPaidCardCosts": "Auto-paid card costs.",
+  "sentence.autoSelectedLastBattlefield": "Auto-selected the last remaining battlefield.",
+  "sentence.autoStartedTestSetup": "Auto-started test setup.",
+  "sentence.banishedFromChain": "banished {card} from chain.",
+  "sentence.banishedTopCard": "banished {card} from the top of their deck.",
+  "sentence.banishedTopCardWith": "banished {card} from the top of their deck with {source}.",
+  "sentence.banishedWithSource": "banished {card} with {source}.",
+  "sentence.battlefieldsLockedRollD20": "Both battlefields are locked. Roll a d20 to decide first player.",
+  "sentence.bothChampionsLockedMulligan": "Both champions are locked. Mulligan up to 2 cards.",
+  "sentence.bothMulligansComplete": "Both mulligans are complete. Starting the game.",
+  "sentence.bothRegistrationsLockedChoose": "both {format} registrations are locked. Each player should now choose one battlefield.",
+  "sentence.bothRegistrationsLockedChooseUnused": "both {format} registrations are locked. Each player should now choose one unused battlefield.",
+  "sentence.bothRegistrationsLockedMulligan": "both {format} registrations are locked. Mulligan up to 2 cards.",
+  "sentence.bothSideboardsAutoLockedChooseBattlefields": "Both sideboards were auto-locked. Choose battlefields.",
+  "sentence.bothSideboardsAutoLockedMulligan": "Both sideboards were auto-locked. Mulligan up to 2 cards.",
+  "sentence.bothSideboardsLockedChooseBattlefield": "Both sideboards are locked. Each player should now choose one battlefield.",
+  "sentence.bothSideboardsLockedChooseUnusedBattlefield": "Both sideboards are locked. Each player should now choose one unused battlefield.",
+  "sentence.bothSideboardsLockedMulligan": "Both sideboards are locked. Mulligan up to 2 cards.",
+  "sentence.bothSkippedSideboardingMulligan": "Both players agreed to skip sideboarding. Their submitted decks were restored. Mulligan up to 2 cards.",
+  "sentence.burnedCards": "burned {count} cards? from the top of their deck.",
+  "sentence.canceledSkipSideboarding": "Canceled the request to skip sideboarding.",
+  "sentence.canceledTimeWarpTurn": "Canceled a Time Warp extra turn.",
+  "sentence.chainResolved": "chain resolved: {card}.",
+  "sentence.changedDeckRules": "changed deck rules to {format}.",
+  "sentence.changedGameType": "changed the game type to {format}.",
+  "sentence.changedLookedAtCardVisibility": "{visibility} a looked-at deck card.",
+  "sentence.changedLookedAtCardsVisibility": "{visibility} looked-at deck cards.",
+  "sentence.changedLookedAtRuneVisibility": "{visibility} a looked-at rune.",
+  "sentence.changedLookedAtRunesVisibility": "{visibility} looked-at runes.",
+  "sentence.changedRoomFormat": "changed the room to {format}.",
+  "sentence.changedXp": "{direction} XP to {xp}. ({delta})",
+  "sentence.channeledRune": "Channeled a rune.",
+  "sentence.chooseSoloFirstSeat": "Choose which Solo Play seat takes the first turn.",
+  "sentence.chooseSoloFirstSeatThenSideboard": "Choose which Solo Play seat takes the first turn, then sideboard.",
+  "sentence.chooseTurnOrderThenMulligan": "Choose whether to play first or second, then mulligan up to 2 cards.",
+  "sentence.chooseTurnOrderThenSideboard": "Choose whether to play first or second, then sideboard.",
+  "sentence.choosesStarter": "Chooses who starts this game.",
+  "sentence.choseStarterBattlefields": "chose {player} to take the first turn. The battlefield contributors now choose their battlefields.",
+  "sentence.choseStarterMulligan": "chose {player} to take the first turn. Both players now mulligan up to 2 cards.",
+  "sentence.choseStarterSideboard": "chose {player} to take the first turn. Both players now sideboard.",
+  "sentence.clearedFloatingResources": "Cleared floating resources.",
+  "sentence.clearedRepeat": "cleared Repeat for {card}.",
+  "sentence.closedDeckPeek": "Closed deck peek.",
+  "sentence.closedRuneDeckPeek": "closed rune deck peek.",
+  "sentence.competitorChoseStarterBattlefields": "{competitor} chose {player} to take the first turn. The battlefield contributors now choose their battlefields.",
+  "sentence.competitorWonInitiative": "{competitor} wins initiative ({high} vs {low}) and decides who plays first.",
+  "sentence.confirmedChampion": "Confirmed their chosen champion.",
+  "sentence.conquered": "conquered {zone}.",
+  "sentence.conqueredAndDrew": "conquered {zone} and drew {count}.",
+  "sentence.conqueredAndScored": "conquered {zone} and scored {count}.",
+  "sentence.consumedBuff": "consumed buff from {card}.",
+  "sentence.continuedWithoutOpponent": "Continued without an opponent.",
+  "sentence.declinedSkipSideboarding": "Declined the request to skip sideboarding.",
+  "sentence.departedEliminated": "{actor}{departure} and was eliminated.",
+  "sentence.departedMatchWinner": "{actor}{departure}. {winner} wins the match.",
+  "sentence.departedWinner": "{actor}{departure}. {winner} {winners}.",
+  "sentence.dismissedShowdown": "dismissed showdown at {zone}.",
+  "sentence.drewCards": "drew {count} cards?.",
+  "sentence.duplicatedInZone": "duplicated {card} in {zone}.",
+  "sentence.duplicatedOpponentCard": "duplicated opponent {card} to base.",
+  "sentence.endedBeginningPhase": "Ended beginning phase.",
+  "sentence.endedShowdownResponses": "ended showdown responses at {zone}.",
+  "sentence.endedTurn": "Ended their turn.",
+  "sentence.equipped": "equipped {card} to {target}.",
+  "sentence.equippedACard": "equipped a card.",
+  "sentence.exhausted": "exhausted {card}.",
+  "sentence.exhaustedRemoved": "exhausted {card} and removed it from play.",
+  "sentence.exhaustedRemovedGainedPower": "exhausted {card}, removed it from play, and gained 1 floating power.",
+  "sentence.exhaustedTrashedGainedPower": "exhausted {card}, trashed it, and gained 1 floating power.",
+  "sentence.filledOpponentSeat": "Filled the opponent seat.",
+  "sentence.finalizedMulligan": "finalized mulligan ({recycled} recycled, {redrawn} redrawn).",
+  "sentence.forfeitedMatch": "{actor}forfeited after disconnecting. {winner} wins the match.",
+  "sentence.gaveControl": "gave control of {card}.",
+  "sentence.goldfishFirstMulligan": "Chose to goldfish from first. Mulligan up to 2 cards.",
+  "sentence.goldfishFirstSideboard": "Chose to goldfish from first. Sideboard before mulligan.",
+  "sentence.goldfishSecondMulligan": "Chose to goldfish from second. Mulligan up to 2 cards.",
+  "sentence.goldfishSecondSideboard": "Chose to goldfish from second. Sideboard before mulligan.",
+  "sentence.hidHand": "Hid their hand.",
+  "sentence.hidHandCard": "Hid a card in their hand.",
+  "sentence.hidHiddenBoardCard": "Hid a hidden board card.",
+  "sentence.isNoLongerReady": "Is no longer ready.",
+  "sentence.isReady": "Is ready.",
+  "sentence.killedToPlayFromBanished": "killed {source} to play {card} from banished to {zone}.",
+  "sentence.lockedBattlefield": "Locked in a battlefield.",
+  "sentence.lockedRandomBattlefield": "Locked in a random battlefield.",
+  "sentence.lockedRegistration": "locked in their {format} registration.",
+  "sentence.lockedSideboarding": "Locked in sideboarding.",
+  "sentence.lookedAtBottomCard": "looked at a card from the bottom of their deck.",
+  "sentence.lookedAtTopCards": "looked at top {count} card(s) of their deck.",
+  "sentence.lookedAtTopRune": "looked at the top rune of their rune deck.",
+  "sentence.lookedAtTopRunes": "looked at the top {count} runes of their rune deck.",
+  "sentence.madePayment": "Made a payment.",
+  "sentence.madeUnitWithOrianna": "made {card} a unit with Orianna.",
+  "sentence.markedRepeat": "marked Repeat for {card}.",
+  "sentence.movedACardFromDeck": "moved a card from deck to {zone}.",
+  "sentence.movedCardFromDeck": "moved {card} from deck to {zone}.",
+  "sentence.movedCardToTrash": "moved {card} from {source} to trash.",
+  "sentence.movedCardsFromDeck": "moved {count} card(s) from deck to {zone}.",
+  "sentence.movedCardsToTrash": "moved {count} cards? from {source} to trash.",
+  "sentence.movedHiddenCard": "moved a hidden card to {zone}.",
+  "sentence.movedIntoDeck": "moved {card} into deck ({position}).",
+  "sentence.movedSelectedCards": "moved {count} selected cards? from {source} to {zone}.",
+  "sentence.movedToRuneDeck": "moved {card} to {position} of rune deck.",
+  "sentence.movedToSeat": "moved to player seat {seat}.",
+  "sentence.movedToZone": "moved {card} to {zone}.",
+  "sentence.movedTopCard": "moved top card to {zone}.",
+  "sentence.mustChooseStarterAll": "{competitor} must choose who starts. All players draw 4 cards once mulligan begins.",
+  "sentence.mustChooseStarterBoth": "{competitor} must choose who starts. Both players draw 4 cards once mulligan begins.",
+  "sentence.passedFocus": "Passed focus.",
+  "sentence.passedFocusAt": "passed focus at {zone}.",
+  "sentence.payment": "[\"{auto}\"]paid {resources}{details}.",
+  "sentence.performedCardActivity": "performed card activity.",
+  "sentence.playedFromOpponentTrashWith": "played {card} from an opponent's trash to {zone} with {source}.",
+  "sentence.playedFromTopOfDeck": "played {card} from top of deck to {zone}.",
+  "sentence.playedFromZone": "played {card} from {source}.",
+  "sentence.playedFromZoneTo": "played {card} from {source} to {zone}.",
+  "sentence.playedTokens": "played {count} {token} to {zone}.",
+  "sentence.playerInitiativeSetup": "{format} setup begins with initiative. All {count} players roll a d20.",
+  "sentence.previousLoserChooses": "the previous game loser chooses who starts this game.",
+  "sentence.putHiddenCard": "put a hidden card to {zone}.",
+  "sentence.putLookedAtCardOnTop": "put a looked-at card on top of their deck.",
+  "sentence.queuedTimeWarpTurn": "Queued an extra turn with Time Warp.",
+  "sentence.randomizedTeams": "Randomized the teams.",
+  "sentence.readied": "readied {card}.",
+  "sentence.readiedAllRunes": "Readied all runes.",
+  "sentence.recycled": "recycled {card}.",
+  "sentence.recycledAllLookedAtCards": "recycled looked-at deck cards to bottom of deck.",
+  "sentence.recycledAllLookedAtRunes": "recycled looked-at runes to bottom of rune deck.",
+  "sentence.recycledFromChainToBottom": "recycled {card} from chain to bottom of deck.",
+  "sentence.recycledFromChainToTop": "recycled {card} from chain to top of deck.",
+  "sentence.recycledLookedAtCard": "recycled a looked-at card to bottom of deck.",
+  "sentence.recycledLookedAtCards": "recycled {count} looked-at cards? to bottom of deck in random order.",
+  "sentence.recycledLookedAtRune": "recycled a looked-at rune to bottom of rune deck.",
+  "sentence.recycledLookedAtRunes": "recycled {count} looked-at runes? to bottom of rune deck.",
+  "sentence.recycledSelectedCards": "recycled {count} selected cards? from {source} into deck in random order.",
+  "sentence.recycledToFloat": "recycled {source} to float {resources}.",
+  "sentence.recycledTrashCards": "recycled {count} trash cards? into deck in random order.",
+  "sentence.removedFromPlay": "removed {card} from play.",
+  "sentence.removedToken": "removed {token} from play.",
+  "sentence.replacedWithBrush": "replaced {zone} with Brush.",
+  "sentence.requestedSkipSideboarding": "Requested that all players skip sideboarding.",
+  "sentence.restored": "restored {zone}.",
+  "sentence.restoredTimeline": "Used Forward to restore the previous timeline.",
+  "sentence.returnedAdditionalLegend": "returned {card} to their Additional Legends.",
+  "sentence.revealedHand": "Revealed their hand.",
+  "sentence.revealedHandCard": "Revealed a card in their hand.",
+  "sentence.revealedHiddenBoardCard": "Revealed a hidden board card.",
+  "sentence.rewound": "Rewound to before their last action.",
+  "sentence.rolledD20": "Rolled a d20.",
+  "sentence.rolledD20By": "{competitor} rolled a d20.",
+  "sentence.rolledDie": "rolled a d{sides}: {result}.",
+  "sentence.rolls": "{rolls}",
+  "sentence.runeBatch": "{clauses}",
+  "sentence.scoredAtTurnStart": "scored {points} at turn start. Score: {from} → {to}.",
+  "sentence.selectedRegistration": "selected a {format} registration.",
+  "sentence.setScore": "set score to {score}. ({delta})",
+  "sentence.shuffledDeck": "Shuffled their deck.",
+  "sentence.shuffledKeepingRecycled": "shuffled their unrecycled deck cards, keeping {count} recycled cards? on the bottom.",
+  "sentence.skippedCardSwapsConfirmChampions": "All players agreed to skip card swaps. Submitted decks were restored. Confirm chosen champions before drawing opening hands.",
+  "sentence.skippedSideboarding": "Skipped sideboarding.",
+  "sentence.startedMatch": "Started the match.",
+  "sentence.startedSinglePlayer": "Started Single Player.",
+  "sentence.submittedDeck": "submitted a deck ({cards} main-deck cards, {battlefields} battlefields).",
+  "sentence.teamInitiativeSetup": "{format} setup begins with initiative. Both teams roll a d20.",
+  "sentence.unlinked": "unlinked {card}.",
+  "sentence.unlinkedFrom": "unlinked {card} from {source}.",
+  "sentence.updatedRegistration": "updated their {format} registration.",
+  "sentence.updatedSideboarding": "Updated sideboarding.",
+  "sentence.usedGoldToken": "used a Gold token.",
+  "sentence.usedGoldTokenGainedPower": "used a Gold token and gained 1 floating power.",
+  "sentence.wonInitiative": "wins initiative ({high} vs {low}) and decides who plays first.",
+  "label.zone.hand": "hand",
+  "label.zone.base": "base",
+  "label.zone.trash": "trash",
+  "label.zone.banished": "banished",
+  "label.zone.battlefieldA": "battlefield A",
+  "label.zone.battlefieldB": "battlefield B",
+  "label.zone.battlefieldC": "battlefield C",
+  "label.zone.runeArea": "rune area",
+  "label.zone.championArea": "champion area",
+  "label.zone.deck": "deck",
+  "label.zone.deckPeek": "deck peek",
+  "label.zone.topOfDeck": "top of deck",
+  "label.zone.bottomOfDeck": "bottom of deck",
+  "label.zone.legendArea": "legend area",
+  "label.zone.chain": "chain",
+  "label.zone.baronPit": "baron pit",
+  "label.zone.brush": "brush",
+  "label.zone.blankBattlefield": "blank battlefield",
+  "label.object.aCard": "a card",
+  "label.object.card": "card",
+  "label.domain.body": "body",
+  "label.domain.calm": "calm",
+  "label.domain.chaos": "chaos",
+  "label.domain.fury": "fury",
+  "label.domain.mind": "mind",
+  "label.domain.order": "order",
+  "label.format.bestOf1": "Best of 1",
+  "label.format.bestOf3": "Best of 3",
+  "label.format.standard": "Standard",
+  "label.format.unrestricted": "Unrestricted",
+  "label.format.sealed": "sealed",
+  "label.format.unleashedPreRift": "Unleashed Pre-Rift",
+  "label.format.vendettaPreRift": "Vendetta Pre-Rift",
+  "label.format.radiancePreRift": "Radiance Pre-Rift",
+  "$structured": {
+    "sentence.payment": "parts: {resources}=phrase.resources/floatingResources (kind select both/energy/other), {details}=phrase.paymentDetails joined via list.paymentDetails; each detail = phrase.paymentDetail.{float|exhaust|recycle|countedCard|gold|card}",
+    "sentence.runeBatch": "{clauses}=list.runeBatch of phrase.runeBatch.{channel|exhaust|ready|recycleFloat|recycle} over phrase.runes / phrase.runesChanneled",
+    "sentence.rolls": "{rolls}=list.rolls of phrase.roll [{competitor} rolled {roll}.], used by sentence.rolledD20By / teamInitiativeSetup variants",
+    "parser": "0aed5y6vhcy22.js parses each English log line back into {key,params}: runeBatch via /^(channeled|exhausted|readied|recycled) ...$/ clauses; payment via /^(auto-)?paid (NE|nP|n energy…)[ — details].$/; rolls via repeated /(.+?) rolled (d+)./"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // Keep the vendored package's original typecheck posture (core/packages/auth/tsconfig.json):
+    // DOM supplies `console`, and the package's `getOtpCopy(type)` relies on the looser
+    // noUncheckedIndexedAccess setting used upstream.
+    "lib": ["ES2023", "DOM"],
+    "noUncheckedIndexedAccess": false
+  },
+  "include": ["src"]
+}
