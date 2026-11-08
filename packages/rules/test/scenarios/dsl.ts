@@ -4,15 +4,12 @@
  * The room comes from @rift/engine's real `createInitialGameState` + the real engine host, so
  * every scenario exercises the same zone/log/scoring primitives the server uses.
  */
-import fs from "node:fs";
-import path from "node:path";
 import { expect } from "vitest";
 
 import type {
   BattlefieldZone,
   CardInstance,
   CardScript,
-  DeckSections,
   GameEvent,
   ObjectRulesState,
   PromptAnswer,
@@ -34,18 +31,7 @@ import {
 } from "../../src";
 import { createEngineRulesHost } from "../../../engine/src/strict/host";
 
-const ROOT = path.resolve(__dirname, "../../../..");
-const DECKS = path.join(ROOT, ".recon/oracle/fixtures/decks.json");
-
-interface DecksFile {
-  deckA: { raw: string; sections: DeckSections };
-  deckB: { raw: string; sections: DeckSections };
-}
-
-function loadDecks(): DecksFile {
-  if (!fs.existsSync(DECKS)) throw new Error(`scenario fixture missing: ${DECKS}`);
-  return JSON.parse(fs.readFileSync(DECKS, "utf8")) as DecksFile;
-}
+import { loadFixtureDecks as loadDecks } from "../fixtures/decks";
 
 let scenarioCounter = 0;
 
