@@ -2,9 +2,10 @@
  * Cleanups — rules 318–324.
  *
  * The step order follows 323 exactly. Combat-specific steps delegate to `combat/` (323.2,
- * 323.8, 323.13) and are replaced by R2. Cleanups repeat until nothing changed (322) but the
- * recursion is bounded so a bug can never freeze the server; hitting the bound emits a
- * `loop_guard` event instead of silently stopping (322/324.2).
+ * 323.8, 323.13); battlefield control (323.4–323.6, 323.10.a) reads the stored control state
+ * (`actions/control.ts`, 190). Cleanups repeat until nothing changed (322) but the recursion is
+ * bounded so a bug can never freeze the server; hitting the bound emits a `loop_guard` event
+ * instead of silently stopping (322/324.2).
  *
  * 324.1 Special Cleanups insert their own steps into the normal 323 order. The Expiration Step
  * (317.2.a–d) inserts 3c/3d/3e after 3a; the Combat Cleanup (468.1.a) inserts 3c/3d the same

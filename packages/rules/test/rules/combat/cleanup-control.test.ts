@@ -95,6 +95,21 @@ describe("control of battlefields [R190][R323.5]", () => {
 });
 
 describe("323.6 recalls and hidden cards [R323.6][R323.6.a]", () => {
+  it("[R323.6][R459.1] unattached non-Unit Gear and non-Unit Runes at battlefields are recalled; attached Gear stays", () => {
+    const s = scenario();
+    const unit = placeUnit(s, "p1", "Clockwork Keeper", "battlefieldA", "host-unit");
+    setControl(s.room, "battlefieldA", "p1");
+    placeUnit(s, "p1", "Blade of the Exile", "battlefieldA", "loose-gear");
+    const attached = placeUnit(s, "p1", "Blade of the Exile", "battlefieldA", "worn-gear");
+    attached.attachedToCardId = unit.id;
+    const board = boardOf(s, "p1");
+    const rune = board.runeDeck.shift()!;
+    board.battlefieldA.push({ ...rune, id: "stray-rune" });
+    runCleanup(s.room, stepOf(s));
+    expect(board.base.map((card) => card.id)).toEqual(expect.arrayContaining(["loose-gear", "stray-rune"]));
+    expect(board.battlefieldA.map((card) => card.id).sort()).toEqual(["host-unit", "worn-gear"]);
+  });
+
   it("[R323.6.a] Hidden cards at a battlefield controlled by another player go to their owner's Trash", () => {
     const s = scenario();
     placeUnit(s, "p1", "Clockwork Keeper", "battlefieldA");
