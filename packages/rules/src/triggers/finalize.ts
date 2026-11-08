@@ -143,6 +143,11 @@ export function continueTriggerFinalization(room: Room, item: ChainItem, step: R
 /** 337.1 afterFinalize hook body. */
 export function onItemFinalized(room: Room, item: ChainItem, step: RulesStepContext): void {
   if (item.kind === "triggered") {
+    // 337.4 / 340.4: once the pending triggers are finalized, the controller of the newest item
+    // gains Priority. A trigger placed by a cleanup after Priority was already handed out (e.g.
+    // a Deathknell after a spell resolved) must not leave the stale holder in place; the advance
+    // loop grants the newest item's controller.
+    if (room.rules) room.rules.priority = null;
     continueTriggerFinalization(room, item, step);
     return;
   }

@@ -267,7 +267,10 @@ export function matchesSelector(
 ): boolean {
   const { room, host, env } = ctx;
   const lki = options.lki;
-  if (!options.ignoreZone) {
+  const isRef = !!selector.targetRef && !selector.chosen;
+  // A reference ("self", "it", a bound choice …) matches only the referenced objects.
+  if (isRef && !refIds(ctx, selector.targetRef!).includes(id)) return false;
+  if (!options.ignoreZone && !(isRef && selector.zone === undefined)) {
     const zone = zoneOfObject(ctx, id) ?? lki?.zone ?? null;
     const zones = selector.zone !== undefined ? resolveZoneNames(ctx, selector.zone) : defaultZones(room, host, selector);
     if (!zone) return false;
