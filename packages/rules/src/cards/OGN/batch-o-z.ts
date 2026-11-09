@@ -100,5 +100,30 @@ import "./the-dreaming-tree";
 import "./the-grand-plaza";
 import "./void-gate";
 import "./zaun-warrens";
+// Spells with several instructions or choices
+import "./overt-operation";
+import "./party-favors";
+import "./portal-rescue";
+import "./possession";
+import "./promising-future";
+import "./sabotage";
+import "./salvage";
+import "./shakedown";
+import "./siphon-power";
+import "./spoils-of-war";
+import "./sprite-call";
+import "./stacked-deck";
+import "./stormbringer";
+import "./super-mega-death-rocket";
+import "./time-warp";
+import "./unchecked-power";
+import "./unyielding-spirit";
+import "./whirlwind";
+import "./zenith-blade";
+// Plays from the trash / deck
+import "./the-harrowing";
+import "./reinforce";
+import "./soulgorger";
+import "./spectral-matron";
 
 export {};
