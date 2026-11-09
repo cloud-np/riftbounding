@@ -3,7 +3,7 @@
 import type { CardInstance } from "@rift/protocol";
 
 import { GameCard } from "../card/GameCard";
-import { groupAttachedCards } from "../card/attachments";
+import { attachedFanWidth, groupAttachedCards } from "../card/attachments";
 import type { CardEventHandler, CardSide } from "../card/types";
 import { useBoardInteractionOptional } from "../interaction/context";
 import { TokenPanel } from "../tokens/TokenPanel";
@@ -153,25 +153,33 @@ export function BaseZone({
               aria-hidden="true"
             />
           ) : (
-            topLevel.map((card) => (
-              <div key={card.id} className={RAIL_SLOT_CLASS}>
-                <GameCard
+            topLevel.map((card) => {
+              const attachedCards = byHostId.get(card.id) ?? [];
+              const slotWidth = attachedFanWidth(attachedCards.length);
+              return (
+                <div
                   key={card.id}
-                  card={card}
-                  zone="base"
-                  owner={owner}
-                  profile="board"
-                  exhausted={card.exhausted}
-                  faceDown={card.hidden || card.isPlaceholder}
-                  labels={card.customLabels}
-                  attachedCards={byHostId.get(card.id)}
-                  onCardEvent={onCardEvent}
-                  readOnly={!onCardEvent}
-                  selected={selectedCardIds?.has(card.id)}
-                  targetable={targetableCardIds?.has(card.id)}
-                />
-              </div>
-            ))
+                  className={RAIL_SLOT_CLASS}
+                  style={{ flexBasis: slotWidth, width: slotWidth }}
+                >
+                  <GameCard
+                    key={card.id}
+                    card={card}
+                    zone="base"
+                    owner={owner}
+                    profile="board"
+                    exhausted={card.exhausted}
+                    faceDown={card.hidden || card.isPlaceholder}
+                    labels={card.customLabels}
+                    attachedCards={attachedCards}
+                    onCardEvent={onCardEvent}
+                    readOnly={!onCardEvent}
+                    selected={selectedCardIds?.has(card.id)}
+                    targetable={targetableCardIds?.has(card.id)}
+                  />
+                </div>
+              );
+            })
           )}
         </div>
       </section>

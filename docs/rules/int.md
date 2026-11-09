@@ -219,9 +219,13 @@ the wire gesture has no mode field; not checked in a browser yet.
   vote counter: "<player> must choose: <instruction>" while a prompt is pending, else priority /
   focus. Resolve/Approve are disabled and explain the prompt while it is pending.
 - **Attachments.** Sandbox `equip_card` and the strict `attach` op both keep attached gear in the
-  unit's zone list with `attachedToCardId`. `groupAttachedCards` removes those cards from the row
-  and `GameCard` draws them tucked behind the unit (offset up/right) with the real gear art;
-  detach/move/kill leave the gear at its location and it renders as its own card again.
+  unit's zone list with `attachedToCardId`. `groupAttachedCards` removes those cards from the row;
+  `AttachedCardFan` draws them like the simulator/reference app: same size at the unit's height,
+  fanned right by 0.26 card widths per gear, unit on top and first-attached gear above later gear
+  so every gear exposes its frame, art and stat badge. The host slot widens by the fan
+  (`attachedFanWidth`) in both base and battlefields, the gear strips emit the normal hover
+  preview event, and the fan sits inside the unit's pose transform so move/exhaust/kill carry it.
+  Detach/move/kill leave the gear at its location and it renders as its own card again.
 - **Seats.** `IdentityBadge` renders an avatar/initial and presence dot for every present seat;
   bot seats are always online and show a Bot badge in the clock slot (no frozen 00:00 timer).
 
