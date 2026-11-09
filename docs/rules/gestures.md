@@ -52,6 +52,10 @@ The translation is pure and deterministic: it reads the room through the rules v
 | gear on the board dropped on a unit | `equip_card { equipmentCardId, unitCardId }` | `rules_activate { objectId:gear, ability:"equip:<n>", choices:{ "target:0":[unitCardId] } }` |
 | Quick-Draw gear dropped from hand on a unit | `equip_card { …, asAttachment:true }` | `rules_play { cardId, location:"base" }`; the `quick-draw` trigger then prompts for the unit |
 | **click/drop on an open prompt's option** (single-selection `choose-target` / `choose-card` / `choose-battlefield`) | `toggle_exhausted` / `move_card` / `chain_add` / `equip_card` naming the option | `rules_choose { promptId, answer:{ optionIds:[optionId] } }` |
+| **Approve** the opponent's chain item (A) | `chain_set_resolve_vote { entryId, approved }` | `rules_pass` (338.1.b; the item resolves when the pass round completes) |
+| **Resolve** the chain (S) | `chain_resolve { entryId, to }` | `rules_pass` (338.1.b); never resolves directly |
+| pass a showdown/combat response (sandbox conquer controls) | `battlefield_conquer_pass_focus` / `battlefield_conquer_pass_response` | `rules_pass` (347.2 focus; 338.1.b priority) |
+| sandbox advance-step control | `end_beginning_phase { observed }` | `rules_pass` (closest strict meaning; `nothing_to_pass` when there is no chain/showdown) |
 | end turn (sandbox button/shortcut) | `end_turn {}` | `rules_end_turn {}` |
 
 Payment is intentionally omitted from every translated intent, so the engine's automatic payment
@@ -78,7 +82,9 @@ bound single option is validated by the rules layer and rejected if the spec nee
 | click during a prompt that is not one of its options | `invalid_choice` (411.2), prompt stays open |
 | click during a prompt that needs more than one selection | `invalid_choice` (411.2) with an "accumulate clicks and send rules_choose on confirm" detail |
 | a non-object prompt (yes-no / mode / number / damage assignment) | `prompt_pending` (411.2); answer it with `rules_choose` |
-| free-form manipulation (draws, runes, counters, might, score/XP, shuffles, control transfers, arbitrary zone moves, `chain_resolve`, `create_token`, payments, reorder) | `strict_mode_action` (`contract:§4`) with a detail naming the action |
+| Approve/Resolve when the actor does not hold priority | `not_your_priority` (338.1.b) |
+| advance step when nothing can be passed | `nothing_to_pass` (338.1.b) |
+| free-form manipulation (draws, runes, counters, might, score/XP, shuffles, control transfers, arbitrary zone moves, `create_token`, payments, reorder) | `strict_mode_action` (`contract:§4`) with a detail naming the action |
 | a non-Quick-Draw gear dropped from hand on a unit | `strict_mode_action`, rule 819.1.d (there is no attach-on-play; use Equip) |
 
 Reason strings: `rules.reason.<code>` in `packages/i18n/data/i18n-{en,fr,ko,zh-CN}.json`.
@@ -137,6 +143,15 @@ need a "pick an action" list.
   engine only validates each `rules_choose`); a single click is rejected with `invalid_choice` and
   the prompt stays open. A click on a non-option is also rejected with `invalid_choice`.
 - **End turn**: `end_turn {}` and `rules_end_turn {}` both work in strict rooms now.
+- **Chain controls**: Approve (A, `chain_set_resolve_vote`), Resolve (S, `chain_resolve`), the
+  showdown pass controls (`battlefield_conquer_pass_focus` / `pass_response`) and the sandbox
+  advance-step button (`end_beginning_phase`) are translated to `rules_pass`; the rules engine
+  decides when the item resolves. Without priority they reject with `not_your_priority`
+  (338.1.b), with nothing to pass `nothing_to_pass` (338.1.b).
+- **Top-right NEXT**: `RoomActionBar`'s Next is a room-shell/HTTP action
+  (`create_next_game`, `RoomActionBar.tsx:77-79` → `riftbound:next-game`), not an engine gameplay
+  action, so it never reaches `translateGesture`; in a live strict game the server rejects it with
+  `game_result_required`. The client lane should hide/disable it during strict in-game.
 - **Drop highlight**: `engineCanDrop` dry-runs `applyGameAction` on the real room, so in strict
   rooms the drag highlight follows strict legality for `move_card`/`chain_add`; for the exact
   rejection text use the new `translateGesture` export from `@rift/engine` (or
@@ -149,6 +164,13 @@ need a "pick an action" list.
 
 ## Not implemented here (lead / rules-side follow-ups)
 
+0. **Strict rejections render as the connection banner (client bug).** A gameplay rejection
+   (`mutationClass: "reject_invalid"`) still gets a `userMessage` from
+   `decideServerErrorOutcome` (`apps/play/src/runtime/matchRuntime.ts:3186`), and
+   `handleServerError` stores it in `lastError` (`matchRuntime.ts:2022`). `GameScreen.tsx:665`
+   then chooses the blocking connection banner (Retry at `:799`, Return to lobby at `:807`)
+   instead of the action toast (`GameScreen.tsx:812`). The client lane should keep `lastError`
+   null for `reject_invalid` / `reject_retryable` and route them to `actionError` only.
 1. **Protocol typing for the target field.** `GameplayAction` is a closed union; the runtime keeps
    the extra field (the realtime message carries `action: unknown`), but the typed client cannot
    send it. Add optional `targetCardId?: string` (and optional `ability?: string` on

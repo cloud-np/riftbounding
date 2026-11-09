@@ -25,6 +25,7 @@
  * | `equip_card` Quick-Draw gear (hand) → unit              | `rules_play { cardId, location:"base" }` (trigger prompts) |
  * | object click while a single-option prompt is open       | `rules_choose { promptId, answer:{ optionIds:[id] } }` |
  * | `end_turn`                                              | `rules_end_turn`               |
+ * | Approve/Resolve chain, pass showdown focus, advance step| `rules_pass` (338.1.b / 347.2) |
  * | cosmetic/meta actions (§4)                              | passthrough to `gate()`        |
  * | §6.4 manual board actions for the manual player         | passthrough to `gate()`        |
  * | anything else (free-form manipulation)                  | `strict_mode_action` reject    |
@@ -789,6 +790,18 @@ export function translateGesture(
       return translateToggle(room, actorId, action, host);
     case "equip_card":
       return translateEquip(room, actorId, action, host);
+    // Sandbox chain/priority controls: accepting the opponent's chain item, resolving the chain
+    // and passing a showdown/combat focus all mean "pass priority/focus" under the strict rules
+    // (338.1.b / 347.2). The rules layer decides when the item actually resolves; nothing is
+    // resolved directly. The same holds for the sandbox advance-step control: strict phases are
+    // driven by the engine, so passing is the closest legal meaning (and explains itself when
+    // there is nothing to pass). `end_turn` keeps its own mapping below.
+    case "chain_set_resolve_vote":
+    case "chain_resolve":
+    case "battlefield_conquer_pass_focus":
+    case "battlefield_conquer_pass_response":
+    case "end_beginning_phase":
+      return intentOrReject(room, actorId, { type: "rules_pass" }, host);
     case "end_turn":
       return intentOrReject(room, actorId, { type: "rules_end_turn" }, host);
     default:
