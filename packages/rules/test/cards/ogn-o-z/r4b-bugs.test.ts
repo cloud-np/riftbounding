@@ -11,7 +11,7 @@ import { fund, place } from "../../rules/effects/helpers";
 import { driveAll, setMight, withCards } from "./helpers";
 
 describe("OGN O–Z engine reproductions", () => {
-  it.skip("[BUG][C:Solari Shrine][R429.5.c][R429.5.c.1] a damage kill is attributed to the spell's controller", () => {
+  it("[C:Solari Shrine][R429.5.c][R429.5.c.1] a damage kill is attributed to the spell's controller", () => {
     const s = withCards(["Solari Shrine", "Hextech Ray"], ["Caitlyn, Patrolling"]);
     const shrine = place(s, "p1", "Solari Shrine", "base");
     const enemy = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");

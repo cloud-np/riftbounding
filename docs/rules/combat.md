@@ -121,7 +121,10 @@ together (491.8.d, 491.6.a.3) through the host's entity scores.
 R4-engine: `kill` records the object's last-known `stunned` / `buffs` / `empowered` in the event's
 `data` before `rules.objects[id]` is deleted (383.2.c.3.b / 424 / 427 / 442). Death triggers from
 combat and cleanup can therefore read the status, and Deploy gear's "when an opponent holds here,
-kill this" (830.1.b) goes through the same event.
+kill this" (830.1.b) goes through the same event. R4-engine-e also attributes a cleanup kill from
+lethal damage: `ObjectRulesState.damageSource` keeps the damage's source object and responsible
+player, so cleanup step 3 emits `kill` with `sourceObjectId` / `data.responsible` (429.5.c,
+429.5.c.1; combat damage attributes the assigning player, 429.5.c.2).
 
 ## Protocol notes (for `packages/protocol/CHANGES.md`)
 

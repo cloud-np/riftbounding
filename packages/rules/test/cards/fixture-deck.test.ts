@@ -248,7 +248,9 @@ describe("fixture deck card scripts", () => {
     const riven = place(s, "p1", "Riven, Broken Blade", "base");
     s.as("p1").move("Riven, Broken Blade", "battlefieldA").expectOk();
     s.expectPrompt("choose-mode", "p1");
-    expect(s.room.rules!.prompt!.options!.map((option) => option.id)).toEqual(["buff", "stun", "ready"]);
+    // 355.8: the stun mode has no enemy unit to choose, so it has no legal choices and is not
+    // offered; "Buff me" and "ready me" remain.
+    expect(s.room.rules!.prompt!.options!.map((option) => option.id)).toEqual(["buff", "ready"]);
     s.as("p1").choose({ optionIds: ["buff"] }).expectOk();
     passBoth(s);
     expect(s.room.rules!.objects[riven.id]?.buffs).toBe(1);
@@ -261,12 +263,13 @@ describe("fixture deck card scripts", () => {
     s.room.rules!.objects[riven.id] = { baseMight: 4, buffs: 1 };
     s.room.rules!.history.effects = { marks: { [`riven-broken-blade:${riven.id}`]: ["buff"] } };
     s.as("p1").move("Riven, Broken Blade", "battlefieldA").expectOk();
-    s.expectPrompt("choose-mode", "p1");
-    expect(s.room.rules!.prompt!.options!.map((option) => option.id)).toEqual(["stun", "ready"]);
-    s.as("p1").choose({ optionIds: ["ready"] }).expectOk();
+    // 355.8: only "ready me" has a legal choice (no enemy unit for the stun mode), so 411.2 binds
+    // the forced mode automatically and no mode prompt opens.
+    expect(s.room.rules!.prompt ?? null).toBeNull();
     passBoth(s);
     expect(s.room.rules!.objects[riven.id]?.buffs).toBeUndefined();
     expect(s.host.isExhausted(s.room, riven.id)).toBe(false);
+    expect(s.room.rules!.history.effects?.marks?.[`riven-broken-blade:${riven.id}`]).toEqual(["buff", "ready"]);
   });
 
   it("[C:Altar to Unity] when you hold here, play a 1 Might Recruit token in your base", () => {

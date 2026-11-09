@@ -229,6 +229,11 @@ export interface EffectsObjectFields {
    * carries the item id (it is "not the same object").
    */
   targetedBy?: string[];
+  /**
+   * 429.5.c: the spell/ability (object id) and responsible player of the most recent damage dealt
+   * to this object, so damage killed in a Cleanup is attributed to that source (429.5.c.1).
+   */
+  damageSource?: { objectId?: string; playerId?: string };
 }
 
 /** Per-turn bookkeeping kept by the effects layer (reset with `RulesHistory` each turn). */

@@ -44,6 +44,27 @@ Wave R4-engine closed the play-side `[BUG]` reproductions (wire additions in
   Location, the existing option is kept and marked `viaAmbush`, so 308.1.a reaction timing sees the
   Ambush permission.
 
+### R4-engine-e fixes (self-play and card-lane findings)
+
+- **Pending non-standard cost vs the resource check (420.2.a / 357.1).** `planPayment` no longer
+  returns a pending `choose-cost` choice before checking Energy/Power. It probes the candidate
+  selections (explicit plan per selection; worst case excludes every candidate from the Rune
+  sources when there are too many) and only keeps the pending result when at least one selection
+  leaves a payable resource plan. An unaffordable card with a kill/exhaust/discard cost is not
+  listed and its play fails with `insufficient_resources` before it reaches the chain.
+- **One ability per printed `[Equip]` line (818.1.c.2).** `listActivatedAbilities` does not emit a
+  free `manual:<n>` entry for an `[Equip] …` line; the built-in `equip:<n>` from
+  `play/abilities.ts` (real parsed cost, attach effect) is the single ability. `[Empower]` keeps
+  its manual entry until a built-in Empower exists.
+- **Mode options need legal targets (355.8 / 355.3 / 420.2.a).** `requiredChoices` probes each mode
+  with the mode bound and offers only modes whose mandatory play-time choices have at least `min`
+  options; when no mode is completable the card has no legal choices (`no_legal_targets`).
+  `bindChoices` likewise probes the remaining specs before opening a real prompt, so an earlier
+  optional choice (e.g. `[Show Off]`) cannot hide a later mandatory target with no legal option.
+- **Facedown play provenance (811.6).** `unit_played`/`gear_played` and `card_played` carry
+  `data.playedFromFacedown: true`, so "when you play me/it from facedown" triggers can match the
+  event (Evelynn, Entrancing).
+
 ## Files
 
 | file | rules | role |

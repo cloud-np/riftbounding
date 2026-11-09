@@ -90,6 +90,8 @@ export function resolvePermanent(room: Room, item: ChainItem, isUnit: boolean, s
     playerId: item.controller,
     zone: destination,
     cardName: snapshot.name,
+    // 811.6 / 383.4.a: "when you play me from facedown" needs the play's provenance.
+    ...(item.playedFromFacedown ? { data: { playedFromFacedown: true } } : {}),
   });
   // 430.2.a: Add abilities never pass Priority/Focus; only card permanents do.
   if (item.origin !== "add") afterChainItemResolved(room, step, openedBy);

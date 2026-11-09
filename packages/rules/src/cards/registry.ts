@@ -219,21 +219,26 @@ export function listActivatedAbilities(
 ): ActivatedAbilityEntry[] {
   const script = getCardScript(name);
   if (!script || script.status === "manual") {
-    return parseActivatedAbilityTexts(text ?? script?.text).map((line, index) => {
-      const keywords = activationKeywords(line);
-      return {
-        ref: `manual:${index}`,
-        ability: {
-          kind: "activated" as const,
-          cost: {},
-          effect: { op: "custom" as const, id: "manual" },
-          ...(keywords.length > 0 ? { keywords } : {}),
-          ...(/\[Add\]/i.test(line.split(":").slice(1).join(":")) ? { addsResources: true } : {}),
-        },
-        manual: true,
-        text: line,
-      };
-    });
+    // 818.1.c.2: a printed [Equip] line is the built-in `equip:<n>` ability (play/abilities.ts),
+    // not a free §6.4 `manual:<n>` entry — listing both made an unaffordable Equip repeatable.
+    // [Empower] stays parsed until it has a built-in representation.
+    return parseActivatedAbilityTexts(text ?? script?.text)
+      .filter((line) => !/^\s*\[Equip\]/i.test(line))
+      .map((line, index) => {
+        const keywords = activationKeywords(line);
+        return {
+          ref: `manual:${index}`,
+          ability: {
+            kind: "activated" as const,
+            cost: {},
+            effect: { op: "custom" as const, id: "manual" },
+            ...(keywords.length > 0 ? { keywords } : {}),
+            ...(/\[Add\]/i.test(line.split(":").slice(1).join(":")) ? { addsResources: true } : {}),
+          },
+          manual: true,
+          text: line,
+        };
+      });
   }
   const result: ActivatedAbilityEntry[] = [];
   script.abilities.forEach((ability, index) => {

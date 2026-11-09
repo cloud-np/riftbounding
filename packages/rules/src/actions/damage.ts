@@ -36,6 +36,14 @@ export function dealDamage(
   const object = (rules.objects[cardId] ??= {});
   object.damage = (object.damage ?? 0) + damage;
   object.damagedThisTurn = true;
+  // 429.5.c / 429.5.c.1: note who dealt the damage, so a kill caused by this lethal damage in a
+  // Cleanup is attributed to the spell/ability (and its controller) that dealt it.
+  if (source?.objectId || source?.playerId) {
+    object.damageSource = {
+      ...(source.objectId ? { objectId: source.objectId } : {}),
+      ...(source.playerId ? { playerId: source.playerId } : {}),
+    };
+  }
   pushEvent(step.events, {
     type: "damage",
     cardId,

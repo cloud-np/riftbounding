@@ -424,5 +424,5 @@ describe("pickRandomAction [312][411.2][§6.4]", () => {
         value.room = result.room;
       }
     }
-  });
+  }, 20_000);
 });

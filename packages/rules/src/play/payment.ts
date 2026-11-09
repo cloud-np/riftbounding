@@ -45,6 +45,97 @@ export interface PaymentContext {
   avoidIds?: readonly string[];
 }
 
+function objectContext(playerId: string, context: PaymentContext): Parameters<typeof planObjectCosts>[3] {
+  return {
+    playerId,
+    ...(context.sourceObjectId ? { sourceObjectId: context.sourceObjectId } : {}),
+    ...(context.excludeIds ? { excludeIds: context.excludeIds } : {}),
+    ...(context.plan ? { plan: context.plan } : {}),
+    ...(context.avoidIds ? { avoidIds: context.avoidIds } : {}),
+  };
+}
+
+/** 357.1: the Energy/Power part, with the runes an object plan consumes removed from the sources. */
+function resourcePlan(
+  room: Room,
+  host: RulesHost,
+  playerId: string,
+  cost: ResolvedCost,
+  context: PaymentContext,
+  objects: ObjectPlan,
+): { ok: true; plan: ResourcePlan } | RulesFailure {
+  const sources = paymentSources(room, host, playerId);
+  // A rune consumed by a non-standard cost (or recycled as "Recycle this") cannot also pay.
+  const consumed = new Set(objectPlanIds(objects));
+  const usable = { ...sources, runes: sources.runes.filter((rune) => !consumed.has(rune.id)) };
+  return resourcePlanFor(usable, cost, context.plan);
+}
+
+/** At most this many candidate selections before the pending check falls back to worst case. */
+const MAX_PENDING_SELECTIONS = 100;
+
+/** Every `count`-sized selection of `candidates` (null when there are too many). */
+function selections(candidates: readonly string[], count: number): string[][] | null {
+  if (count <= 0) return [[]];
+  if (candidates.length < count) return null;
+  const out: string[][] = [];
+  const pick = (start: number, chosen: string[]): void => {
+    if (out.length > MAX_PENDING_SELECTIONS) return;
+    if (chosen.length === count) {
+      out.push([...chosen]);
+      return;
+    }
+    for (let index = start; index < candidates.length; index += 1) {
+      chosen.push(candidates[index]!);
+      pick(index + 1, chosen);
+      chosen.pop();
+      if (out.length > MAX_PENDING_SELECTIONS) return;
+    }
+  };
+  pick(0, []);
+  return out.length > MAX_PENDING_SELECTIONS ? null : out;
+}
+
+/**
+ * 420.2.a: a pending non-standard choice (357.2) must not skip the resource check. Probe each
+ * candidate selection with an explicit plan and keep the play only when at least one selection
+ * leaves a complete object plan and a payable Energy/Power plan. Returns the original pending
+ * choice so the caller still prompts.
+ */
+function pendingPayment(
+  room: Room,
+  host: RulesHost,
+  playerId: string,
+  cost: ResolvedCost,
+  context: PaymentContext,
+  pending: CostObjectChoice,
+): PaymentPlanResult {
+  const options = selections(pending.candidates, pending.count);
+  if (options) {
+    let first: RulesFailure | null = null;
+    for (const selection of options) {
+      const plan: PaymentPlanWire = { ...(context.plan ?? {}), [pending.category]: selection };
+      const planned = planPayment(room, host, playerId, cost, { ...context, plan });
+      if (planned.ok) return { ok: true, plan: null, pending };
+      first ??= planned;
+    }
+    if (first) return first;
+    return { ok: true, plan: null, pending };
+  }
+  // Too many selections to enumerate: exclude every candidate from the rune sources (worst case).
+  const objects = planObjectCosts(room, host, cost, objectContext(playerId, context));
+  if (!objects.ok) return objects;
+  const sources = paymentSources(room, host, playerId);
+  const consumed = new Set([
+    ...(objects.plan ? objectPlanIds(objects.plan) : []),
+    ...pending.candidates,
+  ]);
+  const usable = { ...sources, runes: sources.runes.filter((rune) => !consumed.has(rune.id)) };
+  const resources = resourcePlanFor(usable, cost, context.plan);
+  if (!resources.ok) return resources;
+  return { ok: true, plan: null, pending };
+}
+
 /** 357: plan the whole payment (non-standard objects first, then Energy/Power). Pure. */
 export function planPayment(
   room: Room,
@@ -53,20 +144,11 @@ export function planPayment(
   cost: ResolvedCost,
   context: PaymentContext = {},
 ): PaymentPlanResult {
-  const objects = planObjectCosts(room, host, cost, {
-    playerId,
-    ...(context.sourceObjectId ? { sourceObjectId: context.sourceObjectId } : {}),
-    ...(context.excludeIds ? { excludeIds: context.excludeIds } : {}),
-    ...(context.plan ? { plan: context.plan } : {}),
-    ...(context.avoidIds ? { avoidIds: context.avoidIds } : {}),
-  });
+  const objects = planObjectCosts(room, host, cost, objectContext(playerId, context));
   if (!objects.ok) return objects;
-  if (objects.pending) return { ok: true, plan: null, pending: objects.pending };
-  const sources = paymentSources(room, host, playerId);
-  // A rune consumed by a non-standard cost (or recycled as "Recycle this") cannot also pay.
-  const consumed = new Set(objectPlanIds(objects.plan));
-  const usable = { ...sources, runes: sources.runes.filter((rune) => !consumed.has(rune.id)) };
-  const resources = resourcePlanFor(usable, cost, context.plan);
+  // 420.2.a / 357.1: the resource part still has to be payable while an object choice is pending.
+  if (objects.pending) return pendingPayment(room, host, playerId, cost, context, objects.pending);
+  const resources = resourcePlan(room, host, playerId, cost, context, objects.plan);
   if (!resources.ok) return resources;
   return { ok: true, plan: { resources: resources.plan, objects: objects.plan }, pending: null };
 }

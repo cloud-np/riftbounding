@@ -110,7 +110,11 @@ function dealSplit(effect: SplitEffect, context: EffectExecutionContext): Effect
     if (restrictionFor(context.room, host, { kind: "be-dealt-damage", objectId: id, ...(sourceId ? { sourceObjectId: sourceId } : {}) })) {
       continue;
     }
-    const dealt = dealDamage(context.room, id, share.amount, context.step, sourceId ? { objectId: sourceId } : undefined);
+    const dealt = dealDamage(context.room, id, share.amount, context.step, {
+      ...(sourceId ? { objectId: sourceId } : {}),
+      // 429.5.c.1: the controller of the deal action is responsible for a resulting kill.
+      playerId: ctx.env.controller,
+    });
     if (dealt > 0) done.push(id);
   }
   recordOutcome(context, done, done.length > 0);
