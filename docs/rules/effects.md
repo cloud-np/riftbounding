@@ -99,7 +99,8 @@ grant/remove keyword 801.3, return_to_hand (056, 186.1, 705), `cost_then` (740.4
   "no" removes it, 383.3.a.2); choices come from `requiredChoices` — one legal option is
   auto-picked, otherwise `effects.trigger_choice`; not enough options removes it (403.4).
   Finalizing a trigger clears a stale Priority holder so the newest item's controller gets it
-  (337.4/340.4).
+  (337.4/340.4). A leading cost within instructions (`cost_then` first, 383.3.b/404.1.b.1) is
+  paid now or declined (405.2; an unpayable or declined trigger is removed, 383.3.b.1).
 
 ## Replacements (367–375) and prevention (438)
 
@@ -130,6 +131,14 @@ without consuming them; `preventValue` exposes the tracked Prevent Value (438.5)
   modifiers (Energy/Power; `once` = "next card", consumed on `card_played`, 420.5).
 - Bonus Damage (`bonus-damage`, `nextSpell`), enter-ready (`enter-ready`, 369.3), Victory Score
   (`victory-score`), `assigned-last` and `hide-limit` are exposed for the other domains.
+- Passive Might amounts may be computed ("+1 for each card in your trash"); a card's own cost
+  passives apply while it is in hand (366.2.a, e.g. "[Legion] I cost [2] less").
+- Catalog keyword lists include reminder-text / dependent keywords; a script marks those with
+  `{ kind: "keyword", keyword, value: 0 }` so they only apply when an ability grants them
+  (Clanging Sentry's Disarm, Gustwalker's Level-3 Ganking; 727.1.b, 831.2).
+- `ignoredKeywords(room, host, { playerId, action, zone })` (764–767): keywords a player treats as
+  Inactive for one action (`ignore-keyword` modifiers, e.g. "You ignore Backline while assigning
+  combat damage here").
 
 ## Contracts for the merge
 
@@ -153,6 +162,8 @@ without consuming them; `preventValue` exposes the tracked Prevent Value (438.5)
   modifier (Caitlyn). Add `victoryScoreAdjustment()` where the Victory Score is compared.
   The 3d cleanup deletes rules objects without `baseMight`/buffs/counters/grants: please keep
   `empowered`, `prevent`, `keywordGrants`, `mightMods` in that keep-list.
+- **R2-int** — resolution prompts carry the interpreter continuation in `prompt.data`
+  (`continuation`), including looked-at card ids; redact it for other viewers.
 - **Lead / R1 core** — `resolve.ts` await status (see Interpreter). The R1 tests that used
   Treasure Hunter as a vanilla unit register a vanilla override (its move trigger now closes the
   state, 383/402.1); `hooks.test.ts` compares registry counts to the production baseline;
@@ -187,6 +198,15 @@ Reckless Innovator (Accelerate; [Chaos] payment via payCost), Clockwork Keeper (
 additional cost), Aspirant's Climb (host Victory Score), Bandle Tree (hide limit). Manual —
 Meditation (see contracts).
 
+Cards named in official examples (`test/cards/example-cards.test.ts`): implemented — Void
+Seeker, Flash, Singularity, Annie Fiery, Noxian Guillotine ([Legion] read as "another card
+played this turn"), Ravenborn Tome, Last Stand, Discipline, Falling Star, Eclipse, Hextech Ray,
+Ride the Wind, Retreat, Challenge, Deathgrip, Stupefy, Eclipse Herald, Viktor Leader, Wraith of
+Echoes ("the first time … each turn" = once-per-turn trigger), Undercover Agent, Sona Harmonious,
+Dr. Mundo Expert, Ultrasoft Poro, Clanging Sentry, Ruin Runner, Master Yi Honed, Gustwalker,
+Noxus Hopeful. Partial — Hidden Blade and Zhonya's Hourglass ([Hidden]), Frigid Touch and Feral
+Strength ([Repeat]).
+
 ## Open RULES-QUESTIONs
 
 - `RULES-QUESTION(103.4)`: the engine does not store which battlefield card sits in which zone;
@@ -200,7 +220,8 @@ Meditation (see contracts).
 1. `resolve.ts` await status (lead) so prompts keep the item on the chain.
 2. 372/373 replacement ordering prompts; optional ("may") replacements (371.2).
 3. 359.3.e.4 round-trip detection (board → non-board → board) needs an object incarnation stamp.
-4. 383.3.b trigger costs on finalization; 355.11/355.14 group targeting and damage splitting.
+4. 355.11/355.14 group targeting and damage splitting; player-level restrictions ("opponents can
+   only play units to their base") in `restrictionFor` (it only answers object queries).
 5. Show Off (832), Flow (829, with R2-play), Ignoring effects (764–767), copy (446), hide (422),
    439 Replace, 433.1.b damage doubling, "the Nth time" triggers (383.1.b), triggers of cards in
    non-board zones (385).
