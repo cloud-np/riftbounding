@@ -1656,7 +1656,210 @@
      "suggestions"
     ],
     "吗？"
-   ]
+   ],
+   "rules.reason.not_your_priority": "你没有优先权。",
+   "rules.reason.closed_state_requires_reaction": "当前状态已封闭：只能打出反应卡牌和技能。",
+   "rules.reason.showdown_requires_action": "对决期间只能打出迅捷或反应卡牌和技能。",
+   "rules.reason.not_your_turn": "还没轮到你。",
+   "rules.reason.not_main_phase": "这只能在你自己的主要阶段进行。",
+   "rules.reason.chain_not_empty": "结算链必须为空。",
+   "rules.reason.prompt_pending": "有一项选择待处理。请先作出选择。",
+   "rules.reason.game_over": "对局已结束。",
+   "rules.reason.not_in_game": "对局尚未开始。",
+   "rules.reason.strict_mode_action": "严格规则下不允许该操作。",
+   "rules.reason.rules_require_strict": "这需要严格规则房间。",
+   "rules.reason.loop_guard": "游戏已终止无限循环。",
+   "rules.reason.nothing_to_pass": "没有可传递的对象。",
+   "rules.reason.no_pending_prompt": "没有待处理的选择。",
+   "rules.reason.unknown_card": "未知卡牌。",
+   "rules.reason.unknown_intent": "未知操作。",
+   "rules.reason.illegal_action": "该操作目前不合法。",
+   "rules.reason.insufficient_resources": "你无法支付该费用。",
+   "rules.reason.illegal_target": "该目标不合法。",
+   "rules.reason.no_legal_targets": "没有合法目标。",
+   "rules.reason.invalid_location": "该位置无效。",
+   "rules.reason.unit_exhausted": "该单位已休眠。",
+   "rules.reason.unit_not_found": "找不到单位。",
+   "rules.reason.card_not_found": "找不到卡牌。",
+   "rules.reason.not_in_hand": "该卡牌不在你的手牌中。",
+   "rules.reason.invalid_payment": "该支付未能恰好支付费用。",
+   "rules.reason.restricted": "有项效果阻止了该操作。",
+   "rules.reason.showdown_active": "对决进行期间不可进行。",
+   "rules.reason.combat_active": "战斗进行期间不可进行。",
+   "rules.reason.invalid_choice": "不允许该选择。",
+   "rules.reason.manual_window_pending": "请先完成手动结算，然后点击完成。",
+   "rules.reason.no_manual_window": "没有需要完成的手动结算。",
+   "rules.reason.not_implemented": "该卡牌尚未实装。",
+   "rules.reason.unknown": "目前不允许该操作。",
+   "rules.promptReason.burn_out": "燃尽：选择一名对手获得 1 分",
+   "rules.promptReason.stage_showdown": "选择先进行的对决",
+   "rules.promptReason.stage_combat": "选择先进行的战斗",
+   "rules.promptReason.combat.damage_assignment": "分配战斗伤害",
+   "rules.promptReason.play.choice": "为正在打出的卡牌作出选择",
+   "rules.promptReason.play.cost": "选择用于支付费用的内容",
+   "rules.promptReason.play.trigger": "决定一项触发技能",
+   "rules.promptReason.effects.resume": "在效果结算期间作出选择",
+   "rules.promptReason.effects.order_triggers": "排列你的触发技能顺序",
+   "rules.promptReason.effects.replacement": "决定替代效果如何应用",
+   "rules.promptKind.choose-opponent": "选择一名对手",
+   "rules.promptKind.choose-player": "选择一名玩家",
+   "rules.promptKind.choose-card": "选择卡牌",
+   "rules.promptKind.choose-target": "选择目标",
+   "rules.promptKind.choose-mode": "选择模式",
+   "rules.promptKind.choose-battlefield": "选择战场",
+   "rules.promptKind.choose-number": "选择数字",
+   "rules.promptKind.yes-no": "是或否",
+   "rules.promptKind.order": "选择顺序",
+   "rules.promptKind.manual": "手动结算",
+   "rules.promptKind.choose-cost": "选择用于支付费用的内容",
+   "rules.promptKind.damage-assignment": "分配伤害",
+   "rules.prompt.burnOutOpponent": "燃尽：选择一名对手获得 1 分",
+   "rules.prompt.chooseShowdownBattlefield": "选择下一场对决的战场",
+   "rules.prompt.chooseCombatBattlefield": "选择下一场战斗的战场",
+   "rules.prompt.combatDamageAssignment": "分配战斗伤害",
+   "rules.prompt.chooseDestination": "选择目的地",
+   "rules.prompt.chooseDiscard": "选择要弃置的卡牌",
+   "rules.prompt.chooseRecycle": "选择要回收的卡牌",
+   "rules.prompt.chooseSearch": "选择你找到的一张卡牌",
+   "rules.prompt.predictRecycle": "洞察：选择要回收的卡牌",
+   "rules.prompt.orderTriggers": "排列你的触发技能顺序",
+   "rules.prompt.payCost": "支付费用？",
+   "rules.prompt.may": "要这样做吗？",
+   "rules.prompt.choose": "选择",
+   "rules.prompt.chooseMode": "选择模式",
+   "rules.prompt.chooseTarget": "选择目标",
+   "rules.prompt.equipTarget": "选择一名你控制的单位进行装配",
+   "rules.prompt.mayTrigger": "使用该触发技能？",
+   "rules.prompt.payTriggerCost": "支付该触发技能的费用？",
+   "rules.prompt.applyReplacement": "应用该替代效果？",
+   "rules.prompt.orderReplacements": "选择替代效果的应用顺序",
+   "rules.prompt.chooseGroupSubset": "选择要影响该组中的哪些目标",
+   "rules.prompt.splitDamage": "在各目标之间分配伤害",
+   "rules.prompt.splitKeepTargets": "选择要保留的目标",
+   "rules.prompt.showOff": "炫技：从手牌中打出一张卡牌？",
+   "rules.prompt.cardsOrRunes": "选择卡牌或符文",
+   "rules.prompt.chooseOpponent": "选择一名对手",
+   "rules.prompt.guessCardType": "猜测一种卡牌类型",
+   "rules.prompt.mayReturnUnit": "将一名单位返回其拥有者的手牌？",
+   "rules.prompt.revealAndDraw": "展示一张卡牌并抽一张牌？",
+   "rules.prompt.spendBuffToReady": "消耗一个增益以变为活跃状态？",
+   "rules.prompt.topOrBottom": "将其置于主牌堆顶还是主牌堆底？",
+   "rules.prompt.unlessDraw": "抽一张牌以避免此效果？",
+   "rules.prompt.cost.exhaust": "选择要休眠以支付费用的内容",
+   "rules.prompt.cost.kill": "选择要摧毁以支付费用的内容",
+   "rules.prompt.cost.discard": "选择要弃置以支付费用的卡牌",
+   "rules.ui.rulesMode": "规则",
+   "rules.ui.modeSandbox": "沙盒",
+   "rules.ui.modeStrict": "严格",
+   "rules.ui.rulesModeHint": "严格规则会强制执行时机、优先权、费用和选择。",
+   "rules.ui.strictBadge": "严格规则",
+   "rules.ui.legalActions": "合法操作",
+   "rules.ui.noLegalActions": "没有合法操作",
+   "rules.ui.play": "打出",
+   "rules.ui.hide": "隐藏",
+   "rules.ui.activate": "激活",
+   "rules.ui.activateManual": "激活（手动）",
+   "rules.ui.moveTo": [
+    "移动到 ",
+    [
+     "zone"
+    ]
+   ],
+   "rules.ui.pass": "传递",
+   "rules.ui.endTurn": "结束回合",
+   "rules.ui.concede": "认输",
+   "rules.ui.concedeConfirm": "认输本局？",
+   "rules.ui.done": "完成",
+   "rules.ui.confirm": "确认",
+   "rules.ui.cancel": "取消",
+   "rules.ui.yes": "是",
+   "rules.ui.no": "否",
+   "rules.ui.moveUp": "上移",
+   "rules.ui.moveDown": "下移",
+   "rules.ui.selectRange": [
+    "选择 ",
+    [
+     "min"
+    ],
+    " 到 ",
+    [
+     "max"
+    ],
+    " 个"
+   ],
+   "rules.ui.yourPriority": "你拥有优先权",
+   "rules.ui.priorityOf": [
+    [
+     "player"
+    ],
+    " 拥有优先权"
+   ],
+   "rules.ui.focusOf": [
+    [
+     "player"
+    ],
+    " 拥有焦点"
+   ],
+   "rules.ui.waitingForChoice": [
+    "等待 ",
+    [
+     "player"
+    ],
+    "：",
+    [
+     "reason"
+    ]
+   ],
+   "rules.ui.manualWindow": [
+    "手动结算 ",
+    [
+     "card"
+    ],
+    "，然后点击完成。"
+   ],
+   "rules.ui.manualWindowOther": [
+    "等待 ",
+    [
+     "player"
+    ],
+    " 手动结算 ",
+    [
+     "card"
+    ]
+   ],
+   "rules.ui.illegal": "不允许",
+   "rules.ui.reasonWithRule": [
+    [
+     "reason"
+    ],
+    "（规则 ",
+    [
+     "rule"
+    ],
+    "）"
+   ],
+   "rules.ui.damageTotal": [
+    "分配 ",
+    [
+     "total"
+    ],
+    " 点伤害"
+   ],
+   "rules.ui.damageRemaining": [
+    "剩余 ",
+    [
+     "remaining"
+    ],
+    " 点伤害待分配"
+   ],
+   "rules.ui.damageLethal": [
+    "致命伤害：",
+    [
+     "lethal"
+    ]
+   ],
+   "rules.ui.damageCannotBeDealt": "无法受到伤害",
+   "rules.ui.useSuggestion": "使用建议"
   },
   "parts": {
    "suggestionItem": [
