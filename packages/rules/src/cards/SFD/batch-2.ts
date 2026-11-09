@@ -380,11 +380,7 @@ registerCardScript({
   status: "implemented",
   abilities: [
     // 712–715 / 724: a player-level Effect Text passive, active only while attached.
-    whilePassive(custom("sfd:self-attached"), {
-      kind: "custom",
-      id: "bonus-damage",
-      params: { amount: 3 },
-    }),
+    whilePassive(custom("sfd:self-attached"), { kind: "bonus-damage", amount: 3 }),
     mightBonus(3),
   ],
 });
@@ -548,7 +544,7 @@ registerCardScript({
   text: "I cost [1] less for each card you've played this turn, to a minimum of [1].",
   status: "implemented",
   // 356.4.e: the minimum applies only to this discount — at most [4] off its [5] (356.4.g).
-  abilities: stepDiscounts((k) => custom("cards-played", { op: "gte", value: k }), 1, 4),
+  abilities: stepDiscounts((k) => ({ kind: "cards-played", op: "gte", value: k }), 1, 4),
 });
 
 registerCardScript({
@@ -670,7 +666,7 @@ registerCardScript({
             {
               op: "choose",
               key: "drawn",
-              selector: { zone: "deck", where: custom("in-ref", { ref: "looked" }) },
+              selector: { zone: "deck", where: { kind: "in-ref", ref: "looked" } },
               min: 1,
               max: 1,
             },
@@ -682,8 +678,8 @@ registerCardScript({
                 where: {
                   kind: "and",
                   conditions: [
-                    custom("in-ref", { ref: "looked" }),
-                    { kind: "not", condition: custom("in-ref", { ref: "drawn" }) },
+                    { kind: "in-ref", ref: "looked" },
+                    { kind: "not", condition: { kind: "in-ref", ref: "drawn" } },
                   ],
                 },
               },

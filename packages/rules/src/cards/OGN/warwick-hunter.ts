@@ -12,7 +12,7 @@ registerCardScript({
   text: "I enter ready.\nWhen I attack, kill all damaged enemy units here.",
   status: "implemented",
   abilities: [
-    { kind: "passive", modifier: { kind: "custom", id: "enter-ready", params: { target: SELF } } },
+    { kind: "passive", modifier: { kind: "enter-ready", target: SELF } },
     {
       kind: "triggered",
       trigger: { kind: "event", event: { type: "attack", subject: SELF } },

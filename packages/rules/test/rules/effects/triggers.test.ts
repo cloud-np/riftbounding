@@ -227,7 +227,7 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
 
   it("[R383.2.a.1][EX:383.2.a.1] an \"if\" right after the trigger condition must hold for it to trigger", () => {
     registerTestCardScript(
-      triggered("Treasure Hunter", PLAYED_SELF, { op: "draw", amount: 1 }, { condition: { kind: "custom", id: "self-at-battlefield" } }),
+      triggered("Treasure Hunter", PLAYED_SELF, { op: "draw", amount: 1 }, { condition: { kind: "self-state", state: "at-battlefield" } }),
     );
     const s = scenario({ p1: { hand: ["Treasure Hunter"], energy: 2 } });
     s.as("p1").play("Treasure Hunter").expectOk();

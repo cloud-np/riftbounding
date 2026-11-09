@@ -19,15 +19,11 @@ registerCardScript({
     {
       kind: "triggered",
       trigger: { kind: "event", event: { type: "played", player: "self" } },
-      condition: { kind: "and", conditions: [custom("first-played-this-turn"), SELF_AT_BATTLEFIELD] },
+      condition: { kind: "and", conditions: [{ kind: "first-played-this-turn" }, SELF_AT_BATTLEFIELD] },
       effect: {
         op: "continuous",
         duration: "this-turn",
-        modifier: {
-          kind: "custom",
-          id: "cost-adjust",
-          params: { energy: -2, power: { any: -2 }, once: true, target: { controller: "self" } },
-        },
+        modifier: { kind: "cost-adjust", energy: -2, power: { any: -2 }, once: true, target: { controller: "self" } },
       },
     },
   ],

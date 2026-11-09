@@ -31,7 +31,7 @@ registerCardScript({
                   { op: "spend_buff", target: { targetRef: "it" } },
                   {
                     op: "if",
-                    condition: custom("did"),
+                    condition: { kind: "did" },
                     then: { op: "ready", target: { targetRef: "it" } },
                   },
                 ],

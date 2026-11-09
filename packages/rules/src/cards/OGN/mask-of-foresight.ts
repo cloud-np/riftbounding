@@ -17,7 +17,7 @@ registerCardScript({
         event: {
           type: ["attack", "defend"],
           subject: { cardType: "unit", controller: "self" },
-          condition: custom("alone", { ref: "event" }),
+          condition: { kind: "alone", ref: "event" },
         },
       },
       effect: { op: "temporary_might", amount: 1, target: EVENT_SUBJECT },

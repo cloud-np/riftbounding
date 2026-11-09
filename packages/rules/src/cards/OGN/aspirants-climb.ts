@@ -12,5 +12,5 @@ registerCardScript({
   text: "Increase the points needed to win the game by 1.",
   status: "partial",
   notes: "Victory Score comes from the frozen host; consumers must add victoryScoreAdjustment().",
-  abilities: [{ kind: "passive", modifier: { kind: "custom", id: "victory-score", params: { amount: 1 } } }],
+  abilities: [{ kind: "passive", modifier: { kind: "victory-score", amount: 1 } }],
 });

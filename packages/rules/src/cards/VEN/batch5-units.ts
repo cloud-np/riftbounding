@@ -162,7 +162,7 @@ registerCardScript({
         type: "channel",
         condition: {
           kind: "and",
-          conditions: [custom("self-at-battlefield"), { kind: "is-phase", phase: "channel" }],
+          conditions: [{ kind: "self-state", state: "at-battlefield" }, { kind: "is-phase", phase: "channel" }],
         },
       },
       replace: { op: "custom", id: "ven:channel-one" },

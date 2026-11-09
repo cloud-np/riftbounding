@@ -173,7 +173,7 @@ describe("combat damage and resolution [R467][R468]", () => {
       name: "Combat Cleanup Probe",
       text: "test trigger",
       status: "implemented",
-      abilities: [{ kind: "triggered", trigger: { kind: "custom", id: "probe" }, effect: { op: "seq", effects: [] } }],
+      abilities: [{ kind: "triggered", trigger: { kind: "custom", id: "test:probe" }, effect: { op: "seq", effects: [] } }],
     });
     const s = attackScenario("Astral Heron", ["Treasure Hunter"]);
     let added = false;

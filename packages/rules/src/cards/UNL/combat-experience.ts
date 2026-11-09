@@ -16,7 +16,7 @@ registerCardScript({
       kind: "spell",
       effect: {
         op: "if",
-        condition: custom("xp-at-least", { n: 6 }),
+        condition: { kind: "xp-at-least", amount: 6 },
         then: { op: "temporary_might", amount: 3, target: TARGET },
         else: { op: "temporary_might", amount: 1, target: TARGET },
       },

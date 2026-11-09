@@ -1,7 +1,7 @@
 /**
  * Ignoring effects — rules 764–767.
  *
- * `{ kind: "custom", id: "ignore-keyword", params: { keyword, action, here? } }` modifiers make
+ * `{ kind: "ignore-keyword", keyword, action, here? }` modifiers make
  * their controller treat a keyword as Inactive (766) for one game action or procedure only, and
  * only for that player (767). `here: true` limits it to the source's location ("… while
  * assigning combat damage here", EX[293]).
@@ -34,16 +34,15 @@ export function ignoredKeywords(room: Room, host: RulesHost, query: IgnoreQuery)
   const out: string[] = [];
   for (const active of activeModifiers(room, host)) {
     const modifier = active.modifier;
-    if (modifier.kind !== "custom" || modifier.id !== "ignore-keyword") continue;
+    if (modifier.kind !== "ignore-keyword") continue;
     if (active.controller !== query.playerId) continue;
-    const params = modifier.params ?? {};
-    if (params.action !== query.action) continue;
-    if (params.here === true) {
+    if (modifier.action !== query.action) continue;
+    if (modifier.here === true) {
       const location = locationOfSource(room, host, active.sourceId);
       if (!location || location !== query.zone) continue;
     }
-    const keyword = params.keyword;
-    if (typeof keyword === "string" && !out.includes(keyword)) out.push(keyword);
+    const keyword = modifier.keyword;
+    if (!out.includes(keyword)) out.push(keyword);
   }
   return out;
 }

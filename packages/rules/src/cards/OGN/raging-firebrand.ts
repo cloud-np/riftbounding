@@ -21,11 +21,7 @@ registerCardScript({
       effect: {
         op: "continuous",
         duration: "this-turn",
-        modifier: {
-          kind: "custom",
-          id: "cost-adjust",
-          params: { energy: -5, once: true, target: { cardType: "spell", controller: "self" } },
-        },
+        modifier: { kind: "cost-adjust", energy: -5, once: true, target: { cardType: "spell", controller: "self" } },
       },
     },
   ],

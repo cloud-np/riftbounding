@@ -22,7 +22,7 @@ function pendingTrigger(s: RulesScenario, sourceId: string, sourceName: string):
     name: sourceName,
     text: "test",
     status: "implemented",
-    abilities: [{ kind: "triggered", trigger: { kind: "custom", id: "test" }, effect: { op: "custom", id: `fake:${sourceName}` } }],
+    abilities: [{ kind: "triggered", trigger: { kind: "custom", id: "test:trigger" }, effect: { op: "custom", id: `fake:${sourceName}` } }],
   });
   const item: ChainItem = {
     id: `trigger-${sourceId}`,

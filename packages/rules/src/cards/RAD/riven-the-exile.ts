@@ -13,11 +13,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "enter-ready",
-        params: { battlefieldYouControl: true, target: { cardType: "unit" } },
-      },
+      modifier: { kind: "enter-ready", battlefieldYouControl: true, target: { cardType: "unit" } },
     },
   ],
 });

@@ -15,7 +15,7 @@ registerCardScript({
           { op: "kill", target: aUnit({ controller: "self", targetRef: "target:0" }) },
           {
             op: "if",
-            condition: custom("did"),
+            condition: { kind: "did" },
             then: {
               op: "temporary_might",
               amount: { kind: "might", selector: { targetRef: "target:0" } },

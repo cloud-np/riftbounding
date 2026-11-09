@@ -149,7 +149,7 @@ registerCardScript({
         event: {
           type: "die",
           subject: { cardType: "gear", controller: "self" },
-          condition: custom("event-zone-is", { battlefield: true }),
+          condition: { kind: "event-zone-is", battlefield: true },
         },
       },
       effect: {
@@ -627,7 +627,7 @@ registerCardScript({
 });
 
 /** Stoic Ferryman (RAD-031) — "[Shield 3] When you play me to a battlefield, you may move another unit you control here to your base." */
-const PLAYED_TO_BATTLEFIELD = custom("event-zone-is", { battlefield: true });
+const PLAYED_TO_BATTLEFIELD: Condition = { kind: "event-zone-is", battlefield: true };
 registerCardScript({
   name: "Stoic Ferryman",
   text: "[Shield 3] (+3 [Might] while I'm a defender.)\nWhen you play me to a battlefield, you may move another unit you control here to your base.",
@@ -775,7 +775,7 @@ registerCardScript({
  * may reveal from among them a unit or gear with Energy cost no more than [3] and with Power cost
  * no more than [Rune] and draw it. Recycle the rest."
  */
-const LOOKED = custom("in-ref", { ref: "looked" });
+const LOOKED: Condition = { kind: "in-ref", ref: "looked" };
 registerCardScript({
   name: "Trifarian Captain",
   text: "When you play me, look at the top 4 cards of your Main Deck. You may reveal from among them a unit or gear with Energy cost no more than [3] and with Power cost no more than [Rune] and draw it. Recycle the rest.",
@@ -820,7 +820,7 @@ registerCardScript({
  * Drakehound Packmaster (RAD-018) — "When you play me, reveal the top card of each opponent's Main
  * Deck. Choose one and banish it, then play it, ignoring its cost. Recycle the rest."
  */
-const REVEALED = custom("in-ref", { ref: "revealed" });
+const REVEALED: Condition = { kind: "in-ref", ref: "revealed" };
 registerCardScript({
   name: "Drakehound Packmaster",
   text: "When you play me, reveal the top card of each opponent's Main Deck. Choose one and banish it, then play it, ignoring its cost. Recycle the rest.",

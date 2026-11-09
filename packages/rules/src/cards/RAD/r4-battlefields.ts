@@ -38,7 +38,7 @@ registerCardScript({
   notes:
     "The extra facedown card ('hide an additional card here') needs the hide limit to read a `hide-limit` modifier; `planHide` only checks `facedownCardAt`, so the second card is still rejected (811.1.b, 107.3.b).",
   abilities: [
-    { kind: "passive", modifier: { kind: "custom", id: "hide-limit", params: { amount: 1 } } },
+    { kind: "passive", modifier: { kind: "hide-limit", amount: 1 } },
   ],
 });
 

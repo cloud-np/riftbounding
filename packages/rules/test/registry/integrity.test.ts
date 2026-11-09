@@ -165,6 +165,16 @@ describe("registry integrity [G2]", () => {
     expect(noNotes).toEqual([]);
   });
 
+  it("(e) custom ids in scripts are owner-prefixed; engine concepts use the typed DSL members [F2/G8]", () => {
+    const unprefixed: string[] = [];
+    eachNode((node, _key, script) => {
+      if ((node.kind === "custom" || node.op === "custom") && typeof node.id === "string" && !node.id.includes(":") && node.id !== "manual") {
+        unprefixed.push(`${script.name}: ${node.id}`);
+      }
+    });
+    expect(unprefixed).toEqual([]);
+  });
+
   it("(e) every custom id a script references is registered", () => {
     const registered = new Set([...customConditionIds(), ...customEffectIds(), "manual"]);
     const references = customReferences();
@@ -358,24 +368,8 @@ describe("manual activated abilities [F11]", () => {
 
 /* ------------------------------------------------------------------ helpers & known gaps */
 
-/** Unprefixed custom ids the engine still registers (generic conditions; see CARD-AUTHORING.md). */
-const GENERIC_ENGINE_IDS = new Set([
-  "did",
-  "paid-additional",
-  "self-at-battlefield",
-  "self-empowered",
-  "self-mighty",
-  "self-buffed",
-  "xp-at-least",
-  "alone",
-  "in-ids",
-  "in-ref",
-  "first-played-this-turn",
-  "showed-off",
-  "marked",
-  "cards-played",
-  "event-zone-is",
-]);
+/** Unprefixed custom ids the engine registers: none — engine concepts are typed DSL members (F2/G8). */
+const GENERIC_ENGINE_IDS = new Set<string>();
 
 /** Raw English promptKeys still in card code (to be replaced by rules.prompt.* keys). */
 const RAW_PROMPT_KEYS = new Set([

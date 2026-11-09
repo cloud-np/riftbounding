@@ -23,7 +23,7 @@ registerCardScript({
           controller: "self",
           where: {
             kind: "and",
-            conditions: [custom("ogs:is-defender"), custom("alone", { ref: "it" })],
+            conditions: [custom("ogs:is-defender"), { kind: "alone", ref: "it" }],
           },
         },
       },

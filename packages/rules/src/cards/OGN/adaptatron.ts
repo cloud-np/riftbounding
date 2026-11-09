@@ -18,7 +18,7 @@ registerCardScript({
         op: "seq",
         effects: [
           { op: "kill", target: { chosen: true, cardType: "gear" } },
-          { op: "if", condition: custom("did"), then: { op: "buff", target: SELF } },
+          { op: "if", condition: { kind: "did" }, then: { op: "buff", target: SELF } },
         ],
       },
     },

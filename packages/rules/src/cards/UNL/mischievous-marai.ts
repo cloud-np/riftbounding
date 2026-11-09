@@ -13,7 +13,7 @@ registerCardScript({
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,
-      condition: custom("event-zone-is", { battlefield: true }),
+      condition: { kind: "event-zone-is", battlefield: true },
       effect: { op: "deal", amount: 2, target: aUnit({ controller: "opponent", zone: HERE }) },
     },
   ],

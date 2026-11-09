@@ -16,14 +16,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: { kind: "controls", player: "opponent" },
-          modifier: { kind: "custom", id: "enter-ready", params: { target: SELF } },
-        },
-      },
+      modifier: { kind: "while", condition: { kind: "controls", player: "opponent" }, modifier: { kind: "enter-ready", target: SELF } },
     },
     {
       kind: "triggered",

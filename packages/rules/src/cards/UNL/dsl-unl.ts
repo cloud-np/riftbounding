@@ -5,7 +5,7 @@ import type { Effect, Selector } from "@rift/protocol";
 
 /** `where` filter: one of the cards bound to `ref` (e.g. the looked-at cards). */
 export function inRef(ref: string): Selector["where"] {
-  return { kind: "custom", id: "in-ref", params: { ref } };
+  return { kind: "in-ref", ref };
 }
 
 /**

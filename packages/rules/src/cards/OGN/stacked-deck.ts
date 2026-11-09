@@ -52,14 +52,14 @@ registerCardScript({
             {
               op: "choose",
               key: "kept",
-              selector: { zone: "deck", owner: "self", where: custom("in-ref", { ref: "looked" }) },
+              selector: { zone: "deck", owner: "self", where: { kind: "in-ref", ref: "looked" } },
               min: 1,
               max: 1,
             },
             { op: "custom", id: "ogn-oz:put-in-hand", params: { target: { targetRef: "kept" } } },
             {
               op: "recycle",
-              target: { targetRef: "looked", where: not(custom("in-ref", { ref: "kept" })) },
+              target: { targetRef: "looked", where: not({ kind: "in-ref", ref: "kept" }) },
             },
           ],
         },

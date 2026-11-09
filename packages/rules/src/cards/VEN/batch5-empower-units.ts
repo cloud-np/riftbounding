@@ -86,11 +86,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "ignore-keyword",
-        params: { keyword: "Tank", action: "assign-combat-damage", here: true },
-      },
+      modifier: { kind: "ignore-keyword", keyword: "Tank", action: "assign-combat-damage", here: true },
     },
   ],
 });

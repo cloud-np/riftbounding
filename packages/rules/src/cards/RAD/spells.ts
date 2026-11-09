@@ -569,7 +569,7 @@ registerCardScript({
  * • Look at the top 5 cards of your Main Deck. You may reveal a gear from among them and draw it.
  * Recycle the rest."
  */
-const LOOKED: Condition = custom("in-ref", { ref: "looked" });
+const LOOKED: Condition = { kind: "in-ref", ref: "looked" };
 registerCardScript({
   name: "Command: Attack",
   text: "Choose one —\n• Move a friendly gear with [Deploy] to a battlefield.\n• Look at the top 5 cards of your Main Deck. You may reveal a gear from among them and draw it. Recycle the rest.",

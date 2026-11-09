@@ -34,7 +34,7 @@ function manualEntry(text: string, n = 0) {
     ref: `manual:${n}`,
     manual: true,
     text,
-    ability: { kind: "activated" as const, cost: {}, effect: { op: "custom" as const, id: "manual" } },
+    ability: { kind: "activated" as const, cost: {}, effect: { op: "custom" as const, id: "manual" as const } },
   };
 }
 

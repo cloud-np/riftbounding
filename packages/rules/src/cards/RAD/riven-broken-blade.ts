@@ -45,7 +45,7 @@ registerCardScript({
               { op: "spend_buff", target: SELF },
               {
                 op: "if",
-                condition: custom("did"),
+                condition: { kind: "did" },
                 then: { op: "stun", target: aUnit({ controller: "opponent" }) },
               },
             ],
@@ -54,7 +54,7 @@ registerCardScript({
             op: "seq",
             effects: [
               { op: "spend_buff", target: SELF },
-              { op: "if", condition: custom("did"), then: { op: "ready", target: SELF } },
+              { op: "if", condition: { kind: "did" }, then: { op: "ready", target: SELF } },
             ],
           }),
         ],

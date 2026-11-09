@@ -31,7 +31,7 @@ registerCardScript({
             max: 1,
           },
           { op: "spend_buff", target: { targetRef: "spent" } },
-          { op: "if", condition: custom("did"), then: { op: "draw", amount: 1 } },
+          { op: "if", condition: { kind: "did" }, then: { op: "draw", amount: 1 } },
         ],
       },
     },

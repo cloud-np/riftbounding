@@ -112,7 +112,7 @@ const LOOKED_UNIT_OR_GEAR = {
   zone: "deck" as const,
   where: {
     kind: "and" as const,
-    conditions: [custom("in-ref", { ref: "looked" }), custom("ven:is-unit-or-gear")],
+    conditions: [{ kind: "in-ref" as const, ref: "looked" }, custom("ven:is-unit-or-gear")],
   },
 };
 

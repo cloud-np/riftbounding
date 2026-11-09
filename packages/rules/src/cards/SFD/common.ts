@@ -36,6 +36,7 @@ import { unitsPresentAt } from "../../state/presence";
 import { teamOf } from "../../scoring/teams";
 import { pushEvent } from "../../types";
 import { custom, token } from "../dsl";
+import { whilePassive } from "../lib/passives";
 export { WHEN_I_ATTACK, WHEN_I_ATTACK_OR_DEFEND, WHEN_I_CONQUER, WHEN_I_DEFEND, WHEN_I_HOLD, WHEN_YOU_CONQUER } from "../lib/triggers";
 
 /* ---------------------------------------------------------------- builders */
@@ -95,15 +96,7 @@ export function hostKeyword(keyword: KeywordName, value?: number): { kind: "pass
 export { notIntrinsic } from "../lib/keywords";
 
 /** A conditional passive (364.3.a): the inner modifier applies only while `condition` holds. */
-export function whilePassive(
-  condition: Condition,
-  modifier: Modifier,
-): { kind: "passive"; modifier: Modifier } {
-  return {
-    kind: "passive",
-    modifier: { kind: "custom", id: "conditional", params: { condition, modifier } },
-  };
-}
+export { whilePassive } from "../lib/passives";
 
 /** A unit chosen as a Target with extra filters. */
 export function target(extra: Partial<Selector> = {}): Selector {
@@ -116,14 +109,7 @@ export function countOf(selector: Selector, per?: number): Amount {
 }
 
 /** "I enter ready" (369.3), optionally only while `condition` holds as it enters. */
-export function enterReady(condition?: Condition): { kind: "passive"; modifier: Modifier } {
-  const modifier: Modifier = {
-    kind: "custom",
-    id: "enter-ready",
-    params: { target: { targetRef: "self" } },
-  };
-  return condition ? whilePassive(condition, modifier) : { kind: "passive", modifier };
-}
+export { enterReady } from "../lib/passives";
 
 /** "When I move to a battlefield" (421, 447). */
 export const WHEN_I_MOVE_TO_BATTLEFIELD: Trigger = {
@@ -131,7 +117,7 @@ export const WHEN_I_MOVE_TO_BATTLEFIELD: Trigger = {
   event: {
     type: "move",
     subject: { targetRef: "self" },
-    condition: custom("event-zone-is", { battlefield: true }),
+    condition: { kind: "event-zone-is", battlefield: true },
   },
 };
 

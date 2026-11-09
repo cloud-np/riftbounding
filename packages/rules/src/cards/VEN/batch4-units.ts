@@ -37,7 +37,7 @@ registerCardScript({
             { op: "burn", amount: 1, target: {} },
             {
               op: "if",
-              condition: custom("did"),
+              condition: { kind: "did" },
               then: { op: "temporary_might", amount: 1, target: SELF },
             },
           ],

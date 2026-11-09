@@ -22,11 +22,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "ignore-keyword",
-        params: { keyword: "Deflect", action: "pay-costs", here: true },
-      },
+      modifier: { kind: "ignore-keyword", keyword: "Deflect", action: "pay-costs", here: true },
     },
   ],
 });

@@ -35,7 +35,7 @@ import {
   target,
 } from "./common";
 
-const IN_LOOKED: Condition = custom("in-ref", { ref: "looked" });
+const IN_LOOKED: Condition = { kind: "in-ref", ref: "looked" };
 const LOOKED: Selector = { zone: "deck", where: IN_LOOKED };
 
 /** Reveal the top card of your Main Deck; if it matches `type`, `then` it; otherwise recycle it. */
@@ -538,7 +538,7 @@ registerCardScript({
               max: 1,
             },
             { op: "return_to_hand", target: { targetRef: "returned" } },
-            { op: "if", condition: custom("did"), then: sandSoldier(HERE_ZONE) },
+            { op: "if", condition: { kind: "did" }, then: sandSoldier(HERE_ZONE) },
           ],
         },
       },
@@ -583,11 +583,7 @@ registerCardScript({
         effects: [
           {
             op: "continuous",
-            modifier: {
-              kind: "custom",
-              id: "enter-ready",
-              params: { target: { cardType: "unit", controller: "self" } },
-            },
+            modifier: { kind: "enter-ready", target: { cardType: "unit", controller: "self" } },
             duration: "this-turn",
           },
           gold(),
@@ -738,7 +734,7 @@ registerCardScript({
               targetRef: "target:0",
             },
           },
-          { op: "if", condition: custom("did"), then: gold() },
+          { op: "if", condition: { kind: "did" }, then: gold() },
         ],
       },
     },

@@ -6,5 +6,5 @@ registerCardScript({
   name: "Master Yi, Honed",
   text: "[GANKING] (I can move from battlefield to battlefield.)\nI enter ready.",
   status: "implemented",
-  abilities: [{ kind: "passive", modifier: { kind: "custom", id: "enter-ready", params: { target: SELF } } }],
+  abilities: [{ kind: "passive", modifier: { kind: "enter-ready", target: SELF } }],
 });

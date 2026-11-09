@@ -7,7 +7,7 @@ registerCardScript({
   text: "I enter ready.\n[Tap]: Give a unit +3 [Might] this turn.",
   status: "implemented",
   abilities: [
-    { kind: "passive", modifier: { kind: "custom", id: "enter-ready", params: { target: SELF } } },
+    { kind: "passive", modifier: { kind: "enter-ready", target: SELF } },
     {
       kind: "activated",
       cost: { exhaust: SELF },

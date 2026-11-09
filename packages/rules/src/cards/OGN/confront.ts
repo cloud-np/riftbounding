@@ -18,11 +18,7 @@ registerCardScript({
           {
             op: "continuous",
             duration: "this-turn",
-            modifier: {
-              kind: "custom",
-              id: "enter-ready",
-              params: { target: { cardType: "unit" } },
-            },
+            modifier: { kind: "enter-ready", target: { cardType: "unit" } },
           },
           { op: "draw", amount: 1 },
         ],

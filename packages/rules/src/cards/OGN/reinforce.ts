@@ -35,7 +35,7 @@ registerCardScript({
                 cardType: "unit",
                 zone: "deck",
                 owner: "self",
-                where: custom("in-ref", { ref: "looked" }),
+                where: { kind: "in-ref", ref: "looked" },
               },
               min: 0,
               max: 1,
@@ -46,7 +46,7 @@ registerCardScript({
               op: "recycle",
               target: {
                 targetRef: "looked",
-                where: not(custom("in-ref", { ref: "reinforcement" })),
+                where: not({ kind: "in-ref", ref: "reinforcement" }),
               },
             },
           ],

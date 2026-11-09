@@ -9,6 +9,7 @@
 import type { BattlefieldZone } from "../game-state";
 import type {
   ChoiceRecord,
+  ChoiceValue,
   EffectDuration,
   RulesDomain,
   RulesPhase,
@@ -131,7 +132,43 @@ export type Condition =
   | { kind: "player-score"; player?: PlayerSelector; comparison: Comparison }
   | { kind: "scored-this-turn"; player?: PlayerSelector; zone?: BattlefieldZone }
   | { kind: "controls"; player?: PlayerSelector; zone?: BattlefieldZone }
-  | { kind: "custom"; id: string; params?: Record<string, unknown> };
+  /* Engine-provided conditions (F2/G8; formerly unprefixed `custom` ids). */
+  /** "If you do" (359.3.f): the previous instruction of this effect happened (`$did`). */
+  | { kind: "did" }
+  /** 356.4.f.1: the optional additional cost of this card / its source permanent was paid. */
+  | { kind: "paid-additional" }
+  /** The ability's source: at a battlefield, Empowered (828), Mighty (706–711: 5+ Might) or buffed (702). */
+  | { kind: "self-state"; state: SelfState }
+  /** 824.1.b.1: "While you have N or more XP". */
+  | { kind: "xp-at-least"; amount: number }
+  /** 740.2.a: the object bound to `ref` (default `it`) is the only unit its controller has at its location. */
+  | { kind: "alone"; ref?: string }
+  /** `it` is one of these object ids (continuous effects frozen to several chosen objects). */
+  | { kind: "in-ids"; ids: string[] }
+  /** `it` is one of the objects bound to `ref` (default `looked`: the looked-at cards, 425.1.a). */
+  | { kind: "in-ref"; ref?: string }
+  /** 420.4.a: the trigger event's card is the first card its controller played this turn. */
+  | { kind: "first-played-this-turn" }
+  /** 832.1.c.1: "if you showed off" (at least `count` objects, default 1). */
+  | { kind: "showed-off"; count?: number }
+  /** A per-turn marker set by the `mark` op exists / equals / contains `value` (`{self}` = the source id). */
+  | { kind: "marked"; key: string; value?: ChoiceValue }
+  /** Cards the controller played this turn compared to `value` (default `gte 1`). */
+  | { kind: "cards-played"; op?: ComparisonOp; value?: number }
+  /** The trigger event's zone is a battlefield (`battlefield: true`) or `zone`. */
+  | { kind: "event-zone-is"; battlefield?: boolean; zone?: string }
+  /** Card-specific text (§6.2 escape hatch): a registered `<set>:` / `core:` id. */
+  | { kind: "custom"; id: CustomId; params?: Record<string, unknown> };
+
+/** The source-object states `{ kind: "self-state" }` can test. */
+export type SelfState = "at-battlefield" | "empowered" | "mighty" | "buffed";
+
+/**
+ * Id of a registered custom condition / effect / modifier: always prefixed with its owner, the
+ * lowercase set code (`ven:`, `sfd:` …), `core:` for shared card helpers, or an engine prefix
+ * (`keyword:`). Engine concepts are typed DSL members, never unprefixed custom ids.
+ */
+export type CustomId = `${string}:${string}`;
 
 export interface EventMatcher {
   type: EventType | EventType[];
@@ -445,8 +482,11 @@ export type CoreEffect =
   /** `value` = the keyword's value ("[Assault 2]" → `{ keyword: "Assault", value: 2 }`). */
   | { op: "grant_keyword"; keyword: KeywordName; value?: Amount; target: Selector; duration?: EffectDuration }
   | { op: "return_to_hand"; target: Selector }
-  /** Escape hatch for genuinely unique text (§6.2); always registered and tested. */
-  | { op: "custom"; id: string; params?: Record<string, unknown> };
+  /**
+   * Escape hatch for genuinely unique text (§6.2); always registered and tested. `manual` opens
+   * the §6.4 manual window (unscripted activated abilities).
+   */
+  | { op: "custom"; id: CustomId | "manual"; params?: Record<string, unknown> };
 
 export type Effect = CoreEffect | PlayEffectOp | CombatEffectOp | EffectsEffectOp | IntEffectOp;
 
@@ -459,11 +499,48 @@ export type Trigger =
   | { kind: "showdown-end" }
   | { kind: "combat-begin" }
   | { kind: "combat-end" }
-  | { kind: "custom"; id: string };
+  /** `inline`: the engine's synthesized trigger of a keyword / delayed chain item (never in a script). */
+  | { kind: "custom"; id: CustomId | "inline" };
 
 export type Modifier =
   | { kind: "might"; amount: Amount; target: Selector }
   | { kind: "keyword"; keyword: KeywordName; value?: number; target: Selector }
   | { kind: "cost"; amount: Amount; target: Selector; cardType?: CardTypeName }
   | { kind: "restriction"; restriction: RestrictionName; target: Selector }
-  | { kind: "custom"; id: string; params?: Record<string, unknown> };
+  /* Engine-provided modifiers (F2/G8; formerly unprefixed `custom` ids). */
+  /** 364.3.a / 727.1.b: a conditional passive or Dependent Ability — `modifier` applies only while `condition` holds. */
+  | { kind: "while"; condition: Condition; modifier: Modifier }
+  /** 718.2: printed Rules Text of an attachable card — Inactive while the card is attached. */
+  | { kind: "rules-text"; modifier: Modifier }
+  /** 369.3 / EX[134]: matching units the controller plays enter ready (optionally only to a battlefield they control). */
+  | { kind: "enter-ready"; target?: Selector; battlefieldYouControl?: boolean }
+  /**
+   * 356.3/356.4: Energy and/or Power cost change for matching cards the controller plays
+   * (negative = discount); `once` = "the next card you play this turn" (420.5, used up on play).
+   */
+  | { kind: "cost-adjust"; target?: Selector; energy?: number; power?: Partial<Record<RulesDomain | "any", number>>; once?: boolean }
+  /** 832: "[Show Off] [Object]" — the play-time Show Off choice; `count` > 1 for sets. */
+  | { kind: "show-off"; selector: Selector; count?: number }
+  /**
+   * 712–715: Bonus Damage for deal actions of the controller's spells and/or abilities;
+   * `nextSpell` = only the next spell they play (bound on play: `boundCardId`, EX[179]).
+   */
+  | { kind: "bonus-damage"; amount: number; from?: "spells" | "abilities" | "spells-and-abilities"; nextSpell?: boolean; boundCardId?: string }
+  /** 811.1.b / 107.3.b: extra facedown cards allowed here (declared; the hide legality does not read it yet). */
+  | { kind: "hide-limit"; amount: number }
+  /** 467.2.c: "I must be assigned combat damage last" (declared; damage assignment does not read it yet). */
+  | { kind: "assigned-last"; target: Selector }
+  /** 764–767: the controller ignores `keyword` for one game action or procedure (`here`: at the source's location). */
+  | { kind: "ignore-keyword"; keyword: KeywordName; action: "assign-combat-damage" | "pay-costs"; here?: boolean }
+  /** "Increase the points needed to win the game by N" (474 / 432.3.c). */
+  | { kind: "victory-score"; amount: number }
+  /** 801.3.b: matching objects lose `keyword`. */
+  | { kind: "remove-keyword"; keyword: KeywordName; target: Selector }
+  /**
+   * Bookkeeping stored on continuous effects: a card-specific `<set>:` id, or one of the engine's
+   * own state records (`EngineStateModifierId`, created by the delayed / replace / skip ops).
+   */
+  | { kind: "custom"; id: CustomId | EngineStateModifierId; params?: Record<string, unknown> };
+
+/** Engine state records kept in `RulesState.effects` (never written by a card script). */
+export type EngineStateModifierId = "delayed-trigger" | "replacement" | "skip";

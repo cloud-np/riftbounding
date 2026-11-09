@@ -49,7 +49,7 @@ registerCardScript({
           { op: "banish", target: { targetRef: "banished" } },
           {
             op: "if",
-            condition: { kind: "custom", id: "did" },
+            condition: { kind: "did" },
             then: {
               op: "grant_keyword",
               keyword: "Assault", value: 2,

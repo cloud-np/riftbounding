@@ -8,11 +8,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "enter-ready",
-        params: { target: { cardType: "unit", excludeSource: true } },
-      },
+      modifier: { kind: "enter-ready", target: { cardType: "unit", excludeSource: true } },
     },
   ],
 });

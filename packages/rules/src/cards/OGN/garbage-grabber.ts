@@ -26,7 +26,7 @@ registerCardScript({
             max: 3,
           },
           { op: "recycle", target: { targetRef: "recycled" } },
-          { op: "if", condition: custom("did"), then: { op: "draw", amount: 1 } },
+          { op: "if", condition: { kind: "did" }, then: { op: "draw", amount: 1 } },
         ],
       },
     },

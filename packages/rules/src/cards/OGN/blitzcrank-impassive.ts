@@ -14,7 +14,7 @@ registerCardScript({
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,
-      condition: custom("event-zone-is", { battlefield: true }),
+      condition: { kind: "event-zone-is", battlefield: true },
       optional: true,
       effect: { op: "move", target: aUnit({ controller: "opponent" }), to: HERE },
     },

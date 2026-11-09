@@ -21,17 +21,10 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: {
+      modifier: { kind: "while", condition: {
             kind: "and",
-            conditions: [custom("ogn-oz:self-in-combat"), custom("alone", { ref: "self" })],
-          },
-          modifier: { kind: "might", amount: 2, target: SELF },
-        },
-      },
+            conditions: [custom("ogn-oz:self-in-combat"), { kind: "alone", ref: "self" }],
+          }, modifier: { kind: "might", amount: 2, target: SELF } },
     },
   ],
 });

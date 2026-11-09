@@ -8,7 +8,7 @@ import { registerCardScript } from "../registry";
 import { SHOWED_OFF, aUnit, custom, showOff, token } from "../dsl";
 import { drawCard, letX } from "./dsl";
 
-const LOOKED = custom("in-ref", { ref: "looked" });
+const LOOKED = { kind: "in-ref", ref: "looked" };
 
 const ENCORE_MODES = [
   {

@@ -63,20 +63,16 @@ function sourceCategory(room: Room, host: RulesHost, id: string | undefined): "s
   return type.includes("spell") ? "spell" : "ability";
 }
 
-/** 364.3.a: unwrap a `conditional` modifier for its source (same shape as `passives.ts`). */
+/** 364.3.a: unwrap a `while` modifier for its source (same shape as `passives.ts`). */
 function unwrapModifier(
   room: Room,
   host: RulesHost,
   modifier: Modifier,
   scope: { controller: string; sourceObjectId?: string; depth: number },
 ): Modifier | null {
-  if (modifier.kind === "custom" && modifier.id === "conditional") {
-    const params = modifier.params ?? {};
-    const condition = params.condition as Parameters<typeof evaluateLayerCondition>[2] | undefined;
-    const inner = params.modifier as Modifier | undefined;
-    if (!inner) return null;
-    if (condition && !evaluateLayerCondition(room, host, condition, scope)) return null;
-    return unwrapModifier(room, host, inner, scope);
+  if (modifier.kind === "while") {
+    if (!evaluateLayerCondition(room, host, modifier.condition, scope)) return null;
+    return unwrapModifier(room, host, modifier.modifier, scope);
   }
   return modifier;
 }

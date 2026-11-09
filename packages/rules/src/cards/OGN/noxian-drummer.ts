@@ -13,7 +13,7 @@ registerCardScript({
     {
       kind: "triggered",
       trigger: WHEN_I_MOVE,
-      condition: custom("event-zone-is", { battlefield: true }),
+      condition: { kind: "event-zone-is", battlefield: true },
       effect: { op: "create", token: token("Recruit", { might: 1, play: true }), zone: HERE },
     },
   ],

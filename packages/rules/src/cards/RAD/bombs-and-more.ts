@@ -117,7 +117,7 @@ registerCardScript({
             { op: "kill", target: { targetRef: "victim" } },
             {
               op: "if",
-              condition: custom("did"),
+              condition: { kind: "did" },
               then: { op: "temporary_might", amount: 2, target: SELF },
             },
           ],

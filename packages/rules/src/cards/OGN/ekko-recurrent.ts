@@ -28,7 +28,7 @@ registerCardScript({
           { op: "recycle", target: SELF },
           {
             op: "if",
-            condition: custom("did"),
+            condition: { kind: "did" },
             then: { op: "ready", target: { cardType: "rune", controller: "self" } },
           },
         ],

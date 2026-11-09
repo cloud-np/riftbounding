@@ -33,16 +33,10 @@ import {
   registerAdditionalCosts,
 } from "../../play/additional-costs";
 import { WHEN_I_ATTACK, WHEN_I_HOLD } from "../lib/triggers";
-
-function whenever(condition: Condition, modifier: Modifier) {
-  return {
-    kind: "passive" as const,
-    modifier: { kind: "custom" as const, id: "conditional", params: { condition, modifier } },
-  };
-}
+import { ENTER_READY_MODIFIER, whilePassive as whenever } from "../lib/passives";
 
 const ENEMY_HERE = aUnit({ controller: "opponent", zone: HERE });
-const ENTER_READY: Modifier = { kind: "custom", id: "enter-ready", params: { target: SELF } };
+const ENTER_READY = ENTER_READY_MODIFIER;
 const PETS = ["Bird", "Cat", "Dog", "Poro"];
 
 registerCardScript({
@@ -142,7 +136,7 @@ registerCardScript({
         event: {
           type: "move",
           subject: SELF,
-          condition: custom("event-zone-is", { battlefield: true }),
+          condition: { kind: "event-zone-is", battlefield: true },
         },
       },
       effect: lookRevealDraw(3, { cardType: "unit" }),

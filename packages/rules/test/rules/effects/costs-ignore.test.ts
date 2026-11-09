@@ -104,7 +104,7 @@ describe("ignoring effects [R764–R767]", () => {
       text: "test: You ignore Backline while assigning combat damage here.",
       status: "implemented",
       abilities: [
-        { kind: "passive", modifier: { kind: "custom", id: "ignore-keyword", params: { keyword: "Backline", action: "assign-combat-damage", here: true } } },
+        { kind: "passive", modifier: { kind: "ignore-keyword", keyword: "Backline", action: "assign-combat-damage", here: true } },
       ],
     });
     const s = scenario();

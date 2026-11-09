@@ -7,19 +7,9 @@
 import type { Modifier } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import { SELF, custom } from "../dsl";
+import { ENTER_READY_MODIFIER, atLevel } from "../lib/passives";
 
-function atLevel(n: number, modifier: Modifier) {
-  return {
-    kind: "passive" as const,
-    modifier: {
-      kind: "custom" as const,
-      id: "conditional",
-      params: { condition: custom("xp-at-least", { n }), modifier },
-    },
-  };
-}
-
-const enterReady: Modifier = { kind: "custom", id: "enter-ready", params: { target: SELF } };
+const enterReady = ENTER_READY_MODIFIER;
 
 registerCardScript({
   name: "Gemhand Hunter",

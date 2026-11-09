@@ -3,8 +3,8 @@
  * at as many as possible, 432.1.c.1), 412 "search".
  *
  * `look` binds the looked-at card ids (top first) to the variable `looked` and runs `then`;
- * instructions refer to them with `{ targetRef: "looked" }` or a `where: { kind: "custom", id:
- * "in-ref", params: { ref: "looked" } }` filter. Cards stay in their zone (425.1.a.2) unless an
+ * instructions refer to them with `{ targetRef: "looked" }` or a `where: { kind: "in-ref", ref:
+ * "looked" }` filter. Cards stay in their zone (425.1.a.2) unless an
  * instruction moves them. `search` lets the player pick one matching card from the zone (bound
  * to `found`) and runs `then`.
  */

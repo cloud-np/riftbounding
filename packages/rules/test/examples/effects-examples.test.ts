@@ -156,7 +156,7 @@ describe("official examples — effects", () => {
     run(s, {
       op: "continuous",
       duration: "this-turn",
-      modifier: { kind: "custom", id: "bonus-damage", params: { amount: 1, from: "spells", nextSpell: true } },
+      modifier: { kind: "bonus-damage", amount: 1, from: "spells", nextSpell: true },
     });
     s.as("p1").play("Rebuke", { choices: { "target:0": a.id } }).expectOk();
     s.as("p2").pass().expectOk();
@@ -177,9 +177,9 @@ describe("official examples — effects", () => {
         op: "seq",
         effects: [
           { op: "reveal", target: { targetRef: "looked" } },
-          { op: "choose", key: "kept", selector: { zone: "deck", controller: "self", where: { kind: "custom", id: "in-ref", params: { ref: "looked" } } } },
+          { op: "choose", key: "kept", selector: { zone: "deck", controller: "self", where: { kind: "in-ref", ref: "looked" } } },
           { op: "return_to_hand", target: { targetRef: "kept" } },
-          { op: "recycle", target: { zone: "deck", controller: "self", where: { kind: "custom", id: "in-ref", params: { ref: "looked" } } } },
+          { op: "recycle", target: { zone: "deck", controller: "self", where: { kind: "in-ref", ref: "looked" } } },
         ],
       },
     });
@@ -306,7 +306,7 @@ describe("official examples — effects", () => {
       op: "seq" as const,
       effects: [
         { op: "buff" as const, target: { targetRef: "obj:" + unit.id } },
-        { op: "if" as const, condition: { kind: "custom" as const, id: "did" }, then: { op: "draw" as const, amount: 1 } },
+        { op: "if" as const, condition: { kind: "did" as const }, then: { op: "draw" as const, amount: 1 } },
       ],
     };
     const before = boardOf(s, "p1").hand.length;

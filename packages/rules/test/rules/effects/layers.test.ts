@@ -27,11 +27,7 @@ const BLADE: CardScript = {
     // can use ordinary passives for other objects too.
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "rules-text",
-        params: { modifier: { kind: "might", amount: 1, target: { cardType: "unit", controller: "self" } } },
-      },
+      modifier: { kind: "rules-text", modifier: { kind: "might", amount: 1, target: { cardType: "unit", controller: "self" } } },
     },
   ],
 };
@@ -146,19 +142,11 @@ describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () 
       abilities: [
         {
           kind: "passive",
-          modifier: {
-            kind: "custom",
-            id: "conditional",
-            params: { condition: { kind: "custom", id: "xp-at-least", params: { n: 3 } }, modifier: { kind: "might", amount: 1, target: { targetRef: "self" } } },
-          },
+          modifier: { kind: "while", condition: { kind: "xp-at-least", amount: 3 }, modifier: { kind: "might", amount: 1, target: { targetRef: "self" } } },
         },
         {
           kind: "passive",
-          modifier: {
-            kind: "custom",
-            id: "conditional",
-            params: { condition: { kind: "custom", id: "xp-at-least", params: { n: 3 } }, modifier: { kind: "keyword", keyword: "Ganking", target: { targetRef: "self" } } },
-          },
+          modifier: { kind: "while", condition: { kind: "xp-at-least", amount: 3 }, modifier: { kind: "keyword", keyword: "Ganking", target: { targetRef: "self" } } },
         },
       ],
     });
@@ -179,7 +167,7 @@ describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () 
       abilities: [
         {
           kind: "passive",
-          modifier: { kind: "custom", id: "conditional", params: { condition: { kind: "custom", id: "self-empowered" }, modifier: { kind: "might", amount: 2, target: { targetRef: "self" } } } },
+          modifier: { kind: "while", condition: { kind: "self-state", state: "empowered" }, modifier: { kind: "might", amount: 2, target: { targetRef: "self" } } },
         },
       ],
     });
@@ -198,7 +186,7 @@ describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () 
       abilities: [
         {
           kind: "passive",
-          modifier: { kind: "custom", id: "conditional", params: { condition: { kind: "custom", id: "self-mighty" }, modifier: { kind: "keyword", keyword: "Deflect", target: { targetRef: "self" } } } },
+          modifier: { kind: "while", condition: { kind: "self-state", state: "mighty" }, modifier: { kind: "keyword", keyword: "Deflect", target: { targetRef: "self" } } },
         },
       ],
     });
@@ -253,7 +241,7 @@ describe("restrictions, costs, entry [R054][R356][R369.3]", () => {
     run(s, {
       op: "continuous",
       duration: "this-turn",
-      modifier: { kind: "custom", id: "cost-adjust", params: { energy: -2, power: { any: -2 }, once: true } },
+      modifier: { kind: "cost-adjust", energy: -2, power: { any: -2 }, once: true },
     });
     const rebuke = s.handCard("p1", "Rebuke")!;
     expect(costAdjustments(s.room, s.host, { playerId: "p1", cardId: rebuke.id })).toEqual([
@@ -269,7 +257,7 @@ describe("restrictions, costs, entry [R054][R356][R369.3]", () => {
       name: "Riven, The Exile",
       text: "Units you play to battlefields you control enter ready.",
       status: "implemented",
-      abilities: [{ kind: "passive", modifier: { kind: "custom", id: "enter-ready", params: { battlefieldYouControl: true, target: { cardType: "unit" } } } }],
+      abilities: [{ kind: "passive", modifier: { kind: "enter-ready", battlefieldYouControl: true, target: { cardType: "unit" } } }],
     });
     const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Stellacorn Herder"] } });
     place(s, "p1", "Treasure Hunter", "battlefieldA");

@@ -16,7 +16,7 @@
  * - Scuttle Crab (UNL-053): play effect draw 1; [Deathknell]: an opponent reveals their hand,
  *   gain 1 XP.
  */
-import type { Condition, Modifier } from "@rift/protocol";
+import type { Ability, Condition, Modifier } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import {
   EVENT_SUBJECT,
@@ -32,6 +32,8 @@ import {
   token,
 } from "../dsl";
 import { WHEN_I_HOLD } from "../lib/triggers";
+import { xpAtLeast } from "../lib/conditions";
+import { whilePassive } from "../lib/passives";
 
 
 registerCardScript({
@@ -118,20 +120,10 @@ registerCardScript({
   ],
 });
 
-function level(n: number): Condition {
-  return custom("xp-at-least", { n });
-}
+const level = xpAtLeast;
 
-function costLess(condition: Condition, energy: number, calm: number) {
-  const modifier: Modifier = {
-    kind: "custom",
-    id: "cost-adjust",
-    params: { energy: -energy, power: { Calm: -calm }, target: SELF },
-  };
-  return {
-    kind: "passive" as const,
-    modifier: { kind: "custom" as const, id: "conditional", params: { condition, modifier } },
-  };
+function costLess(condition: Condition, energy: number, calm: number): Ability {
+  return whilePassive(condition, { kind: "cost-adjust", energy: -energy, power: { Calm: -calm }, target: SELF });
 }
 
 registerCardScript({
@@ -144,14 +136,7 @@ registerCardScript({
     costLess(level(11), 6, 3),
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: level(16),
-          modifier: { kind: "restriction", restriction: "be-targeted:enemy", target: SELF },
-        },
-      },
+      modifier: { kind: "while", condition: level(16), modifier: { kind: "restriction", restriction: "be-targeted:enemy", target: SELF } },
     },
   ],
 });

@@ -87,7 +87,7 @@ registerCardScript({
           },
           {
             op: "if",
-            condition: custom("xp-at-least", { n: 6 }),
+            condition: { kind: "xp-at-least", amount: 6 },
             then: {
               op: "stun",
               target: aUnit({ controller: "opponent", targetRef: "target:1", maxCount: 1 }),

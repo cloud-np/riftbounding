@@ -12,10 +12,11 @@
  *   Sprite there (enters exhausted, 143.4; [Temporary] from the catalog token; the catalog's
  *   [Temporary] on Lillia is suppressed).
  */
+import type { Condition } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import { HERE, SELF, WHEN_I_MOVE, aUnit, custom, token } from "../dsl";
 
-const MOVED_TO_BATTLEFIELD = custom("event-zone-is", { battlefield: true });
+const MOVED_TO_BATTLEFIELD: Condition = { kind: "event-zone-is", battlefield: true };
 
 registerCardScript({
   name: "Nilah, Joyful Ascetic",

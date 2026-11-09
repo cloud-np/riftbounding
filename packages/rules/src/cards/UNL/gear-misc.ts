@@ -78,14 +78,7 @@ registerCardScript({
     { kind: "passive", modifier: { kind: "might", amount: 1, target: HOST } },
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: custom("xp-at-least", { n: 3 }),
-          modifier: { kind: "might", amount: 1, target: HOST },
-        },
-      },
+      modifier: { kind: "while", condition: { kind: "xp-at-least", amount: 3 }, modifier: { kind: "might", amount: 1, target: HOST } },
     },
   ],
 });

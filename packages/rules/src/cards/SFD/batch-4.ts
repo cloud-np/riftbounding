@@ -34,7 +34,7 @@ const CHOOSE_TRIGGER =
   '"When you choose …" triggers: choosing objects with spells/abilities (355.7) emits no event the trigger layer can match.';
 
 const EQUIPMENT: Selector = { cardType: "gear", tag: "Equipment" };
-const IN_LOOKED: Condition = custom("in-ref", { ref: "looked" });
+const IN_LOOKED: Condition = { kind: "in-ref", ref: "looked" };
 
 /** A card selector by name (built through a helper so card-coverage only sees card names). */
 function named(cardName: string, extra: Partial<Selector> = {}): Selector {
@@ -64,7 +64,7 @@ function onceMode(key: string, id: string, label: string, effect: Effect) {
     label,
     effect: {
       op: "requires" as const,
-      condition: not(custom("marked", { key, value: id })),
+      condition: not({ kind: "marked", key, value: id }),
       effect: { op: "seq" as const, effects: [{ op: "mark" as const, key, value: id }, effect] },
     },
   };
@@ -524,7 +524,7 @@ registerCardScript({
             op: "reflexive",
             effect: {
               op: "ready",
-              target: target({ maxCount: 2, where: custom("in-ref", { ref: "created" }) }),
+              target: target({ maxCount: 2, where: { kind: "in-ref", ref: "created" } }),
             },
           },
         ],
@@ -847,7 +847,7 @@ registerCardScript({
                 zone: "deck" as const,
                 where: {
                   kind: "and" as const,
-                  conditions: [IN_LOOKED, not(custom("in-ref", { ref: "found" }))],
+                  conditions: [IN_LOOKED, not({ kind: "in-ref", ref: "found" })],
                 },
               },
             },
@@ -915,11 +915,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "enter-ready",
-        params: { target: { token: true, controller: "self" } },
-      },
+      modifier: { kind: "enter-ready", target: { token: true, controller: "self" } },
     },
   ],
 });
@@ -1040,7 +1036,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: { kind: "custom", id: "assigned-last", params: { target: SELF } },
+      modifier: { kind: "assigned-last", target: SELF },
     },
     {
       kind: "replacement",

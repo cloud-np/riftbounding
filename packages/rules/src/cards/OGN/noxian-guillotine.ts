@@ -18,7 +18,7 @@ registerCardScript({
       kind: "spell",
       effect: {
         op: "if",
-        condition: custom("cards-played", { op: "gte", value: 2 }),
+        condition: { kind: "cards-played", op: "gte", value: 2 },
         then: { op: "kill", target: aUnit({ targetRef: "target:0" }) },
         else: {
           // The chosen unit is validated on resolution (359.3.e), then the delayed trigger is

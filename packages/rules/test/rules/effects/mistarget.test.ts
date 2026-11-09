@@ -34,7 +34,7 @@ beforeAll(() =>
         { op: "kill", target: { chosen: true, cardType: "unit", controller: "self" } },
         {
           op: "if",
-          condition: { kind: "custom", id: "did" },
+          condition: { kind: "did" },
           then: {
             op: "temporary_might",
             amount: { kind: "might", selector: { targetRef: "target:0" } },

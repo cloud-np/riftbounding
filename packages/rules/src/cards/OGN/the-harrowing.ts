@@ -8,7 +8,7 @@
  * card's Domains (135.2.e.6, RULES-QUESTION 131.3.a). `$did` records whether it was paid. A
  * paid unit is then played ignoring its cost (420.3); an unpaid one stays where it is (358.5).
  */
-import type { Cost, Selector } from "@rift/protocol";
+import type { Cost, Effect, Selector } from "@rift/protocol";
 import { RESOLVED } from "../../effects/execute";
 import { registerCustomEffect } from "../../effects/ops";
 import { recordOutcome, targets } from "../../effects/targets";
@@ -46,9 +46,9 @@ registerCustomEffect("ogn-oz:pay-printed-cost", (params, context) => {
 export function playPickedUnit(
   key: string,
   payment: { ignoreEnergy?: boolean; energyReduction?: number },
-) {
+): Effect {
   return {
-    op: "seq" as const,
+    op: "seq",
     effects: [
       {
         op: "custom" as const,
@@ -57,7 +57,7 @@ export function playPickedUnit(
       },
       {
         op: "if" as const,
-        condition: custom("did"),
+        condition: { kind: "did" },
         then: { op: "play" as const, target: { targetRef: key }, cost: "ignored" as const },
       },
     ],

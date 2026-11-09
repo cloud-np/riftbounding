@@ -41,7 +41,7 @@ registerCardScript({
       addsResources: true,
       effect: {
         op: "requires",
-        condition: custom("xp-at-least", { n: 6 }),
+        condition: { kind: "xp-at-least", amount: 6 },
         rule: "824.1.b.1",
         effect: { op: "add", resources: { energy: 1, power: { any: 1 } } },
       },
@@ -159,7 +159,7 @@ registerCardScript({
         op: "seq",
         effects: [
           { op: "kill", target: aUnit({ controller: "self", zone: HERE }) },
-          { op: "if", condition: custom("did"), then: { op: "draw", amount: 1 } },
+          { op: "if", condition: { kind: "did" }, then: { op: "draw", amount: 1 } },
         ],
       },
     },

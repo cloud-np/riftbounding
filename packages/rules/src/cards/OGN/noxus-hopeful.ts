@@ -9,11 +9,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: { condition: custom("cards-played", { op: "gte", value: 1 }), modifier: { kind: "cost", amount: -2, target: SELF } },
-      },
+      modifier: { kind: "while", condition: { kind: "cards-played", op: "gte", value: 1 }, modifier: { kind: "cost", amount: -2, target: SELF } },
     },
   ],
 });

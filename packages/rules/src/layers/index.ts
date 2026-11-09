@@ -185,10 +185,9 @@ function keywordEntries(
         if (!modifierTargets(room, host, active, objectId, depth + 1)) continue;
         const entry = splitKeyword(String(modifier.keyword));
         added.push(modifier.value === undefined ? entry : { name: entry.name, value: modifier.value });
-      } else if (modifier.kind === "custom" && modifier.id === "remove-keyword") {
+      } else if (modifier.kind === "remove-keyword") {
         if (!modifierTargets(room, host, active, objectId, depth + 1)) continue;
-        const keyword = modifier.params?.keyword;
-        if (typeof keyword === "string") removed.add(keyword.toLowerCase());
+        removed.add(modifier.keyword.toLowerCase());
       }
     }
   }

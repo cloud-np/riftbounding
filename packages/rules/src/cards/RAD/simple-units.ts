@@ -59,7 +59,7 @@ registerCardScript({
             selector: { cardType: "unit", controller: "self", excludeSource: true },
           },
         },
-        { kind: "custom", id: "enter-ready", params: { target: SELF } },
+        { kind: "enter-ready", target: SELF },
       ),
     },
   ],

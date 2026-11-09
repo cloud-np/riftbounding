@@ -28,7 +28,7 @@ registerCardScript({
             {
               op: "choose",
               key: "recycled",
-              selector: { zone: "deck", owner: "self", where: custom("in-ref", { ref: "looked" }) },
+              selector: { zone: "deck", owner: "self", where: { kind: "in-ref", ref: "looked" } },
               min: 0,
               max: 2,
             },

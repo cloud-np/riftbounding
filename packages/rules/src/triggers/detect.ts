@@ -22,6 +22,7 @@ import { takeNewEvents } from "./cursor";
 import { KEYWORD_TRIGGERS } from "./keywords";
 import { phaseTriggerMatches, triggerMatchesEvent, type TriggerScope } from "./match";
 import { hasUnitPresentAt, unitsPresentAt } from "../state/presence";
+import { upgradeLegacyModifier } from "../layers/legacy";
 
 export interface TriggerEntry {
   ref: string;
@@ -261,7 +262,7 @@ function mightyEvents(room: Room, step: RulesStepContext): GameEvent[] {
 
 /**
  * 392 / EX[179] (Ravenborn Tome): "The next spell you play this turn deals 1 Bonus Damage" binds
- * to the next spell that player plays (`params.boundCardId`).
+ * to the next spell that player plays (`boundCardId`).
  */
 function bindNextSpellBonus(room: Room, step: RulesStepContext, event: GameEvent): void {
   const rules = room.rules;
@@ -270,10 +271,10 @@ function bindNextSpellBonus(room: Room, step: RulesStepContext, event: GameEvent
   const type = (item?.cardSnapshot ? step.host.cardInfo(room, item.cardSnapshot.id)?.type ?? item.cardSnapshot.type : "") ?? "";
   if (!type.toLowerCase().includes("spell")) return;
   for (const effect of rules.effects) {
-    const modifier = effect.modifier;
-    if (modifier.kind !== "custom" || modifier.id !== "bonus-damage") continue;
-    if (!modifier.params?.nextSpell || modifier.params.boundCardId || effect.controller !== event.playerId) continue;
-    modifier.params = { ...modifier.params, boundCardId: event.cardId };
+    const modifier = upgradeLegacyModifier(effect.modifier);
+    if (modifier.kind !== "bonus-damage") continue;
+    if (!modifier.nextSpell || modifier.boundCardId || effect.controller !== event.playerId) continue;
+    effect.modifier = { ...modifier, boundCardId: event.cardId };
   }
 }
 

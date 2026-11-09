@@ -13,14 +13,7 @@ registerCardScript({
     { kind: "suppress-printed-keyword", keyword: "Ganking" },
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: custom("self-buffed"),
-          modifier: { kind: "keyword", keyword: "Ganking", target: SELF },
-        },
-      },
+      modifier: { kind: "while", condition: { kind: "self-state", state: "buffed" }, modifier: { kind: "keyword", keyword: "Ganking", target: SELF } },
     },
   ],
 });

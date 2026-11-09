@@ -425,7 +425,7 @@ registerCardScript({
               selector: { controller: "self", excludeSource: true, where: UNIT_OR_GEAR },
             },
             { op: "kill", target: { targetRef: "victim" } },
-            { op: "if", condition: custom("did"), then: { op: "draw", amount: 1 } },
+            { op: "if", condition: { kind: "did" }, then: { op: "draw", amount: 1 } },
           ],
         },
       },

@@ -11,5 +11,5 @@ registerCardScript({
   text: "You may hide an additional card here.",
   status: "partial",
   notes: "Hidden/hide limits are R2-play's; they read the `hide-limit` modifier.",
-  abilities: [{ kind: "passive", modifier: { kind: "custom", id: "hide-limit", params: { amount: 1 } } }],
+  abilities: [{ kind: "passive", modifier: { kind: "hide-limit", amount: 1 } }],
 });

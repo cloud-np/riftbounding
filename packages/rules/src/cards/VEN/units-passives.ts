@@ -86,7 +86,7 @@ registerCardScript({
   abilities: [
     conditional(
       { kind: "exists", selector: { zone: "trash", owner: "self", name: SHADOW_ASSASSIN } },
-      { kind: "custom", id: "enter-ready", params: { target: SELF } },
+      { kind: "enter-ready", target: SELF },
     ),
   ],
 });
@@ -119,11 +119,7 @@ registerCardScript({
   text: "I cost [2][Order] less if you control a battlefield with exactly two units there.",
   status: "implemented",
   abilities: [
-    conditional(custom("ven:control-battlefield-with-units", { count: 2 }), {
-      kind: "custom",
-      id: "cost-adjust",
-      params: { energy: -2, power: { Order: -1 }, target: SELF },
-    }),
+    conditional(custom("ven:control-battlefield-with-units", { count: 2 }), { kind: "cost-adjust", energy: -2, power: { Order: -1 }, target: SELF }),
   ],
 });
 

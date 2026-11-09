@@ -24,24 +24,12 @@ import {
   showOff,
 } from "../dsl";
 import { letX, notIntrinsic, conditional } from "./dsl";
+import { SELF_EMPOWERED } from "../lib/conditions";
+import { empower } from "../lib/costs";
 
-const SELF_EMPOWERED = custom("self-empowered");
 const DEFLECT_GAP =
   "The optional additional cost (356.2.b.1) cannot be paid: the protocol Cost has no 'return a gear to hand' part, so only the base play and the printed keyword are automated.";
 
-/** 827.1.c.1: "[Empower] [Cost]" — "[Cost]: Empower this. Use only if not Empowered." */
-function empower(cost: Cost) {
-  return {
-    kind: "activated" as const,
-    cost,
-    effect: {
-      op: "requires" as const,
-      condition: not(SELF_EMPOWERED),
-      rule: "827.1.c.1",
-      effect: { op: "empower" as const, target: SELF },
-    },
-  };
-}
 
 /* ---------------------------------------------------------------- movement / costs */
 
@@ -117,11 +105,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: conditional(custom("rad:paid-additional-self"), {
-        kind: "custom",
-        id: "enter-ready",
-        params: { target: SELF },
-      }),
+      modifier: conditional(custom("rad:paid-additional-self"), { kind: "enter-ready", target: SELF }),
     },
     {
       kind: "passive",
@@ -155,7 +139,7 @@ registerCardScript({
   notes:
     "I enter ready and 'When you play me, ready all enemy units' are automated. 'Other units enter ready' cannot apply across controllers (the entry layer filters by the modifier's controller, 369.3) and 'Units don't ready during the Awaken Phase' needs a global ready skip (315.1, 444).",
   abilities: [
-    { kind: "passive", modifier: { kind: "custom", id: "enter-ready", params: { target: SELF } } },
+    { kind: "passive", modifier: { kind: "enter-ready", target: SELF } },
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,
@@ -192,7 +176,7 @@ registerCardScript({
     showOff({ tag: "Mech" }),
     {
       kind: "passive",
-      modifier: conditional(SHOWED_OFF, { kind: "custom", id: "enter-ready", params: { target: SELF } }),
+      modifier: conditional(SHOWED_OFF, { kind: "enter-ready", target: SELF }),
     },
   ],
 });
@@ -333,16 +317,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: conditional(SELF_AT_BATTLEFIELD, {
-        kind: "custom",
-        id: "cost-adjust",
-        params: {
-          energy: -1,
-          power: { any: -1 },
-          target: { cardType: "gear", controller: "self" },
-          once: true,
-        },
-      }),
+      modifier: conditional(SELF_AT_BATTLEFIELD, { kind: "cost-adjust", energy: -1, power: { any: -1 }, target: { cardType: "gear", controller: "self" }, once: true }),
     },
   ],
 });
@@ -412,16 +387,7 @@ registerCardScript({
             {
               op: "continuous",
               duration: "this-turn",
-              modifier: {
-                kind: "custom",
-                id: "cost-adjust",
-                params: {
-                  energy: -2,
-                  power: { any: -1 },
-                  target: { cardType: "unit", controller: "self" },
-                  once: true,
-                },
-              },
+              modifier: { kind: "cost-adjust", energy: -2, power: { any: -1 }, target: { cardType: "unit", controller: "self" }, once: true },
             },
             {
               op: "delayed",

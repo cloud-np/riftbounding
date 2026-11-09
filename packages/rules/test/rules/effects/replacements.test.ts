@@ -148,7 +148,7 @@ describe("prevention [R438]", () => {
     registerTestCardScript(spell("Rebuke", { op: "deal", amount: 3, target: { chosen: true, cardType: "unit" } }));
     const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
     const unit = place(s, "p2", "Whiteflame Protector", "battlefieldA");
-    s.room.rules!.effects.push({ id: "fx-b", controller: "p1", duration: "permanent", modifier: { kind: "custom", id: "bonus-damage", params: { amount: 1 } } });
+    s.room.rules!.effects.push({ id: "fx-b", controller: "p1", duration: "permanent", modifier: { kind: "bonus-damage", amount: 1 } });
     run(s, { op: "prevent", amount: 3, target: { targetRef: "obj:" + unit.id } }, { controller: "p2" });
     s.as("p1").play("Rebuke", { choices: { "target:0": unit.id } }).expectOk();
     s.as("p2").pass().expectOk();

@@ -14,14 +14,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: OPPONENT_WITHIN_3,
-          modifier: { kind: "cost", amount: -2, target: SELF },
-        },
-      },
+      modifier: { kind: "while", condition: OPPONENT_WITHIN_3, modifier: { kind: "cost", amount: -2, target: SELF } },
     },
     {
       kind: "spell",

@@ -17,7 +17,7 @@ registerCardScript({
       keywords: ["Deathknell"],
       effect: {
         op: "if",
-        condition: custom("event-zone-is", { battlefield: true }),
+        condition: { kind: "event-zone-is", battlefield: true },
         then: {
           op: "deal",
           amount: 4,

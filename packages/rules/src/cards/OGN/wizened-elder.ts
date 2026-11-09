@@ -9,14 +9,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: custom("self-buffed"),
-          modifier: { kind: "might", amount: 1, target: SELF },
-        },
-      },
+      modifier: { kind: "while", condition: { kind: "self-state", state: "buffed" }, modifier: { kind: "might", amount: 1, target: SELF } },
     },
   ],
 });

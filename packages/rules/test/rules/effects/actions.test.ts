@@ -74,7 +74,7 @@ describe("game actions â€” deal/heal/kill/banish [R418][R419][R428][R429][R712â€
     const a = place(s, "p2", "Whiteflame Protector", "battlefieldA");
     const b = place(s, "p2", "Astral Heron", "battlefieldA");
     s.room.rules!.effects.push({
-      id: "fx-bonus-1", controller: "p1", duration: "permanent", modifier: { kind: "custom", id: "bonus-damage", params: { amount: 1 } },
+      id: "fx-bonus-1", controller: "p1", duration: "permanent", modifier: { kind: "bonus-damage", amount: 1 },
     });
     s.as("p1").play("Rebuke", { choices: { "target:0": [a.id, b.id] } }).expectOk();
     s.as("p2").pass().expectOk();
@@ -86,7 +86,7 @@ describe("game actions â€” deal/heal/kill/banish [R418][R419][R428][R429][R712â€
     const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
     const unit = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
     s.room.rules!.effects.push({
-      id: "fx-bonus", controller: "p1", duration: "permanent", modifier: { kind: "custom", id: "bonus-damage", params: { amount: 3 } },
+      id: "fx-bonus", controller: "p1", duration: "permanent", modifier: { kind: "bonus-damage", amount: 3 },
     });
     const { events } = run(s, { op: "deal", amount: 0, target: { targetRef: "obj:" + unit.id } });
     expect(eventTypes(events)).not.toContain("damage");

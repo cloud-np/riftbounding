@@ -13,7 +13,7 @@ registerCardScript({
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,
-      condition: custom("xp-at-least", { n: 6 }),
+      condition: { kind: "xp-at-least", amount: 6 },
       effect: { op: "draw", amount: 1 },
     },
   ],

@@ -13,7 +13,7 @@ registerCardScript({
         op: "seq",
         effects: [
           { op: "channel", amount: 1, exhausted: true },
-          { op: "if", condition: not(custom("did")), then: { op: "draw", amount: 1 } },
+          { op: "if", condition: not({ kind: "did" }), then: { op: "draw", amount: 1 } },
         ],
       },
     },

@@ -15,13 +15,8 @@
 import type { Condition, Modifier } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import { HERE, SELF, SELF_AT_BATTLEFIELD, aUnit, custom } from "../dsl";
+import { whilePassive as whenever } from "../lib/passives";
 
-function whenever(condition: Condition, modifier: Modifier) {
-  return {
-    kind: "passive" as const,
-    modifier: { kind: "custom" as const, id: "conditional", params: { condition, modifier } },
-  };
-}
 
 registerCardScript({
   name: "Alpha Wildclaw",
@@ -77,7 +72,7 @@ registerCardScript({
   status: "implemented",
   abilities: [
     whenever(OPPONENT_HAS_STUNNED, { kind: "cost", amount: -2, target: SELF }),
-    whenever(OPPONENT_HAS_STUNNED, { kind: "custom", id: "enter-ready", params: { target: SELF } }),
+    whenever(OPPONENT_HAS_STUNNED, { kind: "enter-ready", target: SELF }),
   ],
 });
 
@@ -87,7 +82,7 @@ registerCardScript({
   status: "implemented",
   abilities: [
     { kind: "suppress-printed-keyword", keyword: "Action" },
-    whenever(SELF_AT_BATTLEFIELD, { kind: "custom", id: "enter-ready", params: { target: SELF } }),
+    whenever(SELF_AT_BATTLEFIELD, { kind: "enter-ready", target: SELF }),
     {
       kind: "activated",
       cost: { energy: 1, power: { any: 1 }, exhaust: SELF },

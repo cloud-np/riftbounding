@@ -24,11 +24,7 @@ registerCardScript({
           custom("sfd:no-nontoken-gear-played-this-turn"),
         ],
       },
-      {
-        kind: "custom",
-        id: "cost-adjust",
-        params: { energy: -1, target: { cardType: "gear", controller: "self", token: false } },
-      },
+      { kind: "cost-adjust", energy: -1, target: { cardType: "gear", controller: "self", token: false } },
     ),
   ],
 });
@@ -164,7 +160,7 @@ registerCardScript({
           { op: "play", target: { targetRef: "equipment" }, cost: "ignored" },
           {
             op: "if",
-            condition: custom("did"),
+            condition: { kind: "did" },
             then: {
               op: "reflexive",
               effect: { op: "attach", gear: { targetRef: "equipment" }, to: SELF },
@@ -303,7 +299,7 @@ registerCardScript({
           },
           {
             op: "if",
-            condition: custom("did"),
+            condition: { kind: "did" },
             then: {
               op: "seq",
               effects: [
@@ -360,11 +356,7 @@ registerCardScript({
   notes:
     "Friendly spells cost [1][Rune] less while I'm in combat; \"to a minimum of [1]\" is not enforced (356.6 floors at 0), and the increase for enemy spells is not applied: cost passives only affect their controller's plays (366.2, 475-479).",
   abilities: [
-    whilePassive(custom("sfd:self-in-combat"), {
-      kind: "custom",
-      id: "cost-adjust",
-      params: { energy: -1, power: { any: -1 }, target: { cardType: "spell", controller: "self" } },
-    }),
+    whilePassive(custom("sfd:self-in-combat"), { kind: "cost-adjust", energy: -1, power: { any: -1 }, target: { cardType: "spell", controller: "self" } }),
   ],
 });
 

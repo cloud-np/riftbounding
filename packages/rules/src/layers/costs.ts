@@ -8,7 +8,7 @@
  *
  * Modifiers read:
  * - `{ kind: "cost", amount, target, cardType? }` — Energy change for matching cards;
- * - `{ kind: "custom", id: "cost-adjust", params: { energy?, power?, target, once? } }` — Energy
+ * - `{ kind: "cost-adjust", energy?, power?, target?, once? }` — Energy
  *   and/or Power changes; `once: true` marks "the next card you play this turn costs … less"
  *   (420.5 / EX[203]), consumed by `consumeOnceCostEffects` when that card is played.
  *
@@ -17,11 +17,12 @@
  *
  * Signature is a cross-agent contract: keep it stable.
  */
-import type { Amount, Condition, Modifier, Room, RuleRef, RulesDomain, Selector } from "@rift/protocol";
+import type { Amount, Room, RuleRef, RulesDomain } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import { getCardScript } from "../cards/registry";
 import { activeModifiers, evaluateLayerCondition, type ActiveModifier } from "./passives";
 import { modifierTargets } from "./index";
+import { upgradeLegacyModifier } from "./legacy";
 
 export interface CostAdjustment {
   energy?: number;
@@ -63,19 +64,18 @@ export function costAdjustments(
       });
       continue;
     }
-    if (modifier.kind === "custom" && modifier.id === "cost-adjust") {
-      const params = modifier.params ?? {};
-      const target = params.target as Selector | undefined;
+    if (modifier.kind === "cost-adjust") {
+      const target = modifier.target;
       if (target && !modifierTargets(room, host, active, subject, 1, { ignoreZone: true, target })) continue;
-      const energy = typeof params.energy === "number" ? params.energy : 0;
-      const power = (params.power as Partial<Record<RulesDomain | "any", number>> | undefined) ?? undefined;
+      const energy = typeof modifier.energy === "number" ? modifier.energy : 0;
+      const power = modifier.power;
       if (energy === 0 && (!power || Object.keys(power).length === 0)) continue;
       out.push({
         ...(energy !== 0 ? { energy } : {}),
         ...(power ? { power } : {}),
         sourceObjectId: active.sourceId,
         rule: energy < 0 || Object.values(power ?? {}).some((value) => (value ?? 0) < 0) ? "356.4" : "356.3",
-        ...(params.once ? { note: "once" } : {}),
+        ...(modifier.once ? { note: "once" } : {}),
       });
     }
   }
@@ -98,16 +98,13 @@ function ownCostPassives(room: Room, host: RulesHost, cardId: string, playerId: 
   for (const ability of script.abilities) {
     if (ability.kind !== "passive") continue;
     let modifier = ability.modifier;
-    if (modifier.kind === "custom" && modifier.id === "conditional") {
-      const condition = modifier.params?.condition as Condition | undefined;
-      const inner = modifier.params?.modifier as Modifier | undefined;
-      if (!inner) continue;
-      if (condition && !evaluateLayerCondition(room, host, condition, { controller: playerId, sourceObjectId: cardId, depth: 1 })) {
+    if (modifier.kind === "while") {
+      if (!evaluateLayerCondition(room, host, modifier.condition, { controller: playerId, sourceObjectId: cardId, depth: 1 })) {
         continue;
       }
-      modifier = inner;
+      modifier = modifier.modifier;
     }
-    if (modifier.kind !== "cost" && !(modifier.kind === "custom" && modifier.id === "cost-adjust")) continue;
+    if (modifier.kind !== "cost" && modifier.kind !== "cost-adjust") continue;
     out.push({ sourceId: cardId, controller: playerId, modifier, origin: "passive", timestamp: -1 });
   }
   return out;
@@ -122,9 +119,9 @@ export function consumeOnceCostEffects(room: Room, playerId: string): number {
   if (!rules) return 0;
   const before = rules.effects.length;
   rules.effects = rules.effects.filter((effect) => {
-    const modifier = effect.modifier;
-    if (modifier.kind !== "custom" || modifier.id !== "cost-adjust") return true;
-    if (!modifier.params?.once) return true;
+    const modifier = upgradeLegacyModifier(effect.modifier);
+    if (modifier.kind !== "cost-adjust") return true;
+    if (!modifier.once) return true;
     return effect.controller !== playerId;
   });
   return before - rules.effects.length;

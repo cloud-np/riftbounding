@@ -44,9 +44,12 @@ import {
   locationOf,
 } from "../../effects/objects";
 import { SELF, custom, not } from "../dsl";
+import { SELF_EMPOWERED } from "../lib/conditions";
+import { costLessForEach } from "../lib/costs";
+import { whilePassive as conditional } from "../lib/passives";
 export { WHEN_I_ATTACK, WHEN_I_BECOME_EMPOWERED, WHEN_I_CONQUER, WHEN_I_DEFEND, WHEN_I_HOLD } from "../lib/triggers";
 
-export const SELF_EMPOWERED: Condition = custom("self-empowered");
+export { SELF_EMPOWERED } from "../lib/conditions";
 
 /** The source is on the board (see `ven:self-on-board`). */
 export const ON_BOARD: Condition = custom("ven:self-on-board");
@@ -59,32 +62,10 @@ export const FLOW_GAP =
 export const ENTERS_EXHAUSTED_GAP =
   '"This enters exhausted" is not automated: gear enter ready (149.1) and the entry layer only has an enter-ready replacement (369.3).';
 
-/** 827.1.c.1: "[Cost]: Empower this. Use only if not Empowered." */
-export function empower(cost: Cost): Ability {
-  return {
-    kind: "activated",
-    cost,
-    effect: {
-      op: "requires",
-      condition: not(SELF_EMPOWERED),
-      rule: "827.1.c.1",
-      effect: { op: "empower", target: SELF },
-    },
-  };
-}
-
-/** 828.1.c: a Dependent passive that applies only while the source is Empowered. */
-export function whileEmpowered(modifier: Modifier): Ability {
-  return conditional(SELF_EMPOWERED, modifier);
-}
-
-/** 364.3.a: a conditional passive. */
-export function conditional(condition: Condition, modifier: Modifier): Ability {
-  return {
-    kind: "passive",
-    modifier: { kind: "custom", id: "conditional", params: { condition, modifier } },
-  };
-}
+/** 827.1.c.1 "[Empower] [Cost]" / 828.1.c "[Empowered] …" — shared builders from `cards/lib`. */
+export { empower, whileEmpowered } from "../lib/costs";
+/** 364.3.a: a conditional passive — `whilePassive` from `cards/lib`. */
+export { whilePassive as conditional } from "../lib/passives";
 
 /** 727.1.b: the printed (catalog) keyword is not intrinsic; an ability grants it. */
 export { notIntrinsic } from "../lib/keywords";
@@ -109,18 +90,7 @@ export function perCountCostReduction(
   target: Selector,
   extra: Condition[] = [],
 ): Ability[] {
-  return Array.from({ length: steps }, (_, index) =>
-    conditional(
-      {
-        kind: "and",
-        conditions: [
-          ...extra,
-          { kind: "count", selector, comparison: { op: "gte", value: index + 1 } },
-        ],
-      },
-      { kind: "cost", amount: -1, target },
-    ),
-  );
+  return costLessForEach(selector, 1, steps, { target, extra });
 }
 
 /* ---------------------------------------------------------------- custom conditions */

@@ -234,7 +234,7 @@ registerCardScript({
             {
               op: "choose",
               key: "drawn",
-              selector: { zone: "deck", where: custom("in-ref", { ref: "looked" }) },
+              selector: { zone: "deck", where: { kind: "in-ref", ref: "looked" } },
               min: 0,
               max: 1,
               label: "Choose a card to draw",

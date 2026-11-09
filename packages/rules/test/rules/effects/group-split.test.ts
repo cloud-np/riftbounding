@@ -118,7 +118,7 @@ describe("damage splitting [R355.14][R418]", () => {
     expect(requiredChoices(s.room, s.host, ability, ctx)[0]).toMatchObject({ min: 0, max: 5 });
     run(s, {
       op: "continuous",
-      modifier: { kind: "custom", id: "bonus-damage", params: { amount: 1 } },
+      modifier: { kind: "bonus-damage", amount: 1 },
       duration: "this-turn",
     });
     expect(requiredChoices(s.room, s.host, ability, ctx)[0]).toMatchObject({ min: 0, max: 6, data: { total: 6 } });

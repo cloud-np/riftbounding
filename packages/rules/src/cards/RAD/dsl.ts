@@ -23,15 +23,9 @@ import type { RadAmount } from "./custom";
 export { notIntrinsic } from "../lib/keywords";
 
 /** "I enter ready." — 369.3 replacement (EX[134]). */
-export const ENTER_READY: Ability = {
-  kind: "passive",
-  modifier: { kind: "custom", id: "enter-ready", params: { target: SELF } },
-};
-
-/** A conditional passive (364.3.a). */
-export function conditional(condition: Condition, modifier: Modifier): Modifier {
-  return { kind: "custom", id: "conditional", params: { condition, modifier } };
-}
+export { ENTER_READY } from "../lib/passives";
+/** A conditional modifier (364.3.a) — `whileModifier` from `cards/lib`. */
+export { whileModifier as conditional } from "../lib/passives";
 
 /** A zone bound to a choice/variable key (a chosen battlefield's id resolves to its zone). */
 export function zoneRef(ref: string): ZoneSelector {
@@ -93,20 +87,7 @@ export function oncePerPlayerPerTurn(
   };
 }
 
-/**
- * "I cost [N] less for each …" (356.4): one [N] discount per object counted, up to `max` (the
- * card's printed Energy cost, 356.6 floors the total at 0). Each step is a conditional cost
- * passive that applies from the hand (366.2.a).
- */
-export function costLessForEach(selector: Selector, per: number, max: number): Ability[] {
-  return Array.from({ length: max }, (_, index) => ({
-    kind: "passive" as const,
-    modifier: conditional(
-      { kind: "count", selector, comparison: { op: "gte", value: index + 1 } },
-      { kind: "cost", amount: -per, target: SELF },
-    ),
-  }));
-}
+export { costLessForEach } from "../lib/costs";
 
 /**
  * "Opponents can't play <type> this turn" — a play restriction (054.1) on every card of that type

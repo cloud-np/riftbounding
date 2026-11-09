@@ -163,11 +163,7 @@ registerCardScript({
   text: "If your score is not within 3 points of the Victory Score, I enter ready.\nWhen I attack, you may move any number of enemy units here each with 5 [Might] or less to their base.",
   status: "implemented",
   abilities: [
-    conditional(not(custom("ven:score-within", { points: 3 })), {
-      kind: "custom",
-      id: "enter-ready",
-      params: { target: SELF },
-    }),
+    conditional(not(custom("ven:score-within", { points: 3 })), { kind: "enter-ready", target: SELF }),
     {
       kind: "triggered",
       trigger: WHEN_I_ATTACK,

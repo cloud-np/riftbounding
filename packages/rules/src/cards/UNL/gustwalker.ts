@@ -1,8 +1,9 @@
 /** Gustwalker (UNL-075 — EX[281] (727.1.b.2): [Hunt 2] (823) and [Level 3] (824).) */
 import { registerCardScript } from "../registry";
 import { SELF, custom } from "../dsl";
+import { xpAtLeast } from "../lib/conditions";
 
-const LEVEL_3 = custom("xp-at-least", { n: 3 });
+const LEVEL_3 = xpAtLeast(3);
 
 registerCardScript({
   name: "Gustwalker",
@@ -13,11 +14,11 @@ registerCardScript({
     { kind: "suppress-printed-keyword", keyword: "Ganking" },
     {
       kind: "passive",
-      modifier: { kind: "custom", id: "conditional", params: { condition: LEVEL_3, modifier: { kind: "might", amount: 1, target: SELF } } },
+      modifier: { kind: "while", condition: LEVEL_3, modifier: { kind: "might", amount: 1, target: SELF } },
     },
     {
       kind: "passive",
-      modifier: { kind: "custom", id: "conditional", params: { condition: LEVEL_3, modifier: { kind: "keyword", keyword: "Ganking", target: SELF } } },
+      modifier: { kind: "while", condition: LEVEL_3, modifier: { kind: "keyword", keyword: "Ganking", target: SELF } },
     },
   ],
 });

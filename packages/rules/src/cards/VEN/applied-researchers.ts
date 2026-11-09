@@ -17,18 +17,7 @@ registerCardScript({
     "The per-discount minimum of [1] is approximated by the printed Energy cost (>= 2): the cost layer has no per-discount minimum, so other increases/discounts are not taken into account (356.4.c RULES-QUESTION).",
   abilities: [
     empower({ energy: 3 }),
-    whileEmpowered({
-      kind: "custom",
-      id: "cost-adjust",
-      params: { power: { any: -1 }, target: { cardType: "spell", controller: "self" } },
-    }),
-    whileEmpowered({
-      kind: "custom",
-      id: "cost-adjust",
-      params: {
-        energy: -1,
-        target: { cardType: "spell", controller: "self", energyCost: { op: "gte", value: 2 } },
-      },
-    }),
+    whileEmpowered({ kind: "cost-adjust", power: { any: -1 }, target: { cardType: "spell", controller: "self" } }),
+    whileEmpowered({ kind: "cost-adjust", energy: -1, target: { cardType: "spell", controller: "self", energyCost: { op: "gte", value: 2 } } }),
   ],
 });

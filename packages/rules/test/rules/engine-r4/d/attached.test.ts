@@ -44,11 +44,7 @@ const RULES_TEXT_PASSIVE: CardScript = {
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "rules-text",
-        params: { modifier: { kind: "might", amount: 2, target: { cardType: "unit", controller: "self" } } },
-      },
+      modifier: { kind: "rules-text", modifier: { kind: "might", amount: 2, target: { cardType: "unit", controller: "self" } } },
     },
     { kind: "passive", modifier: { kind: "might", amount: 1, target: { targetRef: "host" } } },
   ],

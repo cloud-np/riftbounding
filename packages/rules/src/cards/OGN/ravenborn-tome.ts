@@ -13,7 +13,7 @@ registerCardScript({
       effect: {
         op: "continuous",
         duration: "this-turn",
-        modifier: { kind: "custom", id: "bonus-damage", params: { amount: 1, from: "spells", nextSpell: true } },
+        modifier: { kind: "bonus-damage", amount: 1, from: "spells", nextSpell: true },
       },
     },
   ],

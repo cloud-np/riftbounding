@@ -12,25 +12,11 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: custom("xp-at-least", { n: 6 }),
-          modifier: { kind: "might", amount: 1, target: { cardType: "unit", controller: "self" } },
-        },
-      },
+      modifier: { kind: "while", condition: { kind: "xp-at-least", amount: 6 }, modifier: { kind: "might", amount: 1, target: { cardType: "unit", controller: "self" } } },
     },
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: custom("xp-at-least", { n: 11 }),
-          modifier: { kind: "custom", id: "enter-ready", params: { target: { cardType: "unit" } } },
-        },
-      },
+      modifier: { kind: "while", condition: { kind: "xp-at-least", amount: 11 }, modifier: { kind: "enter-ready", target: { cardType: "unit" } } },
     },
   ],
 });

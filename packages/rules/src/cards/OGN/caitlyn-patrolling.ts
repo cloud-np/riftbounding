@@ -17,7 +17,7 @@ registerCardScript({
   status: "partial",
   notes: "Combat damage assignment order (467.2.c) is R2-combat's; it reads the `assigned-last` modifier.",
   abilities: [
-    { kind: "passive", modifier: { kind: "custom", id: "assigned-last", params: { target: SELF } } },
+    { kind: "passive", modifier: { kind: "assigned-last", target: SELF } },
     {
       kind: "activated",
       cost: { exhaust: SELF },

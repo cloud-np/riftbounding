@@ -152,7 +152,7 @@ describe("play-time choices [R355][R355.7][R355.8]", () => {
     const ability: Ability = {
       kind: "activated",
       cost: {},
-      effect: { op: "requires", condition: { kind: "custom", id: "self-at-battlefield" }, effect: { op: "draw", amount: 1 } },
+      effect: { op: "requires", condition: { kind: "self-state", state: "at-battlefield" }, effect: { op: "draw", amount: 1 } },
     };
     const ctx = { controller: "p1", sourceObjectId: unit.id, choices: {} };
     expect(validateChoices(s.room, s.host, ability, ctx)).toMatchObject({ ok: false, code: "illegal_action", rule: "377.2.b" });

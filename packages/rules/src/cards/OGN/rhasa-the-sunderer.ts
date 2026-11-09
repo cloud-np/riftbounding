@@ -14,19 +14,12 @@ const PRINTED_ENERGY = 10;
 
 const perCard: Ability[] = Array.from({ length: PRINTED_ENERGY }, (_, index) => ({
   kind: "passive",
-  modifier: {
-    kind: "custom",
-    id: "conditional",
-    params: {
-      condition: {
+  modifier: { kind: "while", condition: {
         kind: "compare",
         left: { kind: "cards-in-zone", zone: "trash" },
         op: "gte",
         right: index + 1,
-      },
-      modifier: { kind: "cost", amount: -1, target: SELF },
-    },
-  },
+      }, modifier: { kind: "cost", amount: -1, target: SELF } },
 }));
 
 registerCardScript({

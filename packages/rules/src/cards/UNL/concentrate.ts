@@ -13,28 +13,14 @@ registerCardScript({
     { kind: "spell", effect: { op: "draw", amount: 2 } },
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: {
+      modifier: { kind: "while", condition: {
             kind: "and",
-            conditions: [custom("xp-at-least", { n: 6 }), not(custom("xp-at-least", { n: 11 }))],
-          },
-          modifier: { kind: "cost", amount: -2, target: SELF },
-        },
-      },
+            conditions: [{ kind: "xp-at-least", amount: 6 }, not({ kind: "xp-at-least", amount: 11 })],
+          }, modifier: { kind: "cost", amount: -2, target: SELF } },
     },
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: custom("xp-at-least", { n: 11 }),
-          modifier: { kind: "cost", amount: -4, target: SELF },
-        },
-      },
+      modifier: { kind: "while", condition: { kind: "xp-at-least", amount: 11 }, modifier: { kind: "cost", amount: -4, target: SELF } },
     },
   ],
 });
