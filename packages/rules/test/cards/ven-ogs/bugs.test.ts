@@ -4,8 +4,18 @@
  * is outside this lane). Unskip to verify a fix.
  */
 import { describe, expect, it } from "vitest";
-import { fund } from "../../rules/effects/helpers";
-import { activate, addPool, empowered, exhaustRunes, place, settle, withCards } from "./helpers";
+import { getCardScript, registerCardScript } from "../../../src";
+import { fund, spell } from "../../rules/effects/helpers";
+import {
+  activate,
+  addPool,
+  empowered,
+  exhaustRunes,
+  place,
+  settle,
+  withCards,
+  zoneOf,
+} from "./helpers";
 
 describe("[BUG] engine reproductions (ven-ogs)", () => {
   // cleanup/cleanup.ts "expire-this-turn" (317.2.c step 3d) deletes every rules object without
@@ -54,5 +64,42 @@ describe("[BUG] engine reproductions (ven-ogs)", () => {
     s.as("p1")
       .play("Hextech Ray", { choices: { "target:0": nasus.id } })
       .expectError("insufficient_resources");
+  });
+
+  // effects/ops/delayed.ts `replace` stores the creator's choices (359.3.f.3.a) and passes them to
+  // the replacing instructions, but replacements/interceptor.ts `matchesProposal` evaluates the
+  // `matches` matcher without them: a delayed replacement whose matcher names a chosen object
+  // ("the next time it dies this turn") never applies. Highlander works around it by freezing the
+  // chosen id into the matcher (`ven:with-bound`).
+  it.skip("[BUG][C:Highlander][R359.3.f.3.a][R391.3] a delayed replacement matcher can refer to the chosen unit", () => {
+    const original = getCardScript("Highlander")!;
+    registerCardScript(
+      spell("Highlander", {
+        op: "for_each",
+        selector: { chosen: true, cardType: "unit", targetRef: "target:0" },
+        effect: {
+          op: "replace",
+          matches: { type: "kill", subject: { targetRef: "target:0" } },
+          replace: { op: "recall", target: { targetRef: "event" } },
+        },
+      }),
+    );
+    try {
+      const s = withCards(["Highlander", "Hextech Ray"]);
+      const unit = place(s, "p1", "Treasure Hunter", "battlefieldA");
+      fund(s, "p1", "Highlander");
+      s.as("p1")
+        .play("Highlander", { choices: { "target:0": unit.id } })
+        .expectOk();
+      s.as("p2").pass().expectOk();
+      fund(s, "p1", "Hextech Ray");
+      s.as("p1")
+        .play("Hextech Ray", { choices: { "target:0": unit.id } })
+        .expectOk();
+      s.as("p2").pass().expectOk();
+      expect(zoneOf(s, unit.id)).toBe("base");
+    } finally {
+      registerCardScript(original);
+    }
   });
 });

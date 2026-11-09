@@ -14,16 +14,17 @@ import type {
   Ability,
   Condition,
   Cost,
+  Effect,
   GameEvent,
   Modifier,
   Selector,
   Trigger,
 } from "@rift/protocol";
 import type { EvalContext } from "../../effects/env";
-import { registerCustomCondition } from "../../effects/evaluate";
+import { refIds, registerCustomCondition } from "../../effects/evaluate";
 import { RESOLVED } from "../../effects/execute";
 import { registerCustomEffect } from "../../effects/ops/control";
-import { recordOutcome } from "../../effects/targets";
+import { evalContextOf, recordOutcome } from "../../effects/targets";
 import { pushEvent } from "../../types";
 import {
   boardZoneList,
@@ -262,6 +263,31 @@ registerCustomEffect("ven:empower-stacking", (params, context) => {
   recordOutcome(context, done, done.length > 0);
   return RESOLVED;
 });
+
+/**
+ * 359.3.f.3.a: run `effect` once per object bound to `ref` (a legal chosen target, 359.3.e),
+ * with every `targetRef: "$bound"` in it frozen to that object (`obj:<id>`). Used where a
+ * created effect must keep referring to the chosen object outside this resolution (e.g. the
+ * matcher of a delayed replacement, which is evaluated without the creator's choices).
+ */
+export const BOUND = "$bound";
+
+registerCustomEffect("ven:with-bound", (params, context) => {
+  const machine = context.machine;
+  const ref = typeof params.ref === "string" ? params.ref : "";
+  const effect = params.effect as Effect | undefined;
+  if (!machine || !ref || !effect) return RESOLVED;
+  const ids = refIds(evalContextOf(context), ref);
+  const frames = ids.map((id) => ({ effect: freezeBound(effect, id) }));
+  machine.push(...frames);
+  return RESOLVED;
+});
+
+function freezeBound(value: Effect, id: string): Effect {
+  return JSON.parse(JSON.stringify(value), (key, entry) =>
+    key === "targetRef" && entry === BOUND ? `obj:${id}` : entry,
+  ) as Effect;
+}
 
 /** 442.1.c.1: a stacking Empowered status of at least `n` on the source. */
 registerCustomCondition("ven:self-empowered-at-least", (ctx, params) => {

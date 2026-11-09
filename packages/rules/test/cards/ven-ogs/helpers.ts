@@ -139,6 +139,14 @@ export function settle(s: S, maxSteps = 30): GameEvent[] {
     const rules = s.room.rules!;
     if (s.room.gameOutcome) break;
     if (rules.prompt) {
+      if (rules.prompt.kind === "order") {
+        // 383.3.d: keep the offered order.
+        s.as(rules.prompt.playerId)
+          .choose({ orderedIds: (rules.prompt.options ?? []).map((option) => option.id) })
+          .expectOk();
+        events.push(...s.events());
+        continue;
+      }
       if (rules.prompt.kind !== "damage-assignment") break;
       const data = rules.prompt.data as unknown as CombatDamageAssignmentData;
       s.as(rules.prompt.playerId)
