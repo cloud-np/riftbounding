@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import type { CardScript, Effect, Trigger } from "@rift/protocol";
 import {
   clearCardScripts,
+  effectiveMight,
   executeEffect,
   flushPendingTriggers,
   registerCardScript,
@@ -324,6 +325,28 @@ describe("keyword triggers [R816][R817][R823]", () => {
     s.as("p2").pass().expectOk();
     s.expectPrompt("choose-card", "p1");
     expect(s.room.rules!.prompt!.rule).toBe("437.1");
+  });
+
+  it("[R831.1.d][R383.4.e] Disarm: when the unit attacks, an enemy unit here gets -X Might this turn", () => {
+    const s = scenario();
+    const defender = place(s, "p2", "Whiteflame Protector", "battlefieldA");
+    const attacker = place(s, "p1", "Caitlyn, Patrolling", "base");
+    s.room.rules!.objects[attacker.id] = {
+      baseMight: 3,
+      keywordGrants: [{ id: "d1", keyword: "Disarm", value: 2, duration: "permanent", turn: 1 }],
+    };
+    s.as("p1").move("Caitlyn, Patrolling", "battlefieldA").expectOk();
+    expect(s.events().some((event) => event.type === "attack" && event.cardId === attacker.id)).toBe(true);
+    expect(s.events().some((event) => event.type === "defend" && event.cardId === defender.id)).toBe(true);
+    const disarm = s.room.rules!.chain.find((item) => item.abilityRef?.startsWith("keyword:disarm"));
+    expect(disarm?.abilityRef).toBe("keyword:disarm:2");
+    expect(disarm?.choices["target:0"]).toBe(defender.id);
+    for (let guard = 0; guard < 6 && s.room.rules!.chain.some((item) => item.id === disarm!.id); guard += 1) {
+      const who = s.room.rules!.priority;
+      if (!who) break;
+      s.as(who).pass();
+    }
+    expect(effectiveMight(s.room, defender.id, s.host)).toBe(6);
   });
 
   it("[R823.1.c.1][R823.2] Hunt: when the unit holds, its controller gains the summed Hunt value in XP", () => {
