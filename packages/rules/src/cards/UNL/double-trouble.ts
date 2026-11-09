@@ -9,6 +9,7 @@ registerCardScript({
   name: "Double Trouble",
   text: "[Repeat 2] (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest.",
   status: "implemented",
+  repeatHandled: true,
   abilities: [
     {
       kind: "spell",

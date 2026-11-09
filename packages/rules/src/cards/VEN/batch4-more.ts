@@ -65,13 +65,34 @@ registerCardScript({
   ],
 });
 
+/**
+ * "On your first, second or third turns" (Ol' Poro): the controller is the turn player and the
+ * current turn is one of that player's own first three turns. Turn numbers count every player's
+ * turn (315), so a player's nth turn is n seats after their first in turn order.
+ */
+registerCustomCondition("ven:poro-early-turns", (ctx) => {
+  const rules = ctx.room.rules;
+  if (!rules || rules.turn.player !== ctx.env.controller) return false;
+  const order = ctx.host.turnOrder(ctx.room);
+  const index = order.indexOf(ctx.env.controller);
+  if (index < 0 || rules.turn.number < index + 1) return false;
+  const turnsTaken = Math.floor((rules.turn.number - 1 - index) / order.length) + 1;
+  return turnsTaken <= 3;
+});
+
 registerCardScript({
   name: "Ol' Poro",
   text: "I can't be played on your first, second or third turns.",
   status: "manual",
   notes:
-    "A 'can't be played' restriction printed on a card in hand (054.1) is not consulted: `restrictionFor` only reads board passives. See the [BUG] reproduction in test/cards/ven-ogs/batch4-more.test.ts.",
-  abilities: [],
+    "The self restriction (054.1) is read from this script by `restrictionFor` even while the card is in hand; the status stays manual until R4-cards upgrades the script.",
+  abilities: [
+    conditional(custom("ven:poro-early-turns"), {
+      kind: "restriction",
+      restriction: "play",
+      target: SELF,
+    }),
+  ],
 });
 
 registerCardScript({
@@ -268,5 +289,3 @@ registerCardScript({
     },
   ],
 });
-
-void conditional;

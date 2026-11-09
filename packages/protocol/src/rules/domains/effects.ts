@@ -283,6 +283,12 @@ export interface EffectsChainItemFields {
    * instructions (a spell played for its Flow cost is banished instead of going to the trash).
    */
   leaveChainTo?: "banished";
+  /**
+   * 820.1.d / 820.3: how many executions of this item's instructions have completed. The
+   * resolution loop runs the script `1 + paid Repeat instances` times and an `effects.resume`
+   * prompt resumes the remaining runs from here.
+   */
+  repeatExecutionsDone?: number;
 }
 
 /** `LegalIntents` extras owned by the effects layer (prompt details, …). */

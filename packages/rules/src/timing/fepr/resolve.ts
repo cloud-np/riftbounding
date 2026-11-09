@@ -1,7 +1,9 @@
 /** Resolve — rules 340.1, including the §6.4 manual fallback and resolution-time prompts. */
 import type { ChainItem, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../../types";
+import { getCardScript } from "../../cards/registry";
 import { executeCardScript } from "../../effects/execute";
+import { repeatExecutions, repeatRunChoices } from "../../play/repeat";
 import { afterChainItemResolved } from "./after";
 import { noteExpirationFepr, removeChainItem } from "./chain";
 import { resolvePermanent } from "./finalize";
@@ -43,12 +45,32 @@ export function resolveNewest(room: Room, step: RulesStepContext): FeprResult {
       return "resolved";
     }
   }
+  return continueRepeatResolution(room, item, step);
+}
+
+/**
+ * 820.1.d.1 / 820.3: execute the item's instructions once, followed by one more execution per
+ * paid Repeat instance. Choices of execution `run` (1-based; 0 is the first) come from the
+ * `repeat:<run>:<key>` entries stripped back to their base keys (820.2.a: they may differ).
+ * When an execution stops on an `effects.resume` prompt the item stays on the chain; the resume
+ * handler completes it, notes the finished execution and calls this function again.
+ */
+export function continueRepeatResolution(room: Room, item: ChainItem, step: RulesStepContext): FeprResult {
+  const rules = room.rules;
+  if (!rules || !rules.chain.some((entry) => entry.id === item.id)) return "resolved";
+  if (rules.manual) return "manual";
+  const total = repeatRunCount(item);
+  const done = item.repeatExecutionsDone ?? 0;
+  if (done >= total) {
+    finishResolution(room, item, step);
+    return "resolved";
+  }
   const result = executeCardScript(item.cardName, item.kind === "card" ? "spell" : item.abilityRef, {
     room,
     step,
     itemId: item.id,
     controller: item.controller,
-    choices: item.choices,
+    choices: done === 0 ? item.choices : repeatRunChoices(item.choices, done),
   });
   if (result.status === "manual") {
     openManual(room, item, step, result.reason);
@@ -59,6 +81,14 @@ export function resolveNewest(room: Room, step: RulesStepContext): FeprResult {
     // item is still resolving and stays on the chain (the resume handler finishes it).
     return "await";
   }
-  finishResolution(room, item, step);
-  return "resolved";
+  item.repeatExecutionsDone = done + 1;
+  return continueRepeatResolution(room, item, step);
+}
+
+/** 820.1.d / 820.3: total executions of this item (1 + paid Repeat instances). */
+export function repeatRunCount(item: ChainItem): number {
+  if (item.kind !== "card") return 1;
+  const script = item.cardName ? getCardScript(item.cardName) : undefined;
+  if (script?.repeatHandled) return 1;
+  return 1 + repeatExecutions(item.optionalCosts ?? []);
 }

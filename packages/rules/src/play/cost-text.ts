@@ -192,7 +192,9 @@ export function parseRepeatCosts(text: string | undefined): Cost[] {
     const stripped = stripReminderText(line).trim();
     const match = /^\[repeat(?:\s+(\d+))?\]\s*(.*)$/i.exec(stripped);
     if (!match) continue;
-    const cost = parseCostText(match[2] ?? "");
+    // 820.1.c: "[Repeat] - Discard 1" writes the cost after a dash (catalog text of Square Up).
+    const costText = (match[2] ?? "").replace(/^[\s\-–—]+/, "");
+    const cost = parseCostText(costText);
     if (match[1]) cost.energy = (typeof cost.energy === "number" ? cost.energy : 0) + Number(match[1]);
     out.push(cost);
   }

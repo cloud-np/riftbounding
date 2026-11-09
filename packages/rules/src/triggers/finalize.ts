@@ -60,16 +60,25 @@ export function onItemFinalized(room: Room, item: ChainItem, step: RulesStepCont
 
 /**
  * 355.1.a / 356.4.f.1: remember on the permanent whether its optional additional cost was paid
- * (R2-play contract: `choices.additionalCost === true` or a non-empty `paid.additional`), so its
- * own "if you paid the additional cost" play effect can read it after the chain item is gone.
+ * (R2-play contract: a `cost:<id>` marker other than Accelerate/Deflect, or a non-empty
+ * `paid.additional.optionalCosts`), so its own "if you paid the additional cost" play effect can
+ * read it after the chain item is gone. Paying the ordinary cost with runes (or Power) is not an
+ * optional additional cost: `paidCostRecord` records those under `paid.additional` too, but
+ * `356.4.f.1` is about the decision to pay the optional cost.
  */
 function notePaidAdditionalCost(room: Room, item: ChainItem): void {
   const rules = room.rules;
   const card = item.cardSnapshot;
   if (!rules || item.kind !== "card" || !card) return;
   const flags = ["additionalCost", "optionalCost", "paidAdditional"];
-  const paid =
-    flags.some((key) => item.choices?.[key] === true) ||
-    (!!item.paid?.additional && Object.keys(item.paid.additional).length > 0);
+  const chosen = Object.entries(item.choices ?? {}).some(([key, value]) => {
+    if (!key.startsWith("cost:") || value !== true) return false;
+    const id = key.slice("cost:".length);
+    // 805.6 / 809.1.c: Accelerate and Deflect are additional costs with their own flags. Deflect
+    // ids are "deflect:<objectId>"; neither counts as this card's optional additional cost.
+    return id !== "accelerate" && !id.startsWith("deflect:");
+  });
+  const optionalCosts = item.paid?.additional?.optionalCosts;
+  const paid = flags.some((key) => item.choices?.[key] === true) || chosen || (Array.isArray(optionalCosts) && optionalCosts.length > 0);
   if (paid) (rules.objects[card.id] ??= {}).paidAdditionalCost = true;
 }

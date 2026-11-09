@@ -26,12 +26,14 @@ import { baseActionVerdict, keywordTimingVerdict } from "../legality/timing";
 import { appendChainItem, finalizeChainItem, passPriority, removeChainItem, runCleanupOrQueue } from "../timing/fepr";
 import { grantPriority } from "../state";
 import { snapshotInfo, typeOf } from "./card-info";
-import { planCore, type CorePlan } from "./core";
+import { planCore, type CoreInput, type CorePlan } from "./core";
 import { cardDomains, costSummary, printedCardCost } from "./cost-model";
 import { cardKeywords, printedCardKeywords } from "./keywords";
 import { chooseLocation, type LocationOption } from "./locations";
 import { applyPayment, checkpoint, paidCostRecord, rollback } from "./payment";
 import { playPermission, type PlayPermission } from "./permissions";
+import { bindRepeatChoices, repeatDeflectCosts, targetedChoiceKeys } from "./repeat";
+import { deflectCostsForTargets, type AdditionalCostSpec } from "./additional-costs";
 import { recordFinalizedCard } from "./keyword-helpers";
 import { openCostPrompt, openChoicePrompt } from "./prompting";
 import type { PlayRequest } from "./request";
@@ -58,6 +60,70 @@ function withPermissionKeywords(keywords: readonly string[], permission: PlayPer
 
 function spellAbility(info: CardInfo) {
   return typeOf(info).spell ? lookupAbility(info.name, "spell")?.ability : undefined;
+}
+
+/**
+ * 820.2: plan the play-time choices and then one extra choice set per paid Repeat instance.
+ * The repeated choices are bound under `repeat:<run>:<key>`; a Deflect target chosen in a
+ * repeated execution is priced as an extra additional cost (809.1.c). Returns the plan to prompt
+ * on when a repeated choice is still open.
+ */
+function planCoreWithRepeat(
+  room: Room,
+  host: RulesHost,
+  info: CardInfo,
+  ability: ReturnType<typeof spellAbility>,
+  input: CoreInput,
+): CorePlan | RulesFailure {
+  const extraAdditional: AdditionalCostSpec[] = [...(input.extraAdditional ?? [])];
+  let core = planCore(room, host, input);
+  if (!core.ok) return core;
+  // 809.1.c: Deflect is owed for every target choice, including targets the intent supplied up
+  // front (the choice walker omits bound specs, so they are missing from `core.targetKeys`).
+  if (ability && !core.pendingChoice) {
+    const boundTargets = targetedChoiceKeys(
+      room,
+      host,
+      ability,
+      {
+        controller: input.playerId,
+        sourceObjectId: input.sourceId,
+        ...(input.itemId ? { itemId: input.itemId } : {}),
+        ...(input.facedownAt ? { facedownAt: input.facedownAt } : {}),
+      },
+      input.choices,
+    );
+    const targetKeys = core.targetKeys;
+    const missing = boundTargets.filter((key) => !targetKeys.includes(key));
+    const deflect = deflectCostsForTargets(room, host, input.playerId, input.choices, missing);
+    if (deflect.length > 0) {
+      extraAdditional.push(...deflect);
+      const replan = planCore(room, host, { ...input, extraAdditional: [...extraAdditional] });
+      if (!replan.ok) return replan;
+      core = replan;
+    }
+  }
+  if (!core.ok || core.pendingChoice) return core;
+  const repeat = bindRepeatChoices(room, host, info, ability, {
+    choices: core.choices,
+    optionalCosts: input.optionalCosts,
+  });
+  if (!repeat.ok) return repeat;
+  const repeatKeys = Object.keys(repeat.choices).filter((key) => key.startsWith("repeat:"));
+  if (!repeat.pending && repeatKeys.length === 0) return core;
+  const merged: CorePlan = {
+    ...core,
+    choices: repeat.choices,
+    targetKeys: [...core.targetKeys, ...repeat.targetKeys],
+  };
+  if (repeat.pending) return { ...merged, pendingChoice: repeat.pending };
+  if (repeat.targetKeys.length === 0) return merged;
+  extraAdditional.push(...repeatDeflectCosts(room, host, input.playerId, repeat.choices, repeat.targetKeys));
+  return planCore(room, host, {
+    ...input,
+    choices: repeat.choices,
+    extraAdditional: [...extraAdditional],
+  });
 }
 
 /**
@@ -122,11 +188,12 @@ export function planCardPlay(
   // 475–479 restriction layer: "can't play …".
   const restriction = restrictionFor(room, host, { kind: "play", playerId, cardId });
   if (restriction) return fail("restricted", restriction.rule ?? "355.17.b", restriction.note);
-  const core = planCore(room, host, {
+  const ability = spellAbility(info);
+  const core = planCoreWithRepeat(room, host, info, ability, {
     playerId,
     kind: "card",
     sourceId: cardId,
-    ...(spellAbility(info) ? { ability: spellAbility(info)! } : {}),
+    ...(ability ? { ability } : {}),
     info,
     keywords,
     domains: cardDomains(info),
@@ -161,7 +228,7 @@ export function planPendingCard(room: Room, host: RulesHost, item: ChainItem): C
     : { id: "hand", rule: "420.1.a" };
   const keywords = withPermissionKeywords(keywordsWithPrinted(room, snapshot.id, printedCardKeywords(info), host), permission);
   const ability = spellAbility(info);
-  return planCore(room, host, {
+  return planCoreWithRepeat(room, host, info, ability, {
     playerId: item.controller,
     kind: "card",
     sourceId: snapshot.id,
