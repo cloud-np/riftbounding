@@ -83,7 +83,7 @@ describe("Vendetta: Empower triggers and checks", () => {
     s.as("p1").move("Nasus, Ascended", "battlefieldB").expectOk();
     settle(s);
     s.expectScore("p1", 2);
-    expect(getCardScript("Nasus, Ascended")?.status).toBe("partial");
+    expect(getCardScript("Nasus, Ascended")?.status).toBe("implemented");
   });
 
   it("[C:Ambessa, Respected and Feared][R383.4.e][R828.1.c] Empowered: Assault 2; when I attack, kill an enemy unit here with less Might", () => {
@@ -334,8 +334,8 @@ describe("Vendetta: Empower triggers and checks", () => {
     s.as("p2").pass().expectOk();
     expect(might(s, claw.id)).toBe(6);
     expect(empowered(s, emissary.id)).toBe(true);
-    expect(getCardScript("Baccai Witherclaw")?.status).toBe("partial");
-    expect(getCardScript("Noxian Emissary")?.status).toBe("partial");
+    expect(getCardScript("Baccai Witherclaw")?.status).toBe("implemented");
+    expect(getCardScript("Noxian Emissary")?.status).toBe("implemented");
   });
 
   it("[C:Kayle, Justified][R442.1.c.1][R443.1.b] Empowered up to three times: +2 Might each; Deflect 3 and Ganking at three", () => {

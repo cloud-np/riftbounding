@@ -23,9 +23,7 @@ registerCardScript({
 registerCardScript({
   name: "Riven, Shattered",
   text: "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for [Rune] less, even if it's already attached.)\nWhen I attack, choose an enemy unit here. Deal 2 to it for each Equipment attached to me.",
-  status: "partial",
-  notes:
-    "[Weaponmaster]'s play trigger (821.1.b: equip one of your Equipment to me for [Rune] less) is not automated: only the reduced Equip cost helper exists (weaponmasterEquipCosts), no keyword trigger.",
+  status: "implemented",
   abilities: [
     {
       kind: "triggered",

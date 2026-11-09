@@ -6,13 +6,12 @@
  */
 import { registerCardScript } from "../registry";
 import { SELF } from "../dsl";
-import { DEFLECT_GAP, empower, notIntrinsic, whileEmpowered } from "./shared";
+import { empower, notIntrinsic, whileEmpowered } from "./shared";
 
 registerCardScript({
   name: "Solari Sunhawk",
   text: "[Empower 2] ( [2] : Empower me. Use only if not Empowered.)\n[Empowered] I have + 1 [might] and [deflect 2] . (Opponents must pay [rune] [rune] to choose me with a spell or ability.)",
-  status: "partial",
-  notes: DEFLECT_GAP,
+  status: "implemented",
   abilities: [
     notIntrinsic("Deflect"),
     empower({ energy: 2 }),

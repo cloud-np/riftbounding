@@ -7,14 +7,13 @@ import { registerCardScript } from "../registry";
 import { PAID_ADDITIONAL, WHEN_PLAYED, aUnit, token } from "../dsl";
 import { notIntrinsic } from "./shared";
 
-const PAID_FLAG_BUG =
-  "R2-play/finalize mark `paidAdditionalCost` whenever runes were exhausted or Power was paid for the card (non-empty `paid.additional`), so the play effect also fires when the optional cost was declined — see the [BUG] reproduction in test/cards/ven-ogs (356.4.f.1).";
+const PAID_FLAG_NOTE =
+  "The optional additional cost is offered/paid by R2-play (`optional:0`) and the play effect reads the paid flag (356.4.f.1).";
 
 registerCardScript({
   name: "Masa, Crashing Thunder",
   text: "You may pay [Order] as an additional cost to play me.\nWhen you play me, if you paid the additional cost, [Stun] an enemy unit at a battlefield. (It doesn't deal combat damage this turn.)",
-  status: "partial",
-  notes: PAID_FLAG_BUG,
+  status: "implemented",
   abilities: [
     {
       kind: "triggered",
@@ -29,7 +28,7 @@ registerCardScript({
   name: "Gust Monk",
   text: "You may pay [1] as an additional cost to play me.\nWhen you play me, if you paid the additional cost, banish a card from any trash to give a unit [Assault 2] this turn. (+2 [Might] while it's an attacker.)",
   status: "partial",
-  notes: `"Banish a card from any trash to …" is a cost within the instruction: it is paid on resolution instead of when the trigger finalizes (cost_then has no banish-from-trash cost, 740.4.a.2). ${PAID_FLAG_BUG}`,
+  notes: `"Banish a card from any trash to …" is a cost within the instruction: it is paid on resolution instead of when the trigger finalizes (cost_then has no banish-from-trash cost, 740.4.a.2). ${PAID_FLAG_NOTE}`,
   abilities: [
     notIntrinsic("Assault"),
     {
@@ -67,8 +66,7 @@ registerCardScript({
 registerCardScript({
   name: "Zed, From the Shadows",
   text: 'You may discard 1 as an additional cost to play me.\nWhen you play me, if you paid the additional cost, play a 0 [Might] Shadow Clone unit token. (It has "When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.")',
-  status: "partial",
-  notes: PAID_FLAG_BUG,
+  status: "implemented",
   abilities: [
     // The catalog's Assault comes from the Shadow Clone's reminder text (135.2.d.3).
     notIntrinsic("Assault"),

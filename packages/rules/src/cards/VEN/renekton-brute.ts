@@ -7,13 +7,13 @@
  */
 import { registerCardScript } from "../registry";
 import { SELF } from "../dsl";
-import { DEFLECT_GAP, notIntrinsic, whileEmpowered } from "./shared";
+import { notIntrinsic, whileEmpowered } from "./shared";
 
 registerCardScript({
   name: "Renekton, Brute",
   text: "[1]: Give me +1 [Might] this turn.\nWhen my Might becomes 10 or more, empower me.\n[Empower] I have [Deflect] and [Ganking].",
   status: "partial",
-  notes: `"When my Might becomes 10 or more" is not automated: only the 5-Might threshold (become_mighty, 709) is synthesized as an event (383.1). ${DEFLECT_GAP}`,
+  notes: `"When my Might becomes 10 or more" is not automated: only the 5-Might threshold (become_mighty, 709) is synthesized as an event (383.1).`,
   abilities: [
     notIntrinsic("Deflect"),
     notIntrinsic("Ganking"),
