@@ -5,8 +5,8 @@ starting A through N (126 cards). Scripts live in `packages/rules/src/cards/OGN/
 registered through `src/cards/OGN/batch-a-n.ts`; behaviour tests are in
 `packages/rules/test/cards/ogn-a-n/` (one `[C:Card Name]` test per card).
 
-Counts: **30 implemented**, **0 partial**, **0 manual**,
-**96 not yet scripted**.
+Counts: **45 implemented**, **3 partial**, **0 manual**,
+**78 not yet scripted**.
 
 ## Conventions used
 
@@ -22,143 +22,148 @@ Counts: **30 implemented**, **0 partial**, **0 manual**,
 
 Engine capabilities missing for full automation (feeds the next engine pass).
 
-| Capability | Rule ids | Cards blocked | Count |
-| ---------- | -------- | ------------- | ----- |
+| Capability                                                                                                                          | Rule ids | Cards blocked                      | Count |
+| ----------------------------------------------------------------------------------------------------------------------------------- | -------- | ---------------------------------- | ----- |
+| per-discount Energy minimum ("reduced by [N], to a minimum of [1]" against the running cost total; `CostAdjustment` has no minimum) | 356.4.c  | Herald of Scales, Eager Apprentice | 2     |
+| continuous per-object minimum for a passive Might modifier ("-8 [Might], to a minimum of 1" applied while the passive lasts)        | 479.4.b  | Leona, Zealot                      | 1     |
 
 ## Custom ids
 
-| Id                             | Kind      | Registered in          | Meaning                                                         |
-| ------------------------------ | --------- | ---------------------- | --------------------------------------------------------------- |
-| `ogn-an:channelled-fewer-than` | condition | `catalyst-of-aeons.ts` | the preceding `channel` channelled fewer than `n` runes (431.3) |
-| `ogn-an:in-combat`             | condition | `cannon-barrage.ts`    | `it` is in combat (740.2.c)                                     |
+| Id                               | Kind      | Registered in             | Meaning                                                                                                    |
+| -------------------------------- | --------- | ------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `ogn-an:channelled-fewer-than`   | condition | `catalyst-of-aeons.ts`    | the preceding `channel` channelled fewer than `n` runes (431.3)                                            |
+| `ogn-an:in-combat`               | condition | `cannon-barrage.ts`       | `it` is in combat (740.2.c)                                                                                |
+| `ogn-an:legion`                  | condition | `darius-executioner.ts`   | [Legion]: another card than the source was Finalized by the controller this turn (812.1.c, `legionActive`) |
+| `ogn-an:event-battlefield-yours` | condition | `ahri-nine-tailed-fox.ts` | the trigger event's battlefield is controlled by the ability's controller (190.2)                          |
+| `ogn-an:opponent-near-victory`   | condition | `leona-zealot.ts`         | an opponent's score is within `n` points of the host Victory Score (472)                                   |
 
 ## Card status
 
-| Card                         | Type        | Status      | Notes |
-| ---------------------------- | ----------- | ----------- | ----- |
-| Acceptable Losses            | Spell       | remaining   |       |
-| Adaptatron                   | Unit        | remaining   |       |
-| Ahri, Alluring               | Unit        | remaining   |       |
-| Ahri, Inquisitive            | Unit        | remaining   |       |
-| Ahri, Nine-Tailed Fox        | Legend      | remaining   |       |
-| Albus Ferros                 | Unit        | remaining   |       |
-| Anivia, Primal               | Unit        | remaining   |       |
-| Arena Bar                    | Gear        | remaining   |       |
-| Ava Achiever                 | Unit        | remaining   |       |
-| Back to Back                 | Spell       | implemented |       |
-| Baited Hook                  | Gear        | remaining   |       |
-| Bilgewater Bully             | Unit        | remaining   |       |
-| Blastcone Fae                | Unit        | remaining   |       |
-| Blazing Scorcher             | Unit        | implemented |       |
-| Blind Fury                   | Spell       | remaining   |       |
-| Blitzcrank, Impassive        | Unit        | remaining   |       |
-| Block                        | Spell       | implemented |       |
-| Brazen Buccaneer             | Unit        | remaining   |       |
-| Brynhir Thundersong          | Unit        | remaining   |       |
-| Bullet Time                  | Spell       | remaining   |       |
-| Call to Glory                | Spell       | remaining   |       |
-| Cannon Barrage               | Spell       | implemented |       |
-| Captain Farron               | Unit        | remaining   |       |
-| Carnivorous Snapvine         | Unit        | remaining   |       |
-| Catalyst of Aeons            | Spell       | implemented |       |
-| Cemetery Attendant           | Unit        | implemented |       |
-| Charm                        | Spell       | implemented |       |
-| Chemtech Enforcer            | Unit        | implemented |       |
-| Cithria of Cloudfield        | Unit        | remaining   |       |
-| Cleave                       | Spell       | implemented |       |
-| Commander Ledros             | Unit        | remaining   |       |
-| Confront                     | Spell       | implemented |       |
-| Consult the Past             | Spell       | implemented |       |
-| Convergent Mutation          | Spell       | remaining   |       |
-| Crackshot Corsair            | Unit        | remaining   |       |
-| Cruel Patron                 | Unit        | remaining   |       |
-| Cull the Weak                | Spell       | remaining   |       |
-| Dangerous Duo                | Unit        | remaining   |       |
-| Daring Poro                  | Unit        | implemented |       |
-| Darius, Executioner          | Unit        | remaining   |       |
-| Darius, Hand of Noxus        | Legend      | remaining   |       |
-| Darius, Trifarian            | Unit        | remaining   |       |
-| Dazzling Aurora              | Gear        | remaining   |       |
-| Deadbloom Predator           | Unit        | remaining   |       |
-| Disintegrate                 | Spell       | remaining   |       |
-| Divine Judgment              | Spell       | remaining   |       |
-| Dragon's Rage                | Spell       | remaining   |       |
-| Draven, Showboat             | Unit        | remaining   |       |
-| Dune Drake                   | Unit        | remaining   |       |
-| Eager Apprentice             | Unit        | remaining   |       |
-| Ekko, Recurrent              | Unit        | remaining   |       |
-| Ember Monk                   | Unit        | remaining   |       |
-| Energy Conduit               | Gear        | remaining   |       |
-| Facebreaker                  | Spell       | remaining   |       |
-| Fading Memories              | Spell       | remaining   |       |
-| Faithful Manufactor          | Unit        | implemented |       |
-| Falling Comet                | Spell       | implemented |       |
-| Fight or Flight              | Spell       | implemented |       |
-| Find Your Center             | Spell       | remaining   |       |
-| Fiora, Victorious            | Unit        | remaining   |       |
-| First Mate                   | Unit        | implemented |       |
-| Flame Chompers               | Unit        | remaining   |       |
-| Flurry of Blades             | Spell       | implemented |       |
-| Forge of the Future          | Gear        | remaining   |       |
-| Fox-Fire                     | Spell       | remaining   |       |
-| Garbage Grabber              | Gear        | remaining   |       |
-| Gemcraft Seer                | Unit        | remaining   |       |
-| Get Excited!                 | Spell       | remaining   |       |
-| Grand Strategem              | Spell       | implemented |       |
-| Guerilla Warfare             | Spell       | remaining   |       |
-| Hallowed Tomb                | Battlefield | remaining   |       |
-| Harnessed Dragon             | Unit        | implemented |       |
-| Heimerdinger, Inventor       | Unit        | remaining   |       |
-| Herald of Scales             | Unit        | remaining   |       |
-| Icathian Rain                | Spell       | remaining   |       |
-| Immortal Phoenix             | Unit        | remaining   |       |
-| Imperial Decree              | Spell       | remaining   |       |
-| Invert Timelines             | Spell       | remaining   |       |
-| Iron Ballista                | Gear        | remaining   |       |
-| Jeweled Colossus             | Unit        | implemented |       |
-| Jinx, Demolitionist          | Unit        | remaining   |       |
-| Jinx, Loose Cannon           | Legend      | remaining   |       |
-| Jinx, Rebel                  | Unit        | remaining   |       |
-| Kadregrin the Infernal       | Unit        | implemented |       |
-| Kai'Sa, Daughter of the Void | Legend      | remaining   |       |
-| Kai'Sa, Evolutionary         | Unit        | remaining   |       |
-| Kai'Sa, Survivor             | Unit        | implemented |       |
-| Karma, Channeler             | Unit        | remaining   |       |
-| Karthus, Eternal             | Unit        | remaining   |       |
-| Kayn, Unleashed              | Unit        | remaining   |       |
-| King's Edict                 | Spell       | remaining   |       |
-| Kinkou Monk                  | Unit        | remaining   |       |
-| Kog'Maw, Caustic             | Unit        | remaining   |       |
-| Kraken Hunter                | Unit        | remaining   |       |
-| Last Breath                  | Spell       | implemented |       |
-| Lecturing Yordle             | Unit        | implemented |       |
-| Lee Sin, Ascetic             | Unit        | remaining   |       |
-| Lee Sin, Blind Monk          | Legend      | remaining   |       |
-| Lee Sin, Centered            | Unit        | remaining   |       |
-| Legion Rearguard             | Unit        | implemented |       |
-| Leona, Determined            | Unit        | remaining   |       |
-| Leona, Radiant Dawn          | Legend      | remaining   |       |
-| Leona, Zealot                | Unit        | remaining   |       |
-| Machine Evangel              | Unit        | remaining   |       |
-| Maddened Marauder            | Unit        | remaining   |       |
-| Mageseeker Warden            | Unit        | remaining   |       |
-| Magma Wurm                   | Unit        | remaining   |       |
-| Malzahar, Fanatic            | Unit        | remaining   |       |
-| Mask of Foresight            | Gear        | remaining   |       |
-| Mega-Mech                    | Unit        | implemented |       |
-| Mindsplitter                 | Unit        | remaining   |       |
-| Miss Fortune, Bounty Hunter  | Legend      | remaining   |       |
-| Miss Fortune, Buccaneer      | Unit        | remaining   |       |
-| Miss Fortune, Captain        | Unit        | remaining   |       |
-| Mistfall                     | Gear        | remaining   |       |
-| Mobilize                     | Spell       | implemented |       |
-| Monastery of Hirana          | Battlefield | remaining   |       |
-| Morbid Return                | Spell       | implemented |       |
-| Mountain Drake               | Unit        | implemented |       |
-| Mushroom Pouch               | Gear        | remaining   |       |
-| Mystic Poro                  | Unit        | implemented |       |
-| Mystic Reversal              | Spell       | remaining   |       |
-| Navori Fighting Pit          | Battlefield | remaining   |       |
-| Nocturne, Horrifying         | Unit        | remaining   |       |
-| Noxian Drummer               | Unit        | remaining   |       |
-| Noxus Saboteur               | Unit        | remaining   |       |
+| Card                         | Type        | Status      | Notes                                                                                                                                                                                                    |
+| ---------------------------- | ----------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Acceptable Losses            | Spell       | remaining   |                                                                                                                                                                                                          |
+| Adaptatron                   | Unit        | remaining   |                                                                                                                                                                                                          |
+| Ahri, Alluring               | Unit        | remaining   |                                                                                                                                                                                                          |
+| Ahri, Inquisitive            | Unit        | implemented |                                                                                                                                                                                                          |
+| Ahri, Nine-Tailed Fox        | Legend      | implemented |                                                                                                                                                                                                          |
+| Albus Ferros                 | Unit        | remaining   |                                                                                                                                                                                                          |
+| Anivia, Primal               | Unit        | implemented |                                                                                                                                                                                                          |
+| Arena Bar                    | Gear        | remaining   |                                                                                                                                                                                                          |
+| Ava Achiever                 | Unit        | remaining   |                                                                                                                                                                                                          |
+| Back to Back                 | Spell       | implemented |                                                                                                                                                                                                          |
+| Baited Hook                  | Gear        | remaining   |                                                                                                                                                                                                          |
+| Bilgewater Bully             | Unit        | implemented |                                                                                                                                                                                                          |
+| Blastcone Fae                | Unit        | remaining   |                                                                                                                                                                                                          |
+| Blazing Scorcher             | Unit        | implemented |                                                                                                                                                                                                          |
+| Blind Fury                   | Spell       | remaining   |                                                                                                                                                                                                          |
+| Blitzcrank, Impassive        | Unit        | remaining   |                                                                                                                                                                                                          |
+| Block                        | Spell       | implemented |                                                                                                                                                                                                          |
+| Brazen Buccaneer             | Unit        | remaining   |                                                                                                                                                                                                          |
+| Brynhir Thundersong          | Unit        | remaining   |                                                                                                                                                                                                          |
+| Bullet Time                  | Spell       | remaining   |                                                                                                                                                                                                          |
+| Call to Glory                | Spell       | remaining   |                                                                                                                                                                                                          |
+| Cannon Barrage               | Spell       | implemented |                                                                                                                                                                                                          |
+| Captain Farron               | Unit        | implemented |                                                                                                                                                                                                          |
+| Carnivorous Snapvine         | Unit        | remaining   |                                                                                                                                                                                                          |
+| Catalyst of Aeons            | Spell       | implemented |                                                                                                                                                                                                          |
+| Cemetery Attendant           | Unit        | implemented |                                                                                                                                                                                                          |
+| Charm                        | Spell       | implemented |                                                                                                                                                                                                          |
+| Chemtech Enforcer            | Unit        | implemented |                                                                                                                                                                                                          |
+| Cithria of Cloudfield        | Unit        | remaining   |                                                                                                                                                                                                          |
+| Cleave                       | Spell       | implemented |                                                                                                                                                                                                          |
+| Commander Ledros             | Unit        | remaining   |                                                                                                                                                                                                          |
+| Confront                     | Spell       | implemented |                                                                                                                                                                                                          |
+| Consult the Past             | Spell       | implemented |                                                                                                                                                                                                          |
+| Convergent Mutation          | Spell       | remaining   |                                                                                                                                                                                                          |
+| Crackshot Corsair            | Unit        | implemented |                                                                                                                                                                                                          |
+| Cruel Patron                 | Unit        | remaining   |                                                                                                                                                                                                          |
+| Cull the Weak                | Spell       | remaining   |                                                                                                                                                                                                          |
+| Dangerous Duo                | Unit        | remaining   |                                                                                                                                                                                                          |
+| Daring Poro                  | Unit        | implemented |                                                                                                                                                                                                          |
+| Darius, Executioner          | Unit        | implemented |                                                                                                                                                                                                          |
+| Darius, Hand of Noxus        | Legend      | remaining   |                                                                                                                                                                                                          |
+| Darius, Trifarian            | Unit        | remaining   |                                                                                                                                                                                                          |
+| Dazzling Aurora              | Gear        | remaining   |                                                                                                                                                                                                          |
+| Deadbloom Predator           | Unit        | remaining   |                                                                                                                                                                                                          |
+| Disintegrate                 | Spell       | remaining   |                                                                                                                                                                                                          |
+| Divine Judgment              | Spell       | remaining   |                                                                                                                                                                                                          |
+| Dragon's Rage                | Spell       | remaining   |                                                                                                                                                                                                          |
+| Draven, Showboat             | Unit        | implemented |                                                                                                                                                                                                          |
+| Dune Drake                   | Unit        | implemented |                                                                                                                                                                                                          |
+| Eager Apprentice             | Unit        | partial     | The "minimum of [1]" is checked against the printed Energy cost, not the running total after other cost changes (356.4.c: CostAdjustment has no per-discount minimum).                                   |
+| Ekko, Recurrent              | Unit        | remaining   |                                                                                                                                                                                                          |
+| Ember Monk                   | Unit        | remaining   |                                                                                                                                                                                                          |
+| Energy Conduit               | Gear        | remaining   |                                                                                                                                                                                                          |
+| Facebreaker                  | Spell       | remaining   |                                                                                                                                                                                                          |
+| Fading Memories              | Spell       | remaining   |                                                                                                                                                                                                          |
+| Faithful Manufactor          | Unit        | implemented |                                                                                                                                                                                                          |
+| Falling Comet                | Spell       | implemented |                                                                                                                                                                                                          |
+| Fight or Flight              | Spell       | implemented |                                                                                                                                                                                                          |
+| Find Your Center             | Spell       | remaining   |                                                                                                                                                                                                          |
+| Fiora, Victorious            | Unit        | implemented |                                                                                                                                                                                                          |
+| First Mate                   | Unit        | implemented |                                                                                                                                                                                                          |
+| Flame Chompers               | Unit        | remaining   |                                                                                                                                                                                                          |
+| Flurry of Blades             | Spell       | implemented |                                                                                                                                                                                                          |
+| Forge of the Future          | Gear        | remaining   |                                                                                                                                                                                                          |
+| Fox-Fire                     | Spell       | remaining   |                                                                                                                                                                                                          |
+| Garbage Grabber              | Gear        | remaining   |                                                                                                                                                                                                          |
+| Gemcraft Seer                | Unit        | implemented |                                                                                                                                                                                                          |
+| Get Excited!                 | Spell       | remaining   |                                                                                                                                                                                                          |
+| Grand Strategem              | Spell       | implemented |                                                                                                                                                                                                          |
+| Guerilla Warfare             | Spell       | remaining   |                                                                                                                                                                                                          |
+| Hallowed Tomb                | Battlefield | remaining   |                                                                                                                                                                                                          |
+| Harnessed Dragon             | Unit        | implemented |                                                                                                                                                                                                          |
+| Heimerdinger, Inventor       | Unit        | remaining   |                                                                                                                                                                                                          |
+| Herald of Scales             | Unit        | partial     | The "minimum of [1]" is checked against the printed Energy cost, not the running total after other cost changes (356.4.c: CostAdjustment has no per-discount minimum).                                   |
+| Icathian Rain                | Spell       | remaining   |                                                                                                                                                                                                          |
+| Immortal Phoenix             | Unit        | remaining   |                                                                                                                                                                                                          |
+| Imperial Decree              | Spell       | remaining   |                                                                                                                                                                                                          |
+| Invert Timelines             | Spell       | remaining   |                                                                                                                                                                                                          |
+| Iron Ballista                | Gear        | remaining   |                                                                                                                                                                                                          |
+| Jeweled Colossus             | Unit        | implemented |                                                                                                                                                                                                          |
+| Jinx, Demolitionist          | Unit        | remaining   |                                                                                                                                                                                                          |
+| Jinx, Loose Cannon           | Legend      | remaining   |                                                                                                                                                                                                          |
+| Jinx, Rebel                  | Unit        | remaining   |                                                                                                                                                                                                          |
+| Kadregrin the Infernal       | Unit        | implemented |                                                                                                                                                                                                          |
+| Kai'Sa, Daughter of the Void | Legend      | remaining   |                                                                                                                                                                                                          |
+| Kai'Sa, Evolutionary         | Unit        | remaining   |                                                                                                                                                                                                          |
+| Kai'Sa, Survivor             | Unit        | implemented |                                                                                                                                                                                                          |
+| Karma, Channeler             | Unit        | remaining   |                                                                                                                                                                                                          |
+| Karthus, Eternal             | Unit        | remaining   |                                                                                                                                                                                                          |
+| Kayn, Unleashed              | Unit        | remaining   |                                                                                                                                                                                                          |
+| King's Edict                 | Spell       | remaining   |                                                                                                                                                                                                          |
+| Kinkou Monk                  | Unit        | remaining   |                                                                                                                                                                                                          |
+| Kog'Maw, Caustic             | Unit        | remaining   |                                                                                                                                                                                                          |
+| Kraken Hunter                | Unit        | remaining   |                                                                                                                                                                                                          |
+| Last Breath                  | Spell       | implemented |                                                                                                                                                                                                          |
+| Lecturing Yordle             | Unit        | implemented |                                                                                                                                                                                                          |
+| Lee Sin, Ascetic             | Unit        | remaining   |                                                                                                                                                                                                          |
+| Lee Sin, Blind Monk          | Legend      | remaining   |                                                                                                                                                                                                          |
+| Lee Sin, Centered            | Unit        | implemented |                                                                                                                                                                                                          |
+| Legion Rearguard             | Unit        | implemented |                                                                                                                                                                                                          |
+| Leona, Determined            | Unit        | implemented |                                                                                                                                                                                                          |
+| Leona, Radiant Dawn          | Legend      | remaining   |                                                                                                                                                                                                          |
+| Leona, Zealot                | Unit        | partial     | Not automated: "Stunned enemy units here have -8 [Might], to a minimum of 1" — the layers have no continuous per-object minimum for a passive Might modifier (479.4.b applies to passives continuously). |
+| Machine Evangel              | Unit        | remaining   |                                                                                                                                                                                                          |
+| Maddened Marauder            | Unit        | remaining   |                                                                                                                                                                                                          |
+| Mageseeker Warden            | Unit        | remaining   |                                                                                                                                                                                                          |
+| Magma Wurm                   | Unit        | implemented |                                                                                                                                                                                                          |
+| Malzahar, Fanatic            | Unit        | remaining   |                                                                                                                                                                                                          |
+| Mask of Foresight            | Gear        | implemented |                                                                                                                                                                                                          |
+| Mega-Mech                    | Unit        | implemented |                                                                                                                                                                                                          |
+| Mindsplitter                 | Unit        | remaining   |                                                                                                                                                                                                          |
+| Miss Fortune, Bounty Hunter  | Legend      | remaining   |                                                                                                                                                                                                          |
+| Miss Fortune, Buccaneer      | Unit        | remaining   |                                                                                                                                                                                                          |
+| Miss Fortune, Captain        | Unit        | remaining   |                                                                                                                                                                                                          |
+| Mistfall                     | Gear        | remaining   |                                                                                                                                                                                                          |
+| Mobilize                     | Spell       | implemented |                                                                                                                                                                                                          |
+| Monastery of Hirana          | Battlefield | remaining   |                                                                                                                                                                                                          |
+| Morbid Return                | Spell       | implemented |                                                                                                                                                                                                          |
+| Mountain Drake               | Unit        | implemented |                                                                                                                                                                                                          |
+| Mushroom Pouch               | Gear        | remaining   |                                                                                                                                                                                                          |
+| Mystic Poro                  | Unit        | implemented |                                                                                                                                                                                                          |
+| Mystic Reversal              | Spell       | remaining   |                                                                                                                                                                                                          |
+| Navori Fighting Pit          | Battlefield | remaining   |                                                                                                                                                                                                          |
+| Nocturne, Horrifying         | Unit        | remaining   |                                                                                                                                                                                                          |
+| Noxian Drummer               | Unit        | remaining   |                                                                                                                                                                                                          |
+| Noxus Saboteur               | Unit        | remaining   |                                                                                                                                                                                                          |
