@@ -76,19 +76,20 @@ findings, scratch probes), then merged into `r4-engine` and finally integrated h
 
 | Package | Files | Passed | Skipped / failed | Notes |
 | --- | ---: | ---: | --- | --- |
-| `@rift/rules` (default) | 171 | 1941 | 0 / 0 | no `[BUG]` skip remains |
+| `@rift/rules` (default) | 176 | 1986 | 0 / 0 | no `[BUG]` skip remains; includes `test/registry/` (integrity, duplicates, legacy state) |
 | `@rift/rules` (host config) | 1 | 1 | 0 / 0 | |
-| `@rift/engine` | 21 | 145 | 0 / 0 | `.recon/oracle` present |
+| `@rift/engine` | 22 | 148 | 0 / 0 | `.recon/oracle` present |
 | `@rift/sync` | 6 | 57 | 0 / 0 | |
-| `@rift/i18n` | 5 | 162 | 0 / 0 | includes the strict locale suite |
-| `realtime` | 8 | 74 | 0 / 0 | includes Practice-vs-Bot |
-| `play` | 41 | 305 | 0 / 0 | includes gesture/board strict tests |
+| `@rift/i18n` | 5 | 168 | 0 / 0 | includes the strict locale suite |
+| `@rift/cards` | 8 | 104 | 0 / 0 | includes the catalog keyword audit |
+| `realtime` | 8 | 75 | 0 / 0 | includes Practice-vs-Bot |
+| `play` | 44 | 316 | 0 / 0 | includes gesture/board strict tests |
 
 Typecheck: `pnpm --filter @rift/rules typecheck` and root `pnpm typecheck` are clean (0 errors).
 
 ### Rules coverage (`docs/rules-coverage.md`)
 
-661 / 2321 rule ids tested (28.5%); 1422 tagged test titles; 0 unknown ids
+663 / 2321 rule ids tested (28.6%); 1438 tagged test titles; 0 unknown ids
 (`node packages/rules/scripts/rules-coverage.mjs --check`).
 
 ### Card scripts (`docs/cards-coverage.md`)
@@ -115,8 +116,11 @@ Typecheck: `pnpm --filter @rift/rules typecheck` and root `pnpm typecheck` are c
 
 | Deck mode | Seeds | Wins | Turn caps | Action caps | Stuck | Crashes | Avg turns |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `fixture` | 1–200 | 200 | 0 | 0 | 0 | 0 | 32.00 |
-| `catalog` | 1–400 | 394 | 6 | 0 | 0 | 0 | 35.83 (wins 35.14) |
+| `fixture` | 1–200 | 200 | 0 | 0 | 0 | 0 | 32.02 |
+| `catalog` | 1–400 | 394 | 6 | 0 | 0 | 0 | 35.86 |
+
+(Re-run after the Weaponmaster attach-cost fix merged into `r4-engine` and again after the
+maintainability pass: per-seed outcomes of the pass are identical to `r4-engine` `b1eb4f9`.)
 
 The six catalog turn caps (seeds 62, 143, 157, 268, 323, 338) are long but legal games; raise
 `SELFPLAY_MAX_TURNS` to finish them. The default 50-game fixture run is 50/50 wins, avg 30.88.
