@@ -205,7 +205,7 @@ and plain printed `[Add] <symbols>` effects (430.5) are executed by the play lay
 | Equip | 818 | built-in activated ability; `equip:<n>` attaches on resolution (818.1.c.2) |
 | Quick-Draw | 819 | inherent Reaction (819.1.b) plus the attach trigger (`gear_played`, once, 819.1.d/819.2) |
 | Repeat | 820 | optional additional costs `repeat`, `repeat:<n>` parsed from text (leading dash accepted); one extra execution and one `repeat:<n>:<key>` choice set per paid instance |
-| Weaponmaster | 821 | `weaponmasterEquipCosts`; on `unit_played` the optional trigger offers an Equipment you control and pays its Equip cost reduced by [A] (821.1.b/c) |
+| Weaponmaster | 821 | `weaponmasterEquipCosts`; on `unit_played` (including a token played by an effect, 186/440.2.c) the optional trigger offers an Equipment you control and pays its Equip cost reduced by [A] (821.1.b/c); 821.1.c.2.b reductions that read the chosen unit (Hextech Gauntlets' Might) are applied too |
 | Ambush | 822 | location + Reaction there (822.1.b/c, 822.3); merged onto the same controlled battlefield option |
 | Deploy | 830 | battlefield-only gear location; `hold` by an opponent kills it (830.1.b) |
 
