@@ -1,6 +1,5 @@
 /** Cithria of Cloudfield (OGN-139) — "When you play another unit, buff me." (420.4.a; 440.2.c tokens count) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Cithria of Cloudfield",

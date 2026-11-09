@@ -2,8 +2,7 @@
  * Adaptatron (OGN-056) — "When I conquer, you may kill a gear. If you do, buff me."
  * 403.1 "you may"; 359.3.e.14.b "if you do" reads the kill.
  */
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
+import { custom, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Adaptatron",

@@ -1,5 +1,5 @@
 /** Consult the Past (OGN-083) — "[Hidden] [Reaction] Draw 2." ([Hidden] 811 is R2-play's keyword.) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Consult the Past",

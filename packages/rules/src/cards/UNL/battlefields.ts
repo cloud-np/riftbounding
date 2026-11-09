@@ -15,8 +15,7 @@
  * - Vaults of Helia (UNL-219): when you hold here, your non-token units cost [1] more to play this
  *   turn (356.3).
  */
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT, HERE, WHEN_YOU_HOLD_HERE, aUnit, custom } from "../dsl";
+import { aUnit, custom, EVENT_SUBJECT, HERE, registerCardScript, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 registerCardScript({
   name: "Abandoned Hall",

@@ -1,6 +1,5 @@
 /** Hextech Ray (OGN-009 — EX[192] (418.1.e.1), EX[273] (715.4.a)) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Hextech Ray",

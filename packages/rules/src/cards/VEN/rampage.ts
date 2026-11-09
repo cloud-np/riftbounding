@@ -6,8 +6,7 @@
  * 355.1.a optional additional cost (R2-play, `optional:0`); 418.6.b.3/.4 each unit is the source
  * of the damage it deals.
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Rampage",

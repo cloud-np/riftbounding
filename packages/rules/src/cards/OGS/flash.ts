@@ -1,6 +1,5 @@
 /** Flash (OGS-011 — EX[95] (358.3.a): "Move up to 2 friendly units to base.") */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Flash",

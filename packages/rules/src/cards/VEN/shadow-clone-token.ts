@@ -7,9 +7,8 @@
  * (359.3.e.14.b). The catalog's Assault (value 4 from the text) is only granted by the trigger
  * (727.1.b). Kept in the Vendetta folder because only this lane's cards create it.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
 import { WHEN_I_ATTACK, notIntrinsic } from "./shared";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Shadow Clone",

@@ -1,6 +1,5 @@
 /** Anivia, Primal (OGN-148) — "When I attack, deal 3 to all enemy units here." (383.4.e; 418.1.d) */
-import { registerCardScript } from "../registry";
-import { HERE, SELF } from "../dsl";
+import { HERE, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Anivia, Primal",

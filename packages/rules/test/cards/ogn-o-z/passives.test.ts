@@ -55,6 +55,8 @@ describe("Origins O–Z passive abilities", () => {
     const s = withCards(["Wielder of Water"]);
     const wielder = place(s, "p1", "Wielder of Water", "battlefieldA");
     expect(effectiveMight(s.room, wielder.id, s.host)).toBe(2);
+    // 740.2.c: "attacking or defending" = in combat — at the combat battlefield with a designation.
+    s.room.rules!.combat = { battlefield: "battlefieldA", attacker: "p2", defender: "p1", step: "showdown" };
     s.room.rules!.objects[wielder.id] = { designation: "defender" };
     expect(effectiveMight(s.room, wielder.id, s.host)).toBe(4);
     const friend = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");

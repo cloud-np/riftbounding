@@ -3,8 +3,7 @@
  * less, banish it. Otherwise, return it to its owner's hand." (359.3.f.2: Might checked on
  * resolution; 428 banish, 056 owner's hand)
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 const TARGET = aUnit({ zone: "battlefield", targetRef: "target:0" });
 

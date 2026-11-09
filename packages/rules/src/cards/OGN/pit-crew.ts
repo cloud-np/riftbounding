@@ -4,8 +4,7 @@
  * 420.4.a: triggers when the gear has resolved (`gear_played`); a played gear token is a played
  * gear too (440.2.c, 185.2.a).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Pit Crew",

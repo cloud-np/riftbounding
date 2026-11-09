@@ -4,8 +4,7 @@
  * 355.5.a "all"), Sprite Burst (440.2.c tokens; the Sprite token's [Temporary] comes from the
  * catalog token), Vault Breaker (801.3.a keyword grants with a duration).
  */
-import { registerCardScript } from "../registry";
-import { aUnit, token } from "../dsl";
+import { aUnit, registerCardScript, token } from "../sdk";
 
 registerCardScript({
   name: "Moonlight Affliction",

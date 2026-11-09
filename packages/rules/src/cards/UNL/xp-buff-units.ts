@@ -4,8 +4,7 @@
  * catalog's [Buff] is reminder text, not a keyword ability.
  */
 import type { Ability } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 const SPEND_2_BUFF_ME: Ability = {
   kind: "activated",

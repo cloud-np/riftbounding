@@ -1,5 +1,5 @@
 /** Divine Judgment — each player chooses 2 of each category, recycles the rest (355.18). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Divine Judgment",

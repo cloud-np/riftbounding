@@ -5,7 +5,7 @@
  * itself comes from the engine host (`RulesHost.victoryScore`/`settleVictory`, frozen), so the
  * adjustment is not applied yet: R2-combat/the lead must add it where victory is checked.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Aspirant's Climb",

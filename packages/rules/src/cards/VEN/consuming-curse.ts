@@ -5,8 +5,7 @@
  * 712–715: Bonus Damage increases each instance of damage the spell deals; this spell deals one
  * instance, so it deals 2 + N (N counted on resolution, when this card is still on the chain).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 const CARD_NAME = "Consuming Curse";
 

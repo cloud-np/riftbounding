@@ -6,8 +6,7 @@
  * Might). "You may exhaust me to …" is an optional cost within the instruction (740.4.a), paid on
  * resolution; without paying nothing happens.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Volibear, Relentless Storm",

@@ -1,6 +1,5 @@
 /** Angler Beast (UNL-132) — Play Effect: return all units with 2 [Might] or less to their owners' hands (056, 355.5.a). */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Angler Beast",

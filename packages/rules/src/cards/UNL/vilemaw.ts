@@ -1,15 +1,22 @@
 /**
  * Vilemaw (UNL-060) — [Ambush] (822, engine keyword). "Enemy units here with less Might than me
- * don't deal combat damage." (467.2.a/b: such units contribute 0 to their side's total; registered
- * with R2-combat's contribution-filter extension point.) "When I hold, draw 1." (383.4.d)
+ * don't deal combat damage." (467.2.a/b: such units contribute 0 to their side's total — a
+ * `no-combat-damage` passive.) "When I hold, draw 1." (383.4.d)
  */
-import type { Room } from "@rift/protocol";
-import type { RulesHost } from "../../host";
-import { getCardScript, registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { registerCombatContributionFilter } from "../../combat/keywords";
-import { effectiveMight } from "../../layers";
-import { unitsPresentAt } from "../../state/presence";
+import { custom, effectiveMight, registerCardScript, registerCustomCondition, SELF, unitsPresentAt } from "../sdk";
+
+/** `it` is an enemy unit at my location (I'm present there) with less Might than me. */
+registerCustomCondition("unl:weaker-enemy-here", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  const it = ctx.env.it;
+  if (!source || !it || source === it) return false;
+  const located = ctx.host.findCard(ctx.room, it);
+  if (!located) return false;
+  if (!unitsPresentAt(ctx.room, ctx.host, located.zone).some((card) => card.id === source)) return false;
+  if (ctx.host.findCard(ctx.room, source)?.playerId === located.playerId) return false;
+  return effectiveMight(ctx.room, source, ctx.host) > effectiveMight(ctx.room, it, ctx.host);
+});
+
 
 registerCardScript({
   name: "Vilemaw",
@@ -22,24 +29,9 @@ registerCardScript({
       trigger: { kind: "event", event: { type: "hold", subject: SELF } },
       effect: { op: "draw", amount: 1 },
     },
+    {
+      kind: "passive",
+      modifier: { kind: "no-combat-damage", target: { cardType: "unit", where: custom("unl:weaker-enemy-here") } },
+    },
   ],
 });
-
-/** False when an enemy Vilemaw at the unit's location has more Might than it (pure read). */
-function contributes(room: Room, unitId: string, host: RulesHost): boolean {
-  const located = host.findCard(room, unitId);
-  if (!located) return true;
-  // The filter is registered at import; it only applies while the scripted card is in use.
-  const script = getCardScript("Vilemaw");
-  if (!script || script.status === "manual") return true;
-  const might = effectiveMight(room, unitId, host);
-  return !unitsPresentAt(room, host, located.zone).some(
-    (card) =>
-      card.name === "Vilemaw" &&
-      card.id !== unitId &&
-      host.findCard(room, card.id)?.playerId !== located.playerId &&
-      effectiveMight(room, card.id, host) > might,
-  );
-}
-
-registerCombatContributionFilter(contributes);

@@ -4,9 +4,8 @@
  * 827.1.c.1 Empower [2]; 828.1.c the Dependent passive. The catalog's Deflect is only granted by
  * the Empowered ability (727.1.b).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
 import { empower, notIntrinsic, whileEmpowered } from "./shared";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Solari Sunhawk",

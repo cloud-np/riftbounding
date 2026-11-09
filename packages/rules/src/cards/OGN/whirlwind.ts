@@ -7,10 +7,7 @@
  * resolution, 355.18) and it returns to its owner's hand (056) before the next player decides.
  */
 import type { Effect } from "@rift/protocol";
-import { RESOLVED } from "../../effects/execute";
-import { playersInTurnOrder } from "../../effects/evaluate";
-import { registerCustomEffect } from "../../effects/ops";
-import { registerCardScript } from "../registry";
+import { playersInTurnOrder, registerCardScript, registerCustomEffect, RESOLVED } from "../sdk";
 
 registerCustomEffect("ogn-oz:each-player-may-return", (_params, context) => {
   const machine = context.machine;

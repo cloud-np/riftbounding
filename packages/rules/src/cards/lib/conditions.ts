@@ -61,3 +61,8 @@ export function or(...conditions: Condition[]): Condition {
 export function custom(id: CustomId, params?: Record<string, unknown>): Condition {
   return { kind: "custom", id, ...(params ? { params } : {}) };
 }
+
+/** 107: "you control N or more / fewer runes" (runes are in the Rune Area). */
+export function runesControlled(op: "lte" | "gte", value: number): Condition {
+  return { kind: "count", selector: { cardType: "rune", controller: "self" }, comparison: { op, value } };
+}

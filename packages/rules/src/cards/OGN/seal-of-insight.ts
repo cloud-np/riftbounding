@@ -4,8 +4,7 @@
  * An Add ability (430.2: finalizes and resolves immediately; 430.3: Reaction, usable while paying
  * costs). The catalog's [Reaction]/[Add] belong to the ability (135.2.e.7), not to the gear.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Seal of Insight",

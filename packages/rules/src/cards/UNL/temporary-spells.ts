@@ -3,8 +3,7 @@
  * (801.3.a.3: it lasts while the object stays on the board). The catalog's [Temporary] on these
  * spells is referenced text, not a keyword of the spell.
  */
-import { registerCardScript } from "../registry";
-import { not } from "../dsl";
+import { not, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Shadow's Call",

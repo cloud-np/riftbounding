@@ -12,8 +12,7 @@
  * effects or Assault/Shield is not counted for the reduction.
  */
 import type { Ability } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 const PRINTED_ENERGY = 8;
 

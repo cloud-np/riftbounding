@@ -3,8 +3,7 @@
  * enemy unit alone at that battlefield, draw 1." (421 move; 740.2.a alone; "that battlefield" is
  * the chosen unit's battlefield, 359.3.f.)
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Isolate",

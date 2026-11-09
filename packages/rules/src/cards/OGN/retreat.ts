@@ -1,6 +1,5 @@
 /** Retreat (OGN-104 — EX[166] (383.2.c.3.b)) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Retreat",

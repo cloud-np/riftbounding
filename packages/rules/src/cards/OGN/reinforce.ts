@@ -9,9 +9,8 @@
  * Energy cost only; other cost modifiers of the played unit (356.3/356.4 passives, optional
  * additional costs such as Accelerate) are not part of that total cost.
  */
-import { registerCardScript } from "../registry";
-import { custom, not } from "../dsl";
 import { playPickedUnit } from "./the-harrowing";
+import { custom, not, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Reinforce",

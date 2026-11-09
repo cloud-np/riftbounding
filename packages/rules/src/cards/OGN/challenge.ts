@@ -1,6 +1,5 @@
 /** Challenge (OGN-128 — EX[195]/EX[196] (418.6.b.3/.4): the chosen units are the damage sources.) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Challenge",

@@ -5,12 +5,7 @@
  * Both units are chosen on play (355.7). On resolution the first gets +X this turn, X = the other's
  * Might minus its own (an increase: never negative, 479.4.c), computed once (479.4.b).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED } from "../../effects/execute";
-import { mightOf, refIds } from "../../effects/evaluate";
-import { evalContextOf } from "../../effects/targets";
+import { aUnit, evalContextOf, mightOf, refIds, registerCardScript, registerCustomEffect, RESOLVED } from "../sdk";
 
 /** Give the object bound to `target` +X Might this turn, X = Might(`from`) - Might(`target`), at least 0. */
 registerCustomEffect("ogn-an:raise-might-to", (params, context) => {

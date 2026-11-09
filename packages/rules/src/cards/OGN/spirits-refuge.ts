@@ -6,8 +6,7 @@
  * convention `value: 0`). The keyword passive (801.3) skips units that already have Deflect
  * (printed or object-granted), so it never adds a second instance (809.2).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit, not } from "../dsl";
+import { aUnit, not, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Spirit's Refuge",

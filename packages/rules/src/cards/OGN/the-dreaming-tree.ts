@@ -5,7 +5,7 @@
  * Manual: choosing a target (355.7) emits no game event, so "when a player chooses a unit … with a
  * spell" cannot be detected.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "The Dreaming Tree",

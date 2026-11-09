@@ -2,8 +2,7 @@
  * Tasty Faefolk (OGN-075) — "[Accelerate] [Deathknell] - Channel 2 runes exhausted and draw 1."
  * (805 Accelerate is the play layer's; 808 Deathknell, 431.2.a, 414)
  */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE } from "../dsl";
+import { registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Tasty Faefolk",

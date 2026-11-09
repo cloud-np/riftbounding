@@ -6,8 +6,7 @@
  * (418.6.a) equal to the unit's Might on resolution to every enemy unit at that battlefield, then
  * the unit moves there (421; 451.2 / restrictions may stop the move).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 const THERE = { kind: "chosen", ref: "target:1" } as const;
 

@@ -4,8 +4,7 @@
  * The battlefield is a chosen battlefield object (355.7) filtered to ones where you have units;
  * "up to one" enemy unit is chosen on play (355.13) and moved (421).
  */
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { custom, registerCardScript } from "../sdk";
 
 const THAT_BATTLEFIELD = { kind: "chosen", ref: "battlefield" } as const;
 
@@ -22,7 +21,7 @@ registerCardScript({
           chosen: true,
           cardType: "battlefield",
           targetRef: "battlefield",
-          where: custom("unl:you-have-units-at-it"),
+          where: custom("core:you-have-units-at-it"),
         },
         effect: {
           op: "seq",

@@ -1,5 +1,5 @@
 /** Decisive Strike (OGS-024) — "[ACTION] Give friendly units +2 [Might] this turn." (355.5.a: every friendly unit, not targeted) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Decisive Strike",

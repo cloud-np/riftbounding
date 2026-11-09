@@ -5,8 +5,7 @@
  * 440.2.c / 182: four Recruit tokens are played. The tokens are played to the base; choosing a
  * battlefield you control for each token (440.2.b.1) is not offered.
  */
-import { registerCardScript } from "../registry";
-import { token } from "../dsl";
+import { registerCardScript, token } from "../sdk";
 
 registerCardScript({
   name: "Recruit the Vanguard",

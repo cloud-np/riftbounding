@@ -1,6 +1,5 @@
 /** Decree of Insight (VEN-061) — "[Reaction] Ignore [Deflect] while paying this spell's cost. Give an enemy Body unit -5 [Might] this turn." */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Decree of Insight",

@@ -8,35 +8,7 @@
  * controller's base (456–460: not a move).
  */
 import type { Selector } from "@rift/protocol";
-import { pushEvent } from "../../types";
-import { RESOLVED } from "../../effects/execute";
-import { controllerOf } from "../../effects/objects";
-import { registerCustomEffect } from "../../effects/ops";
-import { recordOutcome, targets } from "../../effects/targets";
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
-
-registerCustomEffect("ogn-oz:take-control", (params, context) => {
-  const found = targets(context, params.target as Selector);
-  if (!found.ok) return found.result;
-  const host = context.step.host;
-  const controller = context.machine?.env.controller ?? context.controller;
-  const done: string[] = [];
-  for (const id of found.ids) {
-    const previous = controllerOf(context.room, host, id);
-    if (!previous || previous === controller) continue;
-    if (!host.setController(context.room, id, controller)) continue;
-    done.push(id);
-    pushEvent(context.step.events, {
-      type: "gain_control",
-      cardId: id,
-      playerId: controller,
-      data: { from: previous },
-    });
-  }
-  recordOutcome(context, done, done.length > 0);
-  return RESOLVED;
-});
+import { aUnit, controllerOf, pushEvent, recordOutcome, registerCardScript, registerCustomEffect, RESOLVED, targets } from "../sdk";
 
 registerCardScript({
   name: "Possession",
@@ -51,7 +23,7 @@ registerCardScript({
         effect: {
           op: "seq",
           effects: [
-            { op: "custom", id: "ogn-oz:take-control", params: { target: { targetRef: "it" } } },
+            { op: "custom", id: "core:take-control", params: { target: { targetRef: "it" } } },
             { op: "recall", target: { targetRef: "it" } },
           ],
         },

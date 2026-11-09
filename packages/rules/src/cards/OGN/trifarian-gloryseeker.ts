@@ -8,17 +8,10 @@
  * detection, 383.2.a.1). Other O–Z Legion cards import `LEGION` from here.
  */
 import type { Condition } from "@rift/protocol";
-import { registerCustomCondition } from "../../effects/evaluate";
-import { legionActive } from "../../play/keyword-helpers";
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED, custom } from "../dsl";
-
-registerCustomCondition("ogn-oz:legion", (ctx) =>
-  legionActive(ctx.room, ctx.env.controller, ctx.env.sourceObjectId),
-);
+import { custom, legionActive, registerCardScript, registerCustomCondition, SELF, WHEN_PLAYED } from "../sdk";
 
 /** [Legion] (812): another card was Finalized by the controller this turn. */
-export const LEGION: Condition = custom("ogn-oz:legion");
+export const LEGION: Condition = custom("core:legion");
 
 registerCardScript({
   name: "Trifarian Gloryseeker",

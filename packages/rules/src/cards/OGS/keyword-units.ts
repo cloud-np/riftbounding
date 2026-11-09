@@ -2,7 +2,7 @@
  * Proving Grounds units whose text is keywords only (printed keywords are read by the layers and
  * by R2-combat: Shield 814, Assault 807).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Zephyr Sage",

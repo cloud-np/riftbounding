@@ -6,36 +6,10 @@ import { expect } from "vitest";
 import type { CardInstance, PromptAnswer } from "@rift/protocol";
 import { scenario, type RulesScenario, type ScenarioInput } from "../../scenarios/dsl";
 import { boardOf } from "../../rules/effects/helpers";
+import { passBoth, withCards } from "../helpers";
+export { passBoth, withCards };
 
 export type S = RulesScenario;
-
-/**
- * A scenario with extra Main Deck cards moved to the players' hands (one copy per entry). Extra
- * cards sit on top of the deck and may already be in the opening hand.
- */
-export function withCards(p1: string[], p2: string[] = [], extra: ScenarioInput = {}): S {
-  const s = scenario({ ...extra, extraCards: { p1, p2 } });
-  for (const [player, names] of [
-    ["p1", p1],
-    ["p2", p2],
-  ] as const) {
-    const wanted: Record<string, number> = {};
-    for (const name of names) wanted[name] = (wanted[name] ?? 0) + 1;
-    for (const [name, count] of Object.entries(wanted)) {
-      const inHand = boardOf(s, player).hand.filter((card) => card.name === name).length;
-      for (let index = inHand; index < count; index += 1) s.moveDeckCardToHand(player, name);
-    }
-  }
-  return s;
-}
-
-/** Both players pass once (resolves the newest chain item when nobody responds). */
-export function passBoth(s: S, first = "p1"): void {
-  s.as(first).pass().expectOk();
-  s.as(first === "p1" ? "p2" : "p1")
-    .pass()
-    .expectOk();
-}
 
 /**
  * Pass Priority with whoever holds it until the chain is empty, stopping at the first prompt (the

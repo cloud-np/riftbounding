@@ -3,8 +3,7 @@
  * combat this turn, gain 2 XP." is a delayed triggered ability (390–393) bound to the chosen unit
  * (359.3.f.3.a); it wins when it remains at the battlefield on the winning side (468.3.c).
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Grim Resolve",

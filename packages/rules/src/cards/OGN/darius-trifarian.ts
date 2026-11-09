@@ -4,9 +4,7 @@
  * resolves); the condition reads the order of cards played this turn.
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { registerCustomCondition } from "../../effects/evaluate";
+import { registerCardScript, registerCustomCondition, SELF } from "../sdk";
 
 /** The trigger event's card is the `n`-th card (1-based) its player played this turn. */
 registerCustomCondition("ogn-an:nth-card-played", (ctx, params) => {

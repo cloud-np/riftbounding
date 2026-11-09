@@ -3,8 +3,7 @@
  * [1][Rune]." (430.5: 1 Energy and 1 Power of any Domain.) The catalog's [Add] is the ability's
  * tag, not a keyword (suppressed).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_I_MOVE } from "../dsl";
+import { registerCardScript, WHEN_I_MOVE } from "../sdk";
 
 registerCardScript({
   name: "Jhin, Murderous Artist",

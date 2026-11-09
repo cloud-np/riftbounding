@@ -1,6 +1,5 @@
 /** First Mate (OGN-132) — "When you play me, ready another unit." (416) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "First Mate",

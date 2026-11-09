@@ -9,8 +9,7 @@
  *   owner's hand. Play a Gold gear token exhausted." The catalog's [Reaction]/[Add] come from the
  *   Gold token's reminder text, not the legend (suppressed, 135.2.d.3).
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit, token } from "../dsl";
+import { aUnit, registerCardScript, SELF, token } from "../sdk";
 
 registerCardScript({
   name: "Poppy, Keeper of the Hammer",

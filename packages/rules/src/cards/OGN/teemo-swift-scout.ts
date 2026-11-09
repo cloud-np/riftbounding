@@ -11,11 +11,7 @@
  * Partial: the alternative Hide cost (811.1.a: [1] instead of [A]) belongs to the play layer's
  * Hide action, which has no cost-replacement hook.
  */
-import { RESOLVED } from "../../effects/execute";
-import { locationZones } from "../../effects/objects";
-import { registerCustomEffect } from "../../effects/ops";
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { locationZones, registerCardScript, registerCustomEffect, RESOLVED, SELF } from "../sdk";
 
 registerCustomEffect("ogn-oz:bind-zones", (params, context) => {
   const machine = context.machine;

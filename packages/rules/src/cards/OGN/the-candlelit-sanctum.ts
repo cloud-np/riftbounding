@@ -6,8 +6,7 @@
  * pick, not a target, 355.18). Partial: the remaining cards stay on top in their current order —
  * there is no prompt to reorder looked-at cards on top of the deck (cf. 437.1.a).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_YOU_CONQUER_HERE, custom } from "../dsl";
+import { custom, registerCardScript, WHEN_YOU_CONQUER_HERE } from "../sdk";
 
 registerCardScript({
   name: "The Candlelit Sanctum",

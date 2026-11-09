@@ -3,9 +3,7 @@
  * Temporary 816.1.b.) The catalog's Temporary is the granted keyword, not the spell's own.
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { registerCustomCondition } from "../../effects/evaluate";
-import { isBattlefieldZone, locationOf, typeOf } from "../../effects/objects";
+import { isBattlefieldZone, locationOf, registerCardScript, registerCustomCondition, typeOf } from "../sdk";
 
 /** `it` is a unit at a battlefield or a gear. */
 registerCustomCondition("ogn-an:unit-at-battlefield-or-gear", (ctx) => {

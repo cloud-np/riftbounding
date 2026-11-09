@@ -5,9 +5,8 @@
  * 828.1.c: both Dependent abilities apply only while I'm Empowered; the Might comparison is
  * part of the target's requirements (355.9) and re-checked on resolution (359.3.e.2).
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, aUnit } from "../dsl";
 import { SELF_EMPOWERED, WHEN_I_ATTACK, empower, notIntrinsic, whileEmpowered } from "./shared";
+import { aUnit, HERE, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Ambessa, Respected and Feared",

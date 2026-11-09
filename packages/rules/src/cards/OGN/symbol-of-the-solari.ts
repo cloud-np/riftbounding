@@ -8,10 +8,7 @@
  * at that battlefield (including the Defenders) to base. 370.2 prevents the replacement from
  * applying again to the recalls it causes itself.
  */
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
-import { registerCustomCondition } from "../../effects/evaluate";
-import { controllerOf, locationOf } from "../../effects/objects";
+import { controllerOf, custom, locationOf, registerCardScript, registerCustomCondition } from "../sdk";
 
 /** The held event is the tie recall of the controller's attacker in the current combat's cleanup. */
 registerCustomCondition("ogn-oz:attacker-tie-recall", (ctx) => {

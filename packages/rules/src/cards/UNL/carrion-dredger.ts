@@ -2,8 +2,7 @@
  * Carrion Dredger (UNL-153) — [Deathknell] (808): play a 1 [Might] Bird token with [Deflect] to
  * your base (440.2.c). The catalog's [Deflect] is the token's (reminder text), not mine (135.2.d.3).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE, token } from "../dsl";
+import { registerCardScript, token, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Carrion Dredger",

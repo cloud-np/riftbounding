@@ -3,8 +3,7 @@
  * I'm at a battlefield, [Stun] it. They can't move it this turn." (424 stun; the move restriction
  * is a continuous effect bound to that unit, 391.4 / 054.1.)
  */
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT, SELF_AT_BATTLEFIELD } from "../dsl";
+import { EVENT_SUBJECT, registerCardScript, SELF_AT_BATTLEFIELD } from "../sdk";
 
 registerCardScript({
   name: "Vex, Apathetic",

@@ -1,6 +1,5 @@
 /** Trifarian War Camp (OGN-294, battlefield) — "Units here have +1 [Might]." (365.1 passive; "here" = this battlefield, 053.3) */
-import { registerCardScript } from "../registry";
-import { HERE } from "../dsl";
+import { HERE, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Trifarian War Camp",

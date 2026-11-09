@@ -1,6 +1,5 @@
 /** Dr. Mundo, Expert (OGN-109 — EX[191] (417.6)) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Dr. Mundo, Expert",

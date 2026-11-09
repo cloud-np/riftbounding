@@ -3,8 +3,7 @@
  * a ready enemy unit here." The "if" is not right after the trigger condition, so it is checked on
  * resolution (383.2.a.1 does not apply; 359.3.f.2).
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF } from "../dsl";
+import { HERE, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Dune Drake",

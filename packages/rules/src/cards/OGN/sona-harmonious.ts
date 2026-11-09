@@ -1,6 +1,5 @@
 /** Sona, Harmonious (OGN-073 (Origins errata) — EX[158] (383.2.a.1)) */
-import { registerCardScript } from "../registry";
-import { SELF_AT_BATTLEFIELD } from "../dsl";
+import { registerCardScript, SELF_AT_BATTLEFIELD } from "../sdk";
 
 registerCardScript({
   name: "Sona, Harmonious",

@@ -4,9 +4,7 @@
  * ones (and the "Mighty" description, 707), so they are not intrinsic.
  */
 import type { Ability, KeywordName } from "@rift/protocol";
-import { SELF_MIGHTY } from "../lib/conditions";
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
+import { custom, registerCardScript, SELF, SELF_MIGHTY } from "../sdk";
 
 const MIGHTY = SELF_MIGHTY;
 

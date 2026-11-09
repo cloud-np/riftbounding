@@ -1,6 +1,5 @@
 /** Arena Kingpin (UNL-001) — "I enter ready" (369.3 replacement); [Tap]: give a unit +3 [Might] this turn (377, 479.4). */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Arena Kingpin",

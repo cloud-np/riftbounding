@@ -2,14 +2,8 @@
  * Vendetta batch 4b: cards needing a few lane-specific conditions, Flow spells with a Burn, and
  * Empower/Disempower gear and legends.
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, WHEN_PLAYED, aUnit, custom, not, token } from "../dsl";
-import { registerCustomCondition, refIds } from "../../effects/evaluate";
-import { RESOLVED } from "../../effects/execute";
-import { registerCustomEffect } from "../../effects/ops/control";
-import { evalContextOf, recordOutcome } from "../../effects/targets";
 import { SELF_EMPOWERED, WHEN_I_CONQUER, conditional, empower } from "./shared";
-import { notIntrinsic } from "../lib/keywords";
+import { aUnit, custom, evalContextOf, HERE, not, notIntrinsic, recordOutcome, refIds, registerCardScript, registerCustomCondition, registerCustomEffect, RESOLVED, SELF, token, WHEN_PLAYED } from "../sdk";
 
 /* ---------------------------------------------------------------- custom conditions */
 

@@ -4,21 +4,8 @@
  * ("[Shield 2]", "+1 [Might]") is written as passives targeting the host (718.3 / 718.4).
  */
 import type { Effect, Selector } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import {
-  HERE,
-  SELF,
-  WHEN_I_BECOME_EXHAUSTED,
-  WHEN_I_DIE,
-  WHEN_I_MOVE,
-  WHEN_PLAYED,
-  WHEN_YOU_CONQUER_HERE,
-  WHEN_YOU_HOLD_HERE,
-  aUnit,
-  custom,
-  token,
-} from "../dsl";
 import { UNIT_OR_GEAR, notIntrinsic } from "./dsl";
+import { aUnit, custom, HERE, registerCardScript, SELF, token, WHEN_I_BECOME_EXHAUSTED, WHEN_I_DIE, WHEN_I_MOVE, WHEN_PLAYED, WHEN_YOU_CONQUER_HERE, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 const HOST = { targetRef: "host" } as const;
 const FRIENDLY_UNITS_HERE: Selector = { cardType: "unit", controller: "self", zone: HERE };

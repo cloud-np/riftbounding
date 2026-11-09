@@ -6,8 +6,8 @@
  * only applied to spells whose printed Energy cost is 2 or more, which keeps the Energy cost at a
  * minimum of [1] when no other cost modification applies.
  */
-import { registerCardScript } from "../registry";
 import { empower, whileEmpowered } from "./shared";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Applied Researchers",

@@ -15,21 +15,8 @@
  * - Smoke and Mirrors: [Hidden]; choose two of your units at different locations; if one has
  *   [Temporary], they swap locations (434.1); draw 1.
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom, token } from "../dsl";
 import type { Effect } from "@rift/protocol";
-import { registerAdditionalCosts } from "../../play/additional-costs";
-
-// "kill a friendly [Mighty] unit" is not understood by the text parser (356.2.a.1).
-registerAdditionalCosts("Sacrifice", [
-  {
-    id: "mandatory:0",
-    optional: false,
-    cost: { kill: { cardType: "unit", controller: "self", mighty: true } },
-    rule: "356.2.a.1",
-    label: "kill a friendly Mighty unit",
-  },
-]);
+import { aUnit, custom, registerCardScript, token } from "../sdk";
 
 registerCardScript({
   name: "Square Up",
@@ -56,7 +43,7 @@ function dread(key = "target:0"): Effect {
     then: { op: "return_to_hand", target: { targetRef: key } },
     else: {
       op: "stun",
-      target: aUnit({ targetRef: key, where: custom("unl:is-attacking") }),
+      target: aUnit({ targetRef: key, where: custom("core:attacking") }),
     },
   };
 }
@@ -138,6 +125,16 @@ registerCardScript({
   status: "partial",
   notes:
     "The kill cost is offered for any friendly unit: cost-object selectors (play/cost-objects.ts) do not filter by [Mighty] (Might 5+), so a non-Mighty unit can be killed to pay it (356.2.a.1, 357.2, 706).",
+  // "kill a friendly [Mighty] unit" is not understood by the text parser (356.2.a.1).
+  additionalCosts: [
+    {
+      id: "mandatory:0",
+      optional: false,
+      cost: { kill: { cardType: "unit", controller: "self", mighty: true } },
+      rule: "356.2.a.1",
+      label: "kill a friendly Mighty unit",
+    },
+  ],
   abilities: [
     {
       kind: "spell",

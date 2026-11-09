@@ -2,9 +2,8 @@
  * Wave R4 Vendetta Empower units and cards whose missing piece is an engine capability rather
  * than the script (card-name choices, from-facedown plays, ignored keywords).
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
 import { SELF_EMPOWERED, empower } from "./shared";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Mel, Defiant Soul",

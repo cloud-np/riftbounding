@@ -1,5 +1,5 @@
 /** Progress Day (OGN-114) — "Draw 4." (414) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Progress Day",

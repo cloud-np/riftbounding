@@ -8,14 +8,7 @@
  * proposed damage is not combat damage) and `ogn-oz:prevent-noncombat-damage-this-turn` (adds the
  * replacement for this turn; unlike the core `replace` op it is not used up after one use).
  */
-import { RESOLVED } from "../../effects/execute";
-import { registerCustomCondition } from "../../effects/evaluate";
-import { registerCustomEffect } from "../../effects/ops";
-import { recordOutcome } from "../../effects/targets";
-import { addContinuousEffect } from "../../layers/mods";
-import { pushEvent } from "../../types";
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { addContinuousEffect, custom, pushEvent, recordOutcome, registerCardScript, registerCustomCondition, registerCustomEffect, RESOLVED } from "../sdk";
 
 registerCustomCondition("ogn-oz:noncombat-damage", (ctx) => ctx.env.event?.data?.combat !== true);
 

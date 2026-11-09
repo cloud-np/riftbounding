@@ -2,8 +2,7 @@
  * Bilgewater Bully (OGN-125) — "While I'm buffed, I have [GANKING]." (364.3.a conditional passive;
  * the catalog's Ganking is the conditional one, not intrinsic, 727.1.b-style)
  */
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
+import { custom, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Bilgewater Bully",

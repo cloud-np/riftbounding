@@ -4,7 +4,7 @@
  * [Ganking] (810) is printed. Partial: "the third time … in a turn" (383.1.b) needs a per-turn
  * count of this object's moves, which the rules state does not record (only `movedThisTurn`).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Yasuo, Windrider",

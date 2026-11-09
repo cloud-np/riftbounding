@@ -3,8 +3,7 @@
  * The cost within the instruction (740.4.a.2) is paid when the trigger finalizes, or the trigger is
  * removed (405.2); 427 buff events, 416 ready.
  */
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT, SELF } from "../dsl";
+import { EVENT_SUBJECT, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Mistfall",

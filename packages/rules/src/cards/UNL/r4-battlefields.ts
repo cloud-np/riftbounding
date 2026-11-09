@@ -7,8 +7,7 @@
  * player its choice (190.6.c / 371.2.a): the battlefield's replacement belongs to its controller,
  * but the text names the dying unit's controller, who pays.
  */
-import { registerCardScript } from "../registry";
-import { HERE, custom } from "../dsl";
+import { custom, HERE, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Altar of Blood",

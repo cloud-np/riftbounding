@@ -1,7 +1,6 @@
 /** Kinkou Lifeblade (VEN-093) — "[Empower][2] [Empowered] I have +1 [Might] and [Ganking]." (827.1.c.1, 828.1.c) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
 import { empower, notIntrinsic, whileEmpowered } from "./shared";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Kinkou Lifeblade",

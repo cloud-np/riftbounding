@@ -9,7 +9,8 @@
  */
 import type { Room } from "@rift/protocol";
 import type { RulesHost } from "../host";
-import { effectiveMight } from "../layers";
+import { effectiveMight, modifierTargets } from "../layers";
+import { activeModifiers } from "../layers/passives";
 import { designationMightBonus, printedLines } from "../layers/combat-keywords";
 import { orderedRegistry } from "../registry-table";
 
@@ -53,12 +54,17 @@ export function registerCombatContributionFilter(filter: CombatContributionFilte
 
 /**
  * 424.1.b: a Stunned Unit does not contribute its Might to damage in the Combat Damage Step.
- * Printed "I don't deal combat damage." (unconditional) and registered filters do the same.
+ * Printed "I don't deal combat damage." (unconditional), `no-combat-damage` passives targeting the
+ * unit (card text such as "Enemy units here with less Might than me don't deal combat damage")
+ * and registered filters do the same.
  */
 export function dealsCombatDamage(room: Room, unitId: string, host: RulesHost): boolean {
   if (room.rules?.objects[unitId]?.stunned) return false;
   const text = host.cardInfo(room, unitId)?.text;
   if (text && printedLines(text).some((line) => NO_COMBAT_DAMAGE_SENTENCE.test(line))) return false;
+  for (const active of activeModifiers(room, host)) {
+    if (active.modifier.kind === "no-combat-damage" && modifierTargets(room, host, active, unitId, 1)) return false;
+  }
   return CONTRIBUTION_FILTERS.every((filter) => filter(room, unitId, host));
 }
 

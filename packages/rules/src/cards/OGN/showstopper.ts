@@ -5,8 +5,7 @@
  * (427.1.b) then moved (421; 451.2 and restrictions may stop the move). Choosing the base as the
  * destination does nothing (355.4.a).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Showstopper",

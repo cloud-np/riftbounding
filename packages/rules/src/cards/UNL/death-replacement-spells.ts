@@ -7,8 +7,7 @@
  * - Tactical Retreat (UNL-175): [Reaction] Choose a friendly unit. The next time it would die this
  *   turn, heal it, exhaust it, and recall it instead (419, 415, 456: not a move).
  */
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT, aUnit } from "../dsl";
+import { aUnit, EVENT_SUBJECT, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Smite",

@@ -4,7 +4,7 @@
  * The return is automated (355.13 "up to"). Hiding is R2-play's discretionary action (422/811);
  * there is no hook for "hide ignoring costs this turn".
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Guerilla Warfare",

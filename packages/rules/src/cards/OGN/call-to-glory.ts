@@ -5,8 +5,7 @@
  * the printed text, but "spend a buff" is not a supported cost (unpayable, 203.3) and "ignore
  * this spell's cost" has no cost-adjustment hook.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Call to Glory",

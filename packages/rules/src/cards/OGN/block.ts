@@ -3,8 +3,7 @@
  * Shield 814, Tank 815). [Hidden] (811) is R2-play's keyword. The catalog's Shield/Tank are the
  * granted keywords, not the spell's own.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Block",

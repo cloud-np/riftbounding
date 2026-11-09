@@ -1,5 +1,5 @@
 /** Clairvoyance (VEN-056) — "[Reaction] [Predict 5]. Draw 2." (437 Predict, 414 draw) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Clairvoyance",

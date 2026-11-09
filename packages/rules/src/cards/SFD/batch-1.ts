@@ -4,8 +4,6 @@
  * errata applied).
  */
 import type { Selector } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_I_DIE, WHEN_PLAYED, custom } from "../dsl";
 import {
   HERE_ZONE,
   countOf,
@@ -16,6 +14,7 @@ import {
   target,
   whilePassive,
 } from "./common";
+import { custom, registerCardScript, SELF, WHEN_I_DIE, WHEN_PLAYED } from "../sdk";
 
 const ENEMY_UNIT: Selector = { cardType: "unit", controller: "opponent" };
 
@@ -142,7 +141,7 @@ registerCardScript({
       kind: "spell",
       effect: {
         op: "if",
-        condition: custom("sfd:attacking", { ref: "target:0" }),
+        condition: custom("core:attacking", { ref: "target:0" }),
         then: {
           op: "deal",
           amount: 4,

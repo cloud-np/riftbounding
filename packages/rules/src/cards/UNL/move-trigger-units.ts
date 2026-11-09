@@ -13,8 +13,7 @@
  *   [Temporary] on Lillia is suppressed).
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { HERE, SELF, WHEN_I_MOVE, aUnit, custom, token } from "../dsl";
+import { aUnit, custom, HERE, registerCardScript, SELF, token, WHEN_I_MOVE } from "../sdk";
 
 const MOVED_TO_BATTLEFIELD: Condition = { kind: "event-zone-is", battlefield: true };
 

@@ -3,8 +3,7 @@
  * the trigger condition (383.2.a.1): an opponent is within 3 points of the Victory Score
  * (battlefield adjustments included).
  */
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED, custom } from "../dsl";
+import { custom, registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Poppy, Paragon",

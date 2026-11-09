@@ -3,8 +3,6 @@
  * Bonus / effect-text keywords, 718.3–718.4), Mech lords, cost passives and Repeat spells.
  */
 import type { Condition, Effect, Modifier, Selector } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT, SELF, WHEN_I_DIE, WHEN_I_MOVE, WHEN_PLAYED, custom } from "../dsl";
 import {
   HERE_ZONE,
   WHEN_I_ATTACK_OR_DEFEND,
@@ -22,6 +20,7 @@ import {
   target,
   whilePassive,
 } from "./common";
+import { custom, EVENT_SUBJECT, registerCardScript, SELF, WHEN_I_DIE, WHEN_I_MOVE, WHEN_PLAYED } from "../sdk";
 
 const MECHS: Selector = { cardType: "unit", controller: "self", tag: "Mech" };
 
@@ -670,7 +669,7 @@ registerCardScript({
               min: 1,
               max: 1,
             },
-            { op: "custom", id: "sfd:draw-ref", params: { ref: "drawn" } },
+            { op: "custom", id: "core:draw-ref", params: { ref: "drawn" } },
             {
               op: "recycle",
               target: {

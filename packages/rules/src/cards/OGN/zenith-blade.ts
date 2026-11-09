@@ -7,13 +7,7 @@
  * `ogn-oz:move-to-location-of`: moves `it` (421) to the current location of the object bound to
  * `of` — here the stunned enemy's battlefield.
  */
-import { RESOLVED } from "../../effects/execute";
-import { refIds } from "../../effects/evaluate";
-import { locationOf } from "../../effects/objects";
-import { registerCustomEffect } from "../../effects/ops";
-import { lkiOf } from "../../effects/env";
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, lkiOf, locationOf, refIds, registerCardScript, registerCustomEffect, RESOLVED } from "../sdk";
 
 registerCustomEffect("ogn-oz:move-to-location-of", (params, context) => {
   const machine = context.machine;

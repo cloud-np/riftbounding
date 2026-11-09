@@ -1,7 +1,5 @@
 /** Master Yi, Meditative (OGS-004) — "While you have 8+ runes, I have +4 [Might]." (364.3.a conditional passive) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { conditional, runesControlled } from "../VEN/shared";
+import { whilePassive as conditional, registerCardScript, runesControlled, SELF } from "../sdk";
 
 registerCardScript({
   name: "Master Yi, Meditative",

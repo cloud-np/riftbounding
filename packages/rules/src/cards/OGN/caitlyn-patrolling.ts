@@ -7,8 +7,7 @@
  * I'm at a battlefield." — automated (377.2.b precondition via `requires`; the [Tap] cost is
  * paid by R2-play's activation flow).
  */
-import { registerCardScript } from "../registry";
-import { SELF, SELF_AT_BATTLEFIELD, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF, SELF_AT_BATTLEFIELD } from "../sdk";
 
 registerCardScript({
   name: "Caitlyn, Patrolling",

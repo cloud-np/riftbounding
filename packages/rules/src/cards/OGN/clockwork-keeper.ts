@@ -7,8 +7,7 @@
  * paid by R2-play (contract: `choices.additionalCost === true`, noted on the permanent when it
  * finalizes).
  */
-import { registerCardScript } from "../registry";
-import { PAID_ADDITIONAL, WHEN_PLAYED } from "../dsl";
+import { PAID_ADDITIONAL, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Clockwork Keeper",

@@ -5,8 +5,6 @@
  * 827.1.c.3: the reduction applies to this object's activation while it is on the board (not to
  * its play cost from hand, 366.2.a); Empower is its only activated ability.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
 import {
   ON_BOARD,
   conditional,
@@ -15,6 +13,7 @@ import {
   runesControlled,
   whileEmpowered,
 } from "./shared";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Baccai Sandspinner",

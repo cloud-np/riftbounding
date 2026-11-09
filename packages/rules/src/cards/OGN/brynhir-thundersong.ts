@@ -6,8 +6,7 @@
  * zone). The process of play consults `restrictionFor`; the effect-driven `play` op (420.3) does not.
  */
 import type { Effect, ZoneSelector } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 const ZONES: ZoneSelector[] = ["hand", "champion", "battlefield", "trash", "banished"];
 

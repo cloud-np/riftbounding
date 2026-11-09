@@ -1,9 +1,8 @@
 /**
  * Vendetta units (batch 4): combat-end, move and play triggers built from the plain DSL.
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, WHEN_I_MOVE, WHEN_PLAYED, custom } from "../dsl";
 import { SELF_EMPOWERED, whileEmpowered } from "./shared";
+import { custom, HERE, registerCardScript, SELF, WHEN_I_MOVE, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Mournful Witness",

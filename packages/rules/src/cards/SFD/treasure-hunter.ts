@@ -1,6 +1,5 @@
 /** Treasure Hunter (SFD-130) — "When I move, play a Gold gear token exhausted." (EX[152]) */
-import { registerCardScript } from "../registry";
-import { WHEN_I_MOVE, token } from "../dsl";
+import { registerCardScript, token, WHEN_I_MOVE } from "../sdk";
 
 registerCardScript({
   name: "Treasure Hunter",

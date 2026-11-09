@@ -3,8 +3,7 @@
  *
  * 383.2.a.1: the "if" right after the trigger condition is part of the trigger condition.
  */
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED } from "../dsl";
+import { registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Poro Herder",

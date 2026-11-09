@@ -2,7 +2,7 @@
  * Kayn, Unleashed (OGN-189) — [Ganking] (printed); "If I have moved twice this turn, I don't take
  * damage." Units only record whether they moved this turn (`movedThisTurn`), not how often.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Kayn, Unleashed",

@@ -4,10 +4,8 @@
  * play layer's; each script expresses the spell's effect (359.3.d: top to bottom).
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SHOWED_OFF, aUnit, custom, showOff, token } from "../dsl";
 import { aBattlefield, drawCard, letX, opponentsCantPlay, zoneRef } from "./dsl";
-import { notIntrinsic } from "../lib/keywords";
+import { aUnit, custom, notIntrinsic, registerCardScript, SHOWED_OFF, showOff, token } from "../sdk";
 
 const FACE_UP = custom("rad:face-up");
 

@@ -3,8 +3,7 @@
  * winning player is `combat_result.playerId`); "Spend 1 XP, [Tap]: [Buff] a unit." and "Spend 2
  * XP, [Tap]: Move an exhausted friendly unit from a battlefield to its base." (377, 730.2, 421).
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Kha'Zix, Voidreaver",

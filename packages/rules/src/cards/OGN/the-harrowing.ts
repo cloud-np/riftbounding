@@ -9,12 +9,7 @@
  * paid unit is then played ignoring its cost (420.3); an unpaid one stays where it is (358.5).
  */
 import type { Cost, Effect, Selector } from "@rift/protocol";
-import { RESOLVED } from "../../effects/execute";
-import { registerCustomEffect } from "../../effects/ops";
-import { recordOutcome, targets } from "../../effects/targets";
-import { payCost } from "../../play/payment";
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { custom, payCost, recordOutcome, registerCardScript, registerCustomEffect, RESOLVED, targets } from "../sdk";
 
 registerCustomEffect("ogn-oz:pay-printed-cost", (params, context) => {
   const found = targets(context, params.target as Selector);

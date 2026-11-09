@@ -2,7 +2,7 @@
  * Wave R4 Vendetta battlefields. Their abilities are passive/cost/play-permission effects that
  * the current layers only partially model.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Dragon Roost",

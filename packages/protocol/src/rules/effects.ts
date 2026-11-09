@@ -536,6 +536,8 @@ export type Modifier =
   | { kind: "victory-score"; amount: number }
   /** 801.3.b: matching objects lose `keyword`. */
   | { kind: "remove-keyword"; keyword: KeywordName; target: Selector }
+  /** 467.2.a/b: matching units do not contribute their Might to combat damage ("… don't deal combat damage"). */
+  | { kind: "no-combat-damage"; target: Selector }
   /**
    * Bookkeeping stored on continuous effects: a card-specific `<set>:` id, or one of the engine's
    * own state records (`EngineStateModifierId`, created by the delayed / replace / skip ops).

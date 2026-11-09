@@ -4,7 +4,7 @@
  * [Vision] (817) is a keyword trigger handled by the effects layer. Partial: the extra play
  * Location (an open battlefield, 355.2.b) has no hook in the play layer's location rules.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Sai Scout",

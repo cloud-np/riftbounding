@@ -5,13 +5,7 @@
  * cost (Power ignored). The unit is a target chosen on play (355.7, validated on resolution by
  * `for_each`); the amount is computed on resolution and dealt through the real `deal` op.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED } from "../../effects/execute";
-import { refIds } from "../../effects/evaluate";
-import { evalContextOf } from "../../effects/targets";
-import { costsOf } from "../../effects/objects";
+import { aUnit, costsOf, evalContextOf, refIds, registerCardScript, registerCustomEffect, RESOLVED } from "../sdk";
 
 /** Bind the objects the previous instruction affected to `key` (e.g. the discarded card). */
 registerCustomEffect("ogn-an:remember-affected", (params, context) => {

@@ -11,52 +11,10 @@ import type {
 import { effectiveKeywordValues, effectiveKeywords, effectiveMight } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
 import { boardOf, place } from "../../rules/effects/helpers";
+import { addPool, passBoth, withCards } from "../helpers";
+export { addPool, passBoth, withCards };
 
 export type S = ReturnType<typeof scenario>;
-
-/** A scenario whose extra cards are in the players' hands (they start on top of the deck). */
-export function withCards(
-  p1: string[],
-  p2: string[] = [],
-  extra: Parameters<typeof scenario>[0] = {},
-): S {
-  const s = scenario({ ...extra, extraCards: { p1, p2 } });
-  for (const [player, names] of [
-    ["p1", p1],
-    ["p2", p2],
-  ] as const) {
-    const wanted: Record<string, number> = {};
-    for (const name of names) wanted[name] = (wanted[name] ?? 0) + 1;
-    for (const [name, count] of Object.entries(wanted)) {
-      const inHand = boardOf(s, player).hand.filter((card) => card.name === name).length;
-      for (let index = inHand; index < count; index += 1) s.moveDeckCardToHand(player, name);
-    }
-  }
-  return s;
-}
-
-/** Both players pass in turn (resolves the top chain item when both pass, 340). */
-export function passBoth(s: S, first = "p1"): void {
-  s.as(first).pass().expectOk();
-  s.as(first === "p1" ? "p2" : "p1")
-    .pass()
-    .expectOk();
-}
-
-/** Add resources to a player's Rune Pool (exact funding for activations, 357.1). */
-export function addPool(
-  s: S,
-  playerId: string,
-  energy: number,
-  power: Partial<Record<RulesDomain | "any", number>> = {},
-): void {
-  const pool = s.room.rules!.pools[playerId]!;
-  pool.energy += energy;
-  for (const [domain, value] of Object.entries(power)) {
-    const key = domain as RulesDomain | "any";
-    pool.power = { ...pool.power, [key]: (pool.power[key] ?? 0) + (value ?? 0) };
-  }
-}
 
 /** Activate an ability of a board object (ref = `activated:<index in abilities>`). */
 export function activate(

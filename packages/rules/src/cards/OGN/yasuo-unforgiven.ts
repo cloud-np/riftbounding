@@ -6,8 +6,7 @@
  * destination is chosen on activation, 355.4). The destination offer includes the base; moving a
  * unit from its base to its base does nothing (355.4.a).
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Yasuo, Unforgiven",

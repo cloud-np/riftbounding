@@ -5,9 +5,8 @@
  * 827.1.c.1 Empower; 828.1.c: the Empowered activated ability can only be used while I'm
  * Empowered (377.2.b precondition).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
 import { SELF_EMPOWERED, empower } from "./shared";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Jayce, Defender of Tomorrow",

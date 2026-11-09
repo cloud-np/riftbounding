@@ -3,8 +3,7 @@
  * enemy unit at its location." Two targets; the enemy must share the friendly unit's location
  * (355.7, re-checked on resolution 359.3.e.2).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Heroic Charge",

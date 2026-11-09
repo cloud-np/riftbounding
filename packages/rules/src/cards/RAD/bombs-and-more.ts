@@ -6,11 +6,8 @@
  * `src/cards/tokens/bomb.ts` (Deploy 830 + Deathknell "here" 808 / 383.2.c.3.b).
  */
 import type { Effect } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { registerAdditionalCosts } from "../../play/additional-costs";
-import { PAID_ADDITIONAL, SELF, WHEN_PLAYED, aUnit, custom, token } from "../dsl";
 import { CHOOSE_OPPONENT, X_NUMBER, letX, zoneRef } from "./dsl";
-import { WHEN_I_HOLD } from "../lib/triggers";
+import { aUnit, custom, PAID_ADDITIONAL, registerCardScript, SELF, token, WHEN_I_HOLD, WHEN_PLAYED } from "../sdk";
 
 const BOMB_NOTE =
   "The Bomb token's own [Deathknell] (deal 2, kill your other Bombs there) needs a token script (src/cards/tokens, 187).";
@@ -183,19 +180,19 @@ registerCardScript({
  * 383.2.a.1) The printed phrase "kill a friendly unit or gear" is registered as the card's optional
  * additional cost (a cost selector without a card type matches units and gear at locations).
  */
-registerAdditionalCosts("Shimmering Swimmer", [
-  {
-    id: "optional:0",
-    optional: true,
-    cost: { kill: { controller: "self" } },
-    rule: "356.2.b.1",
-    label: "Kill a friendly unit or gear",
-  },
-]);
 registerCardScript({
   name: "Shimmering Swimmer",
   text: "You may kill a friendly unit or gear as an additional cost to play me.\nWhen you play me, if you paid the additional cost, deal 2 to a unit.",
   status: "implemented",
+  additionalCosts: [
+    {
+      id: "optional:0",
+      optional: true,
+      cost: { kill: { controller: "self" } },
+      rule: "356.2.b.1",
+      label: "Kill a friendly unit or gear",
+    },
+  ],
   abilities: [
     {
       kind: "triggered",

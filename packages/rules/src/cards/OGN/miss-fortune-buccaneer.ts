@@ -1,5 +1,5 @@
 /** Miss Fortune, Buccaneer — may be played to an open battlefield, as may friendly units (355.2). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Miss Fortune, Buccaneer",

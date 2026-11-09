@@ -1,6 +1,5 @@
 /** Demacian Diplomat (UNL-092) — a Play Effect (383.4.a) that gains XP (730.1). */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Demacian Diplomat",

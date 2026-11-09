@@ -3,17 +3,8 @@
  * (`triggers/detect.ts`: battlefield sources act for the event's player); "here" is the
  * battlefield itself (053.3).
  */
-import { registerCardScript } from "../registry";
-import {
-  HERE,
-  WHEN_YOU_CONQUER_HERE,
-  WHEN_YOU_DEFEND_HERE,
-  WHEN_YOU_HOLD_HERE,
-  aUnit,
-  custom,
-  token,
-} from "../dsl";
 import { notIntrinsic, oncePerPlayerPerTurn } from "./dsl";
+import { aUnit, custom, HERE, registerCardScript, token, WHEN_YOU_CONQUER_HERE, WHEN_YOU_DEFEND_HERE, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 /** Bandle Scouts' Academy (RAD-157) — "When you hide a card here, play a Gold gear token exhausted." (422, 811.1.b) */
 registerCardScript({

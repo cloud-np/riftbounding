@@ -5,7 +5,7 @@
  * "Draw 2" is automated (414). Partial: the cost reduction needs to know whether an enemy unit died
  * this turn (a per-turn death history), which the rules state does not record.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Spoils of War",

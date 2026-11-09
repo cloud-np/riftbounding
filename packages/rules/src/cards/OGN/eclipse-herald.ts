@@ -1,6 +1,5 @@
 /** Eclipse Herald (OGN-059 — EX[207] (424.1.a.1)) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Eclipse Herald",

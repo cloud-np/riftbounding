@@ -2,9 +2,7 @@
  * Vendetta units whose abilities are play effects (383.4.a), "when you play" triggers (420.4.a)
  * or simple keyword text.
  */
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED, aUnit, token } from "../dsl";
-import { notIntrinsic } from "../lib/keywords";
+import { aUnit, notIntrinsic, registerCardScript, SELF, token, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Cloud Drake",

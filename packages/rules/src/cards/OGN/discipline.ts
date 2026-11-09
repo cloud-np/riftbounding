@@ -1,6 +1,5 @@
 /** Discipline (OGN-058 — EX[260]/EX[262] (481)) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Discipline",

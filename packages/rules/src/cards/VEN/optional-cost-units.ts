@@ -3,9 +3,8 @@
  * R2-play as `optional:0`) and an "if you paid the additional cost" play effect (356.4.f.1,
  * 383.2.a.1: part of the trigger condition, read from the permanent's `paidAdditionalCost`).
  */
-import { registerCardScript } from "../registry";
-import { PAID_ADDITIONAL, WHEN_PLAYED, aUnit, token } from "../dsl";
 import { notIntrinsic } from "./shared";
+import { aUnit, PAID_ADDITIONAL, registerCardScript, token, WHEN_PLAYED } from "../sdk";
 
 const PAID_FLAG_NOTE =
   "The optional additional cost is offered/paid by R2-play (`optional:0`) and the play effect reads the paid flag (356.4.f.1).";

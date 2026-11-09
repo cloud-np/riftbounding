@@ -5,6 +5,8 @@
  * the scripts (not only tests). Add new scripts in `src/cards/<setCode>/<slug>.ts` and import
  * them from the set barrel below.
  */
+// Shared core: custom conditions/effects (cards/lib) register before the sets that use them.
+import "./lib/custom";
 import "./OGN";
 import "./SFD";
 import "./UNL";

@@ -5,7 +5,7 @@
  * player in Turn Order), and a resolving spell cannot replace going to the trash with being
  * banished (340/348.2 → 428).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Time Warp",

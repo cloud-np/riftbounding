@@ -1,5 +1,5 @@
 /** Annie, Fiery (OGS-001 — EX[270]/EX[271] (715.2/715.3): Bonus Damage for spells and abilities.) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Annie, Fiery",

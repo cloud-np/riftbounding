@@ -1,6 +1,5 @@
 /** Mobilize (OGN-134) — "Channel 1 rune exhausted. If you can't, draw 1." (431.2.a, 431.3) */
-import { registerCardScript } from "../registry";
-import { custom, not } from "../dsl";
+import { custom, not, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Mobilize",

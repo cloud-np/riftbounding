@@ -7,8 +7,7 @@
  * the cost cannot go below 0 anyway (356.4). The Power cost is unchanged.
  */
 import type { Ability } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 const PRINTED_ENERGY = 10;
 

@@ -1,6 +1,5 @@
 /** Zaunite Bouncer (OGN-188) — "When you play me, return another unit at a battlefield to its owner's hand." (056, 403.2) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Zaunite Bouncer",

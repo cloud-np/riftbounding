@@ -4,10 +4,8 @@
  * yet (partial / manual, with the missing capability named).
  */
 import type { Selector } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED, aUnit, custom } from "../dsl";
 import { HERE_ZONE, WHEN_I_ATTACK, WHEN_YOU_CONQUER, whilePassive } from "./common";
-import { notIntrinsic } from "../lib/keywords";
+import { aUnit, custom, notIntrinsic, registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 const EQUIPMENT: Selector = { cardType: "gear", tag: "Equipment" };
 
@@ -53,7 +51,7 @@ registerCardScript({
         effect: {
           op: "seq",
           effects: [
-            { op: "custom", id: "sfd:take-control", params: { target: { targetRef: "it" } } },
+            { op: "custom", id: "core:take-control", params: { target: { targetRef: "it" } } },
             { op: "ready", target: { targetRef: "it" } },
             { op: "custom", id: "sfd:release-at-end-of-turn", params: { ref: "it" } },
           ],
@@ -356,7 +354,7 @@ registerCardScript({
   notes:
     "Friendly spells cost [1][Rune] less while I'm in combat; \"to a minimum of [1]\" is not enforced (356.6 floors at 0), and the increase for enemy spells is not applied: cost passives only affect their controller's plays (366.2, 475-479).",
   abilities: [
-    whilePassive(custom("sfd:self-in-combat"), { kind: "cost-adjust", energy: -1, power: { any: -1 }, target: { cardType: "spell", controller: "self" } }),
+    whilePassive(custom("core:in-combat"), { kind: "cost-adjust", energy: -1, power: { any: -1 }, target: { cardType: "spell", controller: "self" } }),
   ],
 });
 

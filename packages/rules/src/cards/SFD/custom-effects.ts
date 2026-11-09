@@ -14,29 +14,8 @@ import type {
   TokenSpec,
   ZoneSelector,
 } from "@rift/protocol";
-import { evaluateAmount, mightOf, refIds, registerCustomCondition } from "../../effects/evaluate";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED, type EffectExecutionContext } from "../../effects/execute";
-import type { EvalContext } from "../../effects/env";
-import { evalContextOf, optionFor, recordOutcome, targets } from "../../effects/targets";
-import { resolveZoneNames } from "../../effects/evaluate";
-import { appendChainItem } from "../../timing/fepr/chain";
-import { cardDomains } from "../../play/cost-model";
-import { locationZones } from "../../effects/objects";
-import {
-  battlefieldController,
-  controllerOf,
-  findChainItem,
-  locate,
-  locationOf,
-  ownerOf,
-  tagsOf,
-} from "../../effects/objects";
-import { effectiveKeywordValues, keywordsAtDepth } from "../../layers";
-import { canPayCost, payCost } from "../../play/payment";
-import { unitsPresentAt } from "../../state/presence";
-import { pushEvent } from "../../types";
-import { token } from "../dsl";
+import type { EffectExecutionContext, EvalContext } from "../sdk";
+import { appendChainItem, battlefieldController, canPayCost, cardDomains, controllerOf, effectiveKeywordValues, evalContextOf, evaluateAmount, findChainItem, keywordsAtDepth, locate, locationOf, locationZones, mightOf, optionFor, ownerOf, payCost, pushEvent, recordOutcome, refIds, registerCustomCondition, registerCustomEffect, RESOLVED, resolveZoneNames, tagsOf, targets, token, unitsPresentAt } from "../sdk";
 
 function ctxOf(context: EffectExecutionContext): EvalContext {
   return evalContextOf(context);
@@ -241,7 +220,7 @@ registerCustomEffect("sfd:hand-to-deck-top-or-bottom", (_params, context) => {
         min: 1,
         max: 1,
         rule: "355.18",
-        promptKey: "Put a card from your hand on your Main Deck",
+        promptKey: "rules.prompt.putCardOnDeck",
         data: { answer: "objects" },
       });
     }
@@ -257,7 +236,7 @@ registerCustomEffect("sfd:hand-to-deck-top-or-bottom", (_params, context) => {
       min: 1,
       max: 1,
       rule: "355.18",
-      promptKey: "Top or bottom?",
+      promptKey: "rules.prompt.topOrBottom",
       data: { answer: "options" },
     });
   }
@@ -391,7 +370,7 @@ function unitLocations(context: EffectExecutionContext, playerId: string): strin
   const host = context.step.host;
   const zones = ["base"];
   for (const zone of host.battlefieldZones(context.room) as string[]) {
-    if (battlefieldController(context.room, host, zone) === playerId) zones.push(zone);
+    if (battlefieldController(context.room, zone, host) === playerId) zones.push(zone);
   }
   return zones;
 }
@@ -417,7 +396,7 @@ registerCustomEffect("sfd:recruits-anywhere", (params, context) => {
         min: 1,
         max: 1,
         rule: "440.2.b",
-        promptKey: "Play a Recruit token where?",
+        promptKey: "rules.prompt.chooseTokenDestination",
         data: { answer: "zone" },
       });
     }
@@ -479,7 +458,7 @@ registerCustomEffect("sfd:move-to-ally-location", (params, context) => {
         min: 1,
         max: 1,
         rule: "355.4",
-        promptKey: "Move it where?",
+        promptKey: "rules.prompt.chooseDestination",
         data: { answer: "zone" },
       });
     }
@@ -506,7 +485,7 @@ registerCustomEffect("sfd:move-to-open-battlefield", (params, context) => {
   const zones = (host.battlefieldZones(context.room) as string[]).filter(
     (zone) =>
       unitsPresentAt(context.room, host, zone).length === 0 &&
-      !battlefieldController(context.room, host, zone),
+      !battlefieldController(context.room, zone, host),
   );
   if (zones.length === 0) return RESOLVED;
   let zone = zones.length === 1 ? zones[0]! : undefined;
@@ -519,7 +498,7 @@ registerCustomEffect("sfd:move-to-open-battlefield", (params, context) => {
         min: 1,
         max: 1,
         rule: "170.11.c",
-        promptKey: "Move them to which open battlefield?",
+        promptKey: "rules.prompt.chooseOpenBattlefield",
         data: { answer: "zone" },
       });
     }
@@ -549,7 +528,7 @@ registerCustomEffect("sfd:play-card", (params, context) => {
   if (params.location === "controlled-battlefield") {
     // "to a battlefield you control" (355.2.a): the player picks among them when several.
     const controlled = (host.battlefieldZones(context.room) as string[]).filter(
-      (zone) => battlefieldController(context.room, host, zone) === ctx.env.controller,
+      (zone) => battlefieldController(context.room, zone, host) === ctx.env.controller,
     );
     if (found.ids.length === 0 || controlled.length === 0) return RESOLVED;
     let picked: string | undefined = controlled.length === 1 ? controlled[0] : undefined;
@@ -563,7 +542,7 @@ registerCustomEffect("sfd:play-card", (params, context) => {
           min: 1,
           max: 1,
           rule: "355.2.a",
-          promptKey: "Play it to which battlefield?",
+          promptKey: "rules.prompt.choosePlayBattlefield",
           data: { answer: "zone" },
         });
       }
@@ -622,32 +601,6 @@ registerCustomEffect("sfd:play-card", (params, context) => {
     });
   }
   recordOutcome(context, played, played.length > 0);
-  return RESOLVED;
-});
-
-/**
- * "Take control of it" for the ability's controller (no duration: it lasts while the object stays
- * on the board). The unit's owner is remembered in `$owner:<id>` so it can be given back.
- */
-registerCustomEffect("sfd:take-control", (params, context) => {
-  const found = targets(context, params.target as Selector);
-  if (!found.ok) return found.result;
-  const host = context.step.host;
-  const controller = context.machine?.env.controller ?? context.controller;
-  const done: string[] = [];
-  for (const id of found.ids) {
-    const previous = controllerOf(context.room, host, id);
-    if (!previous || previous === controller) continue;
-    if (!host.setController(context.room, id, controller)) continue;
-    done.push(id);
-    pushEvent(context.step.events, {
-      type: "gain_control",
-      cardId: id,
-      playerId: controller,
-      data: { from: previous },
-    });
-  }
-  recordOutcome(context, done, done.length > 0);
   return RESOLVED;
 });
 
@@ -716,7 +669,7 @@ registerCustomEffect("sfd:card-sharp", (params, context) => {
       min: 1,
       max: 1,
       rule: "445.2",
-      promptKey: "Play a Gold gear token exhausted?",
+      promptKey: "rules.prompt.playGoldToken",
       data: { answer: "boolean" },
     });
   }
@@ -762,7 +715,7 @@ registerCustomEffect("sfd:reveal-banish-play", (params, context) => {
       min: 0,
       max: 1,
       rule: "428",
-      promptKey: "You may banish one, then play it",
+      promptKey: "rules.prompt.banishThenPlay",
       data: { answer: "objects" },
     });
   }
@@ -792,7 +745,7 @@ registerCustomEffect("sfd:reveal-banish-play", (params, context) => {
   if (rest.length > 0) {
     effects.push(
       params.rest === "draw"
-        ? { op: "custom", id: "sfd:draw-ref", params: { ref: "rbp-rest" } }
+        ? { op: "custom", id: "core:draw-ref", params: { ref: "rbp-rest" } }
         : { op: "recycle", target: { targetRef: "rbp-rest" } },
     );
   }
@@ -827,14 +780,6 @@ registerCustomEffect("sfd:release-at-end-of-turn", (params, context) => {
     },
   });
   return RESOLVED;
-});
-
-/** The source unit is part of the combat in progress ("while I'm in combat", 466). */
-registerCustomCondition("sfd:self-in-combat", (ctx) => {
-  const combat = ctx.room.rules?.combat;
-  const source = ctx.env.sourceObjectId;
-  if (!combat || !source) return false;
-  return unitsPresentAt(ctx.room, ctx.host, combat.battlefield).some((card) => card.id === source);
 });
 
 /**

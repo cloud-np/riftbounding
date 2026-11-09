@@ -4,8 +4,7 @@
  * An Add ability (430.2: finalizes and resolves immediately; 430.3: Reaction-tagged, usable
  * while paying costs). Its cost (kill this, exhaust this) is paid by R2-play's activation flow.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Gold",

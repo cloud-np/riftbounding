@@ -1,6 +1,5 @@
 /** Eclipse (UNL-063 — EX[258] (479.4.c), EX[287] (758.2)) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Eclipse",

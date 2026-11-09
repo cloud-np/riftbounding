@@ -6,7 +6,7 @@
  * "When an opponent moves to a battlefield" is a player-level move (one per move action, however
  * many units move); the engine only emits per-unit `move` events, so the trigger is not scripted.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Volibear, Imposing",

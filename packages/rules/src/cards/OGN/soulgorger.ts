@@ -6,9 +6,8 @@
  * resolution (355.18); its Power cost is still paid (`ogn-oz:pay-printed-cost`, see The Harrowing),
  * then it is played (420.3).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
 import { playPickedUnit } from "./the-harrowing";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Soulgorger",

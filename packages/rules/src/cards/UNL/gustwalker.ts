@@ -1,7 +1,5 @@
 /** Gustwalker (UNL-075 — EX[281] (727.1.b.2): [Hunt 2] (823) and [Level 3] (824).) */
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
-import { xpAtLeast } from "../lib/conditions";
+import { custom, registerCardScript, SELF, xpAtLeast } from "../sdk";
 
 const LEVEL_3 = xpAtLeast(3);
 

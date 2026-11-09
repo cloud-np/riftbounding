@@ -269,7 +269,7 @@ describe("registry integrity [G2]", () => {
     });
     for (const match of sourceText(CARDS_DIR).matchAll(/promptKey:\s*"((?:\\.|[^"\\])*)"/g)) keys.add(match[1]!);
     const bad = [...keys].filter((key) => {
-      if (!key.startsWith("rules.prompt.")) return !RAW_PROMPT_KEYS.has(key);
+      if (!key.startsWith("rules.prompt.")) return true;
       return key.slice("rules.prompt.".length).split(".").reduce<unknown>((node, part) => (node as Record<string, unknown> | undefined)?.[part], prompts) === undefined;
     });
     expect(bad).toEqual([]);
@@ -327,7 +327,36 @@ describe("registry integrity [G2]", () => {
   });
 });
 
-describe("card sources [G3]", () => {
+describe("card sources [G3][F6]", () => {
+  it("[G4] card files import only the card SDK, their own set modules and @rift/protocol types", () => {
+    const violations: string[] = [];
+    for (const file of walkTs(CARDS_DIR)) {
+      const relative = path.relative(CARDS_DIR, file);
+      // Infrastructure: the registry, the SDK facade and the shared builders may reach the engine.
+      if (!relative.includes(path.sep) || relative.startsWith(`lib${path.sep}`)) continue;
+      const text = fs.readFileSync(file, "utf8");
+      for (const match of text.matchAll(/(?:^|\n)\s*(?:import|export)\s[^;]*?from\s+"([^"]+)"|(?:^|\n)\s*import\s+"([^"]+)"/g)) {
+        const spec = match[1] ?? match[2]!;
+        const allowed = spec === "@rift/protocol" || spec === "../sdk" || /^\.\/[^/]+$/.test(spec) || (relative.endsWith("index.ts") && /^\.\.\/tokens\/[^/]+$/.test(spec));
+        if (!allowed) violations.push(`${relative}: ${spec}`);
+      }
+    }
+    expect(violations).toEqual([]);
+  });
+
+  it("card behaviour lives in the CardScript: no per-card side registrations in card files", () => {
+    const offenders: string[] = [];
+    for (const file of walkTs(CARDS_DIR)) {
+      const text = fs.readFileSync(file, "utf8");
+      // Per-card tables keyed by name or unit: use CardScript.additionalCosts / playPermissions
+      // and the `no-combat-damage` modifier instead.
+      if (/\bregister(AdditionalCosts|CombatContributionFilter)\(/.test(text)) offenders.push(path.relative(CARDS_DIR, file));
+      // Effect-granted permissions / costs imposed by other cards are providers in a set's custom.ts.
+      if (/\bregister(PlayPermission|AdditionalCostProvider)\(/.test(text) && !/\/custom\.ts$/.test(file)) offenders.push(path.relative(CARDS_DIR, file));
+    }
+    expect(offenders).toEqual([]);
+  });
+
   it("every card source file is reachable from src/cards/index.ts through imports", () => {
     const reachable = new Set<string>();
     const visit = (file: string): void => {
@@ -370,18 +399,6 @@ describe("manual activated abilities [F11]", () => {
 
 /** Unprefixed custom ids the engine registers: none — engine concepts are typed DSL members (F2/G8). */
 const GENERIC_ENGINE_IDS = new Set<string>();
-
-/** Raw English promptKeys still in card code (to be replaced by rules.prompt.* keys). */
-const RAW_PROMPT_KEYS = new Set([
-  "Put a card from your hand on your Main Deck",
-  "Top or bottom?",
-  "Play a Recruit token where?",
-  "Move it where?",
-  "Move them to which open battlefield?",
-  "Play it to which battlefield?",
-  "Play a Gold gear token exhausted?",
-  "You may banish one, then play it",
-]);
 
 /** Reprints whose script still lives outside the set that first printed them. */
 const KNOWN_MISPLACED_REPRINTS: string[] = ["Lux, Crownguard: packages/rules/src/cards/OGS/lux-crownguard.ts (first printed in VEN)"];

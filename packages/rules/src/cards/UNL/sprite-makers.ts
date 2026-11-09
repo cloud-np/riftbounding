@@ -9,8 +9,7 @@
  *   your base; [Deathknell] (808): repeat that play effect.
  */
 import type { Effect } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE, WHEN_PLAYED, token } from "../dsl";
+import { registerCardScript, token, WHEN_I_DIE, WHEN_PLAYED } from "../sdk";
 
 const READY_SPRITE_TO_BASE: Effect = {
   op: "create",

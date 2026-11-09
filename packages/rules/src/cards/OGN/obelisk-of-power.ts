@@ -6,7 +6,7 @@
  * Player when nobody is) and only fires on its controller's turn, so "each player's … that player"
  * cannot be expressed; there is also no "first Beginning Phase of this player" condition.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Obelisk of Power",

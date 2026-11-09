@@ -4,17 +4,6 @@
  * exist yet (partial / manual, with the missing capability named).
  */
 import type { Ability, Condition, Effect, KeywordName, Modifier, Selector } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import {
-  EVENT_SUBJECT,
-  PAID_ADDITIONAL,
-  SELF,
-  SELF_AT_BATTLEFIELD,
-  WHEN_PLAYED,
-  custom,
-  not,
-  token,
-} from "../dsl";
 import {
   HERE_ZONE,
   WHEN_I_ATTACK,
@@ -28,6 +17,7 @@ import {
   target,
   whilePassive,
 } from "./common";
+import { custom, EVENT_SUBJECT, not, PAID_ADDITIONAL, registerCardScript, SELF, SELF_AT_BATTLEFIELD, token, WHEN_PLAYED } from "../sdk";
 
 const MANUAL: Effect = { op: "custom", id: "manual" };
 const CHOOSE_TRIGGER =
@@ -703,7 +693,7 @@ registerCardScript({
   abilities: [
     {
       kind: "spell",
-      effect: { op: "stun", target: target({ where: custom("sfd:attacking", { ref: "it" }) }) },
+      effect: { op: "stun", target: target({ where: custom("core:attacking", { ref: "it" }) }) },
     },
   ],
 });
@@ -840,7 +830,7 @@ registerCardScript({
               max: 1,
             },
             { op: "reveal" as const, target: { targetRef: "found" } },
-            { op: "custom" as const, id: "sfd:draw-ref", params: { ref: "found" } },
+            { op: "custom" as const, id: "core:draw-ref", params: { ref: "found" } },
             {
               op: "recycle" as const,
               target: {

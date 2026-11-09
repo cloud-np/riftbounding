@@ -5,8 +5,8 @@
  * Deflect 2 is printed (809, R2-play); 827.1.c.1 Empower [8]; 828.1.c the Dependent conquer
  * trigger (383.4.c.2.a).
  */
-import { registerCardScript } from "../registry";
 import { SELF_EMPOWERED, WHEN_I_CONQUER, empower } from "./shared";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Nasus, Ascended",

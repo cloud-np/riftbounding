@@ -1,6 +1,5 @@
 /** Frigid Touch (SFD-066 — EX[35] (142.4.b). [Repeat] is engine-supported (820.1.d / 820.2). */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Frigid Touch",

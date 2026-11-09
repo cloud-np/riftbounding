@@ -5,8 +5,7 @@
  * 355.3 modes; "at end of turn" creates a delayed triggered ability for this turn's end (391.2,
  * 359.3.f.3.a: it refers to the unit chosen when it was created).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Sanction",

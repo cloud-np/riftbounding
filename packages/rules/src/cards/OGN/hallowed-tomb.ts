@@ -4,12 +4,7 @@
  * The Chosen Champion is the card set aside as such (`source: "champion"`, 103.2); the "if it is
  * empty" check is made on resolution.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_YOU_HOLD_HERE } from "../dsl";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED } from "../../effects/execute";
-import { recordOutcome } from "../../effects/targets";
-import { pushEvent } from "../../types";
+import { pushEvent, recordOutcome, registerCardScript, registerCustomEffect, RESOLVED, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 /** Move the controller's Chosen Champion from their trash to their empty Champion Zone. */
 registerCustomEffect("ogn-an:return-chosen-champion", (_params, context) => {

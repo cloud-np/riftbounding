@@ -20,36 +20,11 @@ import type {
   Selector,
   Trigger,
 } from "@rift/protocol";
-import type { EvalContext } from "../../effects/env";
-import { idsOf } from "../../effects/env";
-import { playersInTurnOrder, refIds, registerCustomCondition } from "../../effects/evaluate";
-import { RESOLVED } from "../../effects/execute";
-import { registerCustomEffect } from "../../effects/ops/control";
-import { evalContextOf, optionFor, recordOutcome } from "../../effects/targets";
-import { canPayCost, payCost } from "../../play/payment";
-import { appendChainItem } from "../../timing/fepr/chain";
-import { pushEvent } from "../../types";
-import { channelRunes, drawCards } from "../../actions/primitives";
-import { hasUnitPresentAt, unitsPresentAt } from "../../state/presence";
-import { forgetObject } from "../../effects/ops/util";
-import { effectiveMight } from "../../layers";
-import {
-  battlefieldController,
-  boardZoneList,
-  controllerOf,
-  findChainItem,
-  isBattlefieldZone,
-  isBoardZone,
-  locate,
-  locationOf,
-} from "../../effects/objects";
-import { SELF, custom, not } from "../dsl";
-import { SELF_EMPOWERED } from "../lib/conditions";
-import { costLessForEach } from "../lib/costs";
-import { whilePassive as conditional } from "../lib/passives";
-export { WHEN_I_ATTACK, WHEN_I_BECOME_EMPOWERED, WHEN_I_CONQUER, WHEN_I_DEFEND, WHEN_I_HOLD } from "../lib/triggers";
+import type { EvalContext } from "../sdk";
+import { appendChainItem, battlefieldController, boardZoneList, canPayCost, channelRunes, whilePassive as conditional, controllerOf, costLessForEach, custom, drawCards, effectiveMight, evalContextOf, findChainItem, forgetObject, hasUnitPresentAt, idsOf, isBattlefieldZone, isBoardZone, locate, locationOf, not, optionFor, payCost, playersInTurnOrder, pushEvent, recordOutcome, refIds, registerCustomCondition, registerCustomEffect, RESOLVED, SELF, SELF_EMPOWERED, unitsPresentAt } from "../sdk";
+export { WHEN_I_ATTACK, WHEN_I_BECOME_EMPOWERED, WHEN_I_CONQUER, WHEN_I_DEFEND, WHEN_I_HOLD } from "../sdk";
 
-export { SELF_EMPOWERED } from "../lib/conditions";
+export { SELF_EMPOWERED } from "../sdk";
 
 /** The source is on the board (see `ven:self-on-board`). */
 export const ON_BOARD: Condition = custom("ven:self-on-board");
@@ -63,21 +38,15 @@ export const ENTERS_EXHAUSTED_GAP =
   '"This enters exhausted" is not automated: gear enter ready (149.1) and the entry layer only has an enter-ready replacement (369.3).';
 
 /** 827.1.c.1 "[Empower] [Cost]" / 828.1.c "[Empowered] …" — shared builders from `cards/lib`. */
-export { empower, whileEmpowered } from "../lib/costs";
+export { empower, whileEmpowered } from "../sdk";
 /** 364.3.a: a conditional passive — `whilePassive` from `cards/lib`. */
-export { whilePassive as conditional } from "../lib/passives";
+export { whilePassive as conditional } from "../sdk";
 
 /** 727.1.b: the printed (catalog) keyword is not intrinsic; an ability grants it. */
-export { notIntrinsic } from "../lib/keywords";
+export { notIntrinsic } from "../sdk";
 
 /** "you control N or more / fewer runes" (runes are in the Rune Area, 107). */
-export function runesControlled(op: "lte" | "gte", value: number): Condition {
-  return {
-    kind: "count",
-    selector: { cardType: "rune", controller: "self" },
-    comparison: { op, value },
-  };
-}
+export { runesControlled } from "../sdk";
 
 /**
  * Per-step cost reductions ("costs [1] less for each rune you control"): the cost layer only
@@ -103,16 +72,6 @@ registerCustomCondition("ven:self-on-board", (ctx) => {
   const source = ctx.env.sourceObjectId;
   if (!source) return false;
   return isBoardZone(ctx.room, ctx.host, locate(ctx.room, ctx.host, source)?.zone);
-});
-
-/** 740.2.c: "I'm in combat" — at the battlefield where combat is ongoing, with a designation. */
-registerCustomCondition("ven:self-in-combat", (ctx, params) => {
-  const ref = typeof params.ref === "string" ? params.ref : null;
-  const id = ref === "it" ? ctx.env.it : ctx.env.sourceObjectId;
-  const combat = ctx.room.rules?.combat;
-  if (!id || !combat) return false;
-  if (locationOf(ctx.room, ctx.host, id) !== combat.battlefield) return false;
-  return !!ctx.room.rules?.objects[id]?.designation;
 });
 
 /** "If you control fewer runes than an opponent" (315.2 Beginning Phase checks). */
@@ -264,14 +223,6 @@ registerCustomCondition("ven:opponent-played-another-spell", (ctx, params) => {
   );
 });
 
-/** The candidate (`it`, a battlefield object or zone) has at least one unit you control (107.3). */
-registerCustomCondition("ven:you-have-units-at-it", (ctx) => {
-  const id = ctx.env.it;
-  if (!id) return false;
-  const zone = id.startsWith("battlefield:") ? id.slice("battlefield:".length) : id;
-  return hasUnitPresentAt(ctx.room, ctx.host, ctx.env.controller, zone);
-});
-
 /**
  * "Each player chooses a unit they control. Kill the rest." — every player, in Turn Order
  * (303.2.a), picks one unit they control (a resolution-time pick, 355.18), then every other unit
@@ -311,24 +262,6 @@ registerCustomCondition("ven:not-kept", (ctx) => {
 });
 
 /**
- * "Its base Might becomes N this turn" for the current `for_each` element (`it`): a this-turn
- * Might change of N − base Might (base = the object's `baseMight` or printed Might, 143.2).
- */
-registerCustomEffect("ven:base-might-becomes", (params, context) => {
-  const machine = context.machine;
-  const id = machine?.env.it;
-  const value = typeof params.value === "number" ? params.value : 0;
-  if (!machine || !id) return RESOLVED;
-  const host = context.step.host;
-  const base =
-    context.room.rules?.objects[id]?.baseMight ?? host.cardInfo(context.room, id)?.might ?? 0;
-  machine.push({
-    effect: { op: "temporary_might", amount: value - base, target: { targetRef: `obj:${id}` } },
-  });
-  return RESOLVED;
-});
-
-/**
  * "If your score is (not) within N points of the Victory Score": the Victory Score minus the
  * player's score is at most N. `player: "opponent"` = any
  * opponent ("an opponent's score is within …").
@@ -354,7 +287,7 @@ registerCustomCondition("ven:control-battlefield-with-units", (ctx, params) => {
   return (ctx.host.battlefieldZones(ctx.room) as string[]).some((zone) => {
     const stored = ctx.room.rules?.objects[zone]?.controller;
     const controller =
-      stored !== undefined ? stored : battlefieldController(ctx.room, ctx.host, zone);
+      stored !== undefined ? stored : battlefieldController(ctx.room, zone, ctx.host);
     if (controller !== ctx.env.controller) return false;
     const units = players.reduce(
       (sum, id) => sum + unitsPresentAt(ctx.room, ctx.host, zone, id).length,

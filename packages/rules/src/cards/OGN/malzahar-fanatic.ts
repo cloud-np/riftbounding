@@ -2,8 +2,7 @@
  * Malzahar, Fanatic (OGN-113) — "Kill a friendly unit or gear, [tap]: [action] - [add] [rune]
  * [rune]." An Add ability (430.2) with Action timing; the kill cost is a cost object (357.2).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Malzahar, Fanatic",

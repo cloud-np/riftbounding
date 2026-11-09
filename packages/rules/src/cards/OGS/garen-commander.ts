@@ -1,6 +1,5 @@
 /** Garen, Commander (OGS-013) — "Other friendly units have +1 [Might] here." (365.1 passive; "here" = my location) */
-import { registerCardScript } from "../registry";
-import { HERE } from "../dsl";
+import { HERE, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Garen, Commander",

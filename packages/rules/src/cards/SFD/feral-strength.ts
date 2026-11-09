@@ -1,6 +1,5 @@
 /** Feral Strength (SFD-034 — EX[72] (355.14.h.1). [Repeat 2] is engine-supported (820.1.d / 820.2). */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Feral Strength",

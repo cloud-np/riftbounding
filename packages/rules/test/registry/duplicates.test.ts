@@ -72,9 +72,9 @@ describe("duplicate registrations throw [F1][G1]", () => {
 
   it("custom conditions and effects", () => {
     expect(() => registerCustomCondition("sfd:event-from-battlefield", () => true)).toThrow(DuplicateRegistrationError);
-    expect(() => registerCustomEffect("sfd:draw-ref", () => ({ status: "resolved" }) as never)).toThrow(DuplicateRegistrationError);
+    expect(() => registerCustomEffect("core:draw-ref", () => ({ status: "resolved" }) as never)).toThrow(DuplicateRegistrationError);
     const restoreCondition = overrideCustomCondition("sfd:event-from-battlefield", () => true);
-    const restoreEffect = overrideCustomEffect("sfd:draw-ref", () => ({ status: "resolved" }) as never);
+    const restoreEffect = overrideCustomEffect("core:draw-ref", () => ({ status: "resolved" }) as never);
     restoreCondition();
     restoreEffect();
   });

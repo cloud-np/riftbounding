@@ -2,8 +2,7 @@
  * LeBlanc, Fragmented (UNL-172) — [Assault] (807, engine keyword). [Deathknell] (808): draw 1, or
  * draw 2 instead if it's your Beginning Phase (checked on resolution, 359.3.f.2).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE } from "../dsl";
+import { registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "LeBlanc, Fragmented",

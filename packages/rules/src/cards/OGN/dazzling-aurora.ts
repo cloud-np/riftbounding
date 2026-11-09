@@ -1,5 +1,5 @@
 /** Dazzling Aurora — at the end of your turn, reveal until a unit, banish it, play it ignoring its cost, recycle the rest (425, 420.3). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Dazzling Aurora",

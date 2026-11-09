@@ -2,7 +2,7 @@
  * Jinx, Loose Cannon (OGN-251, legend) — "At start of your Beginning Phase, draw 1 if you have 1 or
  * fewer cards in your hand." (315.2.a.1; the "if" is checked on resolution, 359.3.f.2)
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Jinx, Loose Cannon",

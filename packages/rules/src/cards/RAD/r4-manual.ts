@@ -2,8 +2,7 @@
  * Radiance (RAD) wave R4 cards whose text needs a missing engine capability: they register a
  * `manual` script (the §6.4 fallback) and document the exact gap.
  */
-import { registerCardScript } from "../registry";
-import { notIntrinsic } from "../lib/keywords";
+import { notIntrinsic, registerCardScript } from "../sdk";
 
 /** Evelynn, Agony's Embrace (RAD-153/175, legend) — play-from-facedown trigger + conditional discard. */
 registerCardScript({

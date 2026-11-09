@@ -1,8 +1,6 @@
 /**
  * Vendetta units with attack / conquer / hold / death triggers (383.4.c–f).
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, aUnit, custom, not } from "../dsl";
 import {
   WHEN_I_ATTACK,
   WHEN_I_CONQUER,
@@ -11,6 +9,7 @@ import {
   notIntrinsic,
   runesControlled,
 } from "./shared";
+import { aUnit, custom, HERE, not, registerCardScript, SELF } from "../sdk";
 
 const EXACTLY_ONE_OTHER_HERE = custom("ven:exactly-one-other-friendly-here");
 

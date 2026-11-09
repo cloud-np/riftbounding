@@ -1,6 +1,5 @@
 /** Watchful Sentry (OGN-096) — "[DEATHKNELL] - Draw 1." (808 Deathknell, 414) */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE } from "../dsl";
+import { registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Watchful Sentry",

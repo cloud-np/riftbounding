@@ -1,6 +1,5 @@
 /** Back to Back (OGN-206) — "Give two friendly units each +2 [Might] this turn." (355.7: two targets) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Back to Back",

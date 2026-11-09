@@ -7,13 +7,7 @@
  * is a pick among the looked-at cards (355.18); the others are recycled (417).
  */
 import type { Selector } from "@rift/protocol";
-import { pushEvent } from "../../types";
-import { RESOLVED } from "../../effects/execute";
-import { locate } from "../../effects/objects";
-import { registerCustomEffect } from "../../effects/ops";
-import { recordOutcome, targets } from "../../effects/targets";
-import { registerCardScript } from "../registry";
-import { custom, not } from "../dsl";
+import { custom, locate, not, pushEvent, recordOutcome, registerCardScript, registerCustomEffect, RESOLVED, targets } from "../sdk";
 
 registerCustomEffect("ogn-oz:put-in-hand", (params, context) => {
   const found = targets(context, params.target as Selector);

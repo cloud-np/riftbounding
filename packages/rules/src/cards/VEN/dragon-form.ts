@@ -4,8 +4,7 @@
  * Modelled as a this-turn Might change of (5 − its current base Might): every other modification
  * still applies on top, as with a trait-altering effect (479). See notes for what differs.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 
 registerCardScript({
@@ -20,7 +19,7 @@ registerCardScript({
       effect: {
         op: "for_each",
         selector: aUnit({ targetRef: "target:0" }),
-        effect: { op: "custom", id: "ven:base-might-becomes", params: { value: 5 } },
+        effect: { op: "custom", id: "core:base-might-becomes", params: { value: 5 } },
       },
     },
   ],

@@ -2,8 +2,7 @@
  * Miss Fortune, Bounty Hunter (OGN-267, legend) — "[Tap]: Give a unit [GANKING] this turn."
  * (801.3.a; Ganking 810.) The catalog's Ganking is the granted keyword, not the legend's own.
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Miss Fortune, Bounty Hunter",

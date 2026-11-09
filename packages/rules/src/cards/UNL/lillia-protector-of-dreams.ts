@@ -3,8 +3,7 @@
  * turn." (440.2.c: a played token is `unit_played` with `data.token`) and "Your token units have
  * [Tank]" (365.1 passive). The catalog's [Tank] is the granted one, not mine (suppressed).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Lillia, Protector of Dreams",

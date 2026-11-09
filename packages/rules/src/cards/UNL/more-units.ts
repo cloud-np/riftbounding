@@ -25,15 +25,8 @@
  * - LeBlanc, Everywhere at Once: [Backline]; (Temporary effects not suppressed).
  */
 import type { Condition, Modifier } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { HERE, PAID_ADDITIONAL, SELF, WHEN_PLAYED, aUnit, custom, not } from "../dsl";
 import { lookRevealDraw } from "./dsl-unl";
-import {
-  registerAdditionalCostProvider,
-  registerAdditionalCosts,
-} from "../../play/additional-costs";
-import { WHEN_I_ATTACK, WHEN_I_HOLD } from "../lib/triggers";
-import { ENTER_READY_MODIFIER, whilePassive as whenever } from "../lib/passives";
+import { aUnit, custom, ENTER_READY_MODIFIER, HERE, not, PAID_ADDITIONAL, registerCardScript, SELF, WHEN_I_ATTACK, WHEN_I_HOLD, WHEN_PLAYED, whilePassive as whenever } from "../sdk";
 
 const ENEMY_HERE = aUnit({ controller: "opponent", zone: HERE });
 const ENTER_READY = ENTER_READY_MODIFIER;
@@ -216,32 +209,21 @@ registerCardScript({
   ],
 });
 
-// 356.2.b.1: the optional [Chaos] cost exists only "if you've played a spell this turn", and an
-// optional cost cannot carry a condition. Suppress the text-parsed cost and offer it from a
-// provider that reads the played-card history (`history.effects.played`).
-registerAdditionalCosts("Crescent Guardian", []);
-registerAdditionalCostProvider((room, host, query) => {
-  if (query.kind !== "card" || query.info?.name !== "Crescent Guardian") return [];
-  const played = room.rules?.history.effects?.played?.[query.playerId] ?? [];
-  const spellPlayed = played.some((id) =>
-    (host.cardInfo(room, id)?.type ?? "").toLowerCase().includes("spell"),
-  );
-  if (!spellPlayed) return [];
-  return [
+registerCardScript({
+  name: "Crescent Guardian",
+  text: "If you've played a spell this turn, you may pay [Chaos] as an additional cost to play me. If you do, I enter ready.",
+  status: "implemented",
+  // 356.2.b.1: the optional [Chaos] cost exists only "if you've played a spell this turn".
+  additionalCosts: [
     {
       id: "optional:0",
       optional: true,
       cost: { power: { Chaos: 1 } },
       rule: "356.2.b.1",
       label: "pay [Chaos]",
+      condition: custom("unl:played-spell-this-turn"),
     },
-  ];
-});
-
-registerCardScript({
-  name: "Crescent Guardian",
-  text: "If you've played a spell this turn, you may pay [Chaos] as an additional cost to play me. If you do, I enter ready.",
-  status: "implemented",
+  ],
   abilities: [whenever(PAID_ADDITIONAL, ENTER_READY)],
 });
 

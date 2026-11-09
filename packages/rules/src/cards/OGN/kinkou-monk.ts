@@ -1,6 +1,5 @@
 /** Kinkou Monk (OGN-141, Origins errata) — "When you play me, buff up to two other friendly units." (355.13; 427) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Kinkou Monk",

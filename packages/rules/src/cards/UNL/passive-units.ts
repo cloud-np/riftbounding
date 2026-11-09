@@ -13,9 +13,7 @@
  *   ability (135.2.e.7) and is suppressed.
  */
 import type { Condition, Modifier } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { HERE, SELF, SELF_AT_BATTLEFIELD, aUnit, custom } from "../dsl";
-import { whilePassive as whenever } from "../lib/passives";
+import { aUnit, custom, HERE, registerCardScript, SELF, SELF_AT_BATTLEFIELD, whilePassive as whenever } from "../sdk";
 
 
 registerCardScript({
@@ -89,7 +87,7 @@ registerCardScript({
       keywords: ["action"],
       effect: {
         op: "stun",
-        target: aUnit({ controller: "opponent", zone: HERE, where: custom("unl:is-attacking") }),
+        target: aUnit({ controller: "opponent", zone: HERE, where: custom("core:attacking") }),
       },
     },
   ],

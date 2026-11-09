@@ -3,9 +3,8 @@
  * cost reductions from hand (366.2.a), entering ready (369.3) and damage prevention (438).
  */
 import type { Ability, Modifier, Selector } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { HERE, SELF, custom } from "../dsl";
 import { conditional, notIntrinsic, runesControlled } from "./shared";
+import { custom, HERE, registerCardScript, SELF } from "../sdk";
 
 const SPIDERLING = "Spiderling";
 const SHADOW_ASSASSIN = "Shadow Assassin";

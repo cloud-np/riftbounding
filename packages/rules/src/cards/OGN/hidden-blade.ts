@@ -1,6 +1,5 @@
 /** Hidden Blade (OGN-213 — EX[110]/EX[111]/EX[112] (359.3.e.14). [Hidden] (811) is R2-play's.) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Hidden Blade",

@@ -4,8 +4,7 @@
  * turn), Flurry of Feathers (choose one, 355.3: counter a spell, or play four 1 [Might] Bird
  * tokens — the token's [Deflect] comes from the catalog token).
  */
-import { registerCardScript } from "../registry";
-import { token } from "../dsl";
+import { registerCardScript, token } from "../sdk";
 
 const A_SPELL = { chosen: true, cardType: "spell" } as const;
 

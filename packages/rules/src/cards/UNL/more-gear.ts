@@ -10,9 +10,8 @@
  * - Frozen Fortress, Dusk Rose Lab: Beginning Phase battlefields.
  * - Lillia, Bashful Bloom and Diana, Scorn of the Moon (legends).
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, WHEN_PLAYED, aUnit, custom, token } from "../dsl";
 import { equip } from "./gear-misc";
+import { aUnit, custom, HERE, registerCardScript, SELF, token, WHEN_PLAYED } from "../sdk";
 
 const HOST = { targetRef: "host" } as const;
 const ENTERS_EXHAUSTED_NOTE =

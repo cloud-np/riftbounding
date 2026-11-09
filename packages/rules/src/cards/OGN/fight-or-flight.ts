@@ -1,6 +1,5 @@
 /** Fight or Flight (OGN-168) — "[Hidden] [Action] Move a unit from a battlefield to its base." (421; Hidden 811 is R2-play's) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Fight or Flight",

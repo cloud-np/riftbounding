@@ -34,7 +34,6 @@ describe("Unleashed R4b — Repeat executes once per paid instance [R820.1.d]", 
     expect(s.host.isExhausted(s.room, a.id)).toBe(false);
     expect(s.host.isExhausted(s.room, b.id)).toBe(false);
     expect(getCardScript("Upstage Comedy")?.status).toBe("implemented");
-    expect(getCardScript("Upstage Comedy")?.repeatHandled).toBeUndefined();
   });
 
   it("[C:Upstage Comedy][R820.2] the repeated execution makes its own target choice on play", () => {
@@ -88,7 +87,6 @@ describe("Unleashed R4b — Repeat executes once per paid instance [R820.1.d]", 
     for (const id of drawn) expect(s.host.cardInfo(s.room, id)?.type.toLowerCase()).toContain("unit");
     expect(hand(s, "p1")).toHaveLength(before + 1);
     expect(getCardScript("Double Trouble")?.status).toBe("implemented");
-    expect(getCardScript("Double Trouble")?.repeatHandled).toBeUndefined();
   });
 
   it("[C:Downstage Dramatics][R820.1.d] a paid Repeat draws one more card", () => {
@@ -100,7 +98,6 @@ describe("Unleashed R4b — Repeat executes once per paid instance [R820.1.d]", 
     resolveChain(s);
     expect(hand(s, "p1")).toHaveLength(before + 1);
     expect(getCardScript("Downstage Dramatics")?.status).toBe("implemented");
-    expect(getCardScript("Downstage Dramatics")?.repeatHandled).toBeUndefined();
   });
 
   it("[C:Square Up][R820.1.c][R820.1.d] Repeat — Discard 1 gives Assault 4 to two units", () => {
@@ -117,7 +114,6 @@ describe("Unleashed R4b — Repeat executes once per paid instance [R820.1.d]", 
     expect(effectiveKeywordValues(s.room, b.id, s.host).assault).toBe(4);
     s.expectZone("p1", "Gust", "trash");
     expect(getCardScript("Square Up")?.status).toBe("implemented");
-    expect(getCardScript("Square Up")?.repeatHandled).toBeUndefined();
   });
 
   it("[C:Existential Dread][R820.1.d][R820.2] a paid Repeat stuns two different attacking units", () => {
@@ -141,7 +137,6 @@ describe("Unleashed R4b — Repeat executes once per paid instance [R820.1.d]", 
     expect(s.room.rules!.objects[first.id]?.stunned).toBe(true);
     expect(s.room.rules!.objects[second.id]?.stunned).toBe(true);
     expect(getCardScript("Existential Dread")?.status).toBe("implemented");
-    expect(getCardScript("Existential Dread")?.repeatHandled).toBeUndefined();
   });
 });
 

@@ -5,8 +5,7 @@
  * the query's destination (`to`), so "can't move … to base" would forbid every move from here
  * (054.1). The intended modifier is written below (inert while manual).
  */
-import { registerCardScript } from "../registry";
-import { HERE } from "../dsl";
+import { HERE, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Vilemaw's Lair",

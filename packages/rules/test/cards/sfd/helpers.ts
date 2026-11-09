@@ -13,27 +13,12 @@ import { getCardScript } from "../../../src";
 import { scenario, type RulesScenario, type ScenarioInput } from "../../scenarios/dsl";
 import { boardOf, fund, place, zoneOf } from "../../rules/effects/helpers";
 import { damageData, setControl } from "../../rules/combat/helpers";
+import { addPool, boardCard, hand, namesIn, withCards } from "../helpers";
+export { addPool, boardCard, hand, namesIn, withCards };
 
 export { boardOf, fund, place, zoneOf, setControl };
 
 export type S = RulesScenario;
-
-/** A duel whose players have the named printed cards in hand (extra deck cards, then drawn). */
-export function withCards(p1: string[], p2: string[] = [], extra: ScenarioInput = {}): S {
-  const s = scenario({ ...extra, extraCards: { p1, p2 } });
-  for (const [player, names] of [
-    ["p1", p1],
-    ["p2", p2],
-  ] as const) {
-    const wanted: Record<string, number> = {};
-    for (const name of names) wanted[name] = (wanted[name] ?? 0) + 1;
-    for (const [name, count] of Object.entries(wanted)) {
-      const inHand = boardOf(s, player).hand.filter((card) => card.name === name).length;
-      for (let index = inHand; index < count; index += 1) s.moveDeckCardToHand(player, name);
-    }
-  }
-  return s;
-}
 
 /** Put a card (hand/deck/trash) into a zone with an optional fixed id. */
 export function put(
@@ -44,23 +29,6 @@ export function put(
   options: { exhausted?: boolean; id?: string } = {},
 ): CardInstance {
   return place(s, playerId, name, zone, options);
-}
-
-/** Add resources to a player's Rune Pool (a real player would have channeled them). */
-export function addPool(
-  s: S,
-  playerId: string,
-  energy: number,
-  power: Record<string, number> = {},
-): void {
-  const pool = s.room.rules!.pools[playerId]!;
-  pool.energy += energy;
-  for (const [domain, count] of Object.entries(power)) {
-    pool.power = {
-      ...pool.power,
-      [domain]: ((pool.power as Record<string, number>)[domain] ?? 0) + count,
-    };
-  }
 }
 
 export type Answerer = (prompt: Prompt) => PromptAnswer | undefined;
@@ -165,16 +133,6 @@ export function playCard(
   } as never);
 }
 
-export function hand(s: S, playerId: string): CardInstance[] {
-  return boardOf(s, playerId).hand;
-}
-
-export function namesIn(s: S, playerId: string, zone: string): string[] {
-  return ((boardOf(s, playerId) as unknown as Record<string, CardInstance[]>)[zone] ?? []).map(
-    (card) => card.name,
-  );
-}
-
 export function countNamed(s: S, playerId: string, zone: string, name: string): number {
   return namesIn(s, playerId, zone).filter((entry) => entry === name).length;
 }
@@ -190,28 +148,6 @@ export function onTop(s: S, playerId: string, name: string): CardInstance {
     return card!;
   }
   throw new Error(`onTop: ${name} not found for ${playerId}`);
-}
-
-/** A board card of `playerId` by name (any board zone). */
-export function boardCard(
-  s: S,
-  playerId: string,
-  name: string,
-  index = 0,
-): CardInstance | undefined {
-  const board = boardOf(s, playerId) as unknown as Record<string, CardInstance[] | undefined>;
-  const found: CardInstance[] = [];
-  for (const zone of [
-    "base",
-    "battlefieldA",
-    "battlefieldB",
-    "battlefieldC",
-    "legend",
-    "runeArea",
-  ]) {
-    for (const card of board[zone] ?? []) if (card.name === name) found.push(card);
-  }
-  return found[index];
 }
 
 /**

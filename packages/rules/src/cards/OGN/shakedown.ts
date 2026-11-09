@@ -6,11 +6,7 @@
  * unit's controller decides (a decision made during resolution by another player, 355.18) whether
  * the spell's controller draws `draw`; otherwise `it` is dealt `amount` damage by the spell (418.6.a).
  */
-import { RESOLVED } from "../../effects/execute";
-import { controllerOf } from "../../effects/objects";
-import { registerCustomEffect } from "../../effects/ops";
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, controllerOf, registerCardScript, registerCustomEffect, RESOLVED } from "../sdk";
 
 function isYes(answer: unknown): boolean {
   if (answer === true || answer === "yes") return true;

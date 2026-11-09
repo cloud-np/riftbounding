@@ -7,7 +7,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import type { CardScript } from "@rift/protocol";
 import { explainIllegal, legalIntents } from "../../../src";
-import { SHOWED_OFF, aUnit, showOff, WHEN_PLAYED } from "../../../src/cards/dsl";
+import { SHOWED_OFF, aUnit, showOff, WHEN_PLAYED } from "../../../src/cards/sdk";
 import { scenario } from "../../scenarios/dsl";
 import { boardOf, fund, place, run, zoneOf } from "./helpers";
 import { registerTestCardScripts } from "../../../src/testing";

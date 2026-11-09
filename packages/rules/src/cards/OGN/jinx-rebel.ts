@@ -5,8 +5,7 @@
  * The discard op emits one event per card, so discarding several cards in one action triggers once
  * per card instead of once.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Jinx, Rebel",

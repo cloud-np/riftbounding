@@ -4,7 +4,7 @@
  * killed this way." A variable optional additional cost (204.2) with a per-object reduction is
  * not supported by R2-play's cost model.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Commander Ledros",

@@ -1,5 +1,5 @@
 /** Shen, Kinkou (OGN-241) — [Reaction] (813), [Shield 2] (814) and [Tank] (815) are printed keywords handled by play/combat; no other text. */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Shen, Kinkou",

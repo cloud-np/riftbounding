@@ -1,5 +1,5 @@
 /** Wind Wall (OGN-064) — "[REACTION] Counter a spell." (426; a finalized spell on the chain, 355.9.a.2) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Wind Wall",

@@ -29,7 +29,7 @@ export function lookRevealDraw(amount: number, filter: Selector, key = "kept"): 
           label: "rules.prompt.revealAndDraw",
         },
         { op: "reveal", target: { targetRef: key } },
-        { op: "custom", id: "unl:draw-ref", params: { ref: key } },
+        { op: "custom", id: "core:draw-ref", params: { ref: key } },
         { op: "recycle", target: { zone: "deck", controller: "self", where: inRef("looked") } },
       ],
     },

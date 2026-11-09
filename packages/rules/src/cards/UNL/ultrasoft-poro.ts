@@ -1,6 +1,5 @@
 /** Ultrasoft Poro (UNL-160 — EX[156] (377.2.b). [Deflect] on the Birds is R2-play's keyword.) */
-import { registerCardScript } from "../registry";
-import { SELF, SELF_AT_BATTLEFIELD, token } from "../dsl";
+import { registerCardScript, SELF, SELF_AT_BATTLEFIELD, token } from "../sdk";
 
 registerCardScript({
   name: "Ultrasoft Poro",

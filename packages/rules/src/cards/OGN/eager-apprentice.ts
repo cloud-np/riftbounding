@@ -5,8 +5,7 @@
  * `CostAdjustment` has no per-discount minimum, so the minimum is applied against the spell's
  * printed Energy cost (no discount for printed costs of 1 or less).
  */
-import { registerCardScript } from "../registry";
-import { SELF_AT_BATTLEFIELD } from "../dsl";
+import { registerCardScript, SELF_AT_BATTLEFIELD } from "../sdk";
 
 registerCardScript({
   name: "Eager Apprentice",

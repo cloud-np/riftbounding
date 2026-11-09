@@ -6,9 +6,7 @@
  * `kill` event (383.2.c.3.b, 424). "You may exhaust this to draw 1" is an optional cost within
  * the instruction (740.4.a).
  */
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
-import { registerCustomCondition } from "../../effects/evaluate";
+import { custom, registerCardScript, registerCustomCondition, SELF } from "../sdk";
 
 /** The kill event was caused by the ability's controller ("When you kill", 429.5). */
 registerCustomCondition("ogn-oz:killed-by-you", (ctx) => {

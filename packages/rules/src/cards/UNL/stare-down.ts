@@ -5,8 +5,7 @@
  * zone the move's selector resolves from the choice (359.3.f). If the unit is no longer a legal
  * target the comparison has no information and the move is ignored (359.3.e.12); the XP is not.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Stare Down",

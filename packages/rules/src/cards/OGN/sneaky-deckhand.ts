@@ -4,7 +4,7 @@
  * Manual: the extra play Location (an open battlefield, 355.2.b) has no hook in the play layer's
  * location rules; it is still played normally to its controller's base or a controlled battlefield.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Sneaky Deckhand",

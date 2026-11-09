@@ -4,15 +4,7 @@
  * Registers `ogn-oz:self-in-combat`: the source holds an attacker or defender designation
  * (323.2 / 740.2.c). "Alone" (740.2.a): no other friendly unit at my location (built-in `alone`).
  */
-import { registerCustomCondition } from "../../effects/evaluate";
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
-
-registerCustomCondition("ogn-oz:self-in-combat", (ctx) => {
-  const source = ctx.env.sourceObjectId;
-  const designation = source ? ctx.room.rules?.objects[source]?.designation : undefined;
-  return designation === "attacker" || designation === "defender";
-});
+import { custom, registerCardScript, registerCustomCondition, SELF } from "../sdk";
 
 registerCardScript({
   name: "Wielder of Water",
@@ -23,7 +15,7 @@ registerCardScript({
       kind: "passive",
       modifier: { kind: "while", condition: {
             kind: "and",
-            conditions: [custom("ogn-oz:self-in-combat"), { kind: "alone", ref: "self" }],
+            conditions: [custom("core:in-combat"), { kind: "alone", ref: "self" }],
           }, modifier: { kind: "might", amount: 2, target: SELF } },
     },
   ],

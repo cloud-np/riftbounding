@@ -5,8 +5,7 @@
  * [Legion] is read on resolution as "you've played another card this turn" (cards played ≥ 2,
  * this one included); Legion's own timing/permission is R2-play's keyword.
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Noxian Guillotine",

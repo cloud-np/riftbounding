@@ -6,8 +6,7 @@
  * then the unit (at a location other than mine) is chosen (403.2). The two moves (421) exchange the
  * locations (`swap` with `zone`).
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, aUnit, not } from "../dsl";
+import { aUnit, HERE, not, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Tideturner",

@@ -6,8 +6,7 @@
  * [Assault 2]): the catalog's valueless Assault is suppressed and Assault 2 is stated on the card
  * (807.1.c; values are read by `effectiveKeywordValues`). Discard: 423.1.a (the player chooses).
  */
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED } from "../dsl";
+import { registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Chemtech Enforcer",

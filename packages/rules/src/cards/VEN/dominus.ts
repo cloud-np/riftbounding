@@ -2,8 +2,7 @@
  * Dominus (VEN-142) — "[Action] This turn, double a unit's Might and give it "[Rune][Rune]: Ready
  * me."" (433 Double, 479.4.c)
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Dominus",

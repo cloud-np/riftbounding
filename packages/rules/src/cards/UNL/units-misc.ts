@@ -17,23 +17,7 @@
  *   gain 1 XP.
  */
 import type { Ability, Condition, Modifier } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import {
-  EVENT_SUBJECT,
-  HERE,
-  PAID_ADDITIONAL,
-  SELF,
-  SELF_AT_BATTLEFIELD,
-  WHEN_I_DIE,
-  WHEN_PLAYED,
-  aUnit,
-  custom,
-  not,
-  token,
-} from "../dsl";
-import { WHEN_I_HOLD } from "../lib/triggers";
-import { xpAtLeast } from "../lib/conditions";
-import { whilePassive } from "../lib/passives";
+import { aUnit, custom, EVENT_SUBJECT, HERE, not, PAID_ADDITIONAL, registerCardScript, SELF, SELF_AT_BATTLEFIELD, token, WHEN_I_DIE, WHEN_I_HOLD, WHEN_PLAYED, whilePassive, xpAtLeast } from "../sdk";
 
 
 registerCardScript({

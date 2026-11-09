@@ -1,6 +1,5 @@
 /** Undercover Agent (OGN-178 — EX[206] (423.4): [Deathknell] (808)) */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE } from "../dsl";
+import { registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Undercover Agent",

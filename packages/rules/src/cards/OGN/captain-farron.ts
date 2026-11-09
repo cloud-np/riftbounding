@@ -2,8 +2,7 @@
  * Captain Farron (OGN-015) — "Other friendly units here have [ASSAULT]." (365.1 passive, 801.3)
  * The catalog's Assault is the granted keyword (Farron has none of his own).
  */
-import { registerCardScript } from "../registry";
-import { HERE } from "../dsl";
+import { HERE, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Captain Farron",

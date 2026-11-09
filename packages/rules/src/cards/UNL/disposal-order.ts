@@ -2,7 +2,7 @@
  * Disposal Order (UNL-103) — [Reaction]. Choose one (355.3): choose up to 3 cards from opponents'
  * trashes (targets, 355.7/355.13), their owners recycle them (417.1.c); or draw 1.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Disposal Order",

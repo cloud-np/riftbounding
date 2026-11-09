@@ -2,9 +2,8 @@
  * Wave R4 Vendetta gear: play/burn triggers, self-control changes and static cost effects that
  * the current cost layer can or cannot enforce.
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
 import { SELF_EMPOWERED, empower } from "./shared";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Endless Riches",

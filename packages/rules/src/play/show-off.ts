@@ -3,7 +3,7 @@
  *
  * "[Show Off] [Object]" is short for "As you play this, you may reveal [Object] from your hand
  * and/or pick [Object] from among friendly game objects on the board" (832.1.c). A script
- * declares it as a passive custom modifier (built with `showOff()` in `cards/dsl.ts`):
+ * declares it as a passive `show-off` modifier (built with `showOff()` from `cards/sdk.ts`):
  *
  *   { kind: "passive", modifier: { kind: "show-off", selector, count? } }
  *

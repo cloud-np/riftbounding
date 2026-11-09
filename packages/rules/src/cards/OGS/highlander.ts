@@ -6,8 +6,7 @@
  * chosen unit (359.3.f.3.a); like Zhonya's Hourglass (EX[130]) the unit is healed, exhausted and
  * recalled (456, not a move).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Highlander",

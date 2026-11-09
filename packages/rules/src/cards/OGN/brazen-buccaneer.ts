@@ -4,7 +4,7 @@
  * the conditional reduction (356.2.b.1) cannot be expressed: `costAdjustments` ignores which
  * optional costs the play chose.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Brazen Buccaneer",

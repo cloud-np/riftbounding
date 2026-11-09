@@ -7,8 +7,7 @@
  * Play game action and is then used up (`cost-adjust` with `once`, reported by
  * `costAdjustments`; R2-play applies it to the total cost, 356.4).
  */
-import { registerCardScript } from "../registry";
-import { SELF_AT_BATTLEFIELD, custom } from "../dsl";
+import { custom, registerCardScript, SELF_AT_BATTLEFIELD } from "../sdk";
 
 registerCardScript({
   name: "Astral Heron",

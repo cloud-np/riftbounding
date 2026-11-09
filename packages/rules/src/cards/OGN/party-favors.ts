@@ -9,10 +9,7 @@
  * exhausted (431.2.a).
  */
 import type { Effect } from "@rift/protocol";
-import { RESOLVED } from "../../effects/execute";
-import { opponentsOf } from "../../effects/evaluate";
-import { registerCustomEffect } from "../../effects/ops";
-import { registerCardScript } from "../registry";
+import { opponentsOf, registerCardScript, registerCustomEffect, RESOLVED } from "../sdk";
 
 registerCustomEffect("ogn-oz:party-favors", (_params, context) => {
   const machine = context.machine;

@@ -1,5 +1,5 @@
 /** Legion Rearguard (OGN-010) — keyword-only: [Accelerate] (805) is R2-play's optional additional cost. */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Legion Rearguard",

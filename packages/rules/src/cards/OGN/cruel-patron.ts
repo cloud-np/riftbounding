@@ -3,7 +3,7 @@
  * A mandatory printed additional cost (204.2, 356.2) parsed and paid by R2-play (357.2: forced
  * when one candidate, chosen otherwise; unplayable without one, 203.3).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Cruel Patron",

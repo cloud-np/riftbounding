@@ -1,6 +1,5 @@
 /** Rebuke (OGN-172) — "[ACTION] Return a unit at a battlefield to its owner's hand." */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Rebuke",

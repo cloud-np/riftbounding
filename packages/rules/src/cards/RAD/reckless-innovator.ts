@@ -6,9 +6,7 @@
  * cost within an instruction (740.4.a.2.a: paid on resolution) through R2-play's `payCost`.
  * Accelerate (805) is R2-play's optional additional cost.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_I_BECOME_EXHAUSTED, token } from "../dsl";
-import { notIntrinsic } from "../lib/keywords";
+import { notIntrinsic, registerCardScript, token, WHEN_I_BECOME_EXHAUSTED } from "../sdk";
 
 registerCardScript({
   name: "Reckless Innovator",

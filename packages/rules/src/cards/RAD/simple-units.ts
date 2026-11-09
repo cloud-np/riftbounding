@@ -4,9 +4,8 @@
  * Printed keywords (Disarm 831, Assault 807, Shield 814, Tank 815, Ganking 810, Deflect 809,
  * Accelerate 805, Deathknell 808, Hidden 811) are the engine's; scripts only add the other lines.
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, WHEN_I_BECOME_EXHAUSTED, WHEN_I_DIE, WHEN_PLAYED, aUnit, token } from "../dsl";
 import { ENTER_READY, conditional, notIntrinsic } from "./dsl";
+import { aUnit, HERE, registerCardScript, SELF, token, WHEN_I_BECOME_EXHAUSTED, WHEN_I_DIE, WHEN_PLAYED } from "../sdk";
 
 /** Trinket Peddler (RAD-054) — "[Disarm]" (831). */
 registerCardScript({

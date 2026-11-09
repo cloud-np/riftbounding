@@ -1,6 +1,5 @@
 /** Vengeance (OGN-229) — "Kill a unit." (429) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Vengeance",

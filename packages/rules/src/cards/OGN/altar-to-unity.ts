@@ -1,6 +1,5 @@
 /** Altar to Unity (OGN-275, battlefield) — "When you hold here, play a 1 [Might] Recruit unit token in your base." */
-import { registerCardScript } from "../registry";
-import { WHEN_YOU_HOLD_HERE, token } from "../dsl";
+import { registerCardScript, token, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 registerCardScript({
   name: "Altar to Unity",

@@ -1,6 +1,5 @@
 /** Wizened Elder (OGN-065) — "While I'm buffed, I have an additional +1 [Might]." (364.3.a conditional passive, 703) */
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
+import { custom, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Wizened Elder",

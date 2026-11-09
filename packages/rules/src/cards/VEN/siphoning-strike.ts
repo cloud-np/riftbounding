@@ -5,9 +5,8 @@
  * The rune count is checked on resolution (359.3.f.2); the last sentence creates a delayed
  * triggered ability for the chosen unit (391.2, 359.3.f.3.a).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
 import { runesControlled } from "./shared";
+import { aUnit, registerCardScript } from "../sdk";
 
 const TARGET = aUnit({ zone: "battlefield", targetRef: "target:0" });
 

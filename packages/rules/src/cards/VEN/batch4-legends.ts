@@ -7,9 +7,8 @@
  * instruction on resolution.
  */
 import type { Ability, Effect } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
 import { SELF_EMPOWERED } from "./shared";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 const COST_GAP =
   "'Disempower me' is part of the activation cost (357.2) but the Cost shape has no disempower part, so it is paid first on resolution; the ability is rejected unless I am Empowered.";

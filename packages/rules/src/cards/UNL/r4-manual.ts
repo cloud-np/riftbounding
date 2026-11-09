@@ -4,7 +4,7 @@
  * Each of these needs an engine capability that is still missing; the note names the exact rule
  * and the lane report's capability-gap table has the card lists.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Prepared Neophyte",

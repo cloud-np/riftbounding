@@ -1,5 +1,5 @@
 /** Baited Hook — kill a friendly unit, look at the top 5, banish a unit with Might up to 1 more than the killed unit and play it ignoring its cost (357, 420). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Baited Hook",

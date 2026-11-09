@@ -2,7 +2,7 @@
  * Unchecked Power (OGN-123) — "Exhaust all friendly units, then deal 12 to all units at
  * battlefields." (415, 418; every matching unit, 355.5.a)
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Unchecked Power",

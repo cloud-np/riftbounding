@@ -6,8 +6,7 @@
  * automated; "[Tap]: Play a unit banished with this" is missing because the engine cannot
  * remember the objects banished by one card (428) nor grant a play permission for them.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Cursed Sarcophagus",

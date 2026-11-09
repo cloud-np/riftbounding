@@ -18,8 +18,7 @@
  *   ready a unit.
  */
 import type { Ability, Cost } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED, aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 const HOST = { targetRef: "host" } as const;
 

@@ -1,6 +1,5 @@
 /** Dramatic Visionary (UNL-062) — [Deathknell] (808): [Predict 2] (437). */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE } from "../dsl";
+import { registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Dramatic Visionary",

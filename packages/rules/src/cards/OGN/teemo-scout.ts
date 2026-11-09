@@ -1,6 +1,5 @@
 /** Teemo, Scout (OGN-197) — "[HIDDEN] When you play me, give me +3 [Might] this turn." ([Hidden] 811 is the play layer's) */
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED } from "../dsl";
+import { registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Teemo, Scout",

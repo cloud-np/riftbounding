@@ -1,9 +1,8 @@
 /**
  * Swain, Visionary (VEN-065) and Riven, Shattered (VEN-041).
  */
-import { registerCardScript } from "../registry";
-import { HERE, aUnit, custom } from "../dsl";
 import { WHEN_I_ATTACK, WHEN_I_CONQUER } from "./shared";
+import { aUnit, custom, HERE, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Swain, Visionary",

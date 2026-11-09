@@ -5,7 +5,7 @@
  * Manual: the condition needs the excess (beyond lethal) combat damage assigned this combat
  * (467.2.c) and whether the conquer followed an attack; neither is recorded once the combat ends.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Tryndamere, Barbarian",

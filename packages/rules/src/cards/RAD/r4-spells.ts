@@ -4,9 +4,8 @@
  * Upgrade (R3-engine): Scorched Earth uses damage split (355.14 / 715.3). New: Chronobreak,
  * Encore, Fanfare, Last Caress, Parallel Convergence, Primordial Roar, Remember the Fallen.
  */
-import { registerCardScript } from "../registry";
-import { SHOWED_OFF, aUnit, custom, showOff, token } from "../dsl";
 import { drawCard, letX } from "./dsl";
+import { aUnit, custom, registerCardScript, SHOWED_OFF, showOff, token } from "../sdk";
 
 const LOOKED = { kind: "in-ref", ref: "looked" };
 

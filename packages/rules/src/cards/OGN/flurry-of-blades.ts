@@ -1,5 +1,5 @@
 /** Flurry of Blades (OGN-133) — "Deal 1 to all units at battlefields." (418.1.d: one deal action, every unit) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Flurry of Blades",

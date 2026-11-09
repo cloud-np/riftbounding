@@ -1,6 +1,5 @@
 /** Last Stand (OGN-069 — EX[222] (433.1.a), EX[258] (479.4.c)) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Last Stand",

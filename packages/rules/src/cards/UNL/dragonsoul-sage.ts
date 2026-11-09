@@ -1,6 +1,5 @@
 /** Dragonsoul Sage (UNL-093) — "[Reaction] [Tap]: [Add] [1]." An Add ability (430.2/430.2.a: resolves immediately). */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Dragonsoul Sage",

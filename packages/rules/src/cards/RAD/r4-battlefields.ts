@@ -4,8 +4,8 @@
  * Black Market (RAD-158), Bushwhack Trap (RAD-108), Firelights' Hideout (RAD-162), Hunters'
  * Circle (RAD-163), Packed Amphitheater (RAD-164/184).
  */
-import { registerCardScript } from "../registry";
 import { notIntrinsic } from "./dsl";
+import { registerCardScript } from "../sdk";
 
 /**
  * Black Market (RAD-158) — "[Rune] [Rune]: Draw 1. Each player may use this ability once on

@@ -4,18 +4,6 @@
  * effects.
  */
 import type { CardTypeName, Condition, Effect, Selector } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import {
-  EVENT_SUBJECT,
-  PAID_ADDITIONAL,
-  SELF,
-  WHEN_I_MOVE,
-  WHEN_PLAYED,
-  WHEN_YOU_CONQUER_HERE,
-  WHEN_YOU_DEFEND_HERE,
-  WHEN_YOU_HOLD_HERE,
-  custom,
-} from "../dsl";
 import {
   HERE_ZONE,
   WHEN_I_ATTACK_OR_DEFEND,
@@ -34,6 +22,7 @@ import {
   sandSoldier,
   target,
 } from "./common";
+import { custom, EVENT_SUBJECT, PAID_ADDITIONAL, registerCardScript, SELF, WHEN_I_MOVE, WHEN_PLAYED, WHEN_YOU_CONQUER_HERE, WHEN_YOU_DEFEND_HERE, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 const IN_LOOKED: Condition = { kind: "in-ref", ref: "looked" };
 const LOOKED: Selector = { zone: "deck", where: IN_LOOKED };
@@ -68,7 +57,7 @@ registerCardScript({
     {
       kind: "triggered",
       trigger: WHEN_I_MOVE,
-      effect: revealTop("gear", { op: "custom", id: "sfd:draw-ref", params: { ref: "looked" } }),
+      effect: revealTop("gear", { op: "custom", id: "core:draw-ref", params: { ref: "looked" } }),
     },
   ],
 });
@@ -295,7 +284,7 @@ registerCardScript({
         cost: { kill: SELF },
         effect: {
           op: "move",
-          target: target({ where: custom("sfd:attacking", { ref: "it" }) }),
+          target: target({ where: custom("core:attacking", { ref: "it" }) }),
           to: "base",
         },
       },

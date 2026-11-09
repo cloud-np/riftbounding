@@ -1,6 +1,5 @@
 /** Final Spark (OGS-022) — "[ACTION] Deal 8 to a unit." (418) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Final Spark",

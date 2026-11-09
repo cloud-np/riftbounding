@@ -1,6 +1,5 @@
 /** Vi, Hotheaded (UNL-030) — [Deflect] (809, engine keyword); "[2][Fury]: Double my Might this turn." (433.1.a, 479.4.c) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Vi, Hotheaded",

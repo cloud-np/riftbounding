@@ -1,6 +1,5 @@
 /** Maddened Marauder (OGN-191) — [Tank] (printed); "When you play me, move a unit from a battlefield to its base." (421.2) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Maddened Marauder",

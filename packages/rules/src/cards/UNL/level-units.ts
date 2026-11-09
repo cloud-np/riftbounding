@@ -5,9 +5,7 @@
  * (`value: 0`) so they apply only while the ability is active. [Hunt N] is the engine keyword (823).
  */
 import type { Modifier } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
-import { ENTER_READY_MODIFIER, atLevel } from "../lib/passives";
+import { atLevel, custom, ENTER_READY_MODIFIER, registerCardScript, SELF } from "../sdk";
 
 const enterReady = ENTER_READY_MODIFIER;
 

@@ -3,9 +3,8 @@
  * this is [Empowered], give that unit +4 [Might] this turn instead." (827.1.c.1; 359.3.f.2: the
  * Empowered check is made on resolution)
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
 import { SELF_EMPOWERED, empower } from "./shared";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 const TARGET = aUnit({ targetRef: "target:0" });
 

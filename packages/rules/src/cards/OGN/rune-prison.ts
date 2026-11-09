@@ -1,6 +1,5 @@
 /** Rune Prison (OGN-050) — "[Action] Stun a unit." (424) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Rune Prison",

@@ -1,9 +1,8 @@
 /**
  * Radiance (RAD) units with simple death triggers (wave R3, batch 6).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE, aUnit } from "../dsl";
 import { UNIT_OR_GEAR } from "./dsl";
+import { aUnit, registerCardScript, WHEN_I_DIE } from "../sdk";
 
 /** Demacian Illuminators (RAD-023) — "When one or more friendly units die, [buff] a friendly unit." (383.2, 810.1) */
 registerCardScript({

@@ -6,8 +6,7 @@
  * friendly units at my location, himself included when buffed; it applies only while that location
  * is a battlefield (the base is not a battlefield, 106/107).
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, SELF_AT_BATTLEFIELD } from "../dsl";
+import { HERE, registerCardScript, SELF, SELF_AT_BATTLEFIELD } from "../sdk";
 
 registerCardScript({
   name: "Sett, Kingpin",

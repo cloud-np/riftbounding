@@ -9,7 +9,7 @@
  * - Catalog keyword lists include the [Reaction] of Ambush's reminder text; it is not the unit's
  *   own keyword (135.2.d.3), so it is suppressed (`value: 0`, 727.1.b convention).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Inferna",

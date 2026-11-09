@@ -1,6 +1,5 @@
 /** Ki Barrier (VEN-126) — "[Reaction] Choose a unit. Prevent the next 7 damage that would be dealt to it this turn." (438.1.b.1 shield) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Ki Barrier",

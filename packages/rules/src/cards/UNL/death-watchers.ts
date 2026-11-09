@@ -3,8 +3,7 @@
  * 383.2.c.3.b): Spectral Centaur (+2 [Might] this turn) and Vicious Snapjaws (gain 1 XP).
  */
 import type { Trigger } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 const ANOTHER_FRIENDLY_UNIT_DIES: Trigger = {
   kind: "event",

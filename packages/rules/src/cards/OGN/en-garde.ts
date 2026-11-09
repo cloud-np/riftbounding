@@ -2,8 +2,7 @@
  * En Garde (OGN-046) — "[REACTION] Give a friendly unit +1 [Might] this turn, then an additional
  * +1 [Might] this turn if it is the only unit you control there." (740.2.a "alone")
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "En Garde",

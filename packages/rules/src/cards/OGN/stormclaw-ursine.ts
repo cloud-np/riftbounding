@@ -1,6 +1,5 @@
 /** Stormclaw Ursine (OGN-137) — "[TANK] When you play me, channel 1 rune exhausted." (815 Tank keyword; 431.2.a) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Stormclaw Ursine",

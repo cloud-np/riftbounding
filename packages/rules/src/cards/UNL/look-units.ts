@@ -8,9 +8,8 @@
  * - Starhound (UNL-167): play effect — return a Bird, Cat, Dog, or Poro from your trash to hand.
  */
 import type { Effect } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED, aUnit, custom } from "../dsl";
 import { lookRevealDraw } from "./dsl-unl";
+import { aUnit, custom, registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 const PETS = ["Bird", "Cat", "Dog", "Poro"];
 

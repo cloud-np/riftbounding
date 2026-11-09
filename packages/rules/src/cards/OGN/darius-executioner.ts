@@ -3,17 +3,9 @@
  * +1 [Might] here." Legion (812.1.c) is checked when the play event happens (383.2.a.1).
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { HERE, SELF, WHEN_PLAYED } from "../dsl";
-import { registerCustomCondition } from "../../effects/evaluate";
-import { legionActive } from "../../play/keyword-helpers";
+import { HERE, legionActive, registerCardScript, registerCustomCondition, SELF, WHEN_PLAYED } from "../sdk";
 
-/** 812.1.c: another card than the source has been Finalized by the controller this turn. */
-registerCustomCondition("ogn-an:legion", (ctx) =>
-  legionActive(ctx.room, ctx.env.controller, ctx.env.sourceObjectId),
-);
-
-export const LEGION: Condition = { kind: "custom", id: "ogn-an:legion" };
+export const LEGION: Condition = { kind: "custom", id: "core:legion" };
 
 registerCardScript({
   name: "Darius, Executioner",

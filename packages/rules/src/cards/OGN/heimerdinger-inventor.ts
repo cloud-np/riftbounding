@@ -1,5 +1,5 @@
 /** Heimerdinger, Inventor — has all Tap abilities of all friendly legends, units and gear (482). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Heimerdinger, Inventor",

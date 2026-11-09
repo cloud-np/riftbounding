@@ -9,11 +9,7 @@
  * an unbound target is asked then, still checked for targetability, 758).
  */
 import type { Effect } from "@rift/protocol";
-import { pushEvent } from "../../types";
-import { RESOLVED } from "../../effects/execute";
-import { registerCustomEffect } from "../../effects/ops";
-import { registerCardScript } from "../registry";
-import { HERE, SELF, aUnit } from "../dsl";
+import { aUnit, HERE, pushEvent, registerCardScript, registerCustomEffect, RESOLVED, SELF } from "../sdk";
 
 const BY_DOMAIN: Record<string, Effect> = {
   Fury: {

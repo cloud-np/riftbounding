@@ -6,10 +6,7 @@
  * attack event is controlled by Ahri's controller (190.2, stored control).
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT } from "../dsl";
-import { registerCustomCondition } from "../../effects/evaluate";
-import { controlsBattlefield } from "../../actions/control";
+import { controlsBattlefield, EVENT_SUBJECT, registerCardScript, registerCustomCondition } from "../sdk";
 
 /** The trigger event happened at a battlefield the ability's controller controls (190.2). */
 registerCustomCondition("ogn-an:event-battlefield-yours", (ctx) => {

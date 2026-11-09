@@ -6,36 +6,8 @@
  * cites the rules it implements; the cards that use it live in the sibling modules.
  */
 import type { Amount, CardInstance, Effect, PlayerSelector, Room, Selector } from "@rift/protocol";
-import type { RulesHost } from "../../host";
-import { pushEvent } from "../../types";
-import {
-  registerCustomCondition,
-  evaluateAmount,
-  mightOf,
-  refIds,
-  resolvePlayers,
-  resolveSelector,
-  compare,
-} from "../../effects/evaluate";
-import type { EvalContext } from "../../effects/env";
-import { lkiOf } from "../../effects/env";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED } from "../../effects/execute";
-import { recordOutcome } from "../../effects/targets";
-import { ctxOf, hostOf } from "../../effects/ops/util";
-import {
-  battlefieldZoneOf,
-  costsOf,
-  isBattlefieldZone,
-  locate,
-  locationOf,
-  typeOf,
-} from "../../effects/objects";
-import { effectiveKeywordValues } from "../../layers";
-import { addContinuousEffect } from "../../layers/mods";
-import { unitsPresentAt } from "../../state/presence";
-import { battlefieldController } from "../../actions/control";
-import { registerPlayPermission } from "../../play/permissions";
+import type { EvalContext, RulesHost } from "../sdk";
+import { addContinuousEffect, battlefieldController, battlefieldZoneOf, compare, costsOf, ctxOf, effectiveKeywordValues, evaluateAmount, hostOf, isBattlefieldZone, lkiOf, locate, locationOf, mightOf, pushEvent, recordOutcome, refIds, registerCustomCondition, registerCustomEffect, registerPlayPermission, RESOLVED, resolvePlayers, resolveSelector, typeOf, unitsPresentAt } from "../sdk";
 
 /* ---------------------------------------------------------------- helpers */
 
@@ -309,30 +281,6 @@ registerCustomEffect("rad:let-x", (params, context) => {
   return RESOLVED;
 });
 
-/**
- * "Draw it" (414 / 425): the referenced card moves from its owner's Main Deck to their hand as a
- * draw (emits `draw` like `drawCards`).
- */
-registerCustomEffect("rad:draw-card", (params, context) => {
-  const host = hostOf(context);
-  const ctx = ctxOf(context);
-  const drawn: string[] = [];
-  for (const id of refIds(ctx, String(params.ref ?? "it"))) {
-    const located = locate(context.room, host, id);
-    if (!located || located.zone !== "deck") continue;
-    if (!host.moveCardTo(context.room, located.playerId, "deck", "hand", id)) continue;
-    drawn.push(id);
-    pushEvent(context.step.events, {
-      type: "draw",
-      playerId: located.playerId,
-      amount: 1,
-      data: { cardIds: [id] },
-    });
-  }
-  recordOutcome(context, drawn, drawn.length > 0);
-  return RESOLVED;
-});
-
 /** 425: reveal the top card of each player's Main Deck (`player`); binds them to `key`. */
 registerCustomEffect("rad:reveal-top-each", (params, context) => {
   const host = hostOf(context);
@@ -596,46 +544,6 @@ registerCustomEffect("rad:akali-move", (_params, context) => {
       },
     });
   }
-  return RESOLVED;
-});
-
-/**
- * "Its base Might becomes N this turn" for `selector` (default `it`): modelled as a this-turn
- * Might change of N − base Might (layers 479; trait-altering "becomes" is approximated, see
- * docs/rules/cards/rad.md). `energyCostOf` instead uses that object's Energy cost.
- */
-registerCustomEffect("rad:base-might-becomes", (params, context) => {
-  const machine = context.machine;
-  if (!machine) return RESOLVED;
-  const ctx = ctxOf(context);
-  const ids = params.selector
-    ? resolveSelector(ctx, params.selector as Selector)
-    : machine.env.it
-      ? [machine.env.it]
-      : [];
-  let value: number | null =
-    typeof params.value === "number" ? Math.trunc(params.value) : null;
-  if (value === null && params.value && typeof params.value === "object") {
-    value = evaluateAmount(ctx, params.value as Amount);
-    if (value !== null) value = Math.trunc(value);
-  }
-  if (params.energyCostOf) {
-    const [sourceId] = resolveSelector(ctx, params.energyCostOf as Selector);
-    value = sourceId ? (costsOf(ctx.room, ctx.host, sourceId)?.energy ?? null) : null;
-  }
-  if (value === null) return RESOLVED;
-  const frames = ids.map((id) => {
-    const base =
-      ctx.room.rules?.objects[id]?.baseMight ?? ctx.host.cardInfo(ctx.room, id)?.might ?? 0;
-    return {
-      effect: {
-        op: "temporary_might" as const,
-        amount: value! - base,
-        target: { targetRef: `obj:${id}` },
-      },
-    };
-  });
-  machine.push(...frames);
   return RESOLVED;
 });
 

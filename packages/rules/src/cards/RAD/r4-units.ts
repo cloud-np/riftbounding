@@ -10,22 +10,8 @@
  * Spirit of the Forge; The Empyrean.
  */
 import type { Cost } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { registerAdditionalCosts } from "../../play/additional-costs";
-import {
-  SELF,
-  SELF_AT_BATTLEFIELD,
-  SHOWED_OFF,
-  WHEN_I_MOVE,
-  WHEN_PLAYED,
-  aUnit,
-  custom,
-  not,
-  showOff,
-} from "../dsl";
 import { letX, notIntrinsic, conditional } from "./dsl";
-import { SELF_EMPOWERED } from "../lib/conditions";
-import { empower } from "../lib/costs";
+import { aUnit, custom, empower, not, registerCardScript, SELF, SELF_AT_BATTLEFIELD, SELF_EMPOWERED, SHOWED_OFF, showOff, WHEN_I_MOVE, WHEN_PLAYED } from "../sdk";
 
 const DEFLECT_GAP =
   "The optional additional cost (356.2.b.1) cannot be paid: the protocol Cost has no 'return a gear to hand' part, so only the base play and the printed keyword are automated.";
@@ -66,21 +52,21 @@ registerCardScript({
  * you do, I cost [2] less. [Deflect]" The optional kill cost is registered; reading the paid
  * unit to reduce the cost is not expressible (356.2.b.1, 357.2).
  */
-registerAdditionalCosts("Dune Devourer", [
-  {
-    id: "optional:0",
-    optional: true,
-    cost: { kill: { cardType: "unit", controller: "self" } },
-    rule: "356.2.b.1",
-    label: "Kill a friendly unit",
-  },
-]);
 registerCardScript({
   name: "Dune Devourer",
   text: "You may kill a friendly unit as an additional cost to play me. If you do, I cost [2] less.\n[Deflect] (Opponents must pay [Rune] to choose me with a spell or ability.)",
   status: "partial",
   notes:
     "The optional kill cost and [Deflect] are automated; the [2] discount for paying it is not (the cost layer cannot read an object paid as a cost, 356.2.b.1, 357.2).",
+  additionalCosts: [
+    {
+      id: "optional:0",
+      optional: true,
+      cost: { kill: { cardType: "unit", controller: "self" } },
+      rule: "356.2.b.1",
+      label: "Kill a friendly unit",
+    },
+  ],
   abilities: [],
 });
 
@@ -89,19 +75,19 @@ registerCardScript({
  * The choice is an optional zero-cost additional cost (355.1.a); the linked entry replacement
  * and move restriction read the paid-additional flag (369.3, 054.1).
  */
-registerAdditionalCosts("Entrenched Boar", [
-  {
-    id: "optional:0",
-    optional: true,
-    cost: {},
-    rule: "369.3",
-    label: "Have me enter ready",
-  },
-]);
 registerCardScript({
   name: "Entrenched Boar",
   text: "You may have me enter ready. If you do, I can't move this turn.",
   status: "implemented",
+  additionalCosts: [
+    {
+      id: "optional:0",
+      optional: true,
+      cost: {},
+      rule: "369.3",
+      label: "Have me enter ready",
+    },
+  ],
   abilities: [
     {
       kind: "passive",
@@ -222,7 +208,7 @@ registerCardScript({
       effect: {
         op: "for_each",
         selector: aUnit({ controller: "self", targetRef: "target:0" }),
-        effect: { op: "custom", id: "rad:base-might-becomes", params: { value: 5 } },
+        effect: { op: "custom", id: "core:base-might-becomes", params: { value: 5 } },
       },
     },
   ],
@@ -244,7 +230,7 @@ registerCardScript({
         effect: {
           op: "for_each",
           selector: aUnit({ excludeSource: true, targetRef: "target:0" }),
-          effect: { op: "custom", id: "rad:base-might-becomes", params: { value: 4 } },
+          effect: { op: "custom", id: "core:base-might-becomes", params: { value: 4 } },
         },
       },
     },
@@ -266,7 +252,7 @@ registerCardScript({
         op: "may",
         effect: {
           op: "custom",
-          id: "rad:base-might-becomes",
+          id: "core:base-might-becomes",
           params: { selector: SELF, energyCostOf: { targetRef: "event" } },
         },
       },

@@ -5,11 +5,7 @@
  * 383.2.a.1: the "if" right after the trigger condition is part of it. Registers
  * `ogn-oz:win-game`: the ability's controller wins (195; team mode via `playerWins`).
  */
-import { RESOLVED } from "../../effects/execute";
-import { registerCustomEffect } from "../../effects/ops";
-import { playerWins } from "../../scoring/concede";
-import { registerCardScript } from "../registry";
-import { HERE, WHEN_YOU_HOLD_HERE } from "../dsl";
+import { HERE, playerWins, registerCardScript, registerCustomEffect, RESOLVED, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 registerCustomEffect("ogn-oz:win-game", (_params, context) => {
   playerWins(context.room, context.machine?.env.controller ?? context.controller, context.step);

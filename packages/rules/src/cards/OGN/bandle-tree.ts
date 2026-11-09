@@ -4,7 +4,7 @@
  * Hiding (422 / Hidden 811) is R2-play's; the battlefield exposes a `hide-limit` modifier
  * (+1 card here) for it to read.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Bandle Tree",

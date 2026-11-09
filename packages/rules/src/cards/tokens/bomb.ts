@@ -9,7 +9,7 @@
  * [Deploy] is printed Rules Text on the token; it is not an attached card, so 718.2 does not
  * apply.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 const EVENT_ZONE = { kind: "chosen", ref: "event-zone" } as const;
 

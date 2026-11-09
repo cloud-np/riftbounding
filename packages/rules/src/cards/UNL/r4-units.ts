@@ -17,28 +17,16 @@
  * - Stalking Wolf (UNL-166, errata): the mandatory "kill a Bird, Cat, Dog, or Poro" cost cannot be
  *   expressed by the cost selector (357.2).
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, WHEN_PLAYED, aUnit, custom, token } from "../dsl";
-import { registerPlayPermission } from "../../play/permissions";
-import { registerCustomCondition } from "../../effects/evaluate";
-import { locationOf } from "../../effects/objects";
-import { legionActive } from "../../play/keyword-helpers";
-
-/** 812.2 / 420.1.a: [Legion] "You may play me from your trash for [3] [Fury]." */
-registerPlayPermission((room, _host, query) => {
-  if (query.zone !== "trash" || query.card.name !== "Undying Legion") return null;
-  if (!legionActive(room, query.playerId, query.card.id)) return null;
-  return {
-    id: "unl:undying-legion",
-    rule: "812.2",
-    cost: { energy: 3, power: { Fury: 1 } },
-  };
-});
+import { aUnit, custom, HERE, LEGION, legionActive, locationOf, registerCardScript, registerCustomCondition, SELF, token, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Undying Legion",
   text: "[Legion] You may play me from your trash for [3] [Fury]. (Get the effect if you've played another card this turn.)",
   status: "implemented",
+  // 812.2 / 420.1.a: [Legion] "You may play me from your trash for [3] [Fury]."
+  playPermissions: [
+    { id: "unl:undying-legion", zone: "trash", rule: "812.2", cost: { energy: 3, power: { Fury: 1 } }, condition: LEGION },
+  ],
   abilities: [],
 });
 

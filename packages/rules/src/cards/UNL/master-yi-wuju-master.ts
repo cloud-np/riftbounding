@@ -2,8 +2,7 @@
  * Master Yi, Wuju Master (UNL-191, legend) — [Level 6] your units have +1 [Might]; [Level 11]
  * your units enter ready (369.3). Dependent abilities (824, 727.1.b) as `conditional` passives.
  */
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Master Yi, Wuju Master",

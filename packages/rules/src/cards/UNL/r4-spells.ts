@@ -13,10 +13,8 @@
  * - Mirror Image (UNL-200, errata): play a ready Reflection token; the copy instruction is missing
  *   (446, see the lane report).
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom, token } from "../dsl";
 import type { Effect } from "@rift/protocol";
-import { registerAdditionalCosts } from "../../play/additional-costs";
+import { aUnit, custom, registerCardScript, token } from "../sdk";
 
 const REFLECTION = { exhausted: false, play: true, keywords: ["Temporary" as const] };
 
@@ -84,22 +82,22 @@ const CURTAIN_CALL_MODES: Array<{ id: string; effect: Effect }> = [
 
 // "[Repeat] -[1] / [rune] / [1] [rune]": three separate optional additional costs, each of which
 // repeats the instructions once (820.1.c/.d). The "/" alternatives are not the parser's grammar.
-registerAdditionalCosts("Curtain Call", [
-  { id: "repeat", optional: true, cost: { energy: 1 }, rule: "820.1.c", label: "Repeat" },
-  { id: "repeat:1", optional: true, cost: { power: { any: 1 } }, rule: "820.1.c", label: "Repeat" },
-  {
-    id: "repeat:2",
-    optional: true,
-    cost: { energy: 1, power: { any: 1 } },
-    rule: "820.1.c",
-    label: "Repeat",
-  },
-]);
 
 registerCardScript({
   name: "Curtain Call",
   text: "[Repeat] -[1] / [rune] / [1] [rune] (You may pay each additional cost to repeat this spell's effect.)\n\nChoose one you haven't already chosen -\n    ᛫ Draw 1\n    ᛫ Deal 2 to a unit at a battlefield.\n    ᛫ Deal 3 to a unit at a base.\n    ᛫ Give a unit at a Battlefield -4 [might] this turn.",
   status: "implemented",
+  additionalCosts: [
+    { id: "repeat", optional: true, cost: { energy: 1 }, rule: "820.1.c", label: "Repeat" },
+    { id: "repeat:1", optional: true, cost: { power: { any: 1 } }, rule: "820.1.c", label: "Repeat" },
+    {
+      id: "repeat:2",
+      optional: true,
+      cost: { energy: 1, power: { any: 1 } },
+      rule: "820.1.c",
+      label: "Repeat",
+    },
+  ],
   abilities: [
     {
       kind: "spell",

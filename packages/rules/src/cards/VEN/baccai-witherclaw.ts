@@ -6,11 +6,9 @@
  * Empowered", 808 / 828.1.c) reads the kill event's last-known Empowered status
  * (383.2.c.3.b / 424).
  */
-import { registerCardScript } from "../registry";
 import type { Trigger } from "@rift/protocol";
-import { SELF } from "../dsl";
 import { empower, whileEmpowered } from "./shared";
-import { WHEN_I_DIE_EMPOWERED } from "../lib/triggers";
+import { registerCardScript, SELF, WHEN_I_DIE_EMPOWERED } from "../sdk";
 
 
 registerCardScript({

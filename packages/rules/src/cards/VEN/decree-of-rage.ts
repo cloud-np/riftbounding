@@ -1,6 +1,5 @@
 /** Decree of Rage (VEN-015) — "[Action] This can't be countered. Deal 4 to an enemy Calm unit." */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Decree of Rage",

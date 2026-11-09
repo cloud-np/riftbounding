@@ -3,8 +3,7 @@
  * at a battlefield, draw 1." The "if" right after the trigger condition is part of it (383.2.a.1).
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { registerCustomCondition } from "../../effects/evaluate";
+import { registerCardScript, registerCustomCondition } from "../sdk";
 
 /** 107.3 / 811: the controller has a facedown (hidden) card at a battlefield. */
 registerCustomCondition("ogn-an:controls-facedown-at-battlefield", (ctx) =>

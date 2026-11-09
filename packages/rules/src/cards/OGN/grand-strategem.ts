@@ -1,5 +1,5 @@
 /** Grand Strategem (OGN-233) — "Give friendly units +5 [Might] this turn." (479.4; the units on the board at resolution) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Grand Strategem",

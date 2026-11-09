@@ -7,9 +7,7 @@
  * snapshots non-passive effects); the layers have no per-object minimum for passive Might.
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { opponentsOf, registerCustomCondition } from "../../effects/evaluate";
+import { opponentsOf, registerCardScript, registerCustomCondition, SELF } from "../sdk";
 
 /**
  * An opponent's score is within `n` points of the Victory Score (472). Like every other Victory

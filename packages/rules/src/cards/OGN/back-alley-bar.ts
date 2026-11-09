@@ -1,6 +1,5 @@
 /** Back-Alley Bar (OGN-277, battlefield) — "When a unit moves from here, give it +1 [Might] this turn." */
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT, WHEN_A_UNIT_MOVES_FROM_HERE } from "../dsl";
+import { EVENT_SUBJECT, registerCardScript, WHEN_A_UNIT_MOVES_FROM_HERE } from "../sdk";
 
 registerCardScript({
   name: "Back-Alley Bar",

@@ -2,8 +2,7 @@
  * Cleave (OGN-004) — "Give a unit [ASSAULT 3] this turn." (801.3.a; Assault 807.1.c)
  * The catalog's Assault is the granted keyword, not the spell's own (727.1.b-style suppression).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Cleave",

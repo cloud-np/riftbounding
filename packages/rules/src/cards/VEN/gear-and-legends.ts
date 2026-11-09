@@ -1,8 +1,7 @@
 /**
  * Vendetta gear and legends with automatable abilities.
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Shen, Eye of Twilight",

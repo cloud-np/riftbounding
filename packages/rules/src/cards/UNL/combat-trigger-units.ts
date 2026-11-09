@@ -17,9 +17,7 @@
  * - Sinister Poro (UNL-137): When I attack, you may pay [1] to move an enemy unit here to its base.
  */
 import type { Trigger } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { HERE, SELF, aUnit, custom, token } from "../dsl";
-import { WHEN_I_ATTACK, WHEN_I_ATTACK_OR_DEFEND } from "../lib/triggers";
+import { aUnit, custom, HERE, registerCardScript, SELF, token, WHEN_I_ATTACK, WHEN_I_ATTACK_OR_DEFEND } from "../sdk";
 
 const ENEMY_HERE = aUnit({ controller: "opponent", zone: HERE });
 

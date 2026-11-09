@@ -1,6 +1,5 @@
 /** Ruined Rex (UNL-067) — [Deathknell] (808): deal 4 to an enemy unit (418; chosen when the trigger is finalized, 403.2). */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Ruined Rex",

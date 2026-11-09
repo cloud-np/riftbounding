@@ -1,6 +1,5 @@
 /** Stellacorn Herder (SFD-048) — "When I move, draw 1." */
-import { registerCardScript } from "../registry";
-import { WHEN_I_MOVE } from "../dsl";
+import { registerCardScript, WHEN_I_MOVE } from "../sdk";
 
 registerCardScript({
   name: "Stellacorn Herder",

@@ -6,12 +6,7 @@
  * `ogn-an:players-choose` is shared with Cull the Weak and King's Edict.
  */
 import type { Effect, Selector } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED } from "../../effects/execute";
-import { matchingIds, playersInTurnOrder } from "../../effects/evaluate";
-import { evalContextOf, optionFor, recordOutcome } from "../../effects/targets";
-import { controllerOf } from "../../effects/objects";
+import { controllerOf, evalContextOf, matchingIds, optionFor, playersInTurnOrder, recordOutcome, registerCardScript, registerCustomEffect, RESOLVED } from "../sdk";
 
 /**
  * Players choose objects one after another and the picks are bound to `key` (355.18 picks, not

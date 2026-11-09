@@ -5,8 +5,7 @@
  * [Hidden] (811) is the play layer's. The token enters ready (184.1) and is played (440.2.c) to its
  * controller's base. The catalog's [Temporary] belongs to the token, not to this spell (`value: 0`).
  */
-import { registerCardScript } from "../registry";
-import { token } from "../dsl";
+import { registerCardScript, token } from "../sdk";
 
 registerCardScript({
   name: "Sprite Call",

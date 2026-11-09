@@ -6,8 +6,7 @@
  * the player-level `defend` event once per combat, 466.2.c.3). Shield itself is R2-combat's keyword, read through
  * `effectiveKeywordValues` (value 2).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_YOU_DEFEND_HERE, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_YOU_DEFEND_HERE } from "../sdk";
 
 registerCardScript({
   name: "Fortified Position",

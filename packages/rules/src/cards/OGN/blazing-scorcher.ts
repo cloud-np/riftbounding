@@ -1,5 +1,5 @@
 /** Blazing Scorcher (OGN-001) — keyword-only: [Accelerate] (805) is R2-play's optional additional cost. */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Blazing Scorcher",

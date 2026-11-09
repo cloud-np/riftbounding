@@ -1,6 +1,5 @@
 /** Solari Shieldbearer (OGN-051) — "When you play me, stun a unit." (424, 403.2) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Solari Shieldbearer",

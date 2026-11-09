@@ -2,8 +2,7 @@
  * Wuju Apprentice (UNL-040) — [Hunt] (823, engine keyword). [Level 6] is a Dependent Keyword
  * (824, 727.1.c.1): the play effect only triggers while you have 6+ XP.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, custom } from "../dsl";
+import { custom, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Wuju Apprentice",

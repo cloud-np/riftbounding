@@ -8,8 +8,7 @@
  * as their canonical unscripted card. Flip to "implemented" once R2-play binds
  * `choices.additionalCost`.
  */
-import { registerCardScript } from "../registry";
-import { PAID_ADDITIONAL } from "../dsl";
+import { PAID_ADDITIONAL, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Meditation",

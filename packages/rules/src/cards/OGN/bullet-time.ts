@@ -1,5 +1,5 @@
 /** Bullet Time — pay any amount of Rune to deal that much damage to all enemy units at a battlefield (418). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Bullet Time",

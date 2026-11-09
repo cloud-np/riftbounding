@@ -1,7 +1,6 @@
 /** Escaped Grayback (VEN-124) — "[Empower] - Kill a friendly unit [Empowered] I have +2 [Might]." (827.1.c.2) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
 import { empower, whileEmpowered } from "./shared";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Escaped Grayback",

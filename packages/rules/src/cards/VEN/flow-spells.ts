@@ -3,8 +3,7 @@
  * "You may play this from your trash for its Flow cost. Then banish it.") is implemented by the
  * R3-engine play layer, so these scripts enforce the whole printed text.
  */
-import { registerCardScript } from "../registry";
-import { aUnit, token } from "../dsl";
+import { aUnit, registerCardScript, token } from "../sdk";
 
 registerCardScript({
   name: "Brittle Steel",

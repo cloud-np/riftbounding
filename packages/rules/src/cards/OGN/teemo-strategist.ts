@@ -9,11 +9,7 @@
  * One deal instruction for the number of revealed [Hidden] cards (418.8), then the revealed cards
  * are recycled (417.5 random order).
  */
-import { pushEvent } from "../../types";
-import { RESOLVED } from "../../effects/execute";
-import { registerCustomEffect } from "../../effects/ops";
-import { registerCardScript } from "../registry";
-import { HERE, SELF, aUnit } from "../dsl";
+import { aUnit, HERE, pushEvent, registerCardScript, registerCustomEffect, RESOLVED, SELF } from "../sdk";
 
 registerCustomEffect("ogn-oz:reveal-top", (params, context) => {
   const machine = context.machine;

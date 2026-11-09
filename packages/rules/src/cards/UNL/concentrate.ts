@@ -2,8 +2,7 @@
  * Concentrate (UNL-091) — Draw 2. [Level 6] this costs [2] less; [Level 11] [4] less instead.
  * Cost passives of the card apply from the hand (366.2.a); "instead" = only one applies (356.4).
  */
-import { registerCardScript } from "../registry";
-import { SELF, custom, not } from "../dsl";
+import { custom, not, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Concentrate",

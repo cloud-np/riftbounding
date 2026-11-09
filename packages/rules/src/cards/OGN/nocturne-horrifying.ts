@@ -4,7 +4,7 @@
  * A replacement-style option while a card is looked at/revealed in the deck, plus a play
  * permission from the banished zone for [A] — neither exists in the engine.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Nocturne, Horrifying",

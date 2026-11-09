@@ -2,8 +2,7 @@
  * Wave R4 Vendetta spells: group targeting (355.11/355.13), resolution-time choices and
  * effect-driven plays.
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Acceleration Gate",

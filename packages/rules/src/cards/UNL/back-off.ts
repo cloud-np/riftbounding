@@ -2,8 +2,7 @@
  * Back Off (UNL-042) — [Hidden] (811) and [Action] (806) are engine keywords. "[Stun] a unit. If
  * you played this from your hand, draw 1." — not when played from facedown (811.1.b).
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Back Off",

@@ -1,10 +1,8 @@
 /**
  * Wave R4 Vendetta legends: Empower, Action/Reaction activations and play-history triggers.
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit, custom } from "../dsl";
-import { registerCustomCondition } from "../../effects/evaluate";
 import { SELF_EMPOWERED, empower } from "./shared";
+import { aUnit, custom, registerCardScript, registerCustomCondition, SELF } from "../sdk";
 
 registerCardScript({
   name: "Akali, Rogue Assassin",

@@ -1,5 +1,5 @@
 /** Clanging Sentry (RAD-055 — EX[314] (831.2)) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Clanging Sentry",

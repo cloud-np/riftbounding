@@ -1,6 +1,5 @@
 /** Pit Rookie (OGN-136) — "When you play me, buff another friendly unit." (427; target chosen on finalization, 403.2) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Pit Rookie",

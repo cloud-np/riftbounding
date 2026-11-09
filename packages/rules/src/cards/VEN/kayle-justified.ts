@@ -6,9 +6,8 @@
  * 442.1.c.1: the permission makes Empowered a stacking status (up to three); this Empower has
  * no "only if not Empowered" restriction. 443.1.b: disempowering removes one status.
  */
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
 import { conditional, notIntrinsic } from "./shared";
+import { custom, registerCardScript, SELF } from "../sdk";
 
 const atLeast = (n: number) => custom("ven:self-empowered-at-least", { n });
 

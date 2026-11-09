@@ -12,20 +12,20 @@ import type {
   Selector,
   ZoneSelector,
 } from "@rift/protocol";
-import { SELF, custom } from "../dsl";
 import type { RadAmount } from "./custom";
+import { custom, SELF } from "../sdk";
 
 /**
  * The catalog keyword list includes keywords that only appear in reminder text, in granted text
  * ("Your gear have [Deflect]") or in another object's text (a token's [Deflect]); they are not the
  * card's own (135.2.d.3, 727.1.b). Marked with value 0 so the layers ignore the printed copy.
  */
-export { notIntrinsic } from "../lib/keywords";
+export { notIntrinsic } from "../sdk";
 
 /** "I enter ready." — 369.3 replacement (EX[134]). */
-export { ENTER_READY } from "../lib/passives";
+export { ENTER_READY } from "../sdk";
 /** A conditional modifier (364.3.a) — `whileModifier` from `cards/lib`. */
-export { whileModifier as conditional } from "../lib/passives";
+export { whileModifier as conditional } from "../sdk";
 
 /** A zone bound to a choice/variable key (a chosen battlefield's id resolves to its zone). */
 export function zoneRef(ref: string): ZoneSelector {
@@ -65,7 +65,7 @@ export const X_NUMBER = "$X" as unknown as number;
 
 /** "Draw it" — the referenced card goes from the Main Deck to hand as a draw. */
 export function drawCard(ref: string): Effect {
-  return { op: "custom", id: "rad:draw-card", params: { ref } };
+  return { op: "custom", id: "core:draw-ref", params: { ref } };
 }
 
 /** Per-player "the first time each turn" guard pair for a battlefield trigger. */
@@ -87,7 +87,7 @@ export function oncePerPlayerPerTurn(
   };
 }
 
-export { costLessForEach } from "../lib/costs";
+export { costLessForEach } from "../sdk";
 
 /**
  * "Opponents can't play <type> this turn" — a play restriction (054.1) on every card of that type

@@ -3,8 +3,7 @@
  * that unit and 1 to each other enemy unit there." The battlefield is the chosen unit's location
  * when the spell was finalized (359.3.e snapshot), so "there" survives the unit leaving (359.3.f).
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Crescent Strike",

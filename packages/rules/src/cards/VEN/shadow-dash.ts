@@ -5,8 +5,7 @@
  * The destination is a chosen battlefield object with one of your units (355.4); the unit count
  * there is checked on resolution, after the move (359.3.f.2).
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 
 const THERE = { kind: "chosen" as const, ref: "target:0" };
@@ -24,7 +23,7 @@ registerCardScript({
           chosen: true,
           cardType: "battlefield",
           targetRef: "target:0",
-          where: custom("ven:you-have-units-at-it"),
+          where: custom("core:you-have-units-at-it"),
         },
         effect: {
           op: "seq",

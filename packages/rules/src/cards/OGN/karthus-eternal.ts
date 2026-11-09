@@ -1,5 +1,5 @@
 /** Karthus, Eternal — your Deathknell triggers an additional time (383, 808). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Karthus, Eternal",

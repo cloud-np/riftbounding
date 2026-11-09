@@ -1,6 +1,5 @@
 /** Deathgrip (SFD-163 (Spiritforged errata) — EX[113] (359.3.e.14.b): "if you do" references the kill.) */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Deathgrip",

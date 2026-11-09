@@ -3,30 +3,8 @@
  * entries only (no game state); each reads the room through the shared evaluator helpers.
  */
 import type { Room } from "@rift/protocol";
-import type { RulesHost } from "../../host";
-import { pushEvent } from "../../types";
-import { registerCustomCondition, refIds, mightOf } from "../../effects/evaluate";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED } from "../../effects/execute";
-import type { EvalContext } from "../../effects/env";
-import { idsOf } from "../../effects/env";
-import { evalContextOf, recordOutcome } from "../../effects/targets";
-import {
-  battlefieldZoneOf,
-  isBattlefieldZone,
-  locate,
-  locationOf,
-  ownerOf,
-  tagsOf,
-} from "../../effects/objects";
-import { forgetObject } from "../../effects/ops/util";
-import { movePrimitive } from "../../actions/move";
-import { restrictionFor } from "../../layers/restrictions";
-import { unitsPresentAt } from "../../state/presence";
-import { battlefieldController } from "../../actions/control";
-import { teamOf } from "../../scoring/teams";
-import { removeChainItem } from "../../timing/fepr/chain";
-import { addContinuousEffect } from "../../layers/mods";
+import type { EvalContext, RulesHost } from "../sdk";
+import { addContinuousEffect, battlefieldController, battlefieldZoneOf, evalContextOf, forgetObject, idsOf, isBattlefieldZone, locate, locationOf, mightOf, movePrimitive, ownerOf, pushEvent, recordOutcome, refIds, registerCustomCondition, registerCustomEffect, removeChainItem, RESOLVED, restrictionFor, tagsOf, teamOf, unitsPresentAt } from "../sdk";
 
 /* ---------------------------------------------------------------- shared helpers */
 
@@ -150,12 +128,6 @@ registerCustomCondition("unl:unit-won-combat", (ctx, params) => {
   return ids.some((id) => units[id] === "win");
 });
 
-/** `it` (a battlefield pseudo-object) has at least one unit you control (107.3 presence). */
-registerCustomCondition("unl:you-have-units-at-it", (ctx) => {
-  const zone = ctx.env.it ? battlefieldZoneOf(ctx.env.it) : null;
-  return !!zone && unitsPresentAt(ctx.room, ctx.host, zone, ctx.env.controller).length > 0;
-});
-
 /**
  * Kha'Zix, Mutating Horror — "if an enemy unit is alone here" (740.2.a): some opponent has
  * exactly one unit at my location.
@@ -174,12 +146,6 @@ registerCustomCondition("unl:enemy-alone-here", (ctx) => {
 registerCustomCondition("unl:event-player-in-team", (ctx) => {
   const player = ctx.env.event?.playerId;
   return !!player && teamPlayers(ctx.room, ctx.env.controller).includes(player);
-});
-
-/** `it` is an attacking unit (466.2.c.3 Attacker designation). */
-registerCustomCondition("unl:is-attacking", (ctx) => {
-  const id = ctx.env.it;
-  return !!id && ctx.room.rules?.objects[id]?.designation === "attacker";
 });
 
 /**
@@ -409,33 +375,6 @@ registerCustomEffect("unl:no-spells-this-turn", (_params, context) => {
 });
 
 /**
- * "Draw it" for a card picked from among the looked-at top cards of your Main Deck (414.1: the
- * card is put into its owner's hand from the Main Deck; `draw` event so draw triggers see it).
- */
-registerCustomEffect("unl:draw-ref", (params, context) => {
-  const ctx = evalContextOf(context);
-  const ref = typeof params.ref === "string" ? params.ref : "kept";
-  const drawn: string[] = [];
-  for (const id of refIds(ctx, ref)) {
-    const located = locate(context.room, ctx.host, id);
-    if (!located || located.zone !== "deck") continue;
-    if (!ctx.host.moveCardToOwnerZone(context.room, id, "hand")) continue;
-    drawn.push(id);
-  }
-  if (drawn.length > 0) {
-    const owner = ctx.env.controller;
-    pushEvent(context.step.events, {
-      type: "draw",
-      playerId: owner,
-      amount: drawn.length,
-      data: { cardIds: drawn },
-    });
-  }
-  recordOutcome(context, drawn, drawn.length > 0);
-  return RESOLVED;
-});
-
-/**
  * Keeper's Verdict — "Its owner places it on the top or bottom of their Main Deck." The owner
  * makes the choice (412.4 / 355.18: a choice made on resolution by the instructed player); the
  * object leaves the board and loses its rules state (705, 186.1 for tokens). Acts on `it`.
@@ -594,4 +533,10 @@ registerCustomEffect("unl:gain-tag", (params, context) => {
   located.card.subtypes = [...new Set([...tagsOf(located.card), tag])];
   recordOutcome(context, source ? [source] : [], true);
   return RESOLVED;
+});
+
+/** Crescent Guardian — "If you've played a spell this turn" (the controller's played cards, 420.4). */
+registerCustomCondition("unl:played-spell-this-turn", (ctx) => {
+  const played = ctx.room.rules?.history.effects?.played?.[ctx.env.controller] ?? [];
+  return played.some((id) => (ctx.host.cardInfo(ctx.room, id)?.type ?? "").toLowerCase().includes("spell"));
 });

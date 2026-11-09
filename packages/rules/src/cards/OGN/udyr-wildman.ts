@@ -8,8 +8,7 @@
  * it is kept as an unsupported phrase, so the ability is unpayable (203.3) rather than free.
  */
 import type { Effect } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, aUnit, marked, not } from "../dsl";
+import { aUnit, marked, not, registerCardScript, SELF } from "../sdk";
 
 const KEY = "ogn-oz:udyr-wildman:{self}";
 

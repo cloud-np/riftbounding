@@ -1,8 +1,7 @@
 /**
  * Lux, Crownguard (OGS-014 / VEN-SP6) — "[Tap]: [Reaction] - [Add] [2]. Use only to play spells."
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Lux, Crownguard",

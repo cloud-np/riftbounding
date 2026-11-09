@@ -4,7 +4,7 @@
  * it." The `play` op cannot pay only the Power cost (`ignored`/`free` skip all payment) and has
  * no "recycle instead of trash" destination for the played spell.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Kai'Sa, Evolutionary",

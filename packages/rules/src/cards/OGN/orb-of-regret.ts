@@ -1,6 +1,5 @@
 /** Orb of Regret (OGN-090) — "[Tap]: Give a unit -1 [Might] this turn, to a minimum of 1 [Might]." (376; 479.4.b snapshot) */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Orb of Regret",

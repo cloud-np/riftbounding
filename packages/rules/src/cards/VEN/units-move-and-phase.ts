@@ -3,9 +3,8 @@
  * triggers (315.2).
  */
 import type { Trigger } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_I_MOVE, custom, not } from "../dsl";
 import { conditional, notIntrinsic, runesControlled } from "./shared";
+import { custom, not, registerCardScript, SELF, WHEN_I_MOVE } from "../sdk";
 
 /** "When I move to a battlefield" (the move event's destination is a battlefield zone). */
 const WHEN_I_MOVE_TO_A_BATTLEFIELD: Trigger = {
@@ -62,7 +61,7 @@ registerCardScript({
   status: "implemented",
   abilities: [
     // 757.1 / 740.2.c: the restriction applies while I'm not in combat.
-    conditional(not(custom("ven:self-in-combat")), {
+    conditional(not(custom("core:in-combat")), {
       kind: "restriction",
       restriction: "be-targeted:enemy",
       target: SELF,

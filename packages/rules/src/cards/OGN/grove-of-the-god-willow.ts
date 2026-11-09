@@ -1,6 +1,5 @@
 /** Grove of the God-Willow (OGN-280, battlefield) — "When you hold here, draw 1." */
-import { registerCardScript } from "../registry";
-import { WHEN_YOU_HOLD_HERE } from "../dsl";
+import { registerCardScript, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 registerCardScript({
   name: "Grove of the God-Willow",

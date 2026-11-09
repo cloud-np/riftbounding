@@ -4,13 +4,7 @@
  * Import-time registry entries only (no game state); each reads the room through the shared
  * evaluator helpers.
  */
-import { idsOf } from "../../effects/env";
-import { registerCustomCondition, refIds, mightOf, setXp, xpOf } from "../../effects/evaluate";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED } from "../../effects/execute";
-import { evalContextOf, recordOutcome } from "../../effects/targets";
-import { controllerOf, isUnit, locate } from "../../effects/objects";
-import { pushEvent } from "../../types";
+import { controllerOf, evalContextOf, idsOf, isUnit, locate, mightOf, pushEvent, recordOutcome, refIds, registerCustomCondition, registerCustomEffect, RESOLVED, setXp, xpOf } from "../sdk";
 
 /* ---------------------------------------------------------------- conditions */
 

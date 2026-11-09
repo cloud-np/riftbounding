@@ -1,6 +1,5 @@
 /** Master Yi, Honed (OGS-009 — EX[134] (369.3): "I enter ready" replaces entering exhausted.) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Master Yi, Honed",

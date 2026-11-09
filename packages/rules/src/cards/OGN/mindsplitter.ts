@@ -5,13 +5,7 @@
  * The opponent is chosen on resolution (355.18; in a duel there is only one), then the controller
  * picks one card of the revealed hand and that player discards it.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED } from "../../effects/execute";
-import { opponentsOf } from "../../effects/evaluate";
-import { evalContextOf, optionFor, recordOutcome } from "../../effects/targets";
-import { pushEvent } from "../../types";
+import { evalContextOf, opponentsOf, optionFor, pushEvent, recordOutcome, registerCardScript, registerCustomEffect, RESOLVED, WHEN_PLAYED } from "../sdk";
 
 registerCustomEffect("ogn-an:reveal-hand-discard-chosen", (_params, context) => {
   const machine = context.machine;

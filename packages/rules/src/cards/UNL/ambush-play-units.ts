@@ -6,8 +6,7 @@
  * - Chakram Dancer (UNL-071): give your other units here [Shield] this turn.
  * - Grim Apothecary (UNL-021): you may return a friendly unit at a battlefield to its owner's hand.
  */
-import { registerCardScript } from "../registry";
-import { HERE, WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, HERE, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 const OTHER_FRIENDLY_HERE = {
   cardType: "unit",

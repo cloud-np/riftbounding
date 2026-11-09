@@ -3,13 +3,8 @@
  * replacements that R3-engine unblocked (group targeting 355.11, optional replacements 371.2,
  * damage-split 355.14).
  */
-import type { Room } from "@rift/protocol";
-import type { RulesHost } from "../../host";
-import { registerCardScript } from "../registry";
-import { HERE, SELF, WHEN_PLAYED, aUnit, custom } from "../dsl";
-import { registerCombatContributionFilter } from "../../combat/keywords";
-import { unitsPresentAt } from "../../state/presence";
 import { SELF_EMPOWERED, WHEN_I_ATTACK, WHEN_I_DEFEND, empower, notIntrinsic } from "./shared";
+import { aUnit, custom, HERE, not, registerCardScript, registerCustomCondition, SELF, unitsPresentAt, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Blade Twirler",
@@ -131,24 +126,33 @@ registerCardScript({
   ],
 });
 
-/** 467.2.a/b: Sacred Protector contributes no combat damage without exactly one other friendly unit. */
-function sacredProtectorContributes(room: Room, unitId: string, host: RulesHost): boolean {
-  const located = host.findCard(room, unitId);
-  if (!located || located.card.name !== "Sacred Protector") return true;
-  if (!(host.battlefieldZones(room) as string[]).includes(located.zone)) return false;
-  const others = unitsPresentAt(room, host, located.zone).filter(
-    (card) => card.id !== unitId && host.findCard(room, card.id)?.playerId === located.playerId,
+/** Sacred Protector: I'm at a battlefield with exactly one other face-up unit my controller controls. */
+registerCustomCondition("ven:at-battlefield-with-exactly-one-other-friendly", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  const located = source ? ctx.host.findCard(ctx.room, source) : null;
+  if (!source || !located) return false;
+  if (!(ctx.host.battlefieldZones(ctx.room) as string[]).includes(located.zone)) return false;
+  const others = unitsPresentAt(ctx.room, ctx.host, located.zone).filter(
+    (card) => card.id !== source && ctx.host.findCard(ctx.room, card.id)?.playerId === located.playerId,
   );
   return others.length === 1;
-}
-
-registerCombatContributionFilter(sacredProtectorContributes);
+});
 
 registerCardScript({
   name: "Sacred Protector",
   text: "I don't deal combat damage unless I'm at a battlefield with exactly one other unit you control.",
   status: "implemented",
-  abilities: [],
+  // 467.2.a/b: no combat damage contribution unless paired.
+  abilities: [
+    {
+      kind: "passive",
+      modifier: {
+        kind: "while",
+        condition: not(custom("ven:at-battlefield-with-exactly-one-other-friendly")),
+        modifier: { kind: "no-combat-damage", target: SELF },
+      },
+    },
+  ],
 });
 
 registerCardScript({

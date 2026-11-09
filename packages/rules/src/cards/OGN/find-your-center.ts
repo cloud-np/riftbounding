@@ -3,9 +3,8 @@
  * this costs [2] less. Draw 1 and channel 1 rune exhausted."
  * 366.2.a: the card's own cost passive applies while it is in hand; 431.2.a exhausted.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
 import { OPPONENT_WITHIN_3 } from "./leona-zealot";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Find Your Center",

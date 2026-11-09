@@ -3,8 +3,7 @@
  * battlefield." A computed Might passive (479.4); "my battlefield" only exists while I am at one.
  * The catalog's [Temporary] is referenced text, not my keyword (suppressed, or 816 would kill me).
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, SELF_AT_BATTLEFIELD } from "../dsl";
+import { HERE, registerCardScript, SELF, SELF_AT_BATTLEFIELD } from "../sdk";
 
 registerCardScript({
   name: "Petal Pixie",

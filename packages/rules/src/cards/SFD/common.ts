@@ -14,30 +14,8 @@ import type {
   Trigger,
   ZoneSelector,
 } from "@rift/protocol";
-import { registerCustomCondition } from "../../effects/evaluate";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED } from "../../effects/execute";
-import { lkiOf } from "../../effects/env";
-import { refIds } from "../../effects/evaluate";
-import { recordOutcome } from "../../effects/targets";
-import {
-  attachmentsOf,
-  battlefieldController,
-  battlefieldZoneOf,
-  controllerOf,
-  costsOf,
-  isToken,
-  locate,
-  locationOf,
-  tagsOf,
-  typeOf,
-} from "../../effects/objects";
-import { unitsPresentAt } from "../../state/presence";
-import { teamOf } from "../../scoring/teams";
-import { pushEvent } from "../../types";
-import { custom, token } from "../dsl";
-import { whilePassive } from "../lib/passives";
-export { WHEN_I_ATTACK, WHEN_I_ATTACK_OR_DEFEND, WHEN_I_CONQUER, WHEN_I_DEFEND, WHEN_I_HOLD, WHEN_YOU_CONQUER } from "../lib/triggers";
+import { attachmentsOf, battlefieldController, battlefieldZoneOf, controllerOf, costsOf, custom, isToken, lkiOf, locate, locationOf, pushEvent, recordOutcome, refIds, registerCustomCondition, registerCustomEffect, RESOLVED, tagsOf, teamOf, token, typeOf, unitsPresentAt, whilePassive } from "../sdk";
+export { WHEN_I_ATTACK, WHEN_I_ATTACK_OR_DEFEND, WHEN_I_CONQUER, WHEN_I_DEFEND, WHEN_I_HOLD, WHEN_YOU_CONQUER } from "../sdk";
 
 /* ---------------------------------------------------------------- builders */
 
@@ -93,10 +71,10 @@ export function hostKeyword(keyword: KeywordName, value?: number): { kind: "pass
  * The catalog keyword list includes keywords that the card only grants (or only has in effect
  * text / reminder text): `...notIntrinsic(keyword)` marks them as not intrinsic (727.1.b).
  */
-export { notIntrinsic } from "../lib/keywords";
+export { notIntrinsic } from "../sdk";
 
 /** A conditional passive (364.3.a): the inner modifier applies only while `condition` holds. */
-export { whilePassive } from "../lib/passives";
+export { whilePassive } from "../sdk";
 
 /** A unit chosen as a Target with extra filters. */
 export function target(extra: Partial<Selector> = {}): Selector {
@@ -109,7 +87,7 @@ export function countOf(selector: Selector, per?: number): Amount {
 }
 
 /** "I enter ready" (369.3), optionally only while `condition` holds as it enters. */
-export { enterReady } from "../lib/passives";
+export { enterReady } from "../sdk";
 
 /** "When I move to a battlefield" (421, 447). */
 export const WHEN_I_MOVE_TO_BATTLEFIELD: Trigger = {
@@ -169,13 +147,6 @@ registerCustomCondition(
   "sfd:you-won-combat",
   (ctx) => eventData(ctx.env.event).winner === ctx.env.controller,
 );
-
-/** The unit bound to `ref` (default `target:0`) holds the Attacker designation (466.2.c.3). */
-registerCustomCondition("sfd:attacking", (ctx, params) => {
-  const ref = typeof params.ref === "string" ? params.ref : "target:0";
-  const [id] = refIds(ctx, ref);
-  return !!id && ctx.room.rules?.objects[id]?.designation === "attacker";
-});
 
 /**
  * The object bound to `ref` was controlled by the ability's controller (`friendly: true`) or by
@@ -275,7 +246,7 @@ registerCustomCondition("sfd:played-equipment-this-turn", (ctx) =>
 /** The source battlefield (`battlefield:<zone>`) is controlled by the ability's controller (190). */
 registerCustomCondition("sfd:controls-source-battlefield", (ctx) => {
   const zone = ctx.env.sourceObjectId ? battlefieldZoneOf(ctx.env.sourceObjectId) : null;
-  return !!zone && battlefieldController(ctx.room, ctx.host, zone) === ctx.env.controller;
+  return !!zone && battlefieldController(ctx.room, zone, ctx.host) === ctx.env.controller;
 });
 
 /** The attach event put a card onto the source ("When you attach an Equipment to me"). */
@@ -336,7 +307,7 @@ registerCustomCondition("sfd:ref-here", (ctx, params) => {
 registerCustomCondition("sfd:it-battlefield-friendly", (ctx) => {
   const zone = ctx.env.it ? battlefieldZoneOf(ctx.env.it) : null;
   if (!zone) return false;
-  const controller = battlefieldController(ctx.room, ctx.host, zone);
+  const controller = battlefieldController(ctx.room, zone, ctx.host);
   return !!controller && teamOf(ctx.room, ctx.env.controller).includes(controller);
 });
 
@@ -403,28 +374,3 @@ registerCustomEffect("sfd:mill", (params, context) => {
   return RESOLVED;
 });
 
-/**
- * "Draw it" for specific cards looked at / revealed from the top of the Main Deck (414: the card
- * is put into its owner's hand as a draw). `ref` names the bound cards (e.g. `looked`, a `choose`
- * key); cards no longer in their owner's deck are skipped (359.3.e.12).
- */
-registerCustomEffect("sfd:draw-ref", (params, context) => {
-  const host = context.step.host;
-  const env = context.machine?.env ?? { controller: context.controller, choices: {}, vars: {} };
-  const ref = typeof params.ref === "string" ? params.ref : "looked";
-  const drawn: string[] = [];
-  for (const id of refIds({ room: context.room, host, env }, ref)) {
-    const located = locate(context.room, host, id);
-    if (!located || located.zone !== "deck") continue;
-    if (!host.moveCardToOwnerZone(context.room, id, "hand")) continue;
-    drawn.push(id);
-    pushEvent(context.step.events, {
-      type: "draw",
-      playerId: located.playerId,
-      amount: 1,
-      data: { cardIds: [id] },
-    });
-  }
-  recordOutcome(context, drawn, drawn.length > 0);
-  return RESOLVED;
-});

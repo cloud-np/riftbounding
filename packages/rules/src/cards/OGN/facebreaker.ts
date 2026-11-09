@@ -2,8 +2,7 @@
  * Facebreaker (OGN-220) — "[hidden] [action] Stun a friendly unit and an enemy unit at the same
  * battlefield." (424; two targets, the second at the first one's battlefield; Hidden 811 is R2-play's)
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Facebreaker",

@@ -5,8 +5,7 @@
  * 426 counter; the condition is checked on resolution (359.3.f.2): one of your opponents played
  * (420.4, finalized-card history) a spell this turn other than the chosen one.
  */
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Crumbling Sands",

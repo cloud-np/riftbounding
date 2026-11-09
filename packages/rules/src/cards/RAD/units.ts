@@ -2,21 +2,6 @@
  * Radiance (RAD) units with triggered, activated or conditional abilities (wave R3).
  */
 import type { Condition, Effect, Room } from "@rift/protocol";
-import type { RulesHost } from "../../host";
-import { registerCardScript } from "../registry";
-import {
-  EVENT_SUBJECT,
-  HERE,
-  SELF,
-  SELF_AT_BATTLEFIELD,
-  WHEN_I_DIE,
-  WHEN_I_MOVE,
-  WHEN_PLAYED,
-  aUnit,
-  custom,
-  not,
-} from "../dsl";
-import { registerCombatContributionFilter } from "../../combat/keywords";
 import {
   CHOOSE_OPPONENT,
   ENTER_READY,
@@ -29,7 +14,8 @@ import {
   notIntrinsic,
   zoneRef,
 } from "./dsl";
-import { WHEN_I_ATTACK, WHEN_I_ATTACK_OR_DEFEND, WHEN_I_CONQUER, WHEN_I_HOLD } from "../lib/triggers";
+import type { RulesHost } from "../sdk";
+import { aUnit, custom, EVENT_SUBJECT, HERE, not, registerCardScript, registerCustomCondition, SELF, SELF_AT_BATTLEFIELD, WHEN_I_ATTACK, WHEN_I_ATTACK_OR_DEFEND, WHEN_I_CONQUER, WHEN_I_DIE, WHEN_I_HOLD, WHEN_I_MOVE, WHEN_PLAYED } from "../sdk";
 
 const PLAY_OP_NOTE =
   "units played by the play op go to their controller's base (no location choice, 355.2 / 420.3.b)";
@@ -651,13 +637,21 @@ registerCardScript({
 
 /**
  * Orianna, Exquisite (RAD-042) — "[Shield] I don't deal combat damage unless there's a friendly
- * gear here." A combat contribution filter (424.1.b / 467.2.a; registered with R2-combat).
+ * gear here." A `no-combat-damage` passive (467.2.a) while no face-up friendly gear is here.
  */
 registerCardScript({
   name: "Orianna, Exquisite",
   text: "[Shield] (+1 [Might] while I'm a defender.)\nI don't deal combat damage unless there's a friendly gear here.",
   status: "implemented",
-  abilities: [],
+  abilities: [
+    { kind: "passive", modifier: { kind: "while", condition: not(custom("rad:friendly-gear-here")), modifier: { kind: "no-combat-damage", target: SELF } } },
+  ],
+});
+
+/** A face-up friendly gear is at the source's location (107.3: facedown cards are not gear). */
+registerCustomCondition("rad:friendly-gear-here", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  return !!source && friendlyGearAt(ctx.room, ctx.host, source);
 });
 
 function friendlyGearAt(room: Room, host: RulesHost, unitId: string): boolean {
@@ -672,10 +666,6 @@ function friendlyGearAt(room: Room, host: RulesHost, unitId: string): boolean {
     );
 }
 
-registerCombatContributionFilter((room, unitId, host) => {
-  if (host.findCard(room, unitId)?.card.name !== "Orianna, Exquisite") return true;
-  return friendlyGearAt(room, host, unitId);
-});
 
 /** Elnuk Herd (RAD-081, errata) — "[Hidden] When you play me, give a friendly unit +3 [Might] this turn, then recycle me if I was played from face down." */
 registerCardScript({

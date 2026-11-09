@@ -1,6 +1,5 @@
 /** Gust (OGN-169) — "[REACTION] Return a unit at a battlefield with 3 [Might] or less to its owner's hand." */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Gust",

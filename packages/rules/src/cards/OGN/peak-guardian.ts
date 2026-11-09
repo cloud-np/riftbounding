@@ -2,8 +2,7 @@
  * Peak Guardian (OGN-223) — "When you play me, buff me. Then, if I am at a battlefield, buff all
  * other friendly units there." (427/702; the "if" is checked on execution, 359.3.f.2)
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, SELF_AT_BATTLEFIELD, WHEN_PLAYED } from "../dsl";
+import { HERE, registerCardScript, SELF, SELF_AT_BATTLEFIELD, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Peak Guardian",

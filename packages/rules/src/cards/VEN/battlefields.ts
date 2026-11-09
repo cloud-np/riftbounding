@@ -2,9 +2,8 @@
  * Vendetta battlefields (053.3: "here" is the battlefield itself; battlefield abilities act for
  * the event's player, "When you hold/conquer here").
  */
-import { registerCardScript } from "../registry";
-import { HERE, WHEN_YOU_CONQUER_HERE, WHEN_YOU_HOLD_HERE } from "../dsl";
 import { runesControlled } from "./shared";
+import { HERE, registerCardScript, WHEN_YOU_CONQUER_HERE, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 registerCardScript({
   name: "Shadow Temple",

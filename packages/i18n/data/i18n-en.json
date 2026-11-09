@@ -8173,6 +8173,12 @@
     "spendBuffToReady": "Spend a buff to ready?",
     "topOrBottom": "Put it on top or on the bottom of your deck?",
     "unlessDraw": "Draw a card to avoid this?",
+    "putCardOnDeck": "Put a card from your hand on your Main Deck",
+    "chooseTokenDestination": "Choose where to play the token",
+    "chooseOpenBattlefield": "Choose an open battlefield",
+    "choosePlayBattlefield": "Choose a battlefield to play it to",
+    "playGoldToken": "Play a Gold gear token exhausted?",
+    "banishThenPlay": "You may banish one, then play it",
     "cost": {
      "exhaust": "Choose what to exhaust to pay the cost",
      "kill": "Choose what to kill to pay the cost",

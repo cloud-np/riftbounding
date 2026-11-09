@@ -5,10 +5,7 @@
  * Registers `ogn-oz:permanent-or-facedown`: the candidate (`it`) is a unit or gear, or a facedown
  * card (107.3 / 811). Return to hand goes to the owner's hand (056).
  */
-import { registerCustomCondition } from "../../effects/evaluate";
-import { locate, typeOf } from "../../effects/objects";
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
+import { custom, locate, registerCardScript, registerCustomCondition, SELF, typeOf } from "../sdk";
 
 registerCustomCondition("ogn-oz:permanent-or-facedown", (ctx) => {
   const id = ctx.env.it;

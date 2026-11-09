@@ -2,8 +2,7 @@
  * Nidalee, Cat Form (UNL-114) — [Ambush] (822, engine keyword). "When I win a combat, draw 1."
  * (468.3.c: a unit remaining at the battlefield inherits its controller's win.)
  */
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Nidalee, Cat Form",

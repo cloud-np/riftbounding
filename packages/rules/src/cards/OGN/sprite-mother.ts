@@ -6,8 +6,7 @@
  * does not have it (727.1.b convention: `value: 0` marks a non-intrinsic catalog keyword).
  * 184.1: the effect says the token enters ready; 440.2.c: it is played.
  */
-import { registerCardScript } from "../registry";
-import { HERE, WHEN_PLAYED, token } from "../dsl";
+import { HERE, registerCardScript, token, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Sprite Mother",

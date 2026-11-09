@@ -2,8 +2,7 @@
  * Kai'Sa, Daughter of the Void (OGN legend) — "[Tap]: [Reaction] - [Add] [Rune]. Use only to play
  * spells." (430.2 Add ability, 430.5)
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Kai'Sa, Daughter of the Void",

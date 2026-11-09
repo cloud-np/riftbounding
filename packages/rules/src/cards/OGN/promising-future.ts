@@ -7,7 +7,7 @@
  * Limited Plays made by other players (420.3) in Turn Order — the `play` op only plays for the
  * ability's controller, and each played card's own choices are not asked during an effect play.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Promising Future",

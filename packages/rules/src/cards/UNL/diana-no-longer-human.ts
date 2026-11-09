@@ -2,8 +2,7 @@
  * Diana, No Longer human (UNL-149) — [Ambush] (822, engine keyword). "When you play a spell, give
  * me +2 [Might] this turn." (420.4.a: triggers when playing the spell completes by its resolution.)
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Diana, No Longer human",
