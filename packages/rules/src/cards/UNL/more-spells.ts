@@ -44,6 +44,7 @@ registerCardScript({
   name: "Square Up",
   text: "[Repeat] - Discard 1 (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 4] this turn (+4[Might] while it's an attacker.)",
   status: "partial",
+  repeatHandled: true,
   notes: REPEAT_NOTE,
   abilities: [
     {
@@ -88,6 +89,7 @@ registerCardScript({
   name: "Existential Dread",
   text: "[Action] (Play on your turn or in showdowns.)\n[Repeat][2] (You may pay the additional cost to repeat this spell's effect.)\n[Stun] an attacking unit. If it's already stunned, return it to its owner's hand instead. (A stunned unit doesn't deal combat damage this turn.)",
   status: "partial",
+  repeatHandled: true,
   notes: REPEAT_NOTE,
   abilities: [
     {

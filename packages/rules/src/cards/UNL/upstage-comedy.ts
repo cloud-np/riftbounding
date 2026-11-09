@@ -10,6 +10,7 @@ registerCardScript({
   name: "Upstage Comedy",
   text: "[Repeat 2] (You may pay the additional cost to repeat this spell's effect.)\nReady a unit.",
   status: "partial",
+  repeatHandled: true,
   notes:
     "The repeated execution's target (`target:1`) is offered as 'up to one': the choice walker cannot make a choice required only when the optional Repeat cost is paid (820.2, 355.7), so a player who paid Repeat may skip the second target.",
   abilities: [

@@ -17,9 +17,10 @@
  *
  * Signature is a cross-agent contract: keep it stable.
  */
-import type { Room, RuleRef } from "@rift/protocol";
+import type { Modifier, Room, RuleRef } from "@rift/protocol";
 import type { RulesHost } from "../host";
-import { activeModifiers } from "./passives";
+import { getCardScript } from "../cards/registry";
+import { activeModifiers, evaluateLayerCondition } from "./passives";
 import { modifierTargets } from "./index";
 
 export type RestrictionKind =
@@ -71,6 +72,54 @@ function sourceCategory(room: Room, host: RulesHost, id: string | undefined): "s
   return type.includes("spell") ? "spell" : "ability";
 }
 
+/** 364.3.a: unwrap a `conditional` modifier for its source (same shape as `passives.ts`). */
+function unwrapModifier(
+  room: Room,
+  host: RulesHost,
+  modifier: Modifier,
+  scope: { controller: string; sourceObjectId?: string; depth: number },
+): Modifier | null {
+  if (modifier.kind === "custom" && modifier.id === "conditional") {
+    const params = modifier.params ?? {};
+    const condition = params.condition as Parameters<typeof evaluateLayerCondition>[2] | undefined;
+    const inner = params.modifier as Modifier | undefined;
+    if (!inner) return null;
+    if (condition && !evaluateLayerCondition(room, host, condition, scope)) return null;
+    return unwrapModifier(room, host, inner, scope);
+  }
+  return modifier;
+}
+
+/**
+ * 054.1 / 355.17.b: a "can't be played" restriction printed on the card itself. `activeModifiers`
+ * only reads passives of objects on the Board, so a restriction on a card in hand (Ol' Poro: "I
+ * can't be played on your first, second or third turns") is invisible to the loop above. Read the
+ * subject card's own script passives directly, in any zone (the plan text of a card in hand is
+ * still a restriction: 054.1 "can't beats can").
+ */
+function selfPlayRestriction(
+  room: Room,
+  host: RulesHost,
+  cardId: string,
+): { rule?: RuleRef; sourceObjectId?: string; note?: string } | null {
+  const info = host.cardInfo(room, cardId);
+  const script = info ? getCardScript(info.name) : undefined;
+  if (!script) return null;
+  const controller = controllerOfObject(room, host, cardId) ?? "";
+  const scope = { controller, sourceObjectId: cardId, depth: 1 };
+  for (const ability of script.abilities) {
+    if (ability.kind !== "passive") continue;
+    const modifier = unwrapModifier(room, host, ability.modifier, scope);
+    if (!modifier || modifier.kind !== "restriction") continue;
+    const [kind] = modifier.restriction.split(":", 2);
+    if (kind !== "play") continue;
+    const active = { sourceId: cardId, controller, modifier, origin: "passive" as const, timestamp: 0 };
+    if (!modifierTargets(room, host, active, cardId, 1, { ignoreZone: true })) continue;
+    return { rule: RULE_FOR.play, sourceObjectId: cardId, note: modifier.restriction };
+  }
+  return null;
+}
+
 export function restrictionFor(
   room: Room,
   host: RulesHost,
@@ -101,5 +150,8 @@ export function restrictionFor(
       note: modifier.restriction,
     };
   }
+  // 054.1: the played card's own "can't be played" text (it is in hand, not on the Board). A
+  // location query (`to`) is about the destination, not the card itself.
+  if (query.kind === "play" && query.cardId && query.to === undefined) return selfPlayRestriction(room, host, query.cardId);
   return null;
 }

@@ -80,7 +80,13 @@ function baseLocations(room: Room, host: RulesHost, query: LocationQuery): Locat
   const battlefields = host.battlefieldZones(room) as string[];
   const out: LocationOption[] = [];
   const add = (option: LocationOption) => {
-    if (out.some((entry) => entry.zone === option.zone)) return;
+    const existing = out.find((entry) => entry.zone === option.zone);
+    if (existing) {
+      // 822.1.b: an Ambush battlefield the player also controls is the same Location; keep the
+      // earlier (stricter) permission text but remember that Ambush makes it a Reaction play.
+      if (option.viaAmbush && !existing.viaAmbush) existing.viaAmbush = true;
+      return;
+    }
     if (restricted(room, host, query, option.zone)) return;
     if (unit && option.zone !== "base" && tooCrowded(room, host, query.playerId, option.zone)) return;
     // 464.2: with 3+ players, a battlefield with a Staged Combat or a Combat in progress is not a

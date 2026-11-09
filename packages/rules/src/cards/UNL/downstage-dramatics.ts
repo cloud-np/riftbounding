@@ -6,6 +6,7 @@ registerCardScript({
   name: "Downstage Dramatics",
   text: "[reaction] (Play any time, even before spells and abilities resolve.)\n[repeat 2] (You may pay the additional cost to repeat this spell's effect.)\nDraw 1.",
   status: "implemented",
+  repeatHandled: true,
   abilities: [
     {
       kind: "spell",

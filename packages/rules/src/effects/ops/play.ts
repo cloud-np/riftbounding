@@ -12,6 +12,7 @@
  */
 import type { ChainItem } from "@rift/protocol";
 import { pushEvent } from "../../types";
+import { costSummary, printedCardCost } from "../../play/cost-model";
 import { payCost } from "../../play/payment";
 import { appendChainItem } from "../../timing/fepr/chain";
 import { RESOLVED } from "../execute";
@@ -56,6 +57,12 @@ registerEffectOp("play", (effect, context) => {
       fromZone: located.zone,
       cardSnapshot: snapshot,
       addedAt: host.now(),
+      // 420.3.b / 355.2.b / 359.2.c: the instruction's location choice was validated when the
+      // effect resolved, so `resolvePermanent` must not re-check friendly presence. `totalCost`
+      // is the existing "location validated by the play process" marker.
+      totalCost: (effect.cost ?? "normal") === "ignored"
+        ? { energy: 0, power: 0 }
+        : costSummary(printedCardCost(info)),
     };
     appendChainItem(context.room, item, context.step);
     rules.history.cardsPlayedThisTurn[ctx.env.controller] = (rules.history.cardsPlayedThisTurn[ctx.env.controller] ?? 0) + 1;

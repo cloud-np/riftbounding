@@ -54,4 +54,10 @@ export interface CardScript {
   abilities: Ability[];
   status: "implemented" | "partial" | "manual";
   notes?: string;
+  /**
+   * 820.1.d: the script executes the repeated instructions itself (through an
+   * "if you paid the Repeat cost" helper). Set while a script still carries the pre-engine-Repeat
+   * workaround; the resolution loop must not execute it again. R4-cards removes the workarounds.
+   */
+  repeatHandled?: boolean;
 }

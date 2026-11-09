@@ -15,6 +15,7 @@
  */
 import type { ChoiceRecord, Cost, Room, RuleRef } from "@rift/protocol";
 import type { CardInfo, RulesHost } from "../host";
+import { effectiveKeywordValues } from "../layers";
 import { parseAdditionalCosts, parseRepeatCosts } from "./cost-text";
 import { hasKeyword, keywordValue } from "./keywords";
 
@@ -90,21 +91,40 @@ function cardOwnCosts(query: AdditionalCostQuery): AdditionalCostSpec[] {
 /**
  * 809.1.c/d: an opponent's Deflect makes each choice of it cost [A] × Deflect value more
  * (Power of any Domain, 809.1.c.1). Mandatory additional cost.
+ *
+ * The value comes from `effectiveKeywordValues` (printed text + object grants + keyword
+ * passives/continuous effects, 809.2), with the array form as a fallback: the array carries bare
+ * keyword names, so it charges [Deflect 2] as 1. Taking the max avoids double counting when the
+ * catalog stores both "Deflect" and "Deflect 2" (verified on Nasus, Ascended).
  */
-function deflectCosts(room: Room, host: RulesHost, query: AdditionalCostQuery, keywordsOf: (id: string) => string[]): AdditionalCostSpec[] {
+export function deflectCostsForTargets(
+  room: Room,
+  host: RulesHost,
+  playerId: string,
+  choices: ChoiceRecord,
+  targetKeys: readonly string[],
+  keywordsOf: (id: string) => string[] = () => [],
+): AdditionalCostSpec[] {
   const out: AdditionalCostSpec[] = [];
-  for (const key of query.targetKeys) {
-    const value = query.choices[key];
+  for (const key of targetKeys) {
+    const value = choices[key];
     const ids = typeof value === "string" ? [value] : Array.isArray(value) ? value.filter((v): v is string => typeof v === "string") : [];
     for (const id of ids) {
       const located = host.findCard(room, id);
-      if (!located || located.playerId === query.playerId) continue;
-      const deflect = keywordValue(keywordsOf(id), "Deflect");
+      if (!located || located.playerId === playerId) continue;
+      const deflect = Math.max(
+        keywordValue(keywordsOf(id), "Deflect"),
+        effectiveKeywordValues(room, id, host).deflect ?? 0,
+      );
       if (deflect <= 0) continue;
       out.push({ id: `deflect:${id}`, optional: false, cost: { power: { any: deflect } }, rule: "809.1.c", label: "Deflect" });
     }
   }
   return out;
+}
+
+function deflectCosts(room: Room, host: RulesHost, query: AdditionalCostQuery, keywordsOf: (id: string) => string[]): AdditionalCostSpec[] {
+  return deflectCostsForTargets(room, host, query.playerId, query.choices, query.targetKeys, keywordsOf);
 }
 
 /** Every additional cost that applies to this play/activation (mandatory and optional). */
