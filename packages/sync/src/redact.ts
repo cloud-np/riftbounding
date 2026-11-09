@@ -223,6 +223,22 @@ export function redactRoomForViewer(room: Room, viewer: SnapshotViewer): Room {
     return { ...entry, card };
   });
 
+  // Mulligan playback (setup): another seat's opening/refill draws name private hand/deck cards.
+  // The client reads only `redrawCount` for opponents; card ids become this viewer's placeholders.
+  if (redacted.mulliganPlaybackByPlayerId) {
+    const mapId = (id: string) => privateIds.get(id) ?? id;
+    for (const [playerId, playback] of Object.entries(redacted.mulliganPlaybackByPlayerId)) {
+      if (owned.has(playerId) || !playback) continue;
+      redacted.mulliganPlaybackByPlayerId[playerId] = {
+        ...playback,
+        draws: playback.draws.map((draw) => ({ ...draw, cardId: mapId(draw.cardId) })),
+        ...(playback.hiddenRefillCardIds
+          ? { hiddenRefillCardIds: playback.hiddenRefillCardIds.map(mapId) }
+          : {}),
+      };
+    }
+  }
+
   // Strict rooms: the rules state references the same cards (prompts, objects, history, …).
   if (redacted.rules) {
     redacted.rules = redactRulesForViewer(redacted.rules, {

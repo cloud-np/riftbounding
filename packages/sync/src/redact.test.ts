@@ -189,6 +189,42 @@ describe("redactRoomForViewer", () => {
     expect(ownerView.chainEntries[0]?.card.name).toBe("Sneaky");
   });
 
+  it("[R128.4] rewrites another seat's mulligan playback card ids to placeholders", () => {
+    const room = deterministicRoom();
+    room.mulliganPlaybackByPlayerId = {
+      alice: {
+        draws: [{ id: "m1", cardId: "alice_hand_0", kind: "opening", handCountBeforeDraw: 0 }],
+        redrawCount: 0,
+      },
+      bob: {
+        draws: [
+          { id: "m2", cardId: "bob_hand_0", kind: "opening", handCountBeforeDraw: 0 },
+          { id: "m3", cardId: "bob_hand_1", kind: "refill", handCountBeforeDraw: 1 },
+        ],
+        redrawCount: 1,
+        hiddenRefillCardIds: ["bob_deck_0"],
+      },
+    };
+    const view = redactRoomForViewer(room, { playerId: "alice", viewerRole: "player" });
+    expect(view.mulliganPlaybackByPlayerId?.alice).toEqual(room.mulliganPlaybackByPlayerId.alice);
+    expect(view.mulliganPlaybackByPlayerId?.bob).toEqual({
+      draws: [
+        {
+          id: "m2",
+          cardId: hiddenZoneCardId({ playerId: "bob", zone: "hand", index: 0 }),
+          kind: "opening",
+          handCountBeforeDraw: 0,
+        },
+        // bob_hand_1 is revealed to the opponent: its id is public.
+        { id: "m3", cardId: "bob_hand_1", kind: "refill", handCountBeforeDraw: 1 },
+      ],
+      redrawCount: 1,
+      hiddenRefillCardIds: [hiddenZoneCardId({ playerId: "bob", zone: "deck", index: 0 })],
+    });
+    const own = redactRoomForViewer(room, { playerId: "bob", viewerRole: "player" });
+    expect(own.mulliganPlaybackByPlayerId?.bob).toEqual(room.mulliganPlaybackByPlayerId.bob);
+  });
+
   it("preserves rune-pool counts so the client's patch guard accepts redacted deltas", () => {
     const room = deterministicRoom();
     const view = redactRoomForViewer(room, { playerId: "alice", viewerRole: "player" });
