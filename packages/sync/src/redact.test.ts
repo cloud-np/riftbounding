@@ -102,6 +102,22 @@ describe("redactRoomForViewer", () => {
     expect(room.players[1]!.board!.hand[0]!.name).toBe("Bob Secret");
   });
 
+  it("keeps trash and banished cards public even if a stale hidden marker leaked", () => {
+    const room = deterministicRoom();
+    const bobBoard = room.players[1]!.board!;
+    bobBoard.trash = [makeCard(makeRng(7), { id: "bob_trash_0", name: "Resolved Spell", hidden: true })];
+    bobBoard.banished = [
+      makeCard(makeRng(8), { id: "bob_banished_0", name: "Banished Unit", hidden: true }),
+    ];
+
+    const view = redactRoomForViewer(room, { playerId: "alice", viewerRole: "player" });
+    const bob = view.players.find((player) => player.id === "bob")!;
+    expect(cardIds(bob.board!.trash)).toEqual(["bob_trash_0"]);
+    expect(bob.board!.trash[0]?.name).toBe("Resolved Spell");
+    expect(cardIds(bob.board!.banished)).toEqual(["bob_banished_0"]);
+    expect(bob.board!.banished[0]?.name).toBe("Banished Unit");
+  });
+
   it("reveals a fully revealed hand", () => {
     const room = deterministicRoom();
     room.players[1]!.board!.handRevealToOpponent = true;

@@ -2211,17 +2211,17 @@ export function BoardInteractionProvider({
 
   const handlePilePress = useCallback(
     (slot: PileSlot, owner: "self" | "opponent", event: React.MouseEvent) => {
-      if (owner !== "self" || !interactive) return;
-      const board = viewer?.board;
-      if (!board) return;
+      const pileBoard = owner === "self" ? viewer?.board : opponent?.board;
+      if (!pileBoard) return;
+      // Decks are private: only their controller may draw from them.
       if (slot === "mainDeck") {
-        if (board.deck.length === 0) return;
+        if (owner !== "self" || !interactive || pileBoard.deck.length === 0) return;
         playBoardSound("card_draw");
         sendIntent({ type: "draw_cards", count: 1, to: "hand" } as GameActionIntent);
         return;
       }
       if (slot === "runeDeck") {
-        if (board.runeDeck.length === 0) return;
+        if (owner !== "self" || !interactive || pileBoard.runeDeck.length === 0) return;
         playBoardSound("card_draw");
         sendIntent({
           type: "draw_rune",
@@ -2229,13 +2229,10 @@ export function BoardInteractionProvider({
         } as GameActionIntent);
         return;
       }
-      if (slot === "trash") {
-        viewPile("trash", owner);
-        return;
-      }
-      viewPile("banished", owner);
+      // Trash and banished are public zones (R108/R109): either seat's pile can be inspected.
+      viewPile(slot, owner);
     },
-    [viewer, interactive, sendIntent, viewPile],
+    [viewer, opponent, interactive, sendIntent, viewPile],
   );
 
   const handlePileContextMenu = useCallback(
@@ -3392,6 +3389,10 @@ export function BoardInteractionProvider({
         slot={pileViewer?.slot ?? "trash"}
         owner={pileViewer?.owner ?? "self"}
         cards={pileCards}
+        canModify={
+          interactive &&
+          (pileViewer?.owner === "self" || (mode !== "multiplayer" && !!dispatchAs))
+        }
         onPlay={(card) => {
           if (!pileViewer) return;
           playCard(pileViewer.slot, card, pileViewer.owner);
