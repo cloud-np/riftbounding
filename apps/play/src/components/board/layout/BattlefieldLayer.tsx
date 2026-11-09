@@ -4,6 +4,7 @@ import type { CardInstance, Room, RoomPlayer } from "@rift/protocol";
 
 import type { CardEventHandler, CardSide } from "../card/types";
 import { GameCard } from "../card/GameCard";
+import { groupAttachedCards } from "../card/attachments";
 import { useBoardInteractionOptional } from "../interaction/context";
 import { TokenPanel } from "../tokens/TokenPanel";
 import { cardImageUrl } from "@/lib/assets";
@@ -179,6 +180,8 @@ function BattlefieldPanel({
   const interaction = useBoardInteractionOptional();
   const ownDrop = interaction?.getDropZoneHandlers(info.zone, "self");
   const opponentDrop = interaction?.getDropZoneHandlers(info.zone, "opponent");
+  const ownGroups = groupAttachedCards(ownCards);
+  const opponentGroups = groupAttachedCards(opponentCards);
   return (
     <section
       data-might-border="true"
@@ -210,7 +213,7 @@ function BattlefieldPanel({
           className="min-h-0 relative rounded-[0.08rem] bg-transparent py-[0.16rem] px-[0.2rem] flex items-start overflow-visible shadow-none justify-center before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:border-none before:bg-transparent before:z-0 before:pointer-events-none after:content-[''] after:absolute after:inset-[0.08rem] after:rounded-[0.13rem] after:z-1 after:opacity-[0.62] after:pointer-events-none after:gb-ornament-corner-bottom-right"
           {...opponentDrop}
         >
-          {opponentCards.map((card) => (
+          {opponentGroups.topLevel.map((card) => (
             <GameCard
               key={card.id}
               card={card}
@@ -220,6 +223,7 @@ function BattlefieldPanel({
               exhausted={card.exhausted}
               faceDown={card.hidden}
               labels={card.customLabels}
+              attachedCards={opponentGroups.byHostId.get(card.id)}
               selected={selectedCardIds?.has(card.id)}
               targetable={targetableCardIds?.has(card.id)}
               onCardEvent={onCardEvent}
@@ -236,7 +240,7 @@ function BattlefieldPanel({
           <div className="absolute right-[0.16rem] bottom-[0.12rem] z-40">
             <TokenPanel zone={info.zone} owner="self" />
           </div>
-          {ownCards.map((card) => (
+          {ownGroups.topLevel.map((card) => (
             <GameCard
               key={card.id}
               card={card}
@@ -246,6 +250,7 @@ function BattlefieldPanel({
               exhausted={card.exhausted}
               faceDown={card.hidden}
               labels={card.customLabels}
+              attachedCards={ownGroups.byHostId.get(card.id)}
               selected={selectedCardIds?.has(card.id)}
               targetable={targetableCardIds?.has(card.id)}
               onCardEvent={onCardEvent}

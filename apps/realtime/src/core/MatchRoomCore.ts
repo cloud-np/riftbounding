@@ -451,10 +451,23 @@ export class MatchRoomCore {
         ids.add(connection.playerId);
       }
     }
+    // R4 bot-room: a server-driven seat has no client connection, but it is always present. A
+    // bot must never look disconnected to the presence / player-left / claim-win paths.
+    for (const player of this.sessionDoc.players) {
+      if (player.isBot && !player.leftAt) ids.add(player.id);
+    }
     return [...ids].sort();
   }
 
   private playerHasConnection(playerId: string): boolean {
+    // A bot seat is driven by this server, so it is connected by definition (no transport).
+    if (
+      this.sessionDoc.players.some(
+        (player) => player.id === playerId && player.isBot && !player.leftAt,
+      )
+    ) {
+      return true;
+    }
     for (const connection of this.connections.values()) {
       if (connection.playerId === playerId && connection.viewerRole === "player") return true;
     }

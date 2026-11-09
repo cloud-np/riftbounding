@@ -3,6 +3,7 @@
 import type { CardInstance } from "@rift/protocol";
 
 import { GameCard } from "../card/GameCard";
+import { groupAttachedCards } from "../card/attachments";
 import type { CardEventHandler, CardSide } from "../card/types";
 import { useBoardInteractionOptional } from "../interaction/context";
 import { TokenPanel } from "../tokens/TokenPanel";
@@ -114,6 +115,7 @@ export function BaseZone({
   const mirrored = owner === "opponent";
   const interaction = useBoardInteractionOptional();
   const dropHandlers = interaction?.getDropZoneHandlers("base", owner);
+  const { topLevel, byHostId } = groupAttachedCards(cards);
   return (
     <div className="gb-base-lane min-h-0 min-w-0 relative transform-[translate(var(--left-lanes-x),var(--lane-front-y))] pointer-events-auto">
       <section
@@ -151,7 +153,7 @@ export function BaseZone({
               aria-hidden="true"
             />
           ) : (
-            cards.map((card) => (
+            topLevel.map((card) => (
               <div key={card.id} className={RAIL_SLOT_CLASS}>
                 <GameCard
                   key={card.id}
@@ -161,6 +163,7 @@ export function BaseZone({
                   profile="board"
                   exhausted={card.exhausted}
                   labels={card.customLabels}
+                  attachedCards={byHostId.get(card.id)}
                   onCardEvent={onCardEvent}
                   readOnly={!onCardEvent}
                   selected={selectedCardIds?.has(card.id)}

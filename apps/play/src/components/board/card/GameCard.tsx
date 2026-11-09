@@ -10,6 +10,7 @@ import type { CardImageProfile } from "@/lib/assets";
 import { useBoardInteractionOptional } from "../interaction/context";
 import type { GameActionIntent } from "../slot-types";
 import { CardActionButtons } from "./CardActionButtons";
+import { CardArt } from "./CardArt";
 import { CardBack } from "./CardBack";
 import { GameCardFace } from "./GameCardFace";
 import { PingOverlay } from "../overlays/PingOverlay";
@@ -134,19 +135,35 @@ export function GameCard({
       className={"relative" + (className ? ` ${className}` : "")}
       style={{ width: "var(--card-width)", height: "var(--card-height)", ...style }}
     >
-      {Array.from({ length: Math.min(attached, 3) }).map((_, index) => (
-        <div
-          key={`attached-${index}`}
-          aria-hidden="true"
-          className="pointer-events-none absolute rounded-(--card-radius-main) border border-[rgba(165,184,207,0.22)] bg-[rgba(24,43,64,0.95)] shadow-[0_4px_10px_rgba(3,8,20,0.42)]"
-          style={{
-            inset: 0,
-            transform: `translate(${-(index + 1) * 0.18}rem, ${-(index + 1) * 0.12}rem) scale(${0.96 - index * 0.015})`,
-          }}
-        >
-          <CardBack slot="deck" insetPx={0} label={card.name} side={owner} />
-        </div>
-      ))}
+      {attachedCards.slice(0, 3).map((attachedCard, index) => {
+        const faceDown = attachedCard.hidden || attachedCard.isPlaceholder || !attachedCard.name;
+        return (
+          <div
+            key={`attached-${attachedCard.id}`}
+            aria-hidden="true"
+            data-attached-card-id={attachedCard.id}
+            data-attached-card-rank={index}
+            className="pointer-events-none absolute overflow-hidden rounded-(--card-radius-main) border border-[rgba(165,184,207,0.22)] bg-[rgba(24,43,64,0.95)] shadow-[0_4px_10px_rgba(3,8,20,0.42)]"
+            style={{
+              inset: 0,
+              transform: `translate(${(index + 1) * 0.18}rem, ${-(index + 1) * 0.12}rem) scale(${0.98 - index * 0.015})`,
+              transformOrigin: "92% 100%",
+            }}
+          >
+            {faceDown ? (
+              <CardBack slot="deck" insetPx={0} label={attachedCard.name || undefined} side={owner} />
+            ) : (
+              <CardArt
+                card={attachedCard}
+                profile="board"
+                side={owner}
+                className="pointer-events-none h-full w-full object-cover"
+                alt={attachedCard.name}
+              />
+            )}
+          </div>
+        );
+      })}
       <div
         data-card-rotation={rotation}
         className="card-pose-rotation relative motion-reduce:transition-none!"

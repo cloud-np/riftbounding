@@ -16,6 +16,7 @@ import {
   allCardIds,
   cloneCard,
   findCardAnywhere,
+  insertAfterAttachments,
   isTokenOrDuplicate,
   moveCardCleanup,
   readZoneList,
@@ -288,10 +289,24 @@ export function createEngineRulesHost(ctx: RulesContext): RulesHost {
     },
     attach: (room, gearId, unitId) => {
       const unit = findCardEverywhere(room, unitId);
-      if (!unit || !isUnitCardType(unit.card)) return false;
-      return updateCard(room, gearId, (card) => {
-        card.attachedToCardId = unitId;
-      });
+      const gear = findCardEverywhere(room, gearId);
+      if (!unit || !gear || gearId === unitId || !isUnitCardType(unit.card)) return false;
+      const unitBoard = boardOf(room, unit.playerId);
+      const gearBoard = boardOf(room, gear.playerId);
+      if (!unitBoard || !gearBoard) return false;
+      // 435.4: the attached card's location becomes the Top-Most card's location. Sandbox
+      // `equip_card` also keeps it directly behind its host in the zone list; use that exact
+      // board representation here so both modes render (and later move/detach) identically.
+      const source = zoneList(gearBoard, gear.zone);
+      const index = source.findIndex((card) => card.id === gearId);
+      const moving = index >= 0 ? source[index] : undefined;
+      if (!moving) return false;
+      source.splice(index, 1);
+      const destination = zoneList(unitBoard, unit.zone);
+      const attached = cloneCard(moving);
+      attached.attachedToCardId = unitId;
+      insertAfterAttachments(destination, unitId, attached);
+      return true;
     },
     detach: (room, gearId) =>
       updateCard(room, gearId, (card) => {

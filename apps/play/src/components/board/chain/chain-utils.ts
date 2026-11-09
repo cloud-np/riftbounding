@@ -3,9 +3,62 @@
  * keywords and the custom drag MIME (`application/x-riftbound-chain-entry`).
  */
 
-import type { ChainEntry, Room, RoomPlayer, WireAction, Zone } from "@rift/protocol";
+import type { CardInstance, ChainEntry, Room, RoomPlayer, WireAction, Zone } from "@rift/protocol";
 
 export const CHAIN_ENTRY_MIME = "application/x-riftbound-chain-entry";
+
+const ROOM_CARD_ZONES = [
+  "hand",
+  "base",
+  "battlefieldA",
+  "battlefieldB",
+  "battlefieldC",
+  "battlefieldToken",
+  "trash",
+  "banished",
+  "champion",
+  "legend",
+  "runeArea",
+  "deck",
+  "runeDeck",
+] as const;
+
+function findRoomCard(room: Room, cardId: string): CardInstance | undefined {
+  for (const player of room.players) {
+    const board = player.board as unknown as Record<string, unknown> | undefined;
+    if (!board) continue;
+    for (const zone of ROOM_CARD_ZONES) {
+      const list = board[zone];
+      if (!Array.isArray(list)) continue;
+      const found = (list as CardInstance[]).find((card) => card.id === cardId);
+      if (found) return found;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * The board renders `chainEntries`, and a strict chain item is projected from `rules.chain`.
+ * Triggered / activated items have no `cardSnapshot` (they are not card plays), so the
+ * projection can only carry the source card's name. Attach the source card's printed identity
+ * from its still-public board location so the existing chain card art/name renders. Hidden
+ * chain cards keep their redacted placeholder (card backs only).
+ */
+export function chainDisplayEntry(entry: ChainEntry, room: Room): ChainEntry {
+  if (entry.card.hidden || entry.card.isPlaceholder) return entry;
+  const source = entry.sourceCardId ? findRoomCard(room, entry.sourceCardId) : undefined;
+  if (!source) return entry;
+  return {
+    ...entry,
+    card: {
+      ...entry.card,
+      name: entry.card.name.trim() ? entry.card.name : source.name,
+      cardCode: entry.card.cardCode ?? source.cardCode,
+      imageUrl: entry.card.imageUrl ?? source.imageUrl,
+      type: entry.card.type ?? source.type,
+    },
+  };
+}
 
 /**
  * R4 gestures: in a strict room the sandbox chain/priority controls (Approve A, Resolve S,
