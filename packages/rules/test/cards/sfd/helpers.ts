@@ -101,6 +101,28 @@ export function settle(s: S, answer: Answerer = defaultAnswer, maxSteps = 40): G
   return events;
 }
 
+/**
+ * Like `settle`, but stops as soon as the chain is empty (no showdown/combat is passed through),
+ * so damage marked by a resolution can be read before any combat heals it.
+ */
+export function resolveChain(s: S, answer: Answerer = defaultAnswer, maxSteps = 40): GameEvent[] {
+  const events: GameEvent[] = [];
+  for (let index = 0; index < maxSteps; index += 1) {
+    const rules = s.room.rules!;
+    if (s.room.gameOutcome || rules.manual) break;
+    if (rules.prompt) {
+      const reply = answer(rules.prompt) ?? defaultAnswer(rules.prompt)!;
+      s.as(rules.prompt.playerId).choose(reply).expectOk();
+      events.push(...s.events());
+      continue;
+    }
+    if (rules.chain.length === 0 || !rules.priority) break;
+    s.as(rules.priority).pass().expectOk();
+    events.push(...s.events());
+  }
+  return events;
+}
+
 /** Answer prompts in order: each entry is consumed by the next prompt it matches. */
 export function answers(...queue: Array<(PromptAnswer & { kind?: string }) | string[]>): Answerer {
   const pending = [...queue];

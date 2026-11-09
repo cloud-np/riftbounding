@@ -373,3 +373,29 @@ registerCustomEffect("sfd:mill", (params, context) => {
   recordOutcome(context, moved, moved.length > 0);
   return RESOLVED;
 });
+
+/**
+ * "Draw it" for specific cards looked at / revealed from the top of the Main Deck (414: the card
+ * is put into its owner's hand as a draw). `ref` names the bound cards (e.g. `looked`, a `choose`
+ * key); cards no longer in their owner's deck are skipped (359.3.e.12).
+ */
+registerCustomEffect("sfd:draw-ref", (params, context) => {
+  const host = context.step.host;
+  const env = context.machine?.env ?? { controller: context.controller, choices: {}, vars: {} };
+  const ref = typeof params.ref === "string" ? params.ref : "looked";
+  const drawn: string[] = [];
+  for (const id of refIds({ room: context.room, host, env }, ref)) {
+    const located = locate(context.room, host, id);
+    if (!located || located.zone !== "deck") continue;
+    if (!host.moveCardToOwnerZone(context.room, id, "hand")) continue;
+    drawn.push(id);
+    pushEvent(context.step.events, {
+      type: "draw",
+      playerId: located.playerId,
+      amount: 1,
+      data: { cardIds: [id] },
+    });
+  }
+  recordOutcome(context, drawn, drawn.length > 0);
+  return RESOLVED;
+});

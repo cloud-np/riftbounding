@@ -10,5 +10,6 @@ import "./feral-strength";
 // Wave R3
 import "./common";
 import "./batch-1";
+import "./batch-2";
 
 export {};
