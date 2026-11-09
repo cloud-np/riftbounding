@@ -113,6 +113,7 @@ export function ChainEntryCard({
   const flowAvailable = hasFlowKeyword(entry);
   const timeWarp = isTimeWarpCard(entry);
   const canModify = top && isOwner;
+  const hiddenCard = entry.card.hidden || entry.card.isPlaceholder || !entry.card.name.trim();
 
   return (
     <motion.div
@@ -226,7 +227,7 @@ export function ChainEntryCard({
             }
           }}
         >
-          {entry.card.hidden ? (
+          {hiddenCard ? (
             <CardBack slot="deck" insetPx={0} side={isOwner ? "self" : "opponent"} />
           ) : (
             <CardArt

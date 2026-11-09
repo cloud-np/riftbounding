@@ -9,8 +9,8 @@
  * The trigger itself is the keyword entry in `triggers/keywords.ts` (`for_each` over the chosen
  * Equipment, so 403.2 binds the choice and no legal Equipment removes the trigger at 403.4).
  * This handler runs on resolution:
- * - the Equip cost alternatives come from `weaponmasterEquipCosts` (only the [A] reduction;
- *   card-specific Equip-cost modifiers, 821.1.c.2.b, are not applied — documented limitation);
+ * - the Equip cost alternatives come from `weaponmasterEquipCosts` (the [A] reduction plus the
+ *   821.1.c.2.b Equip-cost reductions that read the chosen unit, e.g. Hextech Gauntlets);
  * - the first alternative that can actually be paid is paid (821.1.c.3/.c.4);
  * - if none can be paid, or the Equipment can no longer be attached, nothing happens
  *   (821.1.c.5: it stays in its current location);
@@ -36,7 +36,10 @@ registerCustomEffect(WEAPONMASTER_EFFECT_ID, (_params, context) => {
   if (!equipmentId) return RESOLVED;
   const host = context.step.host;
   if (!isOnBoard(context.room, host, equipmentId)) return RESOLVED;
-  const costs = weaponmasterEquipCosts(context.room, host, equipmentId);
+  // 821.1.c.2: the cost is determined as though the Equip ability were activated choosing the
+  // unit with Weaponmaster (the trigger's source object).
+  const unitId = machine.env.sourceObjectId;
+  const costs = weaponmasterEquipCosts(context.room, host, equipmentId, unitId);
   if (!costs) return RESOLVED; // 821.1.c.4: no Equip cost -> it can't be paid.
   for (const cost of costs) {
     // 821.1.c.2: the cost is determined as if the Equip ability were activated. 821.1.c.5: an

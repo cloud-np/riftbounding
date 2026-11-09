@@ -22,12 +22,15 @@ export function DisconnectBanner({
   onClaimWin?: () => void;
 }) {
   const [dismissed, setDismissed] = useState(false);
-  const left = room.players.filter((player) => player.leftAt);
+  // R4 bot-room: the server-driven seat has no client connection, so it can never "leave"
+  // through presence. Keep it out of both the leftAt list and the disconnected lookup.
+  const left = room.players.filter((player) => !player.isBot && player.leftAt);
   const disconnected =
     left.length > 0
       ? undefined
       : room.players.find(
           (player) =>
+            !player.isBot &&
             !player.leftAt &&
             player.id !== viewerId &&
             connectedPlayerIds !== undefined &&

@@ -189,6 +189,19 @@ Remaining (UI): legacy free-form prompts without options only show their title; 
 mode choices (355.3) are sent as an explicit `rules_play {choices:{mode}}` from the chooser because
 the wire gesture has no mode field; not checked in a browser yet.
 
+## Board presentation (R4 fix wave)
+
+- **Chain cards.** `ChainSlot` maps each strict-projected `chainEntries` item through
+  `chainDisplayEntry` (`chain-utils.ts`): a triggered/activated item carries no `cardSnapshot`, so
+  its public source card is looked up by `sourceCardId` (or by catalog name in `CardArt`) and the
+  card art/name renders like a sandbox chain card. Hidden/facedown (including redacted
+  `__hidden_zone__` chain placeholders) stay card backs.
+- **Attachments.** Sandbox `equip_card` and the strict `attach` op both keep attached gear in the
+  unit's zone list with `attachedToCardId`. `groupAttachedCards` removes those cards from the row
+  and `GameCard` draws them tucked behind the unit (offset up/right) with the real gear art;
+  detach/move/kill leave the gear at its location and it renders as its own card again.
+
+
 ## Open questions / findings
 
 - **Card ids encode the card face** (engine id scheme). Any future field that carries a card id
