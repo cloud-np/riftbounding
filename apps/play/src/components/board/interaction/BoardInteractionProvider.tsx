@@ -415,6 +415,62 @@ export function BoardInteractionProvider({
     setStrictPromptHoverId(null);
   }, [strictPrompt?.id]);
 
+  /**
+   * 312/313/338.1.b/347.2: the holder's own response window. The banner is rendered only for a
+   * controlled seat, and its instruction is identical with or without legal responses (the
+   * "no playable responses" hint is local to this viewer).
+   */
+  const strictResponse = useMemo(() => {
+    if (!strictView || !strictWho || strictWho.kind === "none" || strictPrompt) return null;
+    if (!controlled.includes(strictWho.player)) return null;
+    const battlefieldLabel = (zone: string): string => {
+      if (zone === "battlefieldToken") return state.sharedBattlefieldToken?.title ?? zone;
+      const player =
+        zone === "battlefieldA"
+          ? viewer
+          : zone === "battlefieldB"
+            ? opponent
+            : state.players[zone === "battlefieldC" ? 2 : viewerIndex];
+      return player?.selectedBattlefield?.trim() || zone;
+    };
+    const hasLegalResponses =
+      strictView.legal.playableCardIds.length > 0 || strictView.legal.activatable.length > 0;
+    if (strictWho.kind === "focus") {
+      const showdown = state.rules?.showdown;
+      const zone = showdown?.battlefield ?? state.rules?.combat?.battlefield;
+      if (!zone) return null;
+      const combat = showdown?.kind === "combat" || state.rules?.combat?.step === "showdown";
+      const battlefield = battlefieldLabel(zone);
+      return {
+        kind: combat ? ("combat" as const) : ("showdown" as const),
+        window: "focus" as const,
+        player: strictWho.player,
+        title: combat
+          ? (t("rules.ui.combatAt", { battlefield }) ?? `Combat at ${battlefield}`)
+          : (t("rules.ui.showdownAt", { battlefield }) ?? `Showdown at ${battlefield}`),
+        instruction:
+          t("rules.ui.focusInstruction") ??
+          "You have focus: play an Action or Reaction, or Pass",
+        hasLegalResponses,
+      };
+    }
+    if (strictWho.kind === "priority" && strictWho.window === "chain") {
+      const top = state.rules?.chain.at(-1);
+      const card = top?.cardName ?? top?.abilityRef ?? (t("sim.chain") ?? "the chain");
+      return {
+        kind: "chain" as const,
+        window: "priority" as const,
+        player: strictWho.player,
+        title: t("rules.ui.respondTo", { card }) ?? `Respond to ${card}`,
+        instruction:
+          t("rules.ui.priorityInstruction") ??
+          "You have priority: play an Action or Reaction, or Pass",
+        hasLegalResponses,
+      };
+    }
+    return null;
+  }, [controlled, opponent, state, strictPrompt, strictView, strictWho, viewer, viewerIndex]);
+
   const showStrictNotice = useCallback((code: string, rule: string | undefined, text?: string) => {
     if (strictNoticeTimerRef.current !== null) window.clearTimeout(strictNoticeTimerRef.current);
     setStrictNotice({
@@ -453,6 +509,13 @@ export function BoardInteractionProvider({
     },
     [dispatch, dispatchAs, viewerId],
   );
+
+  /** 338.1.b / 347.2: the banner's Pass is the existing `rules_pass` intent. */
+  const passStrictResponse = useCallback(() => {
+    if (!strictResponse) return;
+    playBoardSound("ui_click");
+    sendAsActor({ type: "rules_pass" }, strictResponse.player);
+  }, [sendAsActor, strictResponse]);
 
   const sendStrictGesture = useCallback(
     (action: GameActionIntent, owner: "self" | "opponent" = "self") => {
@@ -2734,6 +2797,11 @@ export function BoardInteractionProvider({
         sendIntent({ type: "battlefield_conquer_confirm", zone: assist.zone } as GameActionIntent);
         return;
       }
+      if (lower === "w" && strictResponse) {
+        event.preventDefault();
+        passStrictResponse();
+        return;
+      }
       if (lower === "w") {
         const assist = state.pendingBattlefieldConquerAssist;
         if (!assist) return;
@@ -2872,6 +2940,8 @@ export function BoardInteractionProvider({
     sendIntent,
     armLabelPreset,
     playBoardSound,
+    strictResponse,
+    passStrictResponse,
   ]);
 
   /* --------------------------------------------------------------- derived */
@@ -3169,6 +3239,44 @@ export function BoardInteractionProvider({
               >
                 {t("rules.ui.confirm") ?? "Confirm"}
               </button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+      {strictResponse && !strictPrompt ? (
+        <div
+          className="pointer-events-auto fixed left-1/2 top-[5.2rem] z-[157] w-[min(30rem,calc(100%-1rem))] -translate-x-1/2 rounded-[0.28rem] border border-[rgba(255,214,126,0.6)] bg-[rgba(35,29,17,0.97)] px-[0.5rem] py-[0.4rem] text-[0.66rem] font-semibold text-[#fff0cf] shadow-[0_10px_24px_rgba(2,7,18,0.58)]"
+          role="status"
+          data-testid="strict-response-banner"
+          data-strict-response-kind={strictResponse.kind}
+          data-strict-response-window={strictResponse.window}
+          data-strict-response-empty={strictResponse.hasLegalResponses ? "false" : "true"}
+        >
+          <p className="m-0 leading-[1.3]" data-testid="strict-response-window">
+            {strictResponse.title}
+          </p>
+          <p className="m-0 mt-[0.12rem] leading-[1.3] text-[#e3d4b6]" data-testid="strict-response-instruction">
+            {strictResponse.instruction}
+          </p>
+          <div className="mt-[0.32rem] flex flex-wrap items-center gap-[0.3rem]">
+            <button
+              type="button"
+              className={smallBlueButton}
+              data-testid="strict-response-pass"
+              onClick={passStrictResponse}
+            >
+              {t("rules.ui.pass") ?? "Pass"}
+              <kbd className="ml-[0.2rem] rounded-[0.1rem] border border-white/20 bg-black/25 px-[0.18rem] py-[0.02rem] text-[0.5rem]">
+                W
+              </kbd>
+            </button>
+            {!strictResponse.hasLegalResponses ? (
+              <span
+                className="text-[0.6rem] font-medium text-[#bba98c]"
+                data-testid="strict-response-empty-hint"
+              >
+                {t("rules.ui.noPlayableResponses") ?? "No playable responses right now"}
+              </span>
             ) : null}
           </div>
         </div>

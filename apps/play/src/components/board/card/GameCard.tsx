@@ -83,7 +83,9 @@ export function GameCard({
   const interaction = useBoardInteractionOptional();
   const strictLocked = !!interaction?.strictView && !interaction?.strictManual;
   const resolvedPlayable =
-    playable ?? !!interaction?.strictView?.playableCardIds.has(card.id);
+    playable ??
+    (!!interaction?.strictView?.playableCardIds.has(card.id) ||
+      !!interaction?.strictView?.activatableById.has(card.id));
   const resolvedTargetable =
     targetable || !!interaction?.strictPromptOptionIds.has(card.id);
   const promptOption = !!interaction?.strictPromptOptionIds.has(card.id);

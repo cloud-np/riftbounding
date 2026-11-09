@@ -1839,6 +1839,41 @@
    ],
    "rules.ui.answerPromptFirst": "Répondez d'abord au choix en attente",
    "rules.ui.skip": "Passer",
+   "rules.ui.showdownAt": [
+    "Confrontation à ",
+    [
+     "battlefield"
+    ]
+   ],
+   "rules.ui.combatAt": [
+    "Combat à ",
+    [
+     "battlefield"
+    ]
+   ],
+   "rules.ui.respondTo": [
+    "Répondre à ",
+    [
+     "card"
+    ]
+   ],
+   "rules.ui.focusInstruction": "Vous avez la focalisation : jouez une action ou une réaction, ou passez",
+   "rules.ui.priorityInstruction": "Vous avez la priorité : jouez une action ou une réaction, ou passez",
+   "rules.ui.noPlayableResponses": "Aucune réponse jouable pour le moment",
+   "rules.ui.waitingForFocus": [
+    "En attente de ",
+    [
+     "player"
+    ],
+    " (focalisation)"
+   ],
+   "rules.ui.waitingForPriority": [
+    "En attente de ",
+    [
+     "player"
+    ],
+    " (priorité)"
+   ],
    "rules.ui.priorityOf": [
     [
      "player"

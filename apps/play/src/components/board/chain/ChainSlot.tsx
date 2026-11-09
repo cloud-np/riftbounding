@@ -183,11 +183,23 @@ export function ChainSlot({
   }, [approve, canApprove, canResolve, resolve, top]);
 
   const sandboxSummary = prioritySummary(priority, t);
-  const summary =
-    (strictRoom
-      ? strictChainStatus(state, strictWho, controlledPlayerIds, t, strictPrompt)
-      : null) ?? sandboxSummary;
-  const isReady = !promptPending && (priority.allApproved || priority.participants.length === 0);
+  const strictStatusText = strictRoom
+    ? strictChainStatus(state, strictWho, controlledPlayerIds, t, strictPrompt)
+    : null;
+  const summary = strictStatusText ?? sandboxSummary;
+  // With an empty chain, still show the focus/priority response window (the opponent's neutral
+  // waiting line, or the holder's focus line) instead of "The chain is empty".
+  const showStrictWindow =
+    !!strictRoom &&
+    !top &&
+    !!strictWho &&
+    (strictWho.kind === "focus" ||
+      strictWho.kind === "prompt" ||
+      strictWho.kind === "manual" ||
+      (strictWho.kind === "priority" && strictWho.window === "chain"));
+  const showStatus = !!top || showStrictWindow;
+  const isReady =
+    !!top && !promptPending && (priority.allApproved || priority.participants.length === 0);
   const dropActive = dragOver;
 
   const handleDrop = (event: DragEvent<HTMLElement>) => {
@@ -303,7 +315,7 @@ export function ChainSlot({
         className="relative z-4 grid grid-cols-[minmax(0,1fr)] gap-y-[0.02rem] min-h-[3.66rem] grid-rows-[auto_2.14rem_0.56rem] items-start"
         data-chain-status-row="true"
       >
-        {top ? (
+        {showStatus ? (
           <p
             role="status"
             title={summary}

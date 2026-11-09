@@ -157,8 +157,14 @@ export function strictChainStatus(
       ? (t("rules.ui.manualWindow", { card }) ?? card)
       : (t("rules.ui.manualWindowOther", { player: name, card }) ?? card);
   }
-  if (who.kind === "focus") return t("rules.ui.focusOf", { player: name }) ?? name;
-  return t("rules.ui.priorityOf", { player: name }) ?? `${name} has priority`;
+  if (who.kind === "focus") {
+    return controlledPlayerIds.includes(who.player)
+      ? (t("rules.ui.focusOf", { player: name }) ?? name)
+      : (t("rules.ui.waitingForFocus", { player: name }) ?? `Waiting for ${name} (focus)`);
+  }
+  return controlledPlayerIds.includes(who.player)
+    ? (t("rules.ui.priorityOf", { player: name }) ?? `${name} has priority`)
+    : (t("rules.ui.waitingForPriority", { player: name }) ?? `Waiting for ${name} (priority)`);
 }
 
 /* ------------------------------------------------------------------ prompts (411.2) */

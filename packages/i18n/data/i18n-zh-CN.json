@@ -1816,6 +1816,41 @@
    ],
    "rules.ui.answerPromptFirst": "请先完成待处理的选择",
    "rules.ui.skip": "跳过",
+   "rules.ui.showdownAt": [
+    "对决：",
+    [
+     "battlefield"
+    ]
+   ],
+   "rules.ui.combatAt": [
+    "战斗：",
+    [
+     "battlefield"
+    ]
+   ],
+   "rules.ui.respondTo": [
+    "响应：",
+    [
+     "card"
+    ]
+   ],
+   "rules.ui.focusInstruction": "你拥有焦点：打出一张行动或反应牌，或跳过",
+   "rules.ui.priorityInstruction": "你拥有优先权：打出一张行动或反应牌，或跳过",
+   "rules.ui.noPlayableResponses": "当前没有可用的响应",
+   "rules.ui.waitingForFocus": [
+    "等待 ",
+    [
+     "player"
+    ],
+    "（焦点）"
+   ],
+   "rules.ui.waitingForPriority": [
+    "等待 ",
+    [
+     "player"
+    ],
+    "（优先权）"
+   ],
    "rules.ui.priorityOf": [
     [
      "player"
