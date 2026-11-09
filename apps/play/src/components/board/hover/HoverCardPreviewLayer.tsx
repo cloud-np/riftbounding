@@ -3,9 +3,10 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { cardImageUrl, boardPlaymatUrl } from "@/lib/assets";
+import { boardPlaymatUrl, cardArtUrl } from "@/lib/assets";
 
 import type { HoverPreviewState } from "../interaction/types";
+import { tokenArtForName, useBoardCustomization } from "../layout/customization";
 import { computeHoverPreviewLayout, HOVER_PREVIEW_RULES_GAP_PX } from "./hover-metrics";
 import { KeywordRulesPanel } from "./KeywordRulesPanel";
 
@@ -18,6 +19,7 @@ export interface HoverCardPreviewLayerProps {
  * (`439rnwycqsxxv.js:1113-1385`).
  */
 export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
+  const customization = useBoardCustomization();
   const rulesRef = useRef<HTMLDivElement | null>(null);
   const [rulesHeight, setRulesHeight] = useState(0);
   const [viewport, setViewport] = useState(() => ({
@@ -57,7 +59,12 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
 
   if (!preview || !layout || typeof document === "undefined") return null;
 
-  const art = cardImageUrl(preview.card, preview.landscape ? "hover" : "preview");
+  const ownerCustomization = preview.card.ownerPlayerId
+    ? customization.byPlayerId[preview.card.ownerPlayerId]
+    : undefined;
+  const customToken =
+    preview.card.source === "token" ? tokenArtForName(ownerCustomization, preview.card.name) : undefined;
+  const art = cardArtUrl(preview.card, preview.landscape ? "hover" : "preview", { tokenArt: customToken });
   const rotateStyle =
     preview.rotationDeg === 0
       ? undefined

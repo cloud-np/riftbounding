@@ -718,8 +718,9 @@ Remaining:
   applied costs (430.3/204.4.b.1), effect-driven plays placed during a resolution (420.3),
   abilities other players may activate (378/381), card-type-filtered discard costs; mixed-symbol
   Power costs are processed as [C] (RULES-QUESTION 131.3.a).
-- **Effect-driven moves** do not apply 449.2.a/464.1 or the 449.2.c recall fallback (only
-  Standard Moves and Unit plays consult `combatBarsDestination`).
+- Effect-driven moves apply 449.2.a/464.1 and the 449.2.c recall fallback for a Unit that cannot
+  become present at its destination (451.2 included); Standard Move restrictions
+  (144.1/144.2/144.4) never apply to effect moves.
 - `rules_*` intents participate in the rewind history in strict `solo_lab` and Practice-vs-Bot
   rooms (full `Room` snapshots, including `Room.rules`); human-vs-human strict rewind is rejected.
   Determinism, memory bounds, repro export/import and the behaviour contract are in
