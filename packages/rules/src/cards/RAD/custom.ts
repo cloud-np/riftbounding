@@ -1,0 +1,511 @@
+/**
+ * Radiance (RAD) card-specific conditions and effects (wave R3, lane prefix `rad:`).
+ *
+ * Every entry is a pure read (conditions) or an op-style draft mutation that emits a `GameEvent`
+ * for each change (effects), registered once at import time (static registries, N2). Each one
+ * cites the rules it implements; the cards that use it live in the sibling modules.
+ */
+import type { Amount, CardInstance, Effect, PlayerSelector, Room, Selector } from "@rift/protocol";
+import type { RulesHost } from "../../host";
+import { pushEvent } from "../../types";
+import {
+  registerCustomCondition,
+  evaluateAmount,
+  mightOf,
+  refIds,
+  resolvePlayers,
+  resolveSelector,
+  compare,
+} from "../../effects/evaluate";
+import type { EvalContext } from "../../effects/env";
+import { lkiOf } from "../../effects/env";
+import { registerCustomEffect } from "../../effects/ops";
+import { RESOLVED } from "../../effects/execute";
+import { recordOutcome } from "../../effects/targets";
+import { ctxOf, hostOf } from "../../effects/ops/util";
+import {
+  battlefieldZoneOf,
+  costsOf,
+  isBattlefieldZone,
+  locate,
+  locationOf,
+  typeOf,
+} from "../../effects/objects";
+import { effectiveKeywordValues } from "../../layers";
+import { addContinuousEffect } from "../../layers/mods";
+import { unitsPresentAt } from "../../state/presence";
+import { battlefieldController } from "../../actions/control";
+import { registerPlayPermission } from "../../play/permissions";
+
+/* ---------------------------------------------------------------- helpers */
+
+function zoneOfRef(ctx: EvalContext, ref: string | undefined): string | null {
+  if (!ref) return null;
+  const value = ref in ctx.env.vars ? ctx.env.vars[ref] : ctx.env.choices[ref];
+  const raw = Array.isArray(value) ? value[0] : value;
+  if (typeof raw !== "string") return null;
+  return battlefieldZoneOf(raw) ?? raw;
+}
+
+/** The zone a battlefield-or-object candidate stands for (`it` = `battlefield:<zone>`). */
+function itZone(ctx: EvalContext): string | null {
+  const it = ctx.env.it;
+  if (!it) return null;
+  return battlefieldZoneOf(it) ?? locationOf(ctx.room, ctx.host, it);
+}
+
+function marks(room: Room): Record<string, unknown> {
+  const rules = room.rules;
+  if (!rules) return {};
+  const history = (rules.history.effects ??= {});
+  return (history.marks ??= {}) as Record<string, unknown>;
+}
+
+function markKey(ctx: EvalContext, key: unknown): string {
+  return `${String(key ?? "")}`.replace("{self}", ctx.env.sourceObjectId ?? "");
+}
+
+/** 170.11.c: open = unoccupied (no face-up Unit, 107.3) and uncontrolled (190.2). */
+export function battlefieldOpen(room: Room, host: RulesHost, zone: string): boolean {
+  if (!isBattlefieldZone(room, host, zone)) return false;
+  return (
+    unitsPresentAt(room, host, zone).length === 0 &&
+    battlefieldController(room, zone, host) === null
+  );
+}
+
+/** 170.11.a + 740.1: occupied by a unit of an opponent of `player`. */
+function enemyOccupied(room: Room, host: RulesHost, zone: string, player: string): boolean {
+  if (!isBattlefieldZone(room, host, zone)) return false;
+  return unitsPresentAt(room, host, zone).some(
+    (card) => (host.findCard(room, card.id)?.playerId ?? null) !== player,
+  );
+}
+
+/* ---------------------------------------------------------------- conditions */
+
+/** The trigger event's `amount` compared with `value` (e.g. "reduce the Might … by 1 or more"). */
+registerCustomCondition("rad:event-amount", (ctx, params) => {
+  const amount = ctx.env.event?.amount;
+  if (typeof amount !== "number") return false;
+  const value = typeof params.value === "number" ? params.value : 0;
+  return compare(amount, (params.op as Parameters<typeof compare>[1]) ?? "gte", value);
+});
+
+/** The trigger event's subject was not a token (185; the kill event notes `data.token`). */
+registerCustomCondition("rad:event-not-token", (ctx) => ctx.env.event?.data?.token !== true);
+
+/** `it` is a unit or a gear (permanents, 141). */
+registerCustomCondition("rad:unit-or-gear", (ctx) => {
+  const it = ctx.env.it;
+  if (!it) return false;
+  const type = typeOf(ctx.room, ctx.host, it);
+  return type.includes("unit") || type.includes("gear");
+});
+
+/** `it` is face up (107.3: a facedown card is not a unit/gear at the location). */
+registerCustomCondition("rad:face-up", (ctx) => {
+  const it = ctx.env.it;
+  return !!it && locate(ctx.room, ctx.host, it)?.card.hidden !== true;
+});
+
+/** `it` (a unit) stands at a location with at least `n` face-up units (any controller). */
+registerCustomCondition("rad:units-at-it-gte", (ctx, params) => {
+  const zone = itZone(ctx);
+  const n = typeof params.n === "number" ? params.n : 1;
+  return !!zone && unitsPresentAt(ctx.room, ctx.host, zone).length >= n;
+});
+
+/** The zone bound to `ref` (or `it`) is a battlefield (355.4 destination "to a battlefield"). */
+registerCustomCondition("rad:zone-is-battlefield", (ctx, params) => {
+  const zone = typeof params.ref === "string" ? zoneOfRef(ctx, params.ref) : itZone(ctx);
+  return !!zone && isBattlefieldZone(ctx.room, ctx.host, zone);
+});
+
+/** 170.11.c: the battlefield bound to `ref` (or `it`) is open. */
+registerCustomCondition("rad:zone-open", (ctx, params) => {
+  const zone = typeof params.ref === "string" ? zoneOfRef(ctx, params.ref) : itZone(ctx);
+  return !!zone && battlefieldOpen(ctx.room, ctx.host, zone);
+});
+
+/** 170.11.c: no battlefield is open. */
+registerCustomCondition(
+  "rad:no-open-battlefield",
+  (ctx) =>
+    !(ctx.host.battlefieldZones(ctx.room) as string[]).some((zone) =>
+      battlefieldOpen(ctx.room, ctx.host, zone),
+    ),
+);
+
+/** 170.11.a / 740.1: the battlefield bound to `ref` (or `it`) is occupied by an enemy unit. */
+registerCustomCondition("rad:zone-enemy-occupied", (ctx, params) => {
+  const zone = typeof params.ref === "string" ? zoneOfRef(ctx, params.ref) : itZone(ctx);
+  return !!zone && enemyOccupied(ctx.room, ctx.host, zone, ctx.env.controller);
+});
+
+/** 323.2: `it` currently holds the Attacker designation. */
+registerCustomCondition("rad:is-attacker", (ctx) => {
+  const it = ctx.env.it;
+  return !!it && ctx.room.rules?.objects[it]?.designation === "attacker";
+});
+
+/** `it` moved this turn (421; `movedThisTurn` is set by the move action and cleared each turn). */
+registerCustomCondition("rad:moved-this-turn", (ctx) => {
+  const it = ctx.env.it;
+  return !!it && ctx.room.rules?.objects[it]?.movedThisTurn === true;
+});
+
+/** 107.3: the controller has a facedown card at the source's location ("a facedown card here"). */
+registerCustomCondition("rad:facedown-here", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  const zone = source ? locationOf(ctx.room, ctx.host, source) : null;
+  if (!zone || !isBattlefieldZone(ctx.room, ctx.host, zone)) return false;
+  return ctx.host
+    .zoneCards(ctx.room, ctx.env.controller, zone)
+    .some((card) => card.hidden === true);
+});
+
+/** 811.1.b / 811.6: the resolving spell was played from face down (its chain item records it). */
+registerCustomCondition("rad:played-from-facedown", (ctx) => {
+  const itemId = ctx.env.itemId;
+  const item = itemId ? ctx.room.rules?.chain.find((entry) => entry.id === itemId) : undefined;
+  return !!item?.playedFromFacedown;
+});
+
+/** 190.2.b: the controller controls the battlefield the source is at ("if you control this battlefield"). */
+registerCustomCondition("rad:control-here", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  const zone = source ? locationOf(ctx.room, ctx.host, source) : null;
+  if (!zone || !isBattlefieldZone(ctx.room, ctx.host, zone)) return false;
+  return battlefieldController(ctx.room, zone, ctx.host) === ctx.env.controller;
+});
+
+/** The event's unit has more Might than each other unit on the board (143.2). */
+registerCustomCondition("rad:event-unit-mightiest", (ctx) => {
+  const subject = ctx.env.event?.cardId;
+  if (!subject) return false;
+  const mine = mightOf(ctx, subject);
+  if (mine === null) return false;
+  for (const zone of ["base", ...(ctx.host.battlefieldZones(ctx.room) as string[])]) {
+    for (const card of unitsPresentAt(ctx.room, ctx.host, zone)) {
+      if (card.id === subject) continue;
+      if ((mightOf(ctx, card.id) ?? 0) >= mine) return false;
+    }
+  }
+  return true;
+});
+
+/** The event's player had at least `n` other cards in hand when drawing (`amount` cards drawn). */
+registerCustomCondition("rad:other-cards-in-hand-gte", (ctx, params) => {
+  const event = ctx.env.event;
+  if (!event?.playerId) return false;
+  const n = typeof params.n === "number" ? params.n : 0;
+  const drawn = typeof event.amount === "number" ? event.amount : 0;
+  return ctx.host.zoneCards(ctx.room, event.playerId, "hand").length - drawn >= n;
+});
+
+/**
+ * 383.1.b (a "the second time … each turn" trigger): the source's ability `ref` (a once-per-turn
+ * "the first time" trigger) has already triggered this turn.
+ */
+registerCustomCondition("rad:ability-triggered-this-turn", (ctx, params) => {
+  const source = ctx.env.sourceObjectId;
+  if (!source || typeof params.ref !== "string") return false;
+  return (ctx.room.rules?.history.effects?.limits?.[`${source}|${params.ref}`] ?? 0) > 0;
+});
+
+/** Per-player "first time each turn": no marker `key` for the event's player yet. */
+registerCustomCondition("rad:event-player-unmarked", (ctx, params) => {
+  const player = ctx.env.event?.playerId;
+  if (!player) return false;
+  return marks(ctx.room)[`${markKey(ctx, params.key)}:${player}`] === undefined;
+});
+
+/* ---------------------------------------------------------------- effects */
+
+/** Marks the event's player for `key` this turn (per-player "first time each turn"). */
+registerCustomEffect("rad:mark-event-player", (params, context) => {
+  const ctx = ctxOf(context);
+  const player = ctx.env.event?.playerId;
+  if (player) marks(context.room)[`${markKey(ctx, params.key)}:${player}`] = true;
+  return RESOLVED;
+});
+
+/** A computed amount that the DSL's `Amount` cannot express. */
+export type RadAmount =
+  | { amount: Amount }
+  | { keywordValue: string; of: Selector }
+  | { energyCostOf: Selector }
+  | { lkiMightOf: string };
+
+function evaluateRadAmount(ctx: EvalContext, spec: RadAmount): number | null {
+  if ("amount" in spec) return evaluateAmount(ctx, spec.amount);
+  if ("keywordValue" in spec) {
+    // 807.2 / 814.2 / 831.2: the summed value of the keyword's instances.
+    const ids = resolveSelector(ctx, spec.of);
+    if (ids.length === 0) return null;
+    return ids.reduce(
+      (sum, id) =>
+        sum +
+        (effectiveKeywordValues(ctx.room, id, ctx.host)[spec.keywordValue.toLowerCase()] ?? 0),
+      0,
+    );
+  }
+  if ("energyCostOf" in spec) {
+    const ids = resolveSelector(ctx, spec.energyCostOf);
+    if (ids.length === 0) return null;
+    let total = 0;
+    for (const id of ids) {
+      const costs = costsOf(ctx.room, ctx.host, id);
+      if (!costs) return null;
+      total += costs.energy;
+    }
+    return total;
+  }
+  // 359.3.e.13: the Might the object had when it was last on the board.
+  const [id] = refIds(ctx, spec.lkiMightOf);
+  if (!id) return null;
+  const known = lkiOf(ctx.env, id)?.might;
+  if (typeof known === "number") return Math.max(0, known);
+  return mightOf(ctx, id);
+}
+
+function substitute(node: unknown, value: number): unknown {
+  if (node === "$X") return value;
+  if (typeof node === "string") return node.split("{X}").join(String(value));
+  if (Array.isArray(node)) return node.map((entry) => substitute(entry, value));
+  if (node && typeof node === "object") {
+    const record = node as Record<string, unknown>;
+    if (record.kind === "x" && Object.keys(record).length === 1) return value;
+    const out: Record<string, unknown> = {};
+    for (const [key, entry] of Object.entries(record)) out[key] = substitute(entry, value);
+    return out;
+  }
+  return node;
+}
+
+/**
+ * "… equal to <computed value>": evaluates `amount` on execution (359.3.f.2) and runs `effect`
+ * with the value substituted for `{ kind: "x" }`, `"$X"` and `"{X}"`. Unavailable information
+ * ignores the instruction (359.3.e.12). The inner effect is not scanned for play-time choices,
+ * so its targets must be references bound elsewhere (e.g. an enclosing `for_each` → "it").
+ */
+registerCustomEffect("rad:let-x", (params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const value = evaluateRadAmount(ctxOf(context), params.amount as RadAmount);
+  if (value === null) {
+    recordOutcome(context, [], false);
+    return RESOLVED;
+  }
+  machine.push({ effect: substitute(params.effect, Math.trunc(value)) as Effect });
+  return RESOLVED;
+});
+
+/**
+ * "Draw it" (414 / 425): the referenced card moves from its owner's Main Deck to their hand as a
+ * draw (emits `draw` like `drawCards`).
+ */
+registerCustomEffect("rad:draw-card", (params, context) => {
+  const host = hostOf(context);
+  const ctx = ctxOf(context);
+  const drawn: string[] = [];
+  for (const id of refIds(ctx, String(params.ref ?? "it"))) {
+    const located = locate(context.room, host, id);
+    if (!located || located.zone !== "deck") continue;
+    if (!host.moveCardTo(context.room, located.playerId, "deck", "hand", id)) continue;
+    drawn.push(id);
+    pushEvent(context.step.events, {
+      type: "draw",
+      playerId: located.playerId,
+      amount: 1,
+      data: { cardIds: [id] },
+    });
+  }
+  recordOutcome(context, drawn, drawn.length > 0);
+  return RESOLVED;
+});
+
+/** 425: reveal the top card of each player's Main Deck (`player`); binds them to `key`. */
+registerCustomEffect("rad:reveal-top-each", (params, context) => {
+  const host = hostOf(context);
+  const ctx = ctxOf(context);
+  const revealed: string[] = [];
+  for (const playerId of resolvePlayers(ctx, params.player as PlayerSelector | undefined)) {
+    const top = host.lookAtTop(context.room, playerId, "deck", 1)[0];
+    if (!top) continue;
+    host.reveal(context.room, top.id);
+    revealed.push(top.id);
+    pushEvent(context.step.events, {
+      type: "reveal",
+      cardId: top.id,
+      playerId: ctx.env.controller,
+      data: { owner: playerId },
+    });
+  }
+  if (context.machine) context.machine.env.vars[String(params.key ?? "revealed")] = revealed;
+  recordOutcome(context, revealed, revealed.length > 0);
+  return RESOLVED;
+});
+
+/**
+ * Mechanical Bandit (RAD-111): each player reveals the top card of their Main Deck (425); if
+ * yours has the lowest Energy cost (ties included), draw it; recycle the rest (417).
+ */
+registerCustomEffect("rad:mechanical-bandit", (_params, context) => {
+  const host = hostOf(context);
+  const ctx = ctxOf(context);
+  const tops: Array<{ playerId: string; card: CardInstance; energy: number }> = [];
+  for (const playerId of resolvePlayers(ctx, "each")) {
+    const card = host.lookAtTop(context.room, playerId, "deck", 1)[0];
+    if (!card) continue;
+    host.reveal(context.room, card.id);
+    pushEvent(context.step.events, { type: "reveal", cardId: card.id, playerId });
+    tops.push({ playerId, card, energy: costsOf(context.room, host, card.id)?.energy ?? 0 });
+  }
+  const lowest = Math.min(...tops.map((entry) => entry.energy));
+  for (const entry of tops) {
+    if (entry.playerId === ctx.env.controller && entry.energy === lowest) {
+      if (host.moveCardTo(context.room, entry.playerId, "deck", "hand", entry.card.id)) {
+        pushEvent(context.step.events, {
+          type: "draw",
+          playerId: entry.playerId,
+          amount: 1,
+          data: { cardIds: [entry.card.id] },
+        });
+      }
+      continue;
+    }
+    if (host.moveCardToOwnerZone(context.room, entry.card.id, "deck", "bottom")) {
+      pushEvent(context.step.events, {
+        type: "recycle",
+        cardId: entry.card.id,
+        playerId: entry.playerId,
+        zone: "deck",
+        data: { from: "deck" },
+      });
+    }
+  }
+  return RESOLVED;
+});
+
+const CARD_TYPES = ["unit", "gear", "spell"] as const;
+
+/**
+ * Scrutinizing Scope (RAD-064): the chosen opponent guesses a card type (a decision of theirs,
+ * 355.18); reveal the top card of your Main Deck; recycle it if it has that type, else draw it.
+ */
+registerCustomEffect("rad:scope-guess", (params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const host = hostOf(context);
+  const ctx = ctxOf(context);
+  const guesser = resolvePlayers(
+    ctx,
+    (params.player as PlayerSelector | undefined) ?? "opponent",
+  )[0];
+  if (!guesser) return RESOLVED;
+  const answer = machine.frame.answer;
+  if (answer === undefined) {
+    return machine.ask({
+      kind: "choose-mode",
+      playerId: guesser,
+      options: CARD_TYPES.map((type) => ({ id: type, label: type })),
+      min: 1,
+      max: 1,
+      rule: "355.18",
+      promptKey: "rules.prompt.guessCardType",
+      data: { answer: "options" },
+    });
+  }
+  machine.frame.answer = undefined;
+  const guess = (Array.isArray(answer) ? answer[0] : answer) as string;
+  const top = host.lookAtTop(context.room, ctx.env.controller, "deck", 1)[0];
+  if (!top) return RESOLVED;
+  host.reveal(context.room, top.id);
+  pushEvent(context.step.events, {
+    type: "reveal",
+    cardId: top.id,
+    playerId: ctx.env.controller,
+    data: { guess },
+  });
+  if (typeOf(context.room, host, top.id).includes(String(guess))) {
+    if (host.moveCardToOwnerZone(context.room, top.id, "deck", "bottom")) {
+      pushEvent(context.step.events, {
+        type: "recycle",
+        cardId: top.id,
+        playerId: ctx.env.controller,
+        zone: "deck",
+        data: { from: "deck" },
+      });
+    }
+  } else if (host.moveCardTo(context.room, ctx.env.controller, "deck", "hand", top.id)) {
+    pushEvent(context.step.events, {
+      type: "draw",
+      playerId: ctx.env.controller,
+      amount: 1,
+      data: { cardIds: [top.id] },
+    });
+  }
+  return RESOLVED;
+});
+
+/* ---------------------------------------------------------------- "you may play that card" (420.1.a) */
+
+const MAY_PLAY = "rad:may-play";
+
+/** The turn number of `player`'s next Ending Phase (317) seen from now. */
+function nextEndingTurn(room: Room, host: RulesHost, player: string): number {
+  const rules = room.rules!;
+  const now = rules.turn.number;
+  if (rules.turn.player === player && rules.turn.phase !== "ending") return now;
+  const order = host.turnOrder(room);
+  const current = order.indexOf(rules.turn.player);
+  const mine = order.indexOf(player);
+  if (current < 0 || mine < 0) return now;
+  return now + ((mine - current + order.length) % order.length || order.length);
+}
+
+/**
+ * "Until your next Ending Phase, you may play that card. (You still pay its costs.)" — a play
+ * permission from Banishment (354 / 420.1.a) for the referenced cards, read by the provider below.
+ */
+registerCustomEffect("rad:may-play-until-ending", (params, context) => {
+  const host = hostOf(context);
+  const ctx = ctxOf(context);
+  const ids = refIds(ctx, String(params.ref ?? "it"));
+  if (ids.length === 0) return RESOLVED;
+  addContinuousEffect(context.room, host, {
+    controller: ctx.env.controller,
+    duration: "permanent",
+    modifier: {
+      kind: "custom",
+      id: MAY_PLAY,
+      params: { cardIds: ids, untilTurn: nextEndingTurn(context.room, host, ctx.env.controller) },
+    },
+    ...(ctx.env.sourceObjectId ? { sourceObjectId: ctx.env.sourceObjectId } : {}),
+  });
+  return RESOLVED;
+});
+
+registerPlayPermission((room, _host, query) => {
+  const rules = room.rules;
+  if (!rules || query.zone !== "banished") return null;
+  for (const effect of rules.effects) {
+    const modifier = effect.modifier;
+    if (
+      modifier.kind !== "custom" ||
+      modifier.id !== MAY_PLAY ||
+      effect.controller !== query.playerId
+    )
+      continue;
+    const params = modifier.params ?? {};
+    const ids = Array.isArray(params.cardIds) ? params.cardIds : [];
+    if (!ids.includes(query.card.id)) continue;
+    const until = typeof params.untilTurn === "number" ? params.untilTurn : -1;
+    const now = rules.turn.number;
+    if (now > until || (now === until && rules.turn.phase === "ending")) continue;
+    return { id: MAY_PLAY, rule: "420.1.a" };
+  }
+  return null;
+});
