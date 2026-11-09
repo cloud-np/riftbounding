@@ -1714,6 +1714,7 @@
    "rules.reason.manual_window_pending": "Terminez d’abord la résolution manuelle, puis appuyez sur Terminé.",
    "rules.reason.no_manual_window": "Il n’y a aucune résolution manuelle à terminer.",
    "rules.reason.not_implemented": "Cette carte n’est pas encore implémentée.",
+   "rules.reason.ambiguous_gesture": "Ce geste correspond à plusieurs actions légales. Choisissez la capacité explicitement.",
    "rules.reason.unknown": "Ce n’est pas autorisé pour le moment.",
    "rules.promptReason.burn_out": "Épuisement de pioche : choisissez un adversaire qui gagne 1 point",
    "rules.promptReason.stage_showdown": "Choisissez la confrontation qui a lieu en premier",

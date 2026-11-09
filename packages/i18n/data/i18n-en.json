@@ -8104,6 +8104,7 @@
     "manual_window_pending": "Finish the manual resolution first, then press Done.",
     "no_manual_window": "There is no manual resolution to finish.",
     "not_implemented": "This card isn't scripted yet.",
+    "ambiguous_gesture": "That gesture matches more than one legal action. Choose the ability explicitly.",
     "unknown": "That isn't allowed right now."
    },
    "promptReason": {

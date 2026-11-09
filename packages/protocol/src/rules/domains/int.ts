@@ -9,7 +9,9 @@
  */
 
 /** §5 — view/sync-facing rejection codes (add here only if the UI needs its own). */
-export type IntReasonCode = never;
+export type IntReasonCode =
+  /** A board gesture matches several legal strict actions; the client must choose one. */
+  | "ambiguous_gesture";
 
 /** 333 outstanding-task kinds owned by the integration layer. */
 export type IntTaskKind = never;

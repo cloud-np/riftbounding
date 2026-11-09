@@ -1690,6 +1690,7 @@
    "rules.reason.manual_window_pending": "请先完成手动结算，然后点击完成。",
    "rules.reason.no_manual_window": "没有需要完成的手动结算。",
    "rules.reason.not_implemented": "该卡牌尚未实装。",
+   "rules.reason.ambiguous_gesture": "该操作对应多个合法行动。请明确选择技能。",
    "rules.reason.unknown": "目前不允许该操作。",
    "rules.promptReason.burn_out": "燃尽：选择一名对手获得 1 分",
    "rules.promptReason.stage_showdown": "选择先进行的对决",
