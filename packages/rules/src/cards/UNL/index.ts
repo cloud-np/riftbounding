@@ -90,3 +90,10 @@ export {};
 import "./more-spells";
 import "./more-units";
 import "./more-gear";
+// batch 7 (wave R4): card-specific conditions/effects, then the cards that were unscripted in R3.
+import "./custom-r4";
+import "./r4-spells";
+import "./r4-units";
+import "./r4-battlefields";
+import "./r4-gear";
+import "./r4-manual";
