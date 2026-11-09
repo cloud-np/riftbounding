@@ -267,6 +267,28 @@ describe("MatchRoomCore practice-vs-bot rooms (R4 bot-room)", () => {
     expect(transport.messagesFor("conn-alice", "error").length).toBe(errorsBefore);
   });
 
+  it("keeps the bot seat present/connected and refuses a disconnect-win claim", async () => {
+    const { core, transport } = await botRoom();
+    await startBotMatch(core);
+
+    expect(core.connectedPlayerIds()).toContain("bot");
+    const presence = transport.latest("conn-alice", "presence_event")?.event as
+      | { type?: string; connectedPlayerIds?: string[] }
+      | undefined;
+    expect(presence?.type).toBe("presence_snapshot");
+    expect(presence?.connectedPlayerIds).toContain("alice");
+    expect(presence?.connectedPlayerIds).toContain("bot");
+
+    const claim = await core.handleHttp(
+      "claim_disconnect_win",
+      { roomCode: "BOT123" },
+      identities["alice-token"]!,
+    );
+    expect(claim.status).toBe(409);
+    expect(claim.body?.error).toBe("claim_not_available");
+    expect(core.room.gameOutcome).toBeUndefined();
+  });
+
   it("redacts each side's hand from the other seat's view", async () => {
     const { core, transport } = await botRoom();
     await startBotMatch(core);

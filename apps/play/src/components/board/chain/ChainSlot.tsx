@@ -11,6 +11,7 @@ import type { BoardSlotProps } from "../slot-types";
 import { ChainEntryCard } from "./ChainEntryCard";
 import {
   chainControlIntent,
+  chainDisplayEntry,
   chainPriority,
   chainResolveDestination,
   prioritySummary,
@@ -47,7 +48,10 @@ export function ChainSlot({
   const [dragOver, setDragOver] = useState(false);
   const rootRef = useRef<HTMLElement | null>(null);
   const priority = useMemo(() => chainPriority(state, viewerId, mode), [state, viewerId, mode]);
-  const entries = state.chainEntries;
+  const entries = useMemo(
+    () => state.chainEntries.map((entry) => chainDisplayEntry(entry, state)),
+    [state],
+  );
   const top = entries[0] ?? null;
   const ownerId = top?.byPlayerId ?? null;
   const canResolveAsOwner =

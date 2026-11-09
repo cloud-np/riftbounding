@@ -192,7 +192,7 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
   const clocksByPlayerId = useMemo(() => {
     if (!actionClock) return undefined;
     const playerIds = (room?.players ?? [])
-      .filter((player) => !player.leftAt)
+      .filter((player) => !player.leftAt && !player.isBot)
       .map((player) => player.id);
     const totals = actionClockTotals(actionClock, playerIds, clockNow);
     return Object.fromEntries(

@@ -52,6 +52,11 @@ Sandbox rooms never set `isBot`, and no sandbox code path changes.
   to a client as an `error` frame.
 - The bot never acts on the authoritative room directly: all legality comes from its redacted
   view, so hidden cards cannot leak into its choices.
+- Presence: a bot seat has no transport, but `connectedPlayerIds()` and
+  `playerHasConnection()` treat it as always connected (`RoomPlayer.isBot`). It never triggers
+  the player-left banner / Play Both Sides / Claim Win, and a disconnect-win claim against it is
+  rejected. The client also skips bot seats in the player-left flow and hides their action
+  clock (the server resolves bot turns instantly, so a per-player timer would freeze at 00:00).
 
 ## UI
 
@@ -63,6 +68,9 @@ Sandbox rooms never set `isBot`, and no sandbox code path changes.
 - `RoomShell` shows a **Bot** badge on the seat (`RoomSeat.isBot`). The seat has no Ready/Load Deck
   controls. The human's **Start Match** is enabled by their own deck.
 - Everything else is the normal strict UI; no new board surface.
+- Chain: a strict chain item projected from `rules.chain` (a card play or its triggered/activated
+  ability) renders the public source card's art/name via `chainDisplayEntry` + catalog-name
+  fallback; a hidden/facedown chain card stays a card back.
 
 ## Local walkthrough
 
