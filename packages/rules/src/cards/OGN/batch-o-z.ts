@@ -125,5 +125,22 @@ import "./the-harrowing";
 import "./reinforce";
 import "./soulgorger";
 import "./spectral-matron";
+// Champions and remaining units
+import "./raging-firebrand";
+import "./raging-soul";
+import "./sai-scout";
+import "./sett-brawler";
+import "./showstopper";
+import "./sneaky-deckhand";
+import "./symbol-of-the-solari";
+import "./teemo-strategist";
+import "./tideturner";
+import "./tryndamere-barbarian";
+import "./twisted-fate-gambler";
+import "./udyr-wildman";
+import "./vayne-hunter";
+import "./vi-destructive";
+import "./volibear-furious";
+import "./yasuo-windrider";
 
 export {};

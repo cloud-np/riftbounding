@@ -95,6 +95,48 @@ export function setMight(
   s.room.rules!.objects[id] = { ...(s.room.rules!.objects[id] ?? {}), baseMight: might, ...extra };
 }
 
+/**
+ * Drive the room until nothing is open (no chain, showdown, combat or prompt): passes priority /
+ * focus and answers each prompt with `answer(prompt)` (default: its first option).
+ */
+export function driveAll(
+  s: S,
+  answer: (prompt: NonNullable<NonNullable<S["room"]["rules"]>["prompt"]>) => string[] = (
+    prompt,
+  ) => (prompt.options?.[0] ? [prompt.options[0].id] : []),
+  guard = 30,
+): void {
+  for (let index = 0; index < guard; index += 1) {
+    const rules = s.room.rules!;
+    if (rules.prompt) {
+      s.as(rules.prompt.playerId)
+        .choose({ optionIds: answer(rules.prompt) })
+        .expectOk();
+      continue;
+    }
+    if (rules.chain.length === 0 && !rules.showdown && !rules.combat) return;
+    const who = rules.priority ?? rules.focus;
+    if (!who) return;
+    s.as(who).pass().expectOk();
+  }
+}
+
+/** Put a basic rune of `domain` (catalog code `cardCode`) on top of the player's Rune Deck. */
+export function stackRune(s: S, player: string, domain: string, cardCode: string): CardInstance {
+  const runeDeck = boardOf(s, player).runeDeck;
+  const template = runeDeck[0]!;
+  const rune = {
+    ...template,
+    id: `${player}-stacked-${cardCode}`,
+    name: `${domain} Rune`,
+    cardCode,
+    imageUrl: `/cards/${cardCode}.webp`,
+    domains: [domain],
+  } as CardInstance;
+  runeDeck.push(rune);
+  return rune;
+}
+
 /** A card on `player`'s board (base, battlefields, legend) by name. */
 export function boardCard(s: S, player: string, name: string, index = 0): CardInstance | undefined {
   const board = boardOf(s, player) as unknown as Record<string, CardInstance[] | undefined>;
