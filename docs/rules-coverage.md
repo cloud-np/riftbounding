@@ -12,7 +12,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Rule bodies (entries minus section headings) | 2321 |
 | Rules with at least one test | 501 |
 | Rules coverage | 21.6% |
-| Tagged test titles | 508 |
+| Tagged test titles | 506 |
 | `[R…]` tags | 879 |
 | `[EX:…]` tags | 111 |
 | Range tags (not expanded) | 25 unique / 29 refs |
@@ -1690,5 +1690,5 @@ Range tags such as `[R341–R348]` label a section; they are not expanded into p
 
 None.
 
-`--check` mode: exits non-zero if any tag references an unknown rule id.
+Run with `--check` to fail on unknown rule ids.
 
