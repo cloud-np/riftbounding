@@ -87,5 +87,18 @@ import "./viktor-herald-of-the-arcane";
 import "./volibear-relentless-storm";
 import "./wallop";
 import "./yasuo-unforgiven";
+// Battlefields
+import "./obelisk-of-power";
+import "./reavers-row";
+import "./reckoners-arena";
+import "./sigil-of-the-storm";
+import "./startipped-peak";
+import "./targons-peak";
+import "./the-arenas-greatest";
+import "./the-candlelit-sanctum";
+import "./the-dreaming-tree";
+import "./the-grand-plaza";
+import "./void-gate";
+import "./zaun-warrens";
 
 export {};
