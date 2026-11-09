@@ -310,7 +310,6 @@ describe("translateGesture: end turn, cosmetic and free-form actions [§4]", () 
       { type: "adjust_card_counter", zone: "base", cardId: fixture.ids.keeperBase, counter: "white", delta: 1 },
       { type: "shuffle_deck" },
       { type: "adjust_score", playerId: "p1", delta: 1 },
-      { type: "chain_resolve", entryId: "x", to: "trash" },
       { type: "create_token", zone: "base", name: "Gold" },
     ]) {
       expect(translateGesture(fixture.room, "p1", action, host)).toMatchObject({
@@ -752,6 +751,61 @@ describe("translateGesture: Quick-Draw hand attachment [R819.1.d]", () => {
       kind: "intent",
       intent: { type: "rules_play", cardId: blade.id, location: "base" },
     });
+  });
+});
+
+describe("translateGesture: chain/priority/turn-flow controls [R338.1.b][R347.2]", () => {
+  function chainRoom() {
+    const fixture = strictGestureRoom();
+    let room = apply(fixture.room, "p1", { type: "end_turn" }, fixture.ctx);
+    const board = room.players[1]!.board!;
+    const blade = takeFromDeck(board, "Blade of the Exile", "base");
+    const hunter = takeFromDeck(board, "Treasure Hunter", "base");
+    room = apply(
+      room,
+      "p2",
+      { type: "rules_activate", objectId: blade.id, ability: "equip:0", choices: { "target:0": [hunter.id] } },
+      fixture.ctx,
+    );
+    return { room, host: createEngineRulesHost(fixture.ctx), blade, hunter };
+  }
+
+  const controls: Array<Record<string, unknown> & { type: string }> = [
+    { type: "chain_set_resolve_vote", entryId: "chain-x", approved: true },
+    { type: "chain_resolve", entryId: "chain-x", to: "trash" },
+    { type: "battlefield_conquer_pass_focus", zone: "battlefieldA" },
+    { type: "battlefield_conquer_pass_response", zone: "battlefieldA" },
+    { type: "end_beginning_phase", observed: { turnNumber: 2, activePlayerId: "p2", activeStep: "main" } },
+  ];
+
+  it.each(controls)("$type becomes rules_pass while the opponent's item is on the chain", (action) => {
+    const { room, host } = chainRoom();
+    expect(room.rules?.chain.length).toBeGreaterThan(0);
+    expect(room.rules?.priority).toBe("p1");
+    expect(translateGesture(room, "p1", action, host)).toEqual({
+      kind: "intent",
+      intent: { type: "rules_pass" },
+    });
+  });
+
+  it.each(controls)("$type without priority uses the rules verdict", (action) => {
+    const { room, host } = chainRoom();
+    expect(translateGesture(room, "p2", action, host)).toMatchObject({
+      kind: "reject",
+      code: "not_your_priority",
+      rule: "338.1.b",
+    });
+  });
+
+  it("the same controls stay sandbox actions", () => {
+    const { fixture } = setup();
+    const sandbox = deepCopy(fixture.room) as Room;
+    delete sandbox.rulesMode;
+    delete sandbox.rules;
+    const host = createEngineRulesHost(fixture.ctx);
+    for (const action of controls) {
+      expect(translateGesture(sandbox, "p1", action, host)).toEqual({ kind: "passthrough" });
+    }
   });
 });
 

@@ -443,6 +443,67 @@ describe("Quick-Draw hand attachment [R819.1.d]", () => {
   });
 });
 
+describe("chain/priority controls in strict rooms [R338.1.b][R347.2]", () => {
+  function opponentChainItem() {
+    const fixture = strictGestureRoom();
+    let room = apply(fixture.room, "p1", { type: "end_turn" }, fixture.ctx);
+    const board = room.players[1]!.board!;
+    const blade = takeFromDeck(board, "Blade of the Exile", "base");
+    const hunter = takeFromDeck(board, "Treasure Hunter", "base");
+    room = apply(
+      room,
+      "p2",
+      { type: "rules_activate", objectId: blade.id, ability: "equip:0", choices: { "target:0": [hunter.id] } },
+      fixture.ctx,
+    );
+    expect(room.rules?.chain.length).toBeGreaterThan(0);
+    expect(room.rules?.priority).toBe("p1");
+    return { room, ctx: fixture.ctx, blade, hunter };
+  }
+
+  const controls = [
+    {
+      label: "Approve (chain_set_resolve_vote)",
+      action: { type: "chain_set_resolve_vote", entryId: "chain-x", approved: true },
+    },
+    { label: "Resolve (chain_resolve)", action: { type: "chain_resolve", entryId: "chain-x", to: "trash" } },
+    { label: "pass showdown focus", action: { type: "battlefield_conquer_pass_focus", zone: "battlefieldA" } },
+    { label: "pass showdown response", action: { type: "battlefield_conquer_pass_response", zone: "battlefieldA" } },
+    { label: "advance step", action: { type: "end_beginning_phase", observed: {} } },
+  ] as const;
+
+  it.each(controls)("$label passes priority and the item then resolves", ({ action }) => {
+    const { room, ctx, blade, hunter } = opponentChainItem();
+    let resolved = apply(room, "p1", action as Action, ctx);
+    expect(resolved.rules?.priority).toBe("p2");
+    // The controller may already have passed when its item finalized (the live "0/1 passed"
+    // status); otherwise the opponent's pass completes the round.
+    if (resolved.rules?.chain.length) {
+      resolved = apply(resolved, "p2", { type: "rules_pass" }, ctx);
+    }
+    expect(resolved.rules?.chain).toEqual([]);
+    expect(resolved.players[1]?.board?.base.find((card) => card.id === blade.id)?.attachedToCardId).toBe(
+      hunter.id,
+    );
+  });
+
+  it.each(controls)("$label without priority is rejected with the rules verdict", ({ action }) => {
+    const { room } = opponentChainItem();
+    expectRejected(room, "p2", action as Action, "not_your_priority", "338.1.b");
+  });
+
+  it("sandbox Approve still records the sandbox chain vote", () => {
+    const ctx = makeContext();
+    let room = sandboxInGame(ctx);
+    room = apply(room, "p1", { type: "draw_cards", count: 1 }, ctx);
+    const card = room.players[0]!.board!.hand.at(-1)!;
+    room = apply(room, "p1", { type: "chain_add", from: "hand", cardId: card.id, clientEntryId: "chain-sbx" }, ctx);
+    const entryId = room.chainEntries[0]!.id;
+    room = apply(room, "p2", { type: "chain_set_resolve_vote", entryId, approved: true }, ctx);
+    expect(room.chainResolveVotes).toContain("p2");
+  });
+});
+
 describe("sandbox rooms are unchanged", () => {
   it("the same gestures keep their original sandbox behaviour", () => {
     const ctx = makeContext();
