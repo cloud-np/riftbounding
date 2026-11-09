@@ -368,7 +368,9 @@ export function candidateIds(ctx: EvalContext, selector: Selector): string[] {
   };
   for (const zone of zones) {
     if (zone === "chain") {
-      for (const item of [...(room.rules?.chain ?? [])].reverse()) push(item.id);
+      // 355.9.a.2: "spell"/"ability" are finalized objects on the Chain; an item still in the
+      // process of being played or finalized (Pending, 354/403) is not one yet.
+      for (const item of [...(room.rules?.chain ?? [])].reverse()) if (item.status !== "pending") push(item.id);
       continue;
     }
     if (zone === "battlefield-objects") {

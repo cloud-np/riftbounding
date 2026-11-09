@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import type { Ability } from "@rift/protocol";
 import { lookupAbility, requiredChoices, validateChoices } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
-import { place, registerAll, spell } from "./helpers";
+import { fund, place, registerAll, spell } from "./helpers";
 
 const KILL_UNIT_AT_BATTLEFIELD: Ability = {
   kind: "spell",
@@ -93,7 +93,10 @@ describe("play-time choices [R355][R355.7][R355.8]", () => {
   });
 
   it("[R355.9.c] a spell cannot choose itself", () => {
-    const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
+    const s = scenario({ p1: { hand: ["Rebuke"] } });
+    // 355.8: the test Rebuke ("kill a unit at a battlefield") needs a legal target to be played.
+    place(s, "p2", "Treasure Hunter", "battlefieldA");
+    fund(s, "p1", "Rebuke");
     s.as("p1").play("Rebuke", { hold: true }).expectOk();
     const item = s.room.rules!.chain[0]!;
     const counter: Ability = { kind: "spell", effect: { op: "counter", target: { chosen: true, cardType: "spell" } } };
@@ -101,6 +104,19 @@ describe("play-time choices [R355][R355.7][R355.8]", () => {
     expect(own[0]!.options).toEqual([]);
     const other = requiredChoices(s.room, s.host, counter, { controller: "p1", itemId: "another-item", choices: {} });
     expect(other[0]!.options.map((option) => option.id)).toEqual([item.id]);
+  });
+
+  it("[R355.9.a.2] an item that is still Pending on the chain is not a spell to choose", () => {
+    const s = scenario({ p1: { hand: ["Rebuke"] } });
+    place(s, "p2", "Treasure Hunter", "battlefieldA");
+    fund(s, "p1", "Rebuke");
+    s.as("p1").play("Rebuke", { hold: true }).expectOk();
+    const item = s.room.rules!.chain[0]!;
+    const counter: Ability = { kind: "spell", effect: { op: "counter", target: { chosen: true, cardType: "spell" } } };
+    const ctx = { controller: "p2", itemId: "another-item", choices: {} };
+    expect(requiredChoices(s.room, s.host, counter, ctx)[0]!.options.map((option) => option.id)).toEqual([item.id]);
+    item.status = "pending";
+    expect(requiredChoices(s.room, s.host, counter, ctx)[0]!.options).toEqual([]);
   });
 
   it("[R355.8][R358.1][EX:358.1] validateChoices: complete, legal choices only", () => {

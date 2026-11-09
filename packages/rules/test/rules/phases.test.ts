@@ -31,8 +31,12 @@ describe("turn structure [R314]", () => {
   it("[R309.1][R310.2] playing a card creates a Chain → Neutral Closed; only Reactions are legal", () => {
     const s = scenario({
       p1: { hand: ["Rebuke"], energy: 2, power: { Chaos: 2 } },
-      p2: { hand: ["Defy"], energy: 1, power: { Calm: 1 } },
+      p2: { hand: ["Gust"], energy: 1 },
     });
+    // 355.8: Rebuke ("return a unit at a battlefield to its owner's hand") needs a legal target,
+    // and so does P2's Reaction. Gust replaces Defy here: Defy can only counter a spell that
+    // costs no more than [Rune], and Rebuke costs two.
+    s.placeFromDeck("p2", "Caitlyn, Patrolling", "battlefieldA");
     s.as("p1").play("Rebuke").expectOk();
     s.expectState("neutral_closed");
     expect(s.room.rules?.chain.length).toBe(1);
@@ -40,8 +44,8 @@ describe("turn structure [R314]", () => {
     expect(s.room.rules?.priority).toBe("p2");
 
     const p2 = s.expectLegal("p2");
-    const defy = s.handCard("p2", "Defy");
-    expect(defy && p2.playableCardIds.includes(defy.id)).toBe(true);
+    const gust = s.handCard("p2", "Gust");
+    expect(gust && p2.playableCardIds.includes(gust.id)).toBe(true);
     const p1Legal = s.expectLegal("p1");
     expect(p1Legal.canEndTurn).toBe(false);
   });
