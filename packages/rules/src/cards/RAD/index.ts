@@ -15,6 +15,8 @@ import "./units";
 import "./battlefields";
 import "./bombs-and-more";
 import "./batch6";
+// Radiance Bomb gear token (RAD-T02): Deploy 830 and its Deathknell.
+import "../tokens/bomb";
 // Wave R4 (lane RAD): Show Off/Flow/damage-split upgrades and the remaining cards.
 import "./r4-units";
 import "./r4-spells";

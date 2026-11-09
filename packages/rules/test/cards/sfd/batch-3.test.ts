@@ -178,7 +178,7 @@ describe("SFD batch 3 — conquer, hold and combat", () => {
     s.as("p1").move("Lucian, Merciless", "battlefieldB").expectOk();
     settle(s);
     expect(s.host.isExhausted(s.room, lucian.id)).toBe(true);
-    expect(statusOf("Lucian, Merciless")).toBe("partial");
+    expect(statusOf("Lucian, Merciless")).toBe("implemented");
   });
 
   it("[C:Draven, Vanquisher][R468.3][R383.4.e] may pay [Fury] for +2 when attacking; winning plays a Gold", () => {

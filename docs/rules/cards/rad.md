@@ -50,7 +50,6 @@ Effects: `rad:mark-event-player`, `rad:let-x`, `rad:draw-card`, `rad:reveal-top-
 
 | Capability                                                                                                                    | Rule ids               | Cards blocked                                                                                                                             | Count |
 | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----: |
-| Bomb gear token script (its [Deathknell]: deal 2 to an enemy unit here, kill your other Bombs here) under `src/cards/tokens/` | 187, 808               | Amateur Demolitionist, Explosimian, Satchel Charge, Hexplosive Minefield, Ziggs, Explosive, Ziggs, Hexplosives Expert, Ziggs, Short-Fused |     7 |
 | Location choice for units/gear played by an effect (`play` op always uses the base)                                           | 355.2, 420.3.b         | Dockside Lock-Up, Transpositionist, Drakehound Packmaster                                                                                 |     3 |
 | Return a permanent to its owner's hand as a cost (no `Cost` part)                                                             | 357.2, 356.2           | Ekko, Ingenious, Parallel Convergence, Skystrike Squadron, Spirit of the Forge                                                            |     4 |
 | Cost reduction that reads an object paid as an optional additional cost                                                       | 356.2.b.1, 357.2       | Dune Devourer, Skystrike Squadron, Spirit of the Forge                                                                                    |     3 |
@@ -66,8 +65,6 @@ Effects: `rad:mark-event-player`, `rad:let-x`, `rad:draw-card`, `rad:reveal-top-
 | `play` op ignoring only the Energy cost (it ignores all or none)                                                              | 356.1.b, 420.3         | Clocktower Guardian                                                                                                                       |     1 |
 | Granting an activated ability to other objects ("Friendly legends have '[Tap]: …'")                                           | 365, 801.3             | Heartening Soul                                                                                                                           |     1 |
 | Passives granting keywords to cards in hand (layers' array form ignores passives)                                             | 801.3, 806.1           | Jarvan IV, Martial Paragon, Kai'Sa, Rebel, Firelights' Hideout                                                                            |     3 |
-| Deathknell Target "here" (choice scan lacks the dead source's location)                                                       | 355.7, 383.2.c.3       | Mournful Spirit                                                                                                                           |     1 |
-| Last-known stunned status on die events                                                                                       | 424, 383.2.c.3         | Storm Raptor                                                                                                                              |     1 |
 | Per-turn record of conquered battlefields (cost reduction)                                                                    | 356.4                  | Bloodscent Swarm                                                                                                                          |     1 |
 | Per-turn record of friendly units/gear that died (conditional entry)                                                          | 369.3, 383.2           | Lingering Animus                                                                                                                           |     1 |
 | Any-amount Power additional cost ("pay any amount of Power")                                                                  | 203.3, 356.2           | Chronobreak                                                                                                                               |     1 |
@@ -86,20 +83,9 @@ Effects: `rad:mark-event-player`, `rad:let-x`, `rad:draw-card`, `rad:reveal-top-
 
 ## Engine keyword gaps and bugs (reproduced in `test/cards/rad/bugs.test.ts`, skipped)
 
-Keywords are the engine's (cards are marked by their own lines), but at `8933035`:
-
-- **Deploy's hold trigger is missing** (830.1.b "When an opponent holds here, kill this"):
-  `triggers/keywords.ts` has no Deploy entry, so a Deploy gear survives an opponent's hold.
-- **The built-in Equip ability does not attach** (818.1.c.2): `equip:<n>` activations resolve in
-  the §6.4 manual window because `executeCardScript` has no ability for that ref (Nazuman Ntofo,
-  Protector's Shield; their effect text is tested by attaching directly).
-- **Quick-Draw's attach trigger** (819.1.c, "When you play it, attach it to a unit you control")
-  is not implemented (play.md says it is R2-effects'); Protector's Shield.
-- **Hidden record wiped at end of turn** (811.1.b, 317.2.c): `cleanup/cleanup.ts`
-  ("expire-this-turn") deletes rules objects that have no buffs/baseMight/counters/grants/
-  controller, which removes `hiddenTurn`/`hiddenBy` of a facedown card — so no card hidden on an
-  earlier turn can be played from face down. The same keep-list drops `keywordGrants`,
-  `mightMods`, `prevent`, `empowered` and `paidAdditionalCost` (effects.md asked to keep them).
+Keywords are the engine's (cards are marked by their own lines). R4-engine fixed Deploy's hold
+trigger (830.1.b), built-in Equip (818.1.c.2), Quick-Draw's attach trigger (819.1.d) and the
+`317.2.c` keep-list (hidden records included), so those reproductions are for the lead to un-skip.
 
 - **"If you paid the additional cost" is true whenever runes pay** (356.4.f.1): `notePaidAdditionalCost`
   (`triggers/finalize.ts`) treats any non-empty `paid.additional` as the optional cost, but
@@ -116,13 +102,17 @@ Other engine behaviour worth knowing when testing (not bugs of this lane):
 
 ## Card status
 
-Counts: implemented: 111, partial: 43, manual: 14, remaining: 0
+Counts: implemented: 120, partial: 34, manual: 14, remaining: 0
+
+Wave R4b upgraded Storm Raptor, Mournful Spirit, Blade of the Exile, the Bomb gear token and its six
+makers that only needed Deploy/Deathknell (all but Ziggs, Short-Fused, which keeps its gear
+Bonus Damage gap).
 
 | Card                              | Status      | Not automated (rule)                                                                                                                                        |
 | --------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Ahri, Confident                   | implemented |                                                                                                                                                             |
 | Akali, Brash                      | implemented |                                                                                                                                                           |
-| Amateur Demolitionist             | partial     |                                                                                                                                                             |
+| Amateur Demolitionist | implemented |  |
 | An Offer You Can't Refuse         | implemented |                                                                                                                                                             |
 | Angler Wyrm                       | implemented |                                                                                                                                                             |
 | Antagonistic Apparatus            | implemented |                                                                                                                                                             |
@@ -169,7 +159,7 @@ Counts: implemented: 111, partial: 43, manual: 14, remaining: 0
 | Evelynn, Agony's Embrace          | manual      | Facedown provenance is not on `card_played` (811.6, 385), so the trigger cannot be detected.                                                              |
 | Evelynn, Consuming                | manual      | A unit play effect cannot tell a facedown play (`unit_played` has no provenance, 811.6).                                                                  |
 | Evelynn, in Control               | implemented |                                                                                                                                                             |
-| Explosimian                       | partial     |                                                                                                                                                             |
+| Explosimian | implemented |  |
 | Fanfare                           | implemented |                                                                                                                                                           |
 | Firebrand Raider                  | partial     | Entry-ready and ready-all-enemies work; global 'other units enter ready' and the Awaken ready skip need engine support (369.3, 315.1).                    |
 | Firelights' Hideout               | partial     | The next unit's [Accelerate] must be visible to the play layer while in hand (801.3, 806).                                                                |
@@ -181,7 +171,7 @@ Counts: implemented: 111, partial: 43, manual: 14, remaining: 0
 | Heartening Soul                   | partial     | Granting an activated ability to friendly legends needs granted abilities (365, 801.3 for abilities).                                                       |
 | Heimerdinger, Academy Instructor  | manual      | Needs an optional replacement of a token play that keeps the location (370–375).                                                                          |
 | Herald of the Emperor             | partial     | 'Base Might becomes 5' is a this-turn Might change (trait-altering 479 is missing).                                                                       |
-| Hexplosive Minefield              | partial     |                                                                                                                                                             |
+| Hexplosive Minefield | implemented |  |
 | High Note                         | implemented |                                                                                                                                                             |
 | Hold 'Em                          | partial     | The [2] discount needs a per-turn record of where units/gear were played (356.4; no play-location history).                                                 |
 | Hunker Down                       | implemented |                                                                                                                                                             |
@@ -213,7 +203,7 @@ Counts: implemented: 111, partial: 43, manual: 14, remaining: 0
 | Mordekaiser, Dominating           | implemented |                                                                                                                                                             |
 | Mordekaiser, Iron Revenant        | partial     | The banish is a resolution instruction (a trash card cannot be a Cost) and 'spend this Power only to play units or gear' is not modelled (357.2, 430.5).  |
 | Mordekaiser, Twice Slain          | implemented |                                                                                                                                                           |
-| Mournful Spirit                   | partial     | The kill target is chosen on resolution, not as a Target (355.7): the Deathknell choice scan has no location of the dead source.                            |
+| Mournful Spirit | implemented |  |
 | Mysterious Chronomancer           | implemented |                                                                                                                                                             |
 | Nazuman Ntofo                     | implemented |                                                                                                                                                             |
 | Neeko, Blending In                | manual      | Needs deck-building extra legends and moving a chosen legend into the Legend Zone (not stored).                                                           |
@@ -246,7 +236,7 @@ Counts: implemented: 111, partial: 43, manual: 14, remaining: 0
 | Ruined Monastery                  | implemented |                                                                                                                                                             |
 | Runeblade Anvil                   | implemented |                                                                                                                                                             |
 | Sanctum Conservator               | implemented |                                                                                                                                                             |
-| Satchel Charge                    | partial     |                                                                                                                                                             |
+| Satchel Charge | implemented |  |
 | Scorched Earth                    | implemented |                                                                                                                                                           |
 | Scrutinizing Scope                | implemented |                                                                                                                                                             |
 | Seraphic Wyvern                   | partial     | The replacement adds the extra exhausted rune, but a Channel that said "exhausted" loses that condition (431.2).                                           |
@@ -263,7 +253,7 @@ Counts: implemented: 111, partial: 43, manual: 14, remaining: 0
 | Staunch Survivor                  | implemented |                                                                                                                                                             |
 | Steadfast Outrider                | implemented |                                                                                                                                                             |
 | Stoic Ferryman                    | implemented |                                                                                                                                                             |
-| Storm Raptor                      | partial     | "When a stunned enemy unit here dies" (424, 383.2.c.3): the die event has no stunned status.                                                                |
+| Storm Raptor | implemented |  |
 | Strigian Oracle                   | implemented |                                                                                                                                                             |
 | Suave Negotiator                  | implemented |                                                                                                                                                             |
 | Supernova                         | implemented |                                                                                                                                                             |
@@ -280,6 +270,6 @@ Counts: implemented: 111, partial: 43, manual: 14, remaining: 0
 | Whirling Twirligig                | implemented |                                                                                                                                                             |
 | Wrath of the Freljord             | implemented |                                                                                                                                                             |
 | Zero Point Inflection             | implemented |                                                                                                                                                             |
-| Ziggs, Explosive                  | partial     |                                                                                                                                                             |
-| Ziggs, Hexplosives Expert         | partial     |                                                                                                                                                             |
-| Ziggs, Short-Fused                | partial     |                                                                                                                                                             |
+| Ziggs, Explosive | implemented |  |
+| Ziggs, Hexplosives Expert | implemented |  |
+| Ziggs, Short-Fused | partial | The Bomb token and its Deathknell are scripted; "Abilities of friendly gear deal 1 Bonus Damage" needs a source-type filter on Bonus Damage (712-715; `bonus-damage` only filters spells/abilities). |

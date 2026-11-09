@@ -203,9 +203,7 @@ registerCardScript({
 registerCardScript({
   name: "Lucian, Merciless",
   text: "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for [Rune] less, even if it's already attached.)\nThe first time I conquer each turn, ready me.",
-  status: "partial",
-  notes:
-    "Weaponmaster (821.1.b): the engine has no Weaponmaster play trigger yet; the keyword is not re-implemented here.",
+  status: "implemented",
   abilities: [
     {
       kind: "triggered",

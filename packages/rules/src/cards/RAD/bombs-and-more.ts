@@ -2,8 +2,8 @@
  * Radiance (RAD) Bomb makers and remaining automatable cards (wave R3).
  *
  * Bomb gear token (RAD-T02): "[Deploy] [Deathknell] Deal 2 to an enemy unit here and kill all
- * other Bombs you control here." Its creation is scripted here; its own Deathknell needs a token
- * script under `src/cards/tokens/` (outside this lane), so every Bomb maker is `partial`.
+ * other Bombs you control here." Its creation is scripted here; its own script lives in
+ * `src/cards/tokens/bomb.ts` (Deploy 830 + Deathknell "here" 808 / 383.2.c.3.b).
  */
 import type { Effect } from "@rift/protocol";
 import { registerCardScript } from "../registry";
@@ -27,8 +27,7 @@ function playBombs(count: number, ref = "bomb"): Effect {
 registerCardScript({
   name: "Amateur Demolitionist",
   text: "When you play me, play a Bomb gear token to a battlefield. (It has [Deploy]. When it dies, deal 2 to an enemy there and kill your other Bombs there.)",
-  status: "partial",
-  notes: BOMB_NOTE,
+  status: "implemented",
   abilities: [{ kind: "triggered", trigger: WHEN_PLAYED, effect: playBombs(1) }],
 });
 
@@ -36,8 +35,7 @@ registerCardScript({
 registerCardScript({
   name: "Explosimian",
   text: "When I hold, play three Bomb gear tokens to a single battlefield. (They have [Deploy]. When each dies, deal 2 to an enemy there and kill your other Bombs there.)",
-  status: "partial",
-  notes: BOMB_NOTE,
+  status: "implemented",
   abilities: [{ kind: "triggered", trigger: WHEN_I_HOLD, effect: playBombs(3) }],
 });
 
@@ -45,8 +43,7 @@ registerCardScript({
 registerCardScript({
   name: "Satchel Charge",
   text: "[Action] (Play on your turn or in showdowns.)\nMove a friendly unit, then play a Bomb gear token to a battlefield. (It has [Deploy]. When it dies, deal 2 to an enemy there and kill your other Bombs there.)",
-  status: "partial",
-  notes: BOMB_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",
@@ -69,8 +66,7 @@ registerCardScript({
 registerCardScript({
   name: "Hexplosive Minefield",
   text: "[Action] (Play on your turn or in showdowns.)\nKill any number of friendly Bomb tokens. At end of turn, play that many Bomb tokens to a single battlefield.",
-  status: "partial",
-  notes: BOMB_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",
@@ -106,8 +102,7 @@ registerCardScript({
 registerCardScript({
   name: "Ziggs, Explosive",
   text: "[1], [Tap]: Play a Bomb gear token to a battlefield. (It has [Deploy]. When it dies, deal 2 to an enemy there and kill your other Bombs there.)\nWhen I defend, you may kill a friendly gear to give me +2 [Might] this turn.",
-  status: "partial",
-  notes: BOMB_NOTE,
+  status: "implemented",
   abilities: [
     { kind: "activated", cost: { energy: 1, exhaust: SELF }, effect: playBombs(1) },
     {
@@ -136,8 +131,7 @@ registerCardScript({
 registerCardScript({
   name: "Ziggs, Hexplosives Expert",
   text: "[1][Rune], [Tap]: Play a Bomb gear token to a battlefield. (It has [Deploy]. When it dies, deal 2 to an enemy there and kill your other Bombs there.)",
-  status: "partial",
-  notes: BOMB_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "activated",

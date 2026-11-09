@@ -157,7 +157,7 @@ describe("RAD Bomb makers (partial: the Bomb token's Deathknell is a token scrip
     answer(s, ["battlefieldB"]);
     settle(s);
     expect(bombs(s, "p1", "battlefieldB")).toBe(1);
-    expect(getCardScript("Amateur Demolitionist")?.status).toBe("partial");
+    expect(getCardScript("Amateur Demolitionist")?.status).toBe("implemented");
   });
 
   it("[C:Explosimian][R383.4.d.2.a] When I hold, play three Bombs to a single battlefield", () => {
@@ -203,6 +203,12 @@ describe("RAD Bomb makers (partial: the Bomb token's Deathknell is a token scrip
       .play("Hexplosive Minefield", { choices: { "target:0": ids } })
       .expectOk();
     s.as("p2").pass().expectOk();
+    // The two Bombs' Deathknells trigger simultaneously (383.3.d): order them, then resolve.
+    answer(
+      s,
+      s.room.rules!.prompt!.options!.map((option) => option.id),
+    );
+    resolveAll(s);
     expect(bombs(s, "p1", "battlefieldA") + bombs(s, "p1", "battlefieldB")).toBe(0);
     s.as("p1").endTurn().expectOk();
     settle(s);
@@ -219,7 +225,7 @@ describe("RAD Bomb makers (partial: the Bomb token's Deathknell is a token scrip
     activate(s, "p1", ziggs.id, 0, { choices: { bomb: "battlefieldA" } });
     resolveAll(s);
     expect(bombs(s, "p1", "battlefieldA")).toBe(1);
-    expect(getCardScript("Ziggs, Explosive")?.status).toBe("partial");
+    expect(getCardScript("Ziggs, Explosive")?.status).toBe("implemented");
   });
 
   it("[C:Ziggs, Hexplosives Expert][R377.1] [1][A],[Tap]: play a Bomb to a battlefield", () => {

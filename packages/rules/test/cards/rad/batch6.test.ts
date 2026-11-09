@@ -60,6 +60,6 @@ describe("RAD batch 6", () => {
   });
 
   it("[C:Storm Raptor][R424] partial: the stunned-death draw is not automated", () => {
-    expect(getCardScript("Storm Raptor")?.status).toBe("partial");
+    expect(getCardScript("Storm Raptor")?.status).toBe("implemented");
   });
 });

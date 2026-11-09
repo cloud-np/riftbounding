@@ -14,7 +14,6 @@ the script file of the card that needs them (cards sharing one import that file)
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ | -------------------------------------- | ----: |
 | "Spend a buff" as a cost (activation cost "Spend my buff", or optional additional cost)                                                                            | 702.2.b, 356.2.b, 376    | Wallop, Sett, Brawler, Udyr, Wildman   |     3 |
 | Triggered abilities of cards in non-board zones (hand/trash)                                                                                                       | 385                      | Scrapheap, Super Mega Death Rocket!    |     2 |
-| `kill` events lack last-known buff / stunned state for leave-the-board trigger conditions                                                                          | 383.2.c.3.b, 359.3.e.13  | Vanguard Helm, Solari Shrine           |     2 |
 | Battlefield phase triggers for each player ("that player") and a "player's first Beginning Phase" condition (battlefield trigger controller is the present player) | 315.2.a.1, 383.4         | Obelisk of Power, The Arena's Greatest |     2 |
 | Effect-driven plays by a player other than the ability's controller (`play` op has no player), and per-player private look/banish picks                            | 420.3, 355.18            | Promising Future, Portal Rescue        |     2 |
 | Per-turn event history (units that died / cards discarded this turn) for conditions                                                                                | 429, 423, 356.4, 727.1.b | Spoils of War, Raging Soul             |     2 |
@@ -40,9 +39,20 @@ R3-engine fixed optional replacement prompts/ordering (371.2/372/373), damage sp
 Ganking from keyword passives (810.3); the R4 upgrade also implements the combat tie-recall
 replacement (Symbol of the Solari). Those rows were removed.
 
+## Engine bugs found
+
+| Bug | Rule ids | Reproduction | Cards affected |
+| --- | --- | --- | --- |
+| A Passive Kill from lethal damage in the Cleanup is not attributed to the spell/ability that dealt the damage, so "When you kill …" does not trigger for damage kills. | 429.5.c, 429.5.c.1 | `it.skip("[BUG][C:Solari Shrine]…")` in `test/cards/ogn-o-z/r4b-bugs.test.ts` | Solari Shrine, Immortal Phoenix |
+
 ## Card status
 
-131 of 131 scripted: 100 implemented, 17 partial, 14 manual.
+131 of 131 scripted: 101 implemented, 18 partial, 12 manual.
+
+R4b: Vanguard Helm is fully automated. Solari Shrine is automated for direct Kill instructions;
+a kill from lethal damage in the Cleanup still lacks the responsible player (429.5.c, `[BUG]` in
+`test/cards/ogn-o-z/r4b-bugs.test.ts`). The `kill` event carries last-known
+`buffs`/`stunned`/`empowered` (383.2.c.3.b, lane C).
 
 | Card                         | Status      | Notes                                                                                                                                                                              |
 | ---------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -104,7 +114,7 @@ replacement (Symbol of the Solari). Those rows were removed.
 | Soaring Scout                | implemented |                                                                                                                                                                                    |
 | Solari Chief                 | implemented |                                                                                                                                                                                    |
 | Solari Shieldbearer          | implemented |                                                                                                                                                                                    |
-| Solari Shrine                | manual      | `kill` events carry no last-known stunned state (383.2.c.3.b), so "a stunned enemy unit" cannot be matched.                                                                        |
+| Solari Shrine | partial | Direct Kill instructions trigger (429.5.b); a damage kill in the Cleanup is not attributed to the spell (429.5.c, `[BUG]` r4b-bugs.test.ts). |
 | Soulgorger                   | implemented |                                                                                                                                                                                    |
 | Spectral Matron              | implemented |                                                                                                                                                                                    |
 | Spirit's Refuge              | implemented |                                                                                                                                                                                    |
@@ -150,7 +160,7 @@ replacement (Symbol of the Solari). Those rows were removed.
 | Unlicensed Armory            | implemented |                                                                                                                                                                                    |
 | Unyielding Spirit            | implemented |                                                                                                                                                                                    |
 | Vanguard Captain             | implemented |                                                                                                                                                                                    |
-| Vanguard Helm                | manual      | `kill` events carry no last-known buff state (383.2.c.3.b), so "a buffed friendly unit dies" cannot be matched.                                                                    |
+| Vanguard Helm | implemented |  |
 | Vanguard Sergeant            | implemented |                                                                                                                                                                                    |
 | Vayne, Hunter                | implemented |                                                                                                                                                                                    |
 | Vengeance                    | implemented |                                                                                                                                                                                    |

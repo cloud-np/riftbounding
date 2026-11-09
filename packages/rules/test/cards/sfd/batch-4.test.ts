@@ -132,7 +132,7 @@ describe("SFD batch 4 — attachments", () => {
     settle(s);
     // Angle Shot's own draw + Jax's draw.
     expect(hand(s, "p1").length).toBe(before + 2);
-    expect(statusOf("Jax, Unrelenting")).toBe("partial");
+    expect(statusOf("Jax, Unrelenting")).toBe("implemented");
   });
 
   it("[C:Strike Down][R418.6] an equipped friendly unit deals damage equal to its Might to an enemy unit, then an Equipment detaches", () => {
