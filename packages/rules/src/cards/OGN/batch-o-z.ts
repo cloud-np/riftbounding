@@ -40,5 +40,20 @@ import "./thousand-tailed-watcher";
 import "./vanguard-captain";
 import "./wildclaw-shaman";
 import "./zaunite-bouncer";
+// Other triggered abilities
+import "./pirates-haven";
+import "./pit-crew";
+import "./ravenbloom-student";
+import "./soaring-scout";
+import "./solari-shrine";
+import "./stealthy-pursuer";
+import "./tasty-faefolk";
+import "./traveling-merchant";
+import "./vanguard-helm";
+import "./viktor-innovator";
+import "./volibear-imposing";
+import "./warwick-hunter";
+import "./watchful-sentry";
+import "./yasuo-remorseful";
 
 export {};
