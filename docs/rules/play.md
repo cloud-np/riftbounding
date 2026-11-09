@@ -4,6 +4,18 @@ Owner: **R2-play** — process of play 349–359, costs/payment 160–168 / 201�
 activated abilities 376–381 / 399–407, Standard Move 447–455, recalls 456–460, timing/cost
 keywords (805, 806, 810–813, 818–822, 830).
 
+## Integration status (R2 merge)
+
+- `prepareTriggeredItem` is now the **only** 399–407 path for triggered abilities: `advance`
+  calls it for each Pending triggered item, and it also handles 403.1 "you may" and the 405.2
+  pay-or-decline decision (`play.trigger` prompt, stages `may` / `cost`) and the 383.3.b leading
+  `cost_then` cost (marked `choices.$costPaid`). R2-effects' `effects.trigger_choice` was removed.
+  TODO 1 below is done.
+- Presence helpers in `play/control.ts` delegate to `state/presence.ts` (107.3).
+- Standard Move destinations and Unit play locations consult R2-combat's `combatBarsDestination`
+  (449.2.a / 464.1 / 464.2); `actions/move.ts` applies Contested from `controlsBattlefield`.
+- "Up to N" `play.choice` prompts cap `max` at the legal options (`data.choiceMax` keeps N).
+
 ## Files
 
 | file | rules | role |

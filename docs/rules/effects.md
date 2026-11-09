@@ -3,6 +3,20 @@
 Owner: **R2-effects** — Effect DSL interpreter 412–448, triggers 382–398, replacements
 367–375, layers 475–482 and card scripts.
 
+## Integration status (R2 merge)
+
+- Synthesized `attack`/`defend`/`attack_declared`/`defend_declared` events were removed; R2-combat
+  emits them (`WHEN_YOU_DEFEND_HERE` matches the player-level `defend` with `data.player: true`).
+- The default flush order is Turn Order (303.2.a / 383.3.d.1); only `beginCombat` passes the
+  Combat Chain order.
+- 403–407 for triggered items moved to `play/triggered.ts` (single path, before Finalization);
+  `triggers/finalize.ts` keeps the 359.3.e snapshot and the 337.4 Priority reset.
+- `executeCardScript` returns `await` and the item stays on the chain until the resumed
+  continuation finishes (`finishResolution`) — Lead TODO 1 is done.
+- `effectiveMight` is no longer floored (143.2.c.1, example of 479.4.c); references clamp in `mightOf`, combat
+  in `combatMight`. The RULES-QUESTION(479.4.c) below is resolved.
+- Candidate spells/abilities exclude Pending chain items (355.9.a.2).
+
 ## Files
 
 | Path | Contents |

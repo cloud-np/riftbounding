@@ -7,6 +7,29 @@ Rules, Last Updated 2026-10-09** (local corpus: `packages/rules/corpus/`). Code 
 titles cite rule numbers (`[R309.1.a]` = rule, `[EX:467]` = official example, `[C:Card Name]` =
 card script). Errata is under `packages/rules/corpus/errata/`.
 
+## Status (R2)
+
+Wave R2 merged three domains on top of the R1 skeleton and an integration pass reconciled their
+seams (this document is the merged view; per-domain decisions are in the linked docs below):
+
+- **R2-play** — process of play 349–359, costs/payment 160–168 / 201–206 / 356–357, activated
+  abilities 376–381, **the single 399–407 path for triggered abilities** (`play/triggered.ts`),
+  Standard Move 447–455, timing/cost keywords. [`docs/rules/play.md`](rules/play.md)
+- **R2-combat** — cleanups 318–324, stored battlefield control 188–190, combat 461–468 with full
+  467.2.c damage assignment, scoring 469–474, victory, 2v2/FFA team rules, conceding.
+  [`docs/rules/combat.md`](rules/combat.md)
+- **R2-effects** — resumable Effect interpreter 412–448, triggers 382–398, replacements 367–375,
+  layers 475–482, card scripts (fixture deck + cards named in official examples).
+  [`docs/rules/effects.md`](rules/effects.md)
+
+Integration decisions (rule that decided each): R2-combat is the only emitter of `attack`/`defend`
+(466.2.c.3, 383.4.e/f); the Combat Chain order `[attacker, …non-defenders, defender]` is applied
+once by `beginCombat`, every other simultaneous trigger uses Turn Order (466.2.d.1 vs 383.3.d.1);
+Assault/Shield are Might passives applied once in the layers (807.1.c / 814.1.c, values summed
+807.2 / 814.2); facedown cards are never Units present (107.3, `state/presence.ts`); Might may be
+negative and only its uses clamp (143.2.c / 479.4.c); a resolution waiting on a prompt keeps its
+item on the chain (340 / 359).
+
 ## Toggle & safety
 
 | State | Behaviour |
@@ -112,12 +135,17 @@ packages/rules/src/
                        moveCardToOwnerZone)
   types.ts             RulesStepContext, fail(), rulesOf(); re-exports effectiveMight from layers/
   layers/
-    index.ts           effectiveMight (143.2) + effectiveKeywords (475–479) — R2-effects owns this
+    index.ts           effectiveMight (143.2, may be negative) + effectiveKeywords (475–479)
+    combat-keywords.ts Assault/Shield/Tank/Backline profile; the 807.1.c/814.1.c Might bonus
+    passives.ts durations.ts mods.ts restrictions.ts costs.ts bonus.ts entry.ts ignore.ts
+    victory.ts         active modifiers, restrictionFor, costAdjustments, enter-ready, 764–767
   intents/
     index.ts           prologue (clone/validate/ensure state/advance/project) + INTENT_HANDLERS
     context.ts         IntentContext/IntentHandler + normalizeChoices
     play.ts activate.ts move.ts pass.ts end-turn.ts choose.ts manual-done.ts
   state/               turn.ts phase.ts staging.ts project.ts pools.ts create.ts index.ts
+    presence.ts        107.3: face-up Units present (unitsPresentAt / hasUnitPresentAt /
+                       playersPresentAt); every presence check uses it, never host.unitsAt
   view/                index.ts who.ts legal.ts legal-{play,activate,move}.ts explain.ts restore.ts
   legality/
     timing.ts          shared 307–313/344/347/410/806/813 helpers + boardZones + effective keywords
@@ -131,8 +159,19 @@ packages/rules/src/
     fepr/              chain.ts finalize.ts resolve.ts pass.ts after.ts manual.ts spell.ts
     tasks/             index.ts registry.ts phase.ts combat.ts play.ts custom.ts
     showdown.ts        341–348 Focus passes, showdown close, Conquer result (one control event)
-  cleanup/cleanup.ts   318–324 step order to a fixed point, 324.1 inserts, 322 loop guard
-  combat/              index.ts begin.ts designate.ts damage.ts resolve.ts
+  cleanup/cleanup.ts   318–324 step order to a fixed point, 324.1 inserts, 322 loop guard;
+                       step 5 keeps Deploy gear (830.1.b.3) and never recalls facedown cards
+  combat/              begin.ts (participants, Combat Chain order, combatBarsDestination)
+                       designate.ts (single attack/defend emitter) keywords.ts assignment.ts
+                       damage.ts resolve.ts progress.ts (resumable 465–468 state machine)
+  play/                process.ts activation.ts triggered.ts (399–407 for triggers) core.ts
+                       choices.ts payment.ts planner.ts cost-*.ts total-cost.ts locations.ts
+                       permissions.ts hidden.ts keywords.ts control.ts prompting.ts …
+  effects/             interpreter (env/evaluate/machine/targets/choices + ops/*.ts)
+  triggers/            detect.ts (event → PendingTrigger) match.ts index.ts (flush, 303.2.a)
+                       finalize.ts (337.1 hook: 359.3.e target snapshot) keywords.ts hooks.ts
+  replacements/        interceptor.ts (367–375, 438, 444) preview.ts (previewDamage)
+  scoring/             score.ts teams.ts (485/491) concede.ts (195, 649–652)
   actions/
     primitives.ts      compatibility barrel (`export *` + primitives namespace)
     ready.ts draw.ts damage.ts move.ts resources.ts score.ts control.ts tokens.ts board.ts
@@ -141,7 +180,9 @@ packages/rules/src/
     index.ts           imports burn-out/stage-showdown/stage-combat + the three domain barrels
     handlers.ts        registry + answer validation; reasons.ts shared core reason constants
     burn-out.ts stage-showdown.ts stage-combat.ts
-    play/ combat/ effects/   index.ts (handler imports) + reasons.ts (domain reason constants)
+    play/ combat/ effects/   index.ts (handler imports) + reasons.ts (domain reason constants):
+                       play.choice / play.cost / play.trigger, combat.damage_assignment,
+                       effects.resume / effects.order_triggers
   effects/
     execute.ts         interpreter entry point (dispatches through EFFECT_OPS)
     registry.ts        registerEffectOp / EFFECT_OPS
@@ -149,7 +190,7 @@ packages/rules/src/
   cards/
     index.ts           imports every set barrel once (side-effect script registration)
     registry.ts        card-script registry + ability-ref lookup
-    <setCode>/index.ts OGN SFD UNL RAD VEN OGS ARC SGN (empty until R2-effects)
+    <setCode>/index.ts OGN SFD UNL RAD VEN OGS ARC SGN (+ tokens/, dsl.ts builders)
 ```
 
 Compatibility barrels kept for existing imports: `intents.ts`, `view.ts`, `turn-state.ts`,
@@ -218,6 +259,36 @@ registerCardScript(s), getCardScript, lookupAbility, cardScriptNames, clearCardS
 executeEffect, executeAbility, executeCardScript, primitives.*
 ```
 
+### R2 public API additions
+
+All exported from `src/index.ts` through the domain barrels (`api/{core,play,combat,effects}.ts`):
+
+```ts
+// core: 107.3 presence
+unitsPresentAt(room, host, zone, playerId?), hasUnitPresentAt(room, host, playerId, zone),
+playersPresentAt(room, host, zone)
+
+// play (R2-play): payment, process of play, activation, triggered abilities
+canPayCost, payCost, planPayment, applyPayment, costObjectChoice, resolveCost, printedCardCost,
+planCardPlay, executeCardPlay, planActivation, executeActivation, planCore, playLocations,
+registerPlayPermission, registerAdditionalCosts, cardKeywords, legionActive, planHide, executeHide,
+prepareTriggeredItem(room, step, item, { ability?, cost?, decline? }) → "finalized"|"pending"|"removed",
+answerTriggerDecision, triggeredAbilityOf, triggerLeadingCost, PLAY_PROMPT_REASONS
+
+// combat (R2-combat)
+combatParticipants, combatTriggerOrder, combatBarsDestination(room, player, zone, "move"|"play", host),
+designateCombatants, combatKeywordProfile, combatMight (effectiveMight clamped at 0),
+lethalAssignment, validateAssignment, enumerateAssignments, damageAssignmentVerdict,
+continueCombat, battlefieldController, controlsBattlefield, loseControl, losePoints,
+scoreBattlefield, holdBattlefields, checkVictory, concede, playerLoses, playerWins, areOpponents
+
+// effects (R2-effects)
+executeEffect / executeAbility / executeCardScript (status "resolved"|"manual"|"await"),
+requiredChoices, validateChoices, flushPendingTriggers(room, step, { order? }), restrictionFor,
+costAdjustments, effectiveKeywordValues, rawMight, previewDamage, preventValue,
+registerEffectOp, registerCustomEffect, registerCustomCondition, listActivatedAbilities
+```
+
 Contract deviation: `legalIntents`/`explainIllegal` take a `RulesHost` argument. The original
 sketch omitted it, but the pure layer cannot read zones without duplicating engine logic, which
 §1 forbids.
@@ -247,7 +318,10 @@ champion and banished are card-play/effect territory (349–359, 429), never 449
 | destination is not `base` or a battlefield | `invalid_location` / 449.2 |
 | destination equals current location | `invalid_location` / 144.4 |
 | battlefield → battlefield without Ganking | `invalid_location` / 144.4.c |
-| 2+ other players' Units at the destination battlefield | `invalid_location` / 449.2 |
+| 2+ other players' Units at the destination battlefield (face-up only, 107.3) | `invalid_location` / 449.2 |
+| facedown card (not a Unit at a location) | `unit_not_found` / 107.3.e |
+| a restriction applies (`restrictionFor({kind:"move"})`, Ganking read through layers 810.3) | `restricted` / the restriction's rule (default 421) |
+| 3+ players: Staged Combat there and the mover is not involved or has no Units there (`combatBarsDestination`) | `invalid_location` / 449.2.a (464.1) |
 
 Timing is checked first: `not_your_turn` / 410, `chain_not_empty` / 144.1.b,
 `showdown_active` / 144.1.c, `combat_active` / 144.1.c. `test/rules/move-source.test.ts` asserts
@@ -300,7 +374,7 @@ forces the restart. Both the 322 cleanup bound and the 317.2.f repeat bound set
 `RulesStepContext.loopGuard`; `applyRulesIntent` returns
 `{ ok:false, code:"loop_guard", rule }` instead of only logging an event.
 
-## Events emitted by R1
+## Events
 
 Every observable strict-mode change is a `GameEvent` (`type` string; `playerId`/`zone`/`cardId`/
 `amount`/`data` carry detail). The R1 set, grouped for scanning:
@@ -314,6 +388,15 @@ Every observable strict-mode change is a `GameEvent` (`type` string; `playerId`/
 | Cleanup | `contested`, `contested_reapplied`, `hidden_card_to_trash`, `recall`, `kill` |
 | Game actions | `ready`, `ready_all`, `exhaust`, `draw`, `burn_out`, `channel`, `add_resources`, `pools_empty`, `damage`, `heal`, `move`, `create_token` |
 | Restore | `rules_restored` |
+
+R2 added (full list with payloads in `packages/protocol/CHANGES.md`, section R2):
+
+| Group | `type` literals |
+|---|---|
+| Play / payment | `cost_paid`, `recycle`, `discard`, `pay_points`, `spend_xp`, `hide`, `enters_ready`, `ability_activated`, `play_cancelled` (`card_played` now follows the last prompt, 350.1) |
+| Triggers | `trigger`, `trigger_removed` / `trigger_declined` (`{itemId, rule, reason}`; 403.4 / 383.3.a.2 / 405.2 / 383.3.b.1), `become_mighty` |
+| Combat / control / scoring | `attack` / `defend` (single emitter R2-combat: per unit with `cardId`, per player with `data.player: true`), `damage_assigned`, `combat_result`, `lose_control`, `lose_points`, `concede`, `player_removed`, `lose_game`, `battlefield_replaced`, `banish` |
+| Effects | `mistarget`, `replaced`, `prevented`, `skip`, `skip_created`, `might`, `stun`, `buff`, `spend_buff`, `empower`, `disempower`, `counter`, `return_to_hand`, `burn`, `predict`, `look`, `search`, `shuffle`, `reveal`, `attach`, `detach`, `swap`, `grant_keyword`, `remove_keyword`, `gain_xp`, `counter_added`, `counter_spent`, `delayed_created`, `continuous_created`, `replacement_created` |
 
 R1-specific details:
 
@@ -344,14 +427,15 @@ registerCardScript({
 });
 ```
 
-- `src/effects/execute.ts` is the interpreter entry point. **R1** resolves an empty `seq` and
-  returns `manual` for every other effect.
+- `src/effects/execute.ts` is the interpreter entry point (R2-effects: a resumable JSON machine
+  over `EFFECT_OPS`; a decision opens an `effects.resume` prompt and the item stays on the chain
+  until the continuation finishes). Unregistered ops fall back to the manual window.
 - Missing scripts / `status:"manual"` open the §6.4 manual window:
   `rules.manual = { itemId, player, cardName }`. That player may use board actions until
   `rules_manual_done`; the item then goes to the trash (spells) or leaves the chain.
 - Add abilities (`origin:"add"`, 430.2/430.2.a) resolve immediately and never pass Priority or
-  Focus. R1 executes their script; an unimplemented effect emits `add_unimplemented` and leaves
-  the Rune Pool untouched (no fabricated resources, no unearned Action permission).
+  Focus. Their script is executed (`add_resolved`); an unimplemented effect emits
+  `add_unimplemented` and leaves the Rune Pool untouched (no fabricated resources).
 - `pnpm --filter @rift/rules coverage:cards` reports scripted vs manual cards.
 
 ## Purity exemptions (N2)
@@ -408,7 +492,9 @@ of `src/timing/hooks.ts`):
 `afterResolve` after a pending chain item finalizes + cleans up, `phaseStart` before each phase
 switch; `afterStep3a` after Special Cleanup inserts and `afterStateChange` before the 322 fixed
 point check. `registerFinalizeHook` (`afterFinalize`) runs immediately after an item becomes
-Finalized (337.1) and receives the `ChainItem`. `registerActionInterceptor` runs at the start of
+Finalized (337.1) and receives the `ChainItem` (R2-effects records the 359.3.e target snapshot
+there). A Pending *triggered* item is not finalized directly: `advance` hands it to
+`prepareTriggeredItem` (403 choices, 404–405 cost, 407 finalize; 407.3). `registerActionInterceptor` runs at the start of
 every game-action primitive (`draw`, `burn_out`, `channel`, `ready`, `exhaust`, `deal_damage`,
 `heal`, `kill`, `recall`, `move`, `add_resources`, `gain_points`, `score`, `establish_control`,
 `conquer`, `hold`, `create_token`); returning `null` prevents the action, returning a modified
@@ -420,7 +506,8 @@ Test ownership: `test/rules/{play,combat,effects}/`, `test/property/{play,combat
 (shared generators in `test/property/generators.ts`), `test/cards/`, `test/examples/`. The
 scenario DSL exposes `expectPrompt/expectEvents/expectObject/expectScore` plus `register(script)`.
 `pnpm --filter @rift/rules test` now runs the default suite **and** the frozen-host smoke suite
-(`test:host` is kept as an alias); the wave-R1 hand-off was 27 files / 137 default + 1 host
+(`test:host` is kept as an alias); the R2 integration hand-off is 62 files / 570 default + 1
+host; the wave-R1 hand-off was 27 files / 137 default + 1 host
 (the R1 baseline was 96 default + 1 host).
 
 ## How to add a rule
@@ -452,35 +539,45 @@ Main Phase from `createInitialGameState` plus the real engine host and exposes
 that the DSL cannot build construct the room directly from `createInitialGameState` (see
 `test/rules/burn-out.test.ts`).
 
-## Known R1 limitations
+## Known limitations
 
-- **2v2/team rules (F11) are not implemented.** `scoredThisTurn`/`checkVictory` are per player,
-  and a teammate cannot be invited to act on the Turn Player's turn (491.8.a); 315.2.b.3 /
-  491.8.b team scoring dedupe is absent.
-- **Combat damage is minimal.** `runCombatDamage` distributes each side's Might in list order;
-  the full 467 assignment UI, Tank/Assault/Shield and the 468 combat cleanups are R2.
-- **Add-ability effects need R2-effects scripts.** R1 executes the script but does not fabricate
-  resources; unimplemented effects emit `add_unimplemented`.
-- **323.10.a stores a single Contested applier.** `RulesState.contested` is
-  `Partial<Record<BattlefieldId, PlayerId>>`. The initial 323.8 application is ordered from the
-  Turn Player (303.2.a/NEW-8), but 323.10.a re-application still stores the first remaining player
-  in `activePlayerIds` order and uses the presence proxy, not a full control model (R2 can widen
-  it). (323.11/323.12 multiple staged Showdowns/Combats now prompt the Turn Player through the
-  shared `PROMPT_REASONS` registry.)
+Fixed in R2 (removed from this list): minimal combat damage (467.2.c assignment, Tank/Assault/
+Shield/Backline and the 468 combat cleanups are in), the single stored Contested applier and
+presence-proxy control (stored battlefield control 188–190, 323.10.a via control), F11 team
+scoring (472 / 491.8.b per team, shared points and team victory), costs/targets/payment/
+triggered-ability ordering/layers/replacements, NEW-12 (unscripted activated abilities are
+accepted as `manual:<n>` and resolve in the §6.4 manual window), and add abilities (scripted Add
+effects resolve, 430.2/430.5).
+
+Remaining:
+
+- **491.8.a teammate invitations** (a teammate acting on the Turn Player's turn) are not
+  implemented; the priority domain owns them.
+- **Concede is not wired to an intent.** `concede(room, playerId, step)` exists (649–652) but
+  needs a new wire intent (R2-int). 652.2 battlefield replacement only emits an event; a removed
+  Turn Player's turn hand-off is a RULES-QUESTION.
+- **Sync redaction of `prompt.data.continuation`** (`effects.resume` carries looked-at card ids)
+  is R2-int's.
 - **Restore drops mid-resolution context.** `restoreRulesState` rebuilds only turn fields, so a
   strict room whose `RulesState` is lost mid-chain resumes at Main with empty
-  chain/tasks/triggers/effects/pools/`contested`/`scoredThisTurn`. Persisting or replaying that
-  context is an R2 TODO.
-- **Costs, targets, payment, triggered-ability ordering (382+/303.2.a), layers/replacements,
-  full combat and strict rewind** are R2. R1 validates timing, priority/focus, chain order,
-  tasks, cleanups, showdown/combat seams and scoring.
-- **Unscripted *activated abilities* cannot be activated in R1.** The card registry is empty of
-  production scripts; unscripted spells/units/gear resolve through the manual window (§6.4), but
-  `activationVerdict` (`legality/activate.ts`, F5) requires a script/`lookupAbility` and rejects
-  a real card's activated ability with `illegal_action`/403.3 instead of opening the manual
-  window. The old wording (“every real card resolves through the manual window”) was wrong —
-  see R1 re-review NEW-12. **R2-effects TODO:** accept an unscripted activation into the §6.4
-  manual window (record the ref, open `rules.manual` on resolution) or script the card.
+  chain/tasks/triggers/effects/pools/`contested`/`scoredThisTurn`, no stored battlefield control
+  (the presence proxy applies) and no `combatProgress`.
+- **Engine host side effects (host frozen).** `settleVictory` (cleanup step 1) silently moves
+  unattached non-Deploy gear from battlefields to the base before step 5, so that recall emits no
+  `recall` event; `host.unitsAt`/`hasUnitAt` count facedown cards (the rules layer never calls
+  them directly any more — use `state/presence.ts`).
+- **Effects coverage.** 372/373 replacement ordering prompts and optional replacements (371.2),
+  355.11/355.14 group targeting and damage splitting, player-level restrictions in
+  `restrictionFor`, Show Off (832), Flow (829), copy (446), hide as an effect (422), 439 Replace,
+  433.1.b damage doubling, "the Nth time" triggers, triggers of cards outside the board (385),
+  layer dependency ordering (480–481) and trait-altering "becomes" effects are open; most cards
+  are still unscripted (manual window). See `docs/cards-coverage.md`.
+- **Play coverage.** 806.4/813.4 conditional Action/Reaction, Reaction Add abilities paying
+  applied costs (430.3/204.4.b.1), effect-driven plays placed during a resolution (420.3),
+  abilities other players may activate (378/381), card-type-filtered discard costs; mixed-symbol
+  Power costs are processed as [C] (RULES-QUESTION 131.3.a).
+- **Effect-driven moves** do not apply 449.2.a/464.1 or the 449.2.c recall fallback (only
+  Standard Moves and Unit plays consult `combatBarsDestination`).
 - `rules_*` intents do not participate in the engine's rewind history; strict multiplayer
   rewind is rejected.
 - Burn Out repetition is bounded per `drawCards` call (100 iterations) but a 3+ player room with
@@ -488,7 +585,8 @@ that the DSL cannot build construct the room directly from `createInitialGameSta
 
 ## Per-domain R2 notes
 
-Each wave-R2 owner documents its domain in its own file (linked here; the R2 lead merges them):
+Each wave-R2 owner documents its domain in its own file (decisions, merge contracts,
+RULES-QUESTIONs); the integration notes above supersede their merge-wiring sections:
 
 - [`docs/rules/play.md`](rules/play.md) — R2-play: process of play 349–359, costs/payment 356–357,
   activated abilities 376–381/399+, Standard Move 449–455.

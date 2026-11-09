@@ -15,42 +15,42 @@ A card is scripted when `packages/rules/src/cards/**/*.ts` contains a matching `
 
 | Status | Cards | % of playable |
 | --- | ---: | ---: |
-| implemented | 0 | 0.0% |
-| partial | 0 | 0.0% |
-| manual | 0 | 0.0% |
-| unscripted | 1090 | 100.0% |
+| implemented | 42 | 3.9% |
+| partial | 10 | 0.9% |
+| manual | 1 | 0.1% |
+| unscripted | 1037 | 95.1% |
 | unknown | 0 | 0.0% |
-| **Scripted (any status)** | **0** | **0.0%** |
-| **Automated (implemented + partial)** | **0** | **0.0%** |
+| **Scripted (any status)** | **53** | **4.9%** |
+| **Automated (implemented + partial)** | **52** | **4.8%** |
 | **Total playable names** | **1090** | **100.0%** |
 
 ## By type
 
 | Type | Total | Implemented | Partial | Manual | Unscripted | Unknown | Automated coverage |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Unit | 554 | 0 | 0 | 0 | 554 | 0 | 0.0% |
-| Spell | 271 | 0 | 0 | 0 | 271 | 0 | 0.0% |
-| Gear | 132 | 0 | 0 | 0 | 132 | 0 | 0.0% |
-| Battlefield | 74 | 0 | 0 | 0 | 74 | 0 | 0.0% |
-| Legend | 58 | 0 | 0 | 0 | 58 | 0 | 0.0% |
+| Unit | 554 | 18 | 3 | 0 | 533 | 0 | 3.8% |
+| Spell | 271 | 18 | 3 | 1 | 249 | 0 | 7.7% |
+| Gear | 132 | 1 | 2 | 0 | 129 | 0 | 2.3% |
+| Battlefield | 74 | 4 | 2 | 0 | 68 | 0 | 8.1% |
+| Legend | 58 | 1 | 0 | 0 | 57 | 0 | 1.7% |
 | Unit Gear | 1 | 0 | 0 | 0 | 1 | 0 | 0.0% |
 
 ## By set
 
 | Set | Total | Implemented | Partial | Manual | Unscripted | Unknown | Automated coverage |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Origins | 292 | 0 | 0 | 0 | 292 | 0 | 0.0% |
-| Spiritforged | 221 | 0 | 0 | 0 | 221 | 0 | 0.0% |
-| Unleashed | 219 | 0 | 0 | 0 | 219 | 0 | 0.0% |
-| Vendetta | 167 | 0 | 0 | 0 | 167 | 0 | 0.0% |
-| Radiance | 168 | 0 | 0 | 0 | 168 | 0 | 0.0% |
-| Proving Grounds | 23 | 0 | 0 | 0 | 23 | 0 | 0.0% |
+| Origins | 292 | 28 | 6 | 1 | 257 | 0 | 11.6% |
+| Spiritforged | 221 | 4 | 2 | 0 | 215 | 0 | 2.7% |
+| Unleashed | 219 | 3 | 0 | 0 | 216 | 0 | 1.4% |
+| Vendetta | 167 | 1 | 0 | 0 | 166 | 0 | 0.6% |
+| Radiance | 168 | 3 | 2 | 0 | 163 | 0 | 3.0% |
+| Proving Grounds | 23 | 3 | 0 | 0 | 20 | 0 | 13.0% |
 
 ## Unscripted cards by set
 
 The full list of playable names with no `name`/`status` script in `packages/rules/src/cards`.
 
-### Origins (292)
+### Origins (257)
 
 | Card | Type |
 | --- | --- |
@@ -60,15 +60,11 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Ahri, Inquisitive | Unit |
 | Ahri, Nine-Tailed Fox | Legend |
 | Albus Ferros | Unit |
-| Altar to Unity | Battlefield |
 | Anivia, Primal | Unit |
 | Arena Bar | Gear |
-| Aspirant's Climb | Battlefield |
 | Ava Achiever | Unit |
 | Back to Back | Spell |
-| Back-Alley Bar | Battlefield |
 | Baited Hook | Gear |
-| Bandle Tree | Battlefield |
 | Bilgewater Bully | Unit |
 | Blastcone Fae | Unit |
 | Blazing Scorcher | Unit |
@@ -78,19 +74,16 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Brazen Buccaneer | Unit |
 | Brynhir Thundersong | Unit |
 | Bullet Time | Spell |
-| Caitlyn, Patrolling | Unit |
 | Call to Glory | Spell |
 | Cannon Barrage | Spell |
 | Captain Farron | Unit |
 | Carnivorous Snapvine | Unit |
 | Catalyst of Aeons | Spell |
 | Cemetery Attendant | Unit |
-| Challenge | Spell |
 | Charm | Spell |
 | Chemtech Enforcer | Unit |
 | Cithria of Cloudfield | Unit |
 | Cleave | Spell |
-| Clockwork Keeper | Unit |
 | Commander Ledros | Unit |
 | Confront | Spell |
 | Consult the Past | Spell |
@@ -105,25 +98,19 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Darius, Trifarian | Unit |
 | Dazzling Aurora | Gear |
 | Deadbloom Predator | Unit |
-| Defy | Spell |
-| Discipline | Spell |
 | Disintegrate | Spell |
 | Divine Judgment | Spell |
-| Dr. Mundo, Expert | Unit |
 | Dragon's Rage | Spell |
 | Draven, Showboat | Unit |
 | Dune Drake | Unit |
 | Eager Apprentice | Unit |
-| Eclipse Herald | Unit |
 | Ekko, Recurrent | Unit |
 | Ember Monk | Unit |
-| En Garde | Spell |
 | Energy Conduit | Gear |
 | Facebreaker | Spell |
 | Fading Memories | Spell |
 | Faithful Manufactor | Unit |
 | Falling Comet | Spell |
-| Falling Star | Spell |
 | Fight or Flight | Spell |
 | Find Your Center | Spell |
 | Fiora, Victorious | Unit |
@@ -131,21 +118,16 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Flame Chompers | Unit |
 | Flurry of Blades | Spell |
 | Forge of the Future | Gear |
-| Fortified Position | Battlefield |
 | Fox-Fire | Spell |
 | Garbage Grabber | Gear |
 | Gemcraft Seer | Unit |
 | Get Excited! | Spell |
 | Grand Strategem | Spell |
-| Grove of the God-Willow | Battlefield |
 | Guerilla Warfare | Spell |
-| Gust | Spell |
 | Hallowed Tomb | Battlefield |
 | Harnessed Dragon | Unit |
 | Heimerdinger, Inventor | Unit |
 | Herald of Scales | Unit |
-| Hextech Ray | Spell |
-| Hidden Blade | Spell |
 | Icathian Rain | Spell |
 | Immortal Phoenix | Unit |
 | Imperial Decree | Spell |
@@ -167,7 +149,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Kog'Maw, Caustic | Unit |
 | Kraken Hunter | Unit |
 | Last Breath | Spell |
-| Last Stand | Spell |
 | Lecturing Yordle | Unit |
 | Lee Sin, Ascetic | Unit |
 | Lee Sin, Blind Monk | Legend |
@@ -182,7 +163,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Magma Wurm | Unit |
 | Malzahar, Fanatic | Unit |
 | Mask of Foresight | Gear |
-| Meditation | Spell |
 | Mega-Mech | Unit |
 | Mindsplitter | Unit |
 | Miss Fortune, Bounty Hunter | Legend |
@@ -199,8 +179,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Navori Fighting Pit | Battlefield |
 | Nocturne, Horrifying | Unit |
 | Noxian Drummer | Unit |
-| Noxian Guillotine | Spell |
-| Noxus Hopeful | Unit |
 | Noxus Saboteur | Unit |
 | Obelisk of Power | Battlefield |
 | Orb of Regret | Gear |
@@ -225,17 +203,13 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Raging Firebrand | Unit |
 | Raging Soul | Unit |
 | Ravenbloom Student | Unit |
-| Ravenborn Tome | Gear |
 | Reaver's Row | Battlefield |
-| Rebuke | Spell |
 | Reckoner's Arena | Battlefield |
 | Recruit | Unit |
 | Recruit v2 | Unit |
 | Recruit v3 | Unit |
 | Reinforce | Spell |
-| Retreat | Spell |
 | Rhasa the Sunderer | Unit |
-| Ride the Wind | Spell |
 | Riptide Rex | Unit |
 | Rune Prison | Spell |
 | Sabotage | Spell |
@@ -257,7 +231,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Shipyard Skulker | Unit |
 | Showstopper | Spell |
 | Sigil of the Storm | Battlefield |
-| Singularity | Spell |
 | Siphon Power | Spell |
 | Sky Splitter | Spell |
 | Smoke Screen | Spell |
@@ -266,7 +239,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Solari Chief | Unit |
 | Solari Shieldbearer | Unit |
 | Solari Shrine | Gear |
-| Sona, Harmonious | Unit |
 | Soulgorger | Unit |
 | Spectral Matron | Unit |
 | Spirit's Refuge | Gear |
@@ -281,7 +253,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Stealthy Pursuer | Unit |
 | Stormbringer | Spell |
 | Stormclaw Ursine | Unit |
-| Stupefy | Spell |
 | Sun Disc | Gear |
 | Sunlit Guardian | Unit |
 | Super Mega Death Rocket! | Spell |
@@ -310,7 +281,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Twisted Fate, Gambler | Unit |
 | Udyr, Wildman | Unit |
 | Unchecked Power | Spell |
-| Undercover Agent | Unit |
 | Unlicensed Armory | Gear |
 | Unyielding Spirit | Spell |
 | Vanguard Captain | Unit |
@@ -321,10 +291,8 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Vi, Destructive | Unit |
 | Viktor, Herald of the Arcane | Legend |
 | Viktor, Innovator | Unit |
-| Viktor, Leader | Unit |
 | Vilemaw's Lair | Battlefield |
 | Void Gate | Battlefield |
-| Void Seeker | Spell |
 | Volibear, Furious | Unit |
 | Volibear, Imposing | Unit |
 | Volibear, Relentless Storm | Legend |
@@ -332,22 +300,19 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Warwick, Hunter | Unit |
 | Watchful Sentry | Unit |
 | Whirlwind | Spell |
-| Whiteflame Protector | Unit |
 | Wielder of Water | Unit |
 | Wildclaw Shaman | Unit |
 | Wind Wall | Spell |
 | Windswept Hillock | Battlefield |
 | Wizened Elder | Unit |
-| Wraith of Echoes | Unit |
 | Yasuo, Remorseful | Unit |
 | Yasuo, Unforgiven | Legend |
 | Yasuo, Windrider | Unit |
 | Zaun Warrens | Battlefield |
 | Zaunite Bouncer | Unit |
 | Zenith Blade | Spell |
-| Zhonya's Hourglass | Gear |
 
-### Spiritforged (221)
+### Spiritforged (215)
 
 | Card | Type |
 | --- | --- |
@@ -396,7 +361,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Cull | Gear |
 | Danger Zone | Spell |
 | Dauntless Vanguard | Unit |
-| Deathgrip | Spell |
 | Defiant Dance | Spell |
 | Desert's Call | Spell |
 | Detonate | Spell |
@@ -425,7 +389,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Factory Recall | Spell |
 | Fae Dragon | Unit |
 | Fae Porter | Unit |
-| Feral Strength | Spell |
 | Ferrous Forerunner | Unit |
 | Fiora, Grand Duelist | Legend |
 | Fiora, Peerless | Unit |
@@ -435,7 +398,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Forge of the Fluft | Battlefield |
 | Forgefire Cape | Gear |
 | Forgotten Monument | Battlefield |
-| Frigid Touch | Spell |
 | Frostcoat Cub | Unit |
 | Gearhead | Unit |
 | Gem Jammer | Unit |
@@ -517,7 +479,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Rockfall Path | Battlefield |
 | Royal Entourage | Unit |
 | Royal Guard | Unit |
-| Ruin Runner | Unit |
 | Rumble, Hotheaded | Unit |
 | Rumble, Mechanized Menace | Legend |
 | Rumble, Scrapper | Unit |
@@ -537,7 +498,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Soraka, Wanderer | Unit |
 | Spinning Axe | Gear |
 | Spirit Wheel | Gear |
-| Stellacorn Herder | Unit |
 | Sterak's Gage | Gear |
 | Strike Down | Spell |
 | Sudden Storm | Spell |
@@ -551,7 +511,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Thwonk! | Spell |
 | Tianna Crownguard | Unit |
 | Treasure Hoard | Battlefield |
-| Treasure Hunter | Unit |
 | Trinity Force | Gear |
 | Trove Golem | Unit |
 | Trusty Ramhound | Unit |
@@ -573,7 +532,7 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Yordle Explorer | Unit |
 | Zaun Punk | Unit |
 
-### Unleashed (219)
+### Unleashed (216)
 
 | Card | Type |
 | --- | --- |
@@ -629,7 +588,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Dragonsoul Sage | Unit |
 | Dramatic Visionary | Unit |
 | Dusk Rose Lab | Battlefield |
-| Eclipse | Spell |
 | Elder Dragon | Unit |
 | Enthralling Protector | Unit |
 | Enthusiastic Promoter | Unit |
@@ -652,7 +610,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Gentle Gemdragon | Unit |
 | Grim Apothecary | Unit |
 | Grim Resolve | Spell |
-| Gustwalker | Unit |
 | Gutter Palace | Gear |
 | Heedless Resurrection | Spell |
 | Herald of Spring | Unit |
@@ -772,7 +729,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Trevor Snoozebottom | Unit |
 | Tricksy Tentacles | Spell |
 | Turn to Dust | Spell |
-| Ultrasoft Poro | Unit |
 | Undying Legion | Unit |
 | Undying Loyalty | Spell |
 | Upstage Comedy | Spell |
@@ -797,7 +753,7 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Yuumi, Magical Cat | Unit |
 | Zilean, Time Mage | Unit |
 
-### Vendetta (167)
+### Vendetta (166)
 
 | Card | Type |
 | --- | --- |
@@ -811,7 +767,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Ambessa, The Wolf | Unit |
 | Applied Researchers | Unit |
 | Apprentice Mage | Unit |
-| Astral Heron | Unit |
 | Aurok General | Unit |
 | Baccai Reaper | Unit |
 | Baccai Sandspinner | Unit |
@@ -969,7 +924,7 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Zed, Master of Shadows | Legend |
 | Zed, Without a Sound | Unit |
 
-### Radiance (168)
+### Radiance (163)
 
 | Card | Type |
 | --- | --- |
@@ -989,7 +944,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Bilgewater Tracker | Unit |
 | Black Market | Battlefield |
 | Black Rose Sanctum | Battlefield |
-| Blade of the Exile | Gear |
 | Bloodscent Swarm | Unit |
 | Blossoming Dreamroot | Gear |
 | Brawl | Spell |
@@ -997,7 +951,6 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Bushwhack Trap | Gear |
 | Cataclysm | Spell |
 | Chronobreak | Spell |
-| Clanging Sentry | Unit |
 | Clocktower Guardian | Unit |
 | Coalesced Energy | Unit |
 | Command: Attack | Spell |
@@ -1092,14 +1045,11 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Raucous Anthem | Spell |
 | Raving Witness | Unit |
 | Realm of Death | Spell |
-| Reckless Innovator | Unit |
 | Remember the Fallen | Spell |
 | Resource Extractor | Gear |
 | Resplendent Rostrum | Gear |
 | Riptide Mage | Unit |
-| Riven, Broken Blade | Unit |
 | Riven, Deserter | Unit |
-| Riven, The Exile | Legend |
 | Rousing Display | Spell |
 | Ruined Monastery | Battlefield |
 | Runeblade Anvil | Gear |
@@ -1142,18 +1092,16 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Ziggs, Hexplosives Expert | Legend |
 | Ziggs, Short-Fused | Unit |
 
-### Proving Grounds (23)
+### Proving Grounds (20)
 
 | Card | Type |
 | --- | --- |
 | Annie, Dark Child | Legend |
-| Annie, Fiery | Unit |
 | Annie, Stubborn | Unit |
 | Blast of Power | Spell |
 | Decisive Strike | Spell |
 | Final Spark | Spell |
 | Firestorm | Spell |
-| Flash | Spell |
 | Garen, Commander | Unit |
 | Garen, Might of Demacia | Legend |
 | Garen, Rugged | Unit |
@@ -1162,11 +1110,18 @@ The full list of playable names with no `name`/`status` script in `packages/rule
 | Incinerate | Spell |
 | Lux, Illuminated | Unit |
 | Lux, Lady of Luminosity | Legend |
-| Master Yi, Honed | Unit |
 | Master Yi, Meditative | Unit |
 | Master Yi, Wuju Bladesman | Legend |
 | Recruit the Vanguard | Spell |
 | Tibbers | Unit |
 | Vanguard Attendant | Unit |
 | Zephyr Sage | Unit |
+
+## Scripts outside the playable set
+
+These script files name a token, rune, marker, or otherwise excluded card. They do not count toward coverage.
+
+| Name | Status | File |
+| --- | --- | --- |
+| Gold | implemented | `packages/rules/src/cards/tokens/gold.ts` |
 

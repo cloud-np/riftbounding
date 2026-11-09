@@ -4,6 +4,18 @@ Owner: **R2-combat** — cleanups 318–324, combat 461–468 (incl. damage assi
 scoring 469–474, winning 193–196, battlefields/control 169–172 / 188–190 / 198–200, modes of
 play 483–491 (scoring/victory parts) and conceding 649–652.
 
+## Integration status (R2 merge)
+
+- R2-combat is the single emitter of `attack`/`defend`; R2-effects detects Attack/Defend
+  triggers from these events (player-level ones carry `data.player: true`).
+- `combatTriggerOrder` is passed once, from `beginCombat` (466.2.d.1); the default flush order is
+  Turn Order (383.3.d.1) even during a combat. `combat-chain.test.ts` drives real triggers.
+- The keyword profile and the Assault/Shield bonus moved to `layers/combat-keywords.ts`;
+  `effectiveMight` includes the bonus while the designation is held and `combatMight` is
+  `max(0, effectiveMight)` (143.2.c). The `[R807.1.c]` tripwire now asserts that contract.
+- Presence checks use `state/presence.ts` (facedown cards excluded, 107.3); step 5 keeps Deploy
+  gear (830.1.b.3). `chooseVerdict` consults `damageAssignmentVerdict` (explain = apply).
+
 ## Files
 
 | File | Rules | Contents |

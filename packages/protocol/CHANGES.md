@@ -119,3 +119,60 @@ are additive; no R1 export was removed or renamed.
 
 No wire field, message or existing type member changed; a `WhoMayAct` value produced today is
 byte-for-byte identical. R2-combat can widen `CombatWhoWindow` to `"combat"` in its own file.
+
+## R2 — strict rules domains (additive)
+
+Every R2 addition lives in its domain file (`src/rules/domains/{play,combat,effects}.ts`) and is
+composed into the core unions/intersections; all fields are optional and no R1 name was renamed
+or removed. Event `type` strings and `Prompt.data.reason` values are open strings, so the new ones
+need no union change.
+
+| domain | change | why |
+| --- | --- | --- |
+| play | `PlayReasonCode` += `invalid_payment`, `restricted`; `PlayPromptKind` = `choose-cost` | 357 explicit payment plans, restriction layer (421/475–479), 357.2 cost-object prompts |
+| play | `PaymentPlanWire`; `PlayChoiceAliasFields` (`plan`, `optionalCosts`, `targets`, `x`, `modes`, `baseCost`) on `rules_play` and `rules_activate`; `PlayPlayIntentFields.hide` | 355 choices and 357 payment on the intent; Hide (422, 811) |
+| play | `PlayChainItemFields`: `process?: PlayProcessState`, `optionalCosts?`, `totalCost?`, `playedFromFacedown?`; `PlayPermissionWire` | Pending items (354/402) waiting on a prompt, 358.5 undo, 356 totals, 811.1.d |
+| play | `PlayProcessState.stage` widened with `"may"` / `"cost"`; `PlayProcessState.costAccepted?` (R2 integration) | the single 399–407 path for triggered abilities: 403.1 "you may" and 405.2 pay-or-decline decisions |
+| play | `PlayObjectFields`: `hiddenTurn?`, `hiddenBy?`; `PlayHistoryFields`: `finalizedCardsThisTurn?`, `activationsThisTurn?`, `playHistoryTurn?` (reset by `startNextTurn`) | facedown plays (811.1.b), Legion (812/420.4.b), activation limits |
+| play | `PlayLegalIntentsFields`: `playable?: PlayableCardDetail[]` (same order as `playableCardIds`), `hideable?` | clients can build a complete `rules_play` (locations, optional costs, cost, `fromFacedown`) |
+| play | `ChainItem.paid` records what was actually paid (Energy, Domain Power, exhausted/killed/discarded ids, `additional.{exhaustedRunes,recycledRunes,optionalCosts,power}`); the intent's legacy `payment` is no longer copied | 357 audit trail |
+| combat | `CombatObjectFields`: `controller?: string \| null` (battlefield objects), `assignedDamage?`, `assignedBy?`, `attackedThisCombat?`, `defendedThisCombat?` | stored battlefield control (188–190), 467.2.c assignments, 383.4.e.2.a once-per-combat designation events |
+| combat | `CombatHistoryFields`: `combatProgress?: CombatProgress`, `scoringSnapshot?: ScoringStepSnapshot` (+ exported `CombatProgress`, `CombatProgressStage`, `ScoringStepSnapshot`) | resumable steps of combat (465–468); 471.1.a / 491.8.b.1 / 491.8.g.1 Scoring Step snapshot |
+| combat | `CombatPromptAnswerFields.exclusiveChoices?: Record<string, string>`; `CombatDamageTarget` display fields `controllerId?`, `damage?`, `might?`; `CombatDamageAssignmentData.suggested?` | 467.2.c.8 Tank/Backline choices, assignment UI |
+| combat | `CombatWhoWindow = "combat"` | `whoMayAct` during a combat |
+| effects | `EffectsEffectOp` += `spend_buff`, `cost_then`, `requires`, `reflexive`, `delayed`, `continuous`, `remove_keyword`, `choose`, `add_counter`, `spend_counter`, `give_might`, `mark` | Effect DSL coverage (412–448, 387–393, 740.4.a, 377.2.b) |
+| effects | interface merging: optional `Selector` fields (`where`, cost comparisons, `exhausted`, `mighty`, `token`, `excludeRefs`, `sameLocationAs`, …), `EventMatcher` (`subject`, `from`, `player`), `TokenSpec` (`tags`, `play`) | card scripts |
+| effects | `EffectsObjectFields`: `empowered?`, `prevent?`, `keywordGrants?`, `mightMods?`, `paidAdditionalCost?`, `targetedBy?` | prevention 438, keyword grants 801.3, Might durations, 356.4.f.1, 359.3.e.4 |
+| effects | `EffectsHistoryFields.effects` (`limits`, `marks`, `replacements`, `played`) | 383.3.e/386 limits, 370.2/371 replacement bookkeeping |
+| effects | `EffectsChainItemFields`: `effect?`, `triggerEvent?`, `sourceName?`, `optional?`, `mayDecided?`, `targetSnapshot?`, `resolutionChoices?` | inline keyword/delayed triggers, 403.1, 359.3.e mistargeting |
+
+**Prompt reasons** (`Prompt.data.reason`): `play.choice` (355 / 403.2 choices; carries `key`,
+`targeted`, `choiceMax` — the prompt's `max` is capped at the number of legal options),
+`play.cost` (357.2), `play.trigger` (403.1 / 405.2 yes/no; `data.stage` = `may` | `cost`),
+`combat.damage_assignment` (467.2.c), `effects.resume` (355.18 resolution decisions; carries the
+interpreter `continuation`, to be redacted for other viewers by R2-int), `effects.order_triggers`
+(383.3.d). R2-effects' `effects.trigger_choice` did not survive the merge: triggered abilities use
+`play.choice` / `play.trigger` through the single 399–407 path.
+
+**Events** (`GameEvent.type`, new in R2):
+
+- play: `cost_paid`, `recycle`, `discard`, `pay_points`, `spend_xp`, `hide`, `enters_ready`,
+  `ability_activated`, `play_cancelled`; `card_played` is emitted when the card has finished the
+  process (350.1), after its last prompt.
+- combat: `attack` / `defend` — R2-combat is the single emitter: once per unit per combat
+  (`cardId`, 383.4.e/f) and once per player when the Attacker/Defender is established
+  (`data.player: true`, 466.2.c.3; R2-effects' `attack_declared`/`defend_declared` were folded
+  into these); `damage_assigned` (`{assignments, auto}`), `combat_damage` (+ `dealt`),
+  `combat_result` (`{winner, loser, noResult, recalled, units}`), `lose_control`, `lose_points`,
+  `concede`, `banish`, `battlefield_replaced`, `player_removed`, `lose_game`; `contested` carries
+  `rule: "190.3.a"` for single-player arrivals (`"323.8"` when opposing units are present).
+- effects: `trigger`, `trigger_removed` / `trigger_declined` (`{itemId, rule, reason}`),
+  `mistarget`, `replaced`, `prevented`, `skip`, `skip_created`, `become_mighty`, `might`, `stun`,
+  `buff`, `spend_buff`, `empower`, `disempower`, `counter`, `banish`, `return_to_hand`, `recycle`,
+  `discard`, `burn`, `predict`, `look`, `search`, `shuffle`, `reveal`, `attach`, `detach`, `swap`,
+  `grant_keyword`, `remove_keyword`, `gain_xp`, `spend_xp`, `pay_points`, `counter_added`,
+  `counter_spent`, `delayed_created`, `continuous_created`, `replacement_created`.
+
+Semantics notes (no shape change): `ObjectRulesState` Might values may now be read back as
+negative (143.2.c.1); a spell waiting on an `effects.resume` prompt stays on `RulesState.chain`
+until its continuation finishes (340/359), so `spell_resolved` follows the instructions it ran.
