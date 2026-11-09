@@ -11,5 +11,6 @@ import "./feral-strength";
 import "./common";
 import "./batch-1";
 import "./batch-2";
+import "./batch-3";
 
 export {};

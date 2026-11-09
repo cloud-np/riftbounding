@@ -30,6 +30,7 @@ import {
   typeOf,
 } from "../../effects/objects";
 import { unitsPresentAt } from "../../state/presence";
+import { teamOf } from "../../scoring/teams";
 import { pushEvent } from "../../types";
 import { custom, token } from "../dsl";
 
@@ -349,7 +350,47 @@ registerCustomCondition("sfd:ref-here", (ctx, params) => {
   return !!here && locationOf(ctx.room, ctx.host, id) === here;
 });
 
+/** `it` (a battlefield pseudo-object) is controlled by the ability's controller or an ally (491.2). */
+registerCustomCondition("sfd:it-battlefield-friendly", (ctx) => {
+  const zone = ctx.env.it ? battlefieldZoneOf(ctx.env.it) : null;
+  if (!zone) return false;
+  const controller = battlefieldController(ctx.room, ctx.host, zone);
+  return !!controller && teamOf(ctx.room, ctx.env.controller).includes(controller);
+});
+
+/** The kill event happened at the battlefield of the combat in progress ("When I die in combat"). */
+registerCustomCondition("sfd:died-in-combat", (ctx) => {
+  const event = ctx.env.event;
+  const combat = ctx.room.rules?.combat;
+  return !!event?.zone && !!combat && combat.battlefield === event.zone;
+});
+
 /* ---------------------------------------------------------------- custom effects */
+
+/**
+ * "Put it in your hand" for cards revealed / looked at in the Main Deck — a move to the owner's
+ * hand that is not a draw (414 is not involved). `ref` names the bound cards.
+ */
+registerCustomEffect("sfd:to-hand-ref", (params, context) => {
+  const host = context.step.host;
+  const env = context.machine?.env ?? { controller: context.controller, choices: {}, vars: {} };
+  const ref = typeof params.ref === "string" ? params.ref : "looked";
+  const moved: string[] = [];
+  for (const id of refIds({ room: context.room, host, env }, ref)) {
+    const located = locate(context.room, host, id);
+    if (!located || located.zone !== "deck") continue;
+    if (!host.moveCardToOwnerZone(context.room, id, "hand")) continue;
+    moved.push(id);
+    pushEvent(context.step.events, {
+      type: "put_in_hand",
+      cardId: id,
+      playerId: located.playerId,
+      data: { from: "deck" },
+    });
+  }
+  recordOutcome(context, moved, moved.length > 0);
+  return RESOLVED;
+});
 
 /**
  * "Put the top N cards of your Main Deck into your trash" (Minefield). Not a discard (423) and not
