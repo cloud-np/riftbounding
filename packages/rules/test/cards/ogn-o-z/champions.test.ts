@@ -215,7 +215,7 @@ describe("Origins O–Z champions and remaining units", () => {
     expect(s.room.rules!.pools.p1!.energy).toBe(0);
   });
 
-  it("[C:Volibear, Furious][C:Yasuo, Windrider][C:Sai Scout] keyword parts are automated; their other lines are partial", () => {
+  it("[C:Volibear, Furious][C:Yasuo, Windrider][C:Sai Scout] keyword parts are automated; the remaining lines are handled per card", () => {
     const s = withCards(["Volibear, Furious", "Yasuo, Windrider", "Sai Scout"]);
     const voli = place(s, "p1", "Volibear, Furious", "base");
     const yasuo = place(s, "p1", "Yasuo, Windrider", "base");
@@ -227,21 +227,18 @@ describe("Origins O–Z champions and remaining units", () => {
     expect(s.room.rules!.chain.some((item) => item.abilityRef?.startsWith("keyword:vision"))).toBe(
       true,
     );
-    for (const name of ["Volibear, Furious", "Yasuo, Windrider", "Sai Scout"]) {
+    expect(getCardScript("Volibear, Furious")?.status).toBe("implemented");
+    for (const name of ["Yasuo, Windrider", "Sai Scout"]) {
       expect(getCardScript(name)?.status).toBe("partial");
     }
   });
 
-  it("[C:Raging Soul][C:Sneaky Deckhand][C:Tryndamere, Barbarian][C:Symbol of the Solari] are manual with gap notes", () => {
-    for (const name of [
-      "Raging Soul",
-      "Sneaky Deckhand",
-      "Tryndamere, Barbarian",
-      "Symbol of the Solari",
-    ]) {
+  it("[C:Raging Soul][C:Sneaky Deckhand][C:Tryndamere, Barbarian] are manual with gap notes; Symbol of the Solari is now implemented", () => {
+    for (const name of ["Raging Soul", "Sneaky Deckhand", "Tryndamere, Barbarian"]) {
       expect(getCardScript(name)?.status).toBe("manual");
       expect(getCardScript(name)?.notes?.length ?? 0).toBeGreaterThan(20);
     }
+    expect(getCardScript("Symbol of the Solari")?.status).toBe("implemented");
     const s = withCards(["Sneaky Deckhand"]);
     fund(s, "p1", "Sneaky Deckhand");
     s.as("p1").play("Sneaky Deckhand").expectOk();

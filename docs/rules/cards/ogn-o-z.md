@@ -13,7 +13,6 @@ the script file of the card that needs them (cards sharing one import that file)
 | Capability                                                                                                                                                         | Rule ids                 | Cards blocked                          | Count |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ | -------------------------------------- | ----: |
 | "Spend a buff" as a cost (activation cost "Spend my buff", or optional additional cost)                                                                            | 702.2.b, 356.2.b, 376    | Wallop, Sett, Brawler, Udyr, Wildman   |     3 |
-| Optional replacement effects with a payment ("you may pay … to … instead")                                                                                         | 371.2, 445, 369          | Unlicensed Armory, Sett, The Boss      |     2 |
 | Triggered abilities of cards in non-board zones (hand/trash)                                                                                                       | 385                      | Scrapheap, Super Mega Death Rocket!    |     2 |
 | `kill` events lack last-known buff / stunned state for leave-the-board trigger conditions                                                                          | 383.2.c.3.b, 359.3.e.13  | Vanguard Helm, Solari Shrine           |     2 |
 | Battlefield phase triggers for each player ("that player") and a "player's first Beginning Phase" condition (battlefield trigger controller is the present player) | 315.2.a.1, 383.4         | Obelisk of Power, The Arena's Greatest |     2 |
@@ -23,16 +22,13 @@ the script file of the card that needs them (cards sharing one import that file)
 | `ready` events carry no responsible player, and the Awaken Phase readies through one `ready_all` event (no per-object `ready` events)                              | 412.4, 315.1.b, 416      | Pirate's Haven                         |     1 |
 | Player-level move event ("an opponent moves …", once per move action)                                                                                              | 421, 447                 | Volibear, Imposing                     |     1 |
 | Destination-qualified move restriction ("can't move from here to base"): `restrictionFor` ignores the move query's `to`                                            | 054.1, 421               | Vilemaw's Lair                         |     1 |
-| Fixed by R3-engine (e860fbe): Standard Move legality now reads Ganking from keyword passives; the Windswept Hillock test is enabled | 810.3, 144.4.c.1 | Windswept Hillock | 1 |
 | Cost-layer conditions see Might at layer depth 1 (no passive/continuous/Assault-Shield Might)                                                                      | 478.1.c, 356.4           | Sky Splitter                           |     1 |
 | One-shot enter-ready replacement used up by the next unit played                                                                                                   | 369.3, 420.5             | Sun Disc                               |     1 |
 | One-shot "next spell" cost reduction is used up by the next card of any type (`consumeOnceCostEffects` ignores the target)                                         | 420.5, 356.4             | Raging Firebrand                       |     1 |
 | Alternative Hide cost ([1] instead of [Rune])                                                                                                                      | 811.1.a, 422             | Teemo, Swift Scout                     |     1 |
 | Activation cost "Recycle N from your trash"                                                                                                                        | 417.6, 376               | Vi, Destructive                        |     1 |
-| Damage split among any number of targets                                                                                                                           | 355.14, 418.1.d          | Volibear, Furious                      |     1 |
 | "The Nth time … in a turn" triggers (per-turn move count of an object)                                                                                             | 383.1.b                  | Yasuo, Windrider                       |     1 |
 | Excess combat damage assigned and "conquer after an attack" are not recorded                                                                                       | 467.2.c, 383.4.c         | Tryndamere, Barbarian                  |     1 |
-| Replacing the combat-cleanup tie recall                                                                                                                            | 740.3.a, 468             | Symbol of the Solari                   |     1 |
 | Activating other objects' conquer-triggered abilities without a conquer                                                                                            | 383.4.c                  | Reckoner's Arena                       |     1 |
 | Event for "a player chooses a unit with a spell" (target choice)                                                                                                   | 355.7, 383.1             | The Dreaming Tree                      |     1 |
 | Target-dependent Bonus Damage for every player's spells/abilities ("to units here")                                                                                | 712–715                  | Void Gate                              |     1 |
@@ -40,9 +36,13 @@ the script file of the card that needs them (cards sharing one import that file)
 | Extra turns, and a resolving spell banishing itself instead of going to the trash                                                                                  | 428, 340                 | Time Warp                              |     1 |
 | Effect plays do not compute a 356 total cost (other cost modifiers, optional additional costs)                                                                     | 420.3.b, 356             | Reinforce                              |     1 |
 
+R3-engine fixed optional replacement prompts/ordering (371.2/372/373), damage split (355.14) and
+Ganking from keyword passives (810.3); the R4 upgrade also implements the combat tie-recall
+replacement (Symbol of the Solari). Those rows were removed.
+
 ## Card status
 
-131 of 131 scripted: 95 implemented, 21 partial, 15 manual.
+131 of 131 scripted: 100 implemented, 17 partial, 14 manual.
 
 | Card                         | Status      | Notes                                                                                                                                                                              |
 | ---------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -91,7 +91,7 @@ the script file of the card that needs them (cards sharing one import that file)
 | Seal of Unity                | implemented |                                                                                                                                                                                    |
 | Sett, Brawler                | partial     | The activated ability's cost 'Spend my buff' (702.2.b) is not payable, so it cannot be activated.                                                                                  |
 | Sett, Kingpin                | implemented |                                                                                                                                                                                    |
-| Sett, The Boss               | partial     | The 'would die … instead' ability is manual: optional replacements with costs (371.2, 445) are not supported.                                                                      |
+| Sett, The Boss               | implemented |                                                                                                                                                                                    |
 | Shakedown                    | implemented |                                                                                                                                                                                    |
 | Shen, Kinkou                 | implemented |                                                                                                                                                                                    |
 | Shipyard Skulker             | implemented |                                                                                                                                                                                    |
@@ -122,7 +122,7 @@ the script file of the card that needs them (cards sharing one import that file)
 | Sun Disc                     | partial     | The effect resolves in the manual window: a one-shot enter-ready replacement consumed by the next unit played (369.3, 420.5) is not supported.                                     |
 | Sunlit Guardian              | implemented |                                                                                                                                                                                    |
 | Super Mega Death Rocket!     | partial     | The trash trigger ('When you conquer, you may discard 1 to return this') is manual: triggers of cards in non-board zones (385) are not detected.                                   |
-| Symbol of the Solari         | manual      | Replacing the combat-cleanup tie recall (740.3.a, 468) is not supported by the replacement layer.                                                                                  |
+| Symbol of the Solari         | implemented |                                                                                                                                                                                    |
 | Targon's Peak                | implemented |                                                                                                                                                                                    |
 | Taric, Protector             | implemented |                                                                                                                                                                                    |
 | Tasty Faefolk                | implemented |                                                                                                                                                                                    |
@@ -147,7 +147,7 @@ the script file of the card that needs them (cards sharing one import that file)
 | Twisted Fate, Gambler        | implemented |                                                                                                                                                                                    |
 | Udyr, Wildman                | partial     | The activated ability's cost 'Spend my buff' (702.2.b) is not payable, so it cannot be activated.                                                                                  |
 | Unchecked Power              | implemented |                                                                                                                                                                                    |
-| Unlicensed Armory            | partial     | The effect resolves in the manual window: optional replacements with a payment (371.2, 445) are not supported.                                                                     |
+| Unlicensed Armory            | implemented |                                                                                                                                                                                    |
 | Unyielding Spirit            | implemented |                                                                                                                                                                                    |
 | Vanguard Captain             | implemented |                                                                                                                                                                                    |
 | Vanguard Helm                | manual      | `kill` events carry no last-known buff state (383.2.c.3.b), so "a buffed friendly unit dies" cannot be matched.                                                                    |
@@ -159,7 +159,7 @@ the script file of the card that needs them (cards sharing one import that file)
 | Viktor, Innovator            | implemented |                                                                                                                                                                                    |
 | Vilemaw's Lair               | manual      | Destination-qualified move restrictions are not supported: restrictionFor ignores the `to` of a move query (054.1, 421).                                                           |
 | Void Gate                    | manual      | Target-dependent Bonus Damage for every player's spells and abilities (712–715) is not supported: bonus-damage applies per controller, not per damaged unit.                       |
-| Volibear, Furious            | partial     | The attack trigger is manual: damage split among any number of targets (355.14, 418.1.d) is not supported.                                                                         |
+| Volibear, Furious            | implemented |                                                                                                                                                                                    |
 | Volibear, Imposing           | partial     | The draw trigger is manual: no player-level move event (one per move action, 421/447) exists, only per-unit `move` events.                                                         |
 | Volibear, Relentless Storm   | implemented |                                                                                                                                                                                    |
 | Wallop                       | partial     | The optional additional cost (spend a buff, 702.2.b) and its cost-ignoring discount (356.2.b) are not payable by the play layer.                                                   |
@@ -169,7 +169,7 @@ the script file of the card that needs them (cards sharing one import that file)
 | Wielder of Water             | implemented |                                                                                                                                                                                    |
 | Wildclaw Shaman              | implemented |                                                                                                                                                                                    |
 | Wind Wall                    | implemented |                                                                                                                                                                                    |
-| Windswept Hillock            | partial     | Standard Move legality (legality/move.ts via play/keywords cardKeywords) ignores keyword passives, so the granted Ganking does not allow battlefield-to-battlefield moves (810.3). |
+| Windswept Hillock            | implemented |                                                                                                                                                                                    |
 | Wizened Elder                | implemented |                                                                                                                                                                                    |
 | Yasuo, Remorseful            | implemented |                                                                                                                                                                                    |
 | Yasuo, Unforgiven            | implemented |                                                                                                                                                                                    |
