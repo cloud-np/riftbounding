@@ -4,9 +4,7 @@ import { notIntrinsic, registerCardScript, SELF } from "../sdk";
 registerCardScript({
   name: "Jayce, Hammer in Hand",
   text: "When I become ready, choose one to give me this turn --\n• [Assault 2] (+2 [Might] while I'm an attacker)\n• [Deflect 2] (Opponents must pay [Rune][Rune] to choose me with a spell or ability.)\n• [Ganking] (I can move from battlefield to battlefield.)",
-  status: "partial",
-  notes:
-    "The 'when I become ready' trigger fires for effect-driven readies (416), but the Beginning Phase 'ready all' emits one ready_all event and no per-object ready events (315.1), so it does not trigger there.",
+  status: "implemented",
   abilities: [
     ...notIntrinsic("Assault"),
     ...notIntrinsic("Deflect"),
