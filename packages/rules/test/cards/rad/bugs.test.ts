@@ -2,7 +2,7 @@
  * Engine bugs found while scripting RAD cards (lane discipline: reproduced here, not fixed).
  */
 import { describe, expect, it } from "vitest";
-import { boardOf } from "../../rules/effects/helpers";
+import { boardOf, fund } from "../../rules/effects/helpers";
 import { put, resolveAll, withCards } from "./helpers";
 
 describe("RAD lane — engine bug reproductions", () => {
@@ -85,5 +85,35 @@ describe("RAD lane — engine bug reproductions", () => {
     expect(boardOf(s, "p1").runeArea.every((rune) => rune.exhausted)).toBe(true);
     // No optional cost was chosen: the "if you paid the additional cost" trigger must not fire.
     expect(s.room.rules!.chain).toHaveLength(0);
+  });
+
+  /**
+   * `effects/choices.ts` builds the choice-scan environment without the trigger event or the
+   * leaving source's last-known location, so a chosen target "here" (or by "event-zone") of a
+   * Deathknell resolves to no zone and the trigger is dropped (Mournful Spirit uses a `choose`).
+   */
+  it.skip("[BUG][C:Mournful Spirit][R355.7][R383.2.c.3] a Deathknell can choose a Target 'here' when put on the chain", () => {
+    const s = withCards(["Lost to the Sands"], ["Mournful Spirit"]);
+    const spirit = put(s, "p2", "Mournful Spirit", "battlefieldA");
+    put(s, "p1", "Treasure Hunter", "battlefieldA");
+    fund(s, "p1", "Lost to the Sands");
+    s.as("p1")
+      .play("Lost to the Sands", { choices: { mode: "deal", "target:0": spirit.id } })
+      .expectOk();
+    s.as("p2").pass().expectOk();
+    // Expected: a choose-target prompt for p2 (kill target uses `{ chosen: true, zone: HERE }`).
+    expect(s.room.rules!.prompt?.kind).toBe("choose-target");
+  });
+
+  /**
+   * The die event/last-known information has no stunned status (424), so "When a stunned enemy
+   * unit here dies" (Storm Raptor) can't be scripted.
+   */
+  it.skip("[BUG][C:Storm Raptor][R424][R383.2.c.3] the die event keeps the dead unit's stunned status", () => {
+    const s = withCards(["Lost to the Sands"], ["Storm Raptor"]);
+    const victim = put(s, "p1", "Treasure Hunter", "battlefieldA");
+    s.room.rules!.objects[victim.id] = { ...s.room.rules!.objects[victim.id], stunned: true };
+    expect(s.room.rules!.objects[victim.id]?.stunned).toBe(true);
+    throw new Error("no event/LKI field carries 'stunned' after the kill (objects[id] is deleted)");
   });
 });
