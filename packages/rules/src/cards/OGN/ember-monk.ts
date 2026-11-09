@@ -1,5 +1,5 @@
 /** Ember Monk — when you play a card from Hidden, +2 Might this turn (811.1.b). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Ember Monk",

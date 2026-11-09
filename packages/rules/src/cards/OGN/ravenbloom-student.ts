@@ -4,8 +4,7 @@
  * 420.4.a: abilities that trigger on playing a card trigger when the card has resolved
  * (`spell_resolved`); a countered spell never triggers it (420.4.a.1).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Ravenbloom Student",

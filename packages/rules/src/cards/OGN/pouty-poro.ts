@@ -1,5 +1,5 @@
 /** Pouty Poro (OGN-013) — [Deflect] (809) is paid by the play layer; no other text. */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Pouty Poro",

@@ -9,8 +9,7 @@
  * matcher names the play-time choice (`target:0`, 355 / 359.3.f.3.a); the `replace` op freezes the
  * choice onto the delayed effect and R4-engine passes it to the matcher.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Unlicensed Armory",

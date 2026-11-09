@@ -2,8 +2,7 @@
  * Right of Conquest (UNL-015) — "Draw 1, then draw 1 for each battlefield you or allies control."
  * Battlefield control is the stored control state (190.2); allies are teammates (491).
  */
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Right of Conquest",

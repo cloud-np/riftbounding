@@ -8,8 +8,7 @@
  * has no spend-a-buff component; the death is held until the "apply/decline" answer (R3-engine).
  * "When you conquer, ready me" is automated (383.4.c.2.b player-level conquer).
  */
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT, SELF } from "../dsl";
+import { EVENT_SUBJECT, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Sett, The Boss",

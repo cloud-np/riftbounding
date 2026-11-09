@@ -1,13 +1,12 @@
 import { afterEach, describe, expect, it } from "vitest";
 import type { CardScript, Effect, Trigger } from "@rift/protocol";
 import {
-  clearCardScripts,
   effectiveMight,
   executeEffect,
   flushPendingTriggers,
-  registerCardScript,
   xpOf,
 } from "../../../src";
+import { clearCardScripts, registerTestCardScript } from "../../../src/testing";
 import { scenario } from "../../scenarios/dsl";
 import { boardOf, fund, place, spell, stepFor, zoneOf } from "./helpers";
 
@@ -27,7 +26,7 @@ function handSize(s: ReturnType<typeof scenario>, player: string): number {
 
 describe("triggered abilities [R382–R386][R402–R407]", () => {
   it("[R383.4.a][R383.4.a.2] a play effect goes on the chain after the permanent enters the board", () => {
-    registerCardScript(triggered("Treasure Hunter", PLAYED_SELF, { op: "draw", amount: 1 }));
+    registerTestCardScript(triggered("Treasure Hunter", PLAYED_SELF, { op: "draw", amount: 1 }));
     const s = scenario({ p1: { hand: ["Treasure Hunter"], energy: 2 } });
     s.as("p1").play("Treasure Hunter").expectOk();
     s.expectZone("p1", "Treasure Hunter", "base");
@@ -44,8 +43,8 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R383.2.c.3][R808.1.d.2][EX:383.2.c.3] a Deathknell-style trigger fires when the unit is killed", () => {
-    registerCardScript(KILL_SPELL);
-    registerCardScript(triggered("Stellacorn Herder", DIES_SELF, { op: "draw", amount: 2 }));
+    registerTestCardScript(KILL_SPELL);
+    registerTestCardScript(triggered("Stellacorn Herder", DIES_SELF, { op: "draw", amount: 2 }));
     const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
     const herder = place(s, "p2", "Stellacorn Herder", "battlefieldA");
     s.as("p1").play("Rebuke", { choices: { "target:0": herder.id } }).expectOk();
@@ -62,9 +61,9 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R383.2.c.3.a][EX:383.2.c.3.a] a replaced death does not trigger \"when I die\"", () => {
-    registerCardScript(KILL_SPELL);
-    registerCardScript(triggered("Stellacorn Herder", DIES_SELF, { op: "draw", amount: 2 }));
-    registerCardScript({
+    registerTestCardScript(KILL_SPELL);
+    registerTestCardScript(triggered("Stellacorn Herder", DIES_SELF, { op: "draw", amount: 2 }));
+    registerTestCardScript({
       name: "Blade of the Exile",
       text: "test: If a friendly unit would die, recall it instead.",
       status: "implemented",
@@ -86,8 +85,8 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R384.2] triggered abilities of permanents only trigger while on the board", () => {
-    registerCardScript(triggered("Treasure Hunter", { kind: "event", event: { type: "unit_played" } }, { op: "gain_xp", amount: 1 }));
-    registerCardScript(spell("Caitlyn, Patrolling", { op: "seq", effects: [] }));
+    registerTestCardScript(triggered("Treasure Hunter", { kind: "event", event: { type: "unit_played" } }, { op: "gain_xp", amount: 1 }));
+    registerTestCardScript(spell("Caitlyn, Patrolling", { op: "seq", effects: [] }));
     const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Treasure Hunter"] } });
     fund(s, "p1", "Caitlyn, Patrolling");
     s.as("p1").play("Caitlyn, Patrolling").expectOk();
@@ -97,7 +96,7 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
 
   it("[R383.3.d.1][R303.2.a] simultaneous triggers of different players: Turn Player places first", () => {
     const watcher = triggered("Treasure Hunter", { kind: "event", event: { type: "unit_played" } }, { op: "gain_xp", amount: 1 });
-    registerCardScript(watcher);
+    registerTestCardScript(watcher);
     const s = scenario({ p1: { hand: ["Caitlyn, Patrolling"] } });
     place(s, "p1", "Treasure Hunter", "base");
     place(s, "p2", "Treasure Hunter", "base");
@@ -133,8 +132,8 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R383.3.d] a player orders their own simultaneous triggers", () => {
-    registerCardScript(triggered("Treasure Hunter", { kind: "event", event: { type: "unit_played" } }, { op: "gain_xp", amount: 1 }));
-    registerCardScript(triggered("Stellacorn Herder", { kind: "event", event: { type: "unit_played" } }, { op: "draw", amount: 1 }));
+    registerTestCardScript(triggered("Treasure Hunter", { kind: "event", event: { type: "unit_played" } }, { op: "gain_xp", amount: 1 }));
+    registerTestCardScript(triggered("Stellacorn Herder", { kind: "event", event: { type: "unit_played" } }, { op: "draw", amount: 1 }));
     const s = scenario({ p1: { hand: ["Caitlyn, Patrolling"] } });
     const hunter = place(s, "p1", "Treasure Hunter", "base");
     place(s, "p1", "Stellacorn Herder", "base");
@@ -150,7 +149,7 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R403.1][R383.3.a.2] declining an optional trigger removes it: it is considered not to have triggered", () => {
-    registerCardScript(triggered("Treasure Hunter", PLAYED_SELF, { op: "draw", amount: 1 }, { optional: true }));
+    registerTestCardScript(triggered("Treasure Hunter", PLAYED_SELF, { op: "draw", amount: 1 }, { optional: true }));
     const s = scenario({ p1: { hand: ["Treasure Hunter"], energy: 2 } });
     s.as("p1").play("Treasure Hunter").expectOk();
     s.expectPrompt("yes-no", "p1");
@@ -161,7 +160,7 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R403.1] accepting an optional trigger keeps it on the chain", () => {
-    registerCardScript(triggered("Treasure Hunter", PLAYED_SELF, { op: "draw", amount: 1 }, { optional: true }));
+    registerTestCardScript(triggered("Treasure Hunter", PLAYED_SELF, { op: "draw", amount: 1 }, { optional: true }));
     const s = scenario({ p1: { hand: ["Treasure Hunter"], energy: 2 } });
     s.as("p1").play("Treasure Hunter").expectOk();
     s.as("p1").choose({ optionIds: ["yes"] }).expectOk();
@@ -170,7 +169,7 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R403.4][R403.4.a] a trigger with no legal target is removed (not countered)", () => {
-    registerCardScript(
+    registerTestCardScript(
       triggered("Treasure Hunter", PLAYED_SELF, { op: "kill", target: { chosen: true, cardType: "unit", controller: "opponent" } }),
     );
     const s = scenario({ p1: { hand: ["Treasure Hunter"], energy: 2 } });
@@ -180,7 +179,7 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R403.2][R403.4.b] trigger targets are chosen on finalization: one option is auto-selected", () => {
-    registerCardScript(
+    registerTestCardScript(
       triggered("Treasure Hunter", PLAYED_SELF, { op: "stun", target: { chosen: true, cardType: "unit", controller: "opponent" } }),
     );
     const s = scenario({ p1: { hand: ["Treasure Hunter"], energy: 2 } });
@@ -193,7 +192,7 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R403.2] with several options the trigger's controller chooses the target", () => {
-    registerCardScript(
+    registerTestCardScript(
       triggered("Treasure Hunter", PLAYED_SELF, { op: "stun", target: { chosen: true, cardType: "unit", controller: "opponent" } }),
     );
     const s = scenario({ p1: { hand: ["Treasure Hunter"], energy: 2 } });
@@ -209,7 +208,7 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R383.3.e.1] a \"once each turn\" trigger only triggers once per turn", () => {
-    registerCardScript(
+    registerTestCardScript(
       triggered("Treasure Hunter", { kind: "event", event: { type: "unit_played", subject: { cardType: "unit", controller: "self" } } }, { op: "gain_xp", amount: 1 }, {
         limit: { kind: "once-per-turn" },
       }),
@@ -227,8 +226,8 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R383.2.a.1][EX:383.2.a.1] an \"if\" right after the trigger condition must hold for it to trigger", () => {
-    registerCardScript(
-      triggered("Treasure Hunter", PLAYED_SELF, { op: "draw", amount: 1 }, { condition: { kind: "custom", id: "self-at-battlefield" } }),
+    registerTestCardScript(
+      triggered("Treasure Hunter", PLAYED_SELF, { op: "draw", amount: 1 }, { condition: { kind: "self-state", state: "at-battlefield" } }),
     );
     const s = scenario({ p1: { hand: ["Treasure Hunter"], energy: 2 } });
     s.as("p1").play("Treasure Hunter").expectOk();
@@ -236,7 +235,7 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   });
 
   it("[R402.1][R323.11] a move trigger keeps the state Closed; the Showdown begins after it resolves", () => {
-    registerCardScript(
+    registerTestCardScript(
       triggered("Treasure Hunter", { kind: "event", event: { type: "move", subject: { targetRef: "self" } } }, { op: "gain_xp", amount: 1 }),
     );
     const s = scenario();
@@ -254,7 +253,7 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
 
 describe("reflexive and delayed abilities [R387–R393][R359.3.e.16]", () => {
   it("[R388.1.a][R389.2][EX:429.5.d] \"Do this twice\" adds two pending triggered items in order", () => {
-    registerCardScript(
+    registerTestCardScript(
       spell("Rebuke", {
         op: "reflexive",
         times: 2,
@@ -277,7 +276,7 @@ describe("reflexive and delayed abilities [R387–R393][R359.3.e.16]", () => {
   });
 
   it("[R388.4][EX:388.4] a reflexive trigger's leading \"you may\" is decided on its finalization", () => {
-    registerCardScript(spell("Rebuke", { op: "reflexive", optional: true, effect: { op: "gain_xp", amount: 2 } }));
+    registerTestCardScript(spell("Rebuke", { op: "reflexive", optional: true, effect: { op: "gain_xp", amount: 2 } }));
     const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
     s.as("p1").play("Rebuke").expectOk();
     s.as("p2").pass().expectOk();
@@ -287,7 +286,7 @@ describe("reflexive and delayed abilities [R387–R393][R359.3.e.16]", () => {
   });
 
   it("[R391.2][R392][R393] a delayed \"at the end of this turn\" trigger resolves in the Ending Step", () => {
-    registerCardScript(spell("Rebuke", { op: "delayed", trigger: { kind: "turn-end" }, effect: { op: "gain_xp", amount: 4 } }));
+    registerTestCardScript(spell("Rebuke", { op: "delayed", trigger: { kind: "turn-end" }, effect: { op: "gain_xp", amount: 4 } }));
     const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
     s.as("p1").play("Rebuke").expectOk();
     s.as("p2").pass().expectOk();
@@ -303,7 +302,7 @@ describe("reflexive and delayed abilities [R387–R393][R359.3.e.16]", () => {
   });
 
   it("[R359.3.e.16][EX:359.3.e.16] a delayed end-of-turn trigger created during the Ending Phase is not generated", () => {
-    registerCardScript(spell("Rebuke", { op: "delayed", trigger: { kind: "turn-end" }, effect: { op: "gain_xp", amount: 4 } }));
+    registerTestCardScript(spell("Rebuke", { op: "delayed", trigger: { kind: "turn-end" }, effect: { op: "gain_xp", amount: 4 } }));
     const s = scenario();
     s.room.rules!.turn.phase = "ending";
     s.room.rules!.turn.step = "ending";

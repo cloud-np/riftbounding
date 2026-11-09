@@ -3,8 +3,7 @@
  * it on the top or bottom of their Main Deck." The owner decides on resolution (`unl:owner-top-or-
  * bottom`); leaving the board drops its rules state (705).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Keeper's Verdict",

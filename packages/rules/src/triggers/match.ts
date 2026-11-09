@@ -19,6 +19,7 @@
  *   condition is part of the trigger condition).
  */
 import type { EventMatcher, GameEvent, Room, Trigger } from "@rift/protocol";
+import { EVENT_TYPE_ALIASES } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import type { EvalContext, LastKnown } from "../effects/env";
 import { makeEnv } from "../effects/env";
@@ -38,13 +39,10 @@ export interface TriggerScope {
  * 383.4.d.2.c: conquer/hold effects trigger even when the point is replaced (`score_draw_instead`
  * carries `data.kind`).
  */
-const TYPE_ALIASES: Record<string, string[]> = {
-  die: ["kill"],
-  played: ["spell_resolved", "unit_played", "gear_played"],
-};
+const TYPE_ALIASES: Readonly<Record<string, readonly string[]>> = EVENT_TYPE_ALIASES;
 
 function typeList(matcher: EventMatcher): string[] {
-  const raw = Array.isArray(matcher.type) ? matcher.type : [matcher.type];
+  const raw: string[] = Array.isArray(matcher.type) ? matcher.type : [matcher.type];
   return raw.flatMap((type) => TYPE_ALIASES[type] ?? [type]);
 }
 

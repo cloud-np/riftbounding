@@ -5,7 +5,7 @@
  * The battlefield (a battlefield object, 053) is chosen when playing (355.7). The units "there" are
  * read on resolution (359.3.f); the -1 has a per-unit 479.4.b minimum snapshot.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 const THERE = { kind: "chosen", ref: "target:0" } as const;
 

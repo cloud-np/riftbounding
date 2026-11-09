@@ -2,8 +2,7 @@
  * Guttural Roar (VEN-072) — "[Action] Give a unit +2 [Might] this turn. If it's [Empowered], give
  * it +4 [Might] this turn instead." (359.3.f.2: checked on resolution)
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 const TARGET = aUnit({ targetRef: "target:0" });
 

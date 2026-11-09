@@ -5,8 +5,7 @@
  * 403.1: the leading "you may" is decided when the trigger finalizes. The unit (printed cost ≤ [3]
  * Energy and ≤ 1 Power) is picked on resolution (355.18) and played ignoring its cost (420.3).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Spectral Matron",

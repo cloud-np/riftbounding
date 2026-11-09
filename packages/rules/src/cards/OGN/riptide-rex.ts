@@ -1,6 +1,5 @@
 /** Riptide Rex (OGN-092) — "When you play me, deal 6 to an enemy unit at a battlefield." (418, 403.2) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Riptide Rex",

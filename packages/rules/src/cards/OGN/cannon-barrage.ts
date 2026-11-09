@@ -4,20 +4,9 @@
  * combat designation.
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { registerCustomCondition } from "../../effects/evaluate";
-import { locationOf } from "../../effects/objects";
+import { registerCardScript } from "../sdk";
 
-/** 740.2.c: `it` is in combat. */
-registerCustomCondition("ogn-an:in-combat", (ctx) => {
-  const id = ctx.env.it;
-  const combat = ctx.room.rules?.combat;
-  if (!id || !combat) return false;
-  if (locationOf(ctx.room, ctx.host, id) !== combat.battlefield) return false;
-  return !!ctx.room.rules?.objects[id]?.designation;
-});
-
-export const IN_COMBAT: Condition = { kind: "custom", id: "ogn-an:in-combat" };
+export const IN_COMBAT: Condition = { kind: "custom", id: "core:in-combat", params: { ref: "it" } };
 
 registerCardScript({
   name: "Cannon Barrage",

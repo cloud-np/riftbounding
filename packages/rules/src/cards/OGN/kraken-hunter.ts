@@ -3,7 +3,7 @@
  * number of buffs as an additional cost. Reduce my cost by [body] for each buff you spend."
  * A variable "spend buffs" additional cost is not supported by R2-play's cost model.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Kraken Hunter",

@@ -6,8 +6,9 @@
  * - keyword-derived: Accelerate (805.1.b, optional `[1][C]`), Repeat (820.1.c, optional, one id
  *   per instance), Deflect (809.1.c/d, mandatory `[A]` × value per opponent target chosen);
  * - printed “as an additional cost” phrases (204.2, optional when worded with “may”);
- * - static registrations for scripted cards (`registerAdditionalCosts`, R2-effects/tests) and
- *   providers (`registerAdditionalCostProvider`) for costs imposed by other cards (356.2.a.1).
+ * - the card script's own `additionalCosts` (a `condition` limits when one is offered,
+ *   356.2.b.1), which replace the text parser for that card; tests may override them by name;
+ * - providers (`registerAdditionalCostProvider`) for costs imposed by other cards (356.2.a.1).
  *
  * Ids are stable and appear in `legalIntents` (`PlayableCardDetail.optionalCosts`) and in
  * `rules_play.optionalCosts`: "accelerate", "repeat", "repeat:<n>", "optional:<n>",
@@ -18,6 +19,10 @@ import type { CardInfo, RulesHost } from "../host";
 import { effectiveKeywordValues } from "../layers";
 import { parseAdditionalCosts, parseRepeatCosts } from "./cost-text";
 import { hasKeyword, keywordValue } from "./keywords";
+import { keyedRegistry, orderedRegistry } from "../registry-table";
+import { getCardScript } from "../cards/registry";
+import { makeEnv } from "../effects/env";
+import { evaluateCondition } from "../effects/evaluate";
 
 export interface AdditionalCostSpec {
   id: string;
@@ -44,30 +49,39 @@ export interface AdditionalCostQuery {
 
 export type AdditionalCostProvider = (room: Room, host: RulesHost, query: AdditionalCostQuery) => AdditionalCostSpec[];
 
-const BY_CARD = new Map<string, AdditionalCostSpec[]>();
-const PROVIDERS: AdditionalCostProvider[] = [];
+/** G1: a card's own additional costs, keyed by card name; duplicates throw (tests: `src/testing.ts`). */
+export const ADDITIONAL_COSTS_BY_CARD = keyedRegistry<AdditionalCostSpec[]>("additional costs");
+const PROVIDER_REGISTRY = orderedRegistry<AdditionalCostProvider>("additional cost provider");
+const PROVIDERS = PROVIDER_REGISTRY.list;
 
-/** Static registration for a card's own additional costs (replaces text parsing for it). */
+/**
+ * Engine/test registration of a card's own additional costs by name (replaces the script's
+ * `additionalCosts` and the text parser). Card scripts declare `additionalCosts` instead.
+ */
 export function registerAdditionalCosts(cardName: string, specs: AdditionalCostSpec[]): () => void {
-  BY_CARD.set(cardName, specs);
+  ADDITIONAL_COSTS_BY_CARD.register(cardName, specs);
   return () => {
-    if (BY_CARD.get(cardName) === specs) BY_CARD.delete(cardName);
+    if (ADDITIONAL_COSTS_BY_CARD.get(cardName) === specs) ADDITIONAL_COSTS_BY_CARD.unregister(cardName);
   };
 }
 
 /** Costs imposed by other cards/effects (356.2.a.1). Returns an unsubscribe function. */
 export function registerAdditionalCostProvider(provider: AdditionalCostProvider): () => void {
-  PROVIDERS.push(provider);
-  return () => {
-    const index = PROVIDERS.indexOf(provider);
-    if (index >= 0) PROVIDERS.splice(index, 1);
-  };
+  return PROVIDER_REGISTRY.register(provider);
 }
 
-function cardOwnCosts(query: AdditionalCostQuery): AdditionalCostSpec[] {
+function cardOwnCosts(room: Room, host: RulesHost, query: AdditionalCostQuery): AdditionalCostSpec[] {
   const name = query.info?.name;
-  const registered = name ? BY_CARD.get(name) : undefined;
+  const registered = ADDITIONAL_COSTS_BY_CARD.get(name);
   if (registered) return registered.map((spec) => ({ ...spec }));
+  const scripted = getCardScript(name)?.additionalCosts;
+  if (scripted) {
+    const source = query.cardId ?? query.objectId;
+    const ctx = { room, host, env: makeEnv({ controller: query.playerId, ...(source ? { sourceObjectId: source } : {}) }) };
+    return scripted
+      .filter((spec) => !spec.condition || evaluateCondition(ctx, spec.condition))
+      .map(({ condition: _condition, ...spec }) => ({ ...spec, rule: spec.rule as RuleRef }));
+  }
   const out: AdditionalCostSpec[] = [];
   if (query.kind !== "card") return out;
   const type = (query.info?.type ?? "").toLowerCase();
@@ -135,7 +149,7 @@ export function additionalCostsFor(
   keywordsOf: (id: string) => string[],
 ): AdditionalCostSpec[] {
   return [
-    ...cardOwnCosts(query),
+    ...cardOwnCosts(room, host, query),
     ...deflectCosts(room, host, query, keywordsOf),
     ...PROVIDERS.flatMap((provider) => provider(room, host, query)),
   ];

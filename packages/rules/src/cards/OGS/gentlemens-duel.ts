@@ -5,8 +5,7 @@
  * Both units are chosen on play (355.7); each is the source of the damage it deals
  * (418.6.b.3/.4), using the friendly unit's Might after the +3.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Gentlemen's Duel",

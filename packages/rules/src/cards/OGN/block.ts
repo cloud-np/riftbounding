@@ -3,16 +3,15 @@
  * Shield 814, Tank 815). [Hidden] (811) is R2-play's keyword. The catalog's Shield/Tank are the
  * granted keywords, not the spell's own.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Block",
   text: "[HIDDEN]  (Hide now for [Rune] to react with later for [0].)\n[ACTION] (Play on your turn or in showdowns.)\n\nGive a unit [SHIELD 3] and [TANK] this turn. (+3 [Might] while it's a defender. It must be assigned combat damage first.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Shield", value: 0 },
-    { kind: "keyword", keyword: "Tank", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Shield" },
+    { kind: "suppress-printed-keyword", keyword: "Tank" },
     {
       kind: "spell",
       effect: {
@@ -20,7 +19,8 @@ registerCardScript({
         effects: [
           {
             op: "grant_keyword",
-            keyword: "Shield 3",
+            keyword: "Shield",
+            value: 3,
             target: aUnit({ targetRef: "target:0" }),
             duration: "this-turn",
           },

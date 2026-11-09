@@ -4,10 +4,11 @@
  * `matchesSelector` falls back to it for `stunned` / `buffed` / `empowered`.
  */
 import { describe, expect, it } from "vitest";
-import { executeEffect, flushPendingTriggers, getCardScript, registerCardScript } from "../../../../src";
+import { executeEffect, flushPendingTriggers, getCardScript } from "../../../../src";
 import { fund, place, stepFor, zoneOf } from "../../effects/helpers";
 import { put, resolveAll, withCards } from "../../../cards/rad/helpers";
 import { withCards as unlCards } from "../../../cards/unl/helpers";
+import { registerTestCardScript } from "../../../../src/testing";
 
 /** Kill directly through the action primitive so the emitted event/trigger can be inspected. */
 function killDirect(s: ReturnType<typeof unlCards>, cardId: string, controller = "p1") {
@@ -37,7 +38,7 @@ describe("last-known information on kill/die [R383.2.c.3.b]", () => {
     // A living observer ("When a friendly unit dies, …") with subject filters that only the
     // last-known information can satisfy.
     const original = getCardScript("Caitlyn, Patrolling");
-    registerCardScript({
+    registerTestCardScript({
       name: "Caitlyn, Patrolling",
       text: "test watcher",
       status: "implemented",
@@ -61,7 +62,7 @@ describe("last-known information on kill/die [R383.2.c.3.b]", () => {
       flushPendingTriggers(s.room, step);
       expect(s.room.rules!.chain.some((item) => item.cardName === "Caitlyn, Patrolling")).toBe(true);
     } finally {
-      if (original) registerCardScript(original);
+      if (original) registerTestCardScript(original);
     }
   });
 

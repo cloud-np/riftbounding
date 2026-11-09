@@ -2,8 +2,7 @@
  * Kinkou Initiate (UNL-097) — Play Effect: "draw 1 if your other units have total Might 5 or
  * more" (a conditional instruction checked on resolution, 359.3.f.2; Might as referenced, 143.2.c).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Kinkou Initiate",

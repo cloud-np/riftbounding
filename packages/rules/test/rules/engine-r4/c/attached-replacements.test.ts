@@ -5,14 +5,15 @@
  * `attached-replacements.test.ts`.)
  */
 import { describe, expect, it } from "vitest";
-import { getCardScript, registerCardScript } from "../../../../src";
+import { getCardScript } from "../../../../src";
 import { boardOf, place, run, zoneOf } from "../../effects/helpers";
 import { withCards as unlCards } from "../../../cards/unl/helpers";
+import { registerTestCardScript } from "../../../../src/testing";
 
 describe("attached replacement sources [R718.3][R719.1]", () => {
   it("[R718.3][R719.1] a replacement ability of an attached card applies", () => {
     const original = getCardScript("Doran's Blade");
-    registerCardScript({
+    registerTestCardScript({
       name: "Doran's Blade",
       text: "test: If a friendly unit would die, recall it instead.",
       status: "implemented",
@@ -38,7 +39,7 @@ describe("attached replacement sources [R718.3][R719.1]", () => {
       run(s, { op: "kill", target: { targetRef: `obj:${unit.id}` } });
       expect(zoneOf(s, unit.id)).toBe("base");
     } finally {
-      if (original) registerCardScript(original);
+      if (original) registerTestCardScript(original);
     }
   });
 });

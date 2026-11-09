@@ -1,6 +1,5 @@
 /** Ultrasoft Poro (UNL-160 — EX[156] (377.2.b). [Deflect] on the Birds is R2-play's keyword.) */
-import { registerCardScript } from "../registry";
-import { SELF, SELF_AT_BATTLEFIELD, token } from "../dsl";
+import { registerCardScript, SELF, SELF_AT_BATTLEFIELD, token } from "../sdk";
 
 registerCardScript({
   name: "Ultrasoft Poro",
@@ -13,7 +12,10 @@ registerCardScript({
       effect: {
         op: "requires",
         condition: SELF_AT_BATTLEFIELD,
-        effect: { op: "create", token: token("Bird", { count: 2, might: 1, keywords: ["Deflect"], play: true }) },
+        effect: {
+          op: "create",
+          token: token("Bird", { count: 2, might: 1, keywords: ["Deflect"], play: true }),
+        },
       },
     },
   ],

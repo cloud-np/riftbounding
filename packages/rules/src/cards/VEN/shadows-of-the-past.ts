@@ -1,5 +1,5 @@
 /** Shadows of the Past (VEN-103) — "Return up to 2 units from trashes to their owners' hands." (056; any player's trash) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Shadows of the Past",

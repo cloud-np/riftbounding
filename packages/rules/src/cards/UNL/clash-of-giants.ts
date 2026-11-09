@@ -4,8 +4,7 @@
  * Both choices sit in scanned selector fields (`target`, `source`) so they are offered and
  * validated on play (355.7/358.1); each excludes the other ("two units").
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Clash of Giants",

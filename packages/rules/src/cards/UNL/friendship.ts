@@ -3,8 +3,7 @@
  * tags among your units — Bird, Cat, Dog, and Poro." (143.1 tags; each tag counts once.)
  */
 import type { Amount } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 function hasTag(tag: string): Amount {
   return {

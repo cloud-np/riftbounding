@@ -6,9 +6,13 @@
  * 442.1.c.1: the permission makes Empowered a stacking status (up to three); this Empower has
  * no "only if not Empowered" restriction. 443.1.b: disempowering removes one status.
  */
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
-import { conditional, notIntrinsic } from "./shared";
+import {
+  whilePassive as conditional,
+  custom,
+  notIntrinsic,
+  registerCardScript,
+  SELF,
+} from "../sdk";
 
 const atLeast = (n: number) => custom("ven:self-empowered-at-least", { n });
 
@@ -19,8 +23,8 @@ registerCardScript({
   notes:
     "Only my own Empower stacks: other effects that empower me use the binary empower op, which does not read the 442.1.c.1 permission.",
   abilities: [
-    notIntrinsic("Deflect"),
-    notIntrinsic("Ganking"),
+    ...notIntrinsic("Deflect"),
+    ...notIntrinsic("Ganking"),
     {
       kind: "activated",
       cost: { energy: 3 },
@@ -29,7 +33,7 @@ registerCardScript({
     conditional(atLeast(1), { kind: "might", amount: 2, target: SELF }),
     conditional(atLeast(2), { kind: "might", amount: 2, target: SELF }),
     conditional(atLeast(3), { kind: "might", amount: 2, target: SELF }),
-    conditional(atLeast(3), { kind: "keyword", keyword: "Deflect 3", target: SELF }),
+    conditional(atLeast(3), { kind: "keyword", keyword: "Deflect", value: 3, target: SELF }),
     conditional(atLeast(3), { kind: "keyword", keyword: "Ganking", target: SELF }),
   ],
 });

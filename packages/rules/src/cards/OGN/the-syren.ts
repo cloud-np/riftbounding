@@ -1,6 +1,5 @@
 /** The Syren (OGN-184, Origins errata) — "[1], [TAP]: Move a friendly unit at a battlefield to its base." (376, 421) */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "The Syren",

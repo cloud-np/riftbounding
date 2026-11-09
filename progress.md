@@ -54,9 +54,21 @@ findings, scratch probes), then merged into `r4-engine` and finally integrated h
 - **R4-strict-ui.** Gesture-only strict board, prompt clicks/multi-select confirm, Quick-Draw
   drop, ambiguity chooser, dev-only rules panel and toast routing for rejections
   (`docs/rules/int.md`).
-- **R4 integration (this pass).** Unskipped every `[BUG]` reproduction, applied lane follow-ups,
+- **R4 integration.** Unskipped every `[BUG]` reproduction, applied lane follow-ups,
   translated the late keys, cleaned lane docs/statuses, documented lane E/bot/room/gestures,
   regenerated coverage and re-ran every suite and self-play sweep.
+- **Maintainability pass (branch `r4-maint`).** Implements the R4 maintainability review
+  (`.orchestrator/reports/r4-maintainability-review.md`) so new cards cannot break the format:
+  every registry throws on a duplicate (test-only overrides in `src/testing.ts`); closed
+  `KeywordName` / `EventType` / restriction / card-type vocabularies; the generic `custom` ids
+  are typed DSL members (`while`, `enter-ready`, `cost-adjust`, `self-state`, …) and `custom` ids
+  must be `<owner>:`-prefixed; one card per file with a `custom.ts` per set, a card SDK
+  (`src/cards/sdk.ts`) and shared builders / `core:` ids in `src/cards/lib`; scripts own their
+  additional costs and play permissions; registry integrity, duplicate and import-boundary
+  tests; registry-based coverage plus `docs/cards-index.md`; a catalog keyword audit; CI
+  (`.github/workflows/ci.yml`). The contract is
+  [`docs/rules/CARD-AUTHORING.md`](docs/rules/CARD-AUTHORING.md). Self-play outcomes are identical
+  per seed to `r4-engine`.
 
 ## 3. Current state
 
@@ -64,19 +76,20 @@ findings, scratch probes), then merged into `r4-engine` and finally integrated h
 
 | Package | Files | Passed | Skipped / failed | Notes |
 | --- | ---: | ---: | --- | --- |
-| `@rift/rules` (default) | 171 | 1941 | 0 / 0 | no `[BUG]` skip remains |
+| `@rift/rules` (default) | 176 | 1986 | 0 / 0 | no `[BUG]` skip remains; includes `test/registry/` (integrity, duplicates, legacy state) |
 | `@rift/rules` (host config) | 1 | 1 | 0 / 0 | |
-| `@rift/engine` | 21 | 145 | 0 / 0 | `.recon/oracle` present |
+| `@rift/engine` | 22 | 148 | 0 / 0 | `.recon/oracle` present |
 | `@rift/sync` | 6 | 57 | 0 / 0 | |
-| `@rift/i18n` | 5 | 162 | 0 / 0 | includes the strict locale suite |
-| `realtime` | 8 | 74 | 0 / 0 | includes Practice-vs-Bot |
-| `play` | 41 | 305 | 0 / 0 | includes gesture/board strict tests |
+| `@rift/i18n` | 5 | 168 | 0 / 0 | includes the strict locale suite |
+| `@rift/cards` | 8 | 104 | 0 / 0 | includes the catalog keyword audit |
+| `realtime` | 8 | 75 | 0 / 0 | includes Practice-vs-Bot |
+| `play` | 44 | 316 | 0 / 0 | includes gesture/board strict tests |
 
 Typecheck: `pnpm --filter @rift/rules typecheck` and root `pnpm typecheck` are clean (0 errors).
 
 ### Rules coverage (`docs/rules-coverage.md`)
 
-661 / 2321 rule ids tested (28.5%); 1422 tagged test titles; 0 unknown ids
+663 / 2321 rule ids tested (28.6%); 1438 tagged test titles; 0 unknown ids
 (`node packages/rules/scripts/rules-coverage.mjs --check`).
 
 ### Card scripts (`docs/cards-coverage.md`)
@@ -103,8 +116,11 @@ Typecheck: `pnpm --filter @rift/rules typecheck` and root `pnpm typecheck` are c
 
 | Deck mode | Seeds | Wins | Turn caps | Action caps | Stuck | Crashes | Avg turns |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `fixture` | 1–200 | 200 | 0 | 0 | 0 | 0 | 32.00 |
-| `catalog` | 1–400 | 394 | 6 | 0 | 0 | 0 | 35.83 (wins 35.14) |
+| `fixture` | 1–200 | 200 | 0 | 0 | 0 | 0 | 32.02 |
+| `catalog` | 1–400 | 394 | 6 | 0 | 0 | 0 | 35.86 |
+
+(Re-run after the Weaponmaster attach-cost fix merged into `r4-engine` and again after the
+maintainability pass: per-seed outcomes of the pass are identical to `r4-engine` `b1eb4f9`.)
 
 The six catalog turn caps (seeds 62, 143, 157, 268, 323, 338) are long but legal games; raise
 `SELFPLAY_MAX_TURNS` to finish them. The default 50-game fixture run is 50/50 wins, avg 30.88.
@@ -151,9 +167,13 @@ section). The card-coverage report prints four warnings for token/marker scripts
 
 - Catalog `keywords` include keywords that appear only in reminder or granted text, mostly token
   text (Gold gives [Reaction]/Add, Ganking; Petal Pixie/Sprite Queen list Temporary; Chakram Dancer
-  Shield; Lord Broadmane Assault; Yuumi Tank; Wily Newtfish Ganking). Unscripted cards apply them
-  as printed keywords; scripts suppress them per card. A catalog or engine-level fix (derive
-  keywords from card text) is still preferable.
+  Shield; Lord Broadmane Assault; Yuumi Tank; Wily Newtfish Ganking). Scripts suppress them per
+  card (`...notIntrinsic(…)` / `suppress-printed-keyword`). The `@rift/cards` audit
+  (`CATALOG_KEYWORD_OVERRIDES`) classifies every catalog keyword its text does not name (45
+  name/keyword pairs) and the registry test requires the suppression; keywords that appear only
+  as granted/dependent text in the body (e.g. Shen, Eye of Twilight's [Tank], Kennen, Heart of the
+  Tempest's [Assault 2], Sivir, Mercenary's conditional [Ganking]) are not audited yet — deriving
+  printed keywords from the card text in the layers is still preferable.
 - Truncated catalog text: Bonds of Strength ("Give two friendly units each +1 [Might]" has no
   duration/closing period) and Poppy, Defender of the Meek ("If you do, I cost less." has no
   amount/symbol). Both stay `manual`/`partial` until confirmed.
@@ -216,10 +236,13 @@ section). The card-coverage report prints four warnings for token/marker scripts
 
 ## 9. How to resume
 
+- **Adding or changing cards: [`docs/rules/CARD-AUTHORING.md`](docs/rules/CARD-AUTHORING.md)**
+  (layout, ids, helpers, reprints, statuses, tests, i18n, new keywords and sets).
 - Docs: `docs/RULES-ENGINE.md` (architecture, per-wave status, known limitations),
   `docs/rules/{play,combat,effects,int}.md` (per-domain), `docs/rules/{bot,bot-room,gestures}.md`,
   `docs/rules/cards/*.md` (per-lane card reports: gaps, bugs, custom ids, status),
-  `docs/rules-coverage.md`, `docs/cards-coverage.md`, `packages/protocol/CHANGES.md` (wire changes
+  `docs/rules-coverage.md`, `docs/cards-coverage.md`, `docs/cards-index.md` (generated name →
+  status → script file → tests, plus every custom id), `packages/protocol/CHANGES.md` (wire changes
   per wave). Lane hand-offs and findings are in `.orchestrator/reports/`.
 - Commands:
   - `pnpm --filter @rift/rules test` (default + host)
@@ -227,7 +250,9 @@ section). The card-coverage report prints four warnings for token/marker scripts
   - `cd packages/engine && npx vitest run`
   - `pnpm --filter @rift/{sync,i18n} test`, `pnpm --filter realtime test`, `pnpm --filter play test`
   - `node packages/rules/scripts/rules-coverage.mjs --check`
-  - `pnpm --filter @rift/rules coverage:rules` / `coverage:cards`
+  - `pnpm --filter @rift/rules coverage:rules` / `coverage:cards` / `coverage:check` (CI: stale
+    coverage or a registry/source-scan disagreement fails)
+  - `pnpm --filter @rift/cards test` (catalog keyword audit)
 - Self-play: `pnpm --filter @rift/rules selfplay`. Env: `SELFPLAY_GAMES` (50),
   `SELFPLAY_SEED_START` (1), `SELFPLAY_MAX_TURNS` (80), `SELFPLAY_MAX_ACTIONS` (4000),
   `SELFPLAY_DECK` (`fixture` | `catalog`). Example sweeps:
@@ -244,14 +269,18 @@ section). The card-coverage report prints four warnings for token/marker scripts
   `process.env.NODE_ENV !== "production"` (`apps/play/.../strict-model.ts`), i.e. under
   `pnpm --filter play dev` and tests; `next build`/`next start` hide it. Production has chain A/S,
   board End turn, the concede entry and `StrictPromptHost`.
-- Conventions: one lane owns `src/cards/<SET>/**`, `test/cards/<lane>/**` and
-  `docs/rules/cards/<lane>.md`; the registry is keyed by card name and the last registration wins
-  silently, so check for duplicate names (and custom ids, prefixed per lane such as `rad:`, `sfd:`,
-  `ven:`) after merging. Test titles cite `[R..]`, `[EX:..]`, `[C:Card]`; a real engine bug found
-  by a card test becomes `it.skip("[BUG][C:Card][R..] ...")` and a row in the lane doc. New
-  `rules.prompt.*` / `rules.reason.*` keys need strings in all four
+- Conventions (see `docs/rules/CARD-AUTHORING.md`): one card per file,
+  `src/cards/<SET>/<slug>.ts`, in the set that first printed it, imported by the set barrel; the
+  set's custom ids (`<set>:` prefix) and shared builders in `src/cards/<SET>/custom.ts`; shared
+  builders and `core:` ids in `src/cards/lib`; card files import only `src/cards/sdk.ts`. Every
+  registry throws on a duplicate name or id, so a reprint is never scripted twice; tests replace
+  entries through `src/testing.ts` (`@rift/rules/testing`). Engine concepts are typed DSL members;
+  `custom` ids must be prefixed. Test titles cite `[R..]`, `[EX:..]`, `[C:Card]`; a real engine
+  bug found by a card test becomes `it.skip("[BUG][C:Card][R..] ...")` and a row in the lane doc.
+  New `rules.prompt.*` / `rules.reason.*` keys need strings in all four
   `packages/i18n/data/i18n-*.json` catalogs (the strict locale suite derives `rules.*` from
   English). Late UI keys such as `sim.botBadge` live in `ui.patterns` with the full dotted key.
+  `test/registry/` is the guardrail suite; `.github/workflows/ci.yml` runs everything.
 - Scenario DSL: `packages/rules/test/scenarios/dsl.ts`. The `extraCards` scenario option registers
   card objects for a test, e.g. `scenario({ extraCards: { p1: [...], p2: [...] } })`; see
-  `test/cards/<lane>/helpers.ts` for the per-lane wrappers.
+  `test/cards/helpers.ts` (shared) and `test/cards/<lane>/helpers.ts` (lane-specific wrappers).

@@ -12,23 +12,19 @@
  * effects or Assault/Shield is not counted for the reduction.
  */
 import type { Ability } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 const PRINTED_ENERGY = 8;
 
 const perMight: Ability[] = Array.from({ length: PRINTED_ENERGY }, (_, index) => ({
   kind: "passive",
   modifier: {
-    kind: "custom",
-    id: "conditional",
-    params: {
-      condition: {
-        kind: "exists",
-        selector: { cardType: "unit", controller: "self", might: { op: "gte", value: index + 1 } },
-      },
-      modifier: { kind: "cost", amount: -1, target: SELF },
+    kind: "while",
+    condition: {
+      kind: "exists",
+      selector: { cardType: "unit", controller: "self", might: { op: "gte", value: index + 1 } },
     },
+    modifier: { kind: "cost", amount: -1, target: SELF },
   },
 }));
 

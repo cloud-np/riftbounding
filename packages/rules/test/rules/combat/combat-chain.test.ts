@@ -5,9 +5,10 @@
  */
 import { afterEach, describe, expect, it } from "vitest";
 import type { CardScript, GameVariant } from "@rift/protocol";
-import { getCardScript, registerCardScript, runCleanup } from "../../../src";
+import { getCardScript, runCleanup } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
 import { placeUnit, setControl, table } from "./helpers";
+import { registerTestCardScript } from "../../../src/testing";
 
 /** "When a player attacks, gain 1 XP." — triggers for every copy on the board (383.4.e). */
 const WHEN_A_PLAYER_ATTACKS: CardScript = {
@@ -25,12 +26,12 @@ const WHEN_A_PLAYER_ATTACKS: CardScript = {
 
 const original = getCardScript("Treasure Hunter")!;
 afterEach(() => {
-  registerCardScript(original);
+  registerTestCardScript(original);
 });
 
 describe("the Combat Chain [R466.2.d][R466.2.d.1]", () => {
   it("[R466.2.d.1][R466.2.e] duel: the Attacker places triggers first, then the Defender", () => {
-    registerCardScript(WHEN_A_PLAYER_ATTACKS);
+    registerTestCardScript(WHEN_A_PLAYER_ATTACKS);
     const s = scenario({ battlefields: { p2: "Bandle Tree" } });
     placeUnit(s, "p2", "Stellacorn Herder", "battlefieldA");
     setControl(s.room, "battlefieldA", "p2");
@@ -47,7 +48,7 @@ describe("the Combat Chain [R466.2.d][R466.2.d.1]", () => {
   });
 
   it("[R466.2.d.1][R303.2.a] FFA4: Attacker, then the non-Defenders in Turn Order, then the Defender", () => {
-    registerCardScript(WHEN_A_PLAYER_ATTACKS);
+    registerTestCardScript(WHEN_A_PLAYER_ATTACKS);
     const t = table("free_for_all_4" as GameVariant);
     t.room.rules!.turn.player = "p1";
     for (const id of ["p1", "p2", "p3", "p4"]) t.place(id, "Treasure Hunter", "base");

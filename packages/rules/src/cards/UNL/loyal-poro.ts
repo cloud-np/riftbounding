@@ -2,8 +2,7 @@
  * Loyal Poro (UNL-156) — [Deathknell] (808): "If I didn't die alone, draw 1" (740.2.a). Checked on
  * resolution against the units still at the location it died at.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE, custom } from "../dsl";
+import { custom, registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Loyal Poro",

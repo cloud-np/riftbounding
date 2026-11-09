@@ -33,13 +33,16 @@ export function bindTarget(target: Selector, ctx: ReturnType<typeof ctxOf>): Sel
     ...target,
     targetRef: undefined,
     chosen: undefined,
-    where: { kind: "custom", id: "in-ids", params: { ids } },
+    where: { kind: "in-ids", ids },
   } as Selector;
 }
 
 function bindModifier(modifier: Modifier, ctx: ReturnType<typeof ctxOf>): Modifier {
   if ("target" in modifier && modifier.target) {
     return { ...modifier, target: bindTarget(modifier.target, ctx) } as Modifier;
+  }
+  if (modifier.kind === "while" || modifier.kind === "rules-text") {
+    return { ...modifier, modifier: bindModifier(modifier.modifier, ctx) };
   }
   if (modifier.kind === "custom" && modifier.params?.target) {
     return {

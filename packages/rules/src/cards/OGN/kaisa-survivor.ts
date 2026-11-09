@@ -1,6 +1,5 @@
 /** Kai'Sa, Survivor (OGN-039) — [Accelerate] (805, R2-play); "When I conquer, draw 1." (383.4.c) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Kai'Sa, Survivor",

@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RulesIntent } from "@rift/protocol";
-import { clearCardScripts, explainIllegal, legalIntents, registerCardScript, turnState } from "../../../src";
+import { explainIllegal, legalIntents, turnState } from "../../../src";
+import { clearCardScripts, registerTestCardScript } from "../../../src/testing";
 import * as fake from "./fake-effects";
 import { bareScenario, boardOf, place, pool, runeState, setPool, setRunes, toHand } from "./helpers";
 import type { RulesScenario } from "../../scenarios/dsl";
@@ -33,7 +34,7 @@ function manualEntry(text: string, n = 0) {
     ref: `manual:${n}`,
     manual: true,
     text,
-    ability: { kind: "activated" as const, cost: {}, effect: { op: "custom" as const, id: "manual" } },
+    ability: { kind: "activated" as const, cost: {}, effect: { op: "custom" as const, id: "manual" as const } },
   };
 }
 
@@ -81,7 +82,7 @@ describe("Basic Rune abilities [R164.2][R430]", () => {
   it("[R813.1.c.2][R309.1.a] rune abilities have Reaction: usable in a Closed State with Priority", () => {
     const s = bareScenario({ p1: { energy: 1 } });
     const [rune] = setRunes(s, "p1", [{ domain: "Calm" }]);
-    registerCardScript({ name: "Gust", text: "test", status: "implemented", abilities: [{ kind: "spell", effect: { op: "seq", effects: [] } }] });
+    registerTestCardScript({ name: "Gust", text: "test", status: "implemented", abilities: [{ kind: "spell", effect: { op: "seq", effects: [] } }] });
     const gust = toHand(s, "p1", "Gust");
     s.as("p1").apply({ type: "rules_play", cardId: gust.id, hold: true }).expectOk();
     expect(turnState(s.room)).toBe("neutral_closed");
@@ -187,7 +188,7 @@ describe("activation timing and limits [R381][R145.2][R376]", () => {
   it("[R376][Limit] a once-per-turn ability cannot be activated twice in a turn", () => {
     const s = bareScenario();
     const unit = place(s, "p1", "Stellacorn Herder", "base");
-    registerCardScript({
+    registerTestCardScript({
       name: "Stellacorn Herder",
       text: "test",
       status: "implemented",

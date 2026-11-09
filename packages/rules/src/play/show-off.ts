@@ -3,9 +3,9 @@
  *
  * "[Show Off] [Object]" is short for "As you play this, you may reveal [Object] from your hand
  * and/or pick [Object] from among friendly game objects on the board" (832.1.c). A script
- * declares it as a passive custom modifier (built with `showOff()` in `cards/dsl.ts`):
+ * declares it as a passive `show-off` modifier (built with `showOff()` from `cards/sdk.ts`):
  *
- *   { kind: "passive", modifier: { kind: "custom", id: "show-off", params: { selector, count? } } }
+ *   { kind: "passive", modifier: { kind: "show-off", selector, count? } }
  *
  * - The decision is a play-time choice made while the card is finalized (832.1.c.2 / 355): key
  *   `"showOff"`, `choose-card`, 0..count options from the controller's hand (the card being
@@ -44,10 +44,9 @@ export function showOffSpecs(cardName: string | undefined): ShowOffSpec[] {
   for (const ability of script.abilities) {
     if (ability.kind !== "passive") continue;
     const modifier = ability.modifier;
-    if (modifier.kind !== "custom" || modifier.id !== "show-off") continue;
-    const params = modifier.params ?? {};
-    const selector = (params.selector ?? {}) as Selector;
-    const count = typeof params.count === "number" && params.count > 0 ? Math.trunc(params.count) : 1;
+    if (modifier.kind !== "show-off") continue;
+    const selector = modifier.selector ?? {};
+    const count = typeof modifier.count === "number" && modifier.count > 0 ? Math.trunc(modifier.count) : 1;
     out.push({ selector, count });
   }
   return out;

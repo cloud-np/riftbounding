@@ -1,5 +1,5 @@
 /** Recruit (OGN-273) — Vanilla unit (no rules text). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Recruit",

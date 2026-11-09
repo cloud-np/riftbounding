@@ -23,6 +23,7 @@
  */
 import type { ChainItem, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../types";
+import { DuplicateRegistrationError, orderedRegistry } from "../registry-table";
 
 export type RulesHook = (room: Room, step: RulesStepContext) => void;
 
@@ -48,15 +49,12 @@ export type FinalizeHook = (room: Room, item: ChainItem, step: RulesStepContext)
 /** Alias named after the hook point (`afterFinalize`). */
 export type AfterFinalizeHook = FinalizeHook;
 
-const FINALIZE_HOOKS: FinalizeHook[] = [];
+const FINALIZE_REGISTRY = orderedRegistry<FinalizeHook>("finalize hook");
+const FINALIZE_HOOKS = FINALIZE_REGISTRY.list;
 
 /** Register a 337.1 finalize hook (`afterFinalize`); returns an unsubscribe function. */
 export function registerFinalizeHook(hook: FinalizeHook): () => void {
-  FINALIZE_HOOKS.push(hook);
-  return () => {
-    const index = FINALIZE_HOOKS.indexOf(hook);
-    if (index >= 0) FINALIZE_HOOKS.splice(index, 1);
-  };
+  return FINALIZE_REGISTRY.register(hook);
 }
 
 /** Alias named after the hook point (`afterFinalize`). */
@@ -92,15 +90,12 @@ export type ActionInterceptor = (
   proposal: ActionProposal,
 ) => ActionProposal | null;
 
-const ACTION_INTERCEPTORS: ActionInterceptor[] = [];
+const INTERCEPTOR_REGISTRY = orderedRegistry<ActionInterceptor>("action interceptor");
+const ACTION_INTERCEPTORS = INTERCEPTOR_REGISTRY.list;
 
 /** Register a 367–375 replacement/prevention interceptor; returns an unsubscribe function. */
 export function registerActionInterceptor(interceptor: ActionInterceptor): () => void {
-  ACTION_INTERCEPTORS.push(interceptor);
-  return () => {
-    const index = ACTION_INTERCEPTORS.indexOf(interceptor);
-    if (index >= 0) ACTION_INTERCEPTORS.splice(index, 1);
-  };
+  return INTERCEPTOR_REGISTRY.register(interceptor);
 }
 
 /**
@@ -124,6 +119,7 @@ export function interceptAction(
 
 /** Register an advance hook; returns an unsubscribe function (test isolation). */
 export function registerAdvanceHook(point: AdvanceHookPoint, hook: RulesHook): () => void {
+  if (ADVANCE_HOOKS[point].includes(hook)) throw new DuplicateRegistrationError(`advance hook (${point})`, hook.name || "<anonymous>");
   ADVANCE_HOOKS[point].push(hook);
   return () => {
     ADVANCE_HOOKS[point] = ADVANCE_HOOKS[point].filter((entry) => entry !== hook);
@@ -132,6 +128,7 @@ export function registerAdvanceHook(point: AdvanceHookPoint, hook: RulesHook): (
 
 /** Register a cleanup hook; returns an unsubscribe function (test isolation). */
 export function registerCleanupHook(point: CleanupHookPoint, hook: RulesHook): () => void {
+  if (CLEANUP_HOOKS[point].includes(hook)) throw new DuplicateRegistrationError(`cleanup hook (${point})`, hook.name || "<anonymous>");
   CLEANUP_HOOKS[point].push(hook);
   return () => {
     CLEANUP_HOOKS[point] = CLEANUP_HOOKS[point].filter((entry) => entry !== hook);

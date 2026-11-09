@@ -1,6 +1,5 @@
 /** Cemetery Attendant (OGN-165) — "When you play me, return a unit from your trash to your hand." (355.7, 403.4) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Cemetery Attendant",

@@ -200,7 +200,7 @@ describe("payCost / canPayCost contract [R203][R357]", () => {
   it("[R357.2][R411.2] a kill cost with several candidates needs a choice; one candidate is forced", () => {
     const s = bareScenario();
     const first = place(s, "p1", "Treasure Hunter", "base");
-    const cost = { kill: { cardType: "unit", controller: "self" as const } };
+    const cost = { kill: { cardType: "unit" as const, controller: "self" as const } };
     // One friendly unit: forced.
     const forced = s.host.cloneRoom(s.room);
     expect(payCost(forced, stepOf(s), "p1", cost)).toEqual({ ok: true });

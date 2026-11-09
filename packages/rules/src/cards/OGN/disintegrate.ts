@@ -5,8 +5,7 @@
  * to this spell), after the resolution ended, so the reflexive "do this: draw 1" (387) cannot be
  * conditioned on it.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Disintegrate",

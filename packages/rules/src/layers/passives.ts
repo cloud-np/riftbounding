@@ -8,8 +8,8 @@
  * - passive abilities of scripted objects on the Board (365.1) and of the battlefields;
  * - 718.2/724: an attached card's own rules text is Inactive; only its effect text (modelled as
  *   passives whose target is `{ targetRef: "host" }`) applies, to the top-most card (718.3/.4);
- * - `{ kind: "custom", id: "conditional", params: { condition, modifier } }` wraps a conditional
- *   passive (364.3.a) or a Dependent Keyword ability (727.1.b: Inactive until the condition holds);
+ * - `{ kind: "while", condition, modifier }` wraps a conditional passive (364.3.a) or a Dependent
+ *   Keyword ability (727.1.b: Inactive until the condition holds);
  * - continuous effects in `rules.effects` whose duration is active (`durations.ts`).
  *
  * `depth` breaks layer self-references (478.1.c): nested evaluations at depth ≥ 1 see only base
@@ -20,6 +20,7 @@ import type { RulesHost } from "../host";
 import { getCardScript } from "../cards/registry";
 import { durationActive } from "./durations";
 import { hasUnitPresentAt } from "../state/presence";
+import { upgradeLegacyModifier } from "./legacy";
 
 export interface ActiveModifier {
   /** Object id, `battlefield:<zone>` or the continuous effect's source. */
@@ -59,45 +60,32 @@ export function evaluateLayerCondition(
 function unwrap(
   room: Room,
   host: RulesHost,
-  modifier: Modifier,
+  stored: Modifier,
   scope: { controller: string; sourceObjectId?: string; depth: number },
 ): Modifier | null {
-  if (modifier.kind === "custom" && modifier.id === "conditional") {
-    const params = modifier.params ?? {};
-    const condition = params.condition as Condition | undefined;
-    const inner = params.modifier as Modifier | undefined;
-    if (!inner) return null;
-    if (condition && !evaluateLayerCondition(room, host, condition, scope)) return null;
-    return unwrap(room, host, inner, scope);
+  const modifier = upgradeLegacyModifier(stored);
+  if (modifier.kind === "while") {
+    if (!evaluateLayerCondition(room, host, modifier.condition, scope)) return null;
+    return unwrap(room, host, modifier.modifier, scope);
   }
   // 718.2: scripts mark a passive that models printed Rules Text (Inactive while attached) with
-  // `{ kind: "custom", id: "rules-text", params: { modifier } }`; ordinary passives are Effect
-  // Text (718.3). The wrapper itself is transparent while the card is unattached.
-  if (modifier.kind === "custom" && modifier.id === "rules-text") {
-    const inner = modifier.params?.modifier as Modifier | undefined;
-    return inner ? unwrap(room, host, inner, scope) : null;
-  }
+  // `{ kind: "rules-text", modifier }`; ordinary passives are Effect Text (718.3). The wrapper
+  // itself is transparent while the card is unattached.
+  if (modifier.kind === "rules-text") return unwrap(room, host, modifier.modifier, scope);
   return modifier;
 }
 
 /** 718.2: is this passive printed Rules Text (Inactive while the card is attached)? */
 function isRulesText(modifier: Modifier): boolean {
-  if (modifier.kind !== "custom") return false;
-  if (modifier.id === "rules-text") return true;
-  if (modifier.id === "conditional") {
-    const inner = modifier.params?.modifier as Modifier | undefined;
-    return inner ? isRulesText(inner) : false;
-  }
+  if (modifier.kind === "rules-text") return true;
+  if (modifier.kind === "while") return isRulesText(modifier.modifier);
   return false;
 }
 
 function isHostTargeted(modifier: Modifier): boolean {
   const target = (modifier as { target?: { targetRef?: string } }).target;
   if (target?.targetRef === "host") return true;
-  if (modifier.kind === "custom" && (modifier.id === "conditional" || modifier.id === "rules-text")) {
-    const inner = modifier.params?.modifier as Modifier | undefined;
-    return inner ? isHostTargeted(inner) : false;
-  }
+  if (modifier.kind === "while" || modifier.kind === "rules-text") return isHostTargeted(modifier.modifier);
   return false;
 }
 

@@ -1,6 +1,5 @@
 /** Machine Evangel (OGN-239) — "[DEATHKNELL] - Play three 1 [Might] Recruit unit tokens into your base." (808.1.c; 440.2.c) */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE, token } from "../dsl";
+import { registerCardScript, token, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Machine Evangel",

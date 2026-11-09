@@ -5,9 +5,9 @@
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Room } from "@rift/protocol";
-import { clearCardScripts, initializeStrictRules, registerCardScript } from "../../src";
+import { initializeStrictRules } from "../../src";
+import { clearCardScripts, overrideAdditionalCosts, registerTestCardScript } from "../../src/testing";
 import type { RulesContext, RulesHost } from "../../src/host";
-import { registerAdditionalCosts } from "../../src/play/additional-costs";
 import { planCardPlay } from "../../src/play/process";
 import { createInitialGameState } from "../../../engine/src/index";
 import { createEngineRulesHost } from "../../../engine/src/strict/host";
@@ -60,10 +60,10 @@ describe("paying costs [R357.3]", () => {
   function setupEnGarde(units: number) {
     const s = bareScenario({ p1: { energy: 1 } });
     const friendly = Array.from({ length: units }, (_, index) => place(s, "p1", index === 0 ? "Treasure Hunter" : "Stellacorn Herder", "base"));
-    registerCardScript({ name: "En Garde", text: "test", status: "implemented", abilities: [fake.fakeAbility("En Garde")] });
+    registerTestCardScript({ name: "En Garde", text: "test", status: "implemented", abilities: [fake.fakeAbility("En Garde")] });
     // "Give a friendly unit +2 Might" (a target) with "you may kill a friendly unit as an additional cost".
     fake.setSpecs("En Garde", (room, host) => [fake.anyUnitSpec(room, host)]);
-    const off = registerAdditionalCosts("En Garde", [
+    const off = overrideAdditionalCosts("En Garde", [
       { id: "optional:0", optional: true, cost: { kill: { cardType: "unit", controller: "self" } }, rule: "356.2.b.1" },
     ]);
     const card = toHand(s, "p1", "En Garde");

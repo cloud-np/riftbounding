@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./testing": "./src/testing.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -12,7 +13,8 @@
     "test:host": "vitest run --config vitest.host.config.ts",
     "selfplay": "vitest run --config test/bot/vitest.selfplay.config.ts",
     "coverage:rules": "node scripts/rules-coverage.mjs",
-    "coverage:cards": "node scripts/card-coverage.mjs"
+    "coverage:cards": "node scripts/card-coverage.mjs",
+    "coverage:check": "node scripts/card-coverage.mjs --check && node scripts/rules-coverage.mjs --check"
   },
   "dependencies": {
     "@rift/cards": "workspace:*",

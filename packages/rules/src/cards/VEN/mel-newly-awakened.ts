@@ -5,9 +5,7 @@
  *
  * The play effect (383.4.a) and Empower (827.1.c.1) are automated; the Empowered lines are not.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
-import { empower } from "./shared";
+import { empower, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Mel, Newly Awakened",

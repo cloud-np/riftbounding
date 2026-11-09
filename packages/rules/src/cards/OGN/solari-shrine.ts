@@ -6,15 +6,7 @@
  * `kill` event (383.2.c.3.b, 424). "You may exhaust this to draw 1" is an optional cost within
  * the instruction (740.4.a).
  */
-import { registerCardScript } from "../registry";
-import { SELF, custom } from "../dsl";
-import { registerCustomCondition } from "../../effects/evaluate";
-
-/** The kill event was caused by the ability's controller ("When you kill", 429.5). */
-registerCustomCondition("ogn-oz:killed-by-you", (ctx) => {
-  const responsible = (ctx.env.event?.data ?? {}).responsible;
-  return typeof responsible === "string" && responsible === ctx.env.controller;
-});
+import { custom, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Solari Shrine",
@@ -30,7 +22,7 @@ registerCardScript({
         event: {
           type: "die",
           subject: { cardType: "unit", controller: "opponent", stunned: true },
-          condition: custom("ogn-oz:killed-by-you"),
+          condition: custom("ogn:killed-by-you"),
         },
       },
       effect: {

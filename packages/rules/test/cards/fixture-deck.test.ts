@@ -119,7 +119,7 @@ describe("fixture deck card scripts", () => {
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, enemy.id)).toBe("trash");
     // "I must be assigned combat damage last" is exposed for R2-combat.
-    expect(activeModifiers(s.room, s.host).some((m) => m.modifier.kind === "custom" && m.modifier.id === "assigned-last")).toBe(true);
+    expect(activeModifiers(s.room, s.host).some((m) => m.modifier.kind === "assigned-last")).toBe(true);
     expect(getCardScript("Caitlyn, Patrolling")?.status).toBe("partial");
   });
 
@@ -339,6 +339,6 @@ describe("fixture deck card scripts", () => {
 
   it("[C:Bandle Tree] exposes one additional hidden card slot for R2-play", () => {
     const s = scenario({ battlefields: { p1: "Bandle Tree" } });
-    expect(activeModifiers(s.room, s.host).some((m) => m.modifier.kind === "custom" && m.modifier.id === "hide-limit")).toBe(true);
+    expect(activeModifiers(s.room, s.host).some((m) => m.modifier.kind === "hide-limit")).toBe(true);
   });
 });

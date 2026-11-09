@@ -5,8 +5,7 @@
  * [Reaction] is printed (R2-play). The play effect (383.4.a) heals all friendly units at Janna's
  * location (419) and then moves zero or one chosen enemy unit there to its base (355.13, 421).
  */
-import { registerCardScript } from "../registry";
-import { aUnit, HERE, WHEN_PLAYED } from "../dsl";
+import { aUnit, HERE, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Janna, Savior",

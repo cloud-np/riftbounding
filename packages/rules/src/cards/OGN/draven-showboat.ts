@@ -1,6 +1,5 @@
 /** Draven, Showboat (OGN-028) — "My might is increased by your points." (479.4 computed passive amount) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Draven, Showboat",

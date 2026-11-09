@@ -1,5 +1,5 @@
 /** Cataclysmic Duel (VEN-090) — "Each player chooses a unit they control. Kill the rest." (355.18 picks, 429 kill) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Cataclysmic Duel",

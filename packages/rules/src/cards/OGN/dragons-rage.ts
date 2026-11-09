@@ -5,8 +5,7 @@
  * "Then do this:" is a reflexive trigger (387–389): its choice is made when it finalizes
  * (355.5.b), at the moved unit's destination; each unit is the source of its damage (418.6.b).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Dragon's Rage",

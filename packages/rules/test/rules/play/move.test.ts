@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RulesIntent } from "@rift/protocol";
-import { clearCardScripts, explainIllegal, primitives, registerCardScript } from "../../../src";
+import { explainIllegal, primitives } from "../../../src";
+import { clearCardScripts, registerTestCardScript } from "../../../src/testing";
 import * as fake from "./fake-effects";
 import { bareScenario, boardOf, place, stepOf, toHand } from "./helpers";
 import type { RulesScenario } from "../../scenarios/dsl";
@@ -47,7 +48,7 @@ describe("Standard Move [R144][R447–R455]", () => {
   });
 
   it("[R810.3][R144.4.c.1] a Unit granted Ganking by a passive may move battlefield to battlefield", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Stellacorn Herder",
       text: "test: Friendly units have [Ganking].",
       status: "implemented",

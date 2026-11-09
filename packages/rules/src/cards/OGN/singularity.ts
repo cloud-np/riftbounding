@@ -1,6 +1,5 @@
 /** Singularity (OGN-105 — EX[105] (359.3.e.8), EX[270] (715.2)) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Singularity",

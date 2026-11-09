@@ -1,5 +1,5 @@
 /** Ava Achiever — when I attack, may pay Mind to play a Hidden card from hand ignoring cost; units enter here (383.4.e, 420). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Ava Achiever",

@@ -6,8 +6,7 @@
  * may" is decided when it finalizes (403.1). I am moved (421, an effect-driven move) to the
  * location that unit moved to.
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF } from "../dsl";
+import { HERE, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Stealthy Pursuer",

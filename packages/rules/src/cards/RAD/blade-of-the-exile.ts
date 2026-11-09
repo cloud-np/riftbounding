@@ -8,8 +8,7 @@
  * the ordinary cost layer. The scripted `activated:0` keeps the R2 compatibility ref used by
  * `test/cards/fixture-deck.test.ts` (it performs the same attach for the [Rune] alternative).
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Blade of the Exile",

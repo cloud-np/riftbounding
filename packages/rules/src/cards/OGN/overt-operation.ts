@@ -6,8 +6,7 @@
  * on resolution (355.18) whether to spend it (a cost within the instruction, 740.4.a) to ready that
  * unit. Then every friendly unit is buffed (427.1.b: a unit with a buff gets no second one).
  */
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Overt Operation",
@@ -31,7 +30,7 @@ registerCardScript({
                   { op: "spend_buff", target: { targetRef: "it" } },
                   {
                     op: "if",
-                    condition: custom("did"),
+                    condition: { kind: "did" },
                     then: { op: "ready", target: { targetRef: "it" } },
                   },
                 ],

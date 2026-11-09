@@ -2,8 +2,7 @@
  * Void Assault (UNL-202) — "Move a friendly unit, then move an enemy unit." Each move has its own
  * destination chosen on play (355.4); the cleanup after the moves stages the combat (455).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Void Assault",

@@ -6,37 +6,10 @@ import { expect } from "vitest";
 import type { CardInstance } from "@rift/protocol";
 import { scenario } from "../../scenarios/dsl";
 import { boardOf } from "../../rules/effects/helpers";
+import { hand, passBoth, withCards } from "../helpers";
+export { hand, passBoth, withCards };
 
 export type S = ReturnType<typeof scenario>;
-
-/** A scenario whose players hold the named extra cards in hand (extra cards may already be there). */
-export function withCards(
-  p1: string[],
-  p2: string[] = [],
-  extra: Parameters<typeof scenario>[0] = {},
-): S {
-  const s = scenario({ ...extra, extraCards: { p1, p2 } });
-  for (const [player, names] of [
-    ["p1", p1],
-    ["p2", p2],
-  ] as const) {
-    const wanted: Record<string, number> = {};
-    for (const name of names) wanted[name] = (wanted[name] ?? 0) + 1;
-    for (const [name, count] of Object.entries(wanted)) {
-      const inHand = boardOf(s, player).hand.filter((card) => card.name === name).length;
-      for (let index = inHand; index < count; index += 1) s.moveDeckCardToHand(player, name);
-    }
-  }
-  return s;
-}
-
-/** Both players pass Priority once (the first one listed passes first). */
-export function passBoth(s: S, first = "p1"): void {
-  s.as(first).pass().expectOk();
-  s.as(first === "p1" ? "p2" : "p1")
-    .pass()
-    .expectOk();
-}
 
 /**
  * Pass Priority until the chain is empty. Fails when a prompt opens (answer it in the test), so a
@@ -57,10 +30,6 @@ export function resolveChain(s: S, guard = 12): void {
     if (!holder) break;
     s.as(holder).pass().expectOk();
   }
-}
-
-export function hand(s: S, player: string): CardInstance[] {
-  return boardOf(s, player).hand;
 }
 
 export function cardsNamed(s: S, player: string, zone: string, name: string): CardInstance[] {

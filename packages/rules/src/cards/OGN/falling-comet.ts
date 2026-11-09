@@ -1,6 +1,5 @@
 /** Falling Comet (OGN-085) — "Deal 6 to a unit at a battlefield." (418) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Falling Comet",

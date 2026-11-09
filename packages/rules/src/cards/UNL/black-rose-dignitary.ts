@@ -1,6 +1,5 @@
 /** Black Rose Dignitary (UNL-152) — [Assault] (807, engine keyword); [Deathknell] (808) channel 1 rune exhausted (431.2.a). */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE } from "../dsl";
+import { registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Black Rose Dignitary",

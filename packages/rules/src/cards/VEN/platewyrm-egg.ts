@@ -4,9 +4,8 @@
  *
  * 827.1.c.2 Empower cost; 430.2 Add ability (resolves immediately; checked when it resolves).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { ENTERS_EXHAUSTED_GAP, SELF_EMPOWERED, empower } from "./shared";
+import { empower, registerCardScript, SELF, SELF_EMPOWERED } from "../sdk";
+import { ENTERS_EXHAUSTED_GAP } from "./custom";
 
 registerCardScript({
   name: "Platewyrm Egg",

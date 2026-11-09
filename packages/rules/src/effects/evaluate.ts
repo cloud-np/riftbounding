@@ -26,6 +26,7 @@ import type {
   PlayerSelector,
   Room,
   Selector,
+  SelfState,
   ShowOffInfo,
   ZoneSelector,
 } from "@rift/protocol";
@@ -56,6 +57,8 @@ import {
   typeOf,
 } from "./objects";
 import { hasUnitPresentAt, unitsPresentAt } from "../state/presence";
+import { keyedRegistry } from "../registry-table";
+import { upgradeLegacyCondition } from "../layers/legacy";
 
 /* ---------------------------------------------------------------- players */
 
@@ -528,11 +531,16 @@ export function shownOffInfo(ctx: EvalContext): ShowOffInfo | null {
 
 export type CustomCondition = (ctx: EvalContext, params: Record<string, unknown>) => boolean;
 
-const CUSTOM_CONDITIONS = new Map<string, CustomCondition>();
+/** G1: one implementation per custom condition id; duplicates throw (tests: `src/testing.ts`). */
+export const CUSTOM_CONDITIONS = keyedRegistry<CustomCondition>("custom condition");
 
 /** Register a `{ kind: "custom", id }` condition (import-time table; no game state). */
 export function registerCustomCondition(id: string, fn: CustomCondition): void {
-  CUSTOM_CONDITIONS.set(id, fn);
+  CUSTOM_CONDITIONS.register(id, fn);
+}
+
+export function customConditionIds(): string[] {
+  return CUSTOM_CONDITIONS.keys();
 }
 
 export function evaluateCondition(ctx: EvalContext, condition: Condition | undefined): boolean {
@@ -602,121 +610,146 @@ export function evaluateCondition(ctx: EvalContext, condition: Condition | undef
     }
     case "custom": {
       const fn = CUSTOM_CONDITIONS.get(condition.id);
-      return fn ? fn(ctx, condition.params ?? {}) : false;
+      if (fn) return fn(ctx, condition.params ?? {});
+      // A condition stored in room state before the generic ids became typed members.
+      const upgraded = upgradeLegacyCondition(condition);
+      return upgraded !== condition ? evaluateCondition(ctx, upgraded) : false;
+    }
+    case "did":
+    case "paid-additional":
+    case "self-state":
+    case "xp-at-least":
+    case "alone":
+    case "in-ids":
+    case "in-ref":
+    case "first-played-this-turn":
+    case "showed-off":
+    case "marked":
+    case "cards-played":
+    case "event-zone-is":
+      return engineCondition(ctx, condition);
+    default: {
+      const unhandled: never = condition;
+      void unhandled;
     }
   }
   void env;
   return false;
 }
 
-/* ---------------------------------------------------------------- built-in custom conditions */
-
-registerCustomCondition("did", (ctx) => ctx.env.vars.$did === true);
+/* ---------------------------------------------------------------- engine-provided conditions */
 
 /** 356.4.f.1: an optional additional cost was "paid" if the player decided to pay it. */
-registerCustomCondition("paid-additional", (ctx) => {
+function paidAdditional(ctx: EvalContext): boolean {
   const keys = ["additionalCost", "optionalCost", "paidAdditional", "paid"];
   if (keys.some((key) => ctx.env.choices[key] === true)) return true;
   // A play effect reads the flag noted on its source permanent (triggers/finalize.ts).
   const source = ctx.env.sourceObjectId;
   return !!source && ctx.room.rules?.objects[source]?.paidAdditionalCost === true;
-});
+}
 
-registerCustomCondition("self-at-battlefield", (ctx) => {
+function selfState(ctx: EvalContext, state: SelfState): boolean {
   const source = ctx.env.sourceObjectId;
   if (!source) return false;
-  return isBattlefieldZone(ctx.room, ctx.host, locationOf(ctx.room, ctx.host, source) ?? undefined);
-});
-
-registerCustomCondition("self-empowered", (ctx) => {
-  const source = ctx.env.sourceObjectId;
-  return !!source && (ctx.room.rules?.objects[source]?.empowered ?? 0) > 0;
-});
-
-registerCustomCondition("self-mighty", (ctx) => {
-  const source = ctx.env.sourceObjectId;
-  return !!source && (mightOf(ctx, source) ?? 0) >= 5;
-});
-
-registerCustomCondition("self-buffed", (ctx) => {
-  const source = ctx.env.sourceObjectId;
-  return !!source && (ctx.room.rules?.objects[source]?.buffs ?? 0) > 0;
-});
-
-/** 824.1.b.1: "While you have [N] or more XP". */
-registerCustomCondition("xp-at-least", (ctx, params) => {
-  const n = typeof params.n === "number" ? params.n : 0;
-  return xpOf(ctx.room, ctx.env.controller) >= n;
-});
+  switch (state) {
+    case "at-battlefield":
+      return isBattlefieldZone(ctx.room, ctx.host, locationOf(ctx.room, ctx.host, source) ?? undefined);
+    case "empowered":
+      return (ctx.room.rules?.objects[source]?.empowered ?? 0) > 0;
+    case "mighty":
+      return (mightOf(ctx, source) ?? 0) >= 5;
+    case "buffed":
+      return (ctx.room.rules?.objects[source]?.buffs ?? 0) > 0;
+  }
+}
 
 /** "it is the only unit you control there" (En Garde). */
-registerCustomCondition("alone", (ctx, params) => {
-  const ref = typeof params.ref === "string" ? params.ref : "it";
-  const [id] = refIds(ctx, ref);
+function alone(ctx: EvalContext, ref: string | undefined): boolean {
+  const [id] = refIds(ctx, ref ?? "it");
   if (!id) return false;
   const location = locationOf(ctx.room, ctx.host, id);
   const controller = controllerOf(ctx.room, ctx.host, id);
   if (!location || !controller) return false;
   return unitsPresentAt(ctx.room, ctx.host, location, controller).every((card) => card.id === id);
-});
-
-/** `it` is one of the listed ids (continuous effects frozen to several chosen objects). */
-registerCustomCondition("in-ids", (ctx, params) => {
-  const ids = Array.isArray(params.ids) ? params.ids : [];
-  return !!ctx.env.it && ids.includes(ctx.env.it);
-});
-
-/** `it` is one of the objects bound to `ref` (e.g. the looked-at cards). */
-registerCustomCondition("in-ref", (ctx, params) => {
-  const ref = typeof params.ref === "string" ? params.ref : "looked";
-  return !!ctx.env.it && refIds(ctx, ref).includes(ctx.env.it);
-});
+}
 
 /**
  * "your first card each turn": the trigger event's card is the first card its controller played
  * this turn (420.4.a: the trigger fires when that card resolves).
  */
-registerCustomCondition("first-played-this-turn", (ctx) => {
+function firstPlayedThisTurn(ctx: EvalContext): boolean {
   const event = ctx.env.event;
   const player = event?.playerId ?? ctx.env.controller;
   const played = ctx.room.rules?.history.effects?.played?.[player] ?? [];
   return !!event?.cardId && played[0] === event.cardId;
-});
-
-/**
- * 832.1.c.1: "if you showed off" — the item / permanent showed off (at least `count` objects,
- * default 1, for "[Show Off] five …" sets).
- */
-registerCustomCondition("showed-off", (ctx, params) => {
-  const info = shownOffInfo(ctx);
-  const count = typeof params.count === "number" ? params.count : 1;
-  return !!info && info.ids.length >= count;
-});
+}
 
 /** A per-turn marker set with the `mark` op equals / contains `value`. */
-registerCustomCondition("marked", (ctx, params) => {
-  const key = String(params.key ?? "").replace("{self}", ctx.env.sourceObjectId ?? "");
+function marked(ctx: EvalContext, key: string, wanted: unknown): boolean {
+  const resolved = key.replace("{self}", ctx.env.sourceObjectId ?? "");
   const marks = ctx.room.rules?.history.effects?.marks ?? {};
-  const value = marks[key];
-  if (params.value === undefined) return value !== undefined;
-  if (Array.isArray(value)) return (value as unknown[]).includes(params.value);
-  return value === params.value;
-});
+  const value = marks[resolved];
+  if (wanted === undefined) return value !== undefined;
+  if (Array.isArray(value)) return (value as unknown[]).includes(wanted);
+  return value === wanted;
+}
 
-/** Number of cards the controller has played this turn (history counter). */
-registerCustomCondition("cards-played", (ctx, params) => {
-  const count = ctx.room.rules?.history.cardsPlayedThisTurn[ctx.env.controller] ?? 0;
-  const op = (params.op as ComparisonOp | undefined) ?? "gte";
-  const value = typeof params.value === "number" ? params.value : 1;
-  return compare(count, op, value);
-});
+const ENGINE_CONDITION_KINDS = [
+  "did",
+  "paid-additional",
+  "self-state",
+  "xp-at-least",
+  "alone",
+  "in-ids",
+  "in-ref",
+  "first-played-this-turn",
+  "showed-off",
+  "marked",
+  "cards-played",
+  "event-zone-is",
+] as const;
 
-/** The trigger event's subject is (or was) at a battlefield / the base. */
-registerCustomCondition("event-zone-is", (ctx, params) => {
-  const zone = ctx.env.event?.zone;
-  if (params.battlefield === true) return isBattlefieldZone(ctx.room, ctx.host, zone);
-  return zone === params.zone;
-});
+type EngineCondition = Extract<Condition, { kind: (typeof ENGINE_CONDITION_KINDS)[number] }>;
+
+/** Engine-provided (typed) conditions — F2/G8. */
+function engineCondition(ctx: EvalContext, condition: EngineCondition): boolean {
+  switch (condition.kind) {
+    case "did":
+      return ctx.env.vars.$did === true;
+    case "paid-additional":
+      return paidAdditional(ctx);
+    case "self-state":
+      return selfState(ctx, condition.state);
+    case "xp-at-least":
+      // 824.1.b.1: "While you have [N] or more XP".
+      return xpOf(ctx.room, ctx.env.controller) >= condition.amount;
+    case "alone":
+      return alone(ctx, condition.ref);
+    case "in-ids":
+      return !!ctx.env.it && condition.ids.includes(ctx.env.it);
+    case "in-ref":
+      return !!ctx.env.it && refIds(ctx, condition.ref ?? "looked").includes(ctx.env.it);
+    case "first-played-this-turn":
+      return firstPlayedThisTurn(ctx);
+    case "showed-off": {
+      // 832.1.c.1: "if you showed off" (at least `count` objects).
+      const info = shownOffInfo(ctx);
+      return !!info && info.ids.length >= (condition.count ?? 1);
+    }
+    case "marked":
+      return marked(ctx, condition.key, condition.value);
+    case "cards-played": {
+      const count = ctx.room.rules?.history.cardsPlayedThisTurn[ctx.env.controller] ?? 0;
+      return compare(count, condition.op ?? "gte", condition.value ?? 1);
+    }
+    case "event-zone-is": {
+      // The trigger event's subject is (or was) at a battlefield / the given zone.
+      const zone = ctx.env.event?.zone;
+      if (condition.battlefield === true) return isBattlefieldZone(ctx.room, ctx.host, zone);
+      return zone === condition.zone;
+    }
+  }
+}
 
 /* ---------------------------------------------------------------- XP (728–733) */
 

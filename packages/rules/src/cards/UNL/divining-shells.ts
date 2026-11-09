@@ -3,15 +3,14 @@
  * Give a unit +2 [Might] this turn." — the [Action] belongs to the ability (135.2.e.7), not the
  * gear, so the catalog's card-level [Action] is suppressed.
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Divining Shells",
   text: "[Vision] (When you play this, look at the top card of your Main Deck. You may recycle it.)\n[Action] Kill this, [tap] : Give a unit +2 [might] this turn.",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Action", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Action" },
     {
       kind: "activated",
       cost: { kill: SELF, exhaust: SELF },

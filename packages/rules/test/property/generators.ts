@@ -7,13 +7,12 @@
 import type { CardScript, PromptAnswer, Room, RulesIntent } from "@rift/protocol";
 import {
   applyRulesIntent,
-  clearCardScripts,
   explainIllegal,
   legalIntents,
-  registerCardScripts,
   turnState,
   whoMayAct,
 } from "../../src";
+import { clearCardScripts, registerTestCardScripts } from "../../src/testing";
 import { scenario, type RulesScenario } from "../scenarios/dsl";
 import { answerFromRegistry } from "./answerers/registry";
 import "./answerers/index";
@@ -37,7 +36,7 @@ const ACTIVATED_UNIT: CardScript = {
   abilities: [
     {
       kind: "triggered",
-      trigger: { kind: "event", event: { type: "probe" } },
+      trigger: { kind: "event", event: { type: "probe" as never } },
       effect: { op: "seq", effects: [] },
     },
     { kind: "activated", cost: {}, effect: { op: "seq", effects: [] } },
@@ -55,7 +54,7 @@ function noopScript(name: string, text: string): CardScript {
 
 /** Register the synthetic scripts used by the timing property. */
 export function registerPropertyScripts(): void {
-  registerCardScripts([
+  registerTestCardScripts([
     ...NOOP_SPELLS.map(([name, text]) => noopScript(name, text)),
     ACTIVATED_UNIT,
   ]);

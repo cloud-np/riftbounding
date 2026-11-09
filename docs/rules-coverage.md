@@ -10,13 +10,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | --- | ---: |
 | Numbered rule entries in corpus | 2494 |
 | Rule bodies (entries minus section headings) | 2321 |
-| Rules with at least one test | 661 |
-| Rules coverage | 28.5% |
-| Tagged test titles | 1422 |
-| `[R…]` tags | 2454 |
+| Rules with at least one test | 663 |
+| Rules coverage | 28.6% |
+| Tagged test titles | 1438 |
+| `[R…]` tags | 2477 |
 | `[EX:…]` tags | 116 |
 | Range tags (not expanded) | 25 unique / 29 refs |
-| Test/helper files scanned | 195 |
+| Test/helper files scanned | 202 |
 | Unknown rule ids referenced | 0 |
 
 ## Per-section coverage
@@ -25,10 +25,10 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Golden Rule | 1 | 0 | 0.0% | 0 | 0 |
 | Silver Rule | 7 | 1 | 14.3% | 2 | 0 |
-| “Can’t beats Can” | 7 | 3 | 42.9% | 26 | 0 |
+| “Can’t beats Can” | 7 | 3 | 42.9% | 27 | 0 |
 | Deck Construction | 34 | 0 | 0.0% | 0 | 0 |
 | Spaces | 1 | 0 | 0.0% | 0 | 0 |
-| The Board | 26 | 3 | 11.5% | 6 | 0 |
+| The Board | 26 | 3 | 11.5% | 7 | 0 |
 | Non-Board Zones | 42 | 0 | 0.0% | 0 | 0 |
 | Setup Process | 20 | 0 | 0.0% | 0 | 0 |
 | Game Objects | 7 | 0 | 0.0% | 0 | 0 |
@@ -46,7 +46,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Might Bonus | 5 | 0 | 0.0% | 0 | 0 |
 | Flavor Text | 2 | 0 | 0.0% | 0 | 0 |
 | Illustration | 1 | 0 | 0.0% | 0 | 0 |
-| Units | 68 | 18 | 26.5% | 47 | 2 |
+| Units | 68 | 18 | 26.5% | 48 | 2 |
 | Gear | 32 | 2 | 6.3% | 2 | 0 |
 | Spells | 18 | 0 | 0.0% | 0 | 0 |
 | Runes | 15 | 2 | 13.3% | 2 | 0 |
@@ -55,7 +55,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Battlefields | 43 | 15 | 34.9% | 21 | 1 |
 | Legends | 14 | 0 | 0.0% | 0 | 0 |
 | Multiple Types | 10 | 0 | 0.0% | 0 | 0 |
-| Tokens | 39 | 8 | 20.5% | 17 | 0 |
+| Tokens | 39 | 9 | 23.1% | 19 | 0 |
 | Control | 1 | 0 | 0.0% | 0 | 0 |
 | Everything Else | 21 | 0 | 0.0% | 0 | 0 |
 | Winning | 17 | 10 | 58.8% | 14 | 0 |
@@ -79,7 +79,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Playing Cards | 9 | 1 | 11.1% | 1 | 0 |
 | The Process of Play | 152 | 79 | 52.0% | 306 | 38 |
 | Abilities | 3 | 1 | 33.3% | 1 | 0 |
-| Passive Abilities | 5 | 2 | 40.0% | 14 | 0 |
+| Passive Abilities | 5 | 2 | 40.0% | 15 | 0 |
 | Presence on Permanents | 3 | 2 | 66.7% | 6 | 0 |
 | Presence on Card outside of the Board | 3 | 1 | 33.3% | 15 | 0 |
 | Replacement Effects | 34 | 14 | 41.2% | 57 | 3 |
@@ -89,10 +89,10 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Reflexive Triggers | 10 | 4 | 40.0% | 5 | 1 |
 | Delayed Abilities | 14 | 5 | 35.7% | 24 | 2 |
 | Linked Abilities | 5 | 0 | 0.0% | 0 | 0 |
-| Playing or Activating Abilities | 35 | 14 | 40.0% | 47 | 0 |
+| Playing or Activating Abilities | 35 | 14 | 40.0% | 48 | 0 |
 | Game Actions | 12 | 2 | 16.7% | 28 | 0 |
 | Responsibility | 8 | 2 | 25.0% | 5 | 0 |
-| Draw | 10 | 2 | 20.0% | 3 | 0 |
+| Draw | 10 | 2 | 20.0% | 4 | 0 |
 | Exhaust | 9 | 3 | 33.3% | 6 | 0 |
 | Ready | 8 | 2 | 25.0% | 3 | 0 |
 | Recycle | 11 | 6 | 54.5% | 12 | 2 |
@@ -128,11 +128,11 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Movement | 21 | 5 | 23.8% | 9 | 0 |
 | Recalls | 9 | 5 | 55.6% | 6 | 0 |
 | Combat | 12 | 5 | 41.7% | 11 | 0 |
-| Step 1: The Combat Showdown Step | 16 | 10 | 62.5% | 19 | 0 |
+| Step 1: The Combat Showdown Step | 16 | 10 | 62.5% | 20 | 0 |
 | Step 2: The Combat Damage Step | 19 | 12 | 63.2% | 23 | 5 |
 | Step 3: The Resolution Step | 23 | 16 | 69.6% | 28 | 0 |
 | Scoring | 21 | 12 | 57.1% | 22 | 0 |
-| Layers | 53 | 8 | 15.1% | 40 | 3 |
+| Layers | 53 | 8 | 15.1% | 41 | 3 |
 | Modes of Play | 16 | 0 | 0.0% | 0 | 0 |
 | 1v1 (Duel) | 8 | 1 | 12.5% | 1 | 0 |
 | 1v1 (Match) | 12 | 0 | 0.0% | 0 | 0 |
@@ -148,7 +148,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Keywords can be Dependent Keywords | 14 | 3 | 21.4% | 12 | 1 |
 | XP | 11 | 4 | 36.4% | 11 | 0 |
 | Additional Turns | 4 | 0 | 0.0% | 0 | 0 |
-| Special Terms | 15 | 9 | 60.0% | 37 | 0 |
+| Special Terms | 15 | 9 | 60.0% | 38 | 0 |
 | Counters | 13 | 0 | 0.0% | 0 | 0 |
 | Making New Choices | 11 | 0 | 0.0% | 0 | 0 |
 | Untargetability | 6 | 2 | 33.3% | 7 | 1 |
@@ -162,7 +162,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Deflect | 11 | 3 | 27.3% | 29 | 0 |
 | Ganking | 9 | 3 | 33.3% | 12 | 0 |
 | Hidden | 22 | 4 | 18.2% | 14 | 0 |
-| Legion | 8 | 2 | 25.0% | 5 | 0 |
+| Legion | 8 | 2 | 25.0% | 6 | 0 |
 | Reaction | 17 | 2 | 11.8% | 3 | 0 |
 | Shield | 11 | 4 | 36.4% | 12 | 1 |
 | Tank | 8 | 4 | 50.0% | 5 | 0 |
@@ -171,10 +171,10 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Equip | 20 | 5 | 25.0% | 11 | 0 |
 | Quick-Draw | 7 | 3 | 42.9% | 7 | 0 |
 | Repeat | 15 | 10 | 66.7% | 33 | 1 |
-| Weaponmaster | 16 | 7 | 43.8% | 15 | 0 |
+| Weaponmaster | 16 | 8 | 50.0% | 24 | 0 |
 | Ambush | 9 | 1 | 11.1% | 4 | 0 |
 | Hunt | 9 | 2 | 22.2% | 3 | 0 |
-| Level | 9 | 1 | 11.1% | 1 | 0 |
+| Level | 9 | 1 | 11.1% | 2 | 0 |
 | Unique | 7 | 0 | 0.0% | 0 | 0 |
 | Backline | 8 | 2 | 25.0% | 3 | 0 |
 | Empowered | 8 | 3 | 37.5% | 22 | 0 |
@@ -182,7 +182,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Deploy | 8 | 4 | 50.0% | 7 | 0 |
 | Disarm | 11 | 3 | 27.3% | 3 | 1 |
 | Show Off | 14 | 2 | 14.3% | 2 | 0 |
-| **Total** | **2321** | **661** | **28.5%** | **2454** | **116** |
+| **Total** | **2321** | **663** | **28.6%** | **2477** | **116** |
 
 ## Per-rule coverage — Sections 300–479
 
@@ -566,7 +566,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 364.1 | Passive Abilities | 1 | 1 | 0 | These abilities have a wide variety of formats to recognize. |
 | 364.2 | Passive Abilities | 0 | 0 | 0 | They can be recognized by being statements of fact. |
 | 364.3 | Passive Abilities | 0 | 0 | 0 | Passive Abilities can be conditional. |
-| 364.3.a | Passive Abilities | 13 | 13 | 0 | Conditional Passive Abilities can be recognized by the occurrence of "if" or "while" as part of the… |
+| 364.3.a | Passive Abilities | 14 | 14 | 0 | Conditional Passive Abilities can be recognized by the occurrence of "if" or "while" as part of the… |
 | 365.1 | Presence on Permanents | 5 | 5 | 0 | Passive Abilities of Permanents are typically only active while on the Board. |
 | 366.1 | Presence on Card outside of the Board | 0 | 0 | 0 | Passive Abilities of cards in zones that are outside of the Board will self-describe their context. |
 | 366.2 | Presence on Card outside of the Board | 0 | 0 | 0 | Passive Abilities can alter the costs of cards as they are played. |
@@ -743,7 +743,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 402.1 | Playing or Activating Abilities | 1 | 1 | 0 | Add a Pending Item to the chain representing the Ability that is either being Activated or Triggere… |
 | 402.2 | Playing or Activating Abilities | 0 | 0 | 0 | If there is currently a game effect being resolved, continue resolving the game effect instead of c… |
 | 403 | Playing or Activating Abilities | 3 | 3 | 0 | 2. Make relevant choices |
-| 403.1 | Playing or Activating Abilities | 13 | 13 | 0 | If the first part of a Triggered Ability’s effect is “you may,” or “they may,” its controller decid… |
+| 403.1 | Playing or Activating Abilities | 14 | 14 | 0 | If the first part of a Triggered Ability’s effect is “you may,” or “they may,” its controller decid… |
 | 403.1.a | Playing or Activating Abilities | 1 | 1 | 0 | If they choose not to perform the Triggered Ability now, it is removed from the chain. |
 | 403.2 | Playing or Activating Abilities | 4 | 4 | 0 | Make all choices required for this ability, such as targets, modes, or other relevant decisions. Se… |
 | 403.3 | Playing or Activating Abilities | 9 | 9 | 0 | If legal options are not available for an Activated Ability, it is not legal to activate it. |
@@ -790,7 +790,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 412.5.a | Responsibility | 0 | 0 | 0 | Spells and abilities have attribution for game actions, while players have responsibility. |
 | 412.6 | Responsibility | 1 | 1 | 0 | Some Game Effects may check if a player has performed a Game Action “with” a Game Object. In order … |
 | 412.6.a | Responsibility | 0 | 0 | 0 | Abilities granted via the effect text of a Game Object to another Game Object count for both Game O… |
-| 414.1 | Draw | 2 | 2 | 0 | Drawing a card takes a single card from a zone and adds it to the player's Hand. |
+| 414.1 | Draw | 3 | 3 | 0 | Drawing a card takes a single card from a zone and adds it to the player's Hand. |
 | 414.1.a | Draw | 0 | 0 | 0 | Unless specified otherwise, drawing takes cards from the top of the Main Deck. |
 | 414.2 | Draw | 0 | 0 | 0 | This is a Limited Action. |
 | 414.2.a | Draw | 0 | 0 | 0 | Each player draws 1 during the Draw Phase on their turn. |
@@ -1206,7 +1206,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 466.2.c.1.a | Step 1: The Combat Showdown Step | 1 | 1 | 0 | If a showdown opens as part of combat, this player gains Focus as the showdown begins. |
 | 466.2.c.1.b | Step 1: The Combat Showdown Step | 1 | 1 | 0 | If a showdown was already ongoing when the combat opens, the player who has Focus maintains their F… |
 | 466.2.c.2 | Step 1: The Combat Showdown Step | 2 | 2 | 0 | The Defender is the player who did not apply the Contested status to the Battlefield. |
-| 466.2.c.3 | Step 1: The Combat Showdown Step | 5 | 5 | 0 | The attacker and defender gain the Attacker or Defender designation now, as appropriate. Units at t… |
+| 466.2.c.3 | Step 1: The Combat Showdown Step | 6 | 6 | 0 | The attacker and defender gain the Attacker or Defender designation now, as appropriate. Units at t… |
 | 466.2.c.3.a | Step 1: The Combat Showdown Step | 0 | 0 | 0 | If a Unit controlled by the Attacker or Defender becomes present at this Battlefield after this mom… |
 | 466.2.d | Step 1: The Combat Showdown Step | 1 | 1 | 0 | 3. Add items to the Combat Chain if establishing Attacker and Defender has caused Triggered Abiliti… |
 | 466.2.d.1 | Step 1: The Combat Showdown Step | 4 | 4 | 0 | The Attacking player, who has Focus, places Triggered Abilities on the Chain first, followed by all… |
@@ -1287,7 +1287,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 478.2 | Layers | 0 | 0 | 0 | Layers are applied in sequence. Each effect in them is applied as soon as able, and only a single t… |
 | 478.3 | Layers | 0 | 0 | 0 | When a sequence of applications completes, recur the process, and evaluate each layer again applyin… |
 | 478.4 | Layers | 0 | 0 | 0 | The removal or disqualification of an effect is separate from the application of the effect, but st… |
-| 479 | Layers | 5 | 5 | 0 | Layers are applied in the following order: |
+| 479 | Layers | 6 | 6 | 0 | Layers are applied in the following order: |
 | 479.1 | Layers | 0 | 0 | 0 | 1. Copy Effects |
 | 479.1.a | Layers | 0 | 0 | 0 | This layer deals with all copy effects. |
 | 479.1.b | Layers | 0 | 0 | 0 | When a Copy effect is applied to a Game Object, the traits specified by the Copy Effect replace or … |
@@ -1434,7 +1434,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 812.1.b | Legion | 0 | 0 | 0 | Starting from the Keyword to the end of the clause, the entire statement is the Legion Ability. |
 | 812.1.b.1 | Legion | 0 | 0 | 0 | Legion is functionally short for “If you have played another card this turn, this card gains [Text]… |
 | 812.1.b.2 | Legion | 0 | 0 | 0 | The [Text] is the Dependent Ability. |
-| 812.1.c | Legion | 4 | 4 | 0 | As long as a card different than the one with the Legion ability has been Finalized by you on the s… |
+| 812.1.c | Legion | 5 | 5 | 0 | As long as a card different than the one with the Legion ability has been Finalized by you on the s… |
 | 812.2 | Legion | 1 | 1 | 0 | All instances of Legion on cards a player controls are satisfied by that player playing a single ca… |
 | 812.3 | Legion | 0 | 0 | 0 | Legion, and whether or not a card has Legion, is a characteristic of the card and may be checked or… |
 | 813.1 | Reaction | 0 | 0 | 0 | Reaction is a Permissive keyword. |
@@ -1532,17 +1532,17 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 820.4 | Repeat | 0 | 0 | 0 | Repeat, and whether or not a spell or ability has Repeat, is a characteristic of the spell or abili… |
 | 821.1 | Weaponmaster | 0 | 0 | 0 | Weaponmaster is a Triggered Ability keyword. |
 | 821.1.a | Weaponmaster | 0 | 0 | 0 | Weaponmaster is present on Units. |
-| 821.1.b | Weaponmaster | 7 | 7 | 0 | Weaponmaster is a Play Effect that chooses an Equipment you control and allows you to pay its Equip… |
+| 821.1.b | Weaponmaster | 10 | 10 | 0 | Weaponmaster is a Play Effect that chooses an Equipment you control and allows you to pay its Equip… |
 | 821.1.c | Weaponmaster | 1 | 1 | 0 | Weaponmaster is functionally short for: “When you play me, you may choose a Card you control with t… |
 | 821.1.c.1 | Weaponmaster | 0 | 0 | 0 | Weaponmaster can choose an Equipment whether it has an Equip ability or not. |
-| 821.1.c.2 | Weaponmaster | 1 | 1 | 0 | The cost of the Equip ability is determined as though that Equip ability was being activated choosi… |
+| 821.1.c.2 | Weaponmaster | 3 | 3 | 0 | The cost of the Equip ability is determined as though that Equip ability was being activated choosi… |
 | 821.1.c.2.a | Weaponmaster | 0 | 0 | 0 | The Equip ability is not actually activated when its cost is determined in this way. An effect that… |
-| 821.1.c.2.b | Weaponmaster | 0 | 0 | 0 | Effects that reduce the cost of Equip abilities without referring to those abilities being played, … |
-| 821.1.c.3 | Weaponmaster | 3 | 3 | 0 | If the chosen card’s Equip cost does not contain [A], it can still be paid, but will not be reduced. |
+| 821.1.c.2.b | Weaponmaster | 1 | 1 | 0 | Effects that reduce the cost of Equip abilities without referring to those abilities being played, … |
+| 821.1.c.3 | Weaponmaster | 5 | 5 | 0 | If the chosen card’s Equip cost does not contain [A], it can still be paid, but will not be reduced. |
 | 821.1.c.4 | Weaponmaster | 1 | 1 | 0 | If the chosen card doesn’t have an Equip cost, it can’t be paid. |
 | 821.1.c.5 | Weaponmaster | 1 | 1 | 0 | If the chosen card’s Equip cost can’t be paid, if it can’t be detached from its current Top-Most ca… |
 | 821.1.c.6 | Weaponmaster | 0 | 0 | 0 | The Equip ability is not activated this way, and the unit with the Weaponmaster ability is not chos… |
-| 821.1.c.7 | Weaponmaster | 1 | 1 | 0 | Multiple instances of Weaponmaster trigger separately, and can choose different targets. |
+| 821.1.c.7 | Weaponmaster | 2 | 2 | 0 | Multiple instances of Weaponmaster trigger separately, and can choose different targets. |
 | 821.1.d | Weaponmaster | 0 | 0 | 0 | If you choose the same target with multiple instances of Weaponmaster, each will resolve separately. |
 | 821.2 | Weaponmaster | 0 | 0 | 0 | Weaponmaster has no function while on the board. |
 | 821.3 | Weaponmaster | 0 | 0 | 0 | Weaponmaster, and whether or not a unit has Weaponmaster, is a characteristic of the Unit and may b… |
@@ -1567,7 +1567,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 824.1 | Level | 0 | 0 | 0 | Level is a Dependent Keyword. |
 | 824.1.a | Level | 0 | 0 | 0 | It is formatted as "[Level [N][>] [Text]". |
 | 824.1.b | Level | 0 | 0 | 0 | Starting from the Keyword to the end of the clause, the entire statement is the Level Ability. |
-| 824.1.b.1 | Level | 1 | 1 | 0 | It is functionally short for “While you have [N] or more XP, this card gains ‘[Text]’.” |
+| 824.1.b.1 | Level | 2 | 2 | 0 | It is functionally short for “While you have [N] or more XP, this card gains ‘[Text]’.” |
 | 824.1.b.2 | Level | 0 | 0 | 0 | The [Text] here is the Dependent Ability |
 | 824.1.c | Level | 0 | 0 | 0 | As long as the controlling player has [N] XP, then the Dependent Ability will be be Active on the c… |
 | 824.1.c.1 | Level | 0 | 0 | 0 | If the controller of the card with Level changes, then the Dependent Ability will be rendered Activ… |
@@ -1662,29 +1662,29 @@ Range tags such as `[R341–R348]` label a section; they are not expanded into p
 | --- | ---: | --- |
 | `[R179–187]` | 1 | packages/rules/test/rules/effects/actions.test.ts:223 |
 | `[R193–196]` | 1 | packages/rules/test/rules/combat/scoring.test.ts:88 |
-| `[R307–310]` | 1 | packages/rules/test/rules/turn-states.test.ts:33 |
+| `[R307–310]` | 1 | packages/rules/test/rules/turn-states.test.ts:31 |
 | `[R307–313]` | 1 | packages/rules/test/property/timing.test.ts:13 |
 | `[R318–324]` | 2 | packages/rules/test/rules/cleanup-actions.test.ts:29 |
 | `[R341–348]` | 1 | packages/rules/test/rules/showdown.test.ts:7 |
-| `[R355.3–355.13]` | 1 | packages/rules/test/rules/play/process.test.ts:191 |
+| `[R355.3–355.13]` | 1 | packages/rules/test/rules/play/process.test.ts:192 |
 | `[R367–375]` | 3 | packages/rules/test/rules/hooks.test.ts:26 |
-| `[R376–381]` | 1 | packages/rules/test/rules/activation.test.ts:64 |
-| `[R382–386]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:28 |
-| `[R387–393]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:255 |
-| `[R402–407]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:28 |
+| `[R376–381]` | 1 | packages/rules/test/rules/activation.test.ts:65 |
+| `[R382–386]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:27 |
+| `[R387–393]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:254 |
+| `[R402–407]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:27 |
 | `[R412–448]` | 1 | packages/rules/test/rules/cleanup-actions.test.ts:29 |
 | `[R414–417]` | 1 | packages/rules/test/rules/effects/actions.test.ts:6 |
 | `[R430–441]` | 1 | packages/rules/test/rules/effects/actions.test.ts:223 |
-| `[R447–455]` | 1 | packages/rules/test/rules/play/move.test.ts:26 |
+| `[R447–455]` | 1 | packages/rules/test/rules/play/move.test.ts:27 |
 | `[R456–460]` | 1 | packages/rules/test/rules/effects/actions.test.ts:156 |
 | `[R467.2.c.6–467.2.c.9]` | 1 | packages/rules/test/rules/combat/assignment-examples.test.ts:142 |
 | `[R475–479]` | 2 | packages/rules/test/rules/layers.test.ts:5 |
-| `[R475–482]` | 1 | packages/rules/test/rules/effects/layers.test.ts:40 |
+| `[R475–482]` | 1 | packages/rules/test/rules/effects/layers.test.ts:35 |
 | `[R649–652]` | 1 | packages/rules/test/rules/combat/scoring.test.ts:141 |
 | `[R712–715]` | 1 | packages/rules/test/rules/effects/actions.test.ts:54 |
-| `[R716–719]` | 1 | packages/rules/test/rules/effects/layers.test.ts:40 |
+| `[R716–719]` | 1 | packages/rules/test/rules/effects/layers.test.ts:35 |
 | `[R728–733]` | 1 | packages/rules/test/rules/effects/actions.test.ts:223 |
-| `[R764–767]` | 1 | packages/rules/test/rules/effects/costs-ignore.test.ts:99 |
+| `[R764–767]` | 1 | packages/rules/test/rules/effects/costs-ignore.test.ts:100 |
 
 ## Unknown rule ids in tags
 

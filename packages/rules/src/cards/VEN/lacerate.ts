@@ -4,9 +4,7 @@
  *
  * 443 disempower; both conditions are checked on resolution, in order (359.3.f.2).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
-
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Lacerate",

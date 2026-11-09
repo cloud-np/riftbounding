@@ -2,8 +2,7 @@
  * Combat Experience (UNL-031) — [Reaction] (813). Give a unit +1 [Might] this turn; [Level 6]
  * (824) +3 instead — the dependent ability is checked as the spell resolves (727.1.b).
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 const TARGET = aUnit({ targetRef: "target:0" });
 
@@ -16,7 +15,7 @@ registerCardScript({
       kind: "spell",
       effect: {
         op: "if",
-        condition: custom("xp-at-least", { n: 6 }),
+        condition: { kind: "xp-at-least", amount: 6 },
         then: { op: "temporary_might", amount: 3, target: TARGET },
         else: { op: "temporary_might", amount: 1, target: TARGET },
       },

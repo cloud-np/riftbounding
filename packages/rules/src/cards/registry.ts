@@ -10,11 +10,15 @@
  * keys.
  */
 import type { Ability, CardScript, Effect, Selector } from "@rift/protocol";
+import { keyedRegistry } from "../registry-table";
 
-const SCRIPTS = new Map<string, CardScript>();
+/** F1/G1: one script per card name; a second registration throws (tests: `src/testing.ts`). */
+export const CARD_SCRIPTS = keyedRegistry<CardScript>("card script");
 
 function isSelector(value: unknown): value is Selector {
-  return !!value && typeof value === "object" && !Array.isArray(value) && !("op" in (value as object));
+  return (
+    !!value && typeof value === "object" && !Array.isArray(value) && !("op" in (value as object))
+  );
 }
 
 /**
@@ -58,18 +62,34 @@ export function normalizeChoiceKeys(effect: Effect, counter = { next: 0 }): void
   visit(effect);
 }
 
-function normalizeScript(script: CardScript): CardScript {
-  for (const ability of script.abilities) {
+function deepFreeze<T>(value: T): T {
+  if (value && typeof value === "object" && !Object.isFrozen(value)) {
+    Object.freeze(value);
+    for (const entry of Object.values(value as object)) deepFreeze(entry);
+  }
+  return value;
+}
+
+/**
+ * The stored form of a script: a deep copy (F11 — helper-built selectors shared between cards
+ * must not receive their choice keys from whichever card registered first), with choice keys
+ * normalized, frozen so nothing mutates a registered card at runtime.
+ */
+export function normalizeScript(script: CardScript): CardScript {
+  const copy = structuredClone(script);
+  for (const ability of copy.abilities) {
     if (ability.kind === "spell" || ability.kind === "triggered" || ability.kind === "activated") {
       normalizeChoiceKeys(ability.effect);
     }
   }
-  return script;
+  return deepFreeze(copy);
 }
 
+/** Register a card's script (one per name; throws on a duplicate). Returns the stored script. */
 export function registerCardScript(script: CardScript): CardScript {
-  SCRIPTS.set(script.name, normalizeScript(script));
-  return script;
+  const stored = normalizeScript(script);
+  CARD_SCRIPTS.register(script.name, stored);
+  return stored;
 }
 
 export function registerCardScripts(scripts: readonly CardScript[]): void {
@@ -77,8 +97,7 @@ export function registerCardScripts(scripts: readonly CardScript[]): void {
 }
 
 export function getCardScript(name: string | undefined | null): CardScript | undefined {
-  if (!name) return undefined;
-  return SCRIPTS.get(name);
+  return CARD_SCRIPTS.get(name);
 }
 
 export function hasCardScript(name: string | undefined | null): boolean {
@@ -88,12 +107,7 @@ export function hasCardScript(name: string | undefined | null): boolean {
 
 /** Card names with a script (sorted) — used by `scripts/card-coverage.mjs`. */
 export function cardScriptNames(): string[] {
-  return [...SCRIPTS.keys()].sort((a, b) => a.localeCompare(b));
-}
-
-/** Test-only helper: clear the registry between suites. */
-export function clearCardScripts(): void {
-  SCRIPTS.clear();
+  return CARD_SCRIPTS.keys();
 }
 
 export interface CardScriptLookup {

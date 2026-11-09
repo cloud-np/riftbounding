@@ -5,7 +5,7 @@
  * 355.14 / 418.1.d: each chosen enemy unit is a Target; the 5 damage is divided on resolution
  * (R3-engine `deal_split`). [Deflect 2] (809) is printed (the play layer charges it).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Volibear, Furious",

@@ -6,14 +6,18 @@
  */
 import type { Effect } from "@rift/protocol";
 import type { EffectExecutionContext, EffectExecutionResult } from "./execute";
+import { keyedRegistry } from "../registry-table";
 
 export type EffectOp = Effect["op"];
 export type OpHandler = (effect: Effect, context: EffectExecutionContext) => EffectExecutionResult;
 
 const EFFECT_OPS: Partial<Record<EffectOp, OpHandler>> = {};
 
+/** G1: one handler per op; a second registration throws (tests: `src/testing.ts`). */
+export const EFFECT_OP_REGISTRY = keyedRegistry<OpHandler>("effect op", EFFECT_OPS as Record<string, OpHandler>);
+
 export function registerEffectOp(op: EffectOp, handler: OpHandler): void {
-  EFFECT_OPS[op] = handler;
+  EFFECT_OP_REGISTRY.register(op, handler);
 }
 
 export function getEffectOp(op: EffectOp): OpHandler | undefined {
@@ -21,7 +25,7 @@ export function getEffectOp(op: EffectOp): OpHandler | undefined {
 }
 
 export function registeredEffectOps(): EffectOp[] {
-  return (Object.keys(EFFECT_OPS) as EffectOp[]).sort((a, b) => a.localeCompare(b));
+  return EFFECT_OP_REGISTRY.keys() as EffectOp[];
 }
 
 export { EFFECT_OPS };

@@ -4,8 +4,7 @@
  * The [Tap] ability is automated; "I can have any number of buffs" overrides the one-buff limit
  * (427.1.b / 702.3), which the `buff` op always enforces — so only the first buff is placed.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Lee Sin, Ascetic",

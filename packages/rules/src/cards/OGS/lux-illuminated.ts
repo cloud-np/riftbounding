@@ -5,8 +5,7 @@
  * 420.4.a: "when you play a card" triggers when playing completes (the spell resolves; a
  * countered spell never triggers it, 426.1.b). "Costs [5] or more" reads the spell's Energy cost.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Lux, Illuminated",

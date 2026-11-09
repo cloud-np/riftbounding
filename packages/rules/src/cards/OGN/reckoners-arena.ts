@@ -6,7 +6,7 @@
  * trigger without a conquer event; the trigger layer has no way to fire another object's printed
  * triggered abilities on demand.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Reckoner's Arena",

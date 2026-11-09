@@ -6,10 +6,11 @@
  */
 import { beforeAll, describe, expect, it } from "vitest";
 import type { CardScript } from "@rift/protocol";
-import { explainIllegal, legalIntents, registerCardScripts } from "../../../src";
-import { SHOWED_OFF, aUnit, showOff, WHEN_PLAYED } from "../../../src/cards/dsl";
+import { explainIllegal, legalIntents } from "../../../src";
+import { SHOWED_OFF, aUnit, showOff, WHEN_PLAYED } from "../../../src/cards/sdk";
 import { scenario } from "../../scenarios/dsl";
 import { boardOf, fund, place, run, zoneOf } from "./helpers";
+import { registerTestCardScripts } from "../../../src/testing";
 
 type S = ReturnType<typeof scenario>;
 
@@ -86,7 +87,7 @@ const BRITTLE_STEEL: CardScript = {
   abilities: [{ kind: "spell", effect: { op: "kill", target: { chosen: true, cardType: "gear" } } }],
 };
 
-beforeAll(() => registerCardScripts([PRIMORDIAL_ROAR, GUTTER_GUARDIAN, DREDGE_UP, BRITTLE_STEEL]));
+beforeAll(() => registerTestCardScripts([PRIMORDIAL_ROAR, GUTTER_GUARDIAN, DREDGE_UP, BRITTLE_STEEL]));
 
 describe("Show Off [R832]", () => {
   it("[R832.1.c][R832.1.c.2][C:Primordial Roar] showing off is a play-time choice among hand cards and friendly board objects", () => {

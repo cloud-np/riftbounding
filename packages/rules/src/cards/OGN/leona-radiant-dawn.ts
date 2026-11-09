@@ -5,8 +5,7 @@
  * The `stun` op emits one event per unit, so a single action that stuns several enemy units
  * triggers once per unit instead of once.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Leona, Radiant Dawn",

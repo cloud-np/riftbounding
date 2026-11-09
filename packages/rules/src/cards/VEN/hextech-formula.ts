@@ -1,7 +1,6 @@
 /** Hextech Formula (VEN-062, gear) — "This enters exhausted. [Tap]: Empower another gear." (442) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { ENTERS_EXHAUSTED_GAP } from "./shared";
+import { registerCardScript, SELF } from "../sdk";
+import { ENTERS_EXHAUSTED_GAP } from "./custom";
 
 registerCardScript({
   name: "Hextech Formula",

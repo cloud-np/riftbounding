@@ -1,5 +1,5 @@
 /** Wraith of Echoes (OGN-118 (FAQ errata) — EX[157] (383.1.b). "The first time … each turn" is a once-per-turn trigger.) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Wraith of Echoes",
@@ -8,7 +8,13 @@ registerCardScript({
   abilities: [
     {
       kind: "triggered",
-      trigger: { kind: "event", event: { type: "die", subject: { cardType: "unit", controller: "self", excludeSource: true } } },
+      trigger: {
+        kind: "event",
+        event: {
+          type: "die",
+          subject: { cardType: "unit", controller: "self", excludeSource: true },
+        },
+      },
       limit: { kind: "once-per-turn" },
       effect: { op: "draw", amount: 1 },
     },

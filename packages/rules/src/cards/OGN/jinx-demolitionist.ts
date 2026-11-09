@@ -1,6 +1,5 @@
 /** Jinx, Demolitionist (OGN-030) — [Accelerate] [Assault 2] (printed); "When you play me, discard 2." (423.1.a) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Jinx, Demolitionist",

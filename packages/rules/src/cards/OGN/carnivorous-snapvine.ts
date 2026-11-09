@@ -2,8 +2,7 @@
  * Carnivorous Snapvine (OGN-149) — "When you play me, choose an enemy unit at a battlefield. We
  * deal damage equal to our Mights to each other." (418.6.b: each unit is the source of its damage)
  */
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Carnivorous Snapvine",

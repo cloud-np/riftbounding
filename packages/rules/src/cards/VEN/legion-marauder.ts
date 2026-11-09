@@ -4,9 +4,7 @@
  * 204.1.b: alternative costs; scripted as two Empower abilities (827.3: multiple Empower
  * instances are separate activated abilities), one per cost.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { empower, whileEmpowered } from "./shared";
+import { empower, registerCardScript, SELF, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Legion Marauder",

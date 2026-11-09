@@ -1,5 +1,5 @@
 /** Blind Fury — reveal each opponent's top card, banish one and play it ignoring cost (425, 420.3). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Blind Fury",

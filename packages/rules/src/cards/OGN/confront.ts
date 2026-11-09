@@ -3,7 +3,7 @@
  * A delayed passive (391.4) carrying the enter-ready replacement (369.3, EX[134]) for units its
  * controller plays this turn.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Confront",
@@ -18,11 +18,7 @@ registerCardScript({
           {
             op: "continuous",
             duration: "this-turn",
-            modifier: {
-              kind: "custom",
-              id: "enter-ready",
-              params: { target: { cardType: "unit" } },
-            },
+            modifier: { kind: "enter-ready", target: { cardType: "unit" } },
           },
           { op: "draw", amount: 1 },
         ],

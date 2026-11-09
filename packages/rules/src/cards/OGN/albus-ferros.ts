@@ -3,8 +3,7 @@
  * channel 1 rune exhausted." Buffs are chosen when spent (742.1) from units you control
  * (702.2.b.2); 431.2.a exhausted.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Albus Ferros",

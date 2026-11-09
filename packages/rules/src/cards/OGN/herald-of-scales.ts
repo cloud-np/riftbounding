@@ -5,7 +5,7 @@
  * minimum is applied against the Dragon's printed Energy cost: -2 for printed costs of 3 or more,
  * -1 for a printed cost of 2, none for 1 or less.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Herald of Scales",

@@ -4,7 +4,7 @@
  * A triggered ability of a card in the trash (385) keyed to spell kill attribution (429.5) — the
  * trigger detector only reads board objects and the leaving object itself.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Immortal Phoenix",

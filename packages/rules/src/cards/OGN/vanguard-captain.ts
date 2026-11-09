@@ -2,9 +2,7 @@
  * Vanguard Captain (OGN-218) — "[LEGION] - When you play me, play two 1 [Might] Recruit unit
  * token here." (812 Legion; 440.2.c "play a token"; "here" = my location, 359.3.f)
  */
-import { registerCardScript } from "../registry";
-import { HERE, WHEN_PLAYED, token } from "../dsl";
-import { LEGION } from "./trifarian-gloryseeker";
+import { HERE, LEGION, registerCardScript, token, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Vanguard Captain",

@@ -2,8 +2,7 @@
  * Kadregrin the Infernal (OGN-038) — "When you play me, draw 1 for each of your [MIGHTY] units."
  * Mighty = 5+ Might (706–711); counted on resolution (359.3.f), Kadregrin itself included.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Kadregrin the Infernal",

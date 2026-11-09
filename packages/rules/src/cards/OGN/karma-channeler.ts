@@ -6,8 +6,7 @@
  * Recycle events are emitted per card with the card's owner as the player, so recycling several
  * cards in one action triggers once per card, and the owner (not the recycling player) is "you".
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Karma, Channeler",

@@ -1,6 +1,5 @@
 /** Retreat (OGN-104 — EX[166] (383.2.c.3.b)) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Retreat",
@@ -13,7 +12,12 @@ registerCardScript({
         op: "seq",
         effects: [
           { op: "return_to_hand", target: aUnit({ controller: "self", targetRef: "target:0" }) },
-          { op: "channel", amount: 1, exhausted: true, player: { kind: "owner", of: { targetRef: "target:0" } } },
+          {
+            op: "channel",
+            amount: 1,
+            exhausted: true,
+            player: { kind: "owner", of: { targetRef: "target:0" } },
+          },
         ],
       },
     },

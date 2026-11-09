@@ -1,6 +1,5 @@
 /** Discipline (OGN-058 — EX[260]/EX[262] (481)) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Discipline",
@@ -9,7 +8,13 @@ registerCardScript({
   abilities: [
     {
       kind: "spell",
-      effect: { op: "seq", effects: [{ op: "temporary_might", amount: 2, target: aUnit() }, { op: "draw", amount: 1 }] },
+      effect: {
+        op: "seq",
+        effects: [
+          { op: "temporary_might", amount: 2, target: aUnit() },
+          { op: "draw", amount: 1 },
+        ],
+      },
     },
   ],
 });

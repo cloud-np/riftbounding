@@ -1,14 +1,14 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { CardScript } from "@rift/protocol";
-import { clearCardScripts, explainIllegal, registerCardScripts } from "../../src";
+import { explainIllegal } from "../../src";
+import { clearCardScripts, registerTestCardScript, registerTestCardScripts } from "../../src/testing";
 import { scenario } from "../scenarios/dsl";
-import { registerCardScript } from "../../src";
 
 // R2-effects: Treasure Hunter's printed "When I move, play a Gold gear token exhausted" now
 // triggers (383 / 402.1) and keeps the state Closed until it resolves. This suite uses it as a
 // vanilla unit for timing/showdown mechanics, so it overrides the production script (the trigger
 // itself is covered by test/cards/fixture-deck.test.ts).
-beforeAll(() => registerCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
+beforeAll(() => registerTestCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
 
 function noop(name: string, text: string): CardScript {
   return {
@@ -20,7 +20,7 @@ function noop(name: string, text: string): CardScript {
 }
 
 beforeAll(() =>
-  registerCardScripts([noop("Rebuke", "[ACTION] test"), noop("Defy", "[REACTION] test")]),
+  registerTestCardScripts([noop("Rebuke", "[ACTION] test"), noop("Defy", "[REACTION] test")]),
 );
 afterAll(() => clearCardScripts());
 

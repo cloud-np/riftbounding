@@ -1,5 +1,5 @@
 /** Magma Wurm (OGN-011) — "Other friendly units enter ready." (369.3 enter-ready replacement, EX[134]) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Magma Wurm",
@@ -8,11 +8,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "enter-ready",
-        params: { target: { cardType: "unit", excludeSource: true } },
-      },
+      modifier: { kind: "enter-ready", target: { cardType: "unit", excludeSource: true } },
     },
   ],
 });

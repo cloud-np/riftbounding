@@ -1,6 +1,5 @@
 /** Stupefy (OGN-095 — 359.3.f.2 example; 479.4.b snapshot ("to a minimum of 1").) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Stupefy",
@@ -9,7 +8,13 @@ registerCardScript({
   abilities: [
     {
       kind: "spell",
-      effect: { op: "seq", effects: [{ op: "give_might", amount: -1, min: 1, target: aUnit() }, { op: "draw", amount: 1 }] },
+      effect: {
+        op: "seq",
+        effects: [
+          { op: "give_might", amount: -1, min: 1, target: aUnit() },
+          { op: "draw", amount: 1 },
+        ],
+      },
     },
   ],
 });

@@ -4,8 +4,8 @@
  * effect interpreter (R2-effects); see docs/rules/play.md for the uncovered list.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { clearCardScripts, legalIntents, payCost, primitives, registerCardScript } from "../../src";
-import { registerAdditionalCosts } from "../../src/play/additional-costs";
+import { legalIntents, payCost, primitives } from "../../src";
+import { clearCardScripts, overrideAdditionalCosts, registerTestCardScript } from "../../src/testing";
 import { determineTotalCost } from "../../src/play/total-cost";
 import { printedCardCost, resolveCost, totalPower } from "../../src/play/cost-model";
 import { snapshotInfo } from "../../src/play/card-info";
@@ -29,7 +29,7 @@ beforeEach(() => fake.resetFakes());
 afterEach(() => clearCardScripts());
 
 function noopSpell(name: string) {
-  registerCardScript({ name, text: "test", status: "implemented", abilities: [{ kind: "spell", effect: { op: "seq", effects: [] } }] });
+  registerTestCardScript({ name, text: "test", status: "implemented", abilities: [{ kind: "spell", effect: { op: "seq", effects: [] } }] });
 }
 
 describe("costs [R204][R206]", () => {
@@ -62,9 +62,9 @@ describe("making choices [R355]", () => {
     const s = bareScenario({ p1: { energy: 2 } });
     place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
     place(s, "p2", "Stellacorn Herder", "battlefieldB");
-    registerCardScript({ name: "Gust", text: "Stun a unit at a battlefield.", status: "implemented", abilities: [fake.fakeAbility("Gust")] });
+    registerTestCardScript({ name: "Gust", text: "Stun a unit at a battlefield.", status: "implemented", abilities: [fake.fakeAbility("Gust")] });
     fake.setSpecs("Gust", (room, host) => [fake.unitAtBattlefieldSpec(room, host)]);
-    registerCardScript({ name: "En Garde", text: "Kill all gear.", status: "implemented", abilities: [fake.fakeAbility("En Garde")] });
+    registerTestCardScript({ name: "En Garde", text: "Kill all gear.", status: "implemented", abilities: [fake.fakeAbility("En Garde")] });
     const stun = toHand(s, "p1", "Gust");
     const killAll = toHand(s, "p1", "En Garde");
     s.as("p1").apply({ type: "rules_play", cardId: killAll.id, hold: true }).expectOk();
@@ -77,7 +77,7 @@ describe("making choices [R355]", () => {
     const s = bareScenario({ p1: { energy: 4 }, extraCards: { p1: ["Desert's Call"] } });
     const a = place(s, "p2", "Caitlyn, Patrolling", "base");
     const b = place(s, "p2", "Stellacorn Herder", "base");
-    registerCardScript({ name: "Desert's Call", text: "test", status: "implemented", abilities: [fake.fakeAbility("Desert's Call")] });
+    registerTestCardScript({ name: "Desert's Call", text: "test", status: "implemented", abilities: [fake.fakeAbility("Desert's Call")] });
     // Rocket Barrage-style: one target per execution; a paid Repeat adds a second choice.
     fake.setSpecs("Desert's Call", (room, host, ctx) => [
       fake.anyUnitSpec(room, host),
@@ -154,7 +154,7 @@ describe("pay costs and check legality [R357][R358]", () => {
   it("[EX:357.2] non-standard costs (kill a friendly unit and discard) are all paid", () => {
     const s = bareScenario({ p1: { energy: 4 }, extraCards: { p1: ["Cruel Patron"] } });
     const patron = s.handCard("p1", "Cruel Patron") ?? toHand(s, "p1", "Cruel Patron");
-    const off = registerAdditionalCosts("Cruel Patron", [
+    const off = overrideAdditionalCosts("Cruel Patron", [
       { id: "mandatory:0", optional: false, cost: { kill: { cardType: "unit", controller: "self" }, discard: 1 }, rule: "356.2.a.1" },
     ]);
     try {

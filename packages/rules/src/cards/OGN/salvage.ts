@@ -4,7 +4,7 @@
  * "Up to one" gear is chosen when playing (355.13: zero is allowed, which is the "may"); then draw
  * 1 (414).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Salvage",

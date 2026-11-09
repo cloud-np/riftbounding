@@ -1,6 +1,5 @@
 /** Incinerate (OGS-003) — "[ACTION] Deal 2 to a unit at a battlefield." (418) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Incinerate",

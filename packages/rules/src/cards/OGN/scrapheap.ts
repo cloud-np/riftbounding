@@ -5,8 +5,7 @@
  * are automated. Partial: "discarded" triggers from the hand (a non-board zone, 385), and
  * triggered abilities of cards outside the board are not detected.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE, WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_I_DIE, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Scrapheap",

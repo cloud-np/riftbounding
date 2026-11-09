@@ -1,6 +1,5 @@
 /** Xerath, Freed (UNL-026) — "[Fury], [Tap]: Deal 3 to a unit. Use this ability only while I'm at a battlefield." (377.2.b) */
-import { registerCardScript } from "../registry";
-import { SELF, SELF_AT_BATTLEFIELD, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF, SELF_AT_BATTLEFIELD } from "../sdk";
 
 registerCardScript({
   name: "Xerath, Freed",

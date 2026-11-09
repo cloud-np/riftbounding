@@ -3,7 +3,7 @@
  * 423.4: each player discards as many as possible (their whole hand, no choice); then every
  * player draws 4 (Turn Order, 303.2.a).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Invert Timelines",

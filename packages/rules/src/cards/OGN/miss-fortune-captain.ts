@@ -6,8 +6,7 @@
  * The choice covers exhausted units and gear (the board locations); exhausted runes and legends
  * are in other zones and are not offered. A declined first trigger does not use up the limit.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_I_MOVE } from "../dsl";
+import { registerCardScript, WHEN_I_MOVE } from "../sdk";
 
 registerCardScript({
   name: "Miss Fortune, Captain",

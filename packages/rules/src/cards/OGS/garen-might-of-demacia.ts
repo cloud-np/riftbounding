@@ -5,7 +5,7 @@
  * 383.4.c: "When you conquer" (player-level, the event's zone is the battlefield); 383.2.a.1: the
  * "if" is part of the trigger condition.
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Garen, Might of Demacia",

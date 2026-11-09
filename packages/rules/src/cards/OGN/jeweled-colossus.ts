@@ -1,5 +1,5 @@
 /** Jeweled Colossus (OGN-086) — keyword-only: [Vision] (817, keyword trigger) and [Shield] (814). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Jeweled Colossus",

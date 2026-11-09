@@ -6,7 +6,7 @@
  * passive's controller is the player present there) and cannot depend on the damaged unit's
  * location; this one applies to every player's spells and abilities, per target (715.2).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Void Gate",

@@ -5,8 +5,7 @@
  * A leave-the-board trigger of the object itself (383.2.c.3): killed, banished or returned to
  * hand. The activated ability's cost is [Chaos] plus exhausting this (376).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Treasure Trove",

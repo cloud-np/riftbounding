@@ -1,6 +1,5 @@
 /** Lee Sin, Blind Monk (OGN-257, legend) — "[1], [Tap]: Buff a friendly unit." (376–381; 427/702) */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Lee Sin, Blind Monk",

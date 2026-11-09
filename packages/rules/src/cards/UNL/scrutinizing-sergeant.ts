@@ -1,6 +1,5 @@
 /** Scrutinizing Sergeant (UNL-157) — Play Effect: gain 1 XP per friendly unit (740.1), itself included. */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Scrutinizing Sergeant",

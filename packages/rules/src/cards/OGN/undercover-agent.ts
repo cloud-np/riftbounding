@@ -1,6 +1,5 @@
 /** Undercover Agent (OGN-178 — EX[206] (423.4): [Deathknell] (808)) */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE } from "../dsl";
+import { registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Undercover Agent",
@@ -11,7 +10,13 @@ registerCardScript({
       kind: "triggered",
       trigger: WHEN_I_DIE,
       keywords: ["Deathknell"],
-      effect: { op: "seq", effects: [{ op: "discard", amount: 2 }, { op: "draw", amount: 2 }] },
+      effect: {
+        op: "seq",
+        effects: [
+          { op: "discard", amount: 2 },
+          { op: "draw", amount: 2 },
+        ],
+      },
     },
   ],
 });

@@ -23,13 +23,13 @@ import {
   applyRulesIntent,
   initializeStrictRules,
   legalIntents,
-  registerCardScript,
   turnState,
   whoMayAct,
   type RulesContext,
   type RulesIntentResult,
 } from "../../src";
 import { createEngineRulesHost } from "../../../engine/src/strict/host";
+import { registerTestCardScript } from "../../src/testing";
 
 import { loadFixtureDecks as loadDecks, withExtraCards, type ExtraDeckCards } from "../fixtures/decks";
 
@@ -73,9 +73,12 @@ export function scenario(input: ScenarioInput = {}): RulesScenario {
   return new RulesScenario(input);
 }
 
-/** Register a card script for this suite (thin alias kept next to the scenario helpers). */
+/**
+ * Register a test-local card script for this suite (may replace a real card's script; vitest
+ * isolates module state per file). Goes through the test-only override path (`src/testing.ts`).
+ */
 export function register(script: CardScript): CardScript {
-  return registerCardScript(script);
+  return registerTestCardScript(script);
 }
 
 export class RulesScenario {

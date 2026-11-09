@@ -1,6 +1,5 @@
 /** Morbid Return (OGN-170) — "Return a unit from your trash to your hand." (355.7 chosen card in your trash) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Morbid Return",

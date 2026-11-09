@@ -116,12 +116,6 @@ describe("Repeat [R820]", () => {
   });
 
   it("[R820.1.d] the engine executes every paid Repeat for scripts that do not self-handle it", () => {
-    // R4-cards removed the R3 `repeatHandled` workaround from the Unleashed scripts.
-    expect(getCardScript("Downstage Dramatics")?.repeatHandled).toBeUndefined();
-    expect(getCardScript("Upstage Comedy")?.repeatHandled).toBeUndefined();
-    expect(getCardScript("Double Trouble")?.repeatHandled).toBeUndefined();
-    expect(getCardScript("Square Up")?.repeatHandled).toBeUndefined();
-    expect(getCardScript("Existential Dread")?.repeatHandled).toBeUndefined();
     expect(repeatRunCount(itemFor("Downstage Dramatics", ["repeat"]))).toBe(2);
     expect(repeatRunCount(itemFor("Feral Strength", ["repeat"]))).toBe(2);
   });

@@ -1,6 +1,5 @@
 /** Arena Bar (OGN-124) — "[Tap]: Buff an exhausted friendly unit." (376–381; 427/702) */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Arena Bar",

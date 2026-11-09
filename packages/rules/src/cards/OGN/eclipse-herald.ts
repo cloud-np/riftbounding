@@ -1,6 +1,5 @@
 /** Eclipse Herald (OGN-059 — EX[207] (424.1.a.1)) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Eclipse Herald",
@@ -9,8 +8,21 @@ registerCardScript({
   abilities: [
     {
       kind: "triggered",
-      trigger: { kind: "event", event: { type: "stun", player: "self", subject: { cardType: "unit", controller: "opponent" } } },
-      effect: { op: "seq", effects: [{ op: "ready", target: SELF }, { op: "temporary_might", amount: 1, target: SELF }] },
+      trigger: {
+        kind: "event",
+        event: {
+          type: "stun",
+          player: "self",
+          subject: { cardType: "unit", controller: "opponent" },
+        },
+      },
+      effect: {
+        op: "seq",
+        effects: [
+          { op: "ready", target: SELF },
+          { op: "temporary_might", amount: 1, target: SELF },
+        ],
+      },
     },
   ],
 });

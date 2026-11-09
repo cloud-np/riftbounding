@@ -1,5 +1,5 @@
 /** Thermo Beam (OGN-022) — "[ACTION] Kill all gear." (429; every gear on the board, 355.5.a) */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Thermo Beam",

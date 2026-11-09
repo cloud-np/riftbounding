@@ -6,8 +6,7 @@
  * Both are chosen on play (355.7: the battlefield is a battlefield object, 053.3); the move is
  * an effect move (421). Hidden (811) is R2-play's keyword.
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Resonating Strike",

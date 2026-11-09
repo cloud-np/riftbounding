@@ -2,8 +2,7 @@
  * King's Edict (OGN-237) — "Starting with the next player, each other player chooses a unit you
  * don't control that hasn't been chosen for this spell. Kill those units." (picks 355.18; 429)
  */
-import { registerCardScript } from "../registry";
-import "./acceptable-losses";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "King's Edict",
@@ -17,7 +16,7 @@ registerCardScript({
         effects: [
           {
             op: "custom",
-            id: "ogn-an:players-choose",
+            id: "ogn:players-choose",
             params: {
               key: "doomed",
               selector: { cardType: "unit", controller: "opponent" },

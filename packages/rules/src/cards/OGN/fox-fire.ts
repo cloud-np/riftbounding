@@ -2,8 +2,7 @@
  * Fox-Fire — "Kill any number of units at a battlefield with total Might 4 or less" (355.13,
  * 355.11: the chosen group is at one location and its total Might is at most 4).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Fox-Fire",

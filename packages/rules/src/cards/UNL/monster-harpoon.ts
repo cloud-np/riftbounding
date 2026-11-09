@@ -2,8 +2,7 @@
  * Monster Harpoon (UNL-014) — "Deal 2 to a unit at a battlefield. If you control a facedown card,
  * deal 4 to it instead." The condition is checked on resolution (359.3.f.2); facedown = 107.3/811.
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 const TARGET = aUnit({ zone: "battlefield", targetRef: "target:0" });
 

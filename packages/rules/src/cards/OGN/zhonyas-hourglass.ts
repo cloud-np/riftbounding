@@ -1,6 +1,5 @@
 /** Zhonya's Hourglass (OGN-077 (Origins errata) — EX[130]/EX[138] (369.1, 370.1.a.1). [Hidden] is R2-play's.) */
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT, SELF } from "../dsl";
+import { EVENT_SUBJECT, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Zhonya's Hourglass",

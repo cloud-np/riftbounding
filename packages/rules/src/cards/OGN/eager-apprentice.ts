@@ -5,8 +5,7 @@
  * `CostAdjustment` has no per-discount minimum, so the minimum is applied against the spell's
  * printed Energy cost (no discount for printed costs of 1 or less).
  */
-import { registerCardScript } from "../registry";
-import { SELF_AT_BATTLEFIELD } from "../dsl";
+import { registerCardScript, SELF_AT_BATTLEFIELD } from "../sdk";
 
 registerCardScript({
   name: "Eager Apprentice",
@@ -18,16 +17,13 @@ registerCardScript({
     {
       kind: "passive",
       modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: SELF_AT_BATTLEFIELD,
-          modifier: {
-            kind: "cost",
-            amount: -1,
-            cardType: "spell",
-            target: { controller: "self", energyCost: { op: "gte", value: 2 } },
-          },
+        kind: "while",
+        condition: SELF_AT_BATTLEFIELD,
+        modifier: {
+          kind: "cost",
+          amount: -1,
+          cardType: "spell",
+          target: { controller: "self", energyCost: { op: "gte", value: 2 } },
         },
       },
     },

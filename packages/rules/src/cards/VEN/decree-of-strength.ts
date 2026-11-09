@@ -5,8 +5,7 @@
  * The opponent is chosen on play (355.7; `look` with amount 0 only carries that choice); 425
  * reveal; the card is picked on resolution (355.18) and recycled by its owner (417).
  */
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { custom, registerCardScript } from "../sdk";
 
 const OPPONENT = { kind: "chosen" as const, ref: "opponent" };
 

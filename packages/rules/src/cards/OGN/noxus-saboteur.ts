@@ -1,5 +1,5 @@
 /** Noxus Saboteur — your opponents' Hidden cards can't be revealed here (811.1.c). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Noxus Saboteur",

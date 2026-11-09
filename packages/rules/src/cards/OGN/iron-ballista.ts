@@ -3,8 +3,7 @@
  * The [Tap] ability is automated; "This enters exhausted" is an entry replacement (369.3 mirror of
  * "enters ready") that the layers do not offer for gear (they only have `enter-ready`).
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit } from "../dsl";
+import { aUnit, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Iron Ballista",

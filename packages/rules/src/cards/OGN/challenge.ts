@@ -1,6 +1,5 @@
 /** Challenge (OGN-128 — EX[195]/EX[196] (418.6.b.3/.4): the chosen units are the damage sources.) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Challenge",
@@ -14,7 +13,10 @@ registerCardScript({
         effects: [
           {
             op: "deal",
-            amount: { kind: "might", selector: aUnit({ controller: "self", targetRef: "target:0" }) },
+            amount: {
+              kind: "might",
+              selector: aUnit({ controller: "self", targetRef: "target:0" }),
+            },
             target: aUnit({ controller: "opponent", targetRef: "target:1" }),
             source: { targetRef: "target:0" },
           },

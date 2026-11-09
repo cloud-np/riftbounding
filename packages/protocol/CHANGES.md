@@ -264,3 +264,17 @@ No new prompt reason, action or message name was added.
 | --- | --- | --- |
 | `src/actions.ts` | `MoveCardAction` += optional `cardIds`, `targetCardId`, `targetObjectId`; `ChainAddAction` += optional `targetCardId`, `targetObjectId`; `ToggleExhaustedAction` += optional `ability`, `targetCardId`, `targetObjectId`; `EquipCardAction` += optional `ability` | strict rooms translate the sandbox board gestures into rules intents (`docs/rules/gestures.md`): multi-Unit `move_card { cardIds }`, targeting drops (`targetCardId` / alias `targetObjectId`) and the ambiguous-gesture ability choice (`ability`). Existing actions are unchanged when the fields are absent. |
 | `src/rules/domains/int.ts` | `IntReasonCode` += `ambiguous_gesture` | a gesture matching several legal abilities is not guessed; the client chooses one and resends it with `ability`. |
+
+## Maintainability pass — closed card-script vocabularies (rules wire types)
+
+Card-script types only (`src/rules/{effects,ability}.ts`); no message, action or `Room` field
+changed. Persisted rooms that still hold the older custom-id JSON in `RulesState.effects` are read
+by `@rift/rules` (`layers/legacy.ts`).
+
+| file | change | why |
+| --- | --- | --- |
+| `src/rules/effects.ts` | `KeywordName` is closed (`KEYWORD_NAMES`); keyword values move to `value` (`grant_keyword.value?: Amount`, `Modifier keyword.value?: number`); `Selector.keyword`, `has-keyword`, `TokenSpec.keywords` use `KeywordName` | A typo or `"Assault 2"` no longer compiles (review F7/G7). |
+| `src/rules/effects.ts` | `EventType` (`RULES_EVENT_TYPES`, `EVENT_TYPE_ALIASES` incl. `deal_damage`), `RestrictionKind`/`RestrictionName` (`RESTRICTION_KINDS`), `CardTypeName` (`CARD_TYPE_NAMES`) | Closed vocabularies for matchers, restrictions and card-type filters. |
+| `src/rules/effects.ts` | Typed `Condition` members `did`, `paid-additional`, `self-state`, `xp-at-least`, `alone`, `in-ids`, `in-ref`, `first-played-this-turn`, `showed-off`, `marked`, `cards-played`, `event-zone-is`; typed `Modifier` members `while`, `rules-text`, `enter-ready`, `cost-adjust`, `show-off`, `bonus-damage`, `hide-limit`, `assigned-last`, `ignore-keyword`, `victory-score`, `remove-keyword`, `no-combat-damage` | Engine concepts that were unprefixed `custom` ids (review F2/G8). |
+| `src/rules/effects.ts` | `custom` ids are `CustomId` (`<owner>:<name>`); engine state records `EngineStateModifierId` (`delayed-trigger`, `replacement`, `skip`) and the `inline` trigger | `custom` is strictly for set-specific text. |
+| `src/rules/ability.ts` | `{ kind: "suppress-printed-keyword", keyword }` replaces `{ kind: "keyword", value: 0 }`; `CardScript.additionalCosts?`, `CardScript.playPermissions?` (`ScriptAdditionalCost`, `ScriptPlayPermission`); `CardScript.repeatHandled` removed | The script is the whole card; the sentinel and the unused flag are gone (F3/F6/F10). |

@@ -1,7 +1,5 @@
 /** Punching Poro (VEN-007) — "[Empower] - Discard 1 [Empowered] I have +1 [Might]." (827.1.c.2 non-resource cost) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { empower, whileEmpowered } from "./shared";
+import { empower, registerCardScript, SELF, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Punching Poro",

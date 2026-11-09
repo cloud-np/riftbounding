@@ -6,8 +6,7 @@
  * (315.1.b) with no per-object `ready` events, so the trigger cannot be detected correctly. The
  * intended ability is written below for when those events exist (inert while manual).
  */
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT } from "../dsl";
+import { EVENT_SUBJECT, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Pirate's Haven",

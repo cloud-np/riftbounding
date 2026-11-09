@@ -4,22 +4,11 @@
  * resolves); the condition reads the order of cards played this turn.
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { registerCustomCondition } from "../../effects/evaluate";
-
-/** The trigger event's card is the `n`-th card (1-based) its player played this turn. */
-registerCustomCondition("ogn-an:nth-card-played", (ctx, params) => {
-  const n = typeof params.n === "number" ? params.n : 1;
-  const event = ctx.env.event;
-  const player = event?.playerId ?? ctx.env.controller;
-  const played = ctx.room.rules?.history.effects?.played?.[player] ?? [];
-  return !!event?.cardId && played[n - 1] === event.cardId;
-});
+import { registerCardScript, SELF } from "../sdk";
 
 export const SECOND_CARD: Condition = {
   kind: "custom",
-  id: "ogn-an:nth-card-played",
+  id: "ogn:nth-card-played",
   params: { n: 2 },
 };
 

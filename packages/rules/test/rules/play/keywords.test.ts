@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RulesIntent } from "@rift/protocol";
-import { clearCardScripts, explainIllegal, legalIntents, registerCardScript, turnState } from "../../../src";
+import { explainIllegal, legalIntents, turnState } from "../../../src";
+import { clearCardScripts, registerTestCardScript } from "../../../src/testing";
 import { legionActive, weaponmasterEquipCosts } from "../../../src/play/keyword-helpers";
 import { parseCardKeywords, printedCardKeywords } from "../../../src/play/keywords";
 import { snapshotInfo } from "../../../src/play/card-info";
@@ -27,7 +28,7 @@ function applyAndExplain(s: RulesScenario, player: string, intent: RulesIntent) 
 }
 
 function noopSpell(name: string) {
-  registerCardScript({ name, text: "test", status: "implemented", abilities: [{ kind: "spell", effect: { op: "seq", effects: [] } }] });
+  registerTestCardScript({ name, text: "test", status: "implemented", abilities: [{ kind: "spell", effect: { op: "seq", effects: [] } }] });
 }
 
 /** Hide `name` for p1 at battlefieldA (p1 controls it) and pretend it was an earlier turn. */
@@ -156,7 +157,7 @@ describe("Hidden [R811][R422]", () => {
     const card = hiddenAtA(s, "Stand United");
     const here = boardOf(s, "p1").battlefieldA[0]!;
     const elsewhere = place(s, "p1", "Treasure Hunter", "base");
-    registerCardScript({ name: "Stand United", text: "test", status: "implemented", abilities: [fake.fakeAbility("Stand United")] });
+    registerTestCardScript({ name: "Stand United", text: "test", status: "implemented", abilities: [fake.fakeAbility("Stand United")] });
     fake.setSpecs("Stand United", (room, host) => [fake.anyUnitSpec(room, host)]);
     expect(applyAndExplain(s, "p1", { type: "rules_play", cardId: card.id, targets: [elsewhere.id] })?.code).toBe("illegal_target");
     // The only unit at the battlefield is forced (411.2).
@@ -168,7 +169,7 @@ describe("Hidden [R811][R422]", () => {
     const s = bareScenario({ extraCards: { p1: ["Stand United"] } });
     const card = hiddenAtA(s, "Stand United");
     const elsewhere = place(s, "p1", "Treasure Hunter", "base");
-    registerCardScript({ name: "Stand United", text: "test", status: "implemented", abilities: [fake.fakeAbility("Stand United")] });
+    registerTestCardScript({ name: "Stand United", text: "test", status: "implemented", abilities: [fake.fakeAbility("Stand United")] });
     fake.setSpecs("Stand United", (room, host) => [
       fake.anyUnitSpec(room, host),
       { ...fake.anyUnitSpec(room, host, { key: "target:1" }), data: { hiddenUnrestricted: true } },
@@ -185,7 +186,7 @@ describe("Hidden undo [R358.5][R811.1.b]", () => {
     const here = boardOf(s, "p1").battlefieldA.find((entry) => !entry.hidden)!;
     const deflect = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
     s.room.rules!.objects[deflect.id] = { grantedKeywords: ["Deflect"] };
-    registerCardScript({ name: "Stand United", text: "test", status: "implemented", abilities: [fake.fakeAbility("Stand United")] });
+    registerTestCardScript({ name: "Stand United", text: "test", status: "implemented", abilities: [fake.fakeAbility("Stand United")] });
     fake.setSpecs("Stand United", (room, host) => [fake.anyUnitSpec(room, host)]);
     setPool(s, "p1", 0);
     s.as("p1").apply({ type: "rules_play", cardId: card.id }).expectOk();

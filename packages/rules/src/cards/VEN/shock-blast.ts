@@ -4,9 +4,7 @@
  *
  * 366.2.a: the cost passive applies while the card is in hand (356.4 discount).
  */
-import { registerCardScript } from "../registry";
-import { SELF, aUnit, custom } from "../dsl";
-import { conditional } from "./shared";
+import { aUnit, whilePassive as conditional, custom, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Shock Blast",

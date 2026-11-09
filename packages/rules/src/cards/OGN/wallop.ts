@@ -6,8 +6,7 @@
  * (356.2.b / 702.2.b) is not a payable cost in the play layer (an unsupported phrase is
  * unpayable, 203.3), so the "ignore this spell's cost" alternative is never available.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Wallop",

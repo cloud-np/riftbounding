@@ -6,15 +6,14 @@
  * convention `value: 0`). The keyword passive (801.3) skips units that already have Deflect
  * (printed or object-granted), so it never adds a second instance (809.2).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit, not } from "../dsl";
+import { aUnit, not, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Spirit's Refuge",
   text: "When you play this, buff a friendly unit. (If it doesn't have a buff, it gets a +1 [Might] buff.)\nFriendly buffed units have [DEFLECT] if they didn't already. (Opponents must pay [Rune] to choose those units with a spell or ability.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Deflect", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Deflect" },
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,

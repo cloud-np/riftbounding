@@ -5,8 +5,7 @@
  * The conquer trigger (383.4.c.2.b) creates a delayed triggered ability (390–393) for the end of
  * this turn; its "up to 2 runes" are chosen when that delayed ability triggers (355.5.b).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_YOU_CONQUER_HERE } from "../dsl";
+import { registerCardScript, WHEN_YOU_CONQUER_HERE } from "../sdk";
 
 registerCardScript({
   name: "Targon's Peak",

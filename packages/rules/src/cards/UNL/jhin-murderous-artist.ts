@@ -3,8 +3,7 @@
  * [1][Rune]." (430.5: 1 Energy and 1 Power of any Domain.) The catalog's [Add] is the ability's
  * tag, not a keyword (suppressed).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_I_MOVE } from "../dsl";
+import { registerCardScript, WHEN_I_MOVE } from "../sdk";
 
 registerCardScript({
   name: "Jhin, Murderous Artist",
@@ -13,7 +12,7 @@ registerCardScript({
   notes:
     "The Add trigger goes on the chain like any triggered ability and can be responded to; triggered Add abilities must finalize and resolve immediately without passing Priority (430.2, 430.2.a).",
   abilities: [
-    { kind: "keyword", keyword: "Add", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Add" },
     {
       kind: "triggered",
       trigger: WHEN_I_MOVE,

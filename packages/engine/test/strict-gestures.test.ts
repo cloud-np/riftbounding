@@ -9,7 +9,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { Room } from "@rift/protocol";
-import { getCardScript, registerCardScript } from "@rift/rules";
+import { overrideCardScript } from "@rift/rules/testing";
 
 import { applyGameAction, strictLegalIntents } from "../src";
 import {
@@ -221,8 +221,7 @@ describe("illegal strict gestures [§5]", () => {
 
 describe("§6.4 manual window keeps free board actions", () => {
   it("allows the manual player's board actions and rejects them after Done", () => {
-    const original = getCardScript("Rebuke");
-    registerCardScript({ name: "Rebuke", text: "test manual spell", status: "manual", abilities: [] });
+    const restore = overrideCardScript({ name: "Rebuke", text: "test manual spell", status: "manual", abilities: [] });
     try {
       const ctx = makeContext();
       let room = inGame("strict", ctx);
@@ -251,7 +250,7 @@ describe("§6.4 manual window keeps free board actions", () => {
       expect(room.rules?.manual).toBe(null);
       expectRejected(room, "p1", { type: "draw_cards", count: 1 }, "strict_mode_action");
     } finally {
-      if (original) registerCardScript(original);
+      restore();
     }
   });
 });
@@ -284,8 +283,7 @@ describe("targeting gestures equal their rules_* intent [R355.7][R355.9]", () =>
   });
 
   it("binds only the first target spec and prompts for the rest", () => {
-    const original = getCardScript("Defy");
-    registerCardScript({
+    const restore = overrideCardScript({
       name: "Defy",
       text: "test two-target spell",
       status: "implemented",
@@ -336,7 +334,7 @@ describe("targeting gestures equal their rules_* intent [R355.7][R355.9]", () =>
       expect(next.rules?.prompt?.options?.some((option) => option.id === ids.enemyHunter)).toBe(true);
       expect(next.rules?.prompt?.options?.some((option) => option.id === ids.hunter)).toBe(false);
     } finally {
-      if (original) registerCardScript(original);
+      restore();
     }
   });
 

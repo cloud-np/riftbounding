@@ -1,6 +1,5 @@
 /** Star-Crossed (UNL-128) — [Reaction]. Return a friendly unit and an enemy unit to their owners' hands (056; two targets 355.7). */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Star-Crossed",

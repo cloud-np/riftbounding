@@ -6,8 +6,7 @@
  * — an opponent controls a battlefield (190; the engine's `controls` condition). "You may pay [1]
  * to return me" is an optional cost within the instruction (740.4.a), back to the owner's hand (056).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Vayne, Hunter",
@@ -17,12 +16,9 @@ registerCardScript({
     {
       kind: "passive",
       modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: { kind: "controls", player: "opponent" },
-          modifier: { kind: "custom", id: "enter-ready", params: { target: SELF } },
-        },
+        kind: "while",
+        condition: { kind: "controls", player: "opponent" },
+        modifier: { kind: "enter-ready", target: SELF },
       },
     },
     {

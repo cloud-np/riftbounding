@@ -6,8 +6,7 @@
  * choice, 414 draws nothing). Their hand is revealed (425), then the controller picks a non-unit
  * card from it (355.18, not a target) and it is recycled to the bottom of its owner's deck (417).
  */
-import { registerCardScript } from "../registry";
-import { not } from "../dsl";
+import { not, registerCardScript } from "../sdk";
 
 const OPPONENT = { kind: "chosen", ref: "opponent" } as const;
 

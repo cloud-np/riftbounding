@@ -12,13 +12,13 @@ import {
   answerTriggerDecision,
   flushPendingTriggers,
   getCardScript,
-  registerCardScript,
 } from "../../../../src";
 import { lkiOf, type EffectEnv } from "../../../../src/effects/env";
 import { noteLki } from "../../../../src/effects/targets";
 import { place, run, stepFor } from "../../effects/helpers";
 import { put, withDeck } from "../d/helpers";
 import { withCards } from "../../../cards/unl/helpers";
+import { registerTestCardScript } from "../../../../src/testing";
 
 describe("R4-engine part A integration", () => {
   it("[R359.3.e.13][R383.2.c.3.b][R424][R427][R442] noteLki records stunned, buffs and Empowered", () => {
@@ -43,7 +43,7 @@ describe("R4-engine part A integration", () => {
 
   it("[C:Guardian Angel][R718.3][R719.1][R383.3.e.1] an accepted optional attached trigger counts against the attached script's limit", () => {
     const original = getCardScript("Guardian Angel");
-    registerCardScript({
+    registerTestCardScript({
       name: "Guardian Angel",
       text: "test attached optional trigger",
       status: "implemented",
@@ -83,7 +83,7 @@ describe("R4-engine part A integration", () => {
       expect(limits[`${host.id}|Guardian Angel|triggered:0`]).toBe(1);
       expect(limits[`${host.id}|triggered:0`]).toBeUndefined();
     } finally {
-      if (original) registerCardScript(original);
+      if (original) registerTestCardScript(original);
     }
   });
 });

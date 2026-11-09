@@ -1,6 +1,5 @@
 /** Blast of Power (OGS-012) — "[ACTION] Kill a unit at a battlefield." (429) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Blast of Power",

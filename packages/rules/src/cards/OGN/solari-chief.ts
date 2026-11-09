@@ -2,8 +2,7 @@
  * Solari Chief (OGN-225) — "When you play me, choose an enemy unit. If it is stunned, kill it.
  * Otherwise, stun it." (424, 429; the stunned check is made on execution, 359.3.f.2)
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Solari Chief",

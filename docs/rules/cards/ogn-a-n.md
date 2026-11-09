@@ -1,8 +1,10 @@
 # Origins A–N card scripts (wave R3)
 
+> **Layout (maintainability pass):** one card per file, `packages/rules/src/cards/<SET>/<slug>.ts`, in the set that first printed the card; the set's custom ids and shared builders are in `<SET>/custom.ts`; shared builders and `core:` ids in `src/cards/lib` (through `src/cards/sdk.ts`). See [CARD-AUTHORING.md](../CARD-AUTHORING.md). File names below are the per-card files; the generated name → file → tests index is `docs/cards-index.md`.
+
 Lane: the `### Origins` rows of `docs/cards-coverage.md` → "Unscripted cards by set", names
 starting A through N (126 cards). Scripts live in `packages/rules/src/cards/OGN/<slug>.ts` and are
-registered through `src/cards/OGN/batch-a-n.ts`; behaviour tests are in
+registered through `src/cards/OGN/index.ts`; behaviour tests are in
 `packages/rules/test/cards/ogn-a-n/` (one `[C:Card Name]` test per card).
 
 Counts: **87 implemented**, **26 partial**, **13 manual**,
@@ -18,10 +20,10 @@ Expiration Step (317.2.c, lane A) and is killed in its controller's next Beginni
 - Keywords the engine implements (Accelerate, Action, Reaction, Hidden, Legion, Assault, Shield, Tank,
   Deflect, Ganking, Vision, Deathknell, …) come from the printed keywords and are not re-scripted.
   Catalog keywords that are only granted/reminder text are suppressed with
-  `{ kind: "keyword", keyword, value: 0 }` (727.1.b, 831.2).
-- [Legion] dependent abilities use `ogn-an:legion` (812.1.c: another card was Finalized by you this
+  `{ kind: "suppress-printed-keyword", keyword }` (`...notIntrinsic(…)`) (727.1.b, 831.2).
+- [Legion] dependent abilities use `core:legion` (812.1.c: another card was Finalized by you this
   turn, via R2-play's `legionActive`).
-- Custom ids registered by this lane (all prefixed `ogn-an:`) are listed in the "Custom ids" section.
+- Custom ids registered by this lane (all prefixed `ogn:`) are listed in the "Custom ids" section.
 
 ## Capability gaps
 
@@ -54,19 +56,19 @@ R4-engine lane A.
 
 | Id                                        | Kind      | Registered in             | Meaning                                                                                                                            |
 | ----------------------------------------- | --------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `ogn-an:channelled-fewer-than`            | condition | `catalyst-of-aeons.ts`    | the preceding `channel` channelled fewer than `n` runes (431.3)                                                                    |
-| `ogn-an:in-combat`                        | condition | `cannon-barrage.ts`       | `it` is in combat (740.2.c)                                                                                                        |
-| `ogn-an:legion`                           | condition | `darius-executioner.ts`   | [Legion]: another card than the source was Finalized by the controller this turn (812.1.c, `legionActive`)                         |
-| `ogn-an:event-battlefield-yours`          | condition | `ahri-nine-tailed-fox.ts` | the trigger event's battlefield is controlled by the ability's controller (190.2)                                                  |
-| `ogn-an:opponent-near-victory`            | condition | `leona-zealot.ts`         | an opponent's score is within `n` points of the host Victory Score (472)                                                           |
-| `ogn-an:nth-card-played`                  | condition | `darius-trifarian.ts`     | the trigger event's card is the `n`-th card its player played this turn (420.4.a)                                                  |
-| `ogn-an:controls-facedown-at-battlefield` | condition | `mushroom-pouch.ts`       | the controller has a facedown card at a battlefield (107.3, 811)                                                                   |
-| `ogn-an:unit-at-battlefield-or-gear`      | condition | `fading-memories.ts`      | `it` is a unit at a battlefield or a gear                                                                                          |
-| `ogn-an:players-choose`                   | effect    | `acceptable-losses.ts`    | players (each in Turn Order, or every other player from the next one) pick objects in turn; picks bound to `key` (355.18, 303.2.a) |
-| `ogn-an:remember-affected`                | effect    | `get-excited.ts`          | bind the previous instruction's affected objects to `key`                                                                          |
-| `ogn-an:deal-energy-cost-of`              | effect    | `get-excited.ts`          | deal the printed Energy cost of the cards bound to `ref` to `it` through the `deal` op (418)                                       |
-| `ogn-an:raise-might-to`                   | effect    | `convergent-mutation.ts`  | +X Might this turn, X = Might(`from`) − Might(`target`), at least 0 (479.4.b/c)                                                    |
-| `ogn-an:reveal-hand-discard-chosen`       | effect    | `mindsplitter.ts`         | an opponent reveals their hand; the controller picks a card; that player discards it (425, 423)                                    |
+| `ogn:channelled-fewer-than`            | condition | `catalyst-of-aeons.ts`    | the preceding `channel` channelled fewer than `n` runes (431.3)                                                                    |
+| `core:in-combat`                        | condition | `cannon-barrage.ts`       | `it` is in combat (740.2.c)                                                                                                        |
+| `core:legion`                           | condition | `darius-executioner.ts`   | [Legion]: another card than the source was Finalized by the controller this turn (812.1.c, `legionActive`)                         |
+| `ogn:event-battlefield-yours`          | condition | `ahri-nine-tailed-fox.ts` | the trigger event's battlefield is controlled by the ability's controller (190.2)                                                  |
+| `ogn:opponent-near-victory`            | condition | `leona-zealot.ts`         | an opponent's score is within `n` points of the host Victory Score (472)                                                           |
+| `ogn:nth-card-played`                  | condition | `darius-trifarian.ts`     | the trigger event's card is the `n`-th card its player played this turn (420.4.a)                                                  |
+| `ogn:controls-facedown-at-battlefield` | condition | `mushroom-pouch.ts`       | the controller has a facedown card at a battlefield (107.3, 811)                                                                   |
+| `ogn:unit-at-battlefield-or-gear`      | condition | `fading-memories.ts`      | `it` is a unit at a battlefield or a gear                                                                                          |
+| `ogn:players-choose`                   | effect    | `acceptable-losses.ts`    | players (each in Turn Order, or every other player from the next one) pick objects in turn; picks bound to `key` (355.18, 303.2.a) |
+| `ogn:remember-affected`                | effect    | `get-excited.ts`          | bind the previous instruction's affected objects to `key`                                                                          |
+| `ogn:deal-energy-cost-of`              | effect    | `get-excited.ts`          | deal the printed Energy cost of the cards bound to `ref` to `it` through the `deal` op (418)                                       |
+| `ogn:raise-might-to`                   | effect    | `convergent-mutation.ts`  | +X Might this turn, X = Might(`from`) − Might(`target`), at least 0 (479.4.b/c)                                                    |
+| `ogn:reveal-hand-discard-chosen`       | effect    | `mindsplitter.ts`         | an opponent reveals their hand; the controller picks a card; that player discards it (425, 423)                                    |
 
 ## Card status
 
@@ -117,7 +119,7 @@ R4-engine lane A.
 | Dazzling Aurora              | Gear        | manual      | Not automated: reveal-until-a-unit, banish and play from the revealed set (no reveal-until op).                                                                                                                     |
 | Deadbloom Predator           | Unit        | partial     |                                                                                                                                                                                                                     |
 | Disintegrate                 | Spell       | partial     |                                                                                                                                                                                                                     |
-| Divine Judgment              | Spell       | manual      | Not automated: simultaneous multi-category per-player choices with recycling the unchosen objects (ogn-an:players-choose handles one category only; recycling runes to the Rune Deck is a separate op).             |
+| Divine Judgment              | Spell       | manual      | Not automated: simultaneous multi-category per-player choices with recycling the unchosen objects (ogn:players-choose handles one category only; recycling runes to the Rune Deck is a separate op).             |
 | Dragon's Rage                | Spell       | implemented |                                                                                                                                                                                                                     |
 | Draven, Showboat             | Unit        | implemented |                                                                                                                                                                                                                     |
 | Dune Drake                   | Unit        | implemented |                                                                                                                                                                                                                     |

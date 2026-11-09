@@ -6,8 +6,7 @@
  * instruction of spells/abilities consults it (the Awaken Phase ready is not affected). The first
  * needs a location-specific play restriction: `restrictionFor` ignores the play destination.
  */
-import { registerCardScript } from "../registry";
-import { SELF_AT_BATTLEFIELD } from "../dsl";
+import { registerCardScript, SELF_AT_BATTLEFIELD } from "../sdk";
 
 registerCardScript({
   name: "Mageseeker Warden",
@@ -19,15 +18,12 @@ registerCardScript({
     {
       kind: "passive",
       modifier: {
-        kind: "custom",
-        id: "conditional",
-        params: {
-          condition: SELF_AT_BATTLEFIELD,
-          modifier: {
-            kind: "restriction",
-            restriction: "ready",
-            target: { cardType: "permanent", controller: "opponent" },
-          },
+        kind: "while",
+        condition: SELF_AT_BATTLEFIELD,
+        modifier: {
+          kind: "restriction",
+          restriction: "ready",
+          target: { cardType: "permanent", controller: "opponent" },
         },
       },
     },

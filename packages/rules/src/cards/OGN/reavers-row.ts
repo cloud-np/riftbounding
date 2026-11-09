@@ -6,8 +6,7 @@
  * event); 403.1: the leading "you may" is decided when the trigger finalizes. The unit is chosen
  * as a target (355.7) among the defender's units at this battlefield and moved to its base (421).
  */
-import { registerCardScript } from "../registry";
-import { HERE, WHEN_YOU_DEFEND_HERE, aUnit } from "../dsl";
+import { aUnit, HERE, registerCardScript, WHEN_YOU_DEFEND_HERE } from "../sdk";
 
 registerCardScript({
   name: "Reaver's Row",

@@ -1,6 +1,5 @@
 /** Navori Fighting Pit (OGN-283, battlefield) — "When you hold here, buff a unit here." (383.4.d.2.b; 427) */
-import { registerCardScript } from "../registry";
-import { HERE, WHEN_YOU_HOLD_HERE, aUnit } from "../dsl";
+import { aUnit, HERE, registerCardScript, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 registerCardScript({
   name: "Navori Fighting Pit",

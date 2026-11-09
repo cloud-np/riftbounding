@@ -2,8 +2,7 @@
  * Yasuo, Remorseful (OGN-076) — "When I attack, deal damage equal to my Might to an enemy unit
  * here." (383.4.e attack trigger; 418.6.a the source is Yasuo; Might read on resolution)
  */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, aUnit } from "../dsl";
+import { aUnit, HERE, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Yasuo, Remorseful",

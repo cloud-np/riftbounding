@@ -7,8 +7,7 @@
  * paid by R2-play (contract: `choices.additionalCost === true`, noted on the permanent when it
  * finalizes).
  */
-import { registerCardScript } from "../registry";
-import { PAID_ADDITIONAL, WHEN_PLAYED } from "../dsl";
+import { PAID_ADDITIONAL, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Clockwork Keeper",
@@ -16,6 +15,11 @@ registerCardScript({
   status: "partial",
   notes: "The optional additional cost [Calm] is offered and paid by R2-play (355.1.a/357).",
   abilities: [
-    { kind: "triggered", trigger: WHEN_PLAYED, condition: PAID_ADDITIONAL, effect: { op: "draw", amount: 1 } },
+    {
+      kind: "triggered",
+      trigger: WHEN_PLAYED,
+      condition: PAID_ADDITIONAL,
+      effect: { op: "draw", amount: 1 },
+    },
   ],
 });

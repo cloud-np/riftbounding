@@ -1,6 +1,5 @@
 /** Void Seeker (OGN-024 — EX[100] / EX[193] (359.3.e.5, 418.6.a)) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Void Seeker",

@@ -9,9 +9,10 @@
  */
 import { beforeAll, describe, expect, it } from "vitest";
 import type { CardScript } from "@rift/protocol";
-import { effectiveKeywords, effectiveMight, registerCardScript } from "../../../../src";
+import { effectiveKeywords, effectiveMight } from "../../../../src";
 import { boardOf, run } from "../../effects/helpers";
 import { put, settle, withDeck } from "./helpers";
+import { registerTestCardScript } from "../../../../src/testing";
 
 const ATTACHED_EFFECT_TEXT: CardScript = {
   name: "Guardian Angel",
@@ -43,19 +44,15 @@ const RULES_TEXT_PASSIVE: CardScript = {
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "rules-text",
-        params: { modifier: { kind: "might", amount: 2, target: { cardType: "unit", controller: "self" } } },
-      },
+      modifier: { kind: "rules-text", modifier: { kind: "might", amount: 2, target: { cardType: "unit", controller: "self" } } },
     },
     { kind: "passive", modifier: { kind: "might", amount: 1, target: { targetRef: "host" } } },
   ],
 };
 
 beforeAll(() => {
-  registerCardScript(ATTACHED_EFFECT_TEXT);
-  registerCardScript(RULES_TEXT_PASSIVE);
+  registerTestCardScript(ATTACHED_EFFECT_TEXT);
+  registerTestCardScript(RULES_TEXT_PASSIVE);
 });
 
 describe("attached cards [R718][R719]", () => {

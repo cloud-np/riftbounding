@@ -3,7 +3,7 @@
  * keeps the minimal reproduction of the previously rules-wrong behaviour; all are fixed in R4.
  */
 import { describe, expect, it } from "vitest";
-import { getCardScript, registerCardScript } from "../../../src";
+import { getCardScript } from "../../../src";
 import { boardOf, fund, spell } from "../../rules/effects/helpers";
 import {
   activate,
@@ -15,6 +15,7 @@ import {
   withCards,
   zoneOf,
 } from "./helpers";
+import { registerTestCardScript } from "../../../src/testing";
 
 describe("engine reproductions (ven-ogs)", () => {
   // cleanup/cleanup.ts "expire-this-turn" (317.2.c step 3d) deletes every rules object without
@@ -89,7 +90,7 @@ describe("engine reproductions (ven-ogs)", () => {
   // chosen id into the matcher (`ven:with-bound`).
   it("[C:Highlander][R359.3.f.3.a][R391.3] a delayed replacement matcher can refer to the chosen unit", () => {
     const original = getCardScript("Highlander")!;
-    registerCardScript(
+    registerTestCardScript(
       spell("Highlander", {
         op: "for_each",
         selector: { chosen: true, cardType: "unit", targetRef: "target:0" },
@@ -124,7 +125,7 @@ describe("engine reproductions (ven-ogs)", () => {
       s.as("p2").pass().expectOk();
       expect(zoneOf(s, unit.id)).toBe("base");
     } finally {
-      registerCardScript(original);
+      registerTestCardScript(original);
     }
   });
 });

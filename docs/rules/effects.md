@@ -114,8 +114,8 @@ instruction, so "kill two units" with one held death is not simultaneous (370.1.
 
 ### Show Off (832)
 
-Declare it with the `showOff(selector, count?)` builder (`src/cards/dsl.ts`; a passive custom
-modifier `show-off`). The play layer turns it into the play-time choice `"showOff"`
+Declare it with the `showOff(selector, count?)` builder (`src/cards/sdk.ts`; a passive
+`{ kind: "show-off" }` modifier). The play layer turns it into the play-time choice `"showOff"`
 (`choose-card`, 0..count, `rule: "832.1.c"`, not a Target) among the controller's hand cards
 (the card being played excluded; revealing emits `reveal`) and friendly board objects
 (`show_off`) matching `selector` (zone and controller are filled in). When the item finalizes the
@@ -233,7 +233,7 @@ instructions all use that player (371.2.a).
 | `src/replacements/preview.ts` | `previewDamage` (frozen contract) |
 | `src/layers/{index,passives,durations,mods,restrictions,costs,bonus,entry,victory}.ts` | effective Might/keywords, active modifiers, durations, effect creation, `restrictionFor`, `costAdjustments`, Bonus Damage, enter-ready replacement, Victory Score adjustment |
 | `src/prompts/effects/{reasons,answers,resume,triggers,index}.ts` | `effects.resume`, `effects.order_triggers`, `effects.trigger_choice` |
-| `src/cards/dsl.ts`, `src/cards/<SET>/*.ts`, `src/cards/tokens/gold.ts` | script builders and card scripts |
+| `src/cards/sdk.ts`, `src/cards/lib/*.ts`, `src/cards/<SET>/*.ts`, `src/cards/tokens/*.ts` | the card SDK, shared builders and `core:` ids, card scripts (see `docs/rules/CARD-AUTHORING.md`) |
 | `src/actions/move.ts` (additive) | `kill(…, source?)` attribution + last-known info on the `kill` event; 719.5 detach on kill |
 | `test/rules/effects/*`, `test/cards/*`, `test/examples/*`, `test/property/{effects.test.ts,answerers/effects.ts}` | tests |
 
@@ -362,7 +362,7 @@ attached cards' Effect Text contributes replacements (718.3 / 719.1).
 - Passive Might amounts may be computed ("+1 for each card in your trash"); a card's own cost
   passives apply while it is in hand (366.2.a, e.g. "[Legion] I cost [2] less").
 - Catalog keyword lists include reminder-text / dependent keywords; a script marks those with
-  `{ kind: "keyword", keyword, value: 0 }` so they only apply when an ability grants them
+  `{ kind: "suppress-printed-keyword", keyword }` (`...notIntrinsic(…)`) so they only apply when an ability grants them
   (Clanging Sentry's Disarm, Gustwalker's Level-3 Ganking; 727.1.b, 831.2).
 - `ignoredKeywords(room, host, { playerId, action, zone })` (764–767): keywords a player treats as
   Inactive for one action (`ignore-keyword` modifiers, e.g. "You ignore Backline while assigning
@@ -407,8 +407,8 @@ All additions are optional: `EffectsEffectOp` (`spend_buff`, `cost_then`, `requi
 `EffectsObjectFields` (`empowered`, `prevent`, `keywordGrants`, `mightMods`,
 `paidAdditionalCost`, `targetedBy`); `EffectsHistoryFields.effects` (`limits`, `marks`, `replacements`,
 `played`); `EffectsChainItemFields` (`effect`, `triggerEvent`, `sourceName`, `optional`,
-`mayDecided`, `targetSnapshot`, `resolutionChoices`, `repeatExecutionsDone`). R4-engine also adds
-`CardScript.repeatHandled` (820.1.d / 820.3). New prompt reasons: `effects.resume`,
+`mayDecided`, `targetSnapshot`, `resolutionChoices`, `repeatExecutionsDone`). (R4-engine's
+`CardScript.repeatHandled` was removed by the maintainability pass.) New prompt reasons: `effects.resume`,
 `effects.order_triggers`, `effects.trigger_choice`. New events: `trigger`, `trigger_removed`,
 `trigger_declined`, `mistarget`, `replaced`, `prevented`, `skip`, `skip_created`, `attack`,
 `defend`, `attack_declared`, `defend_declared`, `become_mighty`, `might`, `stun`, `buff`,

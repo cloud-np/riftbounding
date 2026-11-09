@@ -3,7 +3,7 @@
  * battlefield." A play-location permission (355.2.b) granted by the card's own text, which the
  * play layer only accepts from effects (`extraLocations` of a 420.3 play).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Deadbloom Predator",

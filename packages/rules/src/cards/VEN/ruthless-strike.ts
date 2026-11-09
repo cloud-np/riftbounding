@@ -5,8 +5,7 @@
  * The optional additional cost (204.2, 355.1.a) is parsed from the text and paid by R2-play
  * (`optional:0`); 356.4.f.1: "if you paid" reads the spell's own chosen cost.
  */
-import { registerCardScript } from "../registry";
-import { aUnit, custom } from "../dsl";
+import { aUnit, custom, registerCardScript } from "../sdk";
 
 const TARGET = aUnit({ zone: "battlefield", targetRef: "target:0" });
 

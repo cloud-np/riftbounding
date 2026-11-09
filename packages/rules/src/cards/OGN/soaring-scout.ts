@@ -1,6 +1,5 @@
 /** Soaring Scout (OGN-216) — "[DEATHKNELL] - Channel 1 rune exhausted." (808 Deathknell, 431.2.a) */
-import { registerCardScript } from "../registry";
-import { WHEN_I_DIE } from "../dsl";
+import { registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Soaring Scout",

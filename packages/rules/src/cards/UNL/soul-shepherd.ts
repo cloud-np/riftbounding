@@ -1,5 +1,5 @@
 /** Soul Shepherd (UNL-077) — passive (365.1): your token units (179) have +1 [Might] (479.4). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Soul Shepherd",

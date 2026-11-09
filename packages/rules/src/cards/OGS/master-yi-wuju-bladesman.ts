@@ -5,8 +5,7 @@
  * A passive on friendly units with the Defender designation (323.2) that are alone (740.2.a: no
  * other friendly units at the same location).
  */
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Master Yi, Wuju Bladesman",
@@ -23,7 +22,7 @@ registerCardScript({
           controller: "self",
           where: {
             kind: "and",
-            conditions: [custom("ogs:is-defender"), custom("alone", { ref: "it" })],
+            conditions: [custom("ogs:is-defender"), { kind: "alone", ref: "it" }],
           },
         },
       },

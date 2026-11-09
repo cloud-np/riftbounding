@@ -1,5 +1,5 @@
 /** Downstage Dramatics (UNL-061) — [Reaction] (813), [Repeat 2] (820.1.d: draw again when paid). Draw 1. */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Downstage Dramatics",

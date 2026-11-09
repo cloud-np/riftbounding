@@ -7,8 +7,7 @@
  * instruction (740.4.a / 355.10.c.1): without a buff to spend (702.2.b.1) nothing happens.
  */
 import type { Effect } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_I_BECOME_EXHAUSTED, aUnit, custom, marked, not } from "../dsl";
+import { aUnit, marked, not, registerCardScript, SELF, WHEN_I_BECOME_EXHAUSTED } from "../sdk";
 
 const KEY = "riven-broken-blade:{self}";
 
@@ -45,7 +44,7 @@ registerCardScript({
               { op: "spend_buff", target: SELF },
               {
                 op: "if",
-                condition: custom("did"),
+                condition: { kind: "did" },
                 then: { op: "stun", target: aUnit({ controller: "opponent" }) },
               },
             ],
@@ -54,7 +53,7 @@ registerCardScript({
             op: "seq",
             effects: [
               { op: "spend_buff", target: SELF },
-              { op: "if", condition: custom("did"), then: { op: "ready", target: SELF } },
+              { op: "if", condition: { kind: "did" }, then: { op: "ready", target: SELF } },
             ],
           }),
         ],

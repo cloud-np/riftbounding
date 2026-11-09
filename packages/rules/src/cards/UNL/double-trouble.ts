@@ -3,8 +3,8 @@
  * paid Repeat instance; 820.2 gives each execution its own play-time choices).
  * Look at the top 3, you may reveal a unit and draw it, recycle the rest (425/414/417).
  */
-import { registerCardScript } from "../registry";
-import { lookRevealDraw } from "./dsl-unl";
+import { registerCardScript } from "../sdk";
+import { lookRevealDraw } from "./custom";
 
 registerCardScript({
   name: "Double Trouble",

@@ -1,6 +1,5 @@
 /** Annie, Stubborn (OGS-010) — "When you play me, return a spell from your trash to your hand." (383.4.a; 412 return to hand) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Annie, Stubborn",

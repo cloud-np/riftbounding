@@ -1,17 +1,17 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { CardScript } from "@rift/protocol";
-import { clearCardScripts, registerCardScripts, turnState } from "../../src";
+import { turnState } from "../../src";
+import { clearCardScripts, registerTestCardScript, registerTestCardScripts } from "../../src/testing";
 import { scenario } from "../scenarios/dsl";
-import { registerCardScript } from "../../src";
 
 // R2-effects: Treasure Hunter's printed "When I move, play a Gold gear token exhausted" now
 // triggers (383 / 402.1) and keeps the state Closed until it resolves. This suite uses it as a
 // vanilla unit for timing/showdown mechanics, so it overrides the production script (the trigger
 // itself is covered by test/cards/fixture-deck.test.ts).
-beforeAll(() => registerCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
+beforeAll(() => registerTestCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
 // R4-cards: Janna, Savior is now scripted (play trigger: heal + move). This suite uses her as a
 // vanilla Reaction unit for timing/showdown mechanics, so override the production script too.
-beforeAll(() => registerCardScript({ name: "Janna, Savior", text: "vanilla (test)", status: "implemented", abilities: [] }));
+beforeAll(() => registerTestCardScript({ name: "Janna, Savior", text: "vanilla (test)", status: "implemented", abilities: [] }));
 
 // 813.1.c.1: Janna, Savior has card-level [Reaction]. (Reckless Innovator, used before, only
 // mentions [Reaction] in its Gold token's reminder text, 135.2.d.3, so it is not a Reaction unit.)
@@ -27,7 +27,7 @@ function noop(name: string, text: string): CardScript {
 }
 
 beforeAll(() => {
-  registerCardScripts([
+  registerTestCardScripts([
     noop("Rebuke", "[ACTION] test no-op"),
     noop("Defy", "[REACTION] test no-op"),
   ]);

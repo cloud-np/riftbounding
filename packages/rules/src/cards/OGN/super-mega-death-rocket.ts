@@ -6,8 +6,7 @@
  * its owner's trash (385, a non-board zone), and triggers of cards outside the board are not
  * detected.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Super Mega Death Rocket!",

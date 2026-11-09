@@ -4,7 +4,7 @@
  * The battlefield is the chosen object (355.7, a battlefield pseudo-object); every enemy unit
  * there is dealt 3 (355.5.a, not targeted).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Firestorm",

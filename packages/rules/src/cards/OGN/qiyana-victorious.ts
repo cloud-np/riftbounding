@@ -5,8 +5,7 @@
  * the battlefield; the trigger matches while I'm there under the conquering player. The choice of
  * mode is made when the trigger finalizes (355.3 / 403.2).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Qiyana, Victorious",

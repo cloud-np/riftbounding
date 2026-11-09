@@ -4,7 +4,7 @@
  * A replacement on entering (369.3 / EX[134]): the unit enters ready instead of exhausted; it
  * does not become ready afterwards (no ready event, cf. 805.6.a).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Riven, The Exile",
@@ -13,11 +13,7 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: {
-        kind: "custom",
-        id: "enter-ready",
-        params: { battlefieldYouControl: true, target: { cardType: "unit" } },
-      },
+      modifier: { kind: "enter-ready", battlefieldYouControl: true, target: { cardType: "unit" } },
     },
   ],
 });

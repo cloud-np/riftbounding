@@ -1,6 +1,5 @@
 /** Decree of Unity (VEN-131) — "Kill an enemy Chaos unit or gear." (429; 131 Domain; "permanent" = unit or gear) */
-import { registerCardScript } from "../registry";
-import { custom } from "../dsl";
+import { custom, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Decree of Unity",

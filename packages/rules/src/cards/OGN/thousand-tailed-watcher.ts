@@ -3,8 +3,7 @@
  * this turn, to a minimum of 1 [Might]." (805 Accelerate is the play layer's; 479.4.b snapshot per
  * unit; every enemy unit on the board, 355.5.a)
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Thousand-Tailed Watcher",

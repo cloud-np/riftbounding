@@ -1,6 +1,5 @@
 /** Ravenborn Tome (OGN-032 (Origins errata) — EX[179] (392): a Delayed Passive Bonus Damage for the next spell.) */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Ravenborn Tome",
@@ -13,7 +12,7 @@ registerCardScript({
       effect: {
         op: "continuous",
         duration: "this-turn",
-        modifier: { kind: "custom", id: "bonus-damage", params: { amount: 1, from: "spells", nextSpell: true } },
+        modifier: { kind: "bonus-damage", amount: 1, from: "spells", nextSpell: true },
       },
     },
   ],

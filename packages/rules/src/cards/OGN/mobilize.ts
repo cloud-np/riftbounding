@@ -1,6 +1,5 @@
 /** Mobilize (OGN-134) — "Channel 1 rune exhausted. If you can't, draw 1." (431.2.a, 431.3) */
-import { registerCardScript } from "../registry";
-import { custom, not } from "../dsl";
+import { not, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Mobilize",
@@ -13,7 +12,7 @@ registerCardScript({
         op: "seq",
         effects: [
           { op: "channel", amount: 1, exhausted: true },
-          { op: "if", condition: not(custom("did")), then: { op: "draw", amount: 1 } },
+          { op: "if", condition: not({ kind: "did" }), then: { op: "draw", amount: 1 } },
         ],
       },
     },

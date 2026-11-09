@@ -1,6 +1,5 @@
 /** Herald of Spring (UNL-034) — [Hunt] (823, engine keyword) and a Play Effect gaining 2 XP (730.1). */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Herald of Spring",

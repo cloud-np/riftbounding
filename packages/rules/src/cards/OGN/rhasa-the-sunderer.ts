@@ -7,25 +7,21 @@
  * the cost cannot go below 0 anyway (356.4). The Power cost is unchanged.
  */
 import type { Ability } from "@rift/protocol";
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 const PRINTED_ENERGY = 10;
 
 const perCard: Ability[] = Array.from({ length: PRINTED_ENERGY }, (_, index) => ({
   kind: "passive",
   modifier: {
-    kind: "custom",
-    id: "conditional",
-    params: {
-      condition: {
-        kind: "compare",
-        left: { kind: "cards-in-zone", zone: "trash" },
-        op: "gte",
-        right: index + 1,
-      },
-      modifier: { kind: "cost", amount: -1, target: SELF },
+    kind: "while",
+    condition: {
+      kind: "compare",
+      left: { kind: "cards-in-zone", zone: "trash" },
+      op: "gte",
+      right: index + 1,
     },
+    modifier: { kind: "cost", amount: -1, target: SELF },
   },
 }));
 

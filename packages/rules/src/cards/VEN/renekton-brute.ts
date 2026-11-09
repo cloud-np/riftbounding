@@ -5,9 +5,7 @@
  * The last line is printed with the [Empower] icon but has no cost; it is read as the
  * [Empowered] Dependent ability (828.1.b/c), the only reading with a game function.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { notIntrinsic, whileEmpowered } from "./shared";
+import { notIntrinsic, registerCardScript, SELF, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Renekton, Brute",
@@ -15,8 +13,8 @@ registerCardScript({
   status: "partial",
   notes: `"When my Might becomes 10 or more" is not automated: only the 5-Might threshold (become_mighty, 709) is synthesized as an event (383.1).`,
   abilities: [
-    notIntrinsic("Deflect"),
-    notIntrinsic("Ganking"),
+    ...notIntrinsic("Deflect"),
+    ...notIntrinsic("Ganking"),
     {
       kind: "activated",
       cost: { energy: 1 },

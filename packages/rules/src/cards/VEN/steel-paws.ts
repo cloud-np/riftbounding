@@ -4,9 +4,7 @@
  * Deflect (809) is printed and read by R2-play. 827.1.c.1: Empower is an activated ability;
  * 828.1.c: the Empowered Might bonus applies while I'm Empowered.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { empower, whileEmpowered } from "./shared";
+import { empower, registerCardScript, SELF, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Steel Paws",

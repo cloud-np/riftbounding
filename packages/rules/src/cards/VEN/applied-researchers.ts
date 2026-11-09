@@ -6,8 +6,7 @@
  * only applied to spells whose printed Energy cost is 2 or more, which keeps the Energy cost at a
  * minimum of [1] when no other cost modification applies.
  */
-import { registerCardScript } from "../registry";
-import { empower, whileEmpowered } from "./shared";
+import { empower, registerCardScript, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Applied Researchers",
@@ -18,17 +17,14 @@ registerCardScript({
   abilities: [
     empower({ energy: 3 }),
     whileEmpowered({
-      kind: "custom",
-      id: "cost-adjust",
-      params: { power: { any: -1 }, target: { cardType: "spell", controller: "self" } },
+      kind: "cost-adjust",
+      power: { any: -1 },
+      target: { cardType: "spell", controller: "self" },
     }),
     whileEmpowered({
-      kind: "custom",
-      id: "cost-adjust",
-      params: {
-        energy: -1,
-        target: { cardType: "spell", controller: "self", energyCost: { op: "gte", value: 2 } },
-      },
+      kind: "cost-adjust",
+      energy: -1,
+      target: { cardType: "spell", controller: "self", energyCost: { op: "gte", value: 2 } },
     }),
   ],
 });

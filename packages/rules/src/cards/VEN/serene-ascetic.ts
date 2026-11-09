@@ -3,19 +3,17 @@
  *
  * 827.1.c.1 Empower [3]; 828.1.c the Dependent keywords (727.1.b: not intrinsic).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
-import { empower, notIntrinsic, whileEmpowered } from "./shared";
+import { empower, notIntrinsic, registerCardScript, SELF, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Serene Ascetic",
   text: "[empower][3] ([3]: Empower me. Use only if not Empowered.)\n[empowered] I have [deflect] and [shield 3]. (Opponents must pay [rune] to choose me with a spell or ability. +3[might] while I'm a defender.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Deflect"),
-    notIntrinsic("Shield"),
+    ...notIntrinsic("Deflect"),
+    ...notIntrinsic("Shield"),
     empower({ energy: 3 }),
     whileEmpowered({ kind: "keyword", keyword: "Deflect", target: SELF }),
-    whileEmpowered({ kind: "keyword", keyword: "Shield 3", target: SELF }),
+    whileEmpowered({ kind: "keyword", keyword: "Shield", value: 3, target: SELF }),
   ],
 });

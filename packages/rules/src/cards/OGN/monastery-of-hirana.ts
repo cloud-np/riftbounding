@@ -6,8 +6,7 @@
  * 742.1) is spent on resolution and only then is the card drawn. 740.4.a.2 would have the leading
  * cost paid on finalization, but `Cost` has no "spend a buff" component.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_YOU_CONQUER_HERE, custom } from "../dsl";
+import { registerCardScript, WHEN_YOU_CONQUER_HERE } from "../sdk";
 
 registerCardScript({
   name: "Monastery of Hirana",
@@ -31,7 +30,7 @@ registerCardScript({
             max: 1,
           },
           { op: "spend_buff", target: { targetRef: "spent" } },
-          { op: "if", condition: custom("did"), then: { op: "draw", amount: 1 } },
+          { op: "if", condition: { kind: "did" }, then: { op: "draw", amount: 1 } },
         ],
       },
     },

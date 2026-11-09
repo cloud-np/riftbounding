@@ -1,7 +1,5 @@
 /** Scrapyard Champion (OGN-020) — "[LEGION] When you play me, discard 2, then draw 2." (812, 423, 414) */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
-import { LEGION } from "./trifarian-gloryseeker";
+import { LEGION, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Scrapyard Champion",

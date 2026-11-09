@@ -1,6 +1,5 @@
 /** Primal Strength (OGN-154) — "[Action] Give a unit +7 [Might] this turn." (479.4, 806) */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Primal Strength",

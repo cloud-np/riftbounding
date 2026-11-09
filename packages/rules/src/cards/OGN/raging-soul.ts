@@ -5,7 +5,7 @@
  * record. The catalog lists [Assault]/[Ganking] as printed keywords, so until the condition can be
  * evaluated the card keeps them (players police the condition).
  */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Raging Soul",

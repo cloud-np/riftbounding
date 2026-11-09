@@ -1,5 +1,5 @@
 /** Mystic Reversal — gain control of a spell and make new choices (360, 361). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Mystic Reversal",

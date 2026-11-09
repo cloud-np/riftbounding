@@ -352,7 +352,12 @@ function walk(collector: Collector, effect: Effect | undefined): void {
       walk(collector, effect.effect);
       return;
     case "continuous": {
-      const target = (effect.modifier as { target?: Selector }).target;
+      // The modifier's own target selector (might / keyword / cost / restriction modifiers).
+      const modifier = effect.modifier;
+      const target =
+        modifier.kind === "might" || modifier.kind === "keyword" || modifier.kind === "cost" || modifier.kind === "restriction"
+          ? modifier.target
+          : undefined;
       addSelector(collector, target);
       return;
     }

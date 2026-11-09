@@ -4,8 +4,7 @@
  * His own [Shield]/[Tank] are printed (814/815). The keyword passive (801.3) grants [Shield] to the
  * other friendly units at his location; 814.2: Shield instances add up.
  */
-import { registerCardScript } from "../registry";
-import { HERE } from "../dsl";
+import { HERE, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Taric, Protector",

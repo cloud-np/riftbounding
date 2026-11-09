@@ -4,8 +4,7 @@
  * Whether the unit was buffed is last-known information on the `kill` event (383.2.c.3.b /
  * 359.3.e.13; the event carries `buffs`).
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Vanguard Helm",

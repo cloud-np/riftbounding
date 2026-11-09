@@ -5,8 +5,7 @@
  * activation cost; it is kept as an unsupported phrase, so the ability is unpayable (203.3) rather
  * than free.
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Vi, Destructive",

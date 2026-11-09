@@ -5,8 +5,7 @@
  * The player picks which of their runes to recycle without targeting (355.18, as the reminder
  * says); it goes to the bottom of its owner's Rune Deck (417.1.b). With no runes nothing happens.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_YOU_CONQUER_HERE } from "../dsl";
+import { registerCardScript, WHEN_YOU_CONQUER_HERE } from "../sdk";
 
 registerCardScript({
   name: "Sigil of the Storm",

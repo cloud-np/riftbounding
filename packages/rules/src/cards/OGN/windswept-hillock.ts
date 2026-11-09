@@ -6,8 +6,7 @@
  * legality read keyword passives (810.3 / 144.4.c.1), so units here may move battlefield to
  * battlefield.
  */
-import { registerCardScript } from "../registry";
-import { HERE } from "../dsl";
+import { HERE, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Windswept Hillock",

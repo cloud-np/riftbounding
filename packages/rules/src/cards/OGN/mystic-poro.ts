@@ -1,5 +1,5 @@
 /** Mystic Poro (OGN-171) — keyword-only: [Vision] (817) is a keyword trigger. */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Mystic Poro",

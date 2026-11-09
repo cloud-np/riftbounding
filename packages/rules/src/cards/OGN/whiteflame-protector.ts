@@ -1,6 +1,5 @@
 /** Whiteflame Protector (OGN-082) — "When you play me, give a unit +8 [Might] this turn." */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, aUnit } from "../dsl";
+import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Whiteflame Protector",

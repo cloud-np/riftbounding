@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ChainItem } from "@rift/protocol";
-import { clearCardScripts, prepareTriggeredItem, registerCardScript } from "../../../src";
+import { prepareTriggeredItem } from "../../../src";
+import { clearCardScripts, registerTestCardScript } from "../../../src/testing";
 import { appendChainItem } from "../../../src/timing/fepr";
 import * as fake from "./fake-effects";
 import { bareScenario, place, pool, stepOf } from "./helpers";
@@ -17,11 +18,11 @@ afterEach(() => clearCardScripts());
 
 /** A Pending triggered item of `sourceName` (script ability 0 = triggered, choices from SPECS). */
 function pendingTrigger(s: RulesScenario, sourceId: string, sourceName: string): ChainItem {
-  registerCardScript({
+  registerTestCardScript({
     name: sourceName,
     text: "test",
     status: "implemented",
-    abilities: [{ kind: "triggered", trigger: { kind: "custom", id: "test" }, effect: { op: "custom", id: `fake:${sourceName}` } }],
+    abilities: [{ kind: "triggered", trigger: { kind: "custom", id: "test:trigger" }, effect: { op: "custom", id: `fake:${sourceName}` } }],
   });
   const item: ChainItem = {
     id: `trigger-${sourceId}`,

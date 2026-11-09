@@ -60,8 +60,7 @@ now unskipped. Wire additions are in `packages/protocol/CHANGES.md`, `## R4-engi
   designations and temporary Might still clear (424.1.a.2).
 - **Repeat (820.1–820.3).** A leading dash before a non-symbol cost is accepted; a paid instance
   executes the instructions one additional time, and each repeated execution binds its play-time
-  choices as `repeat:<n>:<key>` (820.2.a). `CardScript.repeatHandled` and
-  `ChainItem.repeatExecutionsDone` support scripts that still implement repeat themselves and
+  choices as `repeat:<n>:<key>` (820.2.a). `ChainItem.repeatExecutionsDone` supports
   prompt-resumed executions.
 - **Costs and play.** Deflect charges the effective keyword value per choice (809.2); the 054.1
   self play restriction is read on cards in hand; a limited play marks its chosen location with
@@ -140,8 +139,8 @@ manual window additionally allows its player's board actions; everything else is
 
 ## State shape (protocol)
 
-All wire types live in `packages/protocol/src/rules-state.ts` and are re-exported from
-`@rift/protocol`. `Room.rulesMode?: RulesMode` and `Room.rules?: RulesState` are additive.
+All wire types live in `packages/protocol/src/rules/*.ts` (`rules-state.ts` is a re-export
+barrel) and are re-exported from `@rift/protocol`. `Room.rulesMode?: RulesMode` and `Room.rules?: RulesState` are additive.
 
 ```ts
 RulesMode = "sandbox" | "strict"
@@ -273,8 +272,11 @@ packages/rules/src/
     ops/index.ts ops/seq.ts
   cards/
     index.ts           imports every set barrel once (side-effect script registration)
-    registry.ts        card-script registry + ability-ref lookup
-    <setCode>/index.ts OGN SFD UNL RAD VEN OGS ARC SGN (+ tokens/, dsl.ts builders)
+    registry.ts        card-script registry + ability-ref lookup (throws on a duplicate name)
+    sdk.ts             the card SDK: the only module card files import
+    lib/               shared builders + `core:` custom ids (selectors, triggers, conditions, …)
+    <SET>/index.ts     OGN SFD UNL RAD VEN OGS ARC SGN barrels; <SET>/<slug>.ts one card per
+                       file; <SET>/custom.ts the set's custom ids; tokens/ token-only names
 ```
 
 Compatibility barrels kept for existing imports: `intents.ts`, `view.ts`, `turn-state.ts`,
@@ -355,7 +357,8 @@ playersPresentAt(room, host, zone)
 // play (R2-play): payment, process of play, activation, triggered abilities
 canPayCost, payCost, planPayment, applyPayment, costObjectChoice, resolveCost, printedCardCost,
 planCardPlay, executeCardPlay, planActivation, executeActivation, planCore, playLocations,
-registerPlayPermission, registerAdditionalCosts, cardKeywords, legionActive, planHide, executeHide,
+registerPlayPermission, registerAdditionalCosts (engine/test API; card scripts declare
+`additionalCosts` / `playPermissions`), cardKeywords, legionActive, planHide, executeHide,
 prepareTriggeredItem(room, step, item, { ability?, cost?, decline? }) → "finalized"|"pending"|"removed",
 answerTriggerDecision, triggeredAbilityOf, triggerLeadingCost, PLAY_PROMPT_REASONS
 
@@ -496,20 +499,41 @@ R1-specific details:
 
 ## Effect DSL & card scripts
 
-`Effect`, `Ability`, `CardScript`, `Selector`, `Amount`, `Condition`, `Cost`, `Trigger`,
-`Modifier`, `Limit`, `EventMatcher`, `KeywordName` are in `rules-state.ts` (§6 of the design
-contract). They are frozen for later waves; add new union members instead of renaming fields.
+**Writing or changing card scripts: follow [`docs/rules/CARD-AUTHORING.md`](rules/CARD-AUTHORING.md)**
+(where files go, ids, helpers, reprints, statuses, tests, i18n, new keywords and whole sets).
 
-Scripts are keyed by unique card name and registered in `src/cards/registry.ts`:
+`Effect`, `Ability`, `CardScript`, `Selector`, `Amount`, `Condition`, `Cost`, `Trigger`,
+`Modifier`, `Limit`, `EventMatcher`, `KeywordName` are in `packages/protocol/src/rules/{effects,ability}.ts`
+(§6 of the design contract). They are frozen for later waves; add new union members instead of
+renaming fields. The vocabularies are closed: `KeywordName` (`KEYWORD_NAMES`), `EventType`
+(`RULES_EVENT_TYPES` + `EVENT_TYPE_ALIASES`), `RestrictionName`, `CardTypeName`; `custom` ids are
+`CustomId` (`<owner>:<name>`). Engine concepts are typed members — conditions `did`,
+`paid-additional`, `self-state`, `xp-at-least`, `alone`, `in-ids`, `in-ref`,
+`first-played-this-turn`, `showed-off`, `marked`, `cards-played`, `event-zone-is`; modifiers
+`while`, `rules-text`, `enter-ready`, `cost-adjust`, `show-off`, `bonus-damage`, `hide-limit`,
+`assigned-last`, `ignore-keyword`, `victory-score`, `remove-keyword`, `no-combat-damage`; the
+`suppress-printed-keyword` ability — handled by exhaustive switches. Rooms persisted with the
+older `{ kind: "custom", id: "conditional" | … }` JSON are read through `layers/legacy.ts`.
+
+Scripts are keyed by unique card name and registered in `src/cards/registry.ts`; a card file
+imports only `src/cards/sdk.ts`:
 
 ```ts
+import { registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
+
 registerCardScript({
   name: "Rebuke",
   text: "[ACTION] Return a unit at a battlefield to its owner's hand.",
   status: "implemented",             // "partial" | "manual" also supported
   abilities: [{ kind: "spell", effect: { op: "seq", effects: [/* … */] } }],
+  // additionalCosts?: [...], playPermissions?: [...] — the card's own costs / play zones
 });
 ```
+
+Every registry (scripts, custom conditions/effects, effect ops, prompt and task handlers, per-card
+additional costs, ordered hooks/providers) throws `DuplicateRegistrationError` on a duplicate;
+tests replace entries through `src/testing.ts` (`@rift/rules/testing`). Registered scripts are
+frozen deep copies.
 
 - `src/effects/execute.ts` is the interpreter entry point (R2-effects: a resumable JSON machine
   over `EFFECT_OPS`; a decision opens an `effects.resume` prompt and the item stays on the chain
@@ -536,9 +560,9 @@ documented exemptions:
    `explainIllegal`) never mutates.
 2. **Static registries.** The card-script, prompt-handler, intent-handler, task-handler,
    effect-op and rule-hook tables are module-level maps/`Record`s of functions filled at import
-   time (or by test registration). They hold **no game state**; game state is always the `room`
-   argument. `clearCardScripts()`/the hook unsubscribe functions/test registration only exist for
-   suite isolation.
+   time (`src/registry-table.ts`: a duplicate key throws). They hold **no game state**; game state
+   is always the `room` argument. The test-only API (`src/testing.ts`: `override*`,
+   `clearCardScripts`) and the hook unsubscribe functions only exist for suite isolation.
 
 No `Date`, `Math.random`, timers, I/O or hidden globals are used; time/rng/ids come from
 `RulesContext`/`RulesHost`.
@@ -562,7 +586,9 @@ static `Record`), never game state. Add behaviour only in the file named for you
 | Effective Might / keywords (layers) | `src/layers/index.ts` | extend `effectiveMight`/`effectiveKeywords` (475–479); `legality/timing`, combat and cleanup already call them |
 | Owner-relative zone move | host call only (no engine edit) | `host.moveCardToOwnerZone(room, cardId, "hand"|"trash"|"deck"|"banished", position?)` |
 | Effect op | `src/effects/ops/<op>.ts` | `registerEffectOp("<op>", fn)`; import the file in `src/effects/ops/index.ts` |
-| Card script | `src/cards/<setCode>/<slug>.ts` | `registerCardScript({...})`; import it from `src/cards/<setCode>/index.ts` |
+| Card script | `src/cards/<SET>/<slug>.ts` (one card per file; see `docs/rules/CARD-AUTHORING.md`) | `registerCardScript({...})` from `../sdk`; import it from `src/cards/<SET>/index.ts` |
+| Set custom condition/effect | `src/cards/<SET>/custom.ts` | `registerCustomCondition("<set>:<id>", fn)` / `registerCustomEffect(...)`; shared ones as `core:` in `src/cards/lib/custom.ts` |
+| Typed DSL member (engine concept) | `packages/protocol/src/rules/effects.ts` + the consuming switch | add the union member; TypeScript's exhaustiveness checks find every consumer |
 | Public export | `src/api/{core,play,combat,effects}.ts` | add `export …` to your own barrel only |
 
 RulesHost is frozen after R1-SPLIT-R (R1-PREP-E only adds `moveCardToOwnerZone`): it already
@@ -614,8 +640,13 @@ pnpm --filter @rift/engine test           # 40 original sandbox parity tests + s
 pnpm typecheck                            # every workspace package
 cd packages/rules && node scripts/rules-coverage.mjs --check
 pnpm --filter @rift/rules coverage:rules  # write docs/rules-coverage.md
-pnpm --filter @rift/rules coverage:cards  # write docs/cards-coverage.md
+pnpm --filter @rift/rules coverage:cards  # write docs/cards-coverage.md + docs/cards-index.md
+pnpm --filter @rift/rules coverage:check  # CI: stale coverage / registry vs source-scan disagreement
 ```
+
+`test/registry/` holds the guardrails: `integrity.test.ts` (catalog, one script per name and file,
+layout, ids, vocabularies, prompt keys, import boundary, …) and `duplicates.test.ts`. CI is
+`.github/workflows/ci.yml` (typecheck, every suite, coverage checks, nightly self-play).
 
 Scenario DSL v1 lives at `packages/rules/test/scenarios/dsl.ts`; it builds a real strict duel at
 Main Phase from `createInitialGameState` plus the real engine host and exposes

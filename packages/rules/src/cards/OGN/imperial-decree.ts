@@ -2,8 +2,7 @@
  * Imperial Decree (OGN-221) — "When any unit takes damage this turn, kill it."
  * A delayed triggered ability (390–393) for the rest of the turn, not used up (393).
  */
-import { registerCardScript } from "../registry";
-import { EVENT_SUBJECT } from "../dsl";
+import { EVENT_SUBJECT, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Imperial Decree",

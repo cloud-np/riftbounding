@@ -1,5 +1,5 @@
 /** Flame Chompers — when you discard me, you may pay Fury to play me (385, 423). */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Flame Chompers",

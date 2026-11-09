@@ -8,15 +8,14 @@
  * as their canonical unscripted card. Flip to "implemented" once R2-play binds
  * `choices.additionalCost`.
  */
-import { registerCardScript } from "../registry";
-import { PAID_ADDITIONAL } from "../dsl";
+import { PAID_ADDITIONAL, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Meditation",
-  text:
-    "[REACTION] As an additional cost to play this, you may exhaust a friendly unit. If you do, draw 2. Otherwise, draw 1.",
+  text: "[REACTION] As an additional cost to play this, you may exhaust a friendly unit. If you do, draw 2. Otherwise, draw 1.",
   status: "manual",
-  notes: "Optional additional cost (exhaust a friendly unit) is R2-play's; kept manual for the R1 manual-window suites.",
+  notes:
+    "Optional additional cost (exhaust a friendly unit) is R2-play's; kept manual for the R1 manual-window suites.",
   abilities: [
     {
       kind: "spell",

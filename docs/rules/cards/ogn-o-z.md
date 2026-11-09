@@ -1,11 +1,13 @@
 # Origins (OGN) card scripts — names O–Z (wave R3)
 
+> **Layout (maintainability pass):** one card per file, `packages/rules/src/cards/<SET>/<slug>.ts`, in the set that first printed the card; the set's custom ids and shared builders are in `<SET>/custom.ts`; shared builders and `core:` ids in `src/cards/lib` (through `src/cards/sdk.ts`). See [CARD-AUTHORING.md](../CARD-AUTHORING.md). File names below are the per-card files; the generated name → file → tests index is `docs/cards-index.md`.
+
 Lane `ogn-oz`. Scripts live in `packages/rules/src/cards/OGN/<slug>.ts` and are imported from
-`packages/rules/src/cards/OGN/batch-o-z.ts`; behaviour tests are in
+`packages/rules/src/cards/OGN/index.ts`; behaviour tests are in
 `packages/rules/test/cards/ogn-o-z/` (one test per card, titled `[C:Card Name]` plus rule ids).
 Card text is the current text from `packages/cards/data/cards.json` (errata applied).
 
-Custom conditions/effects registered by this lane use the `ogn-oz:` prefix and are registered in
+Custom conditions/effects registered by this lane use the `ogn:` prefix and are registered in
 the script file of the card that needs them (cards sharing one import that file).
 
 ## Capability gaps

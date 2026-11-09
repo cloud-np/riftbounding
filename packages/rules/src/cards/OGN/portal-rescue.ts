@@ -6,8 +6,7 @@
  * the `play` op plays as the ability's controller, so when the friendly unit is owned by another
  * player (e.g. taken with Possession) "its owner plays it" is left to the manual window.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Portal Rescue",

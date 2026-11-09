@@ -6,8 +6,7 @@
  * (391.4 / 475): each friendly unit with a buff (one at most, 702.3) gets +1 more Might; it also
  * covers units buffed later this turn.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Stand United",

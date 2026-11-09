@@ -3,15 +3,14 @@
  * turn." (440.2.c: a played token is `unit_played` with `data.token`) and "Your token units have
  * [Tank]" (365.1 passive). The catalog's [Tank] is the granted one, not mine (suppressed).
  */
-import { registerCardScript } from "../registry";
-import { SELF } from "../dsl";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Lillia, Protector of Dreams",
   text: "When you play a token unit, give me +1[Might] this turn.\nYour token units have [Tank]",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Tank", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Tank" },
     {
       kind: "triggered",
       trigger: {

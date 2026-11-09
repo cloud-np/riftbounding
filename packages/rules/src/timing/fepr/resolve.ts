@@ -1,7 +1,6 @@
 /** Resolve — rules 340.1, including the §6.4 manual fallback and resolution-time prompts. */
 import type { ChainItem, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../../types";
-import { getCardScript } from "../../cards/registry";
 import { executeCardScript } from "../../effects/execute";
 import { repeatExecutions, repeatRunChoices } from "../../play/repeat";
 import { afterChainItemResolved } from "./after";
@@ -88,7 +87,5 @@ export function continueRepeatResolution(room: Room, item: ChainItem, step: Rule
 /** 820.1.d / 820.3: total executions of this item (1 + paid Repeat instances). */
 export function repeatRunCount(item: ChainItem): number {
   if (item.kind !== "card") return 1;
-  const script = item.cardName ? getCardScript(item.cardName) : undefined;
-  if (script?.repeatHandled) return 1;
   return 1 + repeatExecutions(item.optionalCosts ?? []);
 }

@@ -2,11 +2,15 @@
  * Rage Amplifier (VEN-018, gear) — "[Empower][6][Fury] Your units have +1 [Might]. If I'm
  * [Empowered], they have +2 [Might] instead." (827.1.c.1; 364.3.a conditional passives)
  */
-import { registerCardScript } from "../registry";
-import { not } from "../dsl";
-import { SELF_EMPOWERED, conditional, empower } from "./shared";
+import {
+  whilePassive as conditional,
+  empower,
+  not,
+  registerCardScript,
+  SELF_EMPOWERED,
+} from "../sdk";
 
-const YOUR_UNITS = { cardType: "unit", controller: "self" as const };
+const YOUR_UNITS = { cardType: "unit" as const, controller: "self" as const };
 
 registerCardScript({
   name: "Rage Amplifier",

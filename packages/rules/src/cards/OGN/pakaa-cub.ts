@@ -1,5 +1,5 @@
 /** Pakaa Cub (OGN-135) — [Hidden] (811) is implemented by the play layer; no other text. */
-import { registerCardScript } from "../registry";
+import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Pakaa Cub",

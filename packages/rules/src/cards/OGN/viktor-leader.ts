@@ -1,6 +1,5 @@
 /** Viktor, Leader (OGN-246 — EX[161] (383.2.c.2)) */
-import { registerCardScript } from "../registry";
-import { token } from "../dsl";
+import { registerCardScript, token } from "../sdk";
 
 registerCardScript({
   name: "Viktor, Leader",
@@ -17,7 +16,10 @@ registerCardScript({
             cardType: "unit",
             controller: "self",
             excludeSource: true,
-            where: { kind: "not", condition: { kind: "exists", selector: { targetRef: "it", tag: "Recruit" } } },
+            where: {
+              kind: "not",
+              condition: { kind: "exists", selector: { targetRef: "it", tag: "Recruit" } },
+            },
           },
         },
       },

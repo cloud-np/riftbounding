@@ -5,35 +5,7 @@
  * cost (Power ignored). The unit is a target chosen on play (355.7, validated on resolution by
  * `for_each`); the amount is computed on resolution and dealt through the real `deal` op.
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
-import { registerCustomEffect } from "../../effects/ops";
-import { RESOLVED } from "../../effects/execute";
-import { refIds } from "../../effects/evaluate";
-import { evalContextOf } from "../../effects/targets";
-import { costsOf } from "../../effects/objects";
-
-/** Bind the objects the previous instruction affected to `key` (e.g. the discarded card). */
-registerCustomEffect("ogn-an:remember-affected", (params, context) => {
-  const machine = context.machine;
-  if (machine)
-    machine.env.vars[String(params.key ?? "remembered")] = [
-      ...((machine.env.vars.$affected as string[] | undefined) ?? []),
-    ];
-  return RESOLVED;
-});
-
-/** Deal the summed printed Energy cost of the cards bound to `ref` to "it" (418). */
-registerCustomEffect("ogn-an:deal-energy-cost-of", (params, context) => {
-  const machine = context.machine;
-  if (!machine) return RESOLVED;
-  const ctx = evalContextOf(context);
-  const ids = refIds(ctx, String(params.ref ?? "remembered"));
-  if (ids.length === 0 || !machine.env.it) return RESOLVED;
-  const amount = ids.reduce((sum, id) => sum + (costsOf(ctx.room, ctx.host, id)?.energy ?? 0), 0);
-  machine.push({ effect: { op: "deal", amount, target: { targetRef: "it" } }, it: machine.env.it });
-  return RESOLVED;
-});
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Get Excited!",
@@ -46,13 +18,13 @@ registerCardScript({
         op: "seq",
         effects: [
           { op: "discard", amount: 1 },
-          { op: "custom", id: "ogn-an:remember-affected", params: { key: "discarded" } },
+          { op: "custom", id: "ogn:remember-affected", params: { key: "discarded" } },
           {
             op: "for_each",
             selector: aUnit({ zone: "battlefield" }),
             effect: {
               op: "custom",
-              id: "ogn-an:deal-energy-cost-of",
+              id: "ogn:deal-energy-cost-of",
               params: { ref: "discarded" },
             },
           },

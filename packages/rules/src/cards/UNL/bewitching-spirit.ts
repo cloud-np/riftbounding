@@ -1,6 +1,5 @@
 /** Bewitching Spirit (UNL-121) — Play Effect: choose a player (355.7); they discard 1 (423.1.a: they choose). */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Bewitching Spirit",

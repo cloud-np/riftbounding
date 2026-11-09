@@ -25,8 +25,8 @@ Wave R4-engine closed the play-side `[BUG]` reproductions (wire additions in
   non-symbol cost (`[Repeat] - Discard 1`). Each paid instance executes the instructions one
   additional time at resolution; the play-time choices of execution `n` are bound as
   `repeat:<n>:<key>` (820.2.a allows different targets) and Deflect on them is charged per
-  execution. `CardScript.repeatHandled` keeps scripts that still implement their own repeat from
-  running twice until R4-cards removes them.
+  execution. (The R3 `CardScript.repeatHandled` workaround flag was removed in the
+  maintainability pass: no script implements its own repeat.)
 - **Deflect (809.1.c / 809.2).** The charge is
   `max(array keyword value, effectiveKeywordValues().deflect)`, so `[Deflect 2]`, passive Deflect
   and granted instances charge their full value for every choice of the object — including
@@ -85,7 +85,7 @@ Wave R4-engine closed the play-side `[BUG]` reproductions (wire additions in
 | `src/play/keywords.ts` | 135.2.d.3, 135.2.e.7, 801–803, 819.1.b | card-level keywords from rules text |
 | `src/play/keyword-helpers.ts` | 812, 821 | `legionActive`, `recordFinalizedCard`, `weaponmasterEquipCosts` |
 | `src/play/locations.ts` | 355.2, 451.2, 811.1.d.1, 822, 830 | valid play Locations |
-| `src/play/permissions.ts` | 354, 356.1, 420.1.a, 811.1.b | where a card may be played from (+ `registerPlayPermission`) |
+| `src/play/permissions.ts` | 354, 356.1, 420.1.a, 811.1.b | where a card may be played from (the script's `playPermissions`, + effect-granted `registerPlayPermission` providers) |
 | `src/play/hidden.ts` | 107.3, 422, 811.1.b | the Hide discretionary action |
 | `src/play/triggered.ts` | 399–407 | `prepareTriggeredItem`: a Pending trigger through 403.1/403.4/404.1.b.1/405.2/407 |
 | `src/play/control.ts` | 107.3, 190, 451.2 | battlefield presence/control proxy |

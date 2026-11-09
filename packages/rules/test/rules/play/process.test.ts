@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RulesIntent } from "@rift/protocol";
-import { clearCardScripts, explainIllegal, legalIntents, registerActionInterceptor, registerCardScript, turnState, whoMayAct } from "../../../src";
+import { explainIllegal, legalIntents, registerActionInterceptor, turnState, whoMayAct } from "../../../src";
+import { clearCardScripts, registerTestCardScript } from "../../../src/testing";
 import * as fake from "./fake-effects";
 import { bareScenario, boardOf, place, pool, runeState, setPool, setRunes, toHand } from "./helpers";
 import type { RulesScenario } from "../../scenarios/dsl";
@@ -38,7 +39,7 @@ function applyAndExplain(s: RulesScenario, player: string, intent: RulesIntent) 
 }
 
 function registerTargetSpell(name: string, specs: Parameters<typeof fake.setSpecs>[1]) {
-  registerCardScript({ name, text: "test", status: "implemented", abilities: [fake.fakeAbility(name)] });
+  registerTestCardScript({ name, text: "test", status: "implemented", abilities: [fake.fakeAbility(name)] });
   fake.setSpecs(name, specs);
 }
 
@@ -278,7 +279,7 @@ describe("play-time choices [R355.3–R355.13][R411.2]", () => {
   it("[R355.5.b][EX:355.5.b] a Unit's play trigger chooses its targets later, not while the Unit is played", () => {
     const s = bareScenario({ p1: { energy: 8, power: { Calm: 2 } } });
     // "When you play me, give a unit +8 Might" — no target is chosen to play the unit.
-    registerCardScript({ name: "Whiteflame Protector", text: "test", status: "implemented", abilities: [fake.fakeAbility("Whiteflame Protector")] });
+    registerTestCardScript({ name: "Whiteflame Protector", text: "test", status: "implemented", abilities: [fake.fakeAbility("Whiteflame Protector")] });
     fake.setSpecs("Whiteflame Protector", (room, host) => [fake.anyUnitSpec(room, host)]);
     const card = toHand(s, "p1", "Whiteflame Protector");
     s.as("p1").apply({ type: "rules_play", cardId: card.id }).expectOk();

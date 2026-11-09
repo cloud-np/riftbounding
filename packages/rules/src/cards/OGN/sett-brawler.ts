@@ -6,8 +6,7 @@
  * my buff" is not a payable activation cost (702.2.b); the ability is written with the cost kept as
  * an unsupported phrase, so it is unpayable (203.3) rather than free.
  */
-import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED } from "../dsl";
+import { registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Sett, Brawler",

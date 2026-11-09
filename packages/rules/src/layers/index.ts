@@ -183,11 +183,11 @@ function keywordEntries(
       const modifier = active.modifier;
       if (modifier.kind === "keyword") {
         if (!modifierTargets(room, host, active, objectId, depth + 1)) continue;
-        added.push(splitKeyword(String(modifier.keyword)));
-      } else if (modifier.kind === "custom" && modifier.id === "remove-keyword") {
+        const entry = splitKeyword(String(modifier.keyword));
+        added.push(modifier.value === undefined ? entry : { name: entry.name, value: modifier.value });
+      } else if (modifier.kind === "remove-keyword") {
         if (!modifierTargets(room, host, active, objectId, depth + 1)) continue;
-        const keyword = modifier.params?.keyword;
-        if (typeof keyword === "string") removed.add(keyword.toLowerCase());
+        removed.add(modifier.keyword.toLowerCase());
       }
     }
   }
@@ -279,7 +279,7 @@ export function effectiveKeywordValues(room: Room, objectId: string, host: Rules
 /**
  * Catalog keyword lists include keywords that only appear in reminder text or in a dependent /
  * granted ability (e.g. Clanging Sentry's "Your Mechs have [Disarm]", Gustwalker's "[Level 3] …
- * [Ganking]"). A script marks such a keyword with `{ kind: "keyword", keyword, value: 0 }`: it is
+ * [Ganking]"). A script marks such a keyword with `{ kind: "suppress-printed-keyword", keyword }`: it is
  * not intrinsic, and only applies when an ability actually grants it (727.1.b, 831.2).
  */
 function withoutSuppressed(room: Room, objectId: string, printed: string[], host: RulesHost | null): string[] {
@@ -288,8 +288,8 @@ function withoutSuppressed(room: Room, objectId: string, printed: string[], host
   if (!script) return printed;
   const suppressed = new Set(
     script.abilities
-      .filter((ability) => ability.kind === "keyword" && ability.value === 0)
-      .map((ability) => String((ability as { keyword: string }).keyword).toLowerCase()),
+      .filter((ability) => ability.kind === "suppress-printed-keyword")
+      .map((ability) => (ability as { keyword: string }).keyword.toLowerCase()),
   );
   if (suppressed.size === 0) return printed;
   return printed.filter((keyword) => !suppressed.has(splitKeyword(keyword).name.toLowerCase()));

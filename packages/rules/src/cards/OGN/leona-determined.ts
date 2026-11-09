@@ -1,6 +1,5 @@
 /** Leona, Determined (OGN-238) — [Shield] (814); "When I attack, stun an enemy unit here." (383.4.e; 424) */
-import { registerCardScript } from "../registry";
-import { HERE, SELF, aUnit } from "../dsl";
+import { aUnit, HERE, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Leona, Determined",

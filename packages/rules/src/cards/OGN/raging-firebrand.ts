@@ -5,8 +5,7 @@
  * `cost-adjust` with `once`. Partial: R2-effects uses up every "next card" reduction on the next
  * `card_played` of that player whatever its type, so playing a unit or gear first wastes it.
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED } from "../dsl";
+import { registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Raging Firebrand",
@@ -22,9 +21,10 @@ registerCardScript({
         op: "continuous",
         duration: "this-turn",
         modifier: {
-          kind: "custom",
-          id: "cost-adjust",
-          params: { energy: -5, once: true, target: { cardType: "spell", controller: "self" } },
+          kind: "cost-adjust",
+          energy: -5,
+          once: true,
+          target: { cardType: "spell", controller: "self" },
         },
       },
     },

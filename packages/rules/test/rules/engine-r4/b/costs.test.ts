@@ -2,9 +2,10 @@
  * Lane B R4 proof tests — costs: 356.4.f.1 "paid the optional additional cost" and 809 Deflect.
  */
 import { describe, expect, it } from "vitest";
-import { effectiveKeywordValues, getCardScript, registerCardScript } from "../../../../src";
+import { effectiveKeywordValues, getCardScript } from "../../../../src";
 import { boardOf, fund, place } from "../../effects/helpers";
 import { addPool, exhaustRunes, settle, withCards } from "../../../cards/ven-ogs/helpers";
+import { registerTestCardScript } from "../../../../src/testing";
 
 describe("paid optional additional cost [R356.4.f.1][R355.1.a]", () => {
   it("[R356.4.f.1][R355.1.a][C:Clockwork Keeper] paying with runes is not paying the optional additional cost", () => {
@@ -67,12 +68,12 @@ describe("Deflect [R809]", () => {
 
   it("[R809.1.c][R809.2] Deflect granted by a passive is charged at its value (not a bare 1)", () => {
     const original = getCardScript("Treasure Hunter")!;
-    registerCardScript({
+    registerTestCardScript({
       ...original,
       abilities: [
         {
           kind: "passive",
-          modifier: { kind: "keyword", keyword: "Deflect 2", target: { targetRef: "self" } },
+          modifier: { kind: "keyword", keyword: "Deflect", value: 2, target: { targetRef: "self" } },
         },
       ],
     });
@@ -89,7 +90,7 @@ describe("Deflect [R809]", () => {
       // Base [1][Fury] plus Deflect [A][A]: 1 Energy and 1 Fury + 2 any consumed.
       expect(s.room.rules?.pools.p1).toEqual({ energy: 0, power: { any: 1 } });
     } finally {
-      registerCardScript(original);
+      registerTestCardScript(original);
     }
   });
 });

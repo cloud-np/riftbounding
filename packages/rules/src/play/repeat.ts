@@ -14,14 +14,10 @@
  *    separately (809.1.c: "for each time they choose me").
  * 2. **Execution count (820.1.d.1, 820.3).** `repeatExecutions` counts the paid instances; the
  *    resolution loop in `timing/fepr/resolve.ts` runs the script once per execution.
- *
- * Scripts that still implement the repeat themselves ("if you paid the Repeat cost" workaround)
- * set `CardScript.repeatHandled`; R4-cards removes those workarounds and the flag.
- */
+ * */
 import type { Ability, ChoiceRecord, Room } from "@rift/protocol";
 import type { CardInfo, RulesHost } from "../host";
 import type { RulesFailure } from "../types";
-import { getCardScript } from "../cards/registry";
 import { requiredChoices, validateChoices, type ChoiceSpec } from "../effects/choices";
 import { deflectCostsForTargets, type AdditionalCostSpec } from "./additional-costs";
 import { bindChoices, bindOptions, restrictToFacedown } from "./choices";
@@ -34,11 +30,6 @@ export function repeatExecutions(optionalCosts: readonly string[]): number {
   let count = 0;
   for (const id of optionalCosts) if (REPEAT_COST_ID.test(id)) count += 1;
   return count;
-}
-
-/** 820.1.d: the script executes the repeat itself (pre-engine-Repeat workaround). */
-export function repeatHandledByScript(cardName: string | undefined): boolean {
-  return cardName ? getCardScript(cardName)?.repeatHandled === true : false;
 }
 
 /** The choice key of execution `run` (1 = first repeated execution): `repeat:<run>:<key>`. */
@@ -130,7 +121,6 @@ export function bindRepeatChoices(
 ): RepeatChoiceBinding | RulesFailure {
   const unchanged = (): RepeatChoiceBinding => ({ ok: true, choices: { ...request.choices }, targetKeys: [], pending: null });
   if (!info || !ability) return unchanged();
-  if (repeatHandledByScript(info.name)) return unchanged();
   const runs = repeatExecutions(request.optionalCosts);
   if (runs === 0) return unchanged();
 

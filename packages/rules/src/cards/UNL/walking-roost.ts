@@ -3,8 +3,7 @@
  * a 1 [Might] Bird token with [Deflect]; they own and control it (182/183/440.4), in their base
  * (440.2.b.1).
  */
-import { registerCardScript } from "../registry";
-import { WHEN_PLAYED, token } from "../dsl";
+import { registerCardScript, token, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Walking Roost",

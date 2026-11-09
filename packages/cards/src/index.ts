@@ -9,6 +9,7 @@
 export * from "./types";
 export * from "./tokens";
 export * from "./catalog";
+export * from "./catalog-keywords";
 export * from "./images";
 export * from "./deck-text";
 export * from "./deck-builder";

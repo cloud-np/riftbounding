@@ -2,8 +2,7 @@
  * Mesmerize (VEN-052) — "[Reaction] Choose one — • Return a friendly unit to its owner's hand.
  * • Give an enemy unit -2 [Might] this turn." (355.3 modes)
  */
-import { registerCardScript } from "../registry";
-import { aUnit } from "../dsl";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Mesmerize",
