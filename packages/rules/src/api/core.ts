@@ -91,6 +91,8 @@ export { whoMayAct, legalIntents, explainIllegal } from "../view";
 export { promptFor } from "../view";
 export { gate, isCosmeticAction, isManualBoardAction } from "../gate";
 
+export { pickRandomAction, pickPromptAnswer, mulberry32 } from "../bot/random";
+
 export { validateRulesIntent, WIRE_VALIDATORS } from "../legality/intent";
 export {
   abilityTimingVerdict,
@@ -115,8 +117,6 @@ export type {
   PromptHandlerResult,
   PromptReason,
 } from "../prompts";
-
-export { pickRandomAction, pickPromptAnswer, mulberry32 } from "../bot/random";
 
 export * as primitives from "../actions/primitives";
 export {
