@@ -338,8 +338,9 @@ describe("fixture deck card scripts", () => {
     expect(victoryScoreAdjustment(other.room, other.host)).toBe(0);
   });
 
-  it("[C:Bandle Tree] exposes one additional hidden card slot for R2-play", () => {
+  it("[C:Bandle Tree] exposes one additional hidden card slot (read by the hide legality, test/edge-cases/hidden.test.ts)", () => {
     const s = scenario({ battlefields: { p1: "Bandle Tree" } });
     expect(activeModifiers(s.room, s.host).some((m) => m.modifier.kind === "hide-limit")).toBe(true);
+    expect(getCardScript("Bandle Tree")?.status).toBe("implemented");
   });
 });

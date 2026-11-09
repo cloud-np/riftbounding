@@ -1,15 +1,14 @@
 /**
  * Bandle Tree (OGN-278, battlefield) — "You may hide an additional card here."
  *
- * Hiding (422 / Hidden 811) is R2-play's; the battlefield exposes a `hide-limit` modifier
- * (+1 card here) for it to read.
+ * 107.3.b.1: the battlefield's `hide-limit` modifier raises its Facedown Zone's maximum occupancy
+ * by one; the hide legality (`play/hidden.ts` `facedownCapacity`) reads it.
  */
 import { registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Bandle Tree",
   text: "You may hide an additional card here.",
-  status: "partial",
-  notes: "Hidden/hide limits are R2-play's; they read the `hide-limit` modifier.",
+  status: "implemented",
   abilities: [{ kind: "passive", modifier: { kind: "hide-limit", amount: 1 } }],
 });
