@@ -40,6 +40,8 @@ describe("combat seams [R323.13][R466.2.c.1.b][R468.7]", () => {
     s.as("p2").pass().expectOk();
     // p1 conquered the battlefield; p2 now attacks it.
     s.as("p1").endTurn().expectOk();
+    // 167: P2's Rune Pool emptied at the start of their Main Phase; 357: fund Caitlyn's cost.
+    s.room.rules!.pools.p2 = { energy: 3, power: { Calm: 1 } };
     s.as("p2").play("Caitlyn, Patrolling").expectOk();
     readyUnit(s, "Caitlyn, Patrolling");
     s.as("p2").move("Caitlyn, Patrolling", "battlefieldA").expectOk();

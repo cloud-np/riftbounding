@@ -52,6 +52,8 @@ describe("showdowns [R341–R348]", () => {
 
     // P2's turn: attack the battlefield P1 just conquered.
     s.as("p1").endTurn().expectOk();
+    // 167: P2's Rune Pool emptied at the start of their Main Phase; 357: fund Caitlyn's cost.
+    s.room.rules!.pools.p2 = { energy: 3, power: { Calm: 1 } };
     s.as("p2").play("Caitlyn, Patrolling").expectOk();
     readyUnit(s, "Caitlyn, Patrolling");
     s.as("p2").move("Caitlyn, Patrolling", "battlefieldA").expectOk();
