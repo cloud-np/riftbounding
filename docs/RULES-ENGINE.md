@@ -49,6 +49,13 @@ Lobby rule: `set_lobby_rules_mode` is handled in `packages/engine/src/engine.ts`
 lobby only). It is **not** in `ACTION_HANDLERS`, so the original action-coverage test still
 asserts its 99 sandbox wire actions unchanged; `rules_*` are routed before the handler map.
 
+Realtime (R2-int): `set_lobby_rules_mode` arrives as a `room_shell_action`, is validated by the
+engine handler above and mirrored on `RoomSessionDoc.rulesMode`; `rules_*` intents (including
+`rules_concede`, 649–652) arrive as `action_intent`. A rejected intent's `error` frame carries the
+ReasonCode as `code` plus `rule`/`detail`. Snapshots and patches carry a per-viewer redacted
+`Room.rules` (`packages/sync/src/redact-rules.ts`, privacy matrix in
+[`docs/rules/int.md`](rules/int.md)).
+
 In strict rooms every non-`rules_*` gameplay action goes through `gate()`:
 cosmetic/meta actions (dice, arrows/pings, board settings, card labels) are allowed; the §6.4
 manual window additionally allows its player's board actions; everything else is
@@ -553,11 +560,8 @@ Remaining:
 
 - **491.8.a teammate invitations** (a teammate acting on the Turn Player's turn) are not
   implemented; the priority domain owns them.
-- **Concede is not wired to an intent.** `concede(room, playerId, step)` exists (649–652) but
-  needs a new wire intent (R2-int). 652.2 battlefield replacement only emits an event; a removed
-  Turn Player's turn hand-off is a RULES-QUESTION.
-- **Sync redaction of `prompt.data.continuation`** (`effects.resume` carries looked-at card ids)
-  is R2-int's.
+- **Concede** is wired through `rules_concede` (R2-int, 649–652). 652.2 battlefield replacement
+  only emits an event; a removed Turn Player's turn hand-off is a RULES-QUESTION.
 - **Restore drops mid-resolution context.** `restoreRulesState` rebuilds only turn fields, so a
   strict room whose `RulesState` is lost mid-chain resumes at Main with empty
   chain/tasks/triggers/effects/pools/`contested`/`scoredThisTurn`, no stored battlefield control
@@ -594,5 +598,6 @@ RULES-QUESTIONs); the integration notes above supersede their merge-wiring secti
   scoring 469–474, victory.
 - [`docs/rules/effects.md`](rules/effects.md) — R2-effects: Effect DSL 412–448, triggers 382–398,
   replacements 367–375, layers 475–479, card scripts.
-- [`docs/rules/int.md`](rules/int.md) — R2-int: sync redaction, realtime routing, apps/play strict
-  UI, i18n reason strings.
+- [`docs/rules/int.md`](rules/int.md) — R2-int: per-viewer redaction of `Room.rules` (privacy
+  matrix), realtime routing of `rules_*` / `set_lobby_rules_mode` / rejections, `rules_concede`,
+  i18n reason and prompt strings.

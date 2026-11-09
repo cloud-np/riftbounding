@@ -176,3 +176,19 @@ interpreter `continuation`, to be redacted for other viewers by R2-int), `effect
 Semantics notes (no shape change): `ObjectRulesState` Might values may now be read back as
 negative (143.2.c.1); a spell waiting on an `effects.resume` prompt stays on `RulesState.chain`
 until its continuation finishes (340/359), so `spell_resolved` follows the instructions it ran.
+
+## R2-int — sync, realtime, concede, i18n (additive)
+
+| file | change | why |
+| --- | --- | --- |
+| `src/rules/intents.ts` | `RulesConcedeIntent` (`{ type: "rules_concede" }`) added to `RulesIntent` and `RulesWireAction` | 649–652: `concede()` existed but no wire action reached it; the protocol has no sandbox concede/surrender gameplay action (`abandon_match` is a room HTTP API action) |
+| `src/messages.ts` | `ServerErrorMessage.rule?: string`, `ServerErrorMessage.detail?: string` | §5: a rejected `rules_*` intent reaches the sender with its ReasonCode (`code`) and rule separately; `@rift/sync` validates both as optional strings |
+| `src/game-state.ts` | `RoomSessionDoc.rulesMode?: RulesMode` | the strict toggle lives on the room shell in the lobby (`set_lobby_rules_mode` is a `RoomShellAction`), so lobby clients need the current mode |
+
+`src/rules/domains/int.ts` is unchanged (every hook stays `never` / empty): the strict UI needs no
+extra wire state. Not a type change but a wire-content change: per-viewer snapshots and patches now
+carry a redacted `Room.rules` (another seat's prompt is a shell, private card ids are rewritten to
+`__hidden_zone__` placeholders, private object state and prompt answers are dropped; see
+`docs/rules/int.md`), and another seat's `mulliganPlaybackByPlayerId` card ids are placeholders.
+No existing field, action or message was renamed or removed; `OPTIMISTIC_ACTIONS` is unchanged.
+
