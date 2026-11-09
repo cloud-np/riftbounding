@@ -131,9 +131,10 @@ function redactBoard(
       ? (redactZone(board.hand, playerId, "hand", viewer, { hideFaceDown: false }) ?? [])
       : (redactZone(board.hand, playerId, "hand", viewer, { hideAll: true }) ?? []),
     base: redactZone(board.base, playerId, "base", viewer, { hideFaceDown: true }) ?? [],
-    trash: redactZone(board.trash, playerId, "trash", viewer, { hideFaceDown: true }) ?? [],
-    banished:
-      redactZone(board.banished, playerId, "banished", viewer, { hideFaceDown: true }) ?? [],
+    // Trash and Banishment are Public Information (108.2.d / 108.6.e): a stale `hidden`
+    // marker on a card there never hides its identity from another viewer.
+    trash: redactZone(board.trash, playerId, "trash", viewer) ?? [],
+    banished: redactZone(board.banished, playerId, "banished", viewer) ?? [],
     battlefieldA:
       redactZone(board.battlefieldA, playerId, "battlefieldA", viewer, { hideFaceDown: true }) ??
       [],

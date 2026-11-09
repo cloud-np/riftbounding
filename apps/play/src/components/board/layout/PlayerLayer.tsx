@@ -4,6 +4,7 @@ import type { CardInstance, PlayerBoard, RoomPlayer } from "@rift/protocol";
 
 import type { CardEventHandler, CardSide } from "../card/types";
 import { GameCard } from "../card/GameCard";
+import { GameCardFace } from "../card/GameCardFace";
 import { HandSlot } from "../interaction/HandSlot";
 import { useBoardInteractionOptional } from "../interaction/context";
 import { BaseZone, RuneArea } from "../zones/ZoneRails";
@@ -79,6 +80,40 @@ function CardZone({
   );
 }
 
+/**
+ * Trash and banished are public zones (R108/R109): the top card is always face up. Clicks bubble
+ * to the pile section (which opens the pile viewer) and hovering shows the card preview.
+ */
+function PileTopCard({
+  card,
+  owner,
+  slot,
+}: {
+  card: CardInstance;
+  owner: CardSide;
+  slot: "trash" | "banished";
+}) {
+  const interaction = useBoardInteractionOptional();
+  return (
+    <div
+      data-pile-top-card={slot}
+      data-pile-owner={owner}
+      data-card-id={card.id}
+      data-card-code={card.cardCode}
+      className="relative w-(--card-width) h-(--card-height) overflow-hidden rounded-(--card-radius-main) border border-[rgba(165,184,207,0.3)] bg-[rgba(8,18,32,0.6)] shadow-[0_6px_16px_rgba(3,8,20,0.45)]"
+      onPointerEnter={(event) => interaction?.showCardPreview(card, event.currentTarget)}
+      onPointerLeave={() => interaction?.hideCardPreview()}
+    >
+      <GameCardFace
+        card={card}
+        profile="board"
+        mirrored={owner === "opponent"}
+        side={owner}
+      />
+    </div>
+  );
+}
+
 export interface PlayerLayerProps {
   player: RoomPlayer;
   board: PlayerBoard;
@@ -109,6 +144,8 @@ export function PlayerLayer({
 }: PlayerLayerProps) {
   const opponent = side === "opponent";
   const interaction = useBoardInteractionOptional();
+  const topTrash = board.trash?.at(-1) ?? null;
+  const topBanished = board.banished?.at(-1) ?? null;
   const effectiveCardHandler = onCardEvent ?? interaction?.handleCardEvent;
   const allHandCardsRevealed =
     (board.hand ?? []).length > 0 && (board.hand ?? []).every((card) => !!card.revealedToOpponent);
@@ -260,13 +297,25 @@ export function PlayerLayer({
               className="min-h-0 relative flex items-center justify-center h-full w-full overflow-visible pb-0"
             >
               <div
-                className={"relative" + (opponent ? " rotate-180 origin-center" : "")}
-                aria-hidden="true"
+                className="relative flex items-center justify-center"
                 style={{
                   width: "calc(var(--card-width) + 0.56rem * var(--pile-stack-spread-scale, 1))",
                   height: "calc(var(--card-height) + 0.56rem * var(--pile-stack-spread-scale, 1))",
                 }}
-              />
+              >
+                {topTrash ? (
+                  <PileTopCard card={topTrash} owner={side} slot="trash" />
+                ) : (
+                  <div
+                    className="relative"
+                    aria-hidden="true"
+                    style={{
+                      width: "calc(var(--card-width) + 0.56rem * var(--pile-stack-spread-scale, 1))",
+                      height: "calc(var(--card-height) + 0.56rem * var(--pile-stack-spread-scale, 1))",
+                    }}
+                  />
+                )}
+              </div>
             </div>
           </section>
           <button
@@ -291,7 +340,26 @@ export function PlayerLayer({
               interaction?.handlePileContextMenu("banished", side, event);
             }}
           >
-            <span aria-hidden="true">◈</span>
+            {topBanished ? (
+              <span
+                data-pile-top-card="banished"
+                data-pile-owner={side}
+                data-card-id={topBanished.id}
+                data-card-code={topBanished.cardCode}
+                className="relative h-[1.35rem] w-[0.97rem] shrink-0 overflow-hidden rounded-[0.08rem] border border-[rgba(192,176,244,0.42)] bg-[rgba(12,10,22,0.72)]"
+                onPointerEnter={(event) => interaction?.showCardPreview(topBanished, event.currentTarget)}
+                onPointerLeave={() => interaction?.hideCardPreview()}
+              >
+                <GameCardFace
+                  card={topBanished}
+                  profile="thumb"
+                  mirrored={opponent}
+                  side={side}
+                />
+              </span>
+            ) : (
+              <span aria-hidden="true">◈</span>
+            )}
             <span>{board.banished?.length ?? 0}</span>
           </button>
         </div>
