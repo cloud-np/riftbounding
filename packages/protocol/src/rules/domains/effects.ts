@@ -181,6 +181,12 @@ export interface EffectsObjectFields {
    * cost" play effects.
    */
   paidAdditionalCost?: boolean;
+  /**
+   * 359.3.e.4: chain items that chose this object while it was on the board. The rules object is
+   * dropped when the object leaves the board, so a target that left and came back no longer
+   * carries the item id (it is "not the same object").
+   */
+  targetedBy?: string[];
 }
 
 /** Per-turn bookkeeping kept by the effects layer (reset with `RulesHistory` each turn). */

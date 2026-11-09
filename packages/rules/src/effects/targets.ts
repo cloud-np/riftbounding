@@ -109,6 +109,8 @@ export function targetStillLegal(ctx: EvalContext, selector: Selector, id: strin
     const isBoard = isBoardZone(room, host, located.zone);
     if (wasBoard !== isBoard) return false;
     if (!wasBoard && snapshot.zone !== located.zone) return false;
+    // 359.3.e.4: it left the board and came back — not the same object any more.
+    if (wasBoard && env.itemId && !(room.rules?.objects[id]?.targetedBy ?? []).includes(env.itemId)) return false;
   }
   if (!matchesSelector(ctx, selector, id)) return false;
   return targetable(ctx, selector, id);

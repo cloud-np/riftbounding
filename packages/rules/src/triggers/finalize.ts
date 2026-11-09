@@ -24,7 +24,7 @@ import { requiredChoices } from "../effects/choices";
 import type { EffectExecutionContext } from "../effects/execute";
 import { costPayable, payInstructionCost } from "../effects/ops/cost-then";
 import { idsOf } from "../effects/env";
-import { findChainItem, locate } from "../effects/objects";
+import { findChainItem, isBoardZone, locate } from "../effects/objects";
 import { EFFECTS_PROMPT_REASONS } from "../prompts/effects/reasons";
 import { noteLimitUse } from "./detect";
 
@@ -48,6 +48,11 @@ export function snapshotTargets(room: Room, item: ChainItem, step: RulesStepCont
       if (located) {
         snapshot[id] = { zone: located.zone, controller: located.playerId };
         any = true;
+        // 359.3.e.4: mark the board object so a leave-and-return is detectable on resolution.
+        if (room.rules && isBoardZone(room, step.host, located.zone)) {
+          const object = (room.rules.objects[id] ??= {});
+          object.targetedBy = [...(object.targetedBy ?? []).filter((entry) => entry !== item.id), item.id];
+        }
       } else if (findChainItem(room, id)) {
         snapshot[id] = { zone: "chain" };
         any = true;

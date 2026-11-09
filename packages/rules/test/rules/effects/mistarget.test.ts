@@ -1,7 +1,7 @@
 import { afterEach, beforeAll, describe, expect, it } from "vitest";
 import { registerActionInterceptor } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
-import { boardOf, place, registerAll, spell, zoneOf } from "./helpers";
+import { boardOf, place, registerAll, run, spell, zoneOf } from "./helpers";
 
 const unsubscribe: Array<() => void> = [];
 afterEach(() => {
@@ -83,6 +83,20 @@ describe("mistargeting on resolution [R359.3.e]", () => {
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, enemy.id)).toBe("hand");
     expect(s.room.rules?.objects[enemy.id]?.damage ?? 0).toBe(0);
+  });
+
+  it("[R359.3.e.4] a target that went to a non-board zone and came back is a new object (illegal)", () => {
+    const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
+    const enemy = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
+    s.as("p1").play("Rebuke", { choices: { "target:0": enemy.id } }).expectOk();
+    expect(s.room.rules!.objects[enemy.id]?.targetedBy).toEqual([s.room.rules!.chain[0]!.id]);
+    // In reaction it is returned to hand (its rules object is dropped) and put back.
+    run(s, { op: "return_to_hand", target: { targetRef: "obj:" + enemy.id } }, { controller: "p2" });
+    s.host.moveCard(s.room, "p2", "hand", "battlefieldA", enemy.id);
+    expect(zoneOf(s, enemy.id)).toBe("battlefieldA");
+    s.as("p2").pass().expectOk();
+    expect(s.room.rules?.objects[enemy.id]?.damage ?? 0).toBe(0);
+    expect(s.events().some((event) => event.type === "mistarget")).toBe(true);
   });
 
   it("[R359.3.e.14][EX:359.3.e.14] linked instructions: the killed unit's controller draws 2", () => {

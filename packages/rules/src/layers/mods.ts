@@ -157,7 +157,12 @@ export function pruneObjectMods(room: Room, options: { endOfTurn: boolean }): vo
     }
     return true;
   };
+  const onChain = new Set(rules.chain.map((item) => item.id));
   for (const object of Object.values(rules.objects)) {
+    if (object.targetedBy) {
+      object.targetedBy = object.targetedBy.filter((itemId) => onChain.has(itemId));
+      if (object.targetedBy.length === 0) delete object.targetedBy;
+    }
     if (object.mightMods) {
       object.mightMods = object.mightMods.filter(keep);
       if (object.mightMods.length === 0) delete object.mightMods;

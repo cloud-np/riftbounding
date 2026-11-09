@@ -47,7 +47,9 @@ Owner: **R2-effects** — Effect DSL interpreter 412–448, triggers 382–398, 
   `protocol/src/rules/domains/effects.ts`.
 - **Mistargeting (359.3.e).** On resolution each bound target is re-checked: still meets the
   selector (359.3.e.2), no board↔non-board zone change since the item finalized (snapshot in
-  `ChainItem.targetSnapshot`, 359.3.e.4), still targetable (758.1). Illegal targets are skipped
+  `ChainItem.targetSnapshot`) and not a new object after leaving the board and returning (the
+  item id noted in `objects[id].targetedBy` is lost when the rules object is dropped, 359.3.e.4),
+  still targetable (758.1). Illegal targets are skipped
   and `mistarget` is emitted; later instructions referencing the same key skip them too
   (359.3.e.14.a). Missing information returns `null` and ignores the instruction (359.3.e.12).
   "If you do" reads `$did` (359.3.e.14.b). LKI is noted before an op moves an object (359.3.e.13).
@@ -177,7 +179,7 @@ All additions are optional: `EffectsEffectOp` (`spend_buff`, `cost_then`, `requi
 `spend_counter`, `give_might`, `mark`); interface merging adds optional fields to `Selector`,
 `EventMatcher` (`subject`, `from`, `player`) and `TokenSpec` (`tags`, `play`);
 `EffectsObjectFields` (`empowered`, `prevent`, `keywordGrants`, `mightMods`,
-`paidAdditionalCost`); `EffectsHistoryFields.effects` (`limits`, `marks`, `replacements`,
+`paidAdditionalCost`, `targetedBy`); `EffectsHistoryFields.effects` (`limits`, `marks`, `replacements`,
 `played`); `EffectsChainItemFields` (`effect`, `triggerEvent`, `sourceName`, `optional`,
 `mayDecided`, `targetSnapshot`, `resolutionChoices`). New prompt reasons: `effects.resume`,
 `effects.order_triggers`, `effects.trigger_choice`. New events: `trigger`, `trigger_removed`,
@@ -219,14 +221,13 @@ Strength ([Repeat]).
 
 1. `resolve.ts` await status (lead) so prompts keep the item on the chain.
 2. 372/373 replacement ordering prompts; optional ("may") replacements (371.2).
-3. 359.3.e.4 round-trip detection (board → non-board → board) needs an object incarnation stamp.
-4. 355.11/355.14 group targeting and damage splitting; player-level restrictions ("opponents can
+3. 355.11/355.14 group targeting and damage splitting; player-level restrictions ("opponents can
    only play units to their base") in `restrictionFor` (it only answers object queries).
-5. Show Off (832), Flow (829, with R2-play), Ignoring effects (764–767), copy (446), hide (422),
+4. Show Off (832), Flow (829, with R2-play), Ignoring effects (764–767), copy (446), hide (422),
    439 Replace, 433.1.b damage doubling, "the Nth time" triggers (383.1.b), triggers of cards in
    non-board zones (385).
-6. 437.1.a reorder prompt for predicted cards; 417.5.a rune recycle order; 425.1.a.3 end of
+5. 437.1.a reorder prompt for predicted cards; 417.5.a rune recycle order; 425.1.a.3 end of
    Revealed; 3+ player Burn Out prompts inside a resolution.
-7. Layer dependency ordering (480–481) beyond timestamp/arithmetic sums; trait-altering
+6. Layer dependency ordering (480–481) beyond timestamp/arithmetic sums; trait-altering
    (base Might "becomes") effects.
-8. Scripts for cards named in official examples beyond the fixture deck.
+7. Scripts for cards named in official examples beyond the fixture deck.
