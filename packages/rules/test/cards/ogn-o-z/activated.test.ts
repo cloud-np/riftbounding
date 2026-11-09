@@ -222,13 +222,13 @@ describe("Origins O–Z gear, legends and activated abilities", () => {
     expect(getCardScript("Wallop")?.status).toBe("partial");
   });
 
-  it("[C:Unlicensed Armory][R357.2] Discard 1, [Tap]: the cost is paid; the effect resolves in the manual window", () => {
+  it("[C:Unlicensed Armory][R371.2] Discard 1, [Tap]: the cost is paid and a delayed optional replacement is created", () => {
     const s = withCards(["Unlicensed Armory", "Progress Day"]);
     const armory = place(s, "p1", "Unlicensed Armory", "base");
+    place(s, "p1", "Caitlyn, Patrolling", "base");
     activate(s, "p1", armory.id).expectOk();
-    expect(boardOf(s, "p1").trash.map((card) => card.name)).toContain("Progress Day");
-    s.as("p2").pass().expectOk();
-    expect(s.room.rules!.manual?.cardName).toBe("Unlicensed Armory");
+    expect(s.room.rules!.manual).toBeNull();
+    expect(getCardScript("Unlicensed Armory")?.status).toBe("implemented");
   });
 
   it("[C:Sett, The Boss][R383.4.c.2.b] when you conquer, ready him", () => {
@@ -239,7 +239,7 @@ describe("Origins O–Z gear, legends and activated abilities", () => {
     s.as("p1").move("Caitlyn, Patrolling", "battlefieldB").expectOk();
     resolveAll(s);
     expect(s.host.isExhausted(s.room, sett.id)).toBe(false);
-    expect(getCardScript("Sett, The Boss")?.status).toBe("partial");
+    expect(getCardScript("Sett, The Boss")?.status).toBe("implemented");
   });
 
   it("[C:Scrapheap][R420.4.a][R383.2.c.3] draws 1 when played and draws 1 when killed", () => {

@@ -27,7 +27,6 @@ describe("Origins A–N — manual cards (text not automatable; registered hones
     ["Divine Judgment", "[R355.18]"],
     ["Ember Monk", "[R811.1.b]"],
     ["Flame Chompers", "[R385][R423]"],
-    ["Fox-Fire", "[R355.13]"],
     ["Heimerdinger, Inventor", "[R482]"],
     ["Karthus, Eternal", "[R383.1]"],
     ["Miss Fortune, Buccaneer", "[R355.2]"],

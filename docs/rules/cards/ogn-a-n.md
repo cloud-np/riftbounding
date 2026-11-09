@@ -5,8 +5,11 @@ starting A through N (126 cards). Scripts live in `packages/rules/src/cards/OGN/
 registered through `src/cards/OGN/batch-a-n.ts`; behaviour tests are in
 `packages/rules/test/cards/ogn-a-n/` (one `[C:Card Name]` test per card).
 
-Counts: **85 implemented**, **27 partial**, **14 manual**,
+Counts: **86 implemented**, **27 partial**, **13 manual**,
 **0 not yet scripted**.
+
+R4 upgrades: Fox-Fire is automated with the R3-engine group-targeting selector (355.11 /
+355.13), and Bilgewater Bully's conditional Ganking passive now permits a Standard Move (810.3).
 
 ## Conventions used
 
@@ -133,7 +136,7 @@ Engine capabilities missing for full automation (feeds the next engine pass).
 | Flame Chompers               | Unit        | manual      | Not automated: a trigger of a card that has just left the hand for the trash and playing it from there (no triggers for cards in non-board zones, 385).                                                             |
 | Flurry of Blades             | Spell       | implemented |                                                                                                                                                                                                                     |
 | Forge of the Future          | Gear        | implemented |                                                                                                                                                                                                                     |
-| Fox-Fire                     | Spell       | manual      | Not automated: a choice of any number of units constrained by a total-Might cap (no sum-constrained selector). Hidden and Action are printed keywords.                                                              |
+| Fox-Fire                     | Spell       | implemented |                                                                                                                                                                                                                     |
 | Garbage Grabber              | Gear        | partial     |                                                                                                                                                                                                                     |
 | Gemcraft Seer                | Unit        | implemented |                                                                                                                                                                                                                     |
 | Get Excited!                 | Spell       | implemented |                                                                                                                                                                                                                     |

@@ -9,6 +9,9 @@ import { registerCardScript } from "../../src";
 // vanilla unit for timing/showdown mechanics, so it overrides the production script (the trigger
 // itself is covered by test/cards/fixture-deck.test.ts).
 beforeAll(() => registerCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
+// R4-cards: Janna, Savior is now scripted (play trigger: heal + move). This suite uses her as a
+// vanilla Reaction unit for timing/showdown mechanics, so override the production script too.
+beforeAll(() => registerCardScript({ name: "Janna, Savior", text: "vanilla (test)", status: "implemented", abilities: [] }));
 
 // 813.1.c.1: Janna, Savior has card-level [Reaction]. (Reckless Innovator, used before, only
 // mentions [Reaction] in its Gold token's reminder text, 135.2.d.3, so it is not a Reaction unit.)

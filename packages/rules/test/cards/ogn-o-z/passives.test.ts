@@ -92,13 +92,12 @@ describe("Origins O–Z passive abilities", () => {
     expect(effectiveKeywords(s.room, here.id, s.host)).toContain("Ganking");
     expect(effectiveKeywords(s.room, enemy.id, s.host)).toContain("Ganking");
     expect(effectiveKeywords(s.room, away.id, s.host)).not.toContain("Ganking");
-    expect(getCardScript("Windswept Hillock")?.status).toBe("partial");
+    expect(getCardScript("Windswept Hillock")?.status).toBe("implemented");
   });
 
-  // [BUG] legality/move.ts reads Ganking through play/keywords `cardKeywords`, i.e. the host-less
-  // array form of `effectiveKeywords`, which skips keyword passives/continuous effects. A unit
-  // granted Ganking by a passive ("Units here have [GANKING]") is refused a battlefield-to-
-  // battlefield Standard Move with invalid_location/144.4.c, contrary to 810.3 / 144.4.c.1.
+  // R3-engine makes Standard Move legality read Ganking through keyword passives (810.3 /
+  // 144.4.c.1): a unit granted Ganking by "Units here have [GANKING]" may move battlefield to
+  // battlefield.
   it("[C:Windswept Hillock][R810.3][R144.4.c.1] a unit granted Ganking by a passive can move battlefield to battlefield", () => {
     const s = withCards([], [], { battlefields: { p1: "Windswept Hillock" } });
     const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");

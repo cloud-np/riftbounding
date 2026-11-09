@@ -9,10 +9,10 @@ lane-prefixed custom conditions/effects in `common.ts`); one behaviour test per 
 
 | Status                 | Cards |
 | ---------------------- | ----- |
-| implemented            | 115   |
+| implemented            | 116   |
 | partial                | 76    |
 | manual                 | 23    |
-| remaining (unscripted) | 1     |
+| remaining (unscripted) | 0     |
 
 Status rules: `implemented` only when every line of the current text (errata applied) is
 automated and tested; `partial` names exactly what is not automated and why; `manual` cards
@@ -71,7 +71,7 @@ In `packages/rules/test/cards/sfd/bugs.test.ts`; the scripts do not work around 
 
 ## Lane conflicts
 
-- Janna, Savior — left unscripted: `test/rules/reaction-permanents.test.ts` (R1, outside this lane) uses her as a vanilla Reaction unit, and her play trigger ("heal your units here, then move up to one enemy unit from here to its base": heal 419 your units at `here`, then move up to one enemy unit at `here` to `base`) changes that test's Priority sequence. Scripting her needs that test to register a vanilla override (as it does for Treasure Hunter).
+- Janna, Savior — scripted in R4. `test/rules/reaction-permanents.test.ts` (R1, outside this lane) uses her as a vanilla Reaction unit, and her play trigger changes that test's Priority sequence; that test now registers a vanilla override for her (as it already does for Treasure Hunter).
 
 ## Card data issues
 
@@ -237,6 +237,7 @@ Registered in `packages/rules/src/cards/SFD/common.ts` and `custom-effects.ts` (
 | Irelia, Fervent               | partial     | "When you choose …" triggers: choosing objects with spells/abilities (355.7) emits no event the trigger layer can match. "When you ready me" is automated for ready instructions (416); the Awaken step's ready-all (315.1) emits no per-unit event.                                                                                                                                                                                                                                                                                           |
 | Irelia, Graceful              | manual      | "Your spells that choose me cost [1] or [Rune] less": a cost passive cannot see the chosen targets of the spell being played (356.4, 355.7), and the component discount is not expressible (356.4.c).                                                                                                                                                                                                                                                                                                                                          |
 | Jae Medarda                   | manual      | "When you choose me with a spell, draw 1": choosing objects with spells/abilities (355.7) emits no event the trigger layer can match.                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Janna, Savior                 | implemented |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | Jaull-Fish                    | implemented |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | Jax, Grandmaster at Arms      | implemented |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | Jax, Unmatched                | partial     | Your Equipment everywhere have [Quick-Draw]: granted to Equipment on the board only (not in hand), and the Quick-Draw attach trigger does not exist yet (819.1.d).                                                                                                                                                                                                                                                                                                                                                                             |
@@ -352,4 +353,4 @@ Registered in `packages/rules/src/cards/SFD/common.ts` and `custom-effects.ts` (
 
 ## Remaining (unscripted)
 
-Janna, Savior
+None.
