@@ -3,8 +3,9 @@
  *
  * `{ kind: "custom", id: "bonus-damage", params: { amount, from? } }` modifiers grant Bonus
  * Damage to deal actions whose source the modifier's controller controls. `from` restricts the
- * category: "spells", "abilities" or "spells-and-abilities" (default). 714: all instances are
- * summed and applied once; 714.2: a negative total applies no Bonus Damage.
+ * category: "spells", "abilities" or "spells-and-abilities" (default); `nextSpell: true` limits it
+ * to the next spell its controller plays (bound on play, EX[179]). 714: all instances are summed
+ * and applied once; 714.2: a negative total applies no Bonus Damage.
  */
 import type { Room } from "@rift/protocol";
 import type { RulesHost } from "../host";
@@ -28,6 +29,8 @@ export function bonusDamage(room: Room, host: RulesHost, query: BonusQuery): num
     if (from === "spells" && category !== "spells") continue;
     if (from === "abilities" && category !== "abilities") continue;
     if (from === "spells-and-abilities" && category === "other") continue;
+    // 392 / EX[179]: a "next spell" bonus applies only to the spell it bound to.
+    if (modifier.params?.nextSpell && modifier.params.boundCardId !== query.sourceObjectId) continue;
     const amount = modifier.params?.amount;
     total += typeof amount === "number" ? amount : 0;
   }

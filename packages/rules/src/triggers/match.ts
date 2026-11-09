@@ -27,6 +27,8 @@ import { controllerOf, locate, typeMatches, typeOf } from "../effects/objects";
 export interface TriggerScope {
   controller: string;
   sourceObjectId?: string;
+  /** Bindings of a delayed trigger's creator (359.3.f.3.a: referenced when it was created). */
+  choices?: Record<string, unknown>;
 }
 
 /**
@@ -65,6 +67,7 @@ function evalContext(room: Room, host: RulesHost, scope: TriggerScope, event: Ga
       controller: scope.controller,
       ...(scope.sourceObjectId ? { sourceObjectId: scope.sourceObjectId } : {}),
       event,
+      ...(scope.choices ? { choices: { ...scope.choices } } : {}),
     }),
   };
 }

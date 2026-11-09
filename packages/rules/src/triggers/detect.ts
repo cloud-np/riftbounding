@@ -30,6 +30,8 @@ export interface TriggerEntry {
   limit?: Extract<Ability, { kind: "triggered" }>["limit"];
   /** Delayed triggers ignore the "your turn" phase convention (393). */
   anyTurn?: boolean;
+  /** Delayed triggers: the creating ability's bindings (359.3.f.3.a). */
+  choices?: Record<string, unknown>;
 }
 
 export interface TriggerSource {
@@ -115,6 +117,7 @@ export function triggerSources(room: Room, host: RulesHost): TriggerSource[] {
           trigger: params.trigger as Trigger,
           ...(params.optional ? { optional: true } : {}),
           anyTurn: true,
+          ...(params.choices ? { choices: params.choices as Record<string, unknown> } : {}),
         },
       ],
     });
@@ -155,6 +158,7 @@ function conditionHolds(room: Room, host: RulesHost, entry: TriggerEntry, scope:
         controller: scope.controller,
         ...(scope.sourceObjectId ? { sourceObjectId: scope.sourceObjectId } : {}),
         ...(event ? { event } : {}),
+        ...(scope.choices ? { choices: { ...scope.choices } } : {}),
       }),
     },
     entry.condition,
@@ -264,10 +268,29 @@ function mightyEvents(room: Room, step: RulesStepContext): GameEvent[] {
   return out;
 }
 
+/**
+ * 392 / EX[179] (Ravenborn Tome): "The next spell you play this turn deals 1 Bonus Damage" binds
+ * to the next spell that player plays (`params.boundCardId`).
+ */
+function bindNextSpellBonus(room: Room, step: RulesStepContext, event: GameEvent): void {
+  const rules = room.rules;
+  if (!rules || !event.cardId) return;
+  const item = rules.chain.find((entry) => entry.cardSnapshot?.id === event.cardId);
+  const type = (item?.cardSnapshot ? step.host.cardInfo(room, item.cardSnapshot.id)?.type ?? item.cardSnapshot.type : "") ?? "";
+  if (!type.toLowerCase().includes("spell")) return;
+  for (const effect of rules.effects) {
+    const modifier = effect.modifier;
+    if (modifier.kind !== "custom" || modifier.id !== "bonus-damage") continue;
+    if (!modifier.params?.nextSpell || modifier.params.boundCardId || effect.controller !== event.playerId) continue;
+    modifier.params = { ...modifier.params, boundCardId: event.cardId };
+  }
+}
+
 /** Per-event bookkeeping that is not a trigger (420.5 once-cost effects, 369.3 enter ready). */
 function eventSideEffects(room: Room, step: RulesStepContext, event: GameEvent): void {
   if (event.type === "card_played" && event.playerId) {
     consumeOnceCostEffects(room, event.playerId);
+    bindNextSpellBonus(room, step, event);
     const rules = room.rules;
     if (rules && event.cardId) {
       const history = (rules.history.effects ??= {});
@@ -310,7 +333,11 @@ export function collectTriggers(room: Room, step: RulesStepContext): number {
     for (const source of sources) {
       for (const entry of source.entries) {
         const controller = source.battlefield ? (event.playerId ?? source.controller) : source.controller;
-        const scope: TriggerScope = { controller, sourceObjectId: source.sourceId };
+        const scope: TriggerScope = {
+          controller,
+          sourceObjectId: source.sourceId,
+          ...(entry.choices ? { choices: entry.choices } : {}),
+        };
         if (!triggerMatchesEvent(room, step.host, entry.trigger, event, scope)) continue;
         if (limitReached(room, source.sourceId, entry)) continue;
         if (!conditionHolds(room, step.host, entry, scope, event)) continue;
