@@ -4,15 +4,12 @@
  * The room comes from @rift/engine's real `createInitialGameState` + the real engine host, so
  * every scenario exercises the same zone/log/scoring primitives the server uses.
  */
-import fs from "node:fs";
-import path from "node:path";
 import { expect } from "vitest";
 
 import type {
   BattlefieldZone,
   CardInstance,
   CardScript,
-  DeckSections,
   GameEvent,
   ObjectRulesState,
   PromptAnswer,
@@ -34,18 +31,7 @@ import {
 } from "../../src";
 import { createEngineRulesHost } from "../../../engine/src/strict/host";
 
-const ROOT = path.resolve(__dirname, "../../../..");
-const DECKS = path.join(ROOT, ".recon/oracle/fixtures/decks.json");
-
-interface DecksFile {
-  deckA: { raw: string; sections: DeckSections };
-  deckB: { raw: string; sections: DeckSections };
-}
-
-function loadDecks(): DecksFile {
-  if (!fs.existsSync(DECKS)) throw new Error(`scenario fixture missing: ${DECKS}`);
-  return JSON.parse(fs.readFileSync(DECKS, "utf8")) as DecksFile;
-}
+import { loadFixtureDecks as loadDecks, withExtraCards, type ExtraDeckCards } from "../fixtures/decks";
 
 let scenarioCounter = 0;
 
@@ -76,6 +62,11 @@ export interface ScenarioInput {
   battlefields?: { p1?: string; p2?: string };
   seed?: number;
   roomCode?: string;
+  /**
+   * Extra Main Deck cards (any printed card, by name) appended to the fixture decks before the
+   * room is built; reach them with `moveDeckCardToHand` / `placeFromDeck` / `hand`.
+   */
+  extraCards?: ExtraDeckCards;
 }
 
 export function scenario(input: ScenarioInput = {}): RulesScenario {
@@ -96,7 +87,7 @@ export class RulesScenario {
   private lastEvents: GameEvent[] = [];
 
   constructor(input: ScenarioInput) {
-    const decks = loadDecks();
+    const decks = withExtraCards(loadDecks(), input.extraCards);
     const ctx = deterministicContext(input.seed ?? ++scenarioCounter * 7919);
     this.ctx = ctx;
     const room = createInitialGameState({

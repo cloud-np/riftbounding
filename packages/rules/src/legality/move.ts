@@ -1,9 +1,13 @@
 /** Standard Move verdict — rules 144, 449–455. */
-import type { Room, Verdict } from "@rift/protocol";
+import type { BattlefieldZone, Room, Verdict } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import { fail } from "../types";
 import { chainExists, isTurnPlayer, showdownActive } from "../state/turn";
 import { baseActionVerdict } from "./timing";
+import { restrictionFor } from "../layers/restrictions";
+import { cardKeywords, hasKeyword } from "../play/keywords";
+import { playersWithUnitsAt } from "../play/control";
+import { combatBarsDestination } from "../combat/begin";
 
 export interface MoveVerdictContext {
   host: RulesHost;
@@ -46,6 +50,8 @@ export function moveTimingVerdict(
     }
     const info = host.cardInfo(room, unitId);
     if (!info?.type.toLowerCase().includes("unit")) return fail("unit_not_found", "144", unitId);
+    // 107.3.e / 811: a facedown card is in a Facedown Zone, not a Unit at a location.
+    if (located.card.hidden) return fail("unit_not_found", "107.3.e", `${unitId} is facedown`);
     if (located.playerId !== playerId) return fail("illegal_target", "144.4");
     if (host.isExhausted(room, unitId)) return fail("unit_exhausted", "144.2", unitId);
     // 144.4 / 449.2: the destination must differ from the Unit's current location.
@@ -53,17 +59,25 @@ export function moveTimingVerdict(
     // 144.4: Base → Battlefield; Battlefield → Base; only Ganking goes Battlefield → Battlefield.
     const fromBattlefield = destinations.includes(located.zone as (typeof destinations)[number]);
     const toBattlefield = to !== "base";
-    if (fromBattlefield && toBattlefield && !info.keywords.some((keyword) => keyword.toLowerCase() === "ganking")) {
-      // The only Battlefield → Battlefield path is Ganking (144.4.c).
+    // 810.1.b / 810.3: Ganking (printed or granted, 475–479) is the only Battlefield → Battlefield path.
+    if (fromBattlefield && toBattlefield && !hasKeyword(cardKeywords(room, host, unitId, info), "Ganking")) {
       return fail("invalid_location", "144.4.c", unitId);
     }
+    // 475–479 restriction layer ("Units can't move from here to base", …).
+    const restriction = restrictionFor(room, host, { kind: "move", playerId, objectId: unitId, to });
+    if (restriction) return fail("restricted", restriction.rule ?? "421", restriction.note ?? unitId);
   }
   if (to !== "base") {
-    // 449.2 / 144.4.a.1: not into a battlefield with Units of 2 players that aren't the mover.
-    const others = host
-      .activePlayerIds(room)
-      .filter((id) => id !== playerId && host.hasUnitAt(room, id, to));
+    // 449.2 / 451.2 / 144.4.a.1: not into a battlefield with Units of 2 players that aren't the
+    // mover (facedown cards are not Units present, 107.3).
+    const others = playersWithUnitsAt(room, host, to).filter((id) => id !== playerId);
     if (others.length >= 2) return fail("invalid_location", "449.2");
+    // 449.2.a / 464.1: with 3+ players, a battlefield with a Staged Combat (an ongoing Combat
+    // already forbids Standard Moves, 144.1.c) is invalid for a player not involved in it or
+    // without Units there. R2-combat's helper owns who is involved (466.2.c).
+    if (combatBarsDestination(room, playerId, to as BattlefieldZone, "move", host)) {
+      return fail("invalid_location", "449.2.a");
+    }
   }
   return { ok: true };
 }

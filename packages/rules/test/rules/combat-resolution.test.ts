@@ -56,7 +56,11 @@ describe("combat resolution kills [R323.4][R429]", () => {
     runCombatResolution(s.room, step);
 
     expect(boardOf(s, "p1").battlefieldA.some((entry) => entry.id === card.id)).toBe(true);
-    expect(s.room.rules?.objects[card.id]?.damage).toBe(1);
+    // NEW-5: the rules object survives the failed kill. The Combat Cleanup then heals every Unit
+    // at its inserted step 3c (468.1.a.1), so the surviving Unit's damage is healed, not kept.
+    expect(s.room.rules?.objects[card.id]).toBeDefined();
+    expect(s.room.rules?.objects[card.id]?.damage).toBeUndefined();
+    expect(step.events.some((event) => event.type === "heal" && event.cardId === card.id)).toBe(true);
     expect(step.events.some((event) => event.type === "kill")).toBe(false);
   });
 });

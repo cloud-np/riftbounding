@@ -1,7 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
 import { describe, expect, it } from "vitest";
-import type { DeckSections, Room } from "@rift/protocol";
+import type { Room } from "@rift/protocol";
 import {
   applyRulesIntent,
   drawCards,
@@ -17,20 +15,14 @@ import { createInitialGameState } from "../../../engine/src/index";
 import { createEngineRulesHost } from "../../../engine/src/strict/host";
 import { deterministicContext } from "../scenarios/dsl";
 
-const ROOT = path.resolve(__dirname, "../../../..");
-const DECKS = path.join(ROOT, ".recon/oracle/fixtures/decks.json");
-
-interface DecksFile {
-  deckA: { raw: string; sections: DeckSections };
-  deckB: { raw: string; sections: DeckSections };
-}
+import { loadFixtureDecks } from "../fixtures/decks";
 
 /**
  * The scenario DSL builds a duel only, so this test builds a real 3-player FFA room directly
  * from `createInitialGameState` + the real engine host. `p1` is the Turn Player at Main Phase.
  */
 function threePlayerRoom(): { room: Room; ctx: RulesContext; host: RulesHost } {
-  const decks = JSON.parse(fs.readFileSync(DECKS, "utf8")) as DecksFile;
+  const decks = loadFixtureDecks();
   const ctx = deterministicContext(424242);
   const room = createInitialGameState({
     roomCode: "RULES-BURN-3P",

@@ -2,6 +2,7 @@
 import type { RulesFailure } from "../../types";
 import { fail } from "../../types";
 import { validateChoiceRecord, type WireValidator } from "./shared";
+import { validateChoiceAliases } from "./play-fields";
 
 export const validateActivateIntent: WireValidator = (value): RulesFailure | null => {
   if (typeof value.objectId !== "string" || value.objectId.length === 0) {
@@ -14,5 +15,5 @@ export const validateActivateIntent: WireValidator = (value): RulesFailure | nul
   if (choices) return choices;
   const payment = validateChoiceRecord(value.payment, "payment", "rules_activate");
   if (payment) return payment;
-  return null;
+  return validateChoiceAliases(value, "403.2");
 };

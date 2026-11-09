@@ -9,7 +9,14 @@ export function dealDamage(
   cardId: string,
   amount: number,
   step: RulesStepContext,
-  source?: { objectId?: string; cardId?: string },
+  source?: {
+    objectId?: string;
+    cardId?: string;
+    /** 142.3.a: the player responsible for the Deal action (marks the damage). */
+    playerId?: string;
+    /** 467.2.d: combat damage dealt from a 467.2.c assignment. */
+    combat?: boolean;
+  },
 ): number {
   const rules = room.rules;
   // 367–375: a replacement effect can change the amount or prevent the damage entirely.
@@ -18,6 +25,8 @@ export function dealDamage(
     cardId,
     amount: Math.max(0, Math.trunc(amount)),
     ...(source?.objectId ? { objectId: source.objectId } : {}),
+    ...(source?.playerId ? { playerId: source.playerId } : {}),
+    ...(source?.combat ? { data: { combat: true } } : {}),
   });
   if (!proposal) return 0;
   const damage = Math.max(0, Math.trunc(proposal.amount ?? amount));
@@ -33,9 +42,11 @@ export function dealDamage(
     playerId: located.playerId,
     amount: damage,
     ...(source?.objectId ? { sourceObjectId: source.objectId } : {}),
+    ...(source?.playerId ? { controllerId: source.playerId } : {}),
     data: {
       damage: object.damage,
       might: effectiveMight(room, cardId, step.host),
+      ...(source?.combat ? { combat: true } : {}),
     },
   });
   return damage;

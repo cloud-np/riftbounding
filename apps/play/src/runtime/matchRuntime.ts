@@ -139,6 +139,40 @@ export function isGameplayForwardUnavailableError(error: unknown): boolean {
   return error instanceof Error && error.name === GAMEPLAY_FORWARD_UNAVAILABLE_ERROR;
 }
 
+/** Strict rooms (R2-int, §5): a `rules_*` rejection carrying its ReasonCode and rule. */
+export const RULES_REJECTION_ERROR = "RulesRejectionError";
+
+export interface RulesRejectionError extends Error {
+  code: string;
+  rule: string;
+  detail?: string;
+}
+
+/** Error for a rejected gameplay intent; strict frames (`rule` present) keep code/rule/detail. */
+export function gameplayRejectionError(
+  text: string,
+  code: string,
+  frame: Record<string, unknown>,
+): Error {
+  const error = new Error(text);
+  if (typeof frame.rule !== "string") return error;
+  error.name = RULES_REJECTION_ERROR;
+  return Object.assign(error, {
+    code,
+    rule: frame.rule,
+    ...(typeof frame.detail === "string" ? { detail: frame.detail } : {}),
+  });
+}
+
+export function isRulesRejectionError(error: unknown): error is RulesRejectionError {
+  return (
+    error instanceof Error &&
+    error.name === RULES_REJECTION_ERROR &&
+    typeof (error as RulesRejectionError).code === "string" &&
+    typeof (error as RulesRejectionError).rule === "string"
+  );
+}
+
 /* ------------------------------------------------------------------ protocol constants */
 
 /** `495270.g` — party close code for "match superseded" (also used by the server). */
@@ -2014,7 +2048,7 @@ export class MatchRuntime {
           ? new AutoPayUnavailableError()
           : code === "forward_unavailable"
             ? gameplayForwardUnavailableError(text)
-            : new Error(outcome.userMessage ?? text),
+            : gameplayRejectionError(outcome.userMessage ?? text, code, message),
       );
     }
     if (outcome.shouldRequestResync && !resyncRequested) this.requestResync("server_error");

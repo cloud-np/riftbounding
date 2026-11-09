@@ -1,0 +1,235 @@
+{
+  "_note": "Committed scenario decks for @rift/rules tests (Calm/Chaos Riven). Contains every card the strict-rules suites reference. Keep names/card codes in sync with packages/cards/data/cards.json.",
+  "deckA": {
+    "raw": "Legend:\n1 Riven, The Exile [RAD-149]\n\nChampion:\n1 Riven, Broken Blade [RAD-043]\n\nMainDeck:\n3 Treasure Hunter [SFD-130]\n3 Rebuke [OGN-172]\n3 Defy [OGN-045]\n3 Caitlyn, Patrolling [OGN-068]\n3 Astral Heron [VEN-044]\n3 Meditation [OGN-048]\n3 Gust [OGN-169]\n3 Blade of the Exile [RAD-150]\n3 Whiteflame Protector [OGN-082]\n3 Stellacorn Herder [SFD-048]\n3 Reckless Innovator [RAD-105]\n3 En Garde [OGN-046]\n3 Clockwork Keeper [OGN-044]\n\nBattlefields:\n1 Altar to Unity [OGN-275]\n1 Back-Alley Bar [OGN-277]\n1 Fortified Position [OGN-279]\n\nRunes:\n6 Calm Rune [OGN-042]\n6 Chaos Rune [OGN-166]\n\nSideboard:",
+    "sections": {
+      "legend": [
+        {
+          "name": "Riven, The Exile",
+          "count": 1,
+          "cardCode": "RAD-149"
+        }
+      ],
+      "champion": [
+        {
+          "name": "Riven, Broken Blade",
+          "count": 1,
+          "cardCode": "RAD-043"
+        }
+      ],
+      "mainDeck": [
+        {
+          "name": "Treasure Hunter",
+          "count": 3,
+          "cardCode": "SFD-130"
+        },
+        {
+          "name": "Rebuke",
+          "count": 3,
+          "cardCode": "OGN-172"
+        },
+        {
+          "name": "Defy",
+          "count": 3,
+          "cardCode": "OGN-045"
+        },
+        {
+          "name": "Caitlyn, Patrolling",
+          "count": 3,
+          "cardCode": "OGN-068"
+        },
+        {
+          "name": "Astral Heron",
+          "count": 3,
+          "cardCode": "VEN-044"
+        },
+        {
+          "name": "Meditation",
+          "count": 3,
+          "cardCode": "OGN-048"
+        },
+        {
+          "name": "Gust",
+          "count": 3,
+          "cardCode": "OGN-169"
+        },
+        {
+          "name": "Blade of the Exile",
+          "count": 3,
+          "cardCode": "RAD-150"
+        },
+        {
+          "name": "Whiteflame Protector",
+          "count": 3,
+          "cardCode": "OGN-082"
+        },
+        {
+          "name": "Stellacorn Herder",
+          "count": 3,
+          "cardCode": "SFD-048"
+        },
+        {
+          "name": "Reckless Innovator",
+          "count": 3,
+          "cardCode": "RAD-105"
+        },
+        {
+          "name": "En Garde",
+          "count": 3,
+          "cardCode": "OGN-046"
+        },
+        {
+          "name": "Clockwork Keeper",
+          "count": 3,
+          "cardCode": "OGN-044"
+        }
+      ],
+      "battlefields": [
+        {
+          "name": "Altar to Unity",
+          "count": 1,
+          "cardCode": "OGN-275"
+        },
+        {
+          "name": "Back-Alley Bar",
+          "count": 1,
+          "cardCode": "OGN-277"
+        },
+        {
+          "name": "Fortified Position",
+          "count": 1,
+          "cardCode": "OGN-279"
+        }
+      ],
+      "runes": [
+        {
+          "name": "Calm Rune",
+          "count": 6,
+          "cardCode": "OGN-042"
+        },
+        {
+          "name": "Chaos Rune",
+          "count": 6,
+          "cardCode": "OGN-166"
+        }
+      ],
+      "sideboard": []
+    }
+  },
+  "deckB": {
+    "raw": "Legend:\n1 Riven, The Exile [RAD-149]\n\nChampion:\n1 Riven, Broken Blade [RAD-043]\n\nMainDeck:\n3 Treasure Hunter [SFD-130]\n3 Rebuke [OGN-172]\n3 Defy [OGN-045]\n3 Caitlyn, Patrolling [OGN-068]\n3 Astral Heron [VEN-044]\n3 Meditation [OGN-048]\n3 Gust [OGN-169]\n3 Blade of the Exile [RAD-150]\n3 Whiteflame Protector [OGN-082]\n3 Stellacorn Herder [SFD-048]\n3 Reckless Innovator [RAD-105]\n3 En Garde [OGN-046]\n3 Clockwork Keeper [OGN-044]\n\nBattlefields:\n1 Aspirant's Climb [OGN-276]\n1 Bandle Tree [OGN-278]\n1 Grove of the God-Willow [OGN-280]\n\nRunes:\n6 Calm Rune [OGN-042]\n6 Chaos Rune [OGN-166]\n\nSideboard:",
+    "sections": {
+      "legend": [
+        {
+          "name": "Riven, The Exile",
+          "count": 1,
+          "cardCode": "RAD-149"
+        }
+      ],
+      "champion": [
+        {
+          "name": "Riven, Broken Blade",
+          "count": 1,
+          "cardCode": "RAD-043"
+        }
+      ],
+      "mainDeck": [
+        {
+          "name": "Treasure Hunter",
+          "count": 3,
+          "cardCode": "SFD-130"
+        },
+        {
+          "name": "Rebuke",
+          "count": 3,
+          "cardCode": "OGN-172"
+        },
+        {
+          "name": "Defy",
+          "count": 3,
+          "cardCode": "OGN-045"
+        },
+        {
+          "name": "Caitlyn, Patrolling",
+          "count": 3,
+          "cardCode": "OGN-068"
+        },
+        {
+          "name": "Astral Heron",
+          "count": 3,
+          "cardCode": "VEN-044"
+        },
+        {
+          "name": "Meditation",
+          "count": 3,
+          "cardCode": "OGN-048"
+        },
+        {
+          "name": "Gust",
+          "count": 3,
+          "cardCode": "OGN-169"
+        },
+        {
+          "name": "Blade of the Exile",
+          "count": 3,
+          "cardCode": "RAD-150"
+        },
+        {
+          "name": "Whiteflame Protector",
+          "count": 3,
+          "cardCode": "OGN-082"
+        },
+        {
+          "name": "Stellacorn Herder",
+          "count": 3,
+          "cardCode": "SFD-048"
+        },
+        {
+          "name": "Reckless Innovator",
+          "count": 3,
+          "cardCode": "RAD-105"
+        },
+        {
+          "name": "En Garde",
+          "count": 3,
+          "cardCode": "OGN-046"
+        },
+        {
+          "name": "Clockwork Keeper",
+          "count": 3,
+          "cardCode": "OGN-044"
+        }
+      ],
+      "battlefields": [
+        {
+          "name": "Aspirant's Climb",
+          "count": 1,
+          "cardCode": "OGN-276"
+        },
+        {
+          "name": "Bandle Tree",
+          "count": 1,
+          "cardCode": "OGN-278"
+        },
+        {
+          "name": "Grove of the God-Willow",
+          "count": 1,
+          "cardCode": "OGN-280"
+        }
+      ],
+      "runes": [
+        {
+          "name": "Calm Rune",
+          "count": 6,
+          "cardCode": "OGN-042"
+        },
+        {
+          "name": "Chaos Rune",
+          "count": 6,
+          "cardCode": "OGN-166"
+        }
+      ],
+      "sideboard": []
+    }
+  }
+}

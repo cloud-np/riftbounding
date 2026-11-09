@@ -105,7 +105,11 @@ describe("activated abilities [R376–R381][R403.3]", () => {
     const unit = s.findBoardCard("Treasure Hunter")!;
 
     const legal = legalIntents(s.room, "p1", s.host);
-    expect(legal.activatable).toEqual([{ objectId: unit.id, ability: "activated:1" }]);
+    // 164.2: the player's Basic Runes also list their two Add abilities; the unit's one ref is
+    // the full-array index `activated:1`.
+    expect(legal.activatable.filter((entry) => entry.objectId === unit.id)).toEqual([
+      { objectId: unit.id, ability: "activated:1" },
+    ]);
     const explained = explainIllegal(
       s.room,
       "p1",
@@ -124,7 +128,8 @@ describe("activated abilities [R376–R381][R403.3]", () => {
   });
 
   it("[R430.2][R430.2.a] an Add ability never fabricates 1 Energy and never passes Priority", () => {
-    const s = scenario({ p1: { hand: ["Astral Heron"], energy: 0 } });
+    // 357: Astral Heron costs [7]; the pool pays it exactly and is then empty.
+    const s = scenario({ p1: { hand: ["Astral Heron"], energy: 7 } });
     s.as("p1").play("Astral Heron").expectOk();
     const unit = s.findBoardCard("Astral Heron")!;
     expect(s.room.rules?.pools.p1?.energy).toBe(0);
@@ -136,16 +141,20 @@ describe("activated abilities [R376–R381][R403.3]", () => {
     expect(s.events().some((event) => event.type === "add_resolved")).toBe(true);
   });
 
-  it("[R430.2][R430.2.a] an unimplemented Add effect leaves the pool untouched (TODO R2-effects)", () => {
-    const s = scenario({ p1: { hand: ["Whiteflame Protector"] } });
+  it("[R430.2][R430.5] a scripted Add effect adds its resources as it resolves immediately", () => {
+    // R2-effects implements the `add` op: the R1 placeholder ("leaves the pool untouched") is
+    // replaced by the 430.2/430.5 behaviour — the ability finalizes, resolves at once and adds [1].
+    // 357: Whiteflame Protector costs [8][C][C] (Calm), so the play is funded exactly.
+    const s = scenario({ p1: { hand: ["Whiteflame Protector"], energy: 8, power: { Calm: 2 } } });
     s.as("p1").play("Whiteflame Protector").expectOk();
     const unit = s.findBoardCard("Whiteflame Protector")!;
     const before = { ...s.room.rules!.pools.p1! };
 
     s.as("p1").activate("Whiteflame Protector", "activated:0").expectOk();
-    expect(s.room.rules?.pools.p1).toEqual(before);
+    expect(s.room.rules?.pools.p1).toEqual({ ...before, energy: before.energy + 1 });
     expect(s.room.rules?.chain.length).toBe(0);
-    expect(s.events().some((event) => event.type === "add_unimplemented")).toBe(true);
+    expect(s.room.rules?.priority).toBe("p1");
+    expect(s.events().some((event) => event.type === "add_resolved")).toBe(true);
     expect(unit.id).toBeTruthy();
   });
 

@@ -5,7 +5,7 @@ import { endTurnVerdict } from "../legality/end-turn";
 import { passVerdict } from "../legality/pass";
 import { legalActivatableAbilities } from "./legal-activate";
 import { legalMoves } from "./legal-move";
-import { legalPlayableCardIds } from "./legal-play";
+import { legalHides, legalPlayDetails } from "./legal-play";
 import { readableRulesRoom } from "./restore";
 
 function emptyLegalIntents(playerId: string): LegalIntents {
@@ -48,7 +48,12 @@ export function legalIntents(room: Room, playerId: string, host: RulesHost): Leg
   };
   if (view.gameOutcome) return result;
 
-  result.playableCardIds = legalPlayableCardIds(view, playerId, host);
+  const playable = legalPlayDetails(view, playerId, host);
+  result.playableCardIds = playable.map((detail) => detail.cardId);
+  // R2-play details (same order as playableCardIds) + 811.1.b Hide options.
+  result.playable = playable;
+  const hideable = legalHides(view, playerId, host);
+  if (hideable.length > 0) result.hideable = hideable;
   result.activatable = legalActivatableAbilities(view, playerId, host);
   result.moves = legalMoves(view, playerId, host);
   result.canPass = passVerdict(view, playerId).ok;

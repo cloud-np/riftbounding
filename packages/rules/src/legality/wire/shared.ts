@@ -18,6 +18,7 @@ export const INTENT_TYPES = [
   "rules_end_turn",
   "rules_choose",
   "rules_manual_done",
+  "rules_concede",
 ] as const;
 
 export type IntentType = (typeof INTENT_TYPES)[number];
@@ -46,6 +47,8 @@ export function shapeRule(type: IntentType): string {
       return "316.9";
     case "rules_manual_done":
       return "contract:§6.4";
+    case "rules_concede":
+      return "650";
     case "rules_play":
     case "rules_activate":
     default:

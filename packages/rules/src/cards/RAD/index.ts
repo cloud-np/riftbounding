@@ -1,5 +1,10 @@
 /**
- * Radiance (RAD) card scripts — empty until wave R2-effects.
- * Add `./<slug>` imports here; each script calls `registerCardScript`.
+ * Radiance (RAD) card scripts. Each module calls `registerCardScript`.
  */
+import "./blade-of-the-exile";
+import "./reckless-innovator";
+import "./riven-the-exile";
+import "./riven-broken-blade";
+import "./clanging-sentry";
+
 export {};

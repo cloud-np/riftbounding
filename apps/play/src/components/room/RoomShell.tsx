@@ -2,6 +2,8 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 
+import { createTranslator } from "@rift/i18n";
+
 import { format, strings } from "@/components/lobby/strings";
 import type {
   DeckRulesMode,
@@ -10,6 +12,7 @@ import type {
   PlayMode,
   RoomSeat,
   RoomState,
+  RulesMode,
 } from "@/components/lobby/types";
 import { Icon } from "@/components/ui/Icon";
 import {
@@ -53,6 +56,7 @@ export interface RoomShellProps {
     playMode?: PlayMode;
     format?: MatchFormat;
     deckRules?: DeckRulesMode;
+    rulesMode?: RulesMode;
   }) => void;
   onStartMatch: () => void;
   onCreateNextGame: () => void;
@@ -676,6 +680,7 @@ const RoomSetupPanel = ({
     playMode?: PlayMode;
     format?: MatchFormat;
     deckRules?: DeckRulesMode;
+    rulesMode?: RulesMode;
   }) => void;
   onDone: () => void;
 }) => {
@@ -836,6 +841,12 @@ const RoomSetupPanel = ({
           </p>
         </fieldset>
       ) : null}
+
+      <RulesModeFieldset
+        rulesMode={room.rulesMode ?? "sandbox"}
+        hintId={`${baseId}-rules-mode`}
+        onChange={(rulesMode) => onChange({ rulesMode })}
+      />
     </section>
   );
 };
@@ -965,5 +976,54 @@ function RoomChat({
         </div>
       </section>
     </div>
+  );
+}
+
+const rulesText = createTranslator("en");
+
+/** Host-only strict-rules toggle (R2-int): sends `set_lobby_rules_mode`. */
+export function RulesModeFieldset({
+  rulesMode,
+  hintId,
+  onChange,
+}: {
+  rulesMode: RulesMode;
+  hintId: string;
+  onChange: (mode: RulesMode) => void;
+}) {
+  return (
+    <fieldset className="grid min-w-0 gap-1.5 border-0 p-0" data-lobby-rules-mode={rulesMode}>
+      <legend className="sr-only">{rulesText("rules.ui.rulesMode") ?? "Rules"}</legend>
+      <p
+        aria-hidden="true"
+        className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#e7c98b]"
+      >
+        {rulesText("rules.ui.rulesMode") ?? "Rules"}
+      </p>
+      <div className="grid grid-cols-2 gap-1.5">
+        {(["sandbox", "strict"] as RulesMode[]).map((mode) => {
+          const active = rulesMode === mode;
+          return (
+            <button
+              key={mode}
+              type="button"
+              aria-pressed={active}
+              aria-describedby={hintId}
+              onClick={() => onChange(mode)}
+              className={`${segmentedButton} ${active ? segmentedActive : segmentedInactive}`}
+            >
+              <span className="truncate">
+                {mode === "strict"
+                  ? (rulesText("rules.ui.modeStrict") ?? "Strict")
+                  : (rulesText("rules.ui.modeSandbox") ?? "Sandbox")}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      <p id={hintId} className="text-xs leading-snug text-[#8193aa]">
+        {rulesText("rules.ui.rulesModeHint") ?? ""}
+      </p>
+    </fieldset>
   );
 }

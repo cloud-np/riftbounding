@@ -1,8 +1,14 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import type { ChainItem } from "@rift/protocol";
 import { clearCardScripts, registerCardScript } from "../../src";
 import { appendChainItem, finalizeChainItem, resolveNewest } from "../../src/timing/fepr";
 import { scenario } from "../scenarios/dsl";
+
+// R2-effects: Treasure Hunter's printed "When I move, play a Gold gear token exhausted" now
+// triggers (383 / 402.1) and keeps the state Closed until it resolves. This suite uses it as a
+// vanilla unit for timing/showdown mechanics, so it overrides the production script (the trigger
+// itself is covered by test/cards/fixture-deck.test.ts).
+beforeAll(() => registerCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
 
 function readyUnit(s: ReturnType<typeof scenario>, name: string): void {
   const unit = s.findBoardCard(name);
@@ -52,6 +58,8 @@ describe("showdowns [R341–R348]", () => {
 
     // P2's turn: attack the battlefield P1 just conquered.
     s.as("p1").endTurn().expectOk();
+    // 167: P2's Rune Pool emptied at the start of their Main Phase; 357: fund Caitlyn's cost.
+    s.room.rules!.pools.p2 = { energy: 3, power: { Calm: 1 } };
     s.as("p2").play("Caitlyn, Patrolling").expectOk();
     readyUnit(s, "Caitlyn, Patrolling");
     s.as("p2").move("Caitlyn, Patrolling", "battlefieldA").expectOk();

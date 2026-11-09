@@ -4,4 +4,6 @@
  * Add `import` lines for handler modules here (each handler calls `registerPromptHandler`);
  * R2-play never edits the shared `prompts/index.ts`.
  */
+import "./handlers";
+
 export {};

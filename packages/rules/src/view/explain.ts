@@ -8,25 +8,31 @@ import type { Room, RulesIntent, Verdict } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import { fail } from "../types";
 import { validateRulesIntent } from "../legality/intent";
-import { activationVerdict } from "../legality/activate";
+import { activateIntentVerdict } from "../legality/activate";
 import { chooseVerdict } from "../legality/choose";
+import { concedeVerdict } from "../legality/concede";
 import { endTurnVerdict } from "../legality/end-turn";
 import { manualDoneVerdict } from "../legality/manual";
 import { moveTimingVerdict } from "../legality/move";
 import { passVerdict } from "../legality/pass";
-import { playCardVerdict } from "../legality/play";
+import { playIntentVerdict } from "../legality/play";
 import { readableRulesRoom } from "./restore";
 
 type ExplainFn = (room: Room, playerId: string, intent: RulesIntent, host: RulesHost) => Verdict;
 
+/** Verdicts carry their plan internally; explanations only expose `{ ok: true }` or the failure. */
+function stripPlan(verdict: Verdict): Verdict {
+  return verdict.ok ? { ok: true } : verdict;
+}
+
 const EXPLAIN_VERDICTS: Record<RulesIntent["type"], ExplainFn> = {
   rules_play: (room, playerId, intent, host) =>
     intent.type === "rules_play"
-      ? playCardVerdict(room, playerId, intent.cardId, host, intent.location)
+      ? stripPlan(playIntentVerdict(room, playerId, intent, host))
       : fail("unknown_intent", "contract:§5"),
   rules_activate: (room, playerId, intent, host) =>
     intent.type === "rules_activate"
-      ? activationVerdict(room, playerId, intent.objectId, intent.ability, host)
+      ? stripPlan(activateIntentVerdict(room, playerId, intent, host))
       : fail("unknown_intent", "contract:§5"),
   rules_move: (room, playerId, intent, host) =>
     intent.type === "rules_move"
@@ -39,6 +45,7 @@ const EXPLAIN_VERDICTS: Record<RulesIntent["type"], ExplainFn> = {
       ? chooseVerdict(room, playerId, intent.promptId, intent.answer)
       : fail("unknown_intent", "contract:§5"),
   rules_manual_done: (room, playerId) => manualDoneVerdict(room, playerId),
+  rules_concede: (room, playerId, _intent, host) => concedeVerdict(room, playerId, host),
 };
 
 /** §5: why an intent would be rejected, for tooltips/toasts. Mirrors the write path. */

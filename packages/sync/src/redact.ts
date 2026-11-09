@@ -20,6 +20,8 @@ import type {
   Spectator,
   ViewerRole,
 } from "@rift/protocol";
+import { BOARD_ZONES } from "./patch";
+import { redactRulesForViewer } from "./redact-rules";
 
 export const HIDDEN_ZONE_ID_PREFIX = "__hidden_zone__";
 
@@ -164,13 +166,36 @@ function redactBoard(
 }
 
 /**
+ * Record every card the redacted board replaced with a placeholder: private card id → the
+ * placeholder id this viewer sees (128.4 / 107.3.f). `Room.rules` references are rewritten to it.
+ */
+function collectPrivateIds(
+  original: PlayerBoard,
+  redacted: PlayerBoard,
+  privateIds: Map<string, string>,
+): void {
+  const zones: string[] = [...BOARD_ZONES, "additionalLegends"];
+  for (const zone of zones) {
+    const before = (original as unknown as Record<string, unknown>)[zone];
+    const after = (redacted as unknown as Record<string, unknown>)[zone];
+    if (!Array.isArray(before) || !Array.isArray(after)) continue;
+    before.forEach((card: CardInstance, index) => {
+      const shown = after[index] as CardInstance | undefined;
+      if (!card || !shown || shown.id === card.id || isHiddenZoneCardId(card.id)) return;
+      privateIds.set(card.id, shown.id);
+    });
+  }
+}
+
+/**
  * Redact a room for one viewer.
  *
  * - player seats see their own board in full;
  * - `controlledPlayerIds` (solo_lab / single_player) see every controlled board in full;
  * - spectators see boards of players who granted them private access (`grantedPrivatePlayerIds`);
  * - everyone else sees opponents' hands/decks as `__hidden_zone__` placeholders, no face-down card
- *   identities and no private deck-peek sessions.
+ *   identities and no private deck-peek sessions;
+ * - strict rooms: `Room.rules` is redacted with the same visibility (`redact-rules.ts`).
  */
 export function redactRoomForViewer(room: Room, viewer: SnapshotViewer): Room {
   const redacted = cloneRoom(room);
@@ -179,10 +204,13 @@ export function redactRoomForViewer(room: Room, viewer: SnapshotViewer): Room {
   for (const id of viewer.controlledPlayerIds ?? []) owned.add(id);
   for (const id of viewer.grantedPrivatePlayerIds ?? []) owned.add(id);
 
+  const privateIds = new Map<string, string>();
   redacted.players = redacted.players.map((player) => {
     if (!player.board) return player;
     if (owned.has(player.id)) return player;
-    return { ...player, board: redactBoard(player.board, player, viewer, false) };
+    const board = redactBoard(player.board, player, viewer, false);
+    collectPrivateIds(player.board, board, privateIds);
+    return { ...player, board };
   });
 
   // Chain entries are public, but a face-down (Hidden) card in the chain is not.
@@ -190,11 +218,36 @@ export function redactRoomForViewer(room: Room, viewer: SnapshotViewer): Room {
     if (!entry.card?.hidden) return entry;
     if (owned.has(entry.byPlayerId)) return entry;
     if (isRevealedToViewer(entry.card, viewer)) return entry;
-    return {
-      ...entry,
-      card: placeholderCard(entry.byPlayerId, "chain", index),
-    };
+    const card = placeholderCard(entry.byPlayerId, "chain", index);
+    privateIds.set(entry.card.id, card.id);
+    return { ...entry, card };
   });
+
+  // Mulligan playback (setup): another seat's opening/refill draws name private hand/deck cards.
+  // The client reads only `redrawCount` for opponents; card ids become this viewer's placeholders.
+  if (redacted.mulliganPlaybackByPlayerId) {
+    const mapId = (id: string) => privateIds.get(id) ?? id;
+    for (const [playerId, playback] of Object.entries(redacted.mulliganPlaybackByPlayerId)) {
+      if (owned.has(playerId) || !playback) continue;
+      redacted.mulliganPlaybackByPlayerId[playerId] = {
+        ...playback,
+        draws: playback.draws.map((draw) => ({ ...draw, cardId: mapId(draw.cardId) })),
+        ...(playback.hiddenRefillCardIds
+          ? { hiddenRefillCardIds: playback.hiddenRefillCardIds.map(mapId) }
+          : {}),
+      };
+    }
+  }
+
+  // Strict rooms: the rules state references the same cards (prompts, objects, history, …).
+  if (redacted.rules) {
+    redacted.rules = redactRulesForViewer(redacted.rules, {
+      owned,
+      privateIds,
+      isRevealed: (card) => isRevealedToViewer(card, viewer),
+      placeholder: placeholderCard,
+    });
+  }
 
   return redacted;
 }

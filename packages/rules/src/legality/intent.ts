@@ -6,7 +6,7 @@
  *
  * This file is the **stable dispatcher**: it keeps the shared checks (object shape, known intent
  * type, `hold` boolean) and delegates every payload check to the matching validator in
- * `./wire/{play,activate,move,pass,end-turn,choose,manual}.ts`. R2 agents only touch their own
+ * `./wire/{play,activate,move,pass,end-turn,choose,manual,concede}.ts`. R2 agents only touch their own
  * wire file; the dispatcher and its exported `validateRulesIntent` signature stay frozen.
  */
 import type { RulesIntent } from "@rift/protocol";
@@ -14,6 +14,7 @@ import type { RulesFailure } from "../types";
 import { fail } from "../types";
 import { validateActivateIntent } from "./wire/activate";
 import { validateChooseIntent } from "./wire/choose";
+import { validateConcedeIntent } from "./wire/concede";
 import { validateEndTurnIntent } from "./wire/end-turn";
 import { validateManualIntent } from "./wire/manual";
 import { validateMoveIntent } from "./wire/move";
@@ -38,6 +39,7 @@ export const WIRE_VALIDATORS: Record<IntentType, WireValidator> = {
   rules_end_turn: validateEndTurnIntent,
   rules_choose: validateChooseIntent,
   rules_manual_done: validateManualIntent,
+  rules_concede: validateConcedeIntent,
 };
 
 /**

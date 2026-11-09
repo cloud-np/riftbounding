@@ -33,6 +33,14 @@ function doc(overrides: Partial<RoomSessionDoc> = {}): RoomSessionDoc {
 }
 
 describe("roomStateFromSessionDoc", () => {
+  it("maps the strict-rules toggle from the session doc (absent = sandbox, R2-int)", () => {
+    const input = { myPlayerId: "p1", viewerRole: "player" as const, chatEntries: [], spectators: [] };
+    expect(roomStateFromSessionDoc({ ...input, sessionDoc: doc() }).rulesMode).toBeUndefined();
+    expect(
+      roomStateFromSessionDoc({ ...input, sessionDoc: doc({ rulesMode: "strict" }) }).rulesMode,
+    ).toBe("strict");
+  });
+
   it("maps seats, ready flags, host and deck readiness", () => {
     const room = roomStateFromSessionDoc({
       sessionDoc: doc(),

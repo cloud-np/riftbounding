@@ -45,7 +45,12 @@ function failure(error: string, errorCode?: string): EngineResult {
 /** §5: turn a strict Verdict into the engine's failure shape (rule included in the message). */
 function verdictFailure(verdict: Extract<Verdict, { ok: false }>): EngineResult {
   const suffix = [verdict.rule ? `rule ${verdict.rule}` : "", verdict.detail ?? ""].filter(Boolean).join(" — ");
-  return failure(suffix ? `${verdict.code}: ${suffix}` : verdict.code, verdict.code);
+  return {
+    ...failure(suffix ? `${verdict.code}: ${suffix}` : verdict.code, verdict.code),
+    // R2-int: the realtime server forwards code + rule (+ detail) to the sender.
+    ...(verdict.rule ? { rule: verdict.rule } : {}),
+    ...(verdict.detail ? { detail: verdict.detail } : {}),
+  };
 }
 
 /** §3 lobby toggle: host only, lobby phase. */

@@ -543,6 +543,10 @@ export function applyFallbackAction(
     return err("The gameplay action payload is malformed.", "invalid_action");
   }
   const action = actionValue as ActionRecord;
+  // The development engine has no strict rules layer (@rift/rules runs inside @rift/engine).
+  if (action.type === "set_lobby_rules_mode" || action.type.startsWith("rules_")) {
+    return err("Strict rules need the full @rift/engine.", "strict_rules_unavailable");
+  }
   const room = clone(state);
   const actor = playerOf(room, actorPlayerId);
   if (!actor)

@@ -1,5 +1,6 @@
 /**
- * Vendetta (VEN) card scripts — empty until wave R2-effects.
- * Add `./<slug>` imports here; each script calls `registerCardScript`.
+ * Vendetta (VEN) card scripts. Each module calls `registerCardScript`.
  */
+import "./astral-heron";
+
 export {};

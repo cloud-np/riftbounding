@@ -255,6 +255,10 @@ export interface ServerErrorMessage extends WireEnvelope {
   retryAfterMs?: number;
   authReason?: AuthFailureReason;
   authRecovery?: "retry_verification" | "refresh_token" | "reauthenticate";
+  /** Strict rooms (R2-int, §5): the rule a rejected `rules_*` intent violated (`code` = ReasonCode). */
+  rule?: string;
+  /** Strict rooms (R2-int, §5): optional human detail of the rejection. */
+  detail?: string;
 }
 export type AuthFailureReason =
   | "missing" | "not_configured" | "malformed_token" | "unsupported_token" | "invalid_claims"

@@ -43,3 +43,9 @@ export {
   FORWARD_WINDOW_MS,
   REWIND_PROTOCOL_VERSION,
 } from "./rules/rewind";
+export {
+  strictExplainIllegal,
+  strictLegalIntents,
+  strictTurnState,
+  strictWhoMayAct,
+} from "./strict/view";

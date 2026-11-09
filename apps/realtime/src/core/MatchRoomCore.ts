@@ -326,6 +326,7 @@ export class MatchRoomCore {
       ...(seed.teamIdByPlayerId ? { teamIdByPlayerId: { ...seed.teamIdByPlayerId } } : {}),
       playMode: seed.playMode,
       deckRulesMode: seed.deckRulesMode,
+      ...(seed.rulesMode === "strict" ? { rulesMode: "strict" as const } : {}),
       matchFormat: seed.matchFormat,
       setupOrderVersion: 2,
       seriesId: seed.seriesId ?? seed.operationId ?? this.roomCode,
@@ -367,6 +368,7 @@ export class MatchRoomCore {
       ...(seed.teamIdByPlayerId ? { teamIdByPlayerId: { ...seed.teamIdByPlayerId } } : {}),
       playMode: seed.playMode,
       deckRulesMode: seed.deckRulesMode,
+      ...(seed.rulesMode === "strict" ? { rulesMode: "strict" as const } : {}),
       matchFormat: seed.matchFormat,
       gameNumber: seed.gameNumber ?? 1,
       winsByPlayerId: seed.winsByPlayerId ?? {},
@@ -1632,6 +1634,9 @@ export class MatchRoomCore {
         retryable: false,
         mutationClass: "reject_invalid",
         authoritativeSequence: this.sequence,
+        // Strict rooms (§5): `code` is the ReasonCode; the rule (and detail) travel separately.
+        ...(result.rule ? { rule: result.rule } : {}),
+        ...(result.detail ? { detail: result.detail } : {}),
         ...(clientActionId ? { clientActionId } : {}),
       });
       return;
@@ -1781,6 +1786,7 @@ export class MatchRoomCore {
       gameVariant: this.seed.gameVariant,
       playMode: this.seed.playMode,
       deckRulesMode: this.seed.deckRulesMode,
+      ...(this.seed.rulesMode ? { rulesMode: this.seed.rulesMode } : {}),
       matchFormat: this.seed.matchFormat,
       players: this.linkedPlayers(),
       autoStart: true,
@@ -2126,6 +2132,41 @@ export class MatchRoomCore {
         this.seed.deckRulesMode = mode;
         this.sessionDoc.deckRulesMode = mode;
         this.room.deckRulesMode = mode;
+        return { ok: true };
+      }
+      case "set_lobby_rules_mode": {
+        // Strict-rules toggle (R2-int): host only, lobby only. The engine owns the validation
+        // (`set_lobby_rules_mode` in @rift/engine); the shell mirrors the accepted mode.
+        const denied = hostOnly();
+        if (denied) return denied;
+        if (this.room.phase !== "lobby")
+          return {
+            ok: false,
+            code: "invalid_phase",
+            message: "Rules mode can only be changed in the lobby.",
+          };
+        const result = await applyGameAction(this.room, actorId, action, {
+          now: this.deps.clock.now(),
+          rng: this.deps.clock.rng,
+          mode: this.roomMode,
+        });
+        if (!result.ok)
+          return {
+            ok: false,
+            code: result.errorCode ?? "invalid_rules_mode",
+            message: result.error,
+          };
+        const strict = result.state.rulesMode === "strict";
+        if (strict) {
+          this.seed.rulesMode = "strict";
+          this.sessionDoc.rulesMode = "strict";
+          this.room = { ...this.room, rulesMode: "strict" };
+        } else {
+          delete this.seed.rulesMode;
+          delete this.sessionDoc.rulesMode;
+          const { rulesMode: _rulesMode, rules: _rules, ...rest } = this.room;
+          this.room = rest as Room;
+        }
         return { ok: true };
       }
       case "set_lobby_match_format": {
@@ -2508,6 +2549,8 @@ export class MatchRoomCore {
       matchFormat: state.matchFormat ?? this.seed.matchFormat,
       gameNumber: state.gameNumber ?? this.sessionDoc.gameNumber ?? 1,
       winsByPlayerId: state.winsByPlayerId ?? this.sessionDoc.winsByPlayerId ?? {},
+      // Strict rooms (R2-int): the engine routes rules_* and runs @rift/rules once in_game.
+      ...(this.seed.rulesMode === "strict" ? { rulesMode: "strict" as const } : {}),
     };
     this.room = room;
     this.gameplayLog = [];
