@@ -1140,7 +1140,7 @@ Every registered custom condition / effect, where it is registered and the scrip
 | `core:base-might-becomes` | effect | `cards/lib/custom.ts` | Dragon Form, Herald of the Emperor, Lulu, Whimsical, Piltovan Guidebot |
 | `core:draw-ref` | effect | `cards/lib/custom.ts` | Apprentice Smith, Called Shot, Command: Attack, Double Trouble, Encore, Fate Weaver (+5) |
 | `core:in-combat` | condition | `cards/lib/custom.ts` | Akali, Silent, Ambessa, The Wolf, Cannon Barrage, Vex, Cheerless, Wielder of Water |
-| `core:legion` | condition | `cards/lib/custom.ts` | Dangerous Duo, Darius, Executioner, Darius, Hand of Noxus, Scrapyard Champion, Sun Disc, Trifarian Gloryseeker (+1) |
+| `core:legion` | condition | `cards/lib/custom.ts` | Dangerous Duo, Darius, Executioner, Darius, Hand of Noxus, Scrapyard Champion, Sun Disc, Trifarian Gloryseeker (+2) |
 | `core:take-control` | effect | `cards/lib/custom.ts` | Hostile Takeover, Possession |
 | `core:you-have-units-at-it` | condition | `cards/lib/custom.ts` | Moonfall, Shadow Dash |
 | `keyword:weaponmaster` | effect | `engine` | code |
@@ -1277,7 +1277,7 @@ Every registered custom condition / effect, where it is registered and the scrip
 | `unl:opponent-within` | condition | `cards/UNL/custom.ts` | Poppy, Paragon |
 | `unl:owner-top-or-bottom` | effect | `cards/UNL/custom.ts` | Keeper's Verdict |
 | `unl:played-from-hand` | condition | `cards/UNL/custom.ts` | Back Off |
-| `unl:played-spell-this-turn` | condition | `cards/UNL/custom.ts` | code |
+| `unl:played-spell-this-turn` | condition | `cards/UNL/custom.ts` | Crescent Guardian |
 | `unl:ref-has-any-tag` | condition | `cards/UNL/custom.ts` | Ivern, Nurturer |
 | `unl:reveal-top-draw-spell` | effect | `cards/UNL/custom.ts` | Diana, Lunari |
 | `unl:unit-won-combat` | condition | `cards/UNL/custom.ts` | Grim Resolve, Nidalee, Cat Form |

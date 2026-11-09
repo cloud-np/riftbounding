@@ -74,7 +74,7 @@ function walk(node: unknown, visit: Visit, script: CardScript, key?: string): vo
 }
 
 function eachNode(visit: Visit): void {
-  for (const script of SCRIPTS) walk(script.abilities, visit, script);
+  for (const script of SCRIPTS) walk({ abilities: script.abilities, additionalCosts: script.additionalCosts, playPermissions: script.playPermissions }, visit, script);
 }
 
 /** `{ kind|op: "custom", id }` references in script JSON. */

@@ -109,7 +109,7 @@ async function loadRegistry() {
   for (const name of rules.cardScriptNames()) {
     const script = rules.getCardScript(name);
     scripts.set(name, { status: script.status });
-    walk(script.abilities, name);
+    walk(script, name);
   }
   customIdInfo = {
     conditions: rules.customConditionIds(),
