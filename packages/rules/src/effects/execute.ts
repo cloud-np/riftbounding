@@ -4,7 +4,8 @@
  * Dispatch goes through `EFFECT_OPS` (`effects/registry.ts`); ops live in `effects/ops/*.ts`
  * and register themselves at import time. Every execution runs on the resumable machine
  * (`effects/machine.ts`): a resolution that needs a player's decision stores its continuation in
- * an `effects.resume` prompt and reports `resolved` to the FEPR caller.
+ * an `effects.resume` prompt and reports `await`; FEPR keeps the item on the chain until the
+ * answered continuation finishes (`timing/fepr/resolve.ts` `finishResolution`).
  *
  * Unregistered ops (and `status:"manual"` / missing scripts) still resolve through the §6.4
  * manual window exactly as in R1.
@@ -40,7 +41,11 @@ export type EffectExecutionResult =
   | { status: "await" };
 
 export interface AbilityExecutionResult {
-  status: "resolved" | "manual";
+  /**
+   * `await`: the resolution stopped on an `effects.resume` prompt (355.18); the chain item keeps
+   * resolving — it stays on the chain until the continuation finishes (340 / 359).
+   */
+  status: "resolved" | "manual" | "await";
   reason?: string;
 }
 
@@ -104,7 +109,7 @@ function effectOfAbility(ability: Ability): Effect | null {
   return null;
 }
 
-/** Run an ability's effect; a resolution waiting on a prompt counts as resolved (see machine). */
+/** Run an ability's effect (`await` while a resolution prompt is open). */
 export function executeAbility(ability: Ability, context: EffectExecutionContext): AbilityExecutionResult {
   const effect = effectOfAbility(ability);
   if (!effect) return { status: "manual", reason: `ability_not_implemented:${ability.kind}` };
@@ -112,6 +117,7 @@ export function executeAbility(ability: Ability, context: EffectExecutionContext
     ability.kind === "spell" ? "spell" : ability.kind === "triggered" ? "triggered" : "activated";
   const result = startMachine(context.room, context.step, effect, envFromContext(context, kind));
   if (result.status === "manual") return { status: "manual", reason: result.reason };
+  if (result.status === "await") return { status: "await" };
   return { status: "resolved" };
 }
 
@@ -129,6 +135,7 @@ export function executeCardScript(
   if (item?.effect) {
     const result = startMachine(context.room, context.step, item.effect, envFromItem(item, context));
     if (result.status === "manual") return { status: "manual", reason: result.reason };
+    if (result.status === "await") return { status: "await" };
     return { status: "resolved" };
   }
   const lookup = lookupAbility(name, abilityRef);
@@ -140,5 +147,6 @@ export function executeCardScript(
   const env = item ? envFromItem(item, context) : envFromContext(context);
   const result = startMachine(context.room, context.step, effect, env);
   if (result.status === "manual") return { status: "manual", reason: result.reason };
+  if (result.status === "await") return { status: "await" };
   return { status: "resolved" };
 }

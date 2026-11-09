@@ -10,7 +10,7 @@ import {
   xpOf,
 } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
-import { boardOf, fund, place, registerAll, run, spell } from "./helpers";
+import { boardOf, fund, place, registerAll, run, spell, zoneOf } from "./helpers";
 
 const DRAW_THEN_XP: Effect = {
   op: "seq",
@@ -70,6 +70,25 @@ describe("effect interpreter — control ops [§6.2][R359.3.d]", () => {
     expect(handSize(s)).toBe(before + 2);
     expect(xpOf(s.room, "p1")).toBe(1);
     expect(s.room.rules?.prompt).toBe(null);
+  });
+
+  it("[R340.1][R359][R355.18] a spell waiting on a resolution prompt stays on the chain until its last instruction", () => {
+    const s = scenario({ p1: { hand: ["Gust"], energy: 1 } });
+    s.as("p1").play("Gust").expectOk();
+    const card = s.room.rules!.chain[0]!.cardSnapshot!;
+    s.as("p2").pass().expectOk();
+    s.expectPrompt("yes-no", "p1");
+    // Still resolving: on the chain, not in the trash, no spell_resolved yet.
+    expect(s.room.rules?.chain.map((item) => item.cardName)).toEqual(["Gust"]);
+    expect(s.events().map((event) => event.type)).not.toContain("spell_resolved");
+    expect(zoneOf(s, card.id)).toBe(null);
+    s.as("p1").choose({ optionIds: ["yes"] }).expectOk();
+    const types = s.events().map((event) => event.type);
+    expect(types.indexOf("draw")).toBeGreaterThanOrEqual(0);
+    expect(types.indexOf("gain_xp")).toBeGreaterThan(types.indexOf("draw"));
+    expect(types.indexOf("spell_resolved")).toBeGreaterThan(types.indexOf("gain_xp"));
+    expect(s.room.rules?.chain).toEqual([]);
+    expect(zoneOf(s, card.id)).toBe("trash");
   });
 
   it("[R383.3.a.3] declining the \"may\" skips only that instruction", () => {

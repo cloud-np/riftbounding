@@ -1,5 +1,5 @@
-/** Resolve — rules 340.1, including the §6.4 manual fallback. */
-import type { Room } from "@rift/protocol";
+/** Resolve — rules 340.1, including the §6.4 manual fallback and resolution-time prompts. */
+import type { ChainItem, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../../types";
 import { executeCardScript } from "../../effects/execute";
 import { afterChainItemResolved } from "./after";
@@ -8,7 +8,21 @@ import { resolvePermanent } from "./finalize";
 import { openManual } from "./manual";
 import { pushSpellToTrash } from "./spell";
 
-export type FeprResult = "resolved" | "manual" | "none";
+/** `await`: the item is still resolving behind an `effects.resume` prompt (355.18). */
+export type FeprResult = "resolved" | "manual" | "await" | "none";
+
+/**
+ * 340 / 359.3.f: the item has executed all of its instructions — a spell goes to its owner's
+ * Trash, the item leaves the chain, and Priority/Focus move on (340.2–340.4).
+ */
+export function finishResolution(room: Room, item: ChainItem, step: RulesStepContext): void {
+  const rules = room.rules;
+  if (!rules || !rules.chain.some((entry) => entry.id === item.id)) return;
+  if (item.kind === "card") pushSpellToTrash(room, item, step);
+  const openedBy = rules.history.chainOpenedBy;
+  removeChainItem(room, item.id);
+  afterChainItemResolved(room, step, openedBy);
+}
 
 /** 340.1: the newest Finalized Chain Item resolves. */
 export function resolveNewest(room: Room, step: RulesStepContext): FeprResult {
@@ -28,25 +42,8 @@ export function resolveNewest(room: Room, step: RulesStepContext): FeprResult {
       resolvePermanent(room, item, type.includes("unit"), step);
       return "resolved";
     }
-    const result = executeCardScript(item.cardName, "spell", {
-      room,
-      step,
-      itemId: item.id,
-      controller: item.controller,
-      choices: item.choices,
-    });
-    if (result.status === "manual") {
-      openManual(room, item, step, result.reason);
-      return "manual";
-    }
-    pushSpellToTrash(room, item, step);
-    const openedBy = rules.history.chainOpenedBy;
-    removeChainItem(room, item.id);
-    afterChainItemResolved(room, step, openedBy);
-    return "resolved";
   }
-
-  const result = executeCardScript(item.cardName, item.abilityRef, {
+  const result = executeCardScript(item.cardName, item.kind === "card" ? "spell" : item.abilityRef, {
     room,
     step,
     itemId: item.id,
@@ -57,8 +54,11 @@ export function resolveNewest(room: Room, step: RulesStepContext): FeprResult {
     openManual(room, item, step, result.reason);
     return "manual";
   }
-  const openedBy = rules.history.chainOpenedBy;
-  removeChainItem(room, item.id);
-  afterChainItemResolved(room, step, openedBy);
+  if (result.status === "await") {
+    // 359 / 355.18: the remaining instructions run once the prompt is answered; until then the
+    // item is still resolving and stays on the chain (the resume handler finishes it).
+    return "await";
+  }
+  finishResolution(room, item, step);
   return "resolved";
 }

@@ -8,6 +8,7 @@
  */
 import { pushEvent } from "../../types";
 import { runMachine, type Continuation } from "../../effects/machine";
+import { finishResolution } from "../../timing/fepr/resolve";
 import { registerPromptHandler } from "../handlers";
 import { booleanOf, selectedObjectIds, selectedOptionIds } from "./answers";
 import { EFFECTS_PROMPT_REASONS } from "./reasons";
@@ -45,6 +46,9 @@ registerPromptHandler(EFFECTS_PROMPT_REASONS.resume, ({ room, prompt, answer, st
   // The answered prompt closes before the interpreter continues (it may open the next one).
   if (rules.prompt?.id === prompt.id) rules.prompt = null;
   const result = runMachine(room, step, continuation);
+  // 340 / 359: the chain item that was resolving finishes once its last instruction ran.
+  const item = env.itemId ? rules.chain.find((entry) => entry.id === env.itemId) : undefined;
+  if (result.status === "done" && item && item.status === "finalized") finishResolution(room, item, step);
   if (result.status === "manual" && !rules.manual) {
     rules.manual = {
       itemId: env.itemId ?? prompt.id,
