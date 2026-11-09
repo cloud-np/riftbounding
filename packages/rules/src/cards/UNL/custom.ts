@@ -5,7 +5,7 @@
 import type { Effect, Room } from "@rift/protocol";
 import type { RulesHost } from "../../host";
 import { pushEvent } from "../../types";
-import { registerCustomCondition, refIds } from "../../effects/evaluate";
+import { registerCustomCondition, refIds, mightOf } from "../../effects/evaluate";
 import { registerCustomEffect } from "../../effects/ops";
 import { RESOLVED } from "../../effects/execute";
 import type { EvalContext } from "../../effects/env";
@@ -20,6 +20,8 @@ import {
   tagsOf,
 } from "../../effects/objects";
 import { forgetObject } from "../../effects/ops/util";
+import { movePrimitive } from "../../actions/move";
+import { restrictionFor } from "../../layers/restrictions";
 import { unitsPresentAt } from "../../state/presence";
 import { battlefieldController } from "../../actions/control";
 import { teamOf } from "../../scoring/teams";
@@ -244,6 +246,55 @@ registerCustomCondition("unl:defending-alone", (ctx) => {
   return unitsPresentAt(ctx.room, ctx.host, zone, controller).every((card) => card.id === id);
 });
 
+/**
+ * Smoke and Mirrors — "another unit you control at a different location": `it` (the candidate) is
+ * not at the location of the object bound to `ref` (107.3).
+ */
+registerCustomCondition("unl:at-different-location", (ctx, params) => {
+  const ref = typeof params.ref === "string" ? params.ref : "target:0";
+  const other = chosenId(ctx, ref);
+  const mine = ctx.env.it;
+  if (!other || !mine) return true;
+  return locationOf(ctx.room, ctx.host, mine) !== locationOf(ctx.room, ctx.host, other);
+});
+
+/**
+ * The controller's units (at battlefields or bases) carry every one of `tags` among them (143.1;
+ * Ivern, Friend to all; Daisy!).
+ */
+registerCustomCondition("unl:units-have-all-tags", (ctx, params) => {
+  const tags = (Array.isArray(params.tags) ? params.tags : []).map((tag) =>
+    String(tag).toLowerCase(),
+  );
+  const owned = new Set<string>();
+  const zones = ["base", ...(ctx.host.battlefieldZones(ctx.room) as string[])];
+  for (const zone of zones) {
+    for (const card of ctx.host.zoneCards(ctx.room, ctx.env.controller, zone)) {
+      if (!ctx.host.cardInfo(ctx.room, card.id)?.type?.toLowerCase().includes("unit")) continue;
+      for (const tag of tagsOf(card)) owned.add(tag.toLowerCase());
+    }
+  }
+  return tags.every((tag) => owned.has(tag));
+});
+
+/**
+ * Maduli the Gatekeeper — `it` (a battlefield pseudo-object) is occupied by enemy units whose
+ * total Might is less than my Might (140.x; 107.3 presence).
+ */
+registerCustomCondition("unl:enemy-battlefield-weaker", (ctx) => {
+  const zone = ctx.env.it ? battlefieldZoneOf(ctx.env.it) : null;
+  const source = ctx.env.sourceObjectId;
+  if (!zone || !source) return false;
+  const mine = mightOf(ctx, source) ?? 0;
+  const enemies = ctx.host
+    .activePlayerIds(ctx.room)
+    .filter((id) => id !== ctx.env.controller)
+    .flatMap((id) => unitsPresentAt(ctx.room, ctx.host, zone, id));
+  if (enemies.length === 0) return false;
+  const total = enemies.reduce((sum, card) => sum + (mightOf(ctx, card.id) ?? 0), 0);
+  return mine > total;
+});
+
 /* ---------------------------------------------------------------- effects */
 
 /**
@@ -414,5 +465,113 @@ registerCustomEffect("unl:owner-top-or-bottom", (_params, context) => {
     data: { from: located.zone, position: picked },
   });
   recordOutcome(context, [id], true);
+  return RESOLVED;
+});
+
+/**
+ * Vex, Mocking — "move me to that battlefield": move the source to the location of the trigger
+ * event's subject (421, 355.4.a, 451.2, 054/358.3.a restrictions; the Cleanup after the move
+ * stages the showdown, 455).
+ */
+registerCustomEffect("unl:move-to-event-subject", (_params, context) => {
+  const ctx = evalContextOf(context);
+  const source = ctx.env.sourceObjectId;
+  const subject = ctx.env.event?.cardId;
+  const destination = subject ? locationOf(context.room, ctx.host, subject) : null;
+  const from = source ? locationOf(context.room, ctx.host, source) : null;
+  if (!source || !destination || !from || from === destination) {
+    recordOutcome(context, [], false);
+    return RESOLVED;
+  }
+  const controller = ownerOf(context.room, ctx.host, source);
+  const crowded = ctx.host
+    .activePlayerIds(context.room)
+    .filter(
+      (player) =>
+        player !== controller &&
+        isBattlefieldZone(context.room, ctx.host, destination) &&
+        unitsPresentAt(context.room, ctx.host, destination, player).length > 0,
+    );
+  const moved =
+    crowded.length < 2 &&
+    !restrictionFor(context.room, ctx.host, { kind: "move", objectId: source, to: destination }) &&
+    movePrimitive(context.room, source, destination, context.step);
+  recordOutcome(context, moved ? [source] : [], !!moved);
+  return RESOLVED;
+});
+
+/**
+ * "Discard it" for a card picked from your hand (423.1: it goes from the hand to its owner's
+ * Trash; `discard` event so discard triggers see it). Acts on the objects bound to `ref`.
+ */
+registerCustomEffect("unl:discard-ref", (params, context) => {
+  const ctx = evalContextOf(context);
+  const ref = typeof params.ref === "string" ? params.ref : "kept";
+  const discarded: string[] = [];
+  for (const id of refIds(ctx, ref)) {
+    const located = locate(context.room, ctx.host, id);
+    if (!located || located.zone !== "hand") continue;
+    if (!ctx.host.moveCardToOwnerZone(context.room, id, "trash")) continue;
+    discarded.push(id);
+    pushEvent(context.step.events, {
+      type: "discard",
+      playerId: located.playerId,
+      cardId: id,
+      cardName: located.card.name,
+      amount: 1,
+    });
+  }
+  recordOutcome(context, discarded, discarded.length > 0);
+  return RESOLVED;
+});
+
+/**
+ * Diana, Lunari — "reveal the top card of your Main Deck. If it's a spell, draw it." (425 reveal,
+ * 414 draw; the card stays on top otherwise.)
+ */
+registerCustomEffect("unl:reveal-top-draw-spell", (_params, context) => {
+  const ctx = evalContextOf(context);
+  const player = ctx.env.controller;
+  const top = ctx.host.lookAtTop(context.room, player, "deck", 1)[0];
+  if (!top) {
+    recordOutcome(context, [], false);
+    return RESOLVED;
+  }
+  pushEvent(context.step.events, {
+    type: "reveal",
+    playerId: player,
+    cardId: top.id,
+    cardName: top.name,
+    zone: "deck",
+  });
+  const isSpell = !!ctx.host.cardInfo(context.room, top.id)?.type?.toLowerCase().includes("spell");
+  if (isSpell && ctx.host.moveCardToOwnerZone(context.room, top.id, "hand")) {
+    pushEvent(context.step.events, {
+      type: "draw",
+      playerId: player,
+      amount: 1,
+      data: { cardIds: [top.id] },
+    });
+    recordOutcome(context, [top.id], true);
+    return RESOLVED;
+  }
+  recordOutcome(context, [], false);
+  return RESOLVED;
+});
+
+/**
+ * Ivern, Friend to all — "I gain that tag" (143.1): add `tag` to my tags (the catalog tags stay).
+ */
+registerCustomEffect("unl:gain-tag", (params, context) => {
+  const ctx = evalContextOf(context);
+  const source = ctx.env.sourceObjectId;
+  const tag = typeof params.tag === "string" ? params.tag : "";
+  const located = source ? locate(context.room, ctx.host, source) : null;
+  if (!located || !tag) {
+    recordOutcome(context, [], false);
+    return RESOLVED;
+  }
+  located.card.subtypes = [...new Set([...tagsOf(located.card), tag])];
+  recordOutcome(context, source ? [source] : [], true);
   return RESOLVED;
 });

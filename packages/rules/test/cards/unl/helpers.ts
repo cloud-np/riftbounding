@@ -117,3 +117,12 @@ export function answer(s: S, optionIds: string[]): void {
   expect(prompt, "no prompt is pending").toBeTruthy();
   s.as(prompt!.playerId).choose({ optionIds }).expectOk();
 }
+
+/** Play a card from hand with raw `rules_play` fields (optional costs, destinations, …). */
+export function playWith(s: S, player: string, name: string, extra: Record<string, unknown>): void {
+  const card = s.handCard(player, name);
+  if (!card) throw new Error(`${name} not in ${player}'s hand`);
+  s.as(player)
+    .apply({ type: "rules_play", cardId: card.id, ...extra } as never)
+    .expectOk();
+}

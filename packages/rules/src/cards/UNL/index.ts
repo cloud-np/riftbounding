@@ -86,3 +86,7 @@ import "./units-misc";
 import "./vex-apathetic";
 
 export {};
+// batch 6
+import "./more-spells";
+import "./more-units";
+import "./more-gear";

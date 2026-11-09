@@ -4,6 +4,7 @@
  */
 import { describe, expect, it } from "vitest";
 import { effectiveKeywords } from "../../../src";
+import { parseRepeatCosts } from "../../../src/play/cost-text";
 import { boardOf, fund, place, run, zoneOf } from "../../rules/effects/helpers";
 import { hand, settle, withCards } from "./helpers";
 
@@ -104,5 +105,35 @@ describe("engine bugs (Unleashed lane)", () => {
     );
     run(s, { op: "kill", target: { targetRef: `obj:${unit.id}` } });
     expect(zoneOf(s, unit.id)).toBe("base");
+  });
+
+  /**
+   * 420.3.b / 355.2.b: a limited play (`play` op, e.g. Thrill of the Hunt "plays it to any
+   * battlefield") may put a unit at a battlefield where its controller has no units. The op never
+   * records `totalCost`, so `resolvePermanent` (timing/fepr/finalize.ts) treats the location as
+   * unvalidated and falls back to the base unless the controller already has a unit there.
+   */
+  it.skip("[BUG][R420.3.b][R355.2.b] a limited play can enter a battlefield without friendly units", () => {
+    const s = withCards(["Thrill of the Hunt"]);
+    const unit = place(s, "p1", "Caitlyn, Patrolling", "base");
+    fund(s, "p1", "Thrill of the Hunt");
+    s.as("p1")
+      .play("Thrill of the Hunt", { choices: { "target:0": unit.id, destination: "battlefieldA" } })
+      .expectOk();
+    for (let step = 0; step < 6 && s.room.rules!.chain.length > 0; step += 1) {
+      s.as(s.room.rules!.priority!).pass().expectOk();
+    }
+    expect(zoneOf(s, unit.id)).toBe("battlefieldA");
+  });
+
+  /**
+   * 820.1.c: "[Repeat] - Discard 1" (Square Up's catalog text) — the Repeat cost parser keeps the
+   * dash, so the cost becomes `unsupported:` (unpayable, 203.3). Square Up registers its cost
+   * explicitly as a workaround.
+   */
+  it.skip("[BUG][R820.1.c] the Repeat cost parser accepts a dash before a non-symbol cost", () => {
+    expect(parseRepeatCosts("[Repeat] - Discard 1 (You may pay the additional cost.)")).toEqual([
+      { discard: 1 },
+    ]);
   });
 });
