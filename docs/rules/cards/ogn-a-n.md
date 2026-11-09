@@ -5,11 +5,13 @@ starting A through N (126 cards). Scripts live in `packages/rules/src/cards/OGN/
 registered through `src/cards/OGN/batch-a-n.ts`; behaviour tests are in
 `packages/rules/test/cards/ogn-a-n/` (one `[C:Card Name]` test per card).
 
-Counts: **86 implemented**, **27 partial**, **13 manual**,
+Counts: **87 implemented**, **26 partial**, **13 manual**,
 **0 not yet scripted**.
 
 R4 upgrades: Fox-Fire is automated with the R3-engine group-targeting selector (355.11 /
 355.13), and Bilgewater Bully's conditional Ganking passive now permits a Standard Move (810.3).
+R4b: Fading Memories is fully automated — a gear given Temporary keeps the grant through the
+Expiration Step (317.2.c, lane A) and is killed in its controller's next Beginning Phase (816.1.b).
 
 ## Conventions used
 
@@ -46,9 +48,8 @@ Engine capabilities missing for full automation (feeds the next engine pass).
 
 ## Engine bugs found
 
-| Bug                                                                                                                                                                                                                                                                                                                                                                                                 | Rule ids         | Reproduction                                                                  | Cards affected         |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ----------------------------------------------------------------------------- | ---------------------- |
-| The 317.2.c expire step (`cleanup.ts`, `expire-this-turn`) deletes every rules object without buffs/baseMight/counters/grantedKeywords/grantedAbilities/controller. Gear never get `baseMight`, so a permanent `keywordGrants` entry (Temporary) is dropped at the end of the turn and the gear is never killed. The keep-list should include `keywordGrants`, `mightMods`, `prevent`, `empowered`. | 317.2.c, 816.1.b | `it.skip("[BUG][C:Fading Memories]…")` in `test/cards/ogn-a-n/batch6.test.ts` | Fading Memories (gear) |
+No open reproduction: the 317.2.c Expiration-Step keep-list bug (Fading Memories) was fixed by
+R4-engine lane A.
 
 ## Custom ids
 
@@ -126,7 +127,7 @@ Engine capabilities missing for full automation (feeds the next engine pass).
 | Ember Monk                   | Unit        | manual      | Not automated: card-play events do not record that the card was played from facedown (the chain item that does is gone before the trigger is detected for units, gear and spells).                                  |
 | Energy Conduit               | Gear        | implemented |                                                                                                                                                                                                                     |
 | Facebreaker                  | Spell       | implemented |                                                                                                                                                                                                                     |
-| Fading Memories              | Spell       | partial     | Engine bug: Temporary given to a gear is lost at the end of the turn (the 317.2.c expire step deletes rules objects without baseMight, dropping keywordGrants). Units keep it.                                      |
+| Fading Memories | Spell | implemented |  |
 | Faithful Manufactor          | Unit        | implemented |                                                                                                                                                                                                                     |
 | Falling Comet                | Spell       | implemented |                                                                                                                                                                                                                     |
 | Fight or Flight              | Spell       | implemented |                                                                                                                                                                                                                     |

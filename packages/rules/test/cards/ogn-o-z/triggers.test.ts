@@ -165,8 +165,8 @@ describe("Origins O–Z triggered abilities", () => {
 
   it("[C:Pirate's Haven][C:Vanguard Helm][C:Solari Shrine][C:Volibear, Imposing] blocked triggers are manual/partial with notes", () => {
     expect(getCardScript("Pirate's Haven")?.status).toBe("manual");
-    expect(getCardScript("Vanguard Helm")?.status).toBe("manual");
-    expect(getCardScript("Solari Shrine")?.status).toBe("manual");
+    expect(getCardScript("Vanguard Helm")?.status).toBe("implemented");
+    expect(getCardScript("Solari Shrine")?.status).toBe("partial");
     const s = withCards(["Volibear, Imposing"]);
     const voli = place(s, "p1", "Volibear, Imposing", "base");
     expect(combatKeywordProfile(s.room, voli.id, s.host)).toMatchObject({ shield: 3, tank: true });

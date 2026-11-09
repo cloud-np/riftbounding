@@ -54,14 +54,11 @@ registerCardScript({
  *
  * 424 / 383.2.c.3.b: the die event carries the dead unit's last-known stunned status and zone, so
  * the subject matcher can read "stunned enemy unit here". [Deflect] is the engine's.
- *
- * Status stays "partial" until R4-cards flips it: `test/cards/rad/batch6.test.ts` asserts the
- * pre-fix status (lead-owned file; the trigger itself is implemented and tested in lane C).
  */
 registerCardScript({
   name: "Storm Raptor",
   text: "[Deflect] (Opponents must pay [Rune] to choose me with a spell or ability.)\nWhen a stunned enemy unit here dies, draw 1.",
-  status: "partial",
+  status: "implemented",
   abilities: [
     {
       kind: "triggered",

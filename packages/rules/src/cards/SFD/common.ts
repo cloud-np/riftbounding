@@ -19,6 +19,7 @@ import { lkiOf } from "../../effects/env";
 import { refIds } from "../../effects/evaluate";
 import { recordOutcome } from "../../effects/targets";
 import {
+  attachmentsOf,
   battlefieldController,
   battlefieldZoneOf,
   controllerOf,
@@ -264,6 +265,30 @@ registerCustomCondition("sfd:self-not-in-hand", (ctx) => {
   if (!source) return false;
   const located = locate(ctx.room, ctx.host, source);
   return !!located && located.zone !== "hand";
+});
+
+/**
+ * 718.2 / 724: the source's printed Rules Text is active only while the source is unattached.
+ * A triggered ability appended from an attached card executes with the Top-Most card as its
+ * source object (718.3); `env.sourceName` names the attached script, so check its attachment.
+ */
+registerCustomCondition("sfd:self-unattached", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  if (!source) return false;
+  const located = locate(ctx.room, ctx.host, source);
+  if (!located) return false;
+  const scriptName = ctx.env.sourceName;
+  if (scriptName && located.card.name !== scriptName) {
+    return !attachmentsOf(ctx.room, ctx.host, source).some((card) => card.name === scriptName);
+  }
+  return !located.card.attachedToCardId;
+});
+
+/** 718.2 / 724: the source's Effect Text is active only while the source is attached. */
+registerCustomCondition("sfd:self-attached", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  if (!source) return false;
+  return !!locate(ctx.room, ctx.host, source)?.card.attachedToCardId;
 });
 
 /** The cards played by the controller this turn (history, 420.4). */

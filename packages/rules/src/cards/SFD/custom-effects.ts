@@ -201,25 +201,6 @@ registerCustomEffect("sfd:create-count", (params, context) => {
   return RESOLVED;
 });
 
-/**
- * "The next time that unit would be dealt damage this turn, prevent it" (Counter Strike): a
- * delayed replacement (375, 438.7) for `it`, used up by its first application. The matcher names
- * the object itself (359.3.f.3.a: referents are fixed when the delayed effect is created).
- */
-registerCustomEffect("sfd:prevent-next-damage-to-it", (_params, context) => {
-  const machine = context.machine;
-  const id = machine?.env.it;
-  if (!machine || !id) return RESOLVED;
-  machine.push({
-    effect: {
-      op: "replace",
-      matches: { type: "damage", subject: { targetRef: `obj:${id}` } },
-      replace: { prevent: 9999 },
-    },
-  });
-  return RESOLVED;
-});
-
 /** Copy a resolution value (`from`, e.g. `$affected`) into a named variable `to` (inherited by reflexive items). */
 registerCustomEffect("sfd:bind", (params, context) => {
   const env = context.machine?.env;

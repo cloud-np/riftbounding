@@ -27,6 +27,16 @@ import {
 
 const QUIET = { battlefields: { p1: "Bandle Tree", p2: "Bandle Tree" } };
 
+/** Equipment still blocked by gaps R4-engine A/C/D did not close. */
+const EQUIPMENT_STILL_PARTIAL = new Set([
+  "Last Rites",
+  "Skyfall of Areion",
+  "Experimental Hexplate",
+  "Brutalizer",
+  "The Zero Drive",
+  "Edge of Night",
+]);
+
 function attachTo(s: S, gearId: string, unitId: string, controller = "p1"): void {
   run(
     s,
@@ -71,7 +81,7 @@ describe("SFD batch 2 — keyword-only and Weaponmaster units", () => {
       playCard(s, "p1", cardName).expectOk();
       const unit = boardCard(s, "p1", cardName)!;
       expect(effectiveKeywords(s.room, unit.id, s.host)).toContain("Weaponmaster");
-      expect(statusOf(cardName)).toBe("partial");
+      expect(statusOf(cardName)).toBe("implemented");
     },
   );
 });
@@ -109,7 +119,7 @@ describe("SFD batch 2 — Equipment Might Bonus and effect-text keywords", () =>
       attachTo(s, gear.id, unit.id);
       expect(boardCard(s, "p1", gearName)!.attachedToCardId).toBe(unit.id);
       expect(effectiveMight(s.room, unit.id, s.host)).toBe(3 + bonus);
-      expect(statusOf(gearName)).toBe("partial");
+      expect(statusOf(gearName)).toBe(EQUIPMENT_STILL_PARTIAL.has(gearName) ? "partial" : "implemented");
     },
   );
 
@@ -150,7 +160,7 @@ describe("SFD batch 2 — Equipment Might Bonus and effect-text keywords", () =>
   it.each([["Eye of the Herald"], ["Recurve Bow"], ["Svellsongur"]])(
     "[C:%s][R718.3] nothing beyond Equip can be automated (manual)",
     (gearName) => {
-      expect(statusOf(gearName)).toBe("manual");
+      expect(statusOf(gearName)).toBe(gearName === "Svellsongur" ? "manual" : "implemented");
     },
   );
 

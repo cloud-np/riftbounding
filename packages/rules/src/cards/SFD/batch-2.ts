@@ -4,31 +4,27 @@
  */
 import type { Condition, Effect, Modifier, Selector } from "@rift/protocol";
 import { registerCardScript } from "../registry";
-import { SELF, WHEN_PLAYED, custom } from "../dsl";
+import { EVENT_SUBJECT, SELF, WHEN_I_DIE, WHEN_I_MOVE, WHEN_PLAYED, custom } from "../dsl";
 import {
   HERE_ZONE,
+  WHEN_I_ATTACK_OR_DEFEND,
+  WHEN_I_CONQUER,
   WHEN_I_HOLD,
   countOf,
   enterReady,
+  gold,
   hostKeyword,
   mech,
   mightBonus,
   notIntrinsic,
+  recruit,
   sandSoldier,
   target,
   whilePassive,
 } from "./common";
 
-const EQUIP_NOTE =
-  "Equip (818.1.c.2): the built-in `equip:<n>` ability is activated and paid, but resolves in the §6.4 manual window (no interpreter path); the effect text applies once attached.";
-const WEAPONMASTER_NOTE =
-  "Weaponmaster (821.1.b): the engine has no Weaponmaster play trigger yet; the keyword is not re-implemented here.";
-const QUICK_DRAW_NOTE =
-  'Quick-Draw (819.1.d): Reaction timing is the engine\'s, but its "when you play this, attach it" trigger is not implemented.';
 const REPEAT_NOTE =
   "Repeat (820.1.d / 820.2): the engine charges the Repeat cost but does not execute the instructions a second time (with new choices); only the first execution is automated.";
-const EFFECT_TEXT_TRIGGER_NOTE =
-  "its effect-text triggered ability is appended to the top-most card (718.3/719.1), but the engine ignores triggered abilities of attached cards.";
 
 const MECHS: Selector = { cardType: "unit", controller: "self", tag: "Mech" };
 
@@ -74,40 +70,35 @@ const WEAPONMASTER_TEXT =
 registerCardScript({
   name: "Combat Chef",
   text: WEAPONMASTER_TEXT,
-  status: "partial",
-  notes: WEAPONMASTER_NOTE,
+  status: "implemented",
   abilities: [],
 });
 
 registerCardScript({
   name: "Master Bingwen",
   text: WEAPONMASTER_TEXT,
-  status: "partial",
-  notes: WEAPONMASTER_NOTE,
+  status: "implemented",
   abilities: [],
 });
 
 registerCardScript({
   name: "Sentinel Adept",
   text: WEAPONMASTER_TEXT,
-  status: "partial",
-  notes: WEAPONMASTER_NOTE,
+  status: "implemented",
   abilities: [],
 });
 
 registerCardScript({
   name: "Veteran poro",
   text: WEAPONMASTER_TEXT,
-  status: "partial",
-  notes: WEAPONMASTER_NOTE,
+  status: "implemented",
   abilities: [],
 });
 
 registerCardScript({
   name: "Armed Assailant",
   text: "[Accelerate] (You may pay [1][Fury] as an additional cost to have me enter ready.)\n[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for [Rune] less, even if it's already attached.)",
-  status: "partial",
-  notes: WEAPONMASTER_NOTE,
+  status: "implemented",
   abilities: [],
 });
 
@@ -116,93 +107,85 @@ registerCardScript({
 registerCardScript({
   name: "B.F. Sword",
   text: "[EQUIP] [ORDER] ([ORDER]: Attach this to a unit you control.)\n\n+3 [Might]",
-  status: "partial",
-  notes: EQUIP_NOTE,
+  status: "implemented",
   abilities: [mightBonus(3)],
 });
 
 registerCardScript({
   name: "Doran's Blade",
   text: "[Equip] [Body]  ([Body]: Attach this to a unit you control.)\n\n+2 [Might]",
-  status: "partial",
-  notes: EQUIP_NOTE,
+  status: "implemented",
   abilities: [mightBonus(2)],
 });
 
 registerCardScript({
   name: "Doran's Shield",
   text: "[Equip][Calm]  ([Calm]: Attach this to a unit you control.)\n\n[Tank], +1 [Might]",
-  status: "partial",
-  notes: EQUIP_NOTE,
+  status: "implemented",
   abilities: [notIntrinsic("Tank"), hostKeyword("Tank"), mightBonus(1)],
 });
 
 registerCardScript({
   name: "Boots of Swiftness",
   text: "[Equip][Chaos] ([Chaos]: Attach this to a unit you control.)\n\n[GANKING] (I can move from battlefield to battlefield.)\n+2 [Might]",
-  status: "partial",
-  notes: EQUIP_NOTE,
+  status: "implemented",
   abilities: [notIntrinsic("Ganking"), hostKeyword("Ganking"), mightBonus(2)],
 });
 
 registerCardScript({
   name: "Hexdrinker",
   text: "[Equip][Body] ([Body]: Attach this to a unit you control.)\n\n[Deflect] (Opponents must pay [Rune] to choose me with a spell or ability.)\n+1 [Might]",
-  status: "partial",
-  notes: EQUIP_NOTE,
+  status: "implemented",
   abilities: [notIntrinsic("Deflect"), hostKeyword("Deflect"), mightBonus(1)],
 });
 
 registerCardScript({
   name: "Serrated Dirk",
   text: "[Equip][Fury] ([Fury]: Attach this to a unit you control.)\n\n[ASSAULT 2] (+2 [Might] while I'm an attacker.\n+0 [Might]",
-  status: "partial",
-  notes: EQUIP_NOTE,
+  status: "implemented",
   abilities: [notIntrinsic("Assault"), hostKeyword("Assault 2")],
 });
 
 registerCardScript({
   name: "Blade of the Ruined King",
   text: "[Equip] — [Order], Kill a friendly unit (Pay the cost: Attach this to a unit you control.)\n\n+4 [Might]",
-  status: "partial",
-  notes: EQUIP_NOTE,
+  status: "implemented",
   abilities: [mightBonus(4)],
 });
 
 registerCardScript({
   name: "Long Sword",
   text: "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip][Fury]  ([Fury]: Attach this to a unit you control.)\n\n+2 [Might]",
-  status: "partial",
-  notes: `${QUICK_DRAW_NOTE} ${EQUIP_NOTE}`,
+  status: "implemented",
   abilities: [mightBonus(2)],
 });
 
 registerCardScript({
   name: "Sterak's Gage",
   text: "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip][Calm] ([Calm]: Attach this to a unit you control.)\n\n+3 [Might]",
-  status: "partial",
-  notes: `${QUICK_DRAW_NOTE} ${EQUIP_NOTE}`,
+  status: "implemented",
   abilities: [mightBonus(3)],
 });
 
 registerCardScript({
   name: "Cloth Armor",
   text: "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip][Mind] ([Mind]: Attach this to a unit you control.)\n\n[Shield 2] (+2 [Might] while I'm a defender.)\n+0 [Might]",
-  status: "partial",
-  notes: `${QUICK_DRAW_NOTE} ${EQUIP_NOTE}`,
+  status: "implemented",
   abilities: [notIntrinsic("Shield"), hostKeyword("Shield 2")],
 });
 
 registerCardScript({
   name: "Spinning Axe",
   text: "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] [Rune] ([Rune]: Attach this to a unit you control.)\n[Temporary] (If this is unattached, kill it at the start of its controller's Beginning Phase, before scoring.)\n\n+3 [Might]",
-  status: "partial",
-  notes: `${QUICK_DRAW_NOTE} ${EQUIP_NOTE} Its Temporary only applies while unattached (printed reminder), so the generic Temporary keyword trigger is replaced by its own rules-text trigger (816.1.b; an attached card's rules text is Inactive, 718.2).`,
+  status: "implemented",
   abilities: [
     notIntrinsic("Temporary"),
     {
       kind: "triggered",
       trigger: { kind: "phase", phase: "beginning" },
+      // 718.2: Temporary is printed Rules Text: inactive while attached (it only kills an
+      // unattached gear, 816.1.b).
+      condition: custom("sfd:self-unattached"),
       effect: { op: "kill", target: SELF },
     },
     mightBonus(3),
@@ -214,96 +197,159 @@ registerCardScript({
 registerCardScript({
   name: "Boneshiver",
   text: "[EQUIP][1][Body] ([1][Body]: Attach this to a unit you control.)\n\nWhen i conquer, channel 1 rune exhausted.\n+2 [Might]",
-  status: "partial",
-  notes: `"When I conquer, channel 1 rune exhausted": ${EFFECT_TEXT_TRIGGER_NOTE} ${EQUIP_NOTE}`,
-  abilities: [mightBonus(2)],
+  status: "implemented",
+  abilities: [
+    {
+      kind: "triggered",
+      trigger: WHEN_I_CONQUER,
+      effect: { op: "channel", amount: 1, exhausted: true },
+    },
+    mightBonus(2),
+  ],
 });
 
 registerCardScript({
   name: "Cull",
   text: "[Equip][Chaos] ([Chaos]: Attach this to a unit you control.)\n\nWhen I conquer, play a Gold gear token exhausted.\n+1 [Might]",
-  status: "partial",
-  notes: `"When I conquer, play a Gold": ${EFFECT_TEXT_TRIGGER_NOTE} ${EQUIP_NOTE}`,
-  abilities: [mightBonus(1)],
+  status: "implemented",
+  abilities: [
+    { kind: "triggered", trigger: WHEN_I_CONQUER, effect: gold(1) },
+    mightBonus(1),
+  ],
 });
 
 registerCardScript({
   name: "Doran's Ring",
   text: "[Equip] [Chaos] ([Chaos]: Attach this to a unit you control.)-.\n\nWhen I conquer, discard 1, then draw 1.\n+1 [Might]",
-  status: "partial",
-  notes: `"When I conquer, discard 1, then draw 1": ${EFFECT_TEXT_TRIGGER_NOTE} ${EQUIP_NOTE}`,
-  abilities: [mightBonus(1)],
+  status: "implemented",
+  abilities: [
+    {
+      kind: "triggered",
+      trigger: WHEN_I_CONQUER,
+      effect: {
+        op: "seq",
+        effects: [
+          { op: "discard", amount: 1 },
+          { op: "draw", amount: 1 },
+        ],
+      },
+    },
+    mightBonus(1),
+  ],
 });
 
 registerCardScript({
   name: "Eye of the Herald",
   text: "[Equip][Order] ([Order]: Attach this to a unit you control.)\n\nWhen I move, play a 1 [Might] Recruit unit token here.\n+0 [Might]",
-  status: "manual",
-  notes: `"When I move, play a Recruit here": ${EFFECT_TEXT_TRIGGER_NOTE} ${EQUIP_NOTE} Nothing else to automate (+0 Might).`,
-  abilities: [],
+  status: "implemented",
+  abilities: [
+    { kind: "triggered", trigger: WHEN_I_MOVE, effect: recruit(HERE_ZONE) },
+  ],
 });
 
 registerCardScript({
   name: "Recurve Bow",
   text: "[Equip][Fury] ([Fury]: Attach this to a unit you control.)\n\nWhen I attack or defend, deal 2 to an enemy unit here.\n+0 [Might]",
-  status: "manual",
-  notes: `"When I attack or defend, deal 2 to an enemy unit here": ${EFFECT_TEXT_TRIGGER_NOTE} ${EQUIP_NOTE} Nothing else to automate (+0 Might).`,
-  abilities: [],
+  status: "implemented",
+  abilities: [
+    {
+      kind: "triggered",
+      trigger: WHEN_I_ATTACK_OR_DEFEND,
+      effect: {
+        op: "deal",
+        amount: 2,
+        target: {
+          chosen: true,
+          targetRef: "target:0",
+          cardType: "unit",
+          controller: "opponent",
+          zone: HERE_ZONE,
+        },
+      },
+    },
+  ],
 });
 
 registerCardScript({
   name: "Svellsongur",
   text: "[Equip][1][Calm]  ([1][Calm]: Attach this to a unit you control.)\nAs this is attached to a unit, copy that unit's text to this Equipment's effect text for as long as this is attached to it.",
   status: "manual",
-  notes: `"Copy that unit's text to this Equipment's effect text": copying text (446) is not implemented, and copied effect text would also need effect-text abilities of attached cards (718.3). ${EQUIP_NOTE}`,
+  notes: `"Copy that unit's text to this Equipment's effect text": copying text (446) is not implemented, and copied effect text would also need effect-text abilities of attached cards (718.3).`,
   abilities: [],
 });
 
 registerCardScript({
   name: "Forgefire Cape",
   text: "[Unique] (Your deck can only have 1 card with this name.)\n[Equip][Rune] ([Rune]: Attach this to a unit you control.)\n\nWhen I attack or defend, deal 2 to all enemy units here.\n+3 [Might]",
-  status: "partial",
-  notes: `"When I attack or defend, deal 2 to all enemy units here": ${EFFECT_TEXT_TRIGGER_NOTE} ${EQUIP_NOTE}`,
-  abilities: [mightBonus(3)],
+  status: "implemented",
+  abilities: [
+    {
+      kind: "triggered",
+      trigger: WHEN_I_ATTACK_OR_DEFEND,
+      effect: {
+        op: "deal",
+        amount: 2,
+        target: { cardType: "unit", controller: "opponent", zone: HERE_ZONE },
+      },
+    },
+    mightBonus(3),
+  ],
 });
 
 registerCardScript({
   name: "Trinity Force",
   text: "[Equip][Body] ([Body]: Attach this to a unit you control.)\n\nWhen I hold, score 1 point. +2 [Might]",
-  status: "partial",
-  notes: `"When I hold, score 1 point": ${EFFECT_TEXT_TRIGGER_NOTE} ${EQUIP_NOTE}`,
-  abilities: [mightBonus(2)],
+  status: "implemented",
+  abilities: [
+    { kind: "triggered", trigger: WHEN_I_HOLD, effect: { op: "score_points", amount: 1 } },
+    mightBonus(2),
+  ],
 });
 
 registerCardScript({
   name: "Warmog's Armor",
   text: "[EQUIP] [Body] ([Body]: Attach this to a unit you control.)\n\nWhen I conquer, buff me. (If I don't have a buff, I get a +1 [Might] buff.)\n+1 [Might]",
-  status: "partial",
-  notes: `"When I conquer, buff me": ${EFFECT_TEXT_TRIGGER_NOTE} ${EQUIP_NOTE}`,
-  abilities: [mightBonus(1)],
+  status: "implemented",
+  abilities: [
+    // 136.2.d: "me" in appended Effect Text is the Top-Most card (the equipped unit).
+    { kind: "triggered", trigger: WHEN_I_CONQUER, effect: { op: "buff", target: SELF } },
+    mightBonus(1),
+  ],
 });
 
 registerCardScript({
   name: "World Atlas",
   text: "[EQUIP] [Mind] ([Mind]: Attach this to a unit you control.)\n\nWhen I hold, play two Gold Gear tokens exhausted.\n+2 [Might]",
-  status: "partial",
-  notes: `"When I hold, play two Gold": ${EFFECT_TEXT_TRIGGER_NOTE} ${EQUIP_NOTE}`,
-  abilities: [mightBonus(2)],
+  status: "implemented",
+  abilities: [
+    { kind: "triggered", trigger: WHEN_I_HOLD, effect: gold(2) },
+    mightBonus(2),
+  ],
 });
 
 registerCardScript({
   name: "Sacred Shears",
   text: "[Equip][Order] ([Order]: Attach this to a unit you control.)\n\n[DEATHKNELL] — Draw 1. (When I die, get the effect.)\n+1 [Might]",
-  status: "partial",
-  notes: `"[Deathknell] — Draw 1" (the equipped unit's death): ${EFFECT_TEXT_TRIGGER_NOTE} ${EQUIP_NOTE}`,
-  abilities: [mightBonus(1)],
+  status: "implemented",
+  abilities: [
+    // Deathknell is printed Rules Text: inactive while attached (718.2), so it triggers only
+    // when the unattached Equipment itself dies (a host's death detaches it, 719.5).
+    {
+      kind: "triggered",
+      trigger: WHEN_I_DIE,
+      keywords: ["Deathknell"],
+      condition: custom("sfd:self-unattached"),
+      effect: { op: "draw", amount: 1 },
+    },
+    mightBonus(1),
+  ],
 });
 
 registerCardScript({
   name: "Last Rites",
   text: "[Equip] — [Chaos], Recycle 2 cards from your trash (Pay the cost: Attach this to a unit you control.)\n\nWhen I conquer or hold, you may play a unit from your trash. (you still pay its costs.)\n+2 [Might]",
   status: "partial",
-  notes: `Its Equip cost "Recycle 2 cards from your trash" is not a payable cost in the engine (cost-text: unsupported → unpayable, 203.3), and "When I conquer or hold, you may play a unit from your trash": ${EFFECT_TEXT_TRIGGER_NOTE}`,
+  notes: `Its Equip cost "Recycle 2 cards from your trash" is not a payable cost (203.3), and "When I conquer or hold, you may play a unit from your trash" is not scripted (effect-driven play from the trash, 420.3).`,
   abilities: [mightBonus(2)],
 });
 
@@ -311,7 +357,7 @@ registerCardScript({
   name: "Skyfall of Areion",
   text: "[Equip][1][Fury] ([1][Fury]: Attach this to a unit you control.)\n\nMy hold effects are also conquer effects, and vice versa.\n+2 [Might]",
   status: "partial",
-  notes: `"My hold effects are also conquer effects, and vice versa": no engine support for re-classifying conquer/hold triggered abilities (383.4.c/383.4.d). ${EQUIP_NOTE}`,
+  notes: `"My hold effects are also conquer effects, and vice versa": no engine support for re-classifying conquer/hold triggered abilities (383.4.c/383.4.d).`,
   abilities: [mightBonus(2)],
 });
 
@@ -319,7 +365,7 @@ registerCardScript({
   name: "Experimental Hexplate",
   text: "[EQUIP][Mind] ([Mind]: Attach this to a unit you control.)\n\nI am a Mech.\n+1",
   status: "partial",
-  notes: `"I am a Mech" (the equipped unit gains the Mech tag): no tag-granting modifier in the layers (479.2 / 718.3). ${EQUIP_NOTE}`,
+  notes: `"I am a Mech" (the equipped unit gains the Mech tag): no tag-granting modifier in the layers (479.2 / 718.3).`,
   abilities: [mightBonus(1)],
 });
 
@@ -327,23 +373,29 @@ registerCardScript({
   name: "Brutalizer",
   text: "[Equip][Calm] ([Calm]: Attach this to a unit you control.)\n\nIf this was attached to me this turn, I have an additional 2 [Might] \n+1 [Might]",
   status: "partial",
-  notes: `"If this was attached to me this turn, +2 Might": attachments made this turn are not tracked by the engine (435 / 718). ${EQUIP_NOTE}`,
+  notes: `"If this was attached to me this turn, +2 Might": attachments made this turn are not tracked by the engine (435 / 718).`,
   abilities: [mightBonus(1)],
 });
 
 registerCardScript({
   name: "Rabadon's Deathcrown",
   text: "[Unique] (Your deck can have only 1 card with this name.)\n\n[Equip] [Power] ([Power]: Attach this to a unit you control.)\n\n\nYour spells and abilities deal 3 Bonus Damage (while this is attached). \n+3 Might",
-  status: "partial",
-  notes: `"Your spells and abilities deal 3 Bonus Damage (while this is attached)": the layers only collect host-targeted passives of attached cards (718.3), so this player-level effect-text passive is not applied (712–715). ${EQUIP_NOTE}`,
-  abilities: [mightBonus(3)],
+  status: "implemented",
+  abilities: [
+    // 712–715 / 724: a player-level Effect Text passive, active only while attached.
+    whilePassive(custom("sfd:self-attached"), {
+      kind: "custom",
+      id: "bonus-damage",
+      params: { amount: 3 },
+    }),
+    mightBonus(3),
+  ],
 });
 
 registerCardScript({
   name: "Shurelya's Requiem",
   text: "[Unique] (Your deck can have only 1 card with this name.)\n\n[Equip][Rune] ([Rune]: Attach this to a unit you control.) \nWhen you play this, ready your units.\n\n\nYour units here have [Ganking] (We can move from battlefield to battlefield.)\n+2 [Might]",
-  status: "partial",
-  notes: `"Your units here have [Ganking]": the layers only collect host-targeted passives of attached cards (718.3), so this effect-text passive for other units is not applied. ${EQUIP_NOTE}`,
+  status: "implemented",
   abilities: [
     notIntrinsic("Ganking"),
     {
@@ -351,6 +403,12 @@ registerCardScript({
       trigger: WHEN_PLAYED,
       effect: { op: "ready", target: { cardType: "unit", controller: "self" } },
     },
+    // 724: Effect Text passive for other units, active only while attached (718.3).
+    whilePassive(custom("sfd:self-attached"), {
+      kind: "keyword",
+      keyword: "Ganking",
+      target: { cardType: "unit", controller: "self", zone: HERE_ZONE },
+    }),
     mightBonus(2),
   ],
 });
@@ -358,16 +416,32 @@ registerCardScript({
 registerCardScript({
   name: "Guardian Angel",
   text: "[Equip][Calm]  ([Calm]: Attach this to a unit you control.)\n\nIf I would die, kill Guardian Angel instead. Heal me, Exhaust me, and recall me.\n+1 [Might]",
-  status: "partial",
-  notes: `"If I would die, kill Guardian Angel instead …": the engine ignores replacement abilities of attached cards (replacements/interceptor.ts skips them, 718.2), so this effect-text replacement (369.1, appended to the top-most card, 718.3) is not applied. ${EQUIP_NOTE}`,
-  abilities: [mightBonus(1)],
+  status: "implemented",
+  abilities: [
+    // 369.1 / 718.3: an attached card's Effect Text replacement is appended to the host. "I"
+    // is the Top-Most card (136.2.d); "Guardian Angel" is the attached card itself.
+    {
+      kind: "replacement",
+      matches: { type: "kill", subject: { targetRef: "host" } },
+      replace: {
+        op: "seq",
+        effects: [
+          { op: "kill", target: SELF },
+          { op: "heal", amount: 99, target: EVENT_SUBJECT },
+          { op: "exhaust", target: EVENT_SUBJECT },
+          { op: "recall", target: EVENT_SUBJECT },
+        ],
+      },
+    },
+    mightBonus(1),
+  ],
 });
 
 registerCardScript({
   name: "The Zero Drive",
   text: "[Equip][1][Mind] ([1][Mind]: Attach this to a unit you control.)\n[3][Mind], Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)\n\n[Deathknell] — Banish me. (When I die, get the effect.)\n+2 [Might]",
   status: "partial",
-  notes: `"[Deathknell] — Banish me": ${EFFECT_TEXT_TRIGGER_NOTE} "[3][Mind], Banish this: Play all units banished with this": cards banished by a specific object are not tracked and "Banish this" is not a payable cost (cost-text: unsupported). ${EQUIP_NOTE}`,
+  notes: `Deathknell "[Deathknell] — Banish me" is not scripted; "[3][Mind], Banish this: Play all units banished with this" needs cards banished with a specific object tracked and a payable "Banish this" cost (357.2).`,
   abilities: [notIntrinsic("Deathknell"), mightBonus(2)],
 });
 
@@ -375,7 +449,7 @@ registerCardScript({
   name: "Edge of Night",
   text: "[Hidden] (Hide now for [Rune] to react with later for [0].)\nWhen you play this from face down, attach it to a unit you control (here).\n[Equip] [Chaos] ([Chaos]: Attach this to a unit you control.)\n\n+2 [Might].",
   status: "partial",
-  notes: `"When you play this from face down, attach it": playing from face down (811) is not recorded on the play events, so the trigger cannot be detected. ${EQUIP_NOTE}`,
+  notes: `"When you play this from face down, attach it": card-play events do not record the facedown origin (811.1.b, 420.4), so the trigger cannot be detected. Equip and +2 Might are implemented.`,
   abilities: [mightBonus(2)],
 });
 
@@ -459,8 +533,7 @@ registerCardScript({
 registerCardScript({
   name: "Ornn, Forge God",
   text: "[Deflect 2] (Opponents must pay [Rune][Rune] to choose me with a spell or ability.)\n[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for [Rune] less, even if it's already attached.)\nI have +1 [Might] for each friendly gear.",
-  status: "partial",
-  notes: WEAPONMASTER_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "passive",

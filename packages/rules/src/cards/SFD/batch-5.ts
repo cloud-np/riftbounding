@@ -370,9 +370,7 @@ registerCardScript({
 registerCardScript({
   name: "Jax, Unmatched",
   text: "[Deflect] (Opponents must pay [Rune] to choose me with a spell or ability.)\nYour Equipment everywhere have [Quick-Draw]. (Each gains [Reaction]. When you play it, attach it to a unit you control.)",
-  status: "partial",
-  notes:
-    "Your Equipment everywhere have [Quick-Draw]: granted to Equipment on the board only (not in hand), and the Quick-Draw attach trigger does not exist yet (819.1.d).",
+  status: "implemented",
   abilities: [
     {
       kind: "passive",
@@ -426,7 +424,7 @@ registerCardScript({
   text: "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for [Rune] less, even if it's already attached.)\nWhen I conquer a battlefield that was uncontrolled, deal damage equal to my Might to an enemy unit in a base.",
   status: "partial",
   notes:
-    'Weaponmaster (821.1.b): the engine has no Weaponmaster play trigger yet. "When I conquer a battlefield that was uncontrolled, deal damage equal to my Might to an enemy unit in a base": the conquer event does not record whether the battlefield was uncontrolled (468.5, 471).',
+    '"When I conquer a battlefield that was uncontrolled, deal damage equal to my Might to an enemy unit in a base": the conquer event does not record whether the battlefield was uncontrolled (468.5, 471). Weaponmaster is the engine\'s.',
   abilities: [],
 });
 
@@ -435,7 +433,7 @@ registerCardScript({
   text: "[Weaponmaster]\nYou may pay [Body][Body] as an additional cost to play me.\nWhen you play me, if you paid the additional cost, move an enemy gear to your base. You control it until I leave the board. If it's an Equipment, attach it to me.",
   status: "partial",
   notes:
-    'Weaponmaster (821.1.b): the engine has no Weaponmaster play trigger yet. The optional [Body][Body] additional cost is not a payable cost, and "You control it until I leave the board" (a delayed passive tied to another object\'s presence, 391.4) is not supported.',
+    'The optional [Body][Body] additional cost is not a payable Cost (357.2), and "You control it until I leave the board" (a delayed passive tied to another object\'s presence, 391.4) is not supported. Weaponmaster is the engine\'s.',
   abilities: [],
 });
 

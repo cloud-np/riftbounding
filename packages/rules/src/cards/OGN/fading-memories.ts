@@ -27,9 +27,7 @@ const UNIT_AT_BATTLEFIELD_OR_GEAR: Condition = {
 registerCardScript({
   name: "Fading Memories",
   text: "Give a unit at a battlefield or a gear [temporary]. (Kill it at the start of its controller's Beginning Phase, before.)",
-  status: "partial",
-  notes:
-    "Engine bug: Temporary given to a gear is lost at the end of the turn (the 317.2.c expire step deletes rules objects without baseMight, dropping keywordGrants). Units keep it.",
+  status: "implemented",
   abilities: [
     { kind: "keyword", keyword: "Temporary", value: 0 },
     {

@@ -116,7 +116,7 @@ describe("Origins A–N — more spells", () => {
     s.as("p1").endTurn().expectOk();
     settle(s);
     expect(zoneOf(s, there.id)).toBe("trash");
-    expect(getCardScript("Fading Memories")?.status).toBe("partial");
+    expect(getCardScript("Fading Memories")?.status).toBe("implemented");
   });
 
   it.skip("[BUG][C:Fading Memories][R317.2.c][R816.1.b] a gear given Temporary keeps it past the end of turn", () => {

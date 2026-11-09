@@ -30,8 +30,6 @@ import {
 } from "./common";
 
 const MANUAL: Effect = { op: "custom", id: "manual" };
-const WEAPONMASTER_NOTE =
-  "Weaponmaster (821.1.b): the engine has no Weaponmaster play trigger yet; the keyword is not re-implemented here.";
 const REPEAT_NOTE =
   "Repeat (820.1.d / 820.2): the engine charges the Repeat cost but does not execute the instructions a second time (with new choices); only the first execution is automated.";
 const CHOOSE_TRIGGER =
@@ -210,8 +208,7 @@ registerCardScript({
 registerCardScript({
   name: "Jax, Unrelenting",
   text: "[WEAPONMASTER] (When you play me, you may [EQUIP] one of your Equipment to me for [Rune] less, even if it's already attached.)\nWhen you attach an Equipment to me, you may pay [1] to draw 1.",
-  status: "partial",
-  notes: WEAPONMASTER_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "triggered",
@@ -402,9 +399,14 @@ registerCardScript({
           {
             op: "for_each",
             selector: target({ targetRef: "target:0" }),
-            // 438 / 375: a delayed replacement used up by the next damage to that unit this turn,
-            // bound to that object as it is created (359.3.f.3.a).
-            effect: { op: "custom", id: "sfd:prevent-next-damage-to-it" },
+            // 438 / 375 / 359.3.f.3.a: a delayed replacement used up by the next damage to that
+            // unit this turn. The matcher names the play-time choice; the `replace` op freezes it
+            // onto the delayed effect and R4-engine passes it to the matcher.
+            effect: {
+              op: "replace",
+              matches: { type: "damage", subject: { targetRef: "target:0" } },
+              replace: { prevent: 9999 },
+            },
           },
           { op: "draw", amount: 1 },
         ],
@@ -1102,9 +1104,7 @@ registerCardScript({
 registerCardScript({
   name: "Azir, Emperor of the Sands",
   text: "Your Sand Soldiers have [Weaponmaster].\n[1], [Tap]: Play a 2 [Might] Sand Soldier unit token to your base. Use only if you've played an Equipment this turn.",
-  status: "partial",
-  notes:
-    "Your Sand Soldiers get [Weaponmaster], but the engine has no Weaponmaster play trigger yet (821.1.b), so the granted keyword does nothing.",
+  status: "implemented",
   abilities: [
     notIntrinsic("Weaponmaster"),
     {
