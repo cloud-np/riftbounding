@@ -116,6 +116,15 @@ describe("game actions â€” deal/heal/kill/banish [R418][R419][R428][R429][R712â€
     expect(eventTypes(run(s, { op: "kill", target: { targetRef: "obj:" + unit.id } }).events)).not.toContain("kill");
   });
 
+  it("[R429][R056.2] a killed unit whose control changed goes to its owner's Trash", () => {
+    const s = scenario();
+    const unit = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
+    s.host.setController(s.room, unit.id, "p1");
+    run(s, { op: "kill", target: { targetRef: "obj:" + unit.id } });
+    expect(zoneNames(s, "p2", "trash")).toContain("Caitlyn, Patrolling");
+    expect(zoneNames(s, "p1", "trash")).not.toContain("Caitlyn, Patrolling");
+  });
+
   it("[R428.2][R428.2.a][R056.2] banishing goes to the owner's Banishment and is not a kill", () => {
     const s = scenario();
     const unit = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");

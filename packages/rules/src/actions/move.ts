@@ -35,6 +35,7 @@ export function kill(
     ? effectiveMight(room, cardId, step.host)
     : undefined;
   const attached = attachedCardIds(room, cardId, step);
+  // 429 / 056: the engine's move routes a card to its owner's Trash (a stolen unit included).
   const moved = step.host.moveCard(room, located.playerId, located.zone, "trash", cardId);
   if (!moved) return false;
   delete room.rules?.objects[cardId];
