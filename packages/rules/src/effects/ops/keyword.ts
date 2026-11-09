@@ -23,7 +23,9 @@ registerEffectOp("grant_keyword", (effect, context) => {
   const duration = effect.duration ?? "permanent";
   const done: string[] = [];
   for (const id of found.ids) {
-    if (!isOnBoard(context.room, host, id)) continue;
+    // R3 — 829: "give a spell in your trash [Flow]" grants the keyword to a card off the board.
+    const offBoardFlow = name.toLowerCase() === "flow" && host.findCard(context.room, id)?.zone === "trash";
+    if (!isOnBoard(context.room, host, id) && !offBoardFlow) continue;
     addKeywordGrant(context.room, host, id, name, duration, ctx.env.controller, {
       ...(value !== undefined ? { value } : {}),
       ...(ctx.env.sourceObjectId ? { sourceObjectId: ctx.env.sourceObjectId } : {}),

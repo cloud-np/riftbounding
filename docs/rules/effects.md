@@ -112,6 +112,39 @@ applied); 373's "which simultaneous event first" uses the instruction/cleanup or
 does not expose its batch of simultaneous deaths); a held event settles after the rest of its
 instruction, so "kill two units" with one held death is not simultaneous (370.1.a.2).
 
+### Show Off (832)
+
+Declare it with the `showOff(selector, count?)` builder (`src/cards/dsl.ts`; a passive custom
+modifier `show-off`). The play layer turns it into the play-time choice `"showOff"`
+(`choose-card`, 0..count, `rule: "832.1.c"`, not a Target) among the controller's hand cards
+(the card being played excluded; revealing emits `reveal`) and friendly board objects
+(`show_off`) matching `selector` (zone and controller are filled in). When the item finalizes the
+shown-off object's Might and costs are noted (832.1.d.1 — later changes are ignored) on
+`choices.$showOff` and, for permanents, on `objects[id].showOff`. Linked text reads them with the
+condition `SHOWED_OFF` (`custom("showed-off", { count? })`) and the amount
+`{ kind: "shown-off", property: "might" | "energy-cost" | "power-cost" | "count" }`.
+
+```ts
+// Primordial Roar: "[Show Off] a unit. If you showed off a unit, deal damage equal to that unit's Might to a unit."
+abilities: [showOff({ cardType: "unit" }),
+  { kind: "spell", effect: { op: "if", condition: SHOWED_OFF,
+    then: { op: "deal", amount: { kind: "shown-off", property: "might" }, target: aUnit() } } }]
+// Gutter Guardian: "[Show Off] a card with [Hidden]. When you play me, if you showed off, [Add] [Rune]."
+abilities: [showOff({ keyword: "Hidden" }),
+  { kind: "triggered", trigger: WHEN_PLAYED, condition: SHOWED_OFF, effect: { op: "add", resources: { power: { any: 1 } } } }]
+```
+
+### Flow (829)
+
+Nothing to script: the printed `[Flow][cost]` is parsed from the card text. A spell in its owner's
+trash may be played for its Flow cost (829.1.c.1, an alternate cost replacing the base cost;
+`legalIntents` lists it; its own timing still applies, 829.1.b.2). Once finalized it is banished
+instead of leaving the chain to the trash (829.1.b.1, `ChainItem.leaveChainTo = "banished"`; also
+when countered). `grant_keyword` "Flow" may target a spell in a trash ("give a spell in your trash
+[Flow] equal to its cost this turn"): its Flow cost is its printed cost. Cost modifiers such as
+Stargazer use the usual `cost` modifiers. Limit: several printed Flow costs (829.1.c.3) use the
+first.
+
 ## Files
 
 | Path | Contents |

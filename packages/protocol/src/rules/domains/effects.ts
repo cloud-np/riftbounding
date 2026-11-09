@@ -159,6 +159,14 @@ declare module "../effects" {
   }
 }
 
+/** R3 — 832.1.d.1: the shown-off objects and their information when they were shown off. */
+export interface ShowOffInfo {
+  ids: string[];
+  might?: number;
+  energy?: number;
+  power?: number;
+}
+
 /** A prevention shield (438) tracked on a unit. */
 export interface PreventShield {
   id: string;
@@ -210,6 +218,11 @@ export interface EffectsObjectFields {
    * cost" play effects.
    */
   paidAdditionalCost?: boolean;
+  /**
+   * R3 — 832.1.c.1 / 832.1.d.1: what this permanent showed off as it was played (ids and the
+   * information noted then), for its linked "if you showed off" abilities.
+   */
+  showOff?: ShowOffInfo;
   /**
    * 359.3.e.4: chain items that chose this object while it was on the board. The rules object is
    * dropped when the object leaves the board, so a target that left and came back no longer
@@ -265,6 +278,11 @@ export interface EffectsChainItemFields {
   targetSnapshot?: Record<string, TargetSnapshot>;
   /** Choices bound by the effects layer during resolution (diagnostics). */
   resolutionChoices?: ChoiceRecord;
+  /**
+   * R3 — 829.1.b.1: where the card goes when it leaves the chain other than by its own
+   * instructions (a spell played for its Flow cost is banished instead of going to the trash).
+   */
+  leaveChainTo?: "banished";
 }
 
 /** `LegalIntents` extras owned by the effects layer (prompt details, …). */

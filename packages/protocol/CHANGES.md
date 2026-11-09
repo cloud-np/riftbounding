@@ -216,3 +216,13 @@ held events `{ proposal, candidates, declined, stage, chosen? }`), kinds `choose
 (372 order; option `$none` = apply none) and `yes-no` (371.2.a). New event `replacement_held`
 (`{ action, candidates, rule }`). The `kill` action proposal now carries `data.source` when the
 kill is attributed (429.5).
+
+| change | why |
+| --- | --- |
+| `Amount` += `{ kind: "shown-off"; property? }` (`src/rules/effects.ts`, new union member) | 832.1.d / 832.1.d.1 linked Show Off information |
+| `EffectsObjectFields.showOff?: ShowOffInfo` (`{ ids, might?, energy?, power? }`) | 832.1.c.1: a permanent remembers what it showed off for its play effect |
+| `EffectsChainItemFields.leaveChainTo?: "banished"` | 829.1.b.1: a spell played for its Flow cost is banished instead of going to the trash |
+
+Show Off adds the play-time choice key `showOff` (`play.choice` prompt, `data.spec.showOff`) and
+`ChainItem.choices.$showOff` (noted information); new event `show_off` (a picked board object;
+a revealed hand card emits `reveal` with `data.showOff`). Flow plays carry permission id `flow`.

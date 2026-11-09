@@ -7,6 +7,7 @@
  */
 import { pushEvent } from "../../types";
 import { removeChainItem } from "../../timing/fepr/chain";
+import { spellLeavesChainTo } from "../../timing/fepr/spell";
 import { RESOLVED } from "../execute";
 import { registerEffectOp } from "../registry";
 import { recordOutcome, targets } from "../targets";
@@ -25,7 +26,12 @@ registerEffectOp("counter", (effect, context) => {
     removeChainItem(context.room, id);
     if (item.kind === "card" && item.cardSnapshot) {
       const owner = item.cardSnapshot.ownerPlayerId ?? item.controller;
-      host.putCard(context.room, owner, "trash", item.cardSnapshot);
+      // 829.1.b.1: a Flow-played spell is banished instead.
+      const zone = spellLeavesChainTo(item);
+      host.putCard(context.room, owner, zone, item.cardSnapshot);
+      if (zone === "banished") {
+        pushEvent(context.step.events, { type: "banish", cardId: item.cardSnapshot.id, playerId: owner, data: { rule: "829.1.b.1" } });
+      }
     }
     done.push(id);
     pushEvent(context.step.events, {

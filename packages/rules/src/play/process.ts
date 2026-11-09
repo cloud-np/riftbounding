@@ -274,6 +274,9 @@ export function executeCardPlay(
     addedAt: step.ctx.now,
     ...(request.optionalCosts.length ? { optionalCosts: [...request.optionalCosts] } : {}),
     ...(plan.permission.facedownAt ? { playedFromFacedown: plan.permission.facedownAt } : {}),
+    // R3 — 829.1.b.1: a spell played for its Flow cost is banished instead of leaving the chain
+    // (a 358.5 undo returns it to the trash; that is not leaving the chain as a finalized item).
+    ...(plan.permission.id === "flow" ? { leaveChainTo: "banished" as const } : {}),
   };
   // 355.2: only permanents carry a location.
   if (unit || gear) item.choices.location = plan.location;
