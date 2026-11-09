@@ -40,3 +40,6 @@ import "./dr-mundo-expert";
 import "./noxus-hopeful";
 
 export {};
+// Wave R3 batches (one barrel per parallel agent)
+import "./batch-a-n";
+import "./batch-o-z";
