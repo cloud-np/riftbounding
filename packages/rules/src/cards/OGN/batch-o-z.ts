@@ -55,5 +55,17 @@ import "./volibear-imposing";
 import "./warwick-hunter";
 import "./watchful-sentry";
 import "./yasuo-remorseful";
+// Passive abilities
+import "./rhasa-the-sunderer";
+import "./sett-kingpin";
+import "./sky-splitter";
+import "./spirits-refuge";
+import "./stand-united";
+import "./taric-protector";
+import "./trifarian-war-camp";
+import "./vilemaws-lair";
+import "./wielder-of-water";
+import "./windswept-hillock";
+import "./wizened-elder";
 
 export {};
