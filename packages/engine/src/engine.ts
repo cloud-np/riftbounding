@@ -34,6 +34,7 @@ import { ENGINE_ERRORS, ERROR_CODES } from "./errors";
 import type { RulesIntent, Verdict } from "@rift/protocol";
 import { applyRulesIntent, gate, initializeStrictRules } from "@rift/rules";
 import { createEngineRulesHost } from "./strict/host";
+import { translateGesture } from "./strict/gestures";
 import { boardSettingsFor } from "./state/selectors";
 
 const CHAIN_LIMIT = 20;
@@ -256,6 +257,31 @@ export function applyGameAction<A extends { type: string }>(
   }
   const gameplayAction = GAMEPLAY_ACTION_TYPES.has(actionInput.type);
   if (gameplayAction && state.rulesMode === "strict") {
+    // R4-gestures: a board gesture (drag/tap/drop) is translated to the one strict rules intent
+    // it means and applied through the same path as a hand-written `rules_*` action. Cosmetics
+    // and the §6.4 manual-window board actions fall through to `gate()` unchanged.
+    const translated = translateGesture(
+      state,
+      actorPlayerId,
+      actionInput as unknown as Record<string, unknown> & { type: string },
+      createEngineRulesHost(ctx),
+    );
+    if (translated.kind === "intent") {
+      return applyStrictRulesIntent(
+        state,
+        actorPlayerId,
+        translated.intent as unknown as Record<string, unknown> & { type: string },
+        ctx,
+      );
+    }
+    if (translated.kind === "reject") {
+      return verdictFailure({
+        ok: false,
+        code: translated.code,
+        rule: translated.rule ?? "contract:§4",
+        ...(translated.detail ? { detail: translated.detail } : {}),
+      });
+    }
     const verdict = gate(state, actorPlayerId, actionInput.type);
     if (!verdict.ok) return verdictFailure(verdict);
   }
