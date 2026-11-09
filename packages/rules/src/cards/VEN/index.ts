@@ -73,3 +73,6 @@ import "./shadow-clone-token";
 import "./swain-and-riven";
 
 export {};
+import "./batch4-units";
+import "./batch4-more";
+import "./batch4-legends";
