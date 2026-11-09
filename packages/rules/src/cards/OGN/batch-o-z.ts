@@ -67,5 +67,25 @@ import "./vilemaws-lair";
 import "./wielder-of-water";
 import "./windswept-hillock";
 import "./wizened-elder";
+// Gear, legends and activated abilities
+import "./orb-of-regret";
+import "./pack-of-wonders";
+import "./scrapheap";
+import "./seal-of-discord";
+import "./seal-of-focus";
+import "./seal-of-insight";
+import "./seal-of-rage";
+import "./seal-of-strength";
+import "./seal-of-unity";
+import "./sett-the-boss";
+import "./sun-disc";
+import "./teemo-swift-scout";
+import "./the-syren";
+import "./treasure-trove";
+import "./unlicensed-armory";
+import "./viktor-herald-of-the-arcane";
+import "./volibear-relentless-storm";
+import "./wallop";
+import "./yasuo-unforgiven";
 
 export {};
