@@ -19,6 +19,14 @@ All changes are additive; existing wire names, fields and semantics are unchange
 `GameSetupConfig` (the input to `createInitialGameState`) intentionally lives in `@rift/engine`
 because it is an engine input type, not a wire type.
 
+## R4 bot-room (additive)
+
+| file                | change                       | why                                                                                                                                                                      |
+| ------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/game-state.ts` | `RoomPlayer.isBot?: boolean` | Practice-vs-bot rooms mark the server-driven seat. Public room metadata; its hand/deck/face-down cards are redacted per viewer exactly like a human opponent's. Optional. |
+
+No message name, action or existing field changed. Sandbox rooms simply never set the field.
+
 ## B20 server additions (no wire-name changes)
 
 - **Rewind protocol v5:** the server now answers `rewind_last_action`, `forward_last_rewind` and an

@@ -47,6 +47,7 @@ import { parseDecklist } from "../decklist";
 import { sanitizePlayerName } from "../auth";
 import { applyGameAction, createInitialGameState } from "../engine-adapter";
 import type { EngineSetupConfig } from "../engine-types";
+import { BOT_ACTION_CAP, botMayAct, botPlayerIds, nextBotIntent } from "./bot-driver";
 import { generateRoomCode, newId, normalizeRoomCode } from "./ids";
 import type {
   CoreClock,
@@ -315,6 +316,7 @@ export class MatchRoomCore {
           ...(parsed ? { deck: parsed, submittedDeck: parsed } : {}),
           ...(seat.sealedRegistration ? { sealedRegistration: seat.sealedRegistration } : {}),
           ...(seat.isSoloOpponent ? { isSoloOpponent: true } : {}),
+          ...(seat.isBot ? { isBot: true } : {}),
         } as RoomPlayer;
       });
     return {
@@ -357,6 +359,7 @@ export class MatchRoomCore {
         seat: seat.seat,
         name: seat.name,
         joinedAt: seed.createdAt,
+        ...(seat.isBot ? { isBot: true } : {}),
       }));
     return {
       roomCode: this.roomCode,
@@ -1715,6 +1718,8 @@ export class MatchRoomCore {
     if ((pendingBefore?.requestId ?? null) !== (pendingAfter?.requestId ?? null)) {
       this.broadcastRewindConfirmation(pendingAfter ?? null);
     }
+    // R4 bot-room: after an accepted human/bot-adjacent action, let the bot answer if it may act.
+    await this.driveBotSeats();
   }
 
   private activePlayers(): RoomPlayer[] {
@@ -1768,6 +1773,7 @@ export class MatchRoomCore {
         ...((player as unknown as Record<string, unknown>).isSoloOpponent
           ? { isSoloOpponent: true }
           : {}),
+        ...(player.isBot ? { isBot: true } : {}),
         ...(controlled.length > 1 ? { controlledPlayerIds: controlled } : {}),
       };
     });
@@ -2145,6 +2151,13 @@ export class MatchRoomCore {
             code: "invalid_phase",
             message: "Rules mode can only be changed in the lobby.",
           };
+        // R4 bot-room: practice-vs-bot is defined as a strict room; the bot has no sandbox AI.
+        if (botPlayerIds(this.room).length > 0 && action.mode !== "strict")
+          return {
+            ok: false,
+            code: "invalid_rules_mode",
+            message: "Practice vs Bot rooms always use strict rules.",
+          };
         const result = await applyGameAction(this.room, actorId, action, {
           now: this.deps.clock.now(),
           rng: this.deps.clock.rng,
@@ -2243,6 +2256,7 @@ export class MatchRoomCore {
           base,
           "",
         );
+        await this.driveBotSeats();
         return { ok: true, snapshot: true };
       }
       case "request_game_result_confirmation": {
@@ -2491,10 +2505,194 @@ export class MatchRoomCore {
       await this.initializeGame();
       this.sessionSequence += 1;
       this.broadcastSnapshot();
+      await this.driveBotSeats();
       return null;
     } catch (error) {
       return error instanceof Error ? error.message : "Could not start the match.";
     }
+  }
+
+  /**
+   * R4 bot-room: the bot seat is not controlled by the host, so the human cannot complete its
+   * battlefield pick / mulligan. Run the existing setup-only automation (auto_start_test_setup)
+   * as the host; it picks battlefields, the first player and mulligans for both seats, then
+   * `beginGame` initialises the strict layer.
+   */
+  private async applyBotAutoSetup(): Promise<void> {
+    if (botPlayerIds(this.room).length === 0 || this.room.phase === "in_game") return;
+    const hostId = this.sessionDoc.players
+      .filter((player) => !player.leftAt)
+      .slice()
+      .sort((a, b) => a.seat - b.seat)[0]?.id;
+    if (!hostId) return;
+    const previousRoom = this.room;
+    const previousLog = this.gameplayLog;
+    this.materializeActionClock(previousRoom, this.deps.clock.now());
+    try {
+      const result = await applyGameAction(
+        previousRoom,
+        hostId,
+        { type: "auto_start_test_setup" },
+        {
+          now: this.deps.clock.now(),
+          rng: this.deps.clock.rng,
+          mode: this.roomMode,
+          timeline: this.timeline,
+        },
+      );
+      if (!result.ok) {
+        this.logBotIssue("auto setup", hostId, {
+          code: result.errorCode ?? "rejected",
+          rule: result.rule,
+          detail: result.error,
+        });
+        return;
+      }
+      this.room = {
+        ...result.state,
+        roomCode: this.roomCode,
+        updatedAt: this.deps.clock.now(),
+      };
+      this.gameplayLog = [...previousLog, ...(result.log ?? [])];
+      if (result.timeline) this.timeline = result.timeline;
+    } catch (error) {
+      this.logBotIssue("auto setup", hostId, {
+        code: "runtime_error",
+        detail: error instanceof Error ? error.message : String(error),
+      });
+    }
+  }
+
+  /**
+   * Drive every bot seat whose view says it may act, one authoritative action at a time, and
+   * broadcast a normal per-viewer patch for each. Guards: 64 actions per wake, stop on game
+   * over, rejection, no progress or when no bot has a legal intent. A rejected bot intent is
+   * logged (room/bot/code/rule) and never sent to a client as an error frame.
+   */
+  private async driveBotSeats(): Promise<void> {
+    const bots = botPlayerIds(this.room);
+    if (bots.length === 0) return;
+    for (let step = 0; step < BOT_ACTION_CAP; step += 1) {
+      if (this.room.phase !== "in_game" || this.room.gameOutcome) return;
+      let botId: string | null = null;
+      let intent: ReturnType<typeof nextBotIntent> = null;
+      for (const candidate of bots) {
+        let next: ReturnType<typeof nextBotIntent> = null;
+        try {
+          next = nextBotIntent(this.room, candidate, this.deps.clock.rng);
+        } catch (error) {
+          this.logBotIssue("view", candidate, {
+            code: "picker_error",
+            detail: error instanceof Error ? error.message : String(error),
+          });
+          return;
+        }
+        if (next) {
+          botId = candidate;
+          intent = next;
+          break;
+        }
+      }
+      if (!botId || !intent) {
+        // No legal intent while a bot's own view says it may act: report a stuck pick (never a
+        // client error) and stop this wake.
+        for (const candidate of bots) {
+          const who = botMayAct(this.room, candidate);
+          if (who && who.kind !== "none" && who.player === candidate) {
+            this.logBotIssue("intent", candidate, { code: "no_legal_intent", detail: who.kind });
+            break;
+          }
+        }
+        return;
+      }
+
+      const previousRoom = this.room;
+      const previousLog = this.gameplayLog;
+      const actionNow = this.deps.clock.now();
+      const previousActionClock = this.materializeActionClock(previousRoom, actionNow);
+      const previousSequence = this.sequence;
+      let result;
+      try {
+        result = await applyGameAction(previousRoom, botId, intent, {
+          now: actionNow,
+          rng: this.deps.clock.rng,
+          mode: this.roomMode,
+          timeline: this.timeline,
+        });
+      } catch (error) {
+        this.logBotIssue("action", botId, {
+          code: "runtime_error",
+          intent: intent.type,
+          detail: error instanceof Error ? error.message : String(error),
+        });
+        return;
+      }
+      if (!result.ok) {
+        this.logBotIssue("action", botId, {
+          code: result.errorCode ?? "rejected",
+          rule: result.rule,
+          intent: intent.type,
+          detail: result.error,
+        });
+        return;
+      }
+      const nextRoom: Room = {
+        ...result.state,
+        roomCode: this.roomCode,
+        updatedAt: this.deps.clock.now(),
+      };
+      if (!runeMultisetsPreserved(previousRoom, nextRoom)) {
+        this.logBotIssue("action", botId, {
+          code: "rune_multiset_changed",
+          intent: intent.type,
+        });
+        return;
+      }
+      if (JSON.stringify(previousRoom) === JSON.stringify(nextRoom)) {
+        this.logBotIssue("action", botId, { code: "no_progress", intent: intent.type });
+        return;
+      }
+      const nextLog = [...previousLog, ...(result.log ?? [])];
+      const phaseChanged = this.sessionDoc.phase !== nextRoom.phase;
+      this.room = nextRoom;
+      this.gameplayLog = nextLog;
+      if (result.timeline) this.timeline = result.timeline;
+      this.sequence += 1;
+      this.syncSessionFromRoom();
+      if (phaseChanged) {
+        this.sessionSequence += 1;
+        this.broadcastShellSync();
+      }
+      const nextActionClock = this.materializeActionClock(this.room, actionNow);
+      this.broadcastPatch(
+        previousRoom,
+        previousLog,
+        this.room,
+        this.gameplayLog,
+        String(intent.type),
+        previousSequence,
+        "",
+        undefined,
+        previousActionClock,
+        nextActionClock,
+      );
+    }
+    this.logBotIssue("action", bots[0] ?? "bot", { code: "action_cap", detail: `${BOT_ACTION_CAP}` });
+  }
+
+  private logBotIssue(
+    stage: string,
+    playerId: string,
+    fields: { code: string; rule?: string; intent?: string; detail?: string },
+  ): void {
+    const parts = [
+      `[bot-room ${this.roomCode}] ${stage} ${playerId}`,
+      `code=${fields.code}`,
+      fields.rule ? `rule=${fields.rule}` : null,
+      fields.intent ? `intent=${fields.intent}` : null,
+      fields.detail ? `detail=${fields.detail}` : null,
+    ].filter(Boolean);
+    console.error(parts.join(" "));
   }
 
   private async initializeGame(): Promise<void> {
@@ -2510,6 +2708,7 @@ export class MatchRoomCore {
       ...(typeof (player as unknown as Record<string, unknown>).sealedRegistration !== "undefined"
         ? { sealedRegistration: (player as unknown as Record<string, unknown>).sealedRegistration }
         : {}),
+      ...(player.isBot ? { isBot: true } : {}),
     }));
     const config: EngineSetupConfig = {
       roomCode: this.roomCode,
@@ -2540,6 +2739,12 @@ export class MatchRoomCore {
       soloSetupPending: false,
     };
     const state = await createInitialGameState(config);
+    // R4 bot-room: the engine setup contract has no bot flag; mirror it from the session doc so
+    // the live room (and snapshots) keep the public marker.
+    for (const player of state.players) {
+      const seat = active.find((candidate) => candidate.id === player.id);
+      if (seat?.isBot) player.isBot = true;
+    }
     const room: Room = {
       ...state,
       roomCode: this.roomCode,
@@ -2563,6 +2768,16 @@ export class MatchRoomCore {
     // A fresh game starts without the previous game's/series' termination marker.
     delete this.sessionDoc.matchTermination;
     this.sessionSequence += 1;
+    // R4 bot-room: automate the bot's setup and mirror the resulting phase into the shell doc.
+    await this.applyBotAutoSetup();
+    this.syncSessionFromRoom();
+    // Practice-vs-bot is a single human seat. Once setup is done, the live room must take turns
+    // between two seats (engine `single_player` keeps the same player's turn) and the board must
+    // not grant the human control of the bot (`GameScreen` derives control from roomMode). The
+    // session doc stays `single_player`, so the lobby still renders the practice room.
+    if (this.room.phase === "in_game" && botPlayerIds(this.room).length > 0) {
+      this.room = { ...this.room, roomMode: "multiplayer" };
+    }
   }
 
   /* ------------------------------------------------------------------ HTTP API */
@@ -3134,6 +3349,7 @@ export class MatchRoomCore {
         await this.initializeGame();
         this.broadcastShellSync(true);
         this.broadcastSnapshot();
+        await this.driveBotSeats();
         return httpOk({ roomCode: this.roomCode, phase: this.sessionDoc.phase });
       } catch (error) {
         return httpError(

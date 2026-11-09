@@ -49,3 +49,4 @@ export {
   strictTurnState,
   strictWhoMayAct,
 } from "./strict/view";
+export { pickStrictBotAction } from "./strict/bot";

@@ -116,6 +116,8 @@ export type {
   PromptReason,
 } from "../prompts";
 
+export { pickRandomAction, pickPromptAnswer, mulberry32 } from "../bot/random";
+
 export * as primitives from "../actions/primitives";
 export {
   addResources,

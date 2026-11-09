@@ -25,6 +25,7 @@ import type {
   ReturnToLobbyResponse,
   RoomApiError as RoomApiErrorBody,
   RoomPhase,
+  RulesMode,
   TakeSeatResponse,
   GameVariant,
   MatchFormat,
@@ -236,6 +237,10 @@ export interface CreateRoomRequest {
   matchFormat: MatchFormat;
   roomMode?: "solo_lab" | "single_player" | "multiplayer";
   gameVariant: GameVariant;
+  /** R4 bot-room: `"bot"` makes a single-player room's second seat server-driven. */
+  opponent?: "bot";
+  /** Strict-rules lobby toggle seed (bot rooms force strict server-side). */
+  rulesMode?: RulesMode;
   decklist?: string;
   constructedDeckRegistration?: ConstructedDeckRegistration;
   sealedRegistration?: unknown;

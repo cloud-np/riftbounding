@@ -541,7 +541,14 @@ function SeatRow({
           {seat ? (
             <>
               {seat.name}
-              {!isSpectatorSelf && seat.id === room.myId ? (
+              {seat.isBot ? (
+                <span
+                  data-bot-badge="true"
+                  className="ml-1.5 text-[0.62rem] font-normal uppercase tracking-widest text-[#9fdff2]"
+                >
+                  {rulesText("sim.botBadge") ?? "Bot"}
+                </span>
+              ) : !isSpectatorSelf && seat.id === room.myId ? (
                 <span className="ml-1.5 text-[0.62rem] font-normal uppercase tracking-widest text-text-dim">
                   {strings["sim.you"]}
                 </span>
@@ -557,7 +564,18 @@ function SeatRow({
       <div className="flex flex-wrap items-center justify-end gap-1.5">
         {seat ? (
           singlePlayer ? (
-            seat.deckReady ? (
+            seat.isBot ? (
+              <span
+                data-bot-badge="true"
+                className="inline-flex items-center gap-1.5 text-[0.64rem] uppercase tracking-[0.1em] text-[#9fdff2]"
+              >
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-[rgba(159,223,242,0.72)]"
+                  aria-hidden="true"
+                />
+                {rulesText("sim.botBadge") ?? "Bot"}
+              </span>
+            ) : seat.deckReady ? (
               <span className="inline-flex items-center gap-1.5 text-[0.64rem] uppercase tracking-[0.1em] text-text-soft">
                 <span
                   className="h-1.5 w-1.5 rounded-full bg-[#7bdeb7] shadow-[0_0_7px_rgba(123,222,183,0.34)]"

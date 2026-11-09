@@ -5,7 +5,7 @@
  * mapping layer. Keep `RoomState` semantics identical to the local mock (B7): seats, ready flags,
  * deck readiness, chat, spectators, host id and match completion.
  */
-import type { RoomSessionDoc, Spectator } from "@rift/protocol";
+import type { RoomMode, RoomSessionDoc, Spectator } from "@rift/protocol";
 
 import type {
   DeckRulesMode,
@@ -65,6 +65,7 @@ export function roomStateFromSessionDoc(input: RoomMappingInput): RoomState {
       ready: readyIds.has(player.id),
       deckReady: playerDeckReady(player) || Boolean(input.deckReadyFallback && player.id === myPlayerId),
       isHost: player.id === (host?.id ?? ""),
+      ...(player.isBot ? { isBot: true } : {}),
     };
   }
 
@@ -104,6 +105,21 @@ export function roomStateFromSessionDoc(input: RoomMappingInput): RoomState {
     matchComplete: terminated === "completed" || terminated === "aborted",
     gameNumber: sessionDoc.gameNumber ?? 1,
   };
+}
+
+/**
+ * Seats this client may act for. Multiplayer keeps the server-issued list; solo/practice rooms
+ * control every human seat but never the server-driven bot seat (R4 bot-room).
+ */
+export function controlledPlayerIdsForSession(input: {
+  sessionDoc: Pick<RoomSessionDoc, "players">;
+  roomMode?: RoomMode;
+  controlledPlayerIds?: string[];
+}): string[] {
+  if (input.roomMode === "multiplayer") return [...(input.controlledPlayerIds ?? [])];
+  return input.sessionDoc.players
+    .filter((player) => !player.leftAt && !player.isBot)
+    .map((player) => player.id);
 }
 
 /** Minimal room shown while the first `room_shell_sync` is in flight. */

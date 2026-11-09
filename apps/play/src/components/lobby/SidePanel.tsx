@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
+import { createTranslator } from "@rift/i18n";
 
 import { strings } from "./strings";
 import type { LobbyQuickMatchSettings, LobbyTable, MatchFormat, CardPool } from "./types";
@@ -21,6 +22,8 @@ const TABLES: { value: LobbyTable; label: string; players: number }[] = [
 ];
 
 const RADIANCE_DECK_LOCK = "Deck uses Radiance cards";
+
+const uiText = createTranslator("en");
 
 function FlameIcon({ className }: { className?: string }) {
   return (
@@ -264,6 +267,8 @@ export interface SidePanelProps {
   onCancelSearch: () => void;
   onHostRoom: () => void;
   onSoloRoom: () => void;
+  /** Practice a strict-rules duel against the server-driven bot. */
+  onBotRoom: () => void;
   joinCode: string;
   onJoinCodeChange: (code: string) => void;
   onJoin: () => void;
@@ -288,6 +293,7 @@ export function SidePanel({
   onCancelSearch,
   onHostRoom,
   onSoloRoom,
+  onBotRoom,
   joinCode,
   onJoinCodeChange,
   onJoin,
@@ -501,6 +507,17 @@ export function SidePanel({
                   onClick={() => gate(onSoloRoom)}
                 >
                   {strings["sim.soloRoom"]}
+                </button>
+              </span>
+              <span title={!signedIn ? strings["sim.signInToPlay"] : undefined}>
+                <button
+                  type="button"
+                  data-bot-room="true"
+                  className={`${goldActionButton} h-12! min-w-0! w-full sm:w-full sm:min-w-0 px-2! text-[0.82rem]! whitespace-nowrap`}
+                  aria-busy="false"
+                  onClick={() => gate(onBotRoom)}
+                >
+                  {uiText("sim.practiceVsBot") ?? "Practice vs Bot"}
                 </button>
               </span>
             </div>
