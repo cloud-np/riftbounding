@@ -173,7 +173,7 @@ describe("cards from the official examples", () => {
     expect(zoneOf(s, unit.id)).toBe("trash");
   });
 
-  it("[C:Last Stand][C:Eclipse][EX:258][R479.4.c][R143.2.c.1] doubling a -2 Might unit increases it by 0: it stays -2", () => {
+  it("[C:Last Stand][C:Eclipse][EX:479.4.c][R479.4.c][R143.2.c.1] doubling a -2 Might unit increases it by 0: it stays -2", () => {
     const s = withCards(["Last Stand"], ["Eclipse"]);
     const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     s.room.rules!.objects[unit.id] = { baseMight: 2 };

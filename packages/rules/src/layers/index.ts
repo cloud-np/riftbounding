@@ -18,7 +18,7 @@
  * Every consumer goes through these helpers, so a granted keyword or Might change is visible to
  * timing, combat and cleanups alike. Pure: no mutation, no Date/rng; the room is only read.
  *
- * Negative Might (143.2.c / 479.4.c / EX:258 / EX:287): the characteristic itself is never
+ * Negative Might (143.2.c / 479.4.c and its example / 758.2 example): the characteristic is never
  * floored — `effectiveMight` (= `rawMight`) can be below 0, and effects that calculate increases
  * and decreases use that actual value (143.2.c.1; Double increases by 0, 479.4.c). Only its *uses*
  * clamp: a reference by a spell or ability treats it as 0 (`effects/evaluate.ts` `mightOf`), and

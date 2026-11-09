@@ -276,7 +276,7 @@ describe("restrictions, costs, entry [R054][R356][R369.3]", () => {
 });
 
 describe("negative Might [R143.2.c][R479.4.c]", () => {
-  it("[R143.2.c][R143.2.c.1][EX:287] the Might stays negative but an ability referencing it reads 0", () => {
+  it("[R143.2.c][R143.2.c.1] the Might stays negative but an ability referencing it reads 0", () => {
     const s = scenario();
     const unit = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
     s.room.rules!.objects[unit.id] = { baseMight: 3, temporaryMight: -5 };
