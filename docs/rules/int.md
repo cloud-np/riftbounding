@@ -17,12 +17,17 @@ strings. Privacy rules: 128 (Secret / Private / Public), 107.3.f (facedown cards
 | `packages/engine/src/engine.ts`, `types.ts` | §5 | `EngineFailure.rule?` / `detail?` from the Verdict |
 | `packages/rules/src/intents/concede.ts`, `legality/concede.ts`, `legality/wire/concede.ts` | 649–652 | `rules_concede` handler, verdict (651.3) and wire validator |
 | `packages/i18n/src/rules-text.ts`, `data/i18n-en.json` (`ui.rules`) | §5, 411.2 | reason / prompt / UI strings and the `rulesReasonText` / `promptReasonText` / `promptTitle` helpers |
+| `packages/engine/src/strict/view.ts` | 312, §5 | client read side bound to the engine host: `strictLegalIntents`, `strictWhoMayAct`, `strictTurnState`, `strictExplainIllegal` |
+| `apps/play/src/components/board/strict/*` | 411.2, 467.2.c, §6.4, 650 | `StrictRulesPanel`, `StrictPromptDialog`, pure `strict-model.ts` |
+| `apps/play/src/components/room/RoomShell.tsx` (`RulesModeFieldset`), `lobby/integration/roomMapping.ts`, `lobby/LobbyContainer.tsx` | §3 | host-only lobby toggle |
+| `apps/play/src/runtime/matchRuntime.ts`, `components/game/GameScreen.tsx` | §5 | `RulesRejectionError` (code/rule/detail) shown through `rulesReasonText`; the turn button sends `rules_end_turn` in strict rooms |
 
 Tests: `packages/sync/src/redact-rules.test.ts` (every case below, spectators, solo, patches),
 `packages/sync/src/redact.test.ts` (mulligan playback), `packages/sync/src/messages.test.ts`
 (error frame fields), `apps/realtime/tests/match-room.test.ts` (`MatchRoomCore strict rooms`),
-`packages/engine/test/strict-concede.test.ts`, `packages/rules/test/rules/int/concede-intent.test.ts`,
-`packages/i18n/src/rules-text.test.ts`.
+`packages/rules/test/rules/int/concede-intent.test.ts`,
+`packages/i18n/src/rules-text.test.ts`, `packages/engine/test/strict-int.test.ts` (read view),
+`apps/play/src/components/board/strict/__tests__/*`, `apps/play/src/runtime/__tests__/rules-rejection.test.mts`.
 
 ## Redaction (sync)
 
@@ -101,6 +106,36 @@ same verdict.
 `ui.<label>`. fr / ko / zh-CN fall back to English through `createTranslator` (no machine
 translation). `rules-text.test.ts` derives the lists from the protocol and rules sources, so a new
 code fails until it has an English string.
+
+## apps/play strict UI
+
+Every strict surface is gated on `rulesMode === "strict"` (or on a strict rejection frame), so
+sandbox rooms render and behave exactly as before; no existing class or visual changed.
+
+- **Lobby**: the host's room setup panel gains a "Rules: Sandbox / Strict" fieldset
+  (`RulesModeFieldset`, the existing segmented-button recipe) that sends `set_lobby_rules_mode`;
+  the active mode comes from `RoomSessionDoc.rulesMode` (`RoomState.rulesMode`, strict only).
+- **Board** (`StrictRulesPanel`, prompts slot, the `ShowdownPrompt` shell look): status line
+  from `whoMayAct` ("You have priority", "Bob has focus", "Waiting for Bob: …", manual window),
+  one button per legal play (per location), activation ("Activate (manual)" for unscripted
+  `manual:<n>` abilities), move, plus Pass / End turn (kept visible when illegal with the
+  `explainIllegal` reason as tooltip), Done in the §6.4 window and Concede with confirmation.
+  `legalIntents` runs client-side on the viewer's redacted room through the engine host; a test
+  proves it equals the server's for each viewer. In solo modes the panel acts as the seat that may
+  act when this client controls it.
+- **Prompts** (`StrictPromptDialog`, prompted seat only): one-click single choice and yes-no,
+  multi-choice with `min`..`max`, ordering (answers `optionIds` + `orderedIds`), and the 467.2.c
+  damage assignment on the `CombatDamageAssignmentData` contract (suggestion prefill, remaining
+  counter, lethal / "can't be dealt damage" per target; the engine's verdict decides legality).
+- **Rejections**: strict error frames become `RulesRejectionError` (code, rule, detail) and the
+  game screen's existing error toast shows `rulesReasonText` ("You don't have priority. (rule
+  312)"). The board's turn button sends `rules_end_turn` in strict rooms.
+
+Not done (UI): the hand fan / drag / context menus still send sandbox actions in strict rooms
+(the server answers `strict_mode_action`, shown with its reason) instead of being driven by
+`legalIntents`; no playable-card highlighting; no explicit payment plan, optional-cost or Hide
+(`hideable`) controls; free-form prompts without options (legacy) only show their title; not
+checked in a browser.
 
 ## Open questions / findings
 
