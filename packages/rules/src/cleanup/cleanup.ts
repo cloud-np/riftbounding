@@ -33,6 +33,7 @@ import { PROMPT_REASONS } from "../prompts/reasons";
 import { runCleanupHooks } from "../timing/hooks";
 import { turnOrderStartingAt } from "../state/turn";
 import { hasUnitPresentAt, unitsPresentAt } from "../state/presence";
+import { cardKeywords } from "../play/keywords";
 
 /** 322: how many times a cleanup may repeat before the guard fires. */
 export const MAX_CLEANUP_PASSES = 12;
@@ -141,10 +142,18 @@ export function runCleanup(
   // 5. 323.6: recall unattached non-Unit Gear and non-Unit Runes at battlefields; 323.6.a remove
   // Hidden cards at battlefields not controlled by the same player into their owner's Trash.
   // (Cards always sit on their controller's board, so no permanent is in another player's Base.)
+  // 107.3: a facedown card is not a Game Object at the battlefield, so it is never recalled; only
+  // 323.6.a applies to it. 830.1.b.3: non-Unit Gear with Deploy is not recalled either.
   for (const player of room.players) {
     if (!player.board) continue;
     for (const zone of step.host.battlefieldZones(room)) {
       for (const card of [...step.host.zoneCards(room, player.id, zone)]) {
+        if (card.hidden) {
+          if (battlefieldController(room, zone, step.host) !== player.id && step.host.moveCardToOwnerZone(room, card.id, "trash")) {
+            pushEvent(step.events, { type: "hidden_card_to_trash", cardId: card.id, playerId: player.id, zone });
+          }
+          continue;
+        }
         const info = step.host.cardInfo(room, card.id);
         const type = (info?.type ?? "").toLowerCase();
         if (type.includes("rune") && !type.includes("unit")) {
@@ -152,22 +161,17 @@ export function runCleanup(
           pushEvent(step.events, { type: "recall", cardId: card.id, playerId: player.id, zone });
           continue;
         }
-        if (type.includes("gear") && !type.includes("unit") && card.attachedToCardId && !card.hidden) {
+        if (!type.includes("gear") || type.includes("unit")) continue;
+        if (card.attachedToCardId) {
           // 719.5: when the Top-Most card left the board the Gear detached where it was.
           const top = step.host.findCard(room, card.attachedToCardId);
           if (!top || top.zone !== zone) step.host.detach(room, card.id);
         }
         const current = step.host.zoneCards(room, player.id, zone).find((entry) => entry.id === card.id);
-        if (type.includes("gear") && !type.includes("unit") && !current?.attachedToCardId && !card.hidden) {
-          step.host.moveCard(room, player.id, zone, "base", card.id);
-          pushEvent(step.events, { type: "recall", cardId: card.id, playerId: player.id, zone });
-          continue;
-        }
-        if (card.hidden && battlefieldController(room, zone, step.host) !== player.id) {
-          if (step.host.moveCardToOwnerZone(room, card.id, "trash")) {
-            pushEvent(step.events, { type: "hidden_card_to_trash", cardId: card.id, playerId: player.id, zone });
-          }
-        }
+        if (current?.attachedToCardId) continue;
+        if (cardKeywords(room, step.host, card.id, info).some((keyword) => keyword.toLowerCase() === "deploy")) continue;
+        step.host.moveCard(room, player.id, zone, "base", card.id);
+        pushEvent(step.events, { type: "recall", cardId: card.id, playerId: player.id, zone });
       }
     }
   }

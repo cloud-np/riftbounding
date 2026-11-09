@@ -141,6 +141,35 @@ describe("323.6 recalls and hidden cards [R323.6][R323.6.a]", () => {
   });
 });
 
+describe("323.6 exceptions: Deploy gear and facedown cards [R830.1.b.3][R107.3]", () => {
+  it("[R830.1.b.3][R323.6] non-Unit Gear with Deploy is not recalled; other unattached Gear is", () => {
+    const s = scenario({ extraCards: { p1: ["Blossoming Dreamroot"] } });
+    placeUnit(s, "p1", "Clockwork Keeper", "battlefieldA");
+    setControl(s.room, "battlefieldA", "p1");
+    placeUnit(s, "p1", "Blossoming Dreamroot", "battlefieldA", "deployed");
+    placeUnit(s, "p1", "Blade of the Exile", "battlefieldA", "loose-gear");
+    const step = stepOf(s);
+    runCleanup(s.room, step);
+    const board = boardOf(s, "p1");
+    expect(board.battlefieldA.some((card) => card.id === "deployed")).toBe(true);
+    expect(board.base.some((card) => card.id === "loose-gear")).toBe(true);
+    expect(step.events.some((event) => event.type === "recall" && event.cardId === "deployed")).toBe(false);
+  });
+
+  it("[R107.3][R323.6] a facedown Gear card at its controller's battlefield stays facedown (not recalled)", () => {
+    const s = scenario();
+    placeUnit(s, "p1", "Clockwork Keeper", "battlefieldA");
+    setControl(s.room, "battlefieldA", "p1");
+    const facedown = placeUnit(s, "p1", "Blade of the Exile", "battlefieldA", "facedown-gear");
+    facedown.hidden = true;
+    const step = stepOf(s);
+    runCleanup(s.room, step);
+    const kept = boardOf(s, "p1").battlefieldA.find((card) => card.id === "facedown-gear");
+    expect(kept?.hidden).toBe(true);
+    expect(step.events.some((event) => event.type === "recall")).toBe(false);
+  });
+});
+
 describe("staging around an ongoing combat [R323.7][R323.8][R323.9][R462]", () => {
   it("[R323.7][R462][R344] a Showdown staged elsewhere waits for the Combat to end, then begins", () => {
     const s = scenario({ battlefields: { p2: "Bandle Tree" } });
