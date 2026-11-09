@@ -290,6 +290,15 @@ export function positionFromRoom(room: Room, namer: Namer, warnings: string[]): 
     const scored = rules.scoredThisTurn[player.id] ?? [];
     if (scored.length > 0)
       spec.scoredThisTurn = scored.map((zone) => namer.battlefieldName(room, zone));
+    // The recorded game passed automatically per these preferences; without them the replay
+    // stops wherever the original did not (e.g. Priority on the player's own trigger).
+    const prefs = rules.autoPass?.[player.id];
+    if (prefs) {
+      const { standing, ...autoPass } = prefs;
+      if (standing && standing.length > 0)
+        warnings.push(`${key}'s "yes to all" answers for this turn are not carried over`);
+      spec.autoPass = autoPass;
+    }
     players[key] = spec;
   }
 
@@ -465,7 +474,13 @@ function intentToStep(
     case "rules_concede":
       return { by, concede: true };
     case "rules_choose":
+      // "Same answer for identical prompts this turn" has no readable form: keep the raw intent
+      // so the later prompts it answers automatically replay the same way.
+      if (intent.applyToSimilar) return { by, intent };
       return answerToStep(before, namer, by, before.rules?.prompt ?? null, intent.answer);
+    case "rules_set_auto_pass":
+      // A preference change (docs/rules/auto-pass.md): replayed verbatim.
+      return { by, intent };
   }
 }
 

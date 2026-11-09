@@ -18,7 +18,13 @@ import type {
 import type { Card } from "@rift/cards";
 import { createInitialGameState } from "../../../engine/src/index";
 import { createEngineRulesHost } from "../../../engine/src/strict/host";
-import { createRulesState, projectRules, type RulesContext, type RulesHost } from "../../src";
+import {
+  applyAutoPassUpdate,
+  createRulesState,
+  projectRules,
+  type RulesContext,
+  type RulesHost,
+} from "../../src";
 import { deterministicContext } from "./context";
 import { ScenarioCardError, didYouMean, resolveCatalogCard, runeName } from "./catalog";
 import {
@@ -508,6 +514,8 @@ export function buildPosition(
     for (const ref of position.players[key].scoredThisTurn ?? []) {
       host.markScored(room, playerId[key], zoneOfBattlefield(ref, `${key} scoredThisTurn`));
     }
+    const autoPass = position.players[key].autoPass;
+    if (autoPass) applyAutoPassUpdate(rules, playerId[key], autoPass);
   }
   projectRules(room, host);
 

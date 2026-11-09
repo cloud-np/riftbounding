@@ -12,6 +12,7 @@
  * error on typos). See docs/rules/scenarios.md for the full reference.
  */
 import type {
+  AutoPassPrefsUpdate,
   ChoiceValue,
   ObjectRulesState,
   PaymentPlanWire,
@@ -131,6 +132,12 @@ export interface PlayerPositionSpec {
   pool?: PoolSpec;
   /** 472: battlefields this player already scored this turn (matters for 473.1.b). */
   scoredThisTurn?: LocationRef[];
+  /**
+   * Auto-pass preferences (docs/rules/auto-pass.md). Default: none, so every Pass / End turn is
+   * an explicit step. The repro converter copies each seat's recorded preferences, otherwise the
+   * replay diverges wherever the original game passed automatically.
+   */
+  autoPass?: AutoPassPrefsUpdate;
 }
 
 export interface BattlefieldSpec {
