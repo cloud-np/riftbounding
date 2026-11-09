@@ -7,5 +7,8 @@ import "./frigid-touch";
 import "./deathgrip";
 import "./ruin-runner";
 import "./feral-strength";
+// Wave R3
+import "./common";
+import "./batch-1";
 
 export {};
