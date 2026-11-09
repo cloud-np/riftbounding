@@ -2,10 +2,11 @@
  * Edge cases: Hide and the Facedown Zone occupancy (107.3.b / 811.1.b) — docs/rules/edge-cases-audit.md.
  */
 import { describe, expect, it } from "vitest";
+import type { BattlefieldZone } from "@rift/protocol";
 import { explainIllegal, legalIntents } from "../../src";
-import { boardOf, duel, placeUnit, setControl, type S } from "./helpers";
+import { boardOf, drive, duel, placeUnit, setControl, toHand, type S } from "./helpers";
 
-function hide(s: S, name: string, location: string) {
+function hide(s: S, name: string, location: BattlefieldZone) {
   const card = s.handCard("p1", name) ?? (s.moveDeckCardToHand("p1", name), s.handCard("p1", name)!);
   return { card, intent: { type: "rules_play" as const, cardId: card.id, hide: true, location } };
 }
@@ -51,5 +52,34 @@ describe("Facedown Zone occupancy [R107.3.b][R811.1.b]", () => {
     s.as("p1").move("Clockwork Keeper", "base").expectOk();
     expect(boardOf(s, "p1").battlefieldB.filter((card) => card.hidden)).toHaveLength(0);
     expect(boardOf(s, "p1").trash.map((card) => card.name)).toEqual(expect.arrayContaining(["Stand United", "Zhonya's Hourglass"]));
+  });
+});
+
+describe("choices restricted to the hiding battlefield [R811.1.d]", () => {
+  it("[R811.1.d.5][C:Sprite Call] a hidden spell that plays a unit plays it at the battlefield it was hidden at", () => {
+    const s = duel({ p1: ["Sprite Call"] });
+    placeUnit(s, "p1", "Caitlyn, Patrolling", "battlefieldA", "holder");
+    setControl(s.room, "battlefieldA", "p1");
+    const call = toHand(s, "p1", "Sprite Call");
+    s.room.rules!.pools.p1 = { energy: 0, power: { any: 1 } };
+    s.as("p1").apply({ type: "rules_play", cardId: call.id, hide: true, location: "battlefieldA" }).expectOk();
+    s.as("p1").endTurn().expectOk();
+    drive(s);
+    s.as("p2").endTurn().expectOk();
+    drive(s);
+    // Next own turn: play it from face down (Reaction, ignoring its base cost).
+    s.as("p1").apply({ type: "rules_play", cardId: call.id }).expectOk();
+    drive(s);
+    expect(boardOf(s, "p1").battlefieldA.some((card) => card.name === "Sprite")).toBe(true);
+    expect(boardOf(s, "p1").base.some((card) => card.name === "Sprite")).toBe(false);
+  });
+
+  it("[R811.3][C:Sprite Call] played from hand for its cost, the same spell plays the unit to its normal location (base)", () => {
+    const s = duel({ p1: ["Sprite Call"] });
+    toHand(s, "p1", "Sprite Call");
+    s.room.rules!.pools.p1 = { energy: 3, power: {} };
+    s.as("p1").play("Sprite Call").expectOk();
+    drive(s);
+    expect(boardOf(s, "p1").base.some((card) => card.name === "Sprite")).toBe(true);
   });
 });

@@ -84,3 +84,11 @@ export function nextOwnTurn(s: S): GameEvent[] {
 export function exhausted(s: S, card: CardInstance): boolean | null {
   return s.host.isExhausted(s.room, card.id);
 }
+
+/** The named card in the player's hand, moving it from the Main Deck first when needed. */
+export function toHand(s: S, playerId: string, name: string): CardInstance {
+  const inHand = s.handCard(playerId, name);
+  if (inHand) return inHand;
+  s.moveDeckCardToHand(playerId, name);
+  return s.handCard(playerId, name)!;
+}
