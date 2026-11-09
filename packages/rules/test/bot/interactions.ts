@@ -9,7 +9,7 @@
  * without auto-pass preferences gives the before/after numbers.
  */
 import type { AutoPassPrefs, GameEvent, Room } from "@rift/protocol";
-import { forcedPromptAnswer, legalIntents, provablyNoResponse } from "../../src";
+import { forcedPromptAnswer, hasLegalAction, provablyNoAction, provablyNoResponse } from "../../src";
 import { selfplay, type SelfplayDecision, type SelfplayOutcome, type SelfplayOptions } from "./selfplay";
 
 export type DecisionCategory =
@@ -21,7 +21,8 @@ export type DecisionCategory =
   | "response_pass_provable"
   | "response_pass_hidden"
   | "response_respond"
-  | "main_end_turn_only"
+  | "main_end_turn_only_provable"
+  | "main_end_turn_only_hidden"
   | "main_action"
   | "manual";
 
@@ -34,10 +35,28 @@ export const DECISION_CATEGORIES: readonly DecisionCategory[] = [
   "response_pass_provable",
   "response_pass_hidden",
   "response_respond",
-  "main_end_turn_only",
+  "main_end_turn_only_provable",
+  "main_end_turn_only_hidden",
   "main_action",
   "manual",
 ];
+
+/**
+ * Counterfactual on the same game: the decisions each preference set would have taken
+ * automatically (so the comparison is not skewed by the bot playing a different game).
+ */
+export const REMOVED_BY: Record<"default" | "all", readonly DecisionCategory[]> = {
+  default: ["prompt_forced_public", "own_item_pass", "response_pass_provable", "main_end_turn_only_provable"],
+  all: [
+    "prompt_forced_public",
+    "prompt_forced_hidden",
+    "own_item_pass",
+    "response_pass_provable",
+    "response_pass_hidden",
+    "main_end_turn_only_provable",
+    "main_end_turn_only_hidden",
+  ],
+};
 
 export interface InteractionTally {
   seed: number;
@@ -79,13 +98,10 @@ export function classifyDecision(decision: SelfplayDecision): { category: Decisi
     if (provablyNoResponse(room, host, actor)) return { category: "response_pass_provable" };
     return { category: "response_pass_hidden" };
   }
-  const legal = legalIntents(room, actor, host);
-  const only =
-    legal.playableCardIds.length === 0 &&
-    legal.activatable.length === 0 &&
-    legal.moves.length === 0 &&
-    (legal.hideable?.length ?? 0) === 0;
-  return { category: only && intent.type === "rules_end_turn" ? "main_end_turn_only" : "main_action" };
+  if (intent.type !== "rules_end_turn") return { category: "main_action" };
+  // 164.2: the Basic Runes' resource abilities are not "something to do" (src/auto/respond.ts).
+  if (hasLegalAction(room, host, actor)) return { category: "main_action" };
+  return { category: provablyNoAction(room, host, actor) ? "main_end_turn_only_provable" : "main_end_turn_only_hidden" };
 }
 
 function autoKey(event: GameEvent): string | null {

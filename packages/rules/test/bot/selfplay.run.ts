@@ -9,11 +9,14 @@
  *   SELFPLAY_MAX_TURNS    per-game turn cap (default 80)
  *   SELFPLAY_MAX_ACTIONS  per-game action cap (default 4000)
  *   SELFPLAY_DECK         `fixture` (default) or `catalog` (random Calm/Chaos decks)
+ *   SELFPLAY_AUTOPASS     `none` (default), `default` or `all` (docs/rules/auto-pass.md)
  *
  * This file is intentionally not named `*.test.ts`: it is excluded from the default suite via
  * its own vitest config and is meant to be run on demand.
  */
 import { it } from "vitest";
+import type { AutoPassPrefs } from "@rift/protocol";
+import { DEFAULT_AUTO_PASS } from "../../src";
 import { selfplay, type SelfplayOutcome, type SelfplayReport } from "./selfplay";
 
 const OUTCOMES: SelfplayOutcome[] = ["win", "turn_cap", "action_cap", "stuck", "crash"];
@@ -46,18 +49,26 @@ it("runs seeded strict self-play games and prints a summary", () => {
   const maxTurns = Math.max(1, numberFromEnv("SELFPLAY_MAX_TURNS", 80));
   const maxActions = Math.max(1, numberFromEnv("SELFPLAY_MAX_ACTIONS", 4000));
   const deckMode = process.env.SELFPLAY_DECK === "catalog" ? "catalog" : "fixture";
+  // docs/rules/auto-pass.md: `default` seeds the information-safe defaults, `all` every option.
+  const autoPassMode = process.env.SELFPLAY_AUTOPASS ?? "none";
+  const autoPass: AutoPassPrefs | undefined =
+    autoPassMode === "default"
+      ? { ...DEFAULT_AUTO_PASS }
+      : autoPassMode === "all"
+        ? { ownItems: true, responses: "no_response", forcedPrompts: "all", endTurn: "no_action", hold: false }
+        : undefined;
 
   const reports: SelfplayReport[] = [];
   const failures: SelfplayReport[] = [];
   for (let offset = 0; offset < games; offset += 1) {
     const seed = start + offset;
-    const report = selfplay(seed, { maxTurns, maxActions, deckMode });
+    const report = selfplay(seed, { maxTurns, maxActions, deckMode, ...(autoPass ? { autoPass } : {}) });
     reports.push(report);
     if (report.outcome === "stuck" || report.outcome === "crash") failures.push(report);
   }
 
   console.log("");
-  console.log(`selfplay: ${games} game(s), seeds ${start}..${start + games - 1}, deckMode=${deckMode}, maxTurns=${maxTurns}, maxActions=${maxActions}`);
+  console.log(`selfplay: ${games} game(s), seeds ${start}..${start + games - 1}, deckMode=${deckMode}, autoPass=${autoPassMode}, maxTurns=${maxTurns}, maxActions=${maxActions}`);
   console.log("");
   console.log("seed | outcome    | steps | turns | result");
   console.log("-----+------------+-------+-------+------------------------------------------");

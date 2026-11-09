@@ -76,7 +76,7 @@ function automaticAnswer(room: Room, step: RulesStepContext, prompt: Prompt): { 
   return { answer: forced.answer, kind: "choose" };
 }
 
-function tryAutoAnswer(room: Room, step: RulesStepContext, actions: AutoAction[]): boolean {
+function tryAutoAnswer(room: Room, step: RulesStepContext, actions: AutoAction[], beforeAct: () => void): boolean {
   const prompt = room.rules?.prompt;
   if (!prompt) return false;
   const auto = automaticAnswer(room, step, prompt);
@@ -84,6 +84,7 @@ function tryAutoAnswer(room: Room, step: RulesStepContext, actions: AutoAction[]
   // Same verdict as a manual `rules_choose`; a rejected automatic answer is simply not sent.
   const verdict = chooseVerdict(room, prompt.playerId, prompt.id, auto.answer, step.host);
   if (!verdict.ok) return false;
+  beforeAct();
   const point = checkpoint(room, step);
   const result = applyPromptAnswer(room, prompt.playerId, prompt.id, auto.answer, step);
   if (!result.ok) {
@@ -141,12 +142,19 @@ function endTurnReason(
 }
 
 /** One automatic action, if the deciding player's preferences call for one. */
-export function runOneAutoAction(room: Room, step: RulesStepContext, trigger: AutoTrigger | undefined, actions: AutoAction[]): boolean {
+export function runOneAutoAction(
+  room: Room,
+  step: RulesStepContext,
+  trigger: AutoTrigger | undefined,
+  actions: AutoAction[],
+  /** Called once, right before the first mutation (lets the caller take a checkpoint). */
+  beforeAct: () => void = () => {},
+): boolean {
   const rules = room.rules;
   if (!rules?.autoPass || room.gameOutcome) return false;
   expireAutoPass(rules);
   const who = whoMayAct(room);
-  if (who.kind === "prompt") return tryAutoAnswer(room, step, actions);
+  if (who.kind === "prompt") return tryAutoAnswer(room, step, actions, beforeAct);
   if (who.kind !== "priority" && who.kind !== "focus") return false;
   const playerId = who.player;
 
@@ -154,6 +162,7 @@ export function runOneAutoAction(room: Room, step: RulesStepContext, trigger: Au
     // Neutral Open Main Phase on the player's own turn (316.9).
     const reason = endTurnReason(room, step, playerId, trigger, actions);
     if (!reason) return false;
+    beforeAct();
     const done = handleEndTurn(intentContext(room, step, playerId, { type: "rules_end_turn" }));
     if (!done.ok) return false;
     pushEvent(step.events, { type: "auto_end_turn", playerId, data: { reason } });
@@ -164,6 +173,7 @@ export function runOneAutoAction(room: Room, step: RulesStepContext, trigger: Au
   const reason = passReason(room, step, playerId, trigger);
   if (!reason) return false;
   const window = rules.chain.length > 0 ? "chain" : "showdown";
+  beforeAct();
   const done = handlePass(intentContext(room, step, playerId, { type: "rules_pass" }));
   if (!done.ok) return false;
   pushEvent(step.events, { type: "auto_pass", playerId, data: { reason, window } });
@@ -225,8 +235,20 @@ export function advanceWithAuto(room: Room, step: RulesStepContext, trigger?: Au
       });
       break;
     }
-    if (!runOneAutoAction(room, step, trigger, actions)) break;
+    // An automatic action must never turn the player's own accepted intent into a rejection: if
+    // it runs into a bounded-loop guard (322 / 317.2.f / 334), undo it and leave that decision
+    // to the player, exactly where the game stood without auto-pass.
+    let point: ReturnType<typeof checkpoint> | null = null;
+    const before = actions.length;
+    if (!runOneAutoAction(room, step, trigger, actions, () => (point = checkpoint(room, step)))) break;
     result = advance(room, step);
+    if (result === "loop_guard" && point) {
+      rollback(room, step, point);
+      actions.length = before;
+      delete step.loopGuard;
+      result = "await";
+      break;
+    }
   }
   if (actions.length > 0) logAutoActions(room, step, actions);
   return result;

@@ -12,7 +12,7 @@
 import { it } from "vitest";
 import type { AutoPassPrefs } from "@rift/protocol";
 import { DEFAULT_AUTO_PASS } from "../../src";
-import { countInteractions, DECISION_CATEGORIES, type InteractionTally } from "./interactions";
+import { countInteractions, DECISION_CATEGORIES, REMOVED_BY, type InteractionTally } from "./interactions";
 
 const MODES: Record<string, AutoPassPrefs | undefined> = {
   none: undefined,
@@ -59,7 +59,15 @@ it("counts strict decisions per game with and without auto-pass", () => {
     console.log(`  decisions/turn          ${avg(tallies.map((t) => t.decisions / Math.max(1, t.turns)))}`);
     console.log(`  longest pass run (avg)  ${avg(tallies.map((t) => t.longestPassRun))}`);
     for (const category of DECISION_CATEGORIES) {
-      console.log(`  ${category.padEnd(24)}${avg(tallies.map((t) => t.byCategory[category]))}`);
+      console.log(`  ${category.padEnd(28)}${avg(tallies.map((t) => t.byCategory[category]))}`);
+    }
+    if (mode === "none") {
+      // Counterfactual on these very games: what each preference set would have taken over.
+      for (const set of ["default", "all"] as const) {
+        const removed = tallies.map((t) => REMOVED_BY[set].reduce((sum, key) => sum + t.byCategory[key], 0));
+        const left = tallies.map((t, index) => t.decisions - removed[index]!);
+        console.log(`  counterfactual ${set.padEnd(8)} removes ${avg(removed)} → ${avg(left)} decisions/game`);
+      }
     }
     const auto = sumKeys(tallies, (tally) => tally.auto);
     for (const [key, value] of Object.entries(auto).sort()) console.log(`  ${key.padEnd(24)}${(value / games).toFixed(2)}`);

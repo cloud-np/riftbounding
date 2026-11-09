@@ -106,7 +106,14 @@ export {
 } from "../auto/prefs";
 export { forcedPromptAnswer } from "../auto/forced";
 export type { ForcedAnswer } from "../auto/forced";
-export { holdsHiddenCards, hasLegalResponse, provablyNoResponse, responseCheck } from "../auto/respond";
+export {
+  hasLegalAction,
+  hasLegalResponse,
+  holdsHiddenCards,
+  provablyNoAction,
+  provablyNoResponse,
+  responseCheck,
+} from "../auto/respond";
 export type { ResponseCheck } from "../auto/respond";
 export { promptSignature, standingEligible } from "../auto/signature";
 export { AUTO_ACTION_CAP, advanceWithAuto } from "../auto/run";
