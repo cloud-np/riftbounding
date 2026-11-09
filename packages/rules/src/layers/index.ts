@@ -23,6 +23,7 @@
  */
 import type { Modifier, Room, Selector } from "@rift/protocol";
 import type { RulesHost } from "../host";
+import { getCardScript } from "../cards/registry";
 import { durationActive } from "./durations";
 import { activeModifiers, type ActiveModifier } from "./passives";
 
@@ -70,13 +71,33 @@ function numberOf(value: unknown): number {
   return typeof value === "number" && Number.isFinite(value) ? value : 0;
 }
 
-/** Might passives' amounts must be fixed numbers (the arithmetic layer, 479.4). */
-function modifierMightAmount(modifier: Modifier): number {
+/** Evaluates a non-fixed Might amount for a modifier's source (injected; no game state). */
+export type AmountEvaluator = (
+  room: Room,
+  host: RulesHost,
+  amount: Extract<Modifier, { kind: "might" }>["amount"],
+  scope: { controller: string; sourceObjectId?: string; depth: number },
+) => number | null;
+
+let amountEvaluator: AmountEvaluator = () => null;
+
+export function setLayerAmountEvaluator(fn: AmountEvaluator): void {
+  amountEvaluator = fn;
+}
+
+/** Arithmetic layer amount (479.4): fixed numbers, or e.g. "+1 for each card in your trash". */
+function modifierMightAmount(room: Room, host: RulesHost, active: ActiveModifier, depth: number): number {
+  const modifier = active.modifier;
   if (modifier.kind !== "might") return 0;
   const amount = modifier.amount;
   if (typeof amount === "number") return amount;
   if (amount && typeof amount === "object" && amount.kind === "fixed") return amount.value;
-  return 0;
+  const value = amountEvaluator(room, host, amount, {
+    controller: active.controller,
+    ...(active.sourceId && !active.sourceId.startsWith("fx") ? { sourceObjectId: active.sourceId } : {}),
+    depth: depth + 1,
+  });
+  return value ?? 0;
 }
 
 /** Unfloored effective Might (479.4). `depth` > 0 skips selector-based modifiers (478.1.c). */
@@ -99,7 +120,7 @@ export function rawMight(room: Room, cardId: string, host: RulesHost, depth = 0)
     for (const active of activeModifiers(room, host, depth)) {
       if (active.modifier.kind !== "might") continue;
       if (!modifierTargets(room, host, active, cardId, depth + 1)) continue;
-      add(modifierMightAmount(active.modifier));
+      add(modifierMightAmount(room, host, active, depth));
     }
   }
   // 479.4.e: increases first, then decreases.
@@ -177,9 +198,10 @@ export function effectiveKeywords(room: Room, objectId: string, source: KeywordS
 
 export function keywordsAtDepth(room: Room, objectId: string, source: KeywordSource, depth: number): string[] {
   const host = Array.isArray(source) ? hostFromRoom(room) : (source as RulesHost);
-  const printed = Array.isArray(source)
+  const rawPrinted = Array.isArray(source)
     ? [...source]
     : ((source as RulesHost).cardInfo(room, objectId)?.keywords ?? []);
+  const printed = withoutSuppressed(room, objectId, rawPrinted, host);
   const { added, removed } = keywordEntries(room, objectId, printed, host, depth);
   const out: string[] = [];
   const seen = new Set<string>();
@@ -198,7 +220,7 @@ export function keywordsAtDepth(room: Room, objectId: string, source: KeywordSou
  */
 export function effectiveKeywordValues(room: Room, objectId: string, host: RulesHost): Record<string, number> {
   const info = host.cardInfo(room, objectId);
-  const printed = [...(info?.keywords ?? [])];
+  const printed = withoutSuppressed(room, objectId, [...(info?.keywords ?? [])], host);
   const textValues = printedKeywordValues(info?.text ?? "");
   const { added, removed } = keywordEntries(room, objectId, [], host, 0);
   const totals: Record<string, number> = {};
@@ -213,6 +235,25 @@ export function effectiveKeywordValues(room: Room, objectId: string, host: Rules
     totals[key] = (totals[key] ?? 0) + (entry.value ?? 1);
   }
   return totals;
+}
+
+/**
+ * Catalog keyword lists include keywords that only appear in reminder text or in a dependent /
+ * granted ability (e.g. Clanging Sentry's "Your Mechs have [Disarm]", Gustwalker's "[Level 3] …
+ * [Ganking]"). A script marks such a keyword with `{ kind: "keyword", keyword, value: 0 }`: it is
+ * not intrinsic, and only applies when an ability actually grants it (727.1.b, 831.2).
+ */
+function withoutSuppressed(room: Room, objectId: string, printed: string[], host: RulesHost | null): string[] {
+  const name = host?.findCard(room, objectId)?.card.name ?? room.rules?.chain.find((item) => item.id === objectId)?.cardName;
+  const script = name ? getCardScript(name) : undefined;
+  if (!script) return printed;
+  const suppressed = new Set(
+    script.abilities
+      .filter((ability) => ability.kind === "keyword" && ability.value === 0)
+      .map((ability) => String((ability as { keyword: string }).keyword).toLowerCase()),
+  );
+  if (suppressed.size === 0) return printed;
+  return printed.filter((keyword) => !suppressed.has(splitKeyword(keyword).name.toLowerCase()));
 }
 
 /** "[Assault 2]" / "[SHIELD 2]" / "[Hunt 3]" in printed text → { assault: 2, … }. */

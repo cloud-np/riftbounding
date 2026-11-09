@@ -7,7 +7,7 @@
  * Accelerate (805) is R2-play's optional additional cost.
  */
 import { registerCardScript } from "../registry";
-import { WHEN_I_BECOME_EXHAUSTED } from "../dsl";
+import { WHEN_I_BECOME_EXHAUSTED, token } from "../dsl";
 
 registerCardScript({
   name: "Reckless Innovator",
@@ -22,7 +22,7 @@ registerCardScript({
       effect: {
         op: "choose_mode",
         modes: [
-          { id: "gold", label: "Play a Gold gear token exhausted", effect: { op: "create", token: { name: "Gold", exhausted: true, play: true } } },
+          { id: "gold", label: "Play a Gold gear token exhausted", effect: { op: "create", token: token("Gold", { exhausted: true, play: true }) } },
           {
             id: "draw",
             label: "Pay [Chaos] to draw 1",

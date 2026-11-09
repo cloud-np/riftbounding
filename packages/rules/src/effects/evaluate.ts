@@ -29,7 +29,7 @@ import type {
   ZoneSelector,
 } from "@rift/protocol";
 import type { RulesHost } from "../host";
-import { keywordsAtDepth, rawMight, setLayerTargetMatcher } from "../layers";
+import { keywordsAtDepth, rawMight, setLayerAmountEvaluator, setLayerTargetMatcher } from "../layers";
 import { setLayerConditionEvaluator } from "../layers/passives";
 import { turnState } from "../state/turn";
 import type { EvalContext, EffectEnv, LastKnown } from "./env";
@@ -395,7 +395,12 @@ export function matchingIds(ctx: EvalContext, selector: Selector): string[] {
  * - otherwise → every matching object (criteria, 355.5.a).
  */
 export function resolveSelector(ctx: EvalContext, selector: Selector): string[] {
-  if (selector.targetRef && !selector.chosen) return refIds(ctx, selector.targetRef);
+  if (selector.targetRef && !selector.chosen) {
+    const ids = refIds(ctx, selector.targetRef);
+    // A reference with extra filters ("it, if it's a Recruit") keeps only matching objects.
+    const filtered = Object.keys(selector).some((key) => key !== "targetRef" && key !== "label");
+    return filtered ? ids.filter((id) => matchesSelector(ctx, selector, id)) : ids;
+  }
   if (selector.chosen && selector.targetRef) return refIds(ctx, selector.targetRef);
   return matchingIds(ctx, selector);
 }
@@ -715,5 +720,20 @@ setLayerConditionEvaluator((room, host, condition, scope) =>
       depth: scope.depth,
     },
     condition,
+  ),
+);
+
+setLayerAmountEvaluator((room, host, amount, scope) =>
+  evaluateAmount(
+    {
+      room,
+      host,
+      env: makeEnv({
+        controller: scope.controller,
+        ...(scope.sourceObjectId ? { sourceObjectId: scope.sourceObjectId } : {}),
+      }),
+      depth: scope.depth,
+    },
+    amount,
   ),
 );

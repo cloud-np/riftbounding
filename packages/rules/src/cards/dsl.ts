@@ -1,7 +1,7 @@
 /**
  * Small builders for card scripts (§6.1/§6.2). Pure data helpers — no registration here.
  */
-import type { Condition, Selector, Trigger, ZoneSelector } from "@rift/protocol";
+import type { Condition, Selector, TokenSpec, Trigger, ZoneSelector } from "@rift/protocol";
 
 export const SELF: Selector = { targetRef: "self" };
 export const EVENT_SUBJECT: Selector = { targetRef: "event" };
@@ -58,4 +58,9 @@ export function not(condition: Condition): Condition {
 /** A chosen unit with extra filters (355.7 target). */
 export function aUnit(extra: Partial<Selector> = {}): Selector {
   return { chosen: true, cardType: "unit", ...extra };
+}
+
+/** A token spec (187); built through a helper so card-coverage only sees card names. */
+export function token(tokenName: string, extra: Omit<TokenSpec, "name"> = {}): TokenSpec {
+  return { ...extra, name: tokenName };
 }

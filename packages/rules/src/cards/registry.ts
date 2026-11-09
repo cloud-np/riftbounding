@@ -17,8 +17,29 @@ function isSelector(value: unknown): value is Selector {
   return !!value && typeof value === "object" && !Array.isArray(value) && !("op" in (value as object));
 }
 
-/** Assign `target:<n>` keys to unkeyed chosen selectors, depth-first in document order. */
+/**
+ * Assign `target:<n>` keys to unkeyed chosen selectors, depth-first in document order, skipping
+ * numbers that explicitly keyed choices already use (references do not reserve keys).
+ */
 export function normalizeChoiceKeys(effect: Effect, counter = { next: 0 }): void {
+  const used = new Set<string>();
+  const collect = (node: unknown): void => {
+    if (!node || typeof node !== "object") return;
+    if (Array.isArray(node)) {
+      for (const entry of node) collect(entry);
+      return;
+    }
+    const record = node as Record<string, unknown>;
+    if (record.chosen === true && typeof record.targetRef === "string") used.add(record.targetRef);
+    for (const value of Object.values(record)) collect(value);
+  };
+  collect(effect);
+  const nextKey = (): string => {
+    let key = `target:${counter.next++}`;
+    while (used.has(key)) key = `target:${counter.next++}`;
+    used.add(key);
+    return key;
+  };
   const visit = (node: unknown): void => {
     if (!node || typeof node !== "object") return;
     if (Array.isArray(node)) {
@@ -27,7 +48,7 @@ export function normalizeChoiceKeys(effect: Effect, counter = { next: 0 }): void
     }
     const record = node as Record<string, unknown>;
     if (isSelector(record) && record.chosen === true && typeof record.targetRef !== "string") {
-      record.targetRef = `target:${counter.next++}`;
+      record.targetRef = nextKey();
     }
     for (const [key, value] of Object.entries(record)) {
       if (key === "where") continue;

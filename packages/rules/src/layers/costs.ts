@@ -17,9 +17,10 @@
  *
  * Signature is a cross-agent contract: keep it stable.
  */
-import type { Amount, Room, RuleRef, RulesDomain, Selector } from "@rift/protocol";
+import type { Amount, Condition, Modifier, Room, RuleRef, RulesDomain, Selector } from "@rift/protocol";
 import type { RulesHost } from "../host";
-import { activeModifiers } from "./passives";
+import { getCardScript } from "../cards/registry";
+import { activeModifiers, evaluateLayerCondition, type ActiveModifier } from "./passives";
 import { modifierTargets } from "./index";
 
 export interface CostAdjustment {
@@ -44,7 +45,7 @@ export function costAdjustments(
   const out: CostAdjustment[] = [];
   const subject = query.cardId ?? query.objectId;
   if (!room.rules || !subject) return out;
-  for (const active of activeModifiers(room, host)) {
+  for (const active of [...activeModifiers(room, host), ...ownCostPassives(room, host, subject, query.playerId)]) {
     const modifier = active.modifier;
     if (active.controller !== query.playerId) continue;
     if (modifier.kind === "cost") {
@@ -77,6 +78,37 @@ export function costAdjustments(
         ...(params.once ? { note: "once" } : {}),
       });
     }
+  }
+  return out;
+}
+
+/**
+ * 366.2 / 366.2.a: cost passives of the card being played apply in any zone it can be played from
+ * (e.g. "[Legion] I cost [2] less" while it is in hand). Conditional wrappers are unwrapped with
+ * the card as the source.
+ */
+function ownCostPassives(room: Room, host: RulesHost, cardId: string, playerId: string): ActiveModifier[] {
+  const located = host.findCard(room, cardId);
+  if (!located) return [];
+  const boardZones = ["base", ...host.battlefieldZones(room), "legend", "runeArea"];
+  if (boardZones.includes(located.zone)) return []; // already collected as a board passive
+  const script = getCardScript(located.card.name);
+  if (!script || script.status === "manual") return [];
+  const out: ActiveModifier[] = [];
+  for (const ability of script.abilities) {
+    if (ability.kind !== "passive") continue;
+    let modifier = ability.modifier;
+    if (modifier.kind === "custom" && modifier.id === "conditional") {
+      const condition = modifier.params?.condition as Condition | undefined;
+      const inner = modifier.params?.modifier as Modifier | undefined;
+      if (!inner) continue;
+      if (condition && !evaluateLayerCondition(room, host, condition, { controller: playerId, sourceObjectId: cardId, depth: 1 })) {
+        continue;
+      }
+      modifier = inner;
+    }
+    if (modifier.kind !== "cost" && !(modifier.kind === "custom" && modifier.id === "cost-adjust")) continue;
+    out.push({ sourceId: cardId, controller: playerId, modifier, origin: "passive", timestamp: -1 });
   }
   return out;
 }

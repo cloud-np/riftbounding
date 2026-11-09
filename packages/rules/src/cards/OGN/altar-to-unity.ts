@@ -1,6 +1,6 @@
 /** Altar to Unity (OGN-275, battlefield) — "When you hold here, play a 1 [Might] Recruit unit token in your base." */
 import { registerCardScript } from "../registry";
-import { WHEN_YOU_HOLD_HERE } from "../dsl";
+import { WHEN_YOU_HOLD_HERE, token } from "../dsl";
 
 registerCardScript({
   name: "Altar to Unity",
@@ -10,7 +10,7 @@ registerCardScript({
     {
       kind: "triggered",
       trigger: WHEN_YOU_HOLD_HERE,
-      effect: { op: "create", token: { name: "Recruit", might: 1, play: true }, zone: "base" },
+      effect: { op: "create", token: token("Recruit", { might: 1, play: true }), zone: "base" },
     },
   ],
 });
