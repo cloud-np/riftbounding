@@ -258,6 +258,16 @@ The lane also made `unit_played` / `gear_played` / `card_played` carry `data.pla
 true` (811.6). That is an event payload inside the existing `data` object, not a new wire field.
 No new prompt reason, action or message name was added.
 
+## R4 optional-cost prompts — 355.1.a (additive)
+
+| file | change | why |
+| --- | --- | --- |
+| `src/rules/domains/play.ts` | `PlayProcessState.stage` += `"optional"` | 355.1.a: a Pending item can wait on the yes/no decision to pay an optional additional cost (Accelerate, Repeat, printed "you may pay …") before payment. |
+| `src/rules/domains/play.ts` | `PlayProcessState.request.optionalCostsDeclared?: boolean` | Distinguishes a bare `rules_play`/`rules_activate` (ask for affordable optional costs) from an explicit `optionalCosts` field including `[]` (old behaviour, never prompts). |
+
+The new prompt reason is `play.optional_cost` (kind `yes-no`), with `data.optionalCostId`,
+`data.label`, `data.costText` and `data.params` for i18n. No message or action name changed.
+
 ## R4-gestures — board gesture payloads (additive)
 
 | file | change | why |

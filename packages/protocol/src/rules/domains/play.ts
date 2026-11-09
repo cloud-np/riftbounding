@@ -109,10 +109,12 @@ export interface PlayProcessState {
   /** 404.1.b.1: a triggered ability's cost (its cost within instructions), if any. */
   triggerCost?: Cost;
   /**
-   * `choices` (355 / 403.2, R2-effects choice specs) or `payment` (357.2 cost-object choice);
-   * triggered abilities also wait on `may` (403.1 "you may") and `cost` (405.2 pay or decline).
+   * `choices` (355 / 403.2, R2-effects choice specs), `optional` (355.1.a optional additional
+   * cost yes/no, auto-prompted only when the intent omitted `optionalCosts`) or `payment`
+   * (357.2 cost-object choice); triggered abilities also wait on `may` (403.1 "you may") and
+   * `cost` (405.2 pay or decline).
    */
-  stage: "choices" | "payment" | "may" | "cost";
+  stage: "choices" | "optional" | "payment" | "may" | "cost";
   /** 405.2: the controller chose to pay the triggered ability's cost (triggered items only). */
   costAccepted?: boolean;
   /** The permission the card is played with (card items only). */
@@ -127,6 +129,12 @@ export interface PlayProcessState {
   request: {
     plan?: PaymentPlanWire;
     optionalCosts?: string[];
+    /**
+     * 355.1.a: whether the intent carried an explicit `optionalCosts` field. `false` means the
+     * engine asks one yes/no prompt per affordable optional additional cost instead of assuming
+     * a decline (e.g. an Accelerate unit played by a board gesture).
+     */
+    optionalCostsDeclared?: boolean;
     hold?: boolean;
     baseCost?: number;
     location?: string;

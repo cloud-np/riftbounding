@@ -208,25 +208,36 @@ export class RulesScenario {
     return this;
   }
 
-  play(name: string, options: { hold?: boolean; choices?: Record<string, unknown>; location?: string } = {}): this {
+  play(
+    name: string,
+    options: { hold?: boolean; choices?: Record<string, unknown>; location?: string; optionalCosts?: string[] } = {},
+  ): this {
     const card = this.findHandCard(name);
     if (!card) throw new Error(`play: ${name} is not in ${this.actorId}'s hand`);
     return this.apply({
       type: "rules_play",
       cardId: card.id,
+      // Explicit `[]` keeps the pre-prompt behaviour for existing tests; pass optionalCosts to
+      // choose directly, or use `apply` without the field to exercise the 355.1.a prompt.
+      optionalCosts: options.optionalCosts ?? [],
       ...(options.hold !== undefined ? { hold: options.hold } : {}),
       ...(options.choices ? { choices: options.choices as never } : {}),
       ...(options.location ? { location: options.location as never } : {}),
     });
   }
 
-  activate(objectName: string, ability = "activated:0", options: { hold?: boolean } = {}): this {
+  activate(
+    objectName: string,
+    ability = "activated:0",
+    options: { hold?: boolean; optionalCosts?: string[] } = {},
+  ): this {
     const located = this.findBoardCard(objectName);
     if (!located) throw new Error(`activate: ${objectName} is not on the board`);
     return this.apply({
       type: "rules_activate",
       objectId: located.id,
       ability,
+      optionalCosts: options.optionalCosts ?? [],
       ...(options.hold !== undefined ? { hold: options.hold } : {}),
     });
   }

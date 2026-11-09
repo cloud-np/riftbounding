@@ -30,6 +30,11 @@ export interface AdditionalCostSpec {
   cost: Cost;
   rule: RuleRef;
   label?: string;
+  /**
+   * 805.6: the consequence a paid optional cost has (used by the prompt text). Accelerate makes
+   * the Unit enter ready; cards with a printed “if you paid …” effect leave this unset.
+   */
+  effect?: "enter-ready";
 }
 
 export interface AdditionalCostQuery {
@@ -87,7 +92,14 @@ function cardOwnCosts(room: Room, host: RulesHost, query: AdditionalCostQuery): 
   const type = (query.info?.type ?? "").toLowerCase();
   // 805.1.a/b: Accelerate on a Unit → "you may pay [1][C] as an additional cost".
   if (type.includes("unit") && hasKeyword(query.keywords, "Accelerate")) {
-    out.push({ id: "accelerate", optional: true, cost: { energy: 1, additional: { "power:self": 1 } }, rule: "805.1.b", label: "Accelerate" });
+    out.push({
+      id: "accelerate",
+      optional: true,
+      cost: { energy: 1, additional: { "power:self": 1 } },
+      rule: "805.1.b",
+      label: "Accelerate",
+      effect: "enter-ready",
+    });
   }
   // 820.1.c: each Repeat instance is its own optional additional cost.
   parseRepeatCosts(query.info?.text).forEach((cost, index) => {

@@ -50,6 +50,7 @@ const PROMPT_REASONS = [
   "stage_showdown",
   "stage_combat",
   "play.choice",
+  "play.optional_cost",
   "play.cost",
   "play.trigger",
   "combat.damage_assignment",
@@ -154,6 +155,16 @@ function reasonPrompt(reason: string): Prompt {
         min: 1,
         max: 1,
         data: { reason, key: "mode", targeted: false, choiceMax: 1 },
+      });
+    case "play.optional_cost":
+      return prompt({
+        kind: "yes-no",
+        rule: "355.1.a",
+        promptKey: "rules.prompt.playOptionalCostEnterReady",
+        options: [{ id: "yes" }, { id: "no" }],
+        min: 1,
+        max: 1,
+        data: { reason, optionalCostId: "accelerate", params: { cost: "Accelerate [1][Order]", card: "Azir, Sovereign" } },
       });
     case "play.cost":
       return prompt({
@@ -278,6 +289,13 @@ describe("pickPromptAnswer [411.2]", () => {
         expect(ask.answer).toBe("boolean");
       }
     }
+  });
+
+  it("[R355.1.a] answers the optional additional cost prompt with yes (Accelerate)", () => {
+    const value = reasonPrompt("play.optional_cost");
+    const answer = answerFor(value, room, 3);
+    expect(answer).toEqual({ optionIds: ["yes"] });
+    expect(promptAnswerVerdict(value, answer!)).toEqual({ ok: true });
   });
 
   it("answers objects decisions: exact counts, known subsets and split shares", () => {

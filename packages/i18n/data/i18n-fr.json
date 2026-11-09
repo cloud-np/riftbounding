@@ -1721,6 +1721,7 @@
    "rules.promptReason.stage_combat": "Choisissez le combat qui a lieu en premier",
    "rules.promptReason.combat.damage_assignment": "Assignez les dégâts de combat",
    "rules.promptReason.play.choice": "Faites un choix pour la carte en cours de jeu",
+   "rules.promptReason.play.optional_cost": "Décidez si vous payez un coût supplémentaire facultatif",
    "rules.promptReason.play.cost": "Choisissez ce qui paie le coût",
    "rules.promptReason.play.trigger": "Décidez d’une compétence déclenchée",
    "rules.promptReason.effects.resume": "Faites un choix pendant la résolution de l’effet",
@@ -1749,6 +1750,28 @@
    "rules.prompt.predictRecycle": "Prédiction : choisissez les cartes à recycler",
    "rules.prompt.orderTriggers": "Ordonnez vos compétences déclenchées",
    "rules.prompt.payCost": "Payer le coût ?",
+   "rules.prompt.playOptionalCost": [
+    "Payez ",
+    [
+     "cost"
+    ],
+    " comme coût supplémentaire pour ",
+    [
+     "card"
+    ],
+    " ?"
+   ],
+   "rules.prompt.playOptionalCostEnterReady": [
+    "Payez ",
+    [
+     "cost"
+    ],
+    " comme coût supplémentaire pour que ",
+    [
+     "card"
+    ],
+    " entre préparée ?"
+   ],
    "rules.prompt.may": "Voulez-vous faire cela ?",
    "rules.prompt.choose": "Choisir",
    "rules.prompt.chooseMode": "Choisissez un mode",

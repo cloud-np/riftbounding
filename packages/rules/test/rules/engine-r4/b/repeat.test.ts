@@ -64,7 +64,7 @@ describe("Repeat [R820]", () => {
     const card = s.handCard("p1", "Feral Strength")!;
     const before = effectiveMight(s.room, unit.id, s.host);
     s.as("p1")
-      .apply({ type: "rules_play", cardId: card.id, choices: { "target:0": unit.id } } as never)
+      .apply({ type: "rules_play", cardId: card.id, optionalCosts: [], choices: { "target:0": unit.id } } as never)
       .expectOk();
     settle(s);
     expect(effectiveMight(s.room, unit.id, s.host)).toBe(before + 2);

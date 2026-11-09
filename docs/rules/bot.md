@@ -36,9 +36,9 @@ pickStrictBotAction(room: Room, playerId: string, random: () => number): RulesIn
 5. **Pass** — `rules_pass`, only when nothing else is legal.
 
 It returns `null` when the game is over, `whoMayAct` names another player (or nobody), no legal
-action exists, or the open prompt has no answer. It does not choose optional additional costs,
-does not use `hold`, answers "may"/replacement prompts with the progress option ("yes"/apply)
-and picks X = 0.
+action exists, or the open prompt has no answer. It answers the `play.optional_cost` prompt with
+"yes" (paying affordable optional additional costs such as Accelerate), does not use `hold`,
+answers "may"/replacement prompts with the progress option ("yes"/apply) and picks X = 0.
 
 ## 3. Prompt coverage
 
@@ -49,7 +49,7 @@ and picks X = 0.
 | `choose-opponent` (incl. `burn_out`) | random offered opponent as `playerId` |
 | `choose-player`, `choose-card`, `choose-target`, `choose-mode`, `choose-battlefield`, `choose-cost`, `manual` | random offered ids within `min..max` (group requirements use `groupSatisfied`) |
 | `choose-number` (X) | the smallest offered value (`0`), so the play stays affordable |
-| `yes-no` (`play.trigger`, `effects.resume` boolean, optional replacement) | "yes" (pay / apply) |
+| `yes-no` (`play.trigger`, `play.optional_cost`, `effects.resume` boolean, optional replacement) | "yes" (pay / apply) |
 | `order` (`effects.order_triggers`) | all offered ids in a random order (`orderedIds`) |
 | `damage-assignment` (`combat.damage_assignment`) | `data.suggested`, else `enumerateAssignments` |
 | `play.choice` | random legal option count; `spec.group` is checked with the host |
@@ -140,8 +140,9 @@ Root causes, rule quotes and fixes are in `.orchestrator/reports/r4-selfplay-fin
 
 ## 6. Known bot limitations
 
-- It never pays optional additional costs (Accelerate, Repeat, optional printed costs) and
-  never uses `hold`, so some cards are played in their simplest legal form only.
+- It always accepts affordable optional additional costs (Accelerate, Repeat, optional printed
+  costs) because the generic yes/no answer is "yes", and never uses `hold`; self-play outcomes
+  therefore include the Accelerate line.
 - It answers "may"/replacement prompts with yes/apply; it never declines to preserve a
   resource.
 - It treats a manual activated ability (`manual:<n>`) as a normal progress action; if such an

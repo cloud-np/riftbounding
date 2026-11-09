@@ -13,6 +13,7 @@ import { fail } from "../../types";
 import { chosenPromptOption, registerPromptHandler } from "../handlers";
 import { PLAY_PROMPT_REASONS } from "./reasons";
 import { optionValue } from "../../play/choices";
+import { optionalCostMarker } from "../../play/request";
 import { completeCardItem, continuePendingItem, planPendingCard } from "../../play/process";
 import { completeActivationItem, planPendingActivation } from "../../play/activation";
 import { answerTriggerDecision, prepareTriggeredItem } from "../../play/triggered";
@@ -74,6 +75,26 @@ registerPromptHandler(PLAY_PROMPT_REASONS.choice, ({ room, prompt, actorId, answ
   item.choices[key] =
     max <= 1 ? (values[0] ?? null) : values.every((value) => typeof value === "number") ? (values as number[]) : values.map(String);
   // Clear the answered prompt before continuing so the next one (if any) can open.
+  if (room.rules?.prompt?.id === prompt.id) room.rules.prompt = null;
+  return resume(room, step, item);
+});
+
+/** 355.1.a / 356.2.b.1: the yes/no decision to pay one optional additional cost. */
+registerPromptHandler(PLAY_PROMPT_REASONS.optionalCost, ({ room, prompt, actorId, answer, step }) => {
+  const item = pendingItem(room, prompt);
+  if (!item?.process || item.controller !== actorId) return fail("no_pending_prompt", "411.2");
+  const id = prompt.data?.optionalCostId;
+  if (typeof id !== "string" || id.length === 0) return fail("invalid_choice", prompt.rule ?? "355.1.a");
+  const yes =
+    typeof answer.boolean === "boolean"
+      ? answer.boolean
+      : answer.value === true || answer.value === "yes" || selected(prompt, answer).some((option) => option.id === "yes");
+  item.choices[optionalCostMarker(id)] = yes;
+  if (yes) {
+    if (!(item.optionalCosts ?? []).includes(id)) item.optionalCosts = [...(item.optionalCosts ?? []), id];
+  } else {
+    item.optionalCosts = (item.optionalCosts ?? []).filter((entry) => entry !== id);
+  }
   if (room.rules?.prompt?.id === prompt.id) room.rules.prompt = null;
   return resume(room, step, item);
 });

@@ -324,7 +324,8 @@ describe("additional costs [R356.2][R805][R809][R357.2]", () => {
     expect(played).toBeTruthy();
     const s2 = bareScenario({ p1: { energy: 2, power: { Calm: 1 } } });
     const keeper2 = toHand(s2, "p1", "Clockwork Keeper");
-    s2.as("p1").apply({ type: "rules_play", cardId: keeper2.id }).expectOk();
+    // Explicit `[]` declines the optional cost (355.1.a); no prompt is opened.
+    s2.as("p1").apply({ type: "rules_play", cardId: keeper2.id, optionalCosts: [] }).expectOk();
     expect(pool(s2, "p1")).toEqual({ energy: 0, power: { Calm: 1 } });
   });
 

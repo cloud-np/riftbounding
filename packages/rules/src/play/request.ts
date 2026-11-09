@@ -12,6 +12,12 @@ import type { ChoiceRecord, PaymentPlanWire, PlayChoiceAliasFields } from "@rift
 export interface PlayRequest {
   choices: ChoiceRecord;
   optionalCosts: string[];
+  /**
+   * 355.1.a: whether the wire intent carried `optionalCosts` (including an explicit `[]`). When
+   * absent, the engine prompts for each affordable optional additional cost instead of assuming
+   * a decline.
+   */
+  optionalCostsDeclared?: boolean;
   plan?: PaymentPlanWire;
   baseCost?: number;
   hold: boolean;
@@ -36,11 +42,13 @@ export function requestFromIntent(
       if (choices[key] === undefined) choices[key] = target;
     });
   }
+  const optionalCostsDeclared = intent.optionalCosts !== undefined;
   const optionalCosts = Array.isArray(intent.optionalCosts) ? [...intent.optionalCosts] : [];
   for (const id of optionalCosts) choices[optionalCostMarker(id)] = true;
   return {
     choices,
     optionalCosts,
+    optionalCostsDeclared,
     ...(intent.plan ? { plan: intent.plan } : {}),
     ...(typeof intent.baseCost === "number" ? { baseCost: intent.baseCost } : {}),
     hold: intent.hold === true,

@@ -15,9 +15,11 @@ import { additionalCostsFor, type AdditionalCostSpec } from "./additional-costs"
 import { bindChoices, effectsSpecProvider, type ChoiceSpecProvider } from "./choices";
 import type { CostObjectChoice } from "./cost-objects";
 import type { PowerDomain, ResolvedCost } from "./cost-model";
+import { formatSymbolCost, resolveCost } from "./cost-model";
 import { cardKeywords } from "./keywords";
 import { planPayment, type PaymentPlan } from "./payment";
 import type { PlayPermission } from "./permissions";
+import { optionalCostMarker } from "./request";
 import { determineTotalCost, validateOptionalCosts } from "./total-cost";
 import { showOffChoiceSpecs, showOffSpecs } from "./show-off";
 
@@ -36,6 +38,12 @@ export interface CoreInput {
   permission?: Pick<PlayPermission, "cost" | "ignore" | "ignoreAll"> | undefined;
   choices: ChoiceRecord;
   optionalCosts: readonly string[];
+  /**
+   * 355.1.a: whether the intent carried an explicit `optionalCosts` field. Absent/false means
+   * the engine offers affordable optional additional costs as yes/no prompts; an explicit field
+   * (including `[]`) keeps the caller's choice and never prompts. Defaults to true.
+   */
+  optionalCostsDeclared?: boolean;
   plan?: PaymentPlanWire;
   /** Cards that cannot pay costs (the card being played while still in hand). */
   excludeIds?: readonly string[];
@@ -49,11 +57,23 @@ export interface CoreInput {
   event?: GameEvent;
 }
 
+/** 355.1.a: one affordable optional additional cost the player has not decided yet. */
+export interface OptionalCostOffer {
+  spec: AdditionalCostSpec;
+  /** Display text for the prompt: keyword + symbols ("Accelerate [1][Order]") or the printed phrase. */
+  costText: string;
+}
+
 export interface CorePlan {
   ok: true;
   choices: ChoiceRecord;
   targetKeys: string[];
   pendingChoice: ChoiceSpec | null;
+  /**
+   * 355.1.a: optional additional costs awaiting a yes/no answer, in rule order. Only populated
+   * when the intent omitted `optionalCosts`; asks one at a time.
+   */
+  pendingOptional: OptionalCostOffer[];
   additional: AdditionalCostSpec[];
   cost: ResolvedCost;
   payment: PaymentPlan | null;
@@ -61,6 +81,21 @@ export interface CorePlan {
 }
 
 export type CoreResult = CorePlan | RulesFailure;
+
+/**
+ * 355.1.a: display text for the yes/no prompt. Accelerate/Repeat name the keyword and show its
+ * symbols; a printed “you may pay X as an additional cost” phrase is already its own text.
+ */
+function optionalCostText(
+  spec: AdditionalCostSpec,
+  domains: readonly PowerDomain[],
+  choices: ChoiceRecord,
+): string {
+  const symbols = formatSymbolCost(resolveCost(spec.cost, domains, { choices }));
+  const keyword = spec.id === "accelerate" || /^repeat(?::\d+)?$/.test(spec.id);
+  if (keyword) return [spec.label ?? spec.id, symbols].filter((part) => part.length > 0).join(" ");
+  return spec.label ?? (symbols.length > 0 ? symbols : spec.id);
+}
 
 export function planCore(room: Room, host: RulesHost, input: CoreInput): CoreResult {
   // 355.3–355.13: modes, targets, X (R2-effects specs or a built-in provider), in rule order.
@@ -101,33 +136,53 @@ export function planCore(room: Room, host: RulesHost, input: CoreInput): CoreRes
   ];
   const optionalInvalid = validateOptionalCosts(additional, input.optionalCosts);
   if (optionalInvalid) return optionalInvalid;
-  // 356: total cost.
-  const total = determineTotalCost(room, host, {
+  const adjustment = {
     playerId: input.playerId,
-    base: input.base,
-    domains: input.domains,
-    permission: input.permission,
-    additional,
-    optionalCosts: input.optionalCosts,
-    choices: bound.choices,
-    adjustment: {
-      playerId: input.playerId,
-      ...(input.kind === "card" ? { cardId: input.sourceId } : { objectId: input.sourceId }),
-      ...(input.abilityRef ? { abilityRef: input.abilityRef } : {}),
-    },
-  });
+    ...(input.kind === "card" ? { cardId: input.sourceId } : { objectId: input.sourceId }),
+    ...(input.abilityRef ? { abilityRef: input.abilityRef } : {}),
+  };
   // 357: payment plan (420.2.a: an unaffordable play is not legal).
   const targetIds = bound.targetKeys.flatMap((key) => {
     const value = bound.choices[key];
     return typeof value === "string" ? [value] : Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
   });
-  const payment = planPayment(room, host, input.playerId, total.cost, {
-    sourceObjectId: input.sourceId,
-    ...(input.excludeIds ? { excludeIds: input.excludeIds } : {}),
-    ...(input.plan ? { plan: input.plan } : {}),
-    ...(targetIds.length ? { avoidIds: targetIds } : {}),
-  });
-  if (!payment.ok) return payment;
+  const planFor = (selectedOptionalCosts: readonly string[]) => {
+    // 356: total cost.
+    const total = determineTotalCost(room, host, {
+      playerId: input.playerId,
+      base: input.base,
+      domains: input.domains,
+      permission: input.permission,
+      additional,
+      optionalCosts: selectedOptionalCosts,
+      choices: bound.choices,
+      adjustment,
+    });
+    const payment = planPayment(room, host, input.playerId, total.cost, {
+      sourceObjectId: input.sourceId,
+      ...(input.excludeIds ? { excludeIds: input.excludeIds } : {}),
+      ...(input.plan ? { plan: input.plan } : {}),
+      ...(targetIds.length ? { avoidIds: targetIds } : {}),
+    });
+    return { total, payment };
+  };
+  const planned = planFor(input.optionalCosts);
+  if (!planned.payment.ok) return planned.payment;
+  // 355.1.a / 356.2.b.1: when the intent omitted `optionalCosts`, offer each optional additional
+  // cost the player can afford on top of the base cost (and of what they already accepted).
+  // An explicit `optionalCosts` field (including `[]`) never prompts. A declined cost is marked
+  // `cost:<id> = false`; an accepted one is in `input.optionalCosts`.
+  const pendingOptional: OptionalCostOffer[] = [];
+  if (input.optionalCostsDeclared === false && !bound.pending) {
+    const accepted = [...input.optionalCosts];
+    for (const spec of additional) {
+      if (!spec.optional || accepted.includes(spec.id)) continue;
+      if (bound.choices[optionalCostMarker(spec.id)] === false) continue;
+      const candidate = planFor([...accepted, spec.id]);
+      if (!candidate.payment.ok) continue;
+      pendingOptional.push({ spec, costText: optionalCostText(spec, input.domains, bound.choices) });
+    }
+  }
   // 358.1: the bound choices must be complete and legal (only once nothing is pending). A
   // built-in provider's choices were already validated against its options.
   if (!bound.pending && input.ability && !input.specProvider) {
@@ -145,9 +200,10 @@ export function planCore(room: Room, host: RulesHost, input: CoreInput): CoreRes
     choices: bound.choices,
     targetKeys: bound.targetKeys,
     pendingChoice: bound.pending,
+    pendingOptional,
     additional,
-    cost: total.cost,
-    payment: payment.plan,
-    pendingCost: payment.pending,
+    cost: planned.total.cost,
+    payment: planned.payment.plan,
+    pendingCost: planned.payment.pending,
   };
 }
