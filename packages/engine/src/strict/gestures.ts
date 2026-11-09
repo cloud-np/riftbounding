@@ -13,7 +13,8 @@
  * | gesture (wire action)                                   | strict intent                  |
  * |---------------------------------------------------------|--------------------------------|
  * | `move_card` hand/champion/trash/banished → base/bf      | `rules_play { cardId, location }` |
- * | `move_card` + `asHidden` (Hide)                         | `rules_play { cardId, hide, location }` |
+ * | `move_card` + `asHidden` (Hide)                         | `rules_play { cardId, hide:true, location }` |
+ * | click/drag a facedown card (Hidden)                     | `rules_play { cardId, location:<its battlefield> }` |
  * | `chain_add` (spell/any card dragged to play)            | `rules_play { cardId }`        |
  * | hand card dropped on a target object                    | `rules_play { cardId, choices:{<target key>:[id]} }` |
  * | hand permanent dropped on a card at a battlefield       | `rules_play { cardId, location:<battlefield> }` |
@@ -516,6 +517,25 @@ function translateObjectTarget(
 
 /* ---------------------------------------------------------------- play gestures */
 
+/** 107.3.e / 811: a facedown card at a battlefield, owned by `playerId`. */
+function hiddenCardOf(room: Room, host: RulesHost, cardId: string): ReturnType<RulesHost["findCard"]> {
+  const located = host.findCard(room, cardId);
+  return located && located.card.hidden ? located : null;
+}
+
+/** 811.1.b/811.6: play a hidden card from its facedown zone (base ignored, to that battlefield). */
+function translateFacedownPlay(
+  room: Room,
+  actorId: string,
+  cardId: string,
+  host: RulesHost,
+): GestureTranslation {
+  const located = hiddenCardOf(room, host, cardId);
+  if (!located) return reject("card_not_found", "811.1.b", "no facedown card with that id");
+  return intentOrReject(room, actorId, playIntent(cardId, located.zone), host);
+}
+
+
 /**
  * A card being played, optionally dropped onto a target object.
  *
@@ -533,6 +553,22 @@ function translatePlay(
   host: RulesHost,
 ): GestureTranslation {
   if (!cardId) return reject("strict_mode_action", GESTURE_CONTRACT, "a play needs a cardId");
+  // 811.1.b: a Hide drop is not a Play (811.1.c.1) and takes no target choices — it is
+  // `rules_play { hide:true, location:<battlefield> }`. Never bind a play-time target for it.
+  if (hide) {
+    const targetZone = targetId ? (host.findCard(room, targetId)?.zone ?? "") : "";
+    const battlefield = isBattlefieldZone(location ?? "")
+      ? location!
+      : isBattlefieldZone(targetId)
+        ? targetId
+        : isBattlefieldZone(targetZone)
+          ? targetZone
+          : "";
+    if (!battlefield) {
+      return reject("invalid_location", "811.1.b", "hide at a battlefield you control");
+    }
+    return intentOrReject(room, actorId, playIntent(cardId, battlefield, true), host);
+  }
   const specs = playChoiceSpecs(room, host, actorId, cardId);
   const info = host.cardInfo(room, cardId);
   const permanent = !!info && /unit|gear/i.test(info.type);
@@ -599,6 +635,11 @@ function translateMoveCard(
   if (!from || !to) return reject("strict_mode_action", GESTURE_CONTRACT, "move_card needs from/to");
   if (to === "chain") {
     return reject("strict_mode_action", GESTURE_CONTRACT, "cards enter the chain by being played");
+  }
+  // 811.1.b/811.1.d: a facedown card can only be played from its Facedown Zone (to that same
+  // battlefield). A click/drag on it means "play it from facedown", never a Standard Move.
+  if (isBattlefieldZone(from) && hiddenCardOf(room, host, cardId)) {
+    return translateFacedownPlay(room, actorId, cardId, host);
   }
 
   // Hand/Champion/Trash/Banishment → Base/Battlefield is the play of a card (units/gear;
@@ -708,6 +749,11 @@ function translateToggle(
   const cardId = str(action.cardId);
   const targetId = targetObjectId(action);
   if (!cardId) return reject("strict_mode_action", GESTURE_CONTRACT, "toggle_exhausted needs a cardId");
+  // 811.1.b/811.6: a click/use on a facedown card means playing it from facedown (Reaction from
+  // the turn after it was hidden, base cost ignored). Exhaustion/readying is irrelevant for it.
+  if (hiddenCardOf(room, host, cardId)) {
+    return translateFacedownPlay(room, actorId, cardId, host);
+  }
   if (zone !== "base" && zone !== "legend" && zone !== "runeArea" && !isBattlefieldZone(zone)) {
     return reject("strict_mode_action", GESTURE_CONTRACT, `${zone || "that zone"} is not a board zone to use`);
   }

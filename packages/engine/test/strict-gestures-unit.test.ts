@@ -13,9 +13,12 @@ import { overrideCardScript } from "@rift/rules/testing";
 
 import { createEngineRulesHost } from "../src/strict/host";
 import { translateGesture } from "../src/strict/gestures";
+import { strictHiddenCards } from "../src/strict/view";
 import {
+  addSyntheticCard,
   apply,
   deepCopy,
+  EVELYNN_ENTRANCING,
   strictGestureRoom,
   takeFromDeck,
   type StrictGestureFixture,
@@ -805,6 +808,143 @@ describe("translateGesture: chain/priority/turn-flow controls [R338.1.b][R347.2]
     for (const action of controls) {
       expect(translateGesture(sandbox, "p1", action, host)).toEqual({ kind: "passthrough" });
     }
+  });
+});
+
+describe("translateGesture: Hidden — hide and play from facedown [R811]", () => {
+  function hiddenFixture() {
+    const fixture = strictGestureRoom();
+    addSyntheticCard(fixture.room, "p1", EVELYNN_ENTRANCING, "hand");
+    return { fixture, host: createEngineRulesHost(fixture.ctx) };
+  }
+
+  function hiddenRoom(fixture: StrictGestureFixture, cardId: string) {
+    let room = apply(
+      fixture.room,
+      "p1",
+      { type: "move_card", from: "hand", to: "battlefieldA", cardId, asHidden: true },
+      fixture.ctx,
+    );
+    room = apply(room, "p1", { type: "end_turn" }, fixture.ctx);
+    room = apply(room, "p2", { type: "end_turn" }, fixture.ctx);
+    return room;
+  }
+
+  it("a Hidden card dropped on a battlefield becomes rules_play with hide and that location", () => {
+    const { fixture, host } = hiddenFixture();
+    const cardId = EVELYNN_ENTRANCING.id;
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        { type: "move_card", from: "hand", to: "battlefieldA", cardId, asHidden: true },
+        host,
+      ),
+    ).toEqual({
+      kind: "intent",
+      intent: { type: "rules_play", cardId, hide: true, location: "battlefieldA" },
+    });
+  });
+
+  it("a hide drop on a card at that battlefield still ignores target choices", () => {
+    const { fixture, host } = hiddenFixture();
+    const cardId = EVELYNN_ENTRANCING.id;
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        {
+          type: "move_card",
+          from: "hand",
+          to: "battlefieldA",
+          cardId,
+          asHidden: true,
+          targetCardId: fixture.ids.hunter,
+        },
+        host,
+      ),
+    ).toEqual({
+      kind: "intent",
+      intent: { type: "rules_play", cardId, hide: true, location: "battlefieldA" },
+    });
+  });
+
+  it("a Hide drop outside a battlefield and a non-Hidden card are rejected by the rules", () => {
+    const { fixture, host } = hiddenFixture();
+    const cardId = EVELYNN_ENTRANCING.id;
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        { type: "move_card", from: "hand", to: "base", cardId, asHidden: true },
+        host,
+      ),
+    ).toMatchObject({ kind: "reject", code: "invalid_location", rule: "811.1.b" });
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        { type: "move_card", from: "hand", to: "battlefieldA", cardId: fixture.ids.keeperHand, asHidden: true },
+        host,
+      ),
+    ).toMatchObject({ kind: "reject", code: "illegal_action", rule: "811.1" });
+  });
+
+  it("a click on a facedown card next turn becomes the facedown play at that battlefield", () => {
+    const { fixture, host } = hiddenFixture();
+    const cardId = EVELYNN_ENTRANCING.id;
+    const room = hiddenRoom(fixture, cardId);
+    expect(
+      translateGesture(
+        room,
+        "p1",
+        { type: "toggle_exhausted", zone: "battlefieldA", cardId, expectedExhausted: false },
+        host,
+      ),
+    ).toEqual({ kind: "intent", intent: { type: "rules_play", cardId, location: "battlefieldA" } });
+    // A drag on the facedown card is the same gesture (it is not a Standard Move).
+    expect(
+      translateGesture(
+        room,
+        "p1",
+        { type: "move_card", from: "battlefieldA", to: "battlefieldA", cardId },
+        host,
+      ),
+    ).toEqual({ kind: "intent", intent: { type: "rules_play", cardId, location: "battlefieldA" } });
+  });
+
+  it("playing the card on the turn it was hidden is rejected by 420.1.a and names nothing", () => {
+    const { fixture, host } = hiddenFixture();
+    const cardId = EVELYNN_ENTRANCING.id;
+    const room = apply(
+      fixture.room,
+      "p1",
+      { type: "move_card", from: "hand", to: "battlefieldA", cardId, asHidden: true },
+      fixture.ctx,
+    );
+    const before = deepCopy(room);
+    const result = translateGesture(
+      room,
+      "p1",
+      { type: "toggle_exhausted", zone: "battlefieldA", cardId, expectedExhausted: false },
+      host,
+    );
+    expect(result).toMatchObject({ kind: "reject", code: "not_in_hand", rule: "420.1.a" });
+    if (result.kind === "reject") expect(result.detail ?? "").not.toContain("Evelynn");
+    expect(room).toEqual(before);
+  });
+
+  it("exposes the hide locations and the facedown card for client highlights", () => {
+    const { fixture, host } = hiddenFixture();
+    const cardId = EVELYNN_ENTRANCING.id;
+    const legal = legalIntents(fixture.room, "p1", host);
+    expect(legal.hideable).toEqual([{ cardId, locations: ["battlefieldA"] }]);
+    const room = hiddenRoom(fixture, cardId);
+    const hidden = strictHiddenCards(room, "p1");
+    expect(hidden).toMatchObject([
+      { cardId, zone: "battlefieldA", hiddenTurn: 1, availableOnTurn: 2, playableNow: true },
+    ]);
+    expect(strictHiddenCards(room, "p2")).toEqual([]);
   });
 });
 
