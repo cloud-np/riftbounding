@@ -5548,6 +5548,9 @@
     "\", but it is incomplete and cannot be played under Standard rules."
    ],
    "soloOpponent": "Solo Opponent",
+   "botBadge": "Bot",
+   "practiceVsBot": "Practice vs Bot",
+   "practiceVsBotCreated": "Practice vs Bot room created.",
    "invite": "Invite",
    "lobbyChat": "Lobby Chat",
    "lobbyChatMessage": "Lobby chat message",

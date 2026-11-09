@@ -90,6 +90,8 @@ export interface RoomSeat {
   ready: boolean;
   deckReady: boolean;
   isHost: boolean;
+  /** R4 bot-room: the server drives this seat; it is not player-controlled. */
+  isBot?: boolean;
 }
 
 export interface RoomChatEntry {

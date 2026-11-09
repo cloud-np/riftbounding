@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createTranslator } from "@rift/i18n";
 import type { ConstructedDeckRegistration, RoomSessionDoc } from "@rift/protocol";
 
 import "@/components/shell/hub-theme.css";
@@ -48,7 +49,11 @@ import { SidePanel } from "./SidePanel";
 import { TournamentPromo } from "./TournamentPromo";
 import { decodeDeckCode, exportDeckText, parseDeckText, searchCards } from "./deck-adapter";
 import { format, strings } from "./strings";
-import { pendingRoomState, roomStateFromSessionDoc } from "./integration/roomMapping";
+import {
+  controlledPlayerIdsForSession,
+  pendingRoomState,
+  roomStateFromSessionDoc,
+} from "./integration/roomMapping";
 import {
   clearGameSessions,
   createGameSession,
@@ -71,6 +76,8 @@ import type {
   SavedDeck,
 } from "./types";
 import { RoomShell } from "@/components/room/RoomShell";
+
+const uiText = createTranslator("en");
 
 const STORAGE = {
   guest: "riftbound_simulator_guest_session_v1",
@@ -663,10 +670,14 @@ export function LobbyContainer() {
     (doc: RoomSessionDoc) => {
       if (!roomSession || navigatingRef.current) return;
       navigatingRef.current = true;
-      const controlled =
-        roomSession.roomMode !== "multiplayer"
-          ? doc.players.filter((player) => !player.leftAt).map((player) => player.id)
-          : roomSession.controlledPlayerIds;
+      // Practice-vs-bot: never grant the human control of the server-driven bot seat.
+      const controlled = controlledPlayerIdsForSession({
+        sessionDoc: doc,
+        roomMode: roomSession.roomMode,
+        ...(roomSession.controlledPlayerIds
+          ? { controlledPlayerIds: roomSession.controlledPlayerIds }
+          : {}),
+      });
       const session = createGameSession({
         roomCode: roomSession.roomCode,
         gameInstanceId: roomSession.gameInstanceId,
@@ -776,7 +787,10 @@ export function LobbyContainer() {
   ]);
 
   const createLobbyRoom = useCallback(
-    async (roomMode: "multiplayer" | "single_player" | "solo_lab") => {
+    async (
+      roomMode: "multiplayer" | "single_player" | "solo_lab",
+      options: { opponent?: "bot"; rulesMode?: RulesMode } = {},
+    ) => {
       if (!signedIn) {
         requireAuth(strings["sim.signInToPlay"]);
         return;
@@ -795,6 +809,8 @@ export function LobbyContainer() {
           matchFormat: format,
           roomMode,
           gameVariant: variant,
+          ...(options.opponent ? { opponent: options.opponent } : {}),
+          ...(options.rulesMode ? { rulesMode: options.rulesMode } : {}),
           ...(deck?.valid && deck.raw ? { decklist: deck.raw } : {}),
           ...(deckRegistration(format)
             ? { constructedDeckRegistration: deckRegistration(format) }
@@ -818,11 +834,13 @@ export function LobbyContainer() {
         });
         setJoinError(null);
         pushToast(
-          roomMode === "single_player"
-            ? "Solo room created."
-            : roomMode === "solo_lab"
-              ? "Solo Lab created."
-              : "Room created.",
+          options.opponent === "bot"
+            ? (uiText("sim.practiceVsBotCreated") ?? "Practice vs Bot room created.")
+            : roomMode === "single_player"
+              ? "Solo room created."
+              : roomMode === "solo_lab"
+                ? "Solo Lab created."
+                : "Room created.",
           "success",
         );
       } catch (error) {
@@ -839,6 +857,9 @@ export function LobbyContainer() {
   };
   const handleSoloRoom = () => {
     void createLobbyRoom("single_player");
+  };
+  const handleBotRoom = () => {
+    void createLobbyRoom("single_player", { opponent: "bot", rulesMode: "strict" });
   };
 
   const handleJoin = async (codeOverride?: string) => {
@@ -1361,6 +1382,13 @@ export function LobbyContainer() {
                               return;
                             }
                             handleSoloRoom();
+                          }}
+                          onBotRoom={() => {
+                            if (!signedIn) {
+                              requireAuth(strings["sim.signInToPlay"]);
+                              return;
+                            }
+                            handleBotRoom();
                           }}
                           joinCode={joinCode}
                           onJoinCodeChange={(value) => {

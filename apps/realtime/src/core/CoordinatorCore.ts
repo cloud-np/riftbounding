@@ -130,6 +130,12 @@ export class CoordinatorCore {
       );
     }
 
+    // R4 bot-room: `opponent: "bot"` turns a single-player room into practice vs the server bot.
+    // The bot seat is never controlled by the host and the room is forced strict.
+    const botOpponent = roomMode !== "multiplayer" && body.opponent === "bot";
+    const rulesMode: "strict" | undefined =
+      botOpponent || body.rulesMode === "strict" ? "strict" : undefined;
+
     const controlledPlayerIds: string[] = [hostId];
     const players: MatchRoomSeed["players"] = [
       {
@@ -145,16 +151,17 @@ export class CoordinatorCore {
     ];
     if (roomMode !== "multiplayer") {
       const opponentId = newId("player");
-      controlledPlayerIds.push(opponentId);
+      if (!botOpponent) controlledPlayerIds.push(opponentId);
       players.push({
         playerId: opponentId,
-        name: "Opponent",
+        name: botOpponent ? "Practice Bot" : "Opponent",
         seat: 1,
         authSubject: null,
         decklist: typeof body.opponentDecklist === "string" ? body.opponentDecklist : decklist,
         ...(constructedDeckRegistration ? { constructedDeckRegistration } : {}),
         isSoloOpponent: true,
-        controlledPlayerIds,
+        ...(botOpponent ? { isBot: true } : {}),
+        ...(!botOpponent ? { controlledPlayerIds } : {}),
       });
     }
 
@@ -167,6 +174,7 @@ export class CoordinatorCore {
       deckRulesMode:
         playMode === "constructed" && roomMode !== "multiplayer" ? "unrestricted" : "standard",
       matchFormat,
+      ...(rulesMode ? { rulesMode } : {}),
       players,
       autoStart: false,
       origin: roomMode === "multiplayer" ? "private_hosted" : roomMode,

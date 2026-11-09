@@ -374,6 +374,11 @@ export interface RoomPlayer {
   battlefieldOptions?: string[];
   battlefieldOptionCount?: number;
   isSealedSeat?: boolean;
+  /**
+   * Additive (R4 bot-room): this seat is driven by the server-side practice bot. Public
+   * metadata; bot hands/decks are redacted exactly like any other opponent's.
+   */
+  isBot?: boolean;
   board?: PlayerBoard;                   // absent while spectating seat-less or pre-deal
   /** session-doc fields mirrored onto live room players (35qz5rkx7yexy.js:26880+) */
   decklistRaw?: string;

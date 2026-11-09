@@ -37,6 +37,8 @@ export interface MatchSeatSeed {
   constructedDeckRegistration?: unknown;
   sealedRegistration?: unknown;
   isSoloOpponent?: boolean;
+  /** R4 bot-room: this seat is driven by the server-side practice bot. */
+  isBot?: boolean;
   /** Player ids this auth subject controls once joined (solo modes). */
   controlledPlayerIds?: string[];
   seatReady?: boolean;
