@@ -26,7 +26,7 @@ import type {
   GameActionIntent,
 } from "@/components/board/slot-types";
 import { SidebarSlot } from "@/components/board/sidebar";
-import { strictActorFor, strictIntentFor } from "@/components/board/strict/strict-model";
+import { strictActorFor } from "@/components/board/strict/strict-model";
 import type { BattlefieldInfo } from "@/components/board/layout/BattlefieldLayer";
 import type { GameBoardLayoutHints } from "@/components/board/layout/GameBoardView";
 import { GameBoardView } from "@/components/board/layout/GameBoardView";
@@ -379,8 +379,7 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
   const sendIntent = useCallback(
     (requested: GameActionIntent, actorOverride?: string) => {
       if (!runtime || !room || !session || session.viewerRole === "spectator") return;
-      // Strict rooms route the board's turn button to `rules_end_turn`; sandbox is unchanged.
-      const intent = strictIntentFor(requested, room);
+      const intent = requested;
       const actor =
         actorOverride ??
         chooseIntentActor(intent, room, effectiveViewerId ?? session.playerId, controlledPlayerIds);

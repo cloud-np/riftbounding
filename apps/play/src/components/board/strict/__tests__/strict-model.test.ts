@@ -3,10 +3,8 @@ import { describe, expect, it } from "vitest";
 import { createTranslator } from "@rift/i18n";
 import type {
   CombatDamageAssignmentData,
-  LegalIntents,
   Prompt,
   Room,
-  WireAction,
 } from "@rift/protocol";
 
 import {
@@ -20,9 +18,7 @@ import {
   remainingDamage,
   selectionAnswer,
   stepAssignment,
-  strictActionButtons,
   strictActorFor,
-  strictIntentFor,
   strictStatus,
   toggleSelection,
 } from "../strict-model";
@@ -79,36 +75,11 @@ function room(overrides: Partial<Room> = {}): Room {
   } as unknown as Room;
 }
 
-function legal(overrides: Partial<LegalIntents> = {}): LegalIntents {
-  return {
-    playerId: "p1",
-    playableCardIds: [],
-    activatable: [],
-    moves: [],
-    canPass: false,
-    canEndTurn: false,
-    canChoose: false,
-    canManualDone: false,
-    prompt: null,
-    ...overrides,
-  };
-}
-
 describe("strict board model (R2-int)", () => {
-  it("only applies to strict in-game rooms; sandbox intents pass through unchanged", () => {
+  it("only applies to strict in-game rooms; sandbox rooms never reach the strict helpers", () => {
     expect(isStrictRoom(room())).toBe(true);
     const sandbox = room({ rulesMode: undefined, rules: undefined });
     expect(isStrictRoom(sandbox)).toBe(false);
-    const endTurn = {
-      type: "end_turn",
-      observed: { turnNumber: 1, activePlayerId: "p1", activeStep: "main" },
-    } as WireAction;
-    expect(strictIntentFor(endTurn, sandbox)).toBe(endTurn);
-    expect(strictIntentFor(endTurn, room())).toEqual({ type: "rules_end_turn" });
-    expect(strictIntentFor({ type: "draw_cards", count: 1 } as never, room())).toEqual({
-      type: "draw_cards",
-      count: 1,
-    });
   });
 
   it("[R312] acts as the seat that may act when this client controls it", () => {
@@ -119,70 +90,6 @@ describe("strict board model (R2-int)", () => {
       strictActorFor({ kind: "priority", player: "p2", window: "main" }, "p1", ["p1", "p2"]),
     ).toBe("p2");
     expect(strictActorFor(null, "p1", ["p1"])).toBe("p1");
-  });
-
-  it("builds one button per legal play, activation (manual label for §6.4), move, pass and end turn", () => {
-    const buttons = strictActionButtons(
-      room(),
-      legal({
-        playableCardIds: ["c1"],
-        playable: [
-          {
-            cardId: "c1",
-            locations: ["base", "battlefieldA"],
-            optionalCosts: [],
-            cost: { energy: 1, power: 0 },
-          },
-        ],
-        activatable: [
-          { objectId: "u1", ability: "activated:0" },
-          { objectId: "u1", ability: "manual:1" },
-        ],
-        moves: [{ unitIds: ["u1"], to: "battlefieldA" }],
-        canPass: true,
-        canEndTurn: true,
-      }),
-      t,
-    );
-    expect(buttons.map((button) => button.label)).toEqual([
-      "Play Rebuke → Base",
-      "Play Rebuke → Battlefield A",
-      "Activate: Noxus Hopeful",
-      "Activate (manual): Noxus Hopeful",
-      "Noxus Hopeful — Move to Battlefield A",
-      "Pass",
-      "End turn",
-    ]);
-    expect(buttons[1]!.intent).toEqual({
-      type: "rules_play",
-      cardId: "c1",
-      location: "battlefieldA",
-    });
-    expect(buttons[3]!.intent).toEqual({
-      type: "rules_activate",
-      objectId: "u1",
-      ability: "manual:1",
-    });
-    expect(buttons[4]!.intent).toEqual({ type: "rules_move", unitIds: ["u1"], to: "battlefieldA" });
-    expect(strictActionButtons(room(), null, t)).toEqual([]);
-  });
-
-  it("[R811.1.b] offers Hide at each legal battlefield", () => {
-    const buttons = strictActionButtons(
-      room(),
-      legal({
-        hideable: [{ cardId: "c1", locations: ["battlefieldA", "battlefieldB"] }],
-      }),
-      t,
-    );
-    expect(buttons.map((button) => button.label)).toEqual([
-      "Hide Rebuke → Battlefield A",
-      "Hide Rebuke → Battlefield B",
-    ]);
-    expect(buttons.map((button) => button.intent)).toEqual([
-      { type: "rules_play", cardId: "c1", hide: true, location: "battlefieldA" },
-      { type: "rules_play", cardId: "c1", hide: true, location: "battlefieldB" },
-    ]);
   });
 
   it("[R411.2] shows whose decision is pending, and the manual window", () => {

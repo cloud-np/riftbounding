@@ -1,38 +1,37 @@
 /**
- * Strict-rules board interactions (R4-strict-ui) — pure mapping from board gestures and context
- * menus to `rules_*` intents.
+ * Strict-rules board helpers (R4-gestures client side).
  *
- * Sandbox rooms never reach this module: every caller gates on `strictViewFor` (or
- * `isStrictRoom`), so the original sandbox mapping (`drop-intents.ts`, `menu-builders.ts`) stays
- * byte-for-byte in charge there.
+ * The ENGINE owns the gesture → `rules_*` mapping (`packages/engine/src/strict/gestures.ts`).
+ * This module only contains what the board still needs in strict rooms:
+ *
+ * - the read-side `legalIntents` view for highlighting playable cards / prompt options;
+ * - natural gesture payloads that are not built by `drop-intents.ts` (tapping a card);
+ * - prompt-click helpers: object prompts are answered by clicking the board, multi-selection
+ *   prompts accumulate clicks and send one `rules_choose` on confirm.
+ *
+ * It deliberately does NOT build `rules_play` / `rules_activate` / `rules_move` intents.
  */
 import { strictLegalIntents } from "@rift/engine";
-import { rulesReasonText } from "@rift/i18n";
-import type { Translator } from "@rift/i18n";
 import type {
   LegalIntents,
-  LegalMove,
-  PaymentPlanWire,
-  PlayableCardDetail,
+  Prompt,
+  PromptOption,
   Room,
-  RulesDomain,
-  Verdict,
+  RulesChooseIntent,
   WireAction,
   Zone,
-  ZoneSelector,
 } from "@rift/protocol";
 
-import { isStrictRoom, zoneLabel } from "./strict-model";
+import { findCard, isStrictRoom } from "./strict-model";
 
-const BATTLEFIELD_ZONES: ReadonlySet<string> = new Set([
-  "battlefieldA",
-  "battlefieldB",
-  "battlefieldC",
-  "battlefieldToken",
+/** 411.2 prompts whose options are board objects/zones: a board click can answer them. */
+export const OBJECT_PROMPT_KINDS: ReadonlySet<string> = new Set([
+  "choose-target",
+  "choose-card",
+  "choose-battlefield",
 ]);
 
-const SOURCE_PLAY_ZONES: ReadonlySet<string> = new Set(["hand", "champion"]);
-const BOARD_MOVE_ZONES: ReadonlySet<string> = new Set([
+const BOARD_ZONES: ReadonlySet<string> = new Set([
   "base",
   "battlefieldA",
   "battlefieldB",
@@ -40,36 +39,16 @@ const BOARD_MOVE_ZONES: ReadonlySet<string> = new Set([
   "battlefieldToken",
 ]);
 
-export function isBattlefieldZoneName(zone: string): boolean {
-  return BATTLEFIELD_ZONES.has(zone);
-}
-
-export function isBoardMoveZone(zone: string): boolean {
-  return BOARD_MOVE_ZONES.has(zone);
-}
-
-function isPlayZone(zone: string): boolean {
-  return zone === "base" || BATTLEFIELD_ZONES.has(zone);
-}
-
-/* ------------------------------------------------------------------ legal view */
-
-/** The strict read side, indexed for board lookups (playable / hideable / activatable / moves). */
+/** The strict read side, indexed for board highlighting. */
 export interface StrictBoardView {
   actorId: string;
   legal: LegalIntents;
-  playableById: ReadonlyMap<string, PlayableCardDetail>;
   playableCardIds: ReadonlySet<string>;
-  hideableById: ReadonlyMap<string, readonly string[]>;
   activatableById: ReadonlyMap<string, readonly string[]>;
-  moves: readonly LegalMove[];
+  moves: LegalIntents["moves"];
 }
 
 export function strictViewFromLegal(actorId: string, legal: LegalIntents): StrictBoardView {
-  const playableById = new Map<string, PlayableCardDetail>();
-  for (const detail of legal.playable ?? []) playableById.set(detail.cardId, detail);
-  const hideableById = new Map<string, string[]>();
-  for (const entry of legal.hideable ?? []) hideableById.set(entry.cardId, [...entry.locations]);
   const activatableById = new Map<string, string[]>();
   for (const entry of legal.activatable) {
     const list = activatableById.get(entry.objectId) ?? [];
@@ -79,9 +58,7 @@ export function strictViewFromLegal(actorId: string, legal: LegalIntents): Stric
   return {
     actorId,
     legal,
-    playableById,
-    playableCardIds: new Set(playableById.keys()),
-    hideableById,
+    playableCardIds: new Set(legal.playableCardIds),
     activatableById,
     moves: legal.moves,
   };
@@ -102,39 +79,49 @@ export function strictManualWindowFor(room: Room | null | undefined, actorId: st
   return !!room?.rules?.manual && room.rules.manual.player === actorId;
 }
 
-/* ------------------------------------------------------------------ intents */
+/* ------------------------------------------------------------------ natural gestures */
 
-export interface StrictPlayOptions {
-  cardId: string;
-  location?: string;
-  optionalCosts?: readonly string[];
-  payment?: PaymentPlanWire;
-  hide?: boolean;
-  hold?: boolean;
+export interface StrictUseOptions {
+  ability?: string;
+  targetCardId?: string;
 }
 
-/** `rules_play` with the client's chosen location / costs / payment / Hide (811.1.b). */
-export function strictPlayIntent(options: StrictPlayOptions): WireAction {
-  const location = options.location as ZoneSelector | undefined;
+/** "Use" a ready board object: `toggle_exhausted { …, expectedExhausted:false }` (engine maps it). */
+export function strictUseGesture(
+  zone: Zone,
+  cardId: string,
+  options: StrictUseOptions = {},
+): WireAction {
   return {
-    type: "rules_play",
-    cardId: options.cardId,
-    ...(location ? { location } : {}),
-    ...(options.optionalCosts && options.optionalCosts.length > 0
-      ? { optionalCosts: [...options.optionalCosts] }
-      : {}),
-    ...(options.payment ? { plan: options.payment } : {}),
-    ...(options.hide ? { hide: true } : {}),
-    ...(options.hold ? { hold: true } : {}),
+    type: "toggle_exhausted",
+    zone,
+    cardId,
+    expectedExhausted: false,
+    ...(options.ability ? { ability: options.ability } : {}),
+    ...(options.targetCardId ? { targetCardId: options.targetCardId } : {}),
   };
 }
 
-export function strictActivateIntent(objectId: string, ability: string): WireAction {
-  return { type: "rules_activate", objectId, ability };
-}
-
-export function strictMoveIntent(unitIds: readonly string[], to: string): WireAction {
-  return { type: "rules_move", unitIds: [...unitIds], to: to as ZoneSelector };
+/** Resend a gesture with the ability chosen from an `ambiguous_gesture` rejection. */
+export function withGestureAbility(
+  gesture: WireAction,
+  ability: string,
+): WireAction {
+  const record = gesture as unknown as Record<string, unknown>;
+  const targetId = record.targetCardId ?? record.targetObjectId;
+  // The engine reads `ability` on toggle_exhausted / equip_card only. A board-object drag is a
+  // `move_card`; turn the chosen ability into the equivalent use gesture at the source zone.
+  if (record.type === "move_card" && record.from && record.cardId && targetId) {
+    return {
+      type: "toggle_exhausted",
+      zone: record.from,
+      cardId: record.cardId,
+      expectedExhausted: false,
+      targetCardId: targetId,
+      ability,
+    } as WireAction;
+  }
+  return { ...gesture, ability } as WireAction;
 }
 
 export function strictPassIntent(): WireAction {
@@ -145,303 +132,153 @@ export function strictEndTurnIntent(): WireAction {
   return { type: "rules_end_turn" };
 }
 
-/* ------------------------------------------------------------------ drops */
+/* ------------------------------------------------------------------ prompts (411.2) */
 
-export interface StrictDropInput {
-  view: StrictBoardView;
-  /** Dragged card's current zone. */
-  sourceZone: Zone;
-  cardId: string;
-  targetZone: string;
-  targetOwner: "self" | "opponent";
-  /** Multi-selected units dragged together (defaults to the dragged card). */
-  unitIds?: readonly string[];
+export function promptIsObjectPrompt(prompt: Prompt): boolean {
+  return OBJECT_PROMPT_KINDS.has(prompt.kind);
 }
 
-export interface StrictDropAttempt {
-  intent: WireAction;
-  legal: boolean;
-  /** A drop-target rejection that is not visible from the intent shape alone. */
-  reason?: { code: string; rule?: string };
+/** The prompt's options expanded to every id/alias a board card or zone can match. */
+export function promptOptionMatchIds(prompt: Prompt): Set<string> {
+  const ids = new Set<string>();
+  for (const option of prompt.options ?? []) {
+    if (option.disabled) continue;
+    for (const id of [option.id, option.cardId, option.objectId, option.zone]) {
+      if (typeof id === "string" && id.length > 0) ids.add(id);
+    }
+  }
+  return ids;
 }
 
-/**
- * Map one board drop to its strict intent. The returned intent is the attempt (the same shape a
- * click sends); `legal` is decided from the strict `LegalIntents` view, and a caller can pass the
- * attempt to `strictExplainIllegal` for the engine's rejection code/rule when it is false.
- */
-export function strictDropAttempt(input: StrictDropInput): StrictDropAttempt | null {
-  const { view, sourceZone, cardId, targetZone, targetOwner } = input;
-  const ownerOk = targetZone === "base" ? targetOwner === "self" : true;
-
-  if (SOURCE_PLAY_ZONES.has(sourceZone)) {
-    const detail = view.playableById.get(cardId);
-    const locations = detail?.locations ?? [];
-    const targetIsPlayZone = isPlayZone(targetZone);
-    // Spells have no Location (355.2): any play zone drop means "play the spell".
-    const spellLike = !!detail && locations.length === 0 && targetIsPlayZone;
-    const legal =
-      ownerOk &&
-      targetIsPlayZone &&
-      !!detail &&
-      (spellLike || locations.includes(targetZone));
-    const reason = !targetIsPlayZone
-      ? { code: "invalid_location", rule: "355.2" }
-      : !ownerOk
-        ? { code: "invalid_location", rule: "355.2" }
-        : undefined;
-    return {
-      intent: strictPlayIntent({
-        cardId,
-        ...(spellLike || !targetIsPlayZone
-          ? {}
-          : { location: targetZone }),
-      }),
-      legal,
-      ...(reason ? { reason } : {}),
-    };
-  }
-
-  if (BOARD_MOVE_ZONES.has(sourceZone)) {
-    const detail = view.playableById.get(cardId);
-    // 811.1.b: a facedown card may be played from its battlefield instead of moved.
-    if (detail?.fromFacedown && isPlayZone(targetZone)) {
-      const legal = ownerOk && detail.locations.includes(targetZone);
-      return {
-        intent: strictPlayIntent({ cardId, location: targetZone }),
-        legal,
-        ...(!legal ? { reason: { code: "invalid_location", rule: "811.1.d.1" } } : {}),
-      };
+/** True when at least one option is a visible board card or a board zone. */
+export function promptHasBoardTargets(room: Room, prompt: Prompt): boolean {
+  if (!promptIsObjectPrompt(prompt)) return false;
+  for (const option of prompt.options ?? []) {
+    if (option.disabled) continue;
+    if (option.zone && BOARD_ZONES.has(option.zone)) return true;
+    for (const id of [option.cardId, option.objectId, option.id]) {
+      if (typeof id === "string" && id.length > 0) {
+        if (findCard(room, id) || BOARD_ZONES.has(id)) return true;
+      }
     }
-    if (!isBoardMoveZone(targetZone) || !ownerOk) {
-      return {
-        intent: strictMoveIntent([cardId], targetZone),
-        legal: false,
-        reason: { code: "invalid_location", rule: "449.2" },
-      };
-    }
-    const unitIds =
-      input.unitIds && input.unitIds.length > 0 ? [...input.unitIds] : [cardId];
-    const legal = view.moves.some(
-      (move) => move.to === targetZone && unitIds.every((id) => move.unitIds.includes(id)),
-    );
-    return { intent: strictMoveIntent(unitIds, targetZone), legal };
   }
+  return false;
+}
 
+/** The object/zone ids a gesture names, most specific first (mirrors the engine contract). */
+export function gestureObjectIds(action: object): string[] {
+  const record = action as Record<string, unknown>;
+  const ids: string[] = [];
+  const add = (value: unknown) => {
+    if (typeof value === "string" && value.length > 0 && !ids.includes(value)) ids.push(value);
+  };
+  add(record.targetCardId);
+  add(record.targetObjectId);
+  switch (record.type) {
+    case "toggle_exhausted":
+      add(record.cardId);
+      add(record.zone);
+      break;
+    case "move_card":
+      add(record.cardId);
+      add(record.to);
+      break;
+    case "chain_add":
+      add(record.cardId);
+      break;
+    case "equip_card":
+      add(record.unitCardId);
+      add(record.equipmentCardId);
+      break;
+    default:
+      if (Array.isArray(record.cardIds)) for (const id of record.cardIds) add(id);
+      break;
+  }
+  return ids;
+}
+
+function optionMatches(option: PromptOption, id: string): boolean {
+  return option.id === id || option.objectId === id || option.cardId === id || option.zone === id;
+}
+
+/** The prompt option named by a board gesture, or null. */
+export function promptOptionForAction(
+  prompt: Prompt,
+  action: object,
+): PromptOption | null {
+  const ids = gestureObjectIds(action);
+  if (ids.length === 0) return null;
+  const options = (prompt.options ?? []).filter((option) => !option.disabled);
+  for (const id of ids) {
+    const option = options.find((entry) => optionMatches(entry, id));
+    if (option) return option;
+  }
   return null;
 }
 
-/* ------------------------------------------------------------------ payment plan */
-
-export interface StrictPaymentDraft {
-  /** Omit `payment` and let the engine plan the cost (default). */
-  auto: boolean;
-  exhaustRunes: readonly string[];
-  recycleRunes: readonly string[];
-  poolEnergy: number;
-  poolPower: number;
+/** `min`/`max` > one selection: clicks accumulate locally and one `rules_choose` is sent. */
+export function promptNeedsAccumulation(prompt: Prompt): boolean {
+  const count = (prompt.options ?? []).filter((option) => !option.disabled).length;
+  return (prompt.max ?? count) > 1;
 }
 
-export function emptyPaymentDraft(): StrictPaymentDraft {
-  return { auto: true, exhaustRunes: [], recycleRunes: [], poolEnergy: 0, poolPower: 0 };
-}
-
-/** Explicit 356/357 payment plan; `undefined` keeps the engine's auto-plan. */
-export function strictPaymentPlan(draft: StrictPaymentDraft): PaymentPlanWire | undefined {
-  if (draft.auto) return undefined;
-  const poolPower: Partial<Record<RulesDomain | "any", number>> = {};
-  if (draft.poolPower > 0) poolPower.any = draft.poolPower;
+export function promptSelectionBounds(prompt: Prompt): { min: number; max: number } {
+  const count = (prompt.options ?? []).filter((option) => !option.disabled).length;
   return {
-    ...(draft.poolEnergy > 0 ? { poolEnergy: draft.poolEnergy } : {}),
-    ...(draft.exhaustRunes.length > 0 ? { exhaustRunes: [...draft.exhaustRunes] } : {}),
-    ...(draft.recycleRunes.length > 0 ? { recycleRunes: [...draft.recycleRunes] } : {}),
-    ...(Object.keys(poolPower).length > 0 ? { poolPower } : {}),
+    min: Math.max(0, prompt.min ?? 1),
+    max: Math.max(0, prompt.max ?? count),
   };
 }
 
-export interface StrictRuneChoice {
-  id: string;
-  name: string;
-  domain: string;
-  available: boolean;
+export function togglePromptSelection(
+  prompt: Prompt,
+  selected: readonly string[],
+  optionId: string,
+): string[] {
+  if (selected.includes(optionId)) return selected.filter((id) => id !== optionId);
+  const { max } = promptSelectionBounds(prompt);
+  if (max === 1) return [optionId];
+  if (selected.length >= max) return [...selected];
+  return [...selected, optionId];
 }
 
-/** Ready runes usable for an explicit plan (164.2.a exhaust / 164.2.b recycle). */
-export function strictRuneChoices(room: Room, actorId: string): StrictRuneChoice[] {
-  const player = room.players.find((candidate) => candidate.id === actorId);
-  const runes = player?.board?.runeArea ?? [];
-  return runes.map((rune) => ({
-    id: rune.id,
-    name: rune.name,
-    domain: rune.domains?.[0] ?? "any",
-    available: !rune.exhausted,
-  }));
+export function canConfirmPromptSelection(prompt: Prompt, selected: readonly string[]): boolean {
+  const { min, max } = promptSelectionBounds(prompt);
+  const offered = new Set((prompt.options ?? []).filter((option) => !option.disabled).map((option) => option.id));
+  return (
+    selected.length >= min &&
+    selected.length <= max &&
+    selected.every((id) => offered.has(id))
+  );
 }
 
-/* ------------------------------------------------------------------ context menus */
-
-export interface StrictMenuEntry {
-  id: string;
-  label: string;
-  hint?: string;
-  tone?: "default" | "danger" | "positive";
-  disabled?: boolean;
-  /** Direct wire intent (Play / Activate / Move / Hide). */
-  intent?: WireAction;
-  /** Opens the play-options dialog (payment / optional costs / location). */
-  openPlay?: { cardId: string; location?: string; hide?: boolean };
-  /** Client-local cosmetic action. */
-  action?: "ping";
+export function promptChooseIntent(
+  prompt: Prompt,
+  optionIds: readonly string[],
+): RulesChooseIntent {
+  return { type: "rules_choose", promptId: prompt.id, answer: { optionIds: [...optionIds] } };
 }
 
-export interface StrictMenuContext {
-  room: Room;
-  view: StrictBoardView;
-  t: Translator;
-  /** `strictExplainIllegal` for the acting seat (`{ ok: true }` when legal). */
-  explain: (intent: WireAction) => Verdict;
+/* ------------------------------------------------------------------ ambiguous gesture */
+
+export interface AmbiguousGestureChoice {
+  kind: "ability" | "mode";
+  values: string[];
 }
 
-function disabledHint(ctx: StrictMenuContext, intent: WireAction): string | undefined {
-  const verdict = ctx.explain(intent);
-  if (verdict.ok) return undefined;
-  return rulesReasonText(ctx.t, verdict.code, verdict.rule);
-}
-
-function cardLabelName(ctx: StrictMenuContext, cardId: string): string {
-  const name = ctx.room.players
-    .flatMap((player) => (player.board ? Object.values(player.board) : []))
-    .flatMap((value) => (Array.isArray(value) ? (value as Array<{ id?: string; name?: string }>) : []))
-    .find((card) => card?.id === cardId)?.name;
-  return name ?? cardId;
-}
-
-function playLabel(ctx: StrictMenuContext, cardId: string): string {
-  return `${ctx.t("rules.ui.play") ?? "Play"} ${cardLabelName(ctx, cardId)}`;
-}
-
-function hideLabel(ctx: StrictMenuContext, cardId: string, zone: string): string {
-  return `${ctx.t("rules.ui.hide") ?? "Hide"} ${cardLabelName(ctx, cardId)} → ${zoneLabel(ctx.t, zone)}`;
-}
-
-function playEntries(ctx: StrictMenuContext, cardId: string): StrictMenuEntry[] {
-  const entries: StrictMenuEntry[] = [];
-  const detail = ctx.view.playableById.get(cardId);
-  const locations = detail?.locations ?? [];
-  if (detail) {
-    if (locations.length > 1) {
-      for (const location of locations) {
-        const intent = strictPlayIntent({ cardId, location });
-        entries.push({
-          id: `play:${location}`,
-          label: `${playLabel(ctx, cardId)} → ${zoneLabel(ctx.t, location)}`,
-          intent,
-          disabled: !ctx.explain(intent).ok,
-          ...(disabledHint(ctx, intent) ? { hint: disabledHint(ctx, intent) } : {}),
-        });
-      }
-    } else {
-      const intent = strictPlayIntent({
-        cardId,
-        ...(locations[0] ? { location: locations[0] } : {}),
-      });
-      entries.push({
-        id: "play",
-        label: playLabel(ctx, cardId),
-        intent,
-        disabled: !ctx.explain(intent).ok,
-        ...(disabledHint(ctx, intent) ? { hint: disabledHint(ctx, intent) } : {}),
-      });
-    }
-    if (detail.optionalCosts.length > 0) {
-      entries.push({
-        id: "play-options",
-        label: ctx.t("rules.ui.playWithOptions") ?? "Play with options…",
-        openPlay: { cardId },
-      });
-    }
-  } else {
-    const intent = strictPlayIntent({ cardId });
-    entries.push({
-      id: "play",
-      label: playLabel(ctx, cardId),
-      intent,
-      disabled: true,
-      ...(disabledHint(ctx, intent) ? { hint: disabledHint(ctx, intent) } : {}),
-    });
-  }
-  return entries;
-}
-
-function hideEntries(ctx: StrictMenuContext, cardId: string): StrictMenuEntry[] {
-  const locations = ctx.view.hideableById.get(cardId) ?? [];
-  if (locations.length === 1) {
-    return [
-      {
-        id: "hide",
-        label: hideLabel(ctx, cardId, locations[0]!),
-        intent: strictPlayIntent({ cardId, hide: true, location: locations[0] }),
-      },
-    ];
-  }
-  return locations.map((location) => ({
-    id: `hide:${location}`,
-    label: hideLabel(ctx, cardId, location),
-    intent: strictPlayIntent({ cardId, hide: true, location }),
-  }));
-}
-
-/** Hand card menu in a strict room: Play (per Location, 355.2), Hide (811.1.b), options. */
-export function buildStrictHandMenu(ctx: StrictMenuContext, cardId: string): StrictMenuEntry[] {
-  const entries = [...playEntries(ctx, cardId), ...hideEntries(ctx, cardId)];
-  if (entries.length === 0) return [];
-  return entries;
-}
-
-/** Board card menu: Activate (incl. `manual:<n>`), Standard Move and Hide; Ping stays local. */
-export function buildStrictCardMenu(
-  ctx: StrictMenuContext,
-  cardId: string,
-  zone: Zone,
-): StrictMenuEntry[] {
-  const entries: StrictMenuEntry[] = [
-    { id: "ping", label: ctx.t("sim.compactPing") ?? "Ping", action: "ping" },
-  ];
-  const abilities = ctx.view.activatableById.get(cardId) ?? [];
-  for (const ability of abilities) {
-    const verb = ability.startsWith("manual:")
-      ? (ctx.t("rules.ui.activateManual") ?? "Activate (manual)")
-      : (ctx.t("rules.ui.activate") ?? "Activate");
-    const intent = strictActivateIntent(cardId, ability);
-    entries.push({
-      id: `activate:${ability}`,
-      label: `${verb}: ${cardLabelName(ctx, cardId)}`,
-      intent,
-      disabled: !ctx.explain(intent).ok,
-      ...(disabledHint(ctx, intent) ? { hint: disabledHint(ctx, intent) } : {}),
-    });
-  }
-  if (SOURCE_PLAY_ZONES.has(zone) || ctx.view.playableById.get(cardId)?.fromFacedown) {
-    entries.push(...playEntries(ctx, cardId));
-  }
-  if (isBoardMoveZone(zone)) {
-    for (const move of ctx.view.moves) {
-      if (!move.unitIds.includes(cardId)) continue;
-      const intent = strictMoveIntent([cardId], move.to);
-      entries.push({
-        id: `move:${move.to}`,
-        label: ctx.t("rules.ui.moveTo", { zone: zoneLabel(ctx.t, move.to) }) ?? `Move to ${zoneLabel(ctx.t, move.to)}`,
-        intent,
-        disabled: !ctx.explain(intent).ok,
-        ...(disabledHint(ctx, intent) ? { hint: disabledHint(ctx, intent) } : {}),
-      });
-    }
-    entries.push(...hideEntries(ctx, cardId));
-  }
-  return entries;
-}
-
-/** Short label used by tests and the board ("manual:<n>" → "Activate (manual)"). */
-export function strictAbilityIsManual(ability: string): boolean {
-  return ability.startsWith("manual:");
+/** Parse the engine's `ambiguous_gesture` detail (`abilities: a, b` / `mode: m1, m2`). */
+export function parseAmbiguousDetail(detail: string | undefined): AmbiguousGestureChoice | null {
+  const text = (detail ?? "").trim();
+  const split = (prefix: string): AmbiguousGestureChoice | null => {
+    if (!text.startsWith(prefix)) return null;
+    const values = text
+      .slice(prefix.length)
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean);
+    return values.length > 0
+      ? { kind: prefix.startsWith("mode") ? "mode" : "ability", values }
+      : null;
+  };
+  return split("abilities:") ?? split("mode:");
 }

@@ -247,3 +247,10 @@ Both additions are optional fields; no existing name, field meaning or prompt co
 Repeat play-time choices are namespaced `repeat:<run>:<key>` in `ChainItem.choices` (820.2.a—
 each additional execution may choose different targets); they are ordinary choice records, not a
 new wire field. No new prompt reason or event was added in this wave.
+
+## R4-gestures — board gesture payloads (additive)
+
+| file | change | why |
+| --- | --- | --- |
+| `src/actions.ts` | `MoveCardAction` += optional `cardIds`, `targetCardId`, `targetObjectId`; `ChainAddAction` += optional `targetCardId`, `targetObjectId`; `ToggleExhaustedAction` += optional `ability`, `targetCardId`, `targetObjectId`; `EquipCardAction` += optional `ability` | strict rooms translate the sandbox board gestures into rules intents (`docs/rules/gestures.md`): multi-Unit `move_card { cardIds }`, targeting drops (`targetCardId` / alias `targetObjectId`) and the ambiguous-gesture ability choice (`ability`). Existing actions are unchanged when the fields are absent. |
+| `src/rules/domains/int.ts` | `IntReasonCode` += `ambiguous_gesture` | a gesture matching several legal abilities is not guessed; the client chooses one and resends it with `ability`. |

@@ -13,10 +13,10 @@ import { STRICT_SHELL_CLASS, StrictPromptDialog } from "./StrictPromptDialog";
 import {
   isStrictRoom,
   promptForClient,
-  strictActionButtons,
   strictActorFor,
   strictStatus,
 } from "./strict-model";
+import { promptHasBoardTargets } from "./strict-interaction";
 
 const t = createTranslator("en");
 
@@ -72,10 +72,8 @@ export function StrictRulesPanel({
 
   const pending = room.rules?.prompt ?? null;
   const prompt = promptForClient(room, controlled);
+  const promptOnBoard = !!prompt && promptHasBoardTargets(room, prompt);
   const status = strictStatus(room, who, controlled, t, pending ? promptTitle(t, pending) : null);
-  const actions = strictActionButtons(room, legal, t).filter(
-    (button) => button.key !== "pass" && button.key !== "end-turn",
-  );
   const manual = room.rules?.manual ?? null;
   const manualMine = !!manual && controlled.includes(manual.player);
 
@@ -98,24 +96,6 @@ export function StrictRulesPanel({
             >
               {status}
             </p>
-          ) : null}
-          {actions.length > 0 ? (
-            <div
-              className="mt-[0.3rem] grid max-h-[9.5rem] gap-[0.24rem] overflow-y-auto"
-              aria-label={t("rules.ui.legalActions") ?? "Legal actions"}
-              data-testid="strict-actions"
-            >
-              {actions.map((button) => (
-                <button
-                  key={button.key}
-                  type="button"
-                  className={`${button.tone === "primary" ? smallBlueButton : smallNeutralButton} justify-start truncate normal-case tracking-normal`}
-                  onClick={() => send(button.intent)}
-                >
-                  {button.label}
-                </button>
-              ))}
-            </div>
           ) : null}
           <div className="mt-[0.3rem] flex flex-wrap gap-[0.24rem]">
             {manualMine ? (
@@ -171,7 +151,7 @@ export function StrictRulesPanel({
           </div>
         </div>
       </div>
-      {prompt ? (
+      {prompt && !promptOnBoard ? (
         <StrictPromptDialog
           key={prompt.id}
           room={room}

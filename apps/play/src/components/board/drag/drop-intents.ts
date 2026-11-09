@@ -28,8 +28,14 @@ export interface DropIntentInput {
   shiftKey?: boolean;
   /** Armed "play hidden" chooser. */
   asHidden?: boolean;
-  /** Card under the pointer (used for gear attachment drops). */
+  /** Card under the pointer (used for gear attachment drops and strict targeting). */
   targetCard?: CardInstance | null;
+  /** R4-gestures: several Units dragged together (`move_card { cardIds }`). */
+  cardIds?: readonly string[];
+  /** R4-gestures: explicit ability ref chosen from an `ambiguous_gesture` rejection. */
+  ability?: string;
+  /** Strict rooms add the additive target fields; sandbox payloads stay byte-identical. */
+  includeTarget?: boolean;
 }
 
 const BATTLEFIELD_ZONES: ReadonlySet<string> = new Set([
@@ -97,25 +103,48 @@ export function isPlayZone(zone: string): boolean {
   return zone === "base" || BATTLEFIELD_ZONES.has(zone);
 }
 
-function move(from: Zone, to: Zone, cardId: string, toIndex?: number, asHidden?: boolean): GameActionIntent {
+function move(
+  from: Zone,
+  to: Zone,
+  cardId: string,
+  toIndex?: number,
+  asHidden?: boolean,
+  extra: { cardIds?: readonly string[]; targetCardId?: string; ability?: string } = {},
+): GameActionIntent {
   return {
     type: "move_card",
     from,
     to,
     cardId,
+    ...(extra.cardIds && extra.cardIds.length > 1 ? { cardIds: [...extra.cardIds] } : {}),
+    ...(extra.targetCardId ? { targetCardId: extra.targetCardId } : {}),
+    ...(extra.ability ? { ability: extra.ability } : {}),
     ...(typeof toIndex === "number" ? { toIndex } : {}),
     ...(asHidden ? { asHidden: true } : {}),
   } as GameActionIntent;
 }
 
-function chainAdd(from: Zone | "battlefieldMarker", cardId: string, actorPlayerId: string, battlefieldZone?: Zone): GameActionIntent {
+function chainAdd(
+  from: Zone | "battlefieldMarker",
+  cardId: string,
+  actorPlayerId: string,
+  battlefieldZone?: Zone,
+  targetCardId?: string,
+): GameActionIntent {
   return {
     type: "chain_add",
     from,
     cardId,
     clientEntryId: clientChainEntryId(actorPlayerId, cardId),
+    ...(targetCardId ? { targetCardId } : {}),
     ...(battlefieldZone ? { battlefieldZone } : {}),
   } as GameActionIntent;
+}
+
+function targetCardIdFor(input: DropIntentInput, cardId: string): string | undefined {
+  if (!input.includeTarget) return undefined;
+  const target = input.targetCard;
+  return target && target.id !== cardId ? target.id : undefined;
 }
 
 /**
@@ -231,6 +260,7 @@ export function buildDropIntent(input: DropIntentInput): GameActionIntent | null
   if (target === "legend") return null;
 
   const targetCard = input.targetCard ?? null;
+  const targetCardId = targetCardIdFor(input, cardId);
   if (
     card &&
     isGear(card) &&
@@ -243,6 +273,7 @@ export function buildDropIntent(input: DropIntentInput): GameActionIntent | null
       type: "equip_card",
       equipmentCardId: cardId,
       unitCardId: targetCard.id,
+      ...(input.ability ? { ability: input.ability } : {}),
       ...(from === "hand" ? { asAttachment: true } : {}),
     } as GameActionIntent;
   }
@@ -250,8 +281,12 @@ export function buildDropIntent(input: DropIntentInput): GameActionIntent | null
   // Spells dragged out of the hand (or another playable zone) go onto the chain
   // rather than onto the board (`dN.a` / `tc` in the original drop handler).
   if (card && isSpell(card) && !card.hidden && target !== "hand") {
-    return chainAdd(from, cardId, actorPlayerId);
+    return chainAdd(from, cardId, actorPlayerId, undefined, targetCardId);
   }
 
-  return move(from, target as Zone, cardId, input.toIndex, input.asHidden);
+  return move(from, target as Zone, cardId, input.toIndex, input.asHidden, {
+    ...(input.includeTarget && input.cardIds ? { cardIds: input.cardIds } : {}),
+    ...(targetCardId ? { targetCardId } : {}),
+    ...(input.ability ? { ability: input.ability } : {}),
+  });
 }

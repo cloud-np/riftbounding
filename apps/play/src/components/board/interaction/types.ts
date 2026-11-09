@@ -90,6 +90,8 @@ export interface DropZoneHandlers {
   onPointerDown?: (event: React.PointerEvent<HTMLElement>) => void;
   "data-drop-zone-root"?: string;
   "data-zone-owner"?: "self" | "opponent";
+  /** 411.2: this battlefield zone is a clickable prompt option. */
+  "data-strict-prompt-option"?: "true";
 }
 
 export interface DragUiState {
@@ -131,6 +133,8 @@ export interface BoardInteractionValue {
   strictView: StrictBoardView | null;
   /** §6.4 manual window is open for the acting seat (sandbox board actions stay legal). */
   strictManual: boolean;
+  /** 411.2 object-prompt options to highlight on the board. */
+  strictPromptOptionIds: ReadonlySet<string>;
 
   /* hover preview */
   showCardPreview: (card: CardInstance, anchor?: PreviewAnchorInput, options?: ShowCardPreviewOptions) => void;

@@ -95,6 +95,49 @@ describe("strict UI on a real strict room (R2-int)", () => {
     expect(html).toContain("You have priority");
     expect(html).toContain("End turn");
     expect(html).toContain("Concede");
+    // Gesture-only play: the panel never lists plays/activations/moves.
+    expect(html).not.toContain('data-testid="strict-actions"');
+    expect(html).not.toMatch(/>(Play|Activate|Move) /u);
+  });
+
+  it("[R411.2] object prompts are answered on the board (no dialog); other prompts keep the dialog", () => {
+    const room = inGame("strict");
+    const card = room.players[0]!.board!.hand[0]!;
+    room.rules = {
+      ...room.rules!,
+      prompt: {
+        id: "pick-card",
+        kind: "choose-card",
+        playerId: "p1",
+        options: [{ id: card.id, cardId: card.id }],
+        min: 1,
+        max: 1,
+      },
+    };
+    const boardPrompt = panel(
+      redactRoomForViewer(room, { playerId: "p1", viewerRole: "player" }),
+      "p1",
+    );
+    expect(boardPrompt).not.toContain('data-testid="strict-prompt"');
+    expect(boardPrompt).toContain('data-testid="strict-status"');
+
+    room.rules = {
+      ...room.rules!,
+      prompt: {
+        id: "pay",
+        kind: "yes-no",
+        playerId: "p1",
+        promptKey: "rules.prompt.payCost",
+        options: [{ id: "yes" }, { id: "no" }],
+        min: 1,
+        max: 1,
+      },
+    };
+    const dialogPrompt = panel(
+      redactRoomForViewer(room, { playerId: "p1", viewerRole: "player" }),
+      "p1",
+    );
+    expect(dialogPrompt).toContain('data-testid="strict-prompt"');
   });
 
   it("[R410][§5] the waiting player sees why End turn is unavailable", () => {
