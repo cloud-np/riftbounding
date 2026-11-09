@@ -4,18 +4,31 @@
  * only the draft room through the regular game-action ops (pushed as interpreter frames) or
  * host primitives, and emit an event for every change.
  */
-import type { Amount, Effect, PromptOption, TokenSpec, ZoneSelector } from "@rift/protocol";
+import type {
+  Amount,
+  ChainItem,
+  Effect,
+  PromptOption,
+  Selector,
+  TokenSpec,
+  ZoneSelector,
+} from "@rift/protocol";
 import { evaluateAmount, mightOf, refIds, registerCustomCondition } from "../../effects/evaluate";
 import { registerCustomEffect } from "../../effects/ops";
 import { RESOLVED, type EffectExecutionContext } from "../../effects/execute";
 import type { EvalContext } from "../../effects/env";
-import { evalContextOf, optionFor, recordOutcome } from "../../effects/targets";
+import { evalContextOf, optionFor, recordOutcome, targets } from "../../effects/targets";
+import { resolveZoneNames } from "../../effects/evaluate";
+import { appendChainItem } from "../../timing/fepr/chain";
+import { cardDomains } from "../../play/cost-model";
+import { locationZones } from "../../effects/objects";
 import {
   battlefieldController,
   controllerOf,
   findChainItem,
   locate,
   locationOf,
+  ownerOf,
   tagsOf,
 } from "../../effects/objects";
 import { effectiveKeywordValues, keywordsAtDepth } from "../../layers";
@@ -533,5 +546,323 @@ registerCustomEffect("sfd:move-to-open-battlefield", (params, context) => {
     zone = typeof answer === "string" && zones.includes(answer) ? answer : zones[0]!;
   }
   machine.push({ effect: { op: "move", target: { targetRef: ref }, to: zone as never } });
+  return RESOLVED;
+});
+
+/* ---------------------------------------------------------------- batch 5 */
+
+/**
+ * A Limited Play (420.3) that keeps the Power cost: "play it, ignoring its Energy cost (you must
+ * still pay its Power cost)" (356.1.b.1) or "reducing its cost by [N]" (356.4). Mirrors the core
+ * `play` op, but pays the card's Power cost and applies `energy`: `"ignore"` or a discount.
+ * Nothing is played when the cost cannot be paid (358.5).
+ */
+registerCustomEffect("sfd:play-card", (params, context) => {
+  const host = context.step.host;
+  const ctx = ctxOf(context);
+  const rules = context.room.rules;
+  const found = targets(context, params.target as Selector);
+  if (!found.ok) return found.result;
+  let zones: string[];
+  if (params.location === "controlled-battlefield") {
+    // "to a battlefield you control" (355.2.a): the player picks among them when several.
+    const controlled = (host.battlefieldZones(context.room) as string[]).filter(
+      (zone) => battlefieldController(context.room, host, zone) === ctx.env.controller,
+    );
+    if (found.ids.length === 0 || controlled.length === 0) return RESOLVED;
+    let picked: string | undefined = controlled.length === 1 ? controlled[0] : undefined;
+    const machine = context.machine;
+    if (!picked && machine) {
+      if (machine.frame.answer === undefined) {
+        return machine.ask({
+          kind: "choose-battlefield",
+          playerId: ctx.env.controller,
+          options: controlled.map((id): PromptOption => ({ id, zone: id })),
+          min: 1,
+          max: 1,
+          rule: "355.2.a",
+          promptKey: "Play it to which battlefield?",
+          data: { answer: "zone" },
+        });
+      }
+      const answer = machine.frame.answer;
+      machine.frame.answer = undefined;
+      picked = typeof answer === "string" && controlled.includes(answer) ? answer : controlled[0];
+    }
+    zones = picked ? [picked] : ["base"];
+  } else {
+    zones = params.location ? resolveZoneNames(ctx, params.location as ZoneSelector) : ["base"];
+  }
+  const location = zones.find((zone) => locationZones(context.room, host).includes(zone)) ?? "base";
+  const discount = typeof params.energy === "number" ? params.energy : 0;
+  const played: string[] = [];
+  for (const id of found.ids) {
+    const located = locate(context.room, host, id);
+    if (!rules || !located) continue;
+    const info = host.cardInfo(context.room, id);
+    const domains = cardDomains(info);
+    const power = info?.powerCost ?? 0;
+    const energy = params.energy === "ignore" ? 0 : Math.max(0, (info?.energyCost ?? 0) - discount);
+    const cost = {
+      ...(energy > 0 ? { energy } : {}),
+      ...(power > 0 ? { power: { [domains.length === 1 ? domains[0]! : "any"]: power } } : {}),
+    };
+    if (!payCost(context.room, context.step, ctx.env.controller, cost as never).ok) continue;
+    const snapshot = host.takeCard(context.room, located.playerId, located.zone, id);
+    if (!snapshot) continue;
+    const type = (info?.type ?? snapshot.type ?? "").toLowerCase();
+    const item: ChainItem = {
+      id: host.nextId("chain"),
+      kind: "card",
+      status: "pending",
+      controller: ctx.env.controller,
+      cardName: info?.name ?? snapshot.name,
+      ...(snapshot.cardCode ? { cardCode: snapshot.cardCode } : {}),
+      choices:
+        type.includes("unit") || type.includes("gear")
+          ? { location: type.includes("unit") ? location : "base" }
+          : {},
+      origin: "play",
+      fromZone: located.zone,
+      cardSnapshot: snapshot,
+      addedAt: host.now(),
+    };
+    appendChainItem(context.room, item, context.step);
+    rules.history.cardsPlayedThisTurn[ctx.env.controller] =
+      (rules.history.cardsPlayedThisTurn[ctx.env.controller] ?? 0) + 1;
+    played.push(id);
+    pushEvent(context.step.events, {
+      type: "card_played",
+      cardId: id,
+      playerId: ctx.env.controller,
+      cardName: item.cardName,
+      data: { itemId: item.id, limited: true, cost: "sfd", from: located.zone },
+    });
+  }
+  recordOutcome(context, played, played.length > 0);
+  return RESOLVED;
+});
+
+/**
+ * "Take control of it" for the ability's controller (no duration: it lasts while the object stays
+ * on the board). The unit's owner is remembered in `$owner:<id>` so it can be given back.
+ */
+registerCustomEffect("sfd:take-control", (params, context) => {
+  const found = targets(context, params.target as Selector);
+  if (!found.ok) return found.result;
+  const host = context.step.host;
+  const controller = context.machine?.env.controller ?? context.controller;
+  const done: string[] = [];
+  for (const id of found.ids) {
+    const previous = controllerOf(context.room, host, id);
+    if (!previous || previous === controller) continue;
+    if (!host.setController(context.room, id, controller)) continue;
+    done.push(id);
+    pushEvent(context.step.events, {
+      type: "gain_control",
+      cardId: id,
+      playerId: controller,
+      data: { from: previous },
+    });
+  }
+  recordOutcome(context, done, done.length > 0);
+  return RESOLVED;
+});
+
+/** "Lose control of that unit": the card's owner controls it again. */
+registerCustomEffect("sfd:release-control", (params, context) => {
+  const found = targets(context, params.target as Selector);
+  if (!found.ok) return found.result;
+  const host = context.step.host;
+  const done: string[] = [];
+  for (const id of found.ids) {
+    const located = locate(context.room, host, id);
+    const owner = ownerOf(context.room, host, id);
+    const current = controllerOf(context.room, host, id);
+    if (!located || !owner || !current || owner === current) continue;
+    if (!host.setController(context.room, id, owner)) continue;
+    done.push(id);
+    pushEvent(context.step.events, {
+      type: "lose_control",
+      cardId: id,
+      playerId: current,
+      data: { to: owner },
+    });
+  }
+  recordOutcome(context, done, done.length > 0);
+  return RESOLVED;
+});
+
+/**
+ * Card Sharp: "you and each opponent may play a Gold gear token exhausted. For each opponent who
+ * did, you play a Gold gear token exhausted." The controller decides first, then each opponent in
+ * turn order is asked (383.3.a.3 / 445.2); tokens are created through the regular `create` op.
+ */
+registerCustomEffect("sfd:card-sharp", (params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const env = machine.env;
+  const host = context.step.host;
+  const gold: Effect = { op: "create", token: token("Gold", { exhausted: true, play: true }) };
+  const order = [
+    env.controller,
+    ...host.playerIds(context.room).filter((id) => id !== env.controller),
+  ];
+  const stateKey = "$card-sharp";
+  const state = (env.vars[stateKey] as { next: number; did: string[] } | undefined) ?? {
+    next: 0,
+    did: [],
+  };
+  if (machine.frame.answer !== undefined) {
+    const answer = machine.frame.answer;
+    machine.frame.answer = undefined;
+    const yes =
+      answer === true || answer === "yes" || (Array.isArray(answer) && answer.includes("yes"));
+    if (yes) state.did.push(order[state.next]!);
+    state.next += 1;
+  }
+  env.vars[stateKey] = state as never;
+  if (state.next < order.length) {
+    const playerId = order[state.next]!;
+    return machine.ask({
+      kind: "yes-no",
+      playerId,
+      options: [
+        { id: "yes", label: "Play a Gold gear token exhausted" },
+        { id: "no", label: "No" },
+      ],
+      min: 1,
+      max: 1,
+      rule: "445.2",
+      promptKey: "Play a Gold gear token exhausted?",
+      data: { answer: "boolean" },
+    });
+  }
+  const effects: Effect[] = [];
+  for (const playerId of state.did) {
+    if (playerId === env.controller) {
+      effects.push(gold);
+    } else {
+      effects.push({ ...gold, player: { kind: "player", id: playerId } } as Effect, gold);
+    }
+  }
+  if (effects.length > 0) machine.push({ effect: { op: "seq", effects } });
+  return RESOLVED;
+});
+
+/**
+ * "Reveal the top N cards of your Main Deck. You may banish one, then play it [, reducing its cost
+ * by [R]]. Recycle (or draw) the rest." (425 reveal, 428 banish, 420.3 play, 417 recycle, 414
+ * draw). The banished card is played with `sfd:play-card`; `location` is where a unit is played.
+ */
+registerCustomEffect("sfd:reveal-banish-play", (params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const env = machine.env;
+  const host = context.step.host;
+  const ctx = ctxOf(context);
+  const key = "$rbp";
+  let ids = env.vars[key] as unknown as string[] | undefined;
+  if (!ids) {
+    const count = typeof params.reveal === "number" ? params.reveal : 2;
+    ids = host.lookAtTop(context.room, env.controller, "deck", count).map((card) => card.id);
+    if (ids.length === 0) return RESOLVED;
+    env.vars[key] = ids as never;
+    pushEvent(context.step.events, {
+      type: "reveal",
+      playerId: env.controller,
+      data: { cardIds: ids },
+    });
+    return machine.ask({
+      kind: "choose-card",
+      playerId: env.controller,
+      options: ids.map((id) => optionFor(ctx, id)),
+      min: 0,
+      max: 1,
+      rule: "428",
+      promptKey: "You may banish one, then play it",
+      data: { answer: "objects" },
+    });
+  }
+  const answer = machine.frame.answer;
+  machine.frame.answer = undefined;
+  delete env.vars[key];
+  const chosen = (Array.isArray(answer) ? answer : [answer]).find(
+    (id): id is string => typeof id === "string" && ids!.includes(id),
+  );
+  const rest = ids.filter((id) => id !== chosen);
+  env.vars["rbp-rest"] = rest as never;
+  const effects: Effect[] = [];
+  if (chosen) {
+    effects.push(
+      { op: "banish", target: { targetRef: `obj:${chosen}` } },
+      {
+        op: "custom",
+        id: "sfd:play-card",
+        params: {
+          target: { targetRef: `obj:${chosen}` },
+          energy: typeof params.reduce === "number" ? params.reduce : 0,
+          ...(params.location ? { location: params.location } : {}),
+        },
+      },
+    );
+  }
+  if (rest.length > 0) {
+    effects.push(
+      params.rest === "draw"
+        ? { op: "custom", id: "sfd:draw-ref", params: { ref: "rbp-rest" } }
+        : { op: "recycle", target: { targetRef: "rbp-rest" } },
+    );
+  }
+  if (effects.length > 0) machine.push({ effect: { op: "seq", effects } });
+  return RESOLVED;
+});
+
+/**
+ * Hostile Takeover: "Lose control of that unit and recall it at end of turn." A delayed trigger
+ * (391.2) frozen to the unit bound to `ref`; the owner controls it again, then it is recalled
+ * (Send it to base, 456-460; not a move).
+ */
+registerCustomEffect("sfd:release-at-end-of-turn", (params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const ref = typeof params.ref === "string" ? params.ref : "it";
+  const ids = refIds(ctxOf(context), ref);
+  if (ids.length === 0) return RESOLVED;
+  const target = { targetRef: `obj:${ids[0]}` };
+  machine.push({
+    effect: {
+      op: "delayed",
+      trigger: { kind: "turn-end" },
+      once: true,
+      effect: {
+        op: "seq",
+        effects: [
+          { op: "custom", id: "sfd:release-control", params: { target } },
+          { op: "recall", target },
+        ],
+      },
+    },
+  });
+  return RESOLVED;
+});
+
+/** The source unit is part of the combat in progress ("while I'm in combat", 466). */
+registerCustomCondition("sfd:self-in-combat", (ctx) => {
+  const combat = ctx.room.rules?.combat;
+  const source = ctx.env.sourceObjectId;
+  if (!combat || !source) return false;
+  return unitsPresentAt(ctx.room, ctx.host, combat.battlefield).some((card) => card.id === source);
+});
+
+/**
+ * "Banish this" on a spell: the resolving spell leaves the chain for its owner's Banishment
+ * instead of the trash (428.2; 359.3.e.15 — it finishes resolving).
+ */
+registerCustomEffect("sfd:banish-this-spell", (_params, context) => {
+  const machine = context.machine;
+  const itemId = machine?.env.itemId;
+  if (!machine || !itemId) return RESOLVED;
+  machine.push({ effect: { op: "banish", target: { targetRef: `obj:${itemId}` } } });
   return RESOLVED;
 });
