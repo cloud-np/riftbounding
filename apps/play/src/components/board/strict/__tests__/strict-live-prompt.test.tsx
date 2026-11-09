@@ -151,8 +151,13 @@ describe("live strict board prompt (Azir Sand Soldier Weaponmaster)", () => {
     expect(html).toContain("drag the arrow");
     expect(html).not.toContain('data-testid="strict-prompt-chip"');
     expect(html).not.toContain('data-testid="strict-prompt-chips"');
-    expect(html).toContain(`data-attached-card-id="${fixture.axeId}"`);
-    expect(html).toContain('data-strict-attachment-fan="true"');
+    expect(html).toContain('data-attached-card-fan="true"');
+    expect(html).toMatch(
+      new RegExp(
+        `data-attached-card-id="${fixture.axeId}"[^>]*data-strict-prompt-option="true"[^>]*role="button"[^>]*tabindex="0"`,
+        "u",
+      ),
+    );
     const optionIds = promptOptionMatchIds(fixture.prompt);
     expect(aimTargetForIds([fixture.axeId], optionIds)).toEqual({
       targetId: fixture.axeId,

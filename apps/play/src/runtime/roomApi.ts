@@ -26,6 +26,7 @@ import type {
   RoomApiError as RoomApiErrorBody,
   RoomPhase,
   RulesMode,
+  StrictReproFile,
   TakeSeatResponse,
   GameVariant,
   MatchFormat,
@@ -440,6 +441,35 @@ export async function createNextGame(
   return roomApiRequest(
     matchRoomPath(request.roomCode),
     { action: "create_next_game", ...request },
+    options,
+  );
+}
+
+/** Strict bot/solo repro export (`export_repro`). */
+export async function exportRepro(
+  request: { roomCode: string; authToken: string },
+  options: RequestOptions = {},
+): Promise<RoomApiEnvelope & { repro: StrictReproFile; filename?: string }> {
+  return roomApiRequest<RoomApiEnvelope & { repro: StrictReproFile; filename?: string }>(
+    matchRoomPath(request.roomCode),
+    { action: "export_repro", ...request },
+    options,
+  );
+}
+
+/** Dev-only repro import (`load_repro`): allocates a new solo_lab room replayed to `step`. */
+export async function loadRepro(
+  request: {
+    roomCode: string;
+    authToken: string;
+    repro: StrictReproFile;
+    step?: number;
+  },
+  options: RequestOptions = {},
+): Promise<RoomApiEnvelope & { nextRoomCode?: string; step?: number }> {
+  return roomApiRequest<RoomApiEnvelope & { nextRoomCode?: string; step?: number }>(
+    matchRoomPath(request.roomCode),
+    { action: "load_repro", ...request },
     options,
   );
 }

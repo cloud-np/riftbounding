@@ -1,12 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
-import { strictExplainIllegal, strictLegalIntents, strictWhoMayAct } from "@rift/engine";
+import { rewindAllowedForRoom, strictExplainIllegal, strictLegalIntents, strictWhoMayAct } from "@rift/engine";
 import { createTranslator, promptTitle, rulesReasonText } from "@rift/i18n";
-import type { WireAction } from "@rift/protocol";
+import type { StrictReproFile, WireAction } from "@rift/protocol";
 
 import { smallNeutralButton } from "@/components/ui/buttonStyles";
+import { getAuthToken } from "@/runtime/auth";
+import { loadRepro } from "@/runtime/roomApi";
 
 import type { BoardSlotProps } from "../slot-types";
 import { STRICT_SHELL_CLASS } from "./StrictPromptDialog";
@@ -61,8 +63,42 @@ export function StrictRulesPanel({
     };
   }, [room, actor, legal]);
   const [confirmConcede, setConfirmConcede] = useState(false);
+  const [reproStep, setReproStep] = useState("");
+  const [reproBusy, setReproBusy] = useState(false);
+  const [reproError, setReproError] = useState<string | null>(null);
+  const reproFileRef = useRef<HTMLInputElement | null>(null);
+  const reproAvailable =
+    isStrictRoom(room) && rewindAllowedForRoom(room) && !room.gameOutcome;
 
   if (!strictRulesPanelEnabled() || !isStrictRoom(room)) return null;
+
+  const loadReproFile = async () => {
+    const file = reproFileRef.current?.files?.[0];
+    if (!file || reproBusy) return;
+    setReproBusy(true);
+    setReproError(null);
+    try {
+      const parsed: unknown = JSON.parse(await file.text());
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+        throw new Error("The file is not a repro JSON object.");
+      }
+      const authToken = await getAuthToken();
+      if (!authToken) throw new Error(t("rules.ui.reproSignIn") ?? "Sign in to load a repro.");
+      const trimmed = reproStep.trim();
+      const step = trimmed === "" ? undefined : Math.max(0, Math.trunc(Number(trimmed)));
+      if (step !== undefined && !Number.isFinite(step)) throw new Error("Invalid step.");
+      await loadRepro({
+        roomCode: room.roomCode,
+        authToken,
+        repro: parsed as StrictReproFile,
+        ...(step !== undefined ? { step } : {}),
+      });
+    } catch (error) {
+      setReproError(error instanceof Error ? error.message : String(error));
+    } finally {
+      setReproBusy(false);
+    }
+  };
 
   const send = (intent: WireAction, as: string = actor) => {
     if (as !== viewerId && dispatchAs) dispatchAs(as, intent);
@@ -134,6 +170,44 @@ export function StrictRulesPanel({
               </button>
             )}
           </div>
+          {reproAvailable ? (
+            <div
+              className="mt-[0.3rem] flex flex-wrap items-center gap-[0.24rem] border-t border-[rgba(172,199,230,0.16)] pt-[0.28rem]"
+              data-testid="repro-import"
+            >
+              <input
+                ref={reproFileRef}
+                type="file"
+                accept="application/json,.json"
+                data-testid="repro-file"
+                className="max-w-[9rem] text-[0.56rem] text-[#c5d6ee] file:mr-[0.24rem] file:rounded-[0.16rem] file:border file:border-[rgba(172,199,230,0.24)] file:bg-[rgba(20,35,58,0.9)] file:px-[0.24rem] file:py-[0.12rem] file:text-[0.56rem] file:text-[#dbe8f8]"
+              />
+              <input
+                type="number"
+                min={0}
+                value={reproStep}
+                onChange={(event) => setReproStep(event.target.value)}
+                placeholder={t("rules.ui.reproStep") ?? "Step"}
+                aria-label={t("rules.ui.reproStep") ?? "Step"}
+                data-testid="repro-step"
+                className="w-[4.2rem] rounded-[0.16rem] border border-[rgba(172,199,230,0.24)] bg-[rgba(8,17,30,0.8)] px-[0.24rem] py-[0.14rem] text-[0.56rem] text-[#eef5ff]"
+              />
+              <button
+                type="button"
+                className={smallNeutralButton}
+                data-testid="load-repro"
+                disabled={reproBusy}
+                onClick={() => void loadReproFile()}
+              >
+                {t("rules.ui.loadRepro") ?? "Load repro"}
+              </button>
+              {reproError ? (
+                <span role="alert" className="text-[0.54rem] text-[#ffb4b4]">
+                  {reproError}
+                </span>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </div>
     </>

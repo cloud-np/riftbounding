@@ -229,9 +229,13 @@ the wire gesture has no mode field; not checked in a browser yet.
   vote counter: "<player> must choose: <instruction>" while a prompt is pending, else priority /
   focus. Resolve/Approve are disabled and explain the prompt while it is pending.
 - **Attachments.** Sandbox `equip_card` and the strict `attach` op both keep attached gear in the
-  unit's zone list with `attachedToCardId`. `groupAttachedCards` removes those cards from the row
-  and `GameCard` draws them tucked behind the unit (offset up/right) with the real gear art;
-  detach/move/kill leave the gear at its location and it renders as its own card again.
+  unit's zone list with `attachedToCardId`. `groupAttachedCards` removes those cards from the row;
+  `AttachedCardFan` draws them like the simulator/reference app: same size at the unit's height,
+  fanned right by 0.26 card widths per gear, unit on top and first-attached gear above later gear
+  so every gear exposes its frame, art and stat badge. The host slot widens by the fan
+  (`attachedFanWidth`) in both base and battlefields, the gear strips emit the normal hover
+  preview event, and the fan sits inside the unit's pose transform so move/exhaust/kill carry it.
+  Detach/move/kill leave the gear at its location and it renders as its own card again.
 - **Seats.** `IdentityBadge` renders an avatar/initial and presence dot for every present seat;
   bot seats are always online and show a Bot badge in the clock slot (no frozen 00:00 timer).
 
@@ -242,9 +246,9 @@ the wire gesture has no mode field; not checked in a browser yet.
   must be checked against the redaction map; `redact-rules.ts` rewrites ids anywhere in
   `Room.rules`, but other `Room` fields are redacted field by field (the mulligan playback leak
   was one). A server-side opaque id scheme would remove the whole class.
-- **Rewind in `single_player` strict rooms** is rejected: the engine treats only `solo_lab` as a
-  solo mode for the strict rewind gate. Left unchanged (engine behaviour); RULES-QUESTION for the
-  lead whether practice-vs-bot rooms should allow it.
+- **Rewind in `single_player` strict rooms** is allowed in Practice vs Bot and `solo_lab`, and
+  rejected in human-vs-human strict rooms (owner decision, R5). The client shows rewind/forward
+  and **Export repro** only in those practice rooms; see [`rewind.md`](rewind.md).
 - **The prompted player sees options naming another seat's cards** (for example a look at an
   opponent's hand): those option ids are kept because the engine offered them to that player;
   every other private id in the continuation is rewritten. Whether the board should also reveal

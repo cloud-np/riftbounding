@@ -9,8 +9,9 @@ import type { CardImageProfile } from "@/lib/assets";
 
 import { useBoardInteractionOptional } from "../interaction/context";
 import type { GameActionIntent } from "../slot-types";
+import { AttachedCardFan } from "./AttachedCardFan";
+import { attachedFanWidth } from "./attachments";
 import { CardActionButtons } from "./CardActionButtons";
-import { CardArt } from "./CardArt";
 import { CardBack } from "./CardBack";
 import { GameCardFace } from "./GameCardFace";
 import { PingOverlay } from "../overlays/PingOverlay";
@@ -134,121 +135,17 @@ export function GameCard({
     effectiveHandler(buildEvent(type, event));
   };
 
-  /** Attached cards live behind the host; they still answer strict prompt clicks. */
-  const emitForAttached = (
-    attachedCard: CardInstance,
-    type: CardEvent["type"],
-    event: MouseEvent<HTMLElement> | ReactPointerEvent<HTMLElement>,
-  ) => {
-    if (!effectiveHandler) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    effectiveHandler({
-      type,
-      card: attachedCard,
-      zone,
-      owner,
-      exhausted: !!attachedCard.exhausted,
-      faceDown: !!attachedCard.hidden,
-      clientX: event.clientX,
-      clientY: event.clientY,
-      pointerType: "pointerType" in event ? (event as unknown as { pointerType?: string }).pointerType : undefined,
-      anchorRect: {
-        left: rect.left,
-        top: rect.top,
-        right: rect.right,
-        bottom: rect.bottom,
-        width: rect.width,
-        height: rect.height,
-      },
-    });
-  };
-
   return (
     <div
       className={"relative" + (className ? ` ${className}` : "")}
-      style={{ width: "var(--card-width)", height: "var(--card-height)", ...style }}
+      style={{ width: attachedFanWidth(attached), height: "var(--card-height)", ...style }}
     >
-      {attachedCards.slice(0, 3).map((attachedCard, index) => {
-        const faceDown = attachedCard.hidden || attachedCard.isPlaceholder || !attachedCard.name;
-        const attachedPromptOption = !!interaction?.strictPromptOptionIds.has(attachedCard.id);
-        const attachedPromptHovered = interaction?.strictPromptHoverId === attachedCard.id;
-        return (
-          <div
-            key={`attached-${attachedCard.id}`}
-            aria-hidden={attachedPromptOption ? undefined : "true"}
-            data-attached-card-id={attachedCard.id}
-            data-card-id={attachedPromptOption ? attachedCard.id : undefined}
-            data-drop-zone={attachedPromptOption ? zone : undefined}
-            data-attached-card-rank={index}
-            data-strict-attachment-fan={attachedPromptOption ? "true" : undefined}
-            data-strict-prompt-option={attachedPromptOption ? "true" : undefined}
-            data-strict-prompt-hover={attachedPromptHovered ? "true" : undefined}
-            role={attachedPromptOption ? "button" : undefined}
-            tabIndex={attachedPromptOption ? 0 : undefined}
-            className={`absolute overflow-hidden rounded-(--card-radius-main) border border-[rgba(165,184,207,0.22)] bg-[rgba(24,43,64,0.95)] shadow-[0_4px_10px_rgba(3,8,20,0.42)] ${
-              attachedPromptOption ? "pointer-events-auto cursor-pointer" : "pointer-events-none"
-            }`}
-            style={{
-              inset: 0,
-              transform: attachedPromptOption
-                ? `translate(${(index + 1) * 0.95}rem, ${-(index + 1) * 0.62}rem) scale(${0.96 - index * 0.02})`
-                : `translate(${(index + 1) * 0.18}rem, ${-(index + 1) * 0.12}rem) scale(${0.98 - index * 0.015})`,
-              transformOrigin: "92% 100%",
-            }}
-            onPointerEnter={(event) => {
-              if (attachedPromptOption) emitForAttached(attachedCard, "hover", event);
-            }}
-            onPointerLeave={(event) => {
-              if (attachedPromptOption) emitForAttached(attachedCard, "hoverEnd", event);
-            }}
-            onClick={(event) => {
-              if (!attachedPromptOption) return;
-              event.preventDefault();
-              event.stopPropagation();
-              emitForAttached(attachedCard, "select", event);
-            }}
-            onKeyDown={(event) => {
-              if (!attachedPromptOption) return;
-              if (event.key !== "Enter" && event.key !== " ") return;
-              event.preventDefault();
-              event.stopPropagation();
-              const rect = event.currentTarget.getBoundingClientRect();
-              effectiveHandler?.({
-                type: "select",
-                card: attachedCard,
-                zone,
-                owner,
-                exhausted: !!attachedCard.exhausted,
-                faceDown: !!attachedCard.hidden,
-                anchorRect: {
-                  left: rect.left,
-                  top: rect.top,
-                  right: rect.right,
-                  bottom: rect.bottom,
-                  width: rect.width,
-                  height: rect.height,
-                },
-              });
-            }}
-          >
-            {faceDown ? (
-              <CardBack slot="deck" insetPx={0} label={attachedCard.name || undefined} side={owner} />
-            ) : (
-              <CardArt
-                card={attachedCard}
-                profile="board"
-                side={owner}
-                className="pointer-events-none h-full w-full object-cover"
-                alt={attachedCard.name}
-              />
-            )}
-          </div>
-        );
-      })}
       <div
         data-card-rotation={rotation}
         className="card-pose-rotation relative motion-reduce:transition-none!"
         style={{
+          width: "var(--card-width)",
+          height: "var(--card-height)",
           transitionDuration: "0.32s",
           transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
           ["--card-pose-rotation" as string]: rotation,
@@ -257,7 +154,11 @@ export function GameCard({
           opacity: dimmed ? 0.45 : undefined,
         }}
       >
-        <div className="gb-card-action-hover-scope group relative w-full h-full pointer-events-auto">
+        <AttachedCardFan cards={attachedCards} zone={zone} owner={owner} onCardEvent={onCardEvent} />
+        <div
+          className="gb-card-action-hover-scope group relative w-full h-full pointer-events-auto"
+          style={{ zIndex: attached + 1 }}
+        >
           <div
             className="relative w-full h-full"
             data-hover-preview-anchor="true"

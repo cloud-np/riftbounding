@@ -134,6 +134,8 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
   const [session, setSession] = useState<GameSession | null>(null);
   const [booted, setBooted] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [actionNotice, setActionNotice] = useState<string | null>(null);
+  const lastNoticeLogRef = useRef<string | null>(null);
   const [viewerId, setViewerId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -175,6 +177,40 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
   const shell = useRoomShell(runtime);
   const room = useGameState(runtime, (state) => state);
   const [resultDialogOpen, setResultDialogOpen] = useState(false);
+
+  // Strict rewind/forward feedback: the server appends a `rewound`/`restoredTimeline` log
+  // entry; show "Rewound to turn N, step M" once per new entry.
+  const lastLog = room?.log?.at(-1);
+  useEffect(() => {
+    if (!lastLog) return;
+    if (lastNoticeLogRef.current === null) {
+      lastNoticeLogRef.current = lastLog.id;
+      return;
+    }
+    if (lastNoticeLogRef.current === lastLog.id) return;
+    lastNoticeLogRef.current = lastLog.id;
+    if (lastLog.actionKind === "rewind") {
+      setActionNotice(
+        rulesText("rules.ui.rewoundTo", {
+          turn: room?.turnNumber ?? 0,
+          step: room?.rewindStep ?? 0,
+        }) ?? null,
+      );
+    } else if (lastLog.actionKind === "forward") {
+      setActionNotice(
+        rulesText("rules.ui.forwardedTo", {
+          turn: room?.turnNumber ?? 0,
+          step: room?.rewindStep ?? 0,
+        }) ?? null,
+      );
+    }
+  }, [lastLog?.id, lastLog?.actionKind, room?.turnNumber, room?.rewindStep]);
+
+  useEffect(() => {
+    if (!actionNotice) return;
+    const timer = window.setTimeout(() => setActionNotice(null), 5000);
+    return () => window.clearTimeout(timer);
+  }, [actionNotice]);
   useEffect(() => {
     setResultDialogOpen(false);
   }, [session?.roomCode]);
@@ -805,6 +841,23 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
             onClick={() => void returnToLobbyFromGame()}
           >
             Return to lobby
+          </button>
+        </div>
+      ) : null}
+
+      {actionNotice ? (
+        <div
+          data-testid="game-notice"
+          role="status"
+          className="absolute inset-x-0 top-28 z-50 mx-auto flex w-fit max-w-[92vw] items-center gap-3 rounded-md border border-[rgba(116,239,255,0.32)] bg-[rgba(10,27,43,0.94)] px-3 py-2 text-[0.72rem] text-[#d7eaff] shadow-lg"
+        >
+          <span>{actionNotice}</span>
+          <button
+            type="button"
+            className="underline underline-offset-2"
+            onClick={() => setActionNotice(null)}
+          >
+            Dismiss
           </button>
         </div>
       ) : null}

@@ -123,6 +123,20 @@ describe("Standard Move source restriction [R144][R144.1][R449.2]", () => {
     );
   });
 
+  it("[R144.2] a Standard Move still requires a ready Unit and exhausts it as the cost; an effect Move does not", () => {
+    const s = scenario();
+    const unit = putCardAt(s, "p1", "Treasure Hunter", "base", "std-move");
+    unit.exhausted = true;
+    const verdict = expectAgreement(s, "p1", intentFor([unit.id], "battlefieldA"));
+    expect(verdict).toMatchObject({ ok: false, code: "unit_exhausted", rule: "144.2" });
+    expect(boardOf(s, "p1").base.find((card) => card.id === unit.id)?.exhausted).toBe(true);
+    unit.exhausted = false;
+    s.as("p1").apply(intentFor([unit.id], "battlefieldA")).expectOk();
+    const moved = s.host.findCard(s.room, unit.id)!.card;
+    expect(s.host.findCard(s.room, unit.id)?.zone).toBe("battlefieldA");
+    expect(moved.exhausted).toBe(true);
+  });
+
   it("[R144.4] a Unit the actor does not control cannot be moved", () => {
     const s = scenario();
     const unit = putCardAt(s, "p2", "Caitlyn, Patrolling", "base", "move-control");

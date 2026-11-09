@@ -24,11 +24,14 @@ import {
   forwardLastRewind,
   isMeaningfulAction,
   markRewindable,
+  MAX_STRICT_REWIND_ENTRIES,
   newRewindRequestId,
   recordHistory,
   respondRewind,
+  rewindAllowedForRoom,
   rewindLastAction,
 } from "./rules/rewind";
+import { createStrictRandom, type StrictRandom } from "./strict/rng";
 import { appendLog } from "./log/entries";
 import { ENGINE_ERRORS, ERROR_CODES } from "./errors";
 import type { RulesIntent, Verdict } from "@rift/protocol";
@@ -83,6 +86,7 @@ function applyStrictRulesIntent(
   actorPlayerId: string,
   action: Record<string, unknown> & { type: string },
   ctx: ActionContext,
+  seeded: StrictRandom | null,
 ): EngineResult {
   if (state.rulesMode !== "strict") {
     return failure("Strict rules intents require a strict room.", "strict_mode_action");
@@ -92,11 +96,56 @@ function applyStrictRulesIntent(
   const result = applyRulesIntent(state, actorPlayerId, action as unknown as RulesIntent, ctx, host);
   if (!result.ok) return verdictFailure(result);
   const next = result.room;
+  const changed = !deepEqualRoom(state, next);
+  let timeline = ctx.timeline;
+  if (changed) {
+    finalizeSeededAction(state, next, actorPlayerId, seeded);
+    // Only practice/solo strict rooms keep a rewind history; human-vs-human never does. The
+    // history starts once strict rules are live (setup actions are part of the initial snapshot).
+    if (
+      timeline &&
+      state.phase === "in_game" &&
+      !!state.rules &&
+      rewindAllowedForRoom(state, ctx.mode)
+    ) {
+      markRewindable(next, actorPlayerId);
+      timeline = recordHistory(
+        state,
+        actorPlayerId,
+        action.type,
+        true,
+        ctx.now,
+        timeline,
+        action,
+        MAX_STRICT_REWIND_ENTRIES,
+      );
+    }
+  }
   return {
     ok: true,
     state: next,
     log: next.log.slice(beforeLog),
+    ...(timeline && timeline !== ctx.timeline ? { timeline } : {}),
   };
+}
+
+/**
+ * Persist the seeded RNG position, the action index and the bot-pause release on an accepted
+ * action. Rewind/forward actions never call this (they restore a snapshot instead).
+ */
+function finalizeSeededAction(
+  previous: Room,
+  next: Room,
+  actorId: string,
+  seeded: StrictRandom | null,
+): void {
+  if (!seeded) return;
+  next.rngCursor = seeded.position();
+  next.actionCount = (previous.actionCount ?? 0) + 1;
+  const actor = previous.players.find((player) => player.id === actorId);
+  if (previous.botPause && actor && !actor.isBot) delete next.botPause;
+  // A new accepted action starts a new step; the rewind toast marker no longer applies.
+  delete next.rewindStep;
 }
 
 /** Setup actions that may call `beginGame` (and therefore the sandbox turn automation). */
@@ -220,12 +269,21 @@ export function applyGameAction<A extends { type: string }>(
   const actorIndex = state.players.findIndex((player) => player.id === actorPlayerId);
   if (actorIndex < 0) return failure(ENGINE_ERRORS.unknownPlayer, ERROR_CODES.unknownPlayer);
 
+  // Strict bot/solo determinism: when the room carries a game seed, every action draws from the
+  // seeded cursor stored on the Room (never the server clock). The cursor is written back on the
+  // resulting room, so rewinding restores the exact RNG position.
+  const seeded =
+    state.rulesMode === "strict" && typeof state.rngSeed === "number"
+      ? createStrictRandom(state.rngSeed, state.rngCursor ?? 0)
+      : null;
+  const actionCtx: ActionContext = seeded ? { ...ctx, rng: seeded.rng } : ctx;
+
   // Strict-mode lobby toggle (§3). Handled before the handler map so the sandbox is untouched.
   const lobbyRules = setLobbyRulesMode(
     state,
     actorPlayerId,
     actionInput as unknown as Record<string, unknown> & { type: string },
-    ctx,
+    actionCtx,
   );
   if (lobbyRules) return lobbyRules;
 
@@ -235,24 +293,21 @@ export function applyGameAction<A extends { type: string }>(
       state,
       actorPlayerId,
       actionInput as unknown as Record<string, unknown> & { type: string },
-      ctx,
+      actionCtx,
+      seeded,
     );
   }
 
   if (REWIND_ACTION_TYPES.has(actionInput.type)) {
-    // §4: rewind is only available in solo modes, never in a strict multiplayer match.
-    if (
-      state.rulesMode === "strict" &&
-      ctx.mode !== "solo_lab" &&
-      state.roomMode !== "solo_lab"
-    ) {
+    // §4: rewind is only available in solo modes and Practice-vs-Bot, never human-vs-human.
+    if (!rewindAllowedForRoom(state, actionCtx.mode)) {
       return failure("Rewind is disabled in strict multiplayer rooms.", "strict_mode_action");
     }
     return applyRewindAction(
       state,
       actorIndex,
       actionInput as unknown as Record<string, unknown> & { type: string },
-      ctx,
+      actionCtx,
     );
   }
   const gameplayAction = GAMEPLAY_ACTION_TYPES.has(actionInput.type);
@@ -264,14 +319,15 @@ export function applyGameAction<A extends { type: string }>(
       state,
       actorPlayerId,
       actionInput as unknown as Record<string, unknown> & { type: string },
-      createEngineRulesHost(ctx),
+      createEngineRulesHost(actionCtx),
     );
     if (translated.kind === "intent") {
       return applyStrictRulesIntent(
         state,
         actorPlayerId,
         translated.intent as unknown as Record<string, unknown> & { type: string },
-        ctx,
+        actionCtx,
+        seeded,
       );
     }
     if (translated.kind === "reject") {
@@ -332,17 +388,17 @@ export function applyGameAction<A extends { type: string }>(
     STRICT_SETUP_ENTRY_ACTIONS.has(action.type);
   const forcedFirstTurn = holdFirstTurn ? holdSandboxFirstTurn(draft) : undefined;
   const drafts: LogDraft[] = [];
-  const idFactory = makeIdFactory(ctx);
-  const timeline = ctx.timeline ? copyTimeline(ctx.timeline) : undefined;
+  const idFactory = makeIdFactory(actionCtx);
+  const timeline = actionCtx.timeline ? copyTimeline(actionCtx.timeline) : undefined;
   const context: HandlerContext = {
-    now: ctx.now,
-    rng: ctx.rng,
-    mode: ctx.mode,
+    now: actionCtx.now,
+    rng: actionCtx.rng,
+    mode: actionCtx.mode,
     idFactory,
     actorId: actorPlayerId,
     actorIndex,
     authorizedPlayerIds:
-      ctx.mode === "solo_lab" || draft.roomMode === "solo_lab"
+      actionCtx.mode === "solo_lab" || draft.roomMode === "solo_lab"
         ? draft.players.map((candidate) => candidate.id)
         : undefined,
     log: (draftEntry) => {
@@ -367,8 +423,16 @@ export function applyGameAction<A extends { type: string }>(
     restoreSandboxFirstTurn(draft, forcedFirstTurn);
   }
   if (draft.rulesMode === "strict" && draft.phase === "in_game" && !draft.rules) {
-    draft = initializeStrictRules(draft, ctx, createEngineRulesHost(ctx));
+    draft = initializeStrictRules(draft, actionCtx, createEngineRulesHost(actionCtx));
   }
+  // Human-vs-human strict rooms keep no history at all; practice/solo strict rooms record every
+  // changed action once strict rules are live (incidental ones too) so repro replay is exact.
+  const historyAllowed =
+    state.rulesMode !== "strict" ||
+    (state.phase === "in_game" &&
+      !!state.rules &&
+      rewindAllowedForRoom(state, actionCtx.mode));
+  const recordIncidental = state.rulesMode === "strict" && historyAllowed;
 
   const arrowAction = action.type.startsWith("target_arrow_");
   if (arrowAction) {
@@ -376,9 +440,19 @@ export function applyGameAction<A extends { type: string }>(
     if (deepEqualRoom(state, draft)) {
       return { ok: true, state, log: [], ...(timeline ? { timeline: copyTimeline(timeline) } : {}) };
     }
-    draft.updatedAt = ctx.now;
-    const nextTimeline = timeline
-      ? recordHistory(state, actorPlayerId, action.type, false, ctx.now, timeline)
+    draft.updatedAt = actionCtx.now;
+    const nextTimeline = timeline && historyAllowed
+      ? recordHistory(
+          state,
+          actorPlayerId,
+          action.type,
+          false,
+          actionCtx.now,
+          timeline,
+          action,
+          state.rulesMode === "strict" ? MAX_STRICT_REWIND_ENTRIES : undefined,
+          recordIncidental,
+        )
       : undefined;
     return {
       ok: true,
@@ -415,9 +489,11 @@ export function applyGameAction<A extends { type: string }>(
   // 662731 `c` runs last, after Neeko normalisation/settle/presence cleanup.
   cleanupArrows(state, draft, action);
 
-  draft.updatedAt = ctx.now;
+  draft.updatedAt = actionCtx.now;
   appendLog(draft, drafts);
   const addedLogs = drafts.length;
+
+  finalizeSeededAction(state, draft, actorPlayerId, seeded);
 
   const sameZoneReorder =
     action.type === "move_card" &&
@@ -427,8 +503,18 @@ export function applyGameAction<A extends { type: string }>(
   const meaningful =
     !sameZoneReorder && isMeaningfulAction(action.type, true, action, state, draft);
   if (meaningful) markRewindable(draft, actorPlayerId);
-  const nextTimeline = timeline
-    ? recordHistory(state, actorPlayerId, action.type, meaningful, ctx.now, timeline)
+  const nextTimeline = timeline && historyAllowed
+    ? recordHistory(
+        state,
+        actorPlayerId,
+        action.type,
+        meaningful,
+        actionCtx.now,
+        timeline,
+        action,
+        state.rulesMode === "strict" ? MAX_STRICT_REWIND_ENTRIES : undefined,
+        recordIncidental,
+      )
     : undefined;
 
   return {

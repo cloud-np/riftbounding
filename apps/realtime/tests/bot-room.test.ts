@@ -13,7 +13,7 @@ import type { MatchRoomSeed } from "../src/core/types";
 import type { CoreTransport, Identity } from "../src/core/types";
 import { MatchRoomCore } from "../src/core/MatchRoomCore";
 import { botPlayerIds, botRedactedView } from "../src/core/bot-driver";
-import { strictWhoMayAct } from "@rift/engine";
+import { replayStrictRepro, strictWhoMayAct } from "@rift/engine";
 
 type Sent = { connectionId: string; message: Record<string, unknown> };
 
@@ -107,11 +107,17 @@ function botSeed(overrides: Partial<MatchRoomSeed> = {}): MatchRoomSeed {
 async function botRoom() {
   const transport = new FakeTransport();
   const clock = makeClock();
-  const core = await MatchRoomCore.create(botSeed(), {
+  const linkedSeeds: MatchRoomSeed[] = [];
+  const deps = {
     transport,
     clock,
-    verifyToken: async (token) => identities[token] ?? null,
-  });
+    verifyToken: async (token: string) => identities[token] ?? null,
+    createLinkedRoom: async (seed: MatchRoomSeed) => {
+      linkedSeeds.push(structuredClone(seed));
+      return { roomCode: "REPRO1" };
+    },
+  };
+  const core = await MatchRoomCore.create(botSeed(), deps);
   core.addConnection("conn-alice");
   await core.handleMessage("conn-alice", {
     type: "join_shell",
@@ -119,7 +125,7 @@ async function botRoom() {
     roomCode: "BOT123",
     authToken: "alice-token",
   });
-  return { core, transport };
+  return { core, transport, clock, deps, linkedSeeds };
 }
 
 async function startBotMatch(core: MatchRoomCore): Promise<void> {
@@ -311,6 +317,81 @@ describe("MatchRoomCore practice-vs-bot rooms (R4 bot-room)", () => {
     expect(
       humanOpponent.board?.hand.every((card) => card.id.startsWith("__hidden_zone__")),
     ).toBe(true);
+  });
+
+  it("rewinds a bot room exactly, holds the bot, exports a replayable repro and imports it", async () => {
+    const { core, transport, linkedSeeds, deps } = await botRoom();
+    await startBotMatch(core);
+
+    // One complete human turn -> bot turn -> back to the human.
+    await humanAction(core, { type: "rules_end_turn" }, "end-human-1");
+    await passHumanWindowsOnBotTurn(core);
+    expect(core.room.rules!.turn.player).toBe("alice");
+
+    const targetPick = core.timeline.entries
+      .slice(0, core.timeline.cursor)
+      .map((entry, index) => ({ entry, index }))
+      .filter(({ entry }) => entry.actorId === "alice" && entry.meaningful)
+      .at(-1)!;
+    const targetIndex = targetPick.index;
+    const target = structuredClone(targetPick.entry.before);
+    const repeatedAction = targetPick.entry.action ?? { type: targetPick.entry.actionType };
+    const cursorBefore = core.timeline.cursor;
+
+    await humanAction(core, { type: "rewind_last_action" }, "rewind-1");
+    expect(core.timeline.cursor).toBe(targetIndex);
+    expect(core.timeline.cursor).toBeLessThan(cursorBefore);
+    expect(core.room.botPause).toBe(true);
+    expect(core.room.rules).toEqual(target.rules);
+    expect(core.room.players).toEqual(target.players);
+    expect(core.room.rngSeed).toBe(target.rngSeed);
+    expect(core.room.rngCursor).toBe(target.rngCursor);
+    expect(core.room.actionCount).toBe(target.actionCount);
+
+    // The bot is held: no bot action is emitted until the human acts again.
+    const patchesAfterRewind = transport.messagesFor("conn-alice", "authoritative_patch_commit").length;
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(
+      transport.messagesFor("conn-alice", "authoritative_patch_commit").length,
+    ).toBe(patchesAfterRewind);
+
+    // Repeat the same human action; the bot answers again.
+    await humanAction(core, repeatedAction, "repeat-human");
+    await passHumanWindowsOnBotTurn(core);
+    expect(
+      transport.messagesFor("conn-alice", "authoritative_patch_commit").length,
+    ).toBeGreaterThan(patchesAfterRewind);
+
+    const exported = await core.handleHttp(
+      "export_repro",
+      { roomCode: "BOT123" },
+      identities["alice-token"]!,
+    );
+    expect(exported.status).toBe(200);
+    const repro = exported.body.repro as Parameters<typeof replayStrictRepro>[0];
+    expect(repro.actions.length).toBeGreaterThan(0);
+    expect(repro.actions.some((entry) => entry.actorId === "bot")).toBe(true);
+    const replay = replayStrictRepro(repro);
+    expect(replay.ok).toBe(true);
+
+    // Import into a new solo_lab room at a chosen step (dev-only HTTP action).
+    const loaded = await core.handleHttp(
+      "load_repro",
+      { roomCode: "BOT123", repro, step: 1 },
+      identities["alice-token"]!,
+    );
+    expect(loaded.status).toBe(200);
+    expect(loaded.body.nextRoomCode).toBe("REPRO1");
+    expect(linkedSeeds).toHaveLength(1);
+    const seed = linkedSeeds[0]!;
+    expect(seed.roomMode).toBe("solo_lab");
+    expect(seed.reproStep).toBe(1);
+    seed.roomCode = "REPRO1";
+    const imported = await MatchRoomCore.create(seed, deps);
+    expect(imported.room.phase).toBe("in_game");
+    expect(imported.room.roomCode).toBe("REPRO1");
+    expect(imported.room.rules).toBeTruthy();
+    expect(imported.timeline.cursor).toBeGreaterThanOrEqual(1);
   });
 
   it("keeps the bot out of the human's controlled seats in the session doc", async () => {

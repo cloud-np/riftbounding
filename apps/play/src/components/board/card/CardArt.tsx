@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 
-import { resolveCard } from "@rift/cards";
 import type { CardInstance } from "@rift/protocol";
 
-import { cardImageUrl, placeholderUrl, tokenImageUrl } from "@/lib/assets";
+import { cardArtUrl, placeholderUrl } from "@/lib/assets";
 
 import { tokenArtForName, useBoardCustomization } from "../layout/customization";
 
@@ -48,22 +47,10 @@ export function CardArt({
     side === "opponent" ? customization.opponent : side === "self" ? customization.self : undefined;
   const customToken =
     card.source === "token" ? tokenArtForName(ownerCustomization, card.name) : undefined;
-  const token = card.source === "token" ? (customToken ?? tokenImageUrl(card.name, false)) : null;
   // Strict chain entries for triggered abilities carry only the source card's name (their
-  // snapshot is not a card item). Resolve that name through the catalog so the public card art
-  // still renders; placeholders (empty name / isPlaceholder) resolve to nothing.
-  const resolved =
-    !token && (!card.cardCode || !card.imageUrl) && card.name.trim()
-      ? resolveCard(card.cardCode, card.name)
-      : undefined;
-  const artCard = resolved
-    ? {
-        ...card,
-        cardCode: card.cardCode ?? resolved.id,
-        imageUrl: card.imageUrl ?? resolved.imageUrl,
-      }
-    : card;
-  const src = token ?? cardImageUrl(artCard, profile);
+  // snapshot is not a card item): the shared resolver resolves that name through the catalog.
+  // Token cards use the catalog token art exactly like the hover preview and pile viewer.
+  const src = cardArtUrl(card, profile, { tokenArt: customToken });
 
   return (
     // eslint-disable-next-line @next/next/no-img-element -- card art is served from the CDN/local copy, no optimizer needed

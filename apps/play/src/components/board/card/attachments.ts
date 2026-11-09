@@ -1,5 +1,33 @@
 import type { CardInstance } from "@rift/protocol";
 
+/**
+ * How much of the previous card each attached card exposes to the right, as a fraction of the
+ * card width. A quarter is enough for the gear's frame, part of its art and its bottom-right
+ * stat badge, and matches the reference app's attached-equipment peek.
+ */
+export const ATTACHED_FAN_STEP = 0.26;
+
+/** The slot width a top-most card needs so its attachment fan never reaches a neighbour. */
+export function attachedFanWidth(count: number): string {
+  const attached = Math.max(0, Math.trunc(count));
+  if (attached === 0) return "var(--card-width)";
+  return `calc(var(--card-width) * ${Number((1 + attached * ATTACHED_FAN_STEP).toFixed(4))})`;
+}
+
+/** Left offset of one attached card inside the host's reserved slot. */
+export function attachedCardOffset(index: number): string {
+  const rank = Math.max(0, Math.trunc(index));
+  return `calc(var(--card-width) * ${Number(((rank + 1) * ATTACHED_FAN_STEP).toFixed(4))})`;
+}
+
+/**
+ * Paint order: the unit sits above all gear; the first attached gear sits above later gear, so
+ * every card exposes its own right-hand strip in attach order.
+ */
+export function attachedFanZIndex(index: number, count: number): number {
+  return Math.max(1, Math.trunc(count) - Math.trunc(index));
+}
+
 export interface AttachedCardGroups {
   /** Cards that are not attached to another card in the same zone list. */
   topLevel: CardInstance[];

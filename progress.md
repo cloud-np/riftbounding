@@ -78,12 +78,12 @@ findings, scratch probes), then merged into `r4-engine` and finally integrated h
 | --- | ---: | ---: | --- | --- |
 | `@rift/rules` (default) | 176 | 1986 | 0 / 0 | no `[BUG]` skip remains; includes `test/registry/` (integrity, duplicates, legacy state) |
 | `@rift/rules` (host config) | 1 | 1 | 0 / 0 | |
-| `@rift/engine` | 22 | 148 | 0 / 0 | `.recon/oracle` present |
+| `@rift/engine` | 23 | 163 | 0 / 0 | `.recon/oracle` present; includes strict rewind/repro |
 | `@rift/sync` | 6 | 57 | 0 / 0 | |
 | `@rift/i18n` | 5 | 168 | 0 / 0 | includes the strict locale suite |
 | `@rift/cards` | 8 | 104 | 0 / 0 | includes the catalog keyword audit |
-| `realtime` | 8 | 75 | 0 / 0 | includes Practice-vs-Bot |
-| `play` | 44 | 316 | 0 / 0 | includes gesture/board strict tests |
+| `realtime` | 8 | 76 | 0 / 0 | includes Practice-vs-Bot rewind/repro |
+| `play` | 46 | 327 | 0 / 0 | includes gesture/board strict tests and rewind visibility |
 
 Typecheck: `pnpm --filter @rift/rules typecheck` and root `pnpm typecheck` are clean (0 errors).
 
@@ -239,7 +239,7 @@ section). The card-coverage report prints four warnings for token/marker scripts
 - **Adding or changing cards: [`docs/rules/CARD-AUTHORING.md`](docs/rules/CARD-AUTHORING.md)**
   (layout, ids, helpers, reprints, statuses, tests, i18n, new keywords and sets).
 - Docs: `docs/RULES-ENGINE.md` (architecture, per-wave status, known limitations),
-  `docs/rules/{play,combat,effects,int}.md` (per-domain), `docs/rules/{bot,bot-room,gestures}.md`,
+  `docs/rules/{play,combat,effects,int}.md` (per-domain), `docs/rules/{bot,bot-room,gestures,rewind}.md`,
   `docs/rules/cards/*.md` (per-lane card reports: gaps, bugs, custom ids, status),
   `docs/rules-coverage.md`, `docs/cards-coverage.md`, `docs/cards-index.md` (generated name →
   status → script file → tests, plus every custom id), `packages/protocol/CHANGES.md` (wire changes
@@ -265,6 +265,9 @@ section). The card-coverage report prints four warnings for token/marker scripts
   3. Lobby → **Private Play** → **Practice vs Bot**. The room opens strict with a `Practice Bot`
      seat; **Start Match** auto-runs battlefields, first player and both mulligans.
   4. Play through the board gestures; the server answers for the bot and hands the turn back.
+  5. Rewind/forward and **Export repro** are available in Practice vs Bot (`docs/rules/rewind.md`);
+     the bot waits until you act again after a rewind. The dev-only strict panel also has
+     **Load repro** to open a new solo_lab room at a chosen step.
 - Strict dev flag: the left `StrictRulesPanel` renders only when
   `process.env.NODE_ENV !== "production"` (`apps/play/.../strict-model.ts`), i.e. under
   `pnpm --filter play dev` and tests; `next build`/`next start` hide it. Production has chain A/S,

@@ -32,6 +32,7 @@ import type {
   RoomSessionDoc,
   RewindConfirmation,
   Spectator,
+  StrictReproFile,
   ViewerRole,
 } from "@rift/protocol";
 import {
@@ -46,6 +47,13 @@ import {
 import { parseDecklist } from "../decklist";
 import { sanitizePlayerName } from "../auth";
 import { applyGameAction, createInitialGameState } from "../engine-adapter";
+import {
+  createBotPickerRandom,
+  createStrictRepro,
+  deriveStrictSeed,
+  replayStrictRepro,
+  rewindAllowedForRoom,
+} from "@rift/engine";
 import type { EngineSetupConfig } from "../engine-types";
 import { BOT_ACTION_CAP, botMayAct, botPlayerIds, nextBotIntent } from "./bot-driver";
 import { generateRoomCode, newId, normalizeRoomCode } from "./ids";
@@ -233,7 +241,13 @@ export class MatchRoomCore {
 
   static async create(seed: MatchRoomSeed, deps: MatchRoomDeps): Promise<MatchRoomCore> {
     const core = new MatchRoomCore(seed, deps);
-    if (seed.autoStart) await core.initializeGame();
+    const repro = seed.repro;
+    if (seed.autoStart) {
+      await core.initializeGame();
+      // A repro imported at a bot decision should continue immediately; a live rewind never
+      // reaches this path because `botPause` is stored on the restored room.
+      if (repro) await core.driveBotSeats();
+    }
     return core;
   }
 
@@ -2585,6 +2599,9 @@ export class MatchRoomCore {
   private async driveBotSeats(): Promise<void> {
     const bots = botPlayerIds(this.room);
     if (bots.length === 0) return;
+    // Practice-vs-Bot rewind: hold the bot until the human submits the next action. The flag is
+    // part of the room snapshot, so it survives a Durable Object restart.
+    if (this.room.botPause) return;
     for (let step = 0; step < BOT_ACTION_CAP; step += 1) {
       if (this.room.phase !== "in_game" || this.room.gameOutcome) return;
       let botId: string | null = null;
@@ -2592,7 +2609,11 @@ export class MatchRoomCore {
       for (const candidate of bots) {
         let next: ReturnType<typeof nextBotIntent> = null;
         try {
-          next = nextBotIntent(this.room, candidate, this.deps.clock.rng);
+          next = nextBotIntent(
+            this.room,
+            candidate,
+            createBotPickerRandom(this.room, this.deps.clock.rng),
+          );
         } catch (error) {
           this.logBotIssue("view", candidate, {
             code: "picker_error",
@@ -2708,7 +2729,49 @@ export class MatchRoomCore {
     console.error(parts.join(" "));
   }
 
+  /**
+   * Dev-only repro import: start the new room from the file's initial snapshot replayed to
+   * `step`. The resulting timeline contains the replayed prefix, so rewind/forward keep working.
+   */
+  private async initializeReproGame(repro: StrictReproFile, step?: number): Promise<void> {
+    const replay = replayStrictRepro(repro, step);
+    if (!replay.ok) {
+      throw new Error(
+        `Repro replay failed at step ${replay.step}: ${replay.failure.message}`,
+      );
+    }
+    const room: Room = {
+      ...replay.room,
+      roomCode: this.roomCode,
+      updatedAt: this.deps.clock.now(),
+      roomMode: this.seed.roomMode,
+      rulesMode: "strict",
+      gameVariant: this.seed.gameVariant,
+      playMode: this.seed.playMode,
+      matchFormat: this.seed.matchFormat,
+    };
+    this.room = room;
+    this.gameplayLog = room.log.slice();
+    this.timeline = replay.timeline;
+    this.sequence = Math.max(1, this.sequence + 1);
+    this.sessionDoc.phase = room.phase;
+    this.sessionDoc.gameNumber = room.gameNumber ?? 1;
+    this.sessionDoc.winsByPlayerId = room.winsByPlayerId ?? {};
+    this.sessionDoc.lobbyReadyPlayerIds = this.sessionDoc.lobbyReadyPlayerIds ?? [];
+    delete this.sessionDoc.matchTermination;
+    this.sessionSequence += 1;
+    this.syncSessionFromRoom();
+  }
+
   private async initializeGame(): Promise<void> {
+    if (this.seed.repro) {
+      const repro = this.seed.repro;
+      const step = this.seed.reproStep;
+      delete this.seed.repro;
+      delete this.seed.reproStep;
+      await this.initializeReproGame(repro, step);
+      return;
+    }
     const active = this.sessionDoc.players
       .filter((player) => !player.leftAt)
       .sort((a, b) => a.seat - b.seat);
@@ -2735,6 +2798,12 @@ export class MatchRoomCore {
       players: seats,
       seats,
       rng: this.deps.clock.rng,
+      // Strict bot/solo rooms get a state-derived seed so shuffles and action RNG are exact
+      // across rewinds/replays. Human-vs-human strict rooms keep the server clock RNG.
+      ...(this.seed.rulesMode === "strict" &&
+      (this.seed.roomMode === "solo_lab" || seats.some((seat) => seat.isBot))
+        ? { rngSeed: deriveStrictSeed(this.roomCode, this.seed.createdAt) }
+        : {}),
       hostPlayerId: active[0]?.id,
       ...(this.sessionDoc.teamIdByPlayerId
         ? { teamIdByPlayerId: this.sessionDoc.teamIdByPlayerId }
@@ -2788,7 +2857,11 @@ export class MatchRoomCore {
     // between two seats (engine `single_player` keeps the same player's turn) and the board must
     // not grant the human control of the bot (`GameScreen` derives control from roomMode). The
     // session doc stays `single_player`, so the lobby still renders the practice room.
-    if (this.room.phase === "in_game" && botPlayerIds(this.room).length > 0) {
+    if (
+      this.seed.roomMode === "single_player" &&
+      this.room.phase === "in_game" &&
+      botPlayerIds(this.room).length > 0
+    ) {
       this.room = { ...this.room, roomMode: "multiplayer" };
     }
   }
@@ -2869,6 +2942,10 @@ export class MatchRoomCore {
         this.broadcastSnapshot();
         return httpOk({ roomCode: this.roomCode });
       }
+      case "export_repro":
+        return this.httpExportRepro(identity);
+      case "load_repro":
+        return this.httpLoadRepro(body, identity);
       default:
         return httpError(400, "unsupported_action", "This room API action is not supported.", {
           retryable: false,
@@ -2879,6 +2956,131 @@ export class MatchRoomCore {
   private knownPlayerFor(identity: Identity): RoomPlayer | undefined {
     const id = this.playerIdForSubject(identity.sub);
     return id ? this.sessionDoc.players.find((player) => player.id === id) : undefined;
+  }
+
+  /** Strict bot/solo repro export: full initial snapshot + accepted action log + final hash. */
+  private httpExportRepro(identity: Identity): CoreHttpResultAlias {
+    const player = this.knownPlayerFor(identity);
+    if (!player) {
+      return httpError(404, "room_membership_changed", "This player is not registered in the room.");
+    }
+    if (this.room.phase !== "in_game" || this.room.rulesMode !== "strict") {
+      return httpError(409, "invalid_phase", "Repro export requires a live strict game.");
+    }
+    if (!rewindAllowedForRoom(this.room, this.roomMode)) {
+      return httpError(
+        403,
+        "strict_mode_action",
+        "Repro export is only available in Practice vs Bot and solo-lab rooms.",
+      );
+    }
+    const repro = createStrictRepro(this.room, this.timeline, {
+      exportedAt: this.deps.clock.now(),
+    });
+    return httpOk({
+      roomCode: this.roomCode,
+      filename: `rift-repro-${this.roomCode}-step-${repro.actions.length}.json`,
+      repro,
+    });
+  }
+
+  /**
+   * Dev-only repro import: allocate a new solo_lab room from the file, replayed to `step`.
+   * The new room keeps the repro player/card ids (so the action log stays exact) and maps the
+   * caller's auth subject to their seat; the client follows `nextRoomCode` like a linked room.
+   */
+  private async httpLoadRepro(
+    body: Record<string, unknown>,
+    identity: Identity,
+  ): Promise<CoreHttpResultAlias> {
+    const player = this.knownPlayerFor(identity);
+    if (!player) {
+      return httpError(404, "room_membership_changed", "This player is not registered in the room.");
+    }
+    if (this.room.phase !== "in_game" || this.room.rulesMode !== "strict") {
+      return httpError(409, "invalid_phase", "Repro import requires a live strict game.");
+    }
+    if (!rewindAllowedForRoom(this.room, this.roomMode)) {
+      return httpError(
+        403,
+        "strict_mode_action",
+        "Repro import is only available in Practice vs Bot and solo-lab rooms.",
+      );
+    }
+    if (!this.deps.createLinkedRoom) {
+      return httpError(503, "repro_unavailable", "Linked room allocation is unavailable.");
+    }
+    const repro = isRecord(body.repro) ? (body.repro as unknown as StrictReproFile) : null;
+    if (!repro) return httpError(400, "invalid_repro", "The request is missing a repro file.");
+    const rawStep = typeof body.step === "number" ? Math.trunc(body.step) : undefined;
+    const step = rawStep === undefined ? undefined : Math.max(0, Math.min(rawStep, repro.actions?.length ?? 0));
+    const validation = replayStrictRepro(repro, step);
+    if (!validation.ok) {
+      return httpError(
+        400,
+        "invalid_repro",
+        `Repro replay failed at step ${validation.step}: ${validation.failure.message}`,
+        { step: validation.step, reason: validation.failure.reason },
+      );
+    }
+    const initial = repro.initial;
+    const hasBot = initial.players.some((seat) => seat.isBot === true);
+    const humanIds = initial.players.filter((seat) => !seat.isBot).map((seat) => seat.id);
+    const players: MatchRoomSeed["players"] = initial.players
+      .slice()
+      .sort((a, b) => a.seat - b.seat)
+      .map((seat) => {
+        const isMe = seat.seat === player.seat;
+        const controlled: string[] | undefined = seat.isBot
+          ? undefined
+          : hasBot
+            ? isMe
+              ? [seat.id]
+              : undefined
+            : humanIds;
+        return {
+          playerId: seat.id,
+          name: isMe ? player.name : seat.name,
+          seat: seat.seat,
+          authSubject: isMe ? identity.sub : null,
+          decklist: seat.decklistRaw ?? null,
+          ...(seat.isBot ? { isBot: true, isSoloOpponent: true } : {}),
+          ...(controlled && controlled.length > 0 ? { controlledPlayerIds: controlled } : {}),
+        };
+      });
+    const seed: MatchRoomSeed = {
+      roomCode: "",
+      createdAt: this.deps.clock.now(),
+      roomMode: "solo_lab",
+      gameVariant: initial.gameVariant ?? "duel",
+      playMode: initial.playMode ?? "constructed",
+      deckRulesMode: initial.deckRulesMode ?? "unrestricted",
+      matchFormat: initial.matchFormat ?? "bo1",
+      rulesMode: "strict",
+      players,
+      autoStart: true,
+      origin: "repro",
+      testMode: true,
+      repro,
+      ...(step !== undefined ? { reproStep: step } : {}),
+    };
+    try {
+      const created = await this.deps.createLinkedRoom(seed);
+      const roomCode = created.roomCode.trim().toUpperCase();
+      if (!roomCode) throw Error("The coordinator returned an empty room code.");
+      this.sessionDoc.nextRoomCode = roomCode;
+      this.room = { ...this.room, nextRoomCode: roomCode };
+      this.sessionSequence += 1;
+      this.broadcastShellSync();
+      return httpOk({ roomCode: this.roomCode, nextRoomCode: roomCode, step: step ?? repro.actions.length });
+    } catch (error) {
+      return httpError(
+        500,
+        "repro_import_failed",
+        error instanceof Error ? error.message : "Could not allocate the repro room.",
+        { retryable: true },
+      );
+    }
   }
 
   private httpJoinRoom(body: Record<string, unknown>, identity: Identity): CoreHttpResultAlias {

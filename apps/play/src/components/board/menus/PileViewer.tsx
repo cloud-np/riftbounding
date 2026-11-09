@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { createTranslator } from "@rift/i18n";
 import type { CardInstance } from "@rift/protocol";
 
-import { cardImageUrl } from "@/lib/assets";
+import { cardArtUrl } from "@/lib/assets";
 
 const t = createTranslator("en");
 
@@ -15,6 +15,8 @@ export interface PileViewerProps {
   slot: "trash" | "banished";
   owner: "self" | "opponent";
   cards: CardInstance[];
+  /** Another seat's public pile is inspect-only. */
+  canModify?: boolean;
   onPlay?: (card: CardInstance) => void;
   onToHand: (card: CardInstance) => void;
   onRecycle: (card: CardInstance) => void;
@@ -28,6 +30,7 @@ export function PileViewer({
   slot,
   owner,
   cards,
+  canModify = true,
   onPlay,
   onToHand,
   onRecycle,
@@ -70,7 +73,7 @@ export function PileViewer({
             </p>
           </div>
           <div className="flex items-center gap-1.5">
-            {onRecycleAll && slot === "trash" && owner === "self" ? (
+            {canModify && onRecycleAll && slot === "trash" && owner === "self" ? (
               <button
                 type="button"
                 className="rounded-[0.24rem] border border-[rgba(125,218,237,0.3)] bg-[rgba(15,34,52,0.78)] px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.05em] text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.9)]"
@@ -102,7 +105,7 @@ export function PileViewer({
                   <div className="relative aspect-[63/88] w-full overflow-hidden bg-[#0a1422]">
                     {/* eslint-disable-next-line @next/next/no-img-element -- card art comes from the CDN */}
                     <img
-                      src={cardImageUrl(card, "thumb")}
+                      src={cardArtUrl(card, "thumb")}
                       alt={card.name}
                       loading="lazy"
                       decoding="async"
@@ -118,38 +121,40 @@ export function PileViewer({
                       {card.energyCost !== undefined ? ` · ${card.energyCost}` : ""}
                     </p>
                   </div>
-                  <div className="mt-auto grid grid-cols-2 gap-[0.2rem] p-[0.26rem]">
-                    {onPlay ? (
+                  {canModify ? (
+                    <div className="mt-auto grid grid-cols-2 gap-[0.2rem] p-[0.26rem]">
+                      {onPlay ? (
+                        <button
+                          type="button"
+                          className="rounded-[0.18rem] border border-[rgba(125,218,237,0.28)] bg-[rgba(15,34,52,0.78)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.9)]"
+                          onClick={() => onPlay(card)}
+                        >
+                          {t("sim.play") ?? "Play"}
+                        </button>
+                      ) : null}
                       <button
                         type="button"
-                        className="rounded-[0.18rem] border border-[rgba(125,218,237,0.28)] bg-[rgba(15,34,52,0.78)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.9)]"
-                        onClick={() => onPlay(card)}
+                        className="rounded-[0.18rem] border border-[rgba(201,218,249,0.16)] bg-[rgba(15,28,52,0.74)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#dbe7ff] hover:bg-[rgba(21,37,65,0.88)]"
+                        onClick={() => onToHand(card)}
                       >
-                        {t("sim.play") ?? "Play"}
+                        {t("sim.toHand") ?? "To hand"}
                       </button>
-                    ) : null}
-                    <button
-                      type="button"
-                      className="rounded-[0.18rem] border border-[rgba(201,218,249,0.16)] bg-[rgba(15,28,52,0.74)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#dbe7ff] hover:bg-[rgba(21,37,65,0.88)]"
-                      onClick={() => onToHand(card)}
-                    >
-                      {t("sim.toHand") ?? "To hand"}
-                    </button>
-                    <button
-                      type="button"
-                      className="rounded-[0.18rem] border border-[rgba(192,176,244,0.24)] bg-[rgba(35,28,58,0.84)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#e4dcff] hover:bg-[rgba(43,34,69,0.9)]"
-                      onClick={() => onRecycle(card)}
-                    >
-                      {t("sim.recycle") ?? "Recycle"}
-                    </button>
-                    <button
-                      type="button"
-                      className="rounded-[0.18rem] border border-[rgba(224,200,171,0.26)] bg-[rgba(46,34,26,0.84)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#f3e4d8] hover:bg-[rgba(58,42,31,0.9)]"
-                      onClick={() => onSwap(card)}
-                    >
-                      {swapLabel}
-                    </button>
-                  </div>
+                      <button
+                        type="button"
+                        className="rounded-[0.18rem] border border-[rgba(192,176,244,0.24)] bg-[rgba(35,28,58,0.84)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#e4dcff] hover:bg-[rgba(43,34,69,0.9)]"
+                        onClick={() => onRecycle(card)}
+                      >
+                        {t("sim.recycle") ?? "Recycle"}
+                      </button>
+                      <button
+                        type="button"
+                        className="rounded-[0.18rem] border border-[rgba(224,200,171,0.26)] bg-[rgba(46,34,26,0.84)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#f3e4d8] hover:bg-[rgba(58,42,31,0.9)]"
+                        onClick={() => onSwap(card)}
+                      >
+                        {swapLabel}
+                      </button>
+                    </div>
+                  ) : null}
                 </article>
               ))}
             </div>

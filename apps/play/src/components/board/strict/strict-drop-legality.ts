@@ -96,6 +96,25 @@ export function cachedStrictDragLegality(
   return computed;
 }
 
+/**
+ * The only hovered card a drop may carry as `targetCardId`.
+ *
+ * Strict rooms: deliberate targeting only — the card must be in the cached legal target set,
+ * and a Hide drop never carries a target. A plain zone drop (e.g. a unit moved battlefield →
+ * Base that lands over a base card) must not smuggle the hovered card into the gesture; the
+ * engine tolerates such incidental ids but the rules contract treats them as targeting.
+ * Sandbox keeps the old equip/target behaviour.
+ */
+export function strictDropTargetCard<T extends { id: string }>(
+  hoverCard: T | null,
+  legality: StrictDragLegality | null,
+  options: { strict: boolean; hide?: boolean },
+): T | null {
+  if (!hoverCard || options.hide) return null;
+  if (!options.strict) return hoverCard;
+  return legality?.targetIds.has(hoverCard.id) ? hoverCard : null;
+}
+
 /** O(1) hover check against the current drag's cached legality. */
 export function strictDropAllowed(
   legality: StrictDragLegality,

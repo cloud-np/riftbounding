@@ -20,7 +20,8 @@ play 483–491 (scoring/victory parts) and conceding 649–652.
 
 | File | Rules | Contents |
 |---|---|---|
-| `src/combat/begin.ts` | 462–464, 466.1–466.2.f | `combatParticipants`, `beginCombat`, `combatTriggerOrder` (466.2.d.1), `combatBarsDestination` (464.1/464.2 helper for R2-play) |
+| `src/combat/destinations.ts` | 449.2.a, 451.2, 464.1/464.2, 466.2.c.1/.2 | `combatParticipants`, `combatBarsDestination` (shared by Standard Moves, Unit plays and effect Moves; kept cycle-free) |
+| `src/combat/begin.ts` | 462–464, 466.1–466.2.f | `beginCombat`, `combatTriggerOrder` (466.2.d.1); re-exports the destination helpers |
 | `src/combat/designate.ts` | 323.2, 466.2.c.3, 383.4.e, 468.7.a | designations + first-time `attack`/`defend` events, `clearCombatDesignations` |
 | `src/combat/keywords.ts` | 807, 814, 815, 826, 424.1.b, 143.2.c | `combatKeywordProfile`, `combatMightBonus`, `combatMight`, `dealsCombatDamage`, `registerCombatContributionFilter` |
 | `src/combat/assignment.ts` | 467.2.c.1–467.2.c.10 | `lethalAssignment`, `assignmentTier`, `damageTargets`, `validateAssignment`, `enumerateAssignments` |
@@ -172,6 +173,10 @@ optional additions:
 - `466.2.c.1`: Contested applier absent from the battlefield → first present player in Turn Order.
 - `464.3`: more than two opposing players present → the battlefield's controller defends.
 - `464.1`: "not involved … or who don't already have Units" read literally (either bars a move).
+- `449.2.a` (not just 144.4): "Moves of all kinds (Standard Moves or otherwise)" — effect Moves
+  consult `combatBarsDestination` too. `451.2` bars a Battlefield with Units of two other players
+  by any means. When an effect would make a Unit present at an invalid destination, 449.2.c makes
+  it Recall instead (`effects/ops/move.ts`; the recall is not a Move, 458).
 - `467.2.c.10`: immune units take damage only as excess once every other unit has lethal.
 - `467.2.c.9`: exclusive-choice combinations are capped at 256.
 - `190.3.b`: a non-combat Showdown that ends without control established clears Contested

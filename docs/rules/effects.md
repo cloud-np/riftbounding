@@ -280,7 +280,7 @@ One op per module, all through `actions/*` primitives where one exists (so inter
 and each emitting a `GameEvent`: draw 414 (burn out 432), exhaust 415, ready 416, recycle 417
 (417.5 random order, 417.6 pick), deal 418 (+ Bonus Damage 712–715, valid damage 418.1.e,
 source 418.6), heal 419, play 420.3 (limited play: pending chain item, 402.2), move 421/447–455
-(355.4.a, 451.2, restrictions), discard 423, stun 424, reveal 425, counter 426, buff/spend_buff
+(355.4.a, 451.2, 449.2.a/464.1, 449.2.c recall fallback, restrictions), discard 423, stun 424, reveal 425, counter 426, buff/spend_buff
 427/701–705, banish 428, kill 429 (attribution 429.5), add 430, channel 431, burn_out 432,
 double 433 (479.4.c), swap 434, attach/detach 435–436/716–719, predict 437, prevent 438, replace
 (delayed replacement), create 440/179–187 (tokens; `TokenSpec.play` → `unit_played`/

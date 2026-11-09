@@ -423,6 +423,83 @@ describe("SFD batch 4 — units and legends", () => {
     expect(zoneOf(s, soldier.id)).toBe("battlefieldA");
   });
 
+  it("[C:Azir, Sovereign][R421][R451.1][R451.2] the attack trigger offers exhausted base tokens and tokens at other battlefields, never one already here, a non-token unit or an enemy token", () => {
+    const s = withCards(["Azir, Sovereign"], [], QUIET);
+    run(s, { op: "create", token: { name: "Sand Soldier" }, zone: "base" }, { controller: "p1" });
+    run(s, { op: "create", token: { name: "Sand Soldier" }, zone: "battlefieldB" }, { controller: "p1" });
+    run(s, { op: "create", token: { name: "Sand Soldier" }, zone: "battlefieldA" }, { controller: "p1" });
+    run(s, { op: "create", token: { name: "Sand Soldier" }, zone: "base" }, { controller: "p2" });
+    run(s, { op: "create", token: { name: "Recruit" }, zone: "base" }, { controller: "p1" });
+    const nonToken = put(s, "p1", "Treasure Hunter", "base");
+    const board = s.room.players[0]!.board!;
+    const baseSoldier = board.base.find((card) => card.name === "Sand Soldier")!;
+    const otherSoldier = board.battlefieldB!.find((card) => card.name === "Sand Soldier")!;
+    const hereSoldier = board.battlefieldA!.find((card) => card.name === "Sand Soldier")!;
+    const recruit = board.base.find((card) => card.name === "Recruit")!;
+    const enemySoldier = s.room.players[1]!.board!.base.find((card) => card.name === "Sand Soldier")!;
+    // 144.2 does not apply to an effect Move: the base token stays exhausted and is still offered.
+    s.host.setExhausted(s.room, baseSoldier.id, true);
+    s.host.setExhausted(s.room, otherSoldier.id, false);
+    attack(s, "Azir, Sovereign", ["Treasure Hunter"]);
+    let promptMin: number | undefined;
+    let promptMax: number | undefined;
+    let options: string[] = [];
+    const chainEvents = resolveChain(s, (prompt) => {
+      if (prompt.kind !== "choose-card") return undefined;
+      promptMin = prompt.min;
+      promptMax = prompt.max;
+      options = (prompt.options ?? []).map((option) => option.id);
+      // Any subset is legal: take the two Sand Soldiers, leave the Recruit at Base.
+      return { optionIds: [baseSoldier.id, otherSoldier.id] };
+    });
+    expect(new Set(options)).toEqual(new Set([baseSoldier.id, otherSoldier.id, recruit.id]));
+    expect(options).not.toContain(hereSoldier.id);
+    expect(options).not.toContain(nonToken.id);
+    expect(options).not.toContain(enemySoldier.id);
+    // 451.1 / "you may": zero is legal and the upper bound is every legal token.
+    expect(promptMin).toBe(0);
+    expect(promptMax).toBe(3);
+    // The effect Move used no Standard Move cost: the exhausted token moved and stayed exhausted.
+    expect(zoneOf(s, baseSoldier.id)).toBe("battlefieldA");
+    expect(zoneOf(s, otherSoldier.id)).toBe("battlefieldA");
+    expect(zoneOf(s, recruit.id)).toBe("base");
+    expect(s.host.findCard(s.room, baseSoldier.id)?.card.exhausted).toBe(true);
+    // 466.2.c.3.a / 323.2.a: they gained the Attacker designation in the following Cleanup.
+    expect(s.room.rules!.objects[baseSoldier.id]).toMatchObject({ designation: "attacker" });
+    expect(s.room.rules!.objects[otherSoldier.id]).toMatchObject({ designation: "attacker" });
+    expect(s.room.rules!.objects[recruit.id]?.designation).toBeUndefined();
+    const events = [...chainEvents, ...settle(s)];
+    const attacks = events.filter((event) => event.type === "attack" && event.cardId).map((event) => event.cardId);
+    expect(attacks).toEqual(expect.arrayContaining([baseSoldier.id, otherSoldier.id]));
+    expect(attacks).not.toContain(recruit.id);
+    // They fought: 4 (Azir) + 2 (already here) + 2 + 2 = 10 assigned by the attacker.
+    expect(events.find((event) => event.type === "damage_assigned" && event.playerId === "p1")?.amount).toBe(10);
+  });
+
+  it("[C:Azir, Sovereign][R355.13][R421] choosing none is legal: no token moves and none gains Attacker", () => {
+    const s = withCards(["Azir, Sovereign"], [], QUIET);
+    run(s, { op: "create", token: { name: "Sand Soldier" }, zone: "base" }, { controller: "p1" });
+    run(s, { op: "create", token: { name: "Sand Soldier" }, zone: "battlefieldB" }, { controller: "p1" });
+    const board = s.room.players[0]!.board!;
+    const baseSoldier = board.base.find((card) => card.name === "Sand Soldier")!;
+    const otherSoldier = board.battlefieldB!.find((card) => card.name === "Sand Soldier")!;
+    attack(s, "Azir, Sovereign", ["Treasure Hunter"]);
+    const events = resolveChain(s, (prompt) => {
+      if (prompt.kind !== "choose-card") return undefined;
+      expect(prompt.min).toBe(0);
+      return { optionIds: [] };
+    });
+    expect(zoneOf(s, baseSoldier.id)).toBe("base");
+    expect(zoneOf(s, otherSoldier.id)).toBe("battlefieldB");
+    expect(events.some((event) => event.type === "move" && [baseSoldier.id, otherSoldier.id].includes(event.cardId ?? ""))).toBe(false);
+    const combat = settle(s);
+    const attacks = [...events, ...combat]
+      .filter((event) => event.type === "attack" && event.cardId)
+      .map((event) => event.cardId);
+    expect(attacks).not.toContain(baseSoldier.id);
+    expect(attacks).not.toContain(otherSoldier.id);
+  });
+
   it("[C:Glasc Mixologist][R808][R420.3] Deathknell: may play a unit costing ≤[3] and ≤[Rune] from your trash, ignoring its cost", () => {
     const s = withCards(["Drag Under"], ["Glasc Mixologist", "Treasure Hunter"]);
     const mixologist = put(s, "p2", "Glasc Mixologist", "battlefieldA");

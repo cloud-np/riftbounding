@@ -23,6 +23,22 @@ export const REWIND_REQUEST_TTL_MS = 30_000;
  * game while every entry can still live in its own (chunked) storage key.
  */
 export const MAX_REWIND_ENTRIES = 4096;
+/**
+ * Strict rooms keep much heavier snapshots (`Room.rules` carries the chain, prompts, effects and
+ * per-turn records), so their history uses a smaller bound. 256 meaningful actions still covers
+ * a long practice game while keeping the in-memory/DO timeline bounded (sandbox keeps 4096).
+ */
+export const MAX_STRICT_REWIND_ENTRIES = 256;
+
+/** Strict rewind is allowed in solo lab and Practice-vs-Bot rooms, never human-vs-human. */
+export function rewindAllowedForRoom(
+  room: Pick<Room, "rulesMode" | "roomMode" | "players">,
+  mode?: string,
+): boolean {
+  if (room.rulesMode !== "strict") return true;
+  if (mode === "solo_lab" || room.roomMode === "solo_lab") return true;
+  return room.players.some((player) => player.isBot === true && !player.leftAt);
+}
 
 /** Fresh timeline for a new game. */
 export function createInitialTimeline(): EngineTimeline {
@@ -49,13 +65,16 @@ export function recordHistory(
   meaningful: boolean,
   now: number,
   timeline: EngineTimeline,
+  action?: Record<string, unknown>,
+  maxEntries = MAX_REWIND_ENTRIES,
+  recordIncidental = false,
 ): EngineTimeline {
   // Branching discards entries after the cursor for *every* successful action; only meaningful
-  // actions become rewind targets (protocol v5 `c9`), so incidental actions do not need a
-  // snapshot. This keeps the persisted timeline small while preserving rewind semantics: the
-  // `before` snapshot of the next meaningful action already contains all incidental changes.
+  // actions become rewind targets (protocol v5 `c9`). Strict bot/solo rooms additionally keep
+  // incidental actions so a repro can replay them; sandbox keeps its original meaningful-only
+  // history.
   const entries = timeline.entries.slice(0, timeline.cursor);
-  if (!meaningful) {
+  if (!meaningful && !recordIncidental) {
     return { ...timeline, entries, cursor: entries.length, forward: undefined };
   }
   const highestSeq = entries.reduce(
@@ -67,13 +86,14 @@ export function recordHistory(
     actionType,
     actorId,
     before: deepClone(previous),
+    ...(action ? { action: deepClone(action) } : {}),
     meaningful,
     at: now,
     seq: nextSeq,
   };
   entries.push(entry);
-  if (entries.length > MAX_REWIND_ENTRIES) {
-    entries.splice(0, entries.length - MAX_REWIND_ENTRIES);
+  if (entries.length > maxEntries) {
+    entries.splice(0, entries.length - maxEntries);
   }
   return {
     ...timeline,
@@ -261,7 +281,10 @@ export function rewindLastAction(
   const opponents = timeline.entries
     .slice(targetIndex + 1, timeline.cursor)
     .filter((entry) => entry.meaningful && entry.actorId !== actorId);
-  if (opponents.length > 0 && room.roomMode !== "solo_lab") {
+  // Sandbox keeps its original confirmation rule; strict practice/solo rewinds are immediate.
+  const practiceRewind =
+    room.rulesMode === "strict" ? rewindAllowedForRoom(room) : room.roomMode === "solo_lab";
+  if (opponents.length > 0 && !practiceRewind) {
     const approverIds = room.players
       .filter((player) => player.id !== actorId && !!player.board && !player.leftAt)
       .map((player) => player.id);
@@ -308,6 +331,14 @@ function performRewind(
   target.forwardablePlayerIds = [actorId];
   target.forwardAvailableUntil = now + FORWARD_WINDOW_MS;
   target.rewindConfirmation = undefined;
+  // Strict-only UI marker; sandbox rooms keep their original rewind snapshot byte-for-byte.
+  if (target.rulesMode === "strict") target.rewindStep = index + 1;
+  // Practice-vs-Bot: hold the bot until the human submits the next action. A live rewind targets
+  // the human's last meaningful action, so the restored point is always a human decision. (A
+  // repro import at an arbitrary step does not set this flag; the bot may act there.)
+  if (target.players.some((player) => player.isBot === true && !player.leftAt)) {
+    target.botPause = true;
+  }
   const forwardState = deepClone(room);
   forwardState.rewindConfirmation = undefined;
   const nextTimeline: EngineTimeline = {

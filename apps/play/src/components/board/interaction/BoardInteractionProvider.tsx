@@ -85,6 +85,7 @@ import { isStrictRoom, promptForClient, promptInstruction, promptSourceAnchor, p
 import {
   cachedStrictDragLegality,
   strictDropAllowed,
+  strictDropTargetCard,
   type StrictDragLegality,
 } from "../strict/strict-drop-legality";
 import type {
@@ -341,6 +342,8 @@ export function BoardInteractionProvider({
   const pointerRef = useRef({ x: 0, y: 0 });
   const dragSessionRef = useRef<DragSession | null>(null);
   const strictDragLegalityRef = useRef<StrictDragLegality | null>(null);
+  /** Last card under the pointer during this drag (resolved once per dragover). */
+  const dragHoverCardRef = useRef<CardInstance | null>(null);
   const dragOriginRef = useRef(createDragOriginSession());
   const dragTargetElementRef = useRef<HTMLElement | null>(null);
   const dragCardTargetElementRef = useRef<HTMLElement | null>(null);
@@ -1883,6 +1886,7 @@ export function BoardInteractionProvider({
       };
       // Strict rooms: one legality snapshot per drag source. Hover never calls the engine.
       strictDragLegalityRef.current = null;
+      dragHoverCardRef.current = null;
       const payload = input.payload as { zone?: string; cardId?: string };
       if (strictActive && input.card && payload.cardId && payload.zone) {
         const actorId = input.owner === "self" ? viewerId : (opponent?.id ?? viewerId);
@@ -1932,6 +1936,7 @@ export function BoardInteractionProvider({
     }
     dragSessionRef.current = null;
     strictDragLegalityRef.current = null;
+    dragHoverCardRef.current = null;
     setDragSession(null);
     setDrag({
       active: false,
@@ -2085,6 +2090,11 @@ export function BoardInteractionProvider({
       asHiddenOverride = false,
     ): GameActionIntent | null => {
       const payload = session.payload as { zone?: Zone; cardId?: string };
+      const asHidden =
+        asHiddenOverride ||
+        (armedAction.kind === "play_hidden" && session.card
+          ? armedAction.cardId === session.card.id
+          : false);
       const cardIds =
         strictActive &&
         session.kind === "boardCard" &&
@@ -2092,6 +2102,15 @@ export function BoardInteractionProvider({
         strictSelectedUnitIds.has(payload.cardId)
           ? [...strictSelectedUnitIds]
           : undefined;
+      // Move-out recommendation: only deliberate targeting (a card in the cached legal target
+      // set) carries `targetCardId`. A plain zone drop — e.g. a unit dragged battlefield → Base
+      // that happens to land over a base card — must not smuggle the hovered card into the
+      // gesture. Sandbox keeps the old equip/target behaviour.
+      const hoverCard = dragHoverCardRef.current ?? cardUnderPointer(clientX, clientY);
+      const targetCard = strictDropTargetCard(hoverCard, strictDragLegalityRef.current, {
+        strict: strictActive,
+        hide: asHidden,
+      });
       return buildDropIntent({
         source: { kind: session.kind, payload: session.payload, card: session.card },
         targetZone: zone as Parameters<typeof buildDropIntent>[0]["targetZone"],
@@ -2100,12 +2119,8 @@ export function BoardInteractionProvider({
         actorPlayerId: owner === "self" ? viewerId : (opponent?.id ?? viewerId),
         toIndex: toIndex ?? undefined,
         shiftKey,
-        asHidden:
-          asHiddenOverride ||
-          (armedAction.kind === "play_hidden" && session.card
-            ? armedAction.cardId === session.card.id
-            : false),
-        targetCard: cardUnderPointer(clientX, clientY),
+        asHidden,
+        targetCard,
         ...(cardIds ? { cardIds } : {}),
         includeTarget: strictActive,
       });
@@ -2165,6 +2180,7 @@ export function BoardInteractionProvider({
             : null);
         if (legality && payload.cardId && payload.zone) strictDragLegalityRef.current = legality;
         hoverCard = cardUnderPointer(event.clientX, event.clientY);
+        dragHoverCardRef.current = hoverCard;
         legal =
           !!legality &&
           strictDropAllowed(legality, {
@@ -2302,6 +2318,7 @@ export function BoardInteractionProvider({
         const related = event.relatedTarget;
         if (related instanceof Node && current.contains(related)) return;
         clearDropTarget();
+        dragHoverCardRef.current = null;
         setDrag((previous) =>
           previous.overZone === zone && previous.overOwner === owner
             ? { ...previous, overZone: null, overOwner: null, toIndex: null }
@@ -2393,17 +2410,17 @@ export function BoardInteractionProvider({
 
   const handlePilePress = useCallback(
     (slot: PileSlot, owner: "self" | "opponent", event: React.MouseEvent) => {
-      if (owner !== "self" || !interactive) return;
-      const board = viewer?.board;
-      if (!board) return;
+      const pileBoard = owner === "self" ? viewer?.board : opponent?.board;
+      if (!pileBoard) return;
+      // Decks are private: only their controller may draw from them.
       if (slot === "mainDeck") {
-        if (board.deck.length === 0) return;
+        if (owner !== "self" || !interactive || pileBoard.deck.length === 0) return;
         playBoardSound("card_draw");
         sendIntent({ type: "draw_cards", count: 1, to: "hand" } as GameActionIntent);
         return;
       }
       if (slot === "runeDeck") {
-        if (board.runeDeck.length === 0) return;
+        if (owner !== "self" || !interactive || pileBoard.runeDeck.length === 0) return;
         playBoardSound("card_draw");
         sendIntent({
           type: "draw_rune",
@@ -2411,13 +2428,10 @@ export function BoardInteractionProvider({
         } as GameActionIntent);
         return;
       }
-      if (slot === "trash") {
-        viewPile("trash", owner);
-        return;
-      }
-      viewPile("banished", owner);
+      // Trash and banished are public zones (R108/R109): either seat's pile can be inspected.
+      viewPile(slot, owner);
     },
-    [viewer, interactive, sendIntent, viewPile],
+    [viewer, opponent, interactive, sendIntent, viewPile],
   );
 
   const handlePileContextMenu = useCallback(
@@ -3610,6 +3624,10 @@ export function BoardInteractionProvider({
         slot={pileViewer?.slot ?? "trash"}
         owner={pileViewer?.owner ?? "self"}
         cards={pileCards}
+        canModify={
+          interactive &&
+          (pileViewer?.owner === "self" || (mode !== "multiplayer" && !!dispatchAs))
+        }
         onPlay={(card) => {
           if (!pileViewer) return;
           playCard(pileViewer.slot, card, pileViewer.owner);

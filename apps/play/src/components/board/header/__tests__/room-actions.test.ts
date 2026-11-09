@@ -9,6 +9,7 @@ import {
   nextGameDescriptionKey,
   nextGameLabelKey,
   roomActionVisibility,
+  strictReproAvailable,
 } from "../room-actions";
 
 function room(overrides: Partial<Room> = {}): Room {
@@ -55,6 +56,29 @@ describe("strict in-progress room actions", () => {
         }),
       ),
     ).toEqual({ strictInProgress: false, showNext: true, showRewind: true });
+  });
+
+  it("shows rewind/repro in strict Practice-vs-Bot and solo_lab rooms only", () => {
+    const strictRules = { rulesMode: "strict" as const, rules: {} as Room["rules"] };
+    const bot = room({
+      ...strictRules,
+      players: [
+        { id: "me", seat: 0, name: "Atlas", joinedAt: 1 },
+        { id: "bot", seat: 1, name: "Practice Bot", joinedAt: 1, isBot: true },
+      ],
+    });
+    expect(roomActionVisibility(bot)).toEqual({
+      strictInProgress: true,
+      showNext: false,
+      showRewind: true,
+    });
+    expect(strictReproAvailable(bot)).toBe(true);
+    const solo = room({ ...strictRules, roomMode: "solo_lab" });
+    expect(roomActionVisibility(solo).showRewind).toBe(true);
+    expect(strictReproAvailable(solo)).toBe(true);
+    const human = room({ ...strictRules, roomMode: "multiplayer" });
+    expect(roomActionVisibility(human).showRewind).toBe(false);
+    expect(strictReproAvailable(human)).toBe(false);
   });
 });
 

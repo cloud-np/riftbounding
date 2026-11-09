@@ -151,6 +151,7 @@ export function strictTargetOptions(
       for (const spec of specs) {
         if (!spec.targeted) continue;
         for (const option of spec.options) {
+          if (option.disabled) continue;
           for (const id of [option.id, option.objectId, option.cardId, option.zone]) {
             if (typeof id === "string" && id.length > 0) targetIds.add(id);
           }
@@ -165,7 +166,8 @@ export function strictTargetOptions(
 }
 
 /** `whoMayAct`, or null outside a strict in-game room. */
-export function strictWhoMayAct(room: Room | null | undefined): WhoMayAct | null {  if (!isStrictInGame(room)) return null;
+export function strictWhoMayAct(room: Room | null | undefined): WhoMayAct | null {
+  if (!isStrictInGame(room)) return null;
   try {
     return whoMayAct(room);
   } catch {
