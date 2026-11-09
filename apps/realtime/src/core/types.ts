@@ -1,6 +1,6 @@
 /** Injected dependencies for the plain-TS room cores (unit-testable without workerd). */
 
-import type { GameVariant, MatchFormat, PlayMode, RoomMode } from "@rift/protocol";
+import type { GameVariant, MatchFormat, PlayMode, RoomMode, RulesMode } from "@rift/protocol";
 import type { GuestIdentity } from "../auth";
 
 export interface CoreClock {
@@ -50,6 +50,8 @@ export interface MatchRoomSeed {
   playMode: PlayMode;
   deckRulesMode: "standard" | "unrestricted";
   matchFormat: MatchFormat;
+  /** Strict-rules toggle (R2-int, `set_lobby_rules_mode`). Absent = sandbox. */
+  rulesMode?: RulesMode;
   players: MatchSeatSeed[];
   /** Quick-match rooms start the game immediately instead of waiting in the lobby. */
   autoStart?: boolean;

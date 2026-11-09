@@ -509,6 +509,8 @@ export interface RoomSessionDoc {
   teamIdByPlayerId?: Record<string, string>;
   playMode?: PlayMode;
   deckRulesMode?: DeckRulesMode;
+  /** Strict-rules lobby toggle (R2-int). Absent = sandbox. */
+  rulesMode?: import("./rules-state").RulesMode;
   matchFormat?: MatchFormat;
   setupOrderVersion?: number;
   singlePlayerTurnOrder?: "play_first" | "play_second";

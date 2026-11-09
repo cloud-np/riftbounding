@@ -268,6 +268,21 @@ describe("parseRealtimeMessage", () => {
     expect("authReason" in (invalidReason ?? {})).toBe(false);
   });
 
+  it("[R474] keeps a strict rejection's rule and detail on error frames (R2-int, §5)", () => {
+    const frame = {
+      type: "error",
+      gameInstanceId: id,
+      code: "not_your_priority",
+      message: "not_your_priority: rule 312",
+      rule: "312",
+      detail: "p2 has priority",
+      mutationClass: "reject_invalid",
+    };
+    expect(parse(frame)).toEqual(frame);
+    expect(parse({ ...frame, rule: 312 })).toBeNull();
+    expect(parse({ ...frame, detail: { text: "x" } })).toBeNull();
+  });
+
   it("validates spectator roster, rewinds and reports", () => {
     expect(
       parse({

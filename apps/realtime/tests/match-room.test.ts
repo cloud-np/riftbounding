@@ -1059,9 +1059,8 @@ describe("MatchRoomCore", () => {
     const finishPatch = transport.latest("conn-bob", "authoritative_patch_commit") as
       { patch?: { operations?: Array<Record<string, unknown>> } } | undefined;
     const roomFieldOps =
-      finishPatch?.patch?.operations?.filter(
-        (operation) => operation.op === "set_room_fields",
-      ) ?? [];
+      finishPatch?.patch?.operations?.filter((operation) => operation.op === "set_room_fields") ??
+      [];
     const finishedFields = Object.assign(
       {},
       ...roomFieldOps.map((operation) => operation.fields as Record<string, unknown>),
@@ -1193,5 +1192,160 @@ describe("MatchRoomCore", () => {
     );
     expect(next.status).toBe(409);
     expect(next.body.error).toBe("game_result_required");
+  });
+});
+
+/* ------------------------------------------------------------------ strict rooms (R2-int) */
+
+async function shell(core: MatchRoomCore, connectionId: string, action: Record<string, unknown>) {
+  await core.handleMessage(connectionId, {
+    type: "room_shell_action",
+    gameInstanceId: "ABC123",
+    action,
+    clientActionId: `shell-${Math.random().toString(36).slice(2, 10)}`,
+  });
+}
+
+/** Lobby → strict toggle → setup → in_game, through the real engine. */
+async function strictMatch() {
+  const ctx = await setup();
+  await shell(ctx.core, "conn-alice", { type: "set_lobby_rules_mode", mode: "strict" });
+  await startAndJoin(ctx.core, ctx.transport);
+  await driveSetup(ctx.core, ctx.transport);
+  expect(ctx.core.room.rulesMode).toBe("strict");
+  expect(ctx.core.room.rules).toBeTruthy();
+  return ctx;
+}
+
+function latestError(transport: FakeTransport, connectionId: string) {
+  return transport.latest(connectionId, "error") as Record<string, unknown> | undefined;
+}
+
+describe("MatchRoomCore strict rooms (R2-int)", () => {
+  it("lets only the host toggle set_lobby_rules_mode in the lobby and mirrors it on the shell", async () => {
+    const { core, transport } = await setup();
+    await shell(core, "conn-bob", { type: "set_lobby_rules_mode", mode: "strict" });
+    expect(latestError(transport, "conn-bob")?.code).toBe("room_access_denied");
+    expect(core.room.rulesMode).toBeUndefined();
+
+    await shell(core, "conn-alice", { type: "set_lobby_rules_mode", mode: "chaos" });
+    expect(latestError(transport, "conn-alice")?.code).toBe("invalid_rules_mode");
+
+    await shell(core, "conn-alice", { type: "set_lobby_rules_mode", mode: "strict" });
+    expect(transport.latest("conn-alice", "room_shell_action_ack")?.actionType).toBe(
+      "set_lobby_rules_mode",
+    );
+    const sync = transport.latest("conn-bob", "room_shell_sync");
+    expect((sync?.sessionDoc as { rulesMode?: string }).rulesMode).toBe("strict");
+    expect(core.room.rulesMode).toBe("strict");
+
+    await shell(core, "conn-alice", { type: "set_lobby_rules_mode", mode: "sandbox" });
+    expect(core.room.rulesMode).toBeUndefined();
+    expect(
+      (transport.latest("conn-bob", "room_shell_sync")?.sessionDoc as { rulesMode?: string })
+        .rulesMode,
+    ).toBeUndefined();
+  });
+
+  it("routes rules_* intents to the engine and starts @rift/rules once in_game", async () => {
+    const { core, transport } = await strictMatch();
+    expect(core.room.rules?.turn.player).toBe("alice");
+    const sequence = core.sequence;
+    const id = await action(core, "conn-alice", "rules_end_turn");
+    const patch = transport.latest("conn-alice", "authoritative_patch_commit");
+    expect(patch?.clientActionId).toBe(id);
+    expect((patch?.action as { type: string }).type).toBe("rules_end_turn");
+    expect(core.sequence).toBe(sequence + 1);
+    expect(core.room.rules?.turn.player).toBe("bob");
+  });
+
+  it("[R312][R410] returns a rejection's reason code and rule to the sender only", async () => {
+    const { core, transport } = await strictMatch();
+    const bobErrors = transport.messagesFor("conn-bob", "error").length;
+    const aliceErrors = transport.messagesFor("conn-alice", "error").length;
+    const id = await action(core, "conn-bob", "rules_end_turn");
+    const error = latestError(transport, "conn-bob");
+    expect(transport.messagesFor("conn-bob", "error").length).toBe(bobErrors + 1);
+    expect(transport.messagesFor("conn-alice", "error").length).toBe(aliceErrors);
+    expect(error).toMatchObject({ clientActionId: id, mutationClass: "reject_invalid" });
+    expect(typeof error?.code).toBe("string");
+    expect(typeof error?.rule).toBe("string");
+    expect(String(error?.message)).toContain(`rule ${String(error?.rule)}`);
+    // The frame passes the client parser with the extra fields.
+    expect(parseRealtimeMessage(JSON.stringify(error))).toMatchObject({ rule: error?.rule });
+  });
+
+  it("rejects rewind in a strict multiplayer room", async () => {
+    const { core, transport } = await strictMatch();
+    await action(core, "conn-alice", "rewind_last_action");
+    expect(latestError(transport, "conn-alice")?.code).toBe("strict_mode_action");
+  });
+
+  it("[R650][R651.1] rules_concede ends the game for the conceding player's opponent", async () => {
+    const { core } = await strictMatch();
+    await action(core, "conn-bob", "rules_concede");
+    expect(core.room.gameOutcome).toMatchObject({
+      winnerPlayerIds: ["alice"],
+      reason: "concession",
+    });
+    expect(core.sessionDoc.matchTermination?.winnerPlayerId).toBe("alice");
+  });
+
+  it("[R128.4] redacts the strict rules state per viewer in snapshots and patches", async () => {
+    const { core, transport } = await strictMatch();
+    const aliceHand = core.room.players.find((player) => player.id === "alice")!.board!.hand;
+    expect(aliceHand.length).toBeGreaterThan(0);
+    const secret = aliceHand[0]!.id;
+    // Alice is mid-resolution, choosing among her own hand cards (411.2).
+    core.room = {
+      ...core.room,
+      rules: {
+        ...core.room.rules!,
+        prompt: {
+          id: "prompt_secret",
+          kind: "choose-card",
+          playerId: "alice",
+          options: aliceHand.map((card) => ({ id: card.id, cardId: card.id, label: card.name })),
+          data: { reason: "effects.resume", continuation: { env: { vars: { looked: [secret] } } } },
+        },
+      },
+    };
+    for (const [connectionId, playerId] of [
+      ["conn-alice", "alice"],
+      ["conn-bob", "bob"],
+    ] as const) {
+      await core.handleMessage(connectionId, {
+        type: "resume_game",
+        gameInstanceId: "ABC123",
+        playerId,
+        authToken: `${playerId}-token`,
+        clientSequence: 0,
+      });
+    }
+    const bobRoom = transport.latest("conn-bob", "authoritative_snapshot")?.snapshot as Room;
+    expect(bobRoom.rules?.prompt).toEqual({
+      id: "prompt_secret",
+      kind: "choose-card",
+      playerId: "alice",
+      data: { reason: "effects.resume" },
+    });
+    expect(JSON.stringify(bobRoom.rules)).not.toContain(secret);
+    const aliceRoom = transport.latest("conn-alice", "authoritative_snapshot")?.snapshot as Room;
+    expect(aliceRoom.rules?.prompt?.options?.[0]?.cardId).toBe(secret);
+
+    // The prompt closes in the next authoritative change; Bob's patch never carries it.
+    await action(core, "conn-alice", "rules_end_turn");
+    for (const frame of transport.messagesFor("conn-bob", "authoritative_patch_commit")) {
+      expect(JSON.stringify(frame)).not.toContain(secret);
+    }
+  });
+
+  it("sandbox rooms reject rules_* intents and keep the sandbox flow", async () => {
+    const { core, transport } = await setup();
+    await startAndJoin(core, transport);
+    await driveSetup(core, transport);
+    await action(core, "conn-alice", "rules_end_turn");
+    expect(latestError(transport, "conn-alice")?.code).toBe("strict_mode_action");
+    expect(core.room.rules).toBeUndefined();
   });
 });

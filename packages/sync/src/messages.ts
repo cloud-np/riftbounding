@@ -742,6 +742,9 @@ export function isValidRealtimeMessage(value: unknown): value is RealtimeMessage
         hasString(value, "message") &&
         optionalWith(value, "mutationClass", isMutationClass) &&
         optionalString(value, "clientActionId") &&
+        // Strict rooms (R2-int, §5): the violated rule and optional detail of a rejection.
+        optionalString(value, "rule") &&
+        optionalString(value, "detail") &&
         (!Object.hasOwn(value, "requestId") || boundedString(value, "requestId", 160)) &&
         (!("authoritativeSequence" in value) ||
           isSafeNonNegativeInt(value.authoritativeSequence)) &&

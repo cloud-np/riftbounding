@@ -67,7 +67,15 @@ export type EngineActionResult =
       sound?: string | null;
       timeline?: EngineTimeline;
     }
-  | { ok: false; error: string; errorCode?: string };
+  | {
+      ok: false;
+      error: string;
+      errorCode?: string;
+      /** Strict rooms (§5): the rule a rejected `rules_*` intent violated. */
+      rule?: string;
+      /** Strict rooms (§5): the Verdict's optional detail. */
+      detail?: string;
+    };
 
 export interface EngineAdapter {
   kind: "real" | "fallback";
