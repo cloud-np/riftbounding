@@ -13,13 +13,17 @@
  * exactly like every other untranslated key.
  */
 
-import type { Translator } from "./translator";
+import type { MessageParams, Translator } from "./translator";
 
 /** Minimal prompt shape needed for a title (a redacted prompt shell is enough). */
 export interface PromptTitleInput {
   kind: string;
   promptKey?: string;
-  data?: { reason?: unknown } | null;
+  data?: {
+    reason?: unknown;
+    /** Interpolation values for a parameterized `promptKey` (e.g. the optional cost prompt). */
+    params?: MessageParams;
+  } | null;
 }
 
 /** §5: the sentence for a rejection code, optionally followed by its rule (`… (rule 312)`). */
@@ -43,7 +47,7 @@ export function promptReasonText(t: Translator, reason: unknown): string | null 
 export function promptTitle(t: Translator, prompt: PromptTitleInput): string {
   const key = prompt.promptKey;
   if (key) {
-    const translated = key.startsWith("rules.") ? t(key) : null;
+    const translated = key.startsWith("rules.") ? t(key, prompt.data?.params) : null;
     if (translated) return translated;
     if (!key.startsWith("rules.")) return key;
   }

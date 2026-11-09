@@ -105,8 +105,9 @@ same verdict.
 `ui.rules` in `packages/i18n/data/i18n-en.json`: `reason.<ReasonCode>` (+ `unknown`),
 `promptReason.<reason>` (dotted reasons nest: `combat.damage_assignment`), `promptKind.<kind>`,
 `prompt.<promptKey>` (every `rules.prompt.*` the engine emits, incl. `cost.<category>`) and
-`ui.<label>`. `rules-text.test.ts` derives the lists from the protocol and rules sources, so a new
-code fails until it has an English string.
+`ui.<label>`. `promptTitle` interpolates `Prompt.data.params` for parameterized keys (the optional
+cost title uses `cost` + `card`). `rules-text.test.ts` derives the lists from the protocol and
+rules sources, so a new code fails until it has an English string.
 
 ### Translations
 
@@ -164,8 +165,12 @@ sandbox rooms render and behave exactly as before; no existing class or visual c
   - use / legend / rune = `toggle_exhausted {zone, cardId, expectedExhausted:false}` (with
     `ability:"<ref>"` only after an `ambiguous_gesture` chooser);
   - end turn = `end_turn`.
-  Payment, optional costs, targets, modes and X are never chosen by the client: the engine
-  auto-pays and opens its normal prompts. Playable cards are outlined from
+  Payment, targets, modes and X are never chosen by the client: the engine auto-pays and opens
+  its normal prompts. Optional additional costs are prompted too: a bare `rules_play` from a
+  gesture with no `optionalCosts` field opens one `play.optional_cost` yes/no per affordable cost
+  (for example "Pay Accelerate [1][Order] as an additional cost to have Azir, Sovereign enter
+  ready?"), answered in `StrictPromptDialog`; No continues with the base cost only. Playable
+  cards are outlined from
   `legalIntents.playableCardIds`, drop targets use `engineCanDrop` (which dry-runs the strict
   translator) and also outline the card under the pointer, and every rejection is shown as the
   engine's translated reason + rule (+ detail) instead of failing silently.

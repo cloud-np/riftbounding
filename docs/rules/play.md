@@ -112,6 +112,11 @@ Wave R4-engine closed the play-side `[BUG]` reproductions (wire additions in
 4. Restriction layer: `restrictionFor({kind:"play"})` → `restricted`.
 5. **355.1.a** optional additional costs: `optionalCosts` ids (validated, 820.1.c.3 no duplicates);
    recorded as `choices["cost:<id>"] = true` before choices are made (820.2, 135.2.b.7).
+   When the intent **omits** the `optionalCosts` field (the board gesture), the engine instead
+   opens one `play.optional_cost` yes/no prompt per optional cost the player can afford on top
+   of the base cost (and of the costs already accepted), before payment. Yes adds the id to
+   `item.optionalCosts`/`cost:<id>`, No records `cost:<id> = false`; an explicit field
+   (including `[]`) keeps the caller's decision and never prompts.
 6. **355.3–355.13** choices from R2-effects (`choices.ts`): bound by the intent (validated against
    the offered options: `illegal_target`/355.9 or `invalid_choice`), forced (411.2 auto-bind),
    none possible (`no_legal_targets`/355.8, 403.3), “up to” with none (355.13 → `[]`), or a real
@@ -165,7 +170,14 @@ mandatory requirements, followed when possible; restrictions still win, 355.17.b
 - **Optional additional cost paid (356.4.f.1)**: `paidAdditionalCost` on the permanent / play effect
   reads a real `cost:<id>` choice (Accelerate and Deflect excluded) or
   `paid.additional.optionalCosts`; the rune/Power payment recorded by `paidCostRecord` is not a
-  decision to pay an optional cost.
+  decision to pay an optional cost. The auto-prompt records the decision (`item.optionalCosts`,
+  `cost:<id>`) before the item is finalized, so "if you paid the additional cost" effects see it
+  and rune payment alone still never does.
+- **Optional-cost prompt (355.1.a / 356.2.b.1).** `play.optional_cost` is a yes/no prompt with
+  `data.optionalCostId`, `data.label`, `data.costText` and `params` (`cost`, `card` for i18n);
+  `rules.prompt.playOptionalCostEnterReady` is used for Accelerate (805.6). The prompt is
+  cancellable by answering No; an unaffordable cost is not offered (420.2.a) and the play
+  proceeds with the base cost only.
 - **Cost conventions** for scripts (R2-effects): `Selector.targetRef: "self"` (or `"source"`) is
   "this/me" (`[E]`, "Kill this"); `Cost.additional["power:self"]: n` is n×[C] of the source's
   Domains (135.2.e.6); `Cost.additional["recycle:self"]: true` is "Recycle this". Any other
@@ -286,7 +298,9 @@ a real choice → `play.choice`/`play.cost` prompt (resumed by the play handlers
   and ability keywords (87 cards differ: Seals, Ambush units, Reckless Innovator…). Timing uses
   `printedCardKeywords`. Combat/effects consumers of `info.keywords` may want the same.
 - **Bare `rules_play`** defaults: Units/Gear to the Base, Deploy/facedown to their single valid
-  battlefield; no optional costs; canonical payment.
+  battlefield; canonical payment. A bare intent (gesture/bot) with no `optionalCosts` field now
+  asks for each affordable optional additional cost; passing `optionalCosts: []` means "decline
+  all" and keeps the old behaviour (tests, repros and explicit clients).
 - **Control proxy** (190): presence of face-up Units, minus the Contested applier while control
   is not established.
 - **legalIntents**: a card is listed when a bare play (or a play at one of its valid locations)
@@ -320,7 +334,7 @@ a real choice → `play.choice`/`play.cost` prompt (resumed by the play handlers
 ## Tests
 
 `test/rules/play/` — payment (20), process (28), activation (15), keywords (20), move (6),
-wire (4), cost-text (7), triggered (4); `test/examples/play-examples*.test.ts` (19);
+wire (4), cost-text (7), triggered (4), optional-cost prompt (7); `test/examples/play-examples*.test.ts` (19);
 `test/property/play.test.ts` (1 property, 25 runs). Official examples covered: 204.1.b, 204.3.a,
 206, 355.5.a, 355.5.b, 355.14.c, 355.17.b, 356.1.b.3, 356.2.a.1, 356.2.b.1, 356.4.f.1, 356.4.g,
 356.7, 357.2, 357.2.a, 357.3, 355.17 (×2), 358.1, 358.3 (×2), 358.3.a, 358.4 (×2), 359.3.e.10,

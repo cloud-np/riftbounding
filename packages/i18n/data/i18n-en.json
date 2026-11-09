@@ -8116,6 +8116,7 @@
     },
     "play": {
      "choice": "Make a choice for the card being played",
+     "optional_cost": "Decide whether to pay an optional additional cost",
      "cost": "Choose what pays the cost",
      "trigger": "Decide on a triggered ability"
     },
@@ -8151,6 +8152,28 @@
     "predictRecycle": "Predict: choose cards to recycle",
     "orderTriggers": "Order your triggered abilities",
     "payCost": "Pay the cost?",
+    "playOptionalCost": [
+     "Pay ",
+     [
+      "cost"
+     ],
+     " as an additional cost for ",
+     [
+      "card"
+     ],
+     "?"
+    ],
+    "playOptionalCostEnterReady": [
+     "Pay ",
+     [
+      "cost"
+     ],
+     " as an additional cost to have ",
+     [
+      "card"
+     ],
+     " enter ready?"
+    ],
     "may": "Do you want to do this?",
     "choose": "Choose",
     "chooseMode": "Choose a mode",

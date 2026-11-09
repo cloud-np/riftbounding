@@ -127,9 +127,10 @@ export function playCard(
   return s.as(playerId).apply({
     type: "rules_play",
     cardId: card.id,
+    // Explicit `[]` keeps the pre-prompt behaviour for existing card tests (355.1.a).
+    optionalCosts: options.optionalCosts ?? [],
     ...(options.choices ? { choices: options.choices as never } : {}),
     ...(options.location ? { location: options.location as never } : {}),
-    ...(options.optionalCosts ? { optionalCosts: options.optionalCosts } : {}),
   } as never);
 }
 

@@ -27,7 +27,7 @@ import { isBattlefield } from "./control";
 import { planCore, type CorePlan } from "./core";
 import { cardDomains, costSummary, resolveCost } from "./cost-model";
 import { applyPayment, paidCostRecord } from "./payment";
-import { openChoicePrompt, openCostPrompt } from "./prompting";
+import { openChoicePrompt, openCostPrompt, openOptionalCostPrompt } from "./prompting";
 import type { PlayRequest } from "./request";
 
 export interface ActivationPlan extends CorePlan {
@@ -75,7 +75,7 @@ function coreFor(
   located: LocatedCard,
   info: CardInfo | null,
   entry: ActivatedAbilityInfo,
-  request: Pick<PlayRequest, "choices" | "optionalCosts" | "plan" | "baseCost">,
+  request: Pick<PlayRequest, "choices" | "optionalCosts" | "optionalCostsDeclared" | "plan" | "baseCost">,
   itemId?: string,
 ) {
   const choice = baseFor(entry, request);
@@ -95,6 +95,7 @@ function coreFor(
       base: resolveCost(entry.costs[index] ?? {}, domains, { choices: request.choices }),
       choices: request.choices,
       optionalCosts: request.optionalCosts,
+      optionalCostsDeclared: request.optionalCostsDeclared !== false,
       ...(request.plan ? { plan: request.plan } : {}),
       ...(itemId ? { itemId } : {}),
     });
@@ -164,6 +165,9 @@ export function planPendingActivation(room: Room, host: RulesHost, item: ChainIt
     {
       choices: item.choices,
       optionalCosts: item.optionalCosts ?? [],
+      // 402/403.2 (400: abilities follow the same steps): only a request that omitted the field
+      // keeps prompting; old serialized items keep the pre-prompt behaviour.
+      optionalCostsDeclared: process.request.optionalCostsDeclared !== false,
       ...(process.request.plan ? { plan: process.request.plan } : {}),
       ...(process.request.baseCost !== undefined ? { baseCost: process.request.baseCost } : {}),
     },
@@ -271,19 +275,22 @@ export function executeActivation(
     ...(request.optionalCosts.length ? { optionalCosts: [...request.optionalCosts] } : {}),
   };
   appendChainItem(room, item, step);
-  if (plan.pendingChoice || plan.pendingCost) {
+  const optional = plan.pendingOptional[0] ?? null;
+  if (plan.pendingChoice || optional || plan.pendingCost) {
     item.process = {
       kind: "activated",
-      stage: plan.pendingChoice ? "choices" : "payment",
+      stage: plan.pendingChoice ? "choices" : optional ? "optional" : "payment",
       saved,
       request: {
         ...(request.plan ? { plan: request.plan } : {}),
         ...(request.optionalCosts.length ? { optionalCosts: [...request.optionalCosts] } : {}),
+        optionalCostsDeclared: request.optionalCostsDeclared !== false,
         ...(request.baseCost !== undefined ? { baseCost: request.baseCost } : {}),
         hold: request.hold,
       },
     };
     if (plan.pendingChoice) openChoicePrompt(room, step, item, plan.pendingChoice);
+    else if (optional) openOptionalCostPrompt(room, step, item, optional);
     else openCostPrompt(room, step, item, plan.pendingCost!);
     return { ok: true };
   }

@@ -92,6 +92,6 @@ export function playWith(s: S, player: string, name: string, extra: Record<strin
   const card = s.handCard(player, name);
   if (!card) throw new Error(`${name} not in ${player}'s hand`);
   s.as(player)
-    .apply({ type: "rules_play", cardId: card.id, ...extra } as never)
+    .apply({ type: "rules_play", cardId: card.id, optionalCosts: [], ...extra } as never)
     .expectOk();
 }

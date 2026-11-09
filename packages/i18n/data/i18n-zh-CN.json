@@ -1697,6 +1697,7 @@
    "rules.promptReason.stage_combat": "选择先进行的战斗",
    "rules.promptReason.combat.damage_assignment": "分配战斗伤害",
    "rules.promptReason.play.choice": "为正在打出的卡牌作出选择",
+   "rules.promptReason.play.optional_cost": "决定是否支付可选额外费用",
    "rules.promptReason.play.cost": "选择用于支付费用的内容",
    "rules.promptReason.play.trigger": "决定一项触发技能",
    "rules.promptReason.effects.resume": "在效果结算期间作出选择",
@@ -1725,6 +1726,28 @@
    "rules.prompt.predictRecycle": "洞察：选择要回收的卡牌",
    "rules.prompt.orderTriggers": "排列你的触发技能顺序",
    "rules.prompt.payCost": "支付费用？",
+   "rules.prompt.playOptionalCost": [
+    "支付 ",
+    [
+     "cost"
+    ],
+    " 作为",
+    [
+     "card"
+    ],
+    "的额外费用？"
+   ],
+   "rules.prompt.playOptionalCostEnterReady": [
+    "支付 ",
+    [
+     "cost"
+    ],
+    " 作为额外费用，让",
+    [
+     "card"
+    ],
+    "以准备状态进场？"
+   ],
    "rules.prompt.may": "要这样做吗？",
    "rules.prompt.choose": "选择",
    "rules.prompt.chooseMode": "选择模式",

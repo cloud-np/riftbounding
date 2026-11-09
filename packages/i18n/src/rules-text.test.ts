@@ -180,6 +180,14 @@ describe("strict-rules strings (R2-int) [R411.2]", () => {
     ).toBe("Assign combat damage");
     expect(promptTitle(en, { kind: "order" })).toBe("Choose the order");
     expect(promptTitle(en, { kind: "brand-new-kind" })).toBe("brand-new-kind");
+    // 355.1.a: the optional-cost title interpolates the prompt data (cost + card).
+    expect(
+      promptTitle(en, {
+        kind: "yes-no",
+        promptKey: "rules.prompt.playOptionalCostEnterReady",
+        data: { params: { cost: "Accelerate [1][Order]", card: "Azir, Sovereign" } },
+      }),
+    ).toBe("Pay Accelerate [1][Order] as an additional cost to have Azir, Sovereign enter ready?");
   });
 
   it("uses the localized strict-rules strings in fr / ko / zh-CN", () => {

@@ -367,6 +367,25 @@ export function costSummary(cost: ResolvedCost): { energy: number; power: number
   return { energy: cost.energy, power: totalPower(cost) };
 }
 
+/**
+ * Symbol notation for a prompt ("[1][Order]", "[A][A]"): Energy then each Power slot. Used by
+ * the 355.1.a optional-cost prompt; non-symbol costs keep the printed cost text instead.
+ */
+export function formatSymbolCost(cost: ResolvedCost): string {
+  const parts: string[] = [];
+  if (cost.energy > 0) parts.push(`[${cost.energy}]`);
+  for (const requirement of cost.power) {
+    const symbol =
+      requirement.domains === "any"
+        ? "A"
+        : requirement.domains.length === 1
+          ? requirement.domains[0]!
+          : requirement.domains.map((domain) => domain.charAt(0)).join("/");
+    for (let index = 0; index < requirement.count; index += 1) parts.push(`[${symbol}]`);
+  }
+  return parts.join("");
+}
+
 export interface CostDescription {
   rule: RuleRef;
   cost: ResolvedCost;

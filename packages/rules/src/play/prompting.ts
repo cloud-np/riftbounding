@@ -11,6 +11,7 @@ import { pushEvent } from "../types";
 import type { ChoiceSpec } from "../effects/choices";
 import { PLAY_PROMPT_REASONS } from "../prompts/play/reasons";
 import type { CostObjectChoice } from "./cost-objects";
+import type { OptionalCostOffer } from "./core";
 
 export function openChoicePrompt(room: Room, step: RulesStepContext, item: ChainItem, spec: ChoiceSpec): void {
   const rules = room.rules;
@@ -36,6 +37,46 @@ export function openChoicePrompt(room: Room, step: RulesStepContext, item: Chain
   };
   if (item.process) item.process.awaiting = spec.key;
   pushEvent(step.events, { type: "prompt", playerId: item.controller, data: { kind: spec.kind, itemId: item.id, key: spec.key } });
+}
+
+/**
+ * 355.1.a / 356.2.b.1: ask whether to pay one optional additional cost. The answer is recorded
+ * by the `play.optional_cost` handler and the process of play continues (accept → add the cost
+ * id, decline → mark `cost:<id> = false`), before payment (357).
+ */
+export function openOptionalCostPrompt(room: Room, step: RulesStepContext, item: ChainItem, offer: OptionalCostOffer): void {
+  const rules = room.rules;
+  if (!rules) return;
+  const { spec, costText } = offer;
+  const enterReady = spec.effect === "enter-ready";
+  rules.prompt = {
+    id: step.host.nextId("prompt"),
+    kind: "yes-no",
+    playerId: item.controller,
+    promptKey: enterReady ? "rules.prompt.playOptionalCostEnterReady" : "rules.prompt.playOptionalCost",
+    rule: spec.rule,
+    sourceItemId: item.id,
+    options: [
+      { id: "yes", label: "Yes" },
+      { id: "no", label: "No" },
+    ],
+    min: 1,
+    max: 1,
+    data: {
+      reason: PLAY_PROMPT_REASONS.optionalCost,
+      optionalCostId: spec.id,
+      label: spec.label ?? spec.id,
+      costText,
+      cardName: item.cardName ?? "",
+      params: { cost: costText, card: item.cardName ?? "" },
+    },
+  };
+  if (item.process) item.process.awaiting = `optional:${spec.id}`;
+  pushEvent(step.events, {
+    type: "prompt",
+    playerId: item.controller,
+    data: { kind: "yes-no", itemId: item.id, optionalCostId: spec.id },
+  });
 }
 
 export function openCostPrompt(room: Room, step: RulesStepContext, item: ChainItem, choice: CostObjectChoice): void {

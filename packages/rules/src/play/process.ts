@@ -35,7 +35,7 @@ import { playPermission, type PlayPermission } from "./permissions";
 import { bindRepeatChoices, repeatDeflectCosts, targetedChoiceKeys } from "./repeat";
 import { deflectCostsForTargets, type AdditionalCostSpec } from "./additional-costs";
 import { recordFinalizedCard } from "./keyword-helpers";
-import { openCostPrompt, openChoicePrompt } from "./prompting";
+import { openCostPrompt, openChoicePrompt, openOptionalCostPrompt } from "./prompting";
 import type { PlayRequest } from "./request";
 
 export interface CardPlayPlan extends CorePlan {
@@ -103,7 +103,7 @@ function planCoreWithRepeat(
       core = replan;
     }
   }
-  if (!core.ok || core.pendingChoice) return core;
+  if (!core.ok || core.pendingChoice || core.pendingOptional.length > 0) return core;
   const repeat = bindRepeatChoices(room, host, info, ability, {
     choices: core.choices,
     optionalCosts: input.optionalCosts,
@@ -144,7 +144,7 @@ export function planCardPlay(
   room: Room,
   playerId: string,
   cardId: string,
-  request: Pick<PlayRequest, "choices" | "optionalCosts" | "plan" | "location">,
+  request: Pick<PlayRequest, "choices" | "optionalCosts" | "optionalCostsDeclared" | "plan" | "location">,
   host: RulesHost,
   limited?: LimitedPlay,
 ): CardPlayPlanResult {
@@ -201,6 +201,7 @@ export function planCardPlay(
     permission,
     choices: request.choices,
     optionalCosts: request.optionalCosts,
+    optionalCostsDeclared: request.optionalCostsDeclared !== false,
     ...(request.plan ? { plan: request.plan } : {}),
     excludeIds: [cardId],
     ...(permission.facedownAt ? { facedownAt: permission.facedownAt } : {}),
@@ -240,6 +241,9 @@ export function planPendingCard(room: Room, host: RulesHost, item: ChainItem): C
     permission,
     choices: item.choices,
     optionalCosts: item.optionalCosts ?? [],
+    // 355.1.a: only requests that explicitly omitted `optionalCosts` keep prompting; old
+    // serialized pending items default to the pre-prompt behaviour.
+    optionalCostsDeclared: process.request.optionalCostsDeclared !== false,
     ...(process.request.plan ? { plan: process.request.plan } : {}),
     itemId: item.id,
     ...(permission.facedownAt ? { facedownAt: permission.facedownAt } : {}),
@@ -350,10 +354,11 @@ export function executeCardPlay(
   appendChainItem(room, item, step);
 
   const pending = plan.pendingChoice ?? null;
-  if (pending || plan.pendingCost) {
+  const optional = plan.pendingOptional[0] ?? null;
+  if (pending || optional || plan.pendingCost) {
     item.process = {
       kind: "card",
-      stage: pending ? "choices" : "payment",
+      stage: pending ? "choices" : optional ? "optional" : "payment",
       permission: { ...plan.permission },
       fromZone: plan.located.zone,
       fromIndex: plan.located.index,
@@ -362,10 +367,12 @@ export function executeCardPlay(
       request: {
         ...(request.plan ? { plan: request.plan } : {}),
         ...(request.optionalCosts.length ? { optionalCosts: [...request.optionalCosts] } : {}),
+        optionalCostsDeclared: request.optionalCostsDeclared !== false,
         hold: request.hold,
       },
     };
     if (pending) openChoicePrompt(room, step, item, pending);
+    else if (optional) openOptionalCostPrompt(room, step, item, optional);
     else openCostPrompt(room, step, item, plan.pendingCost!);
     return { ok: true };
   }
@@ -417,6 +424,12 @@ export function continuePendingItem(
   if (plan.pendingChoice) {
     process.stage = "choices";
     openChoicePrompt(room, step, item, plan.pendingChoice);
+    return { ok: true };
+  }
+  if (plan.pendingOptional.length > 0) {
+    // 355.1.a: one yes/no per affordable optional additional cost, before payment.
+    process.stage = "optional";
+    openOptionalCostPrompt(room, step, item, plan.pendingOptional[0]!);
     return { ok: true };
   }
   if (plan.pendingCost) {
