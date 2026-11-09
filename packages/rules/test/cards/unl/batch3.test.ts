@@ -90,7 +90,7 @@ describe("Unleashed batch 3 — draw, look and Repeat", () => {
     s.room.rules!.pools.p1!.energy += 2;
     playWith(s, "p1", "Upstage Comedy", {
       optionalCosts: ["repeat"],
-      choices: { "target:0": a.id, "target:1": b.id },
+      choices: { "target:0": a.id, "repeat:1:target:0": b.id },
     });
     resolveChain(s);
     expect(s.host.isExhausted(s.room, a.id)).toBe(false);

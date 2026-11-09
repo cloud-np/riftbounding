@@ -14,7 +14,7 @@ describe("Unleashed batch 6 — spells", () => {
     fund(s, "p1", "Square Up");
     playWith(s, "p1", "Square Up", {
       optionalCosts: ["repeat"],
-      choices: { "target:0": a.id, "target:1": b.id },
+      choices: { "target:0": a.id, "repeat:1:target:0": b.id },
     });
     resolveChain(s);
     expect(effectiveKeywordValues(s.room, a.id, s.host).assault).toBe(4);
@@ -31,14 +31,14 @@ describe("Unleashed batch 6 — spells", () => {
     expect(s.room.rules!.objects[attacker.id]?.designation).toBe("attacker");
     fund(s, "p1", "Existential Dread", "Existential Dread");
     s.as("p1")
-      .play("Existential Dread", { choices: { "target:0": attacker.id, "target:1": [] } })
+      .play("Existential Dread", { choices: { "target:0": attacker.id } })
       .expectOk();
     resolveChain(s);
     expect(s.room.rules!.objects[attacker.id]?.stunned).toBe(true);
     expect(zoneOf(s, attacker.id)).toBe("battlefieldA");
     s.as("p2").pass().expectOk();
     s.as("p1")
-      .play("Existential Dread", { choices: { "target:0": attacker.id, "target:1": [] } })
+      .play("Existential Dread", { choices: { "target:0": attacker.id } })
       .expectOk();
     resolveChain(s);
     expect(zoneOf(s, attacker.id)).toBe("hand");
@@ -49,9 +49,7 @@ describe("Unleashed batch 6 — spells", () => {
     const idle = place(s, "p2", "Treasure Hunter", "battlefieldA");
     s.as("p1").pass(); // (no showdown: the unit is simply not attacking)
     fund(s, "p1", "Existential Dread");
-    const result = s
-      .as("p1")
-      .play("Existential Dread", { choices: { "target:0": idle.id, "target:1": [] } });
+    const result = s.as("p1").play("Existential Dread", { choices: { "target:0": idle.id } });
     expect(result.lastError()).toBeTruthy();
   });
 

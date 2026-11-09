@@ -6,8 +6,8 @@
  *   418.6.b.3, 730.1)
  * - Tricksy Tentacles (UNL-054): "Move any number of enemy units with the same controller and a
  *   total Might of 8 or less to a single location." (355.11, 355.13, 421)
- * - Curtain Call (UNL-182): a four-mode spell; the [Repeat] costs are not automated (820.1.d,
- *   see the lane report).
+ * - Curtain Call (UNL-182): a four-mode spell with three separate [Repeat] costs; each paid
+ *   instance repeats the instructions and must choose an unused mode (820.1.c/d, 820.2, 355.3).
  * - Repulse (UNL-106): counter an enemy spell or ability that chooses the chosen friendly unit and
  *   no other friendly unit (355.7, 426).
  * - Mirror Image (UNL-200, errata): play a ready Reflection token; the copy instruction is missing
@@ -16,6 +16,7 @@
 import { registerCardScript } from "../registry";
 import { aUnit, custom, token } from "../dsl";
 import type { Effect } from "@rift/protocol";
+import { registerAdditionalCosts } from "../../play/additional-costs";
 
 const REFLECTION = { exhausted: false, play: true, keywords: ["Temporary"] };
 
@@ -81,22 +82,45 @@ const CURTAIN_CALL_MODES: Array<{ id: string; effect: Effect }> = [
   { id: "might", effect: { op: "temporary_might", amount: -4, target: aUnit({ zone: "battlefield" }) } },
 ];
 
+// "[Repeat] -[1] / [rune] / [1] [rune]": three separate optional additional costs, each of which
+// repeats the instructions once (820.1.c/.d). The "/" alternatives are not the parser's grammar.
+registerAdditionalCosts("Curtain Call", [
+  { id: "repeat", optional: true, cost: { energy: 1 }, rule: "820.1.c", label: "Repeat" },
+  { id: "repeat:1", optional: true, cost: { power: { any: 1 } }, rule: "820.1.c", label: "Repeat" },
+  {
+    id: "repeat:2",
+    optional: true,
+    cost: { energy: 1, power: { any: 1 } },
+    rule: "820.1.c",
+    label: "Repeat",
+  },
+]);
+
 registerCardScript({
   name: "Curtain Call",
   text: "[Repeat] -[1] / [rune] / [1] [rune] (You may pay each additional cost to repeat this spell's effect.)\n\nChoose one you haven't already chosen -\n    ᛫ Draw 1\n    ᛫ Deal 2 to a unit at a battlefield.\n    ᛫ Deal 3 to a unit at a base.\n    ᛫ Give a unit at a Battlefield -4 [might] this turn.",
-  status: "partial",
-  notes:
-    "Only the first mode choice is automated. [Repeat] needs the repeated execution to choose a different mode and the paid Repeat cost is not parsed (the dash before the costs; 820.1.c) and resolves once (820.1.d, known engine gap) — so the three repeat costs are not offered.",
+  status: "implemented",
   abilities: [
     {
       kind: "spell",
       effect: {
-        op: "choose_mode",
-        modes: CURTAIN_CALL_MODES.map((mode) => ({
-          id: mode.id,
-          label: mode.id,
-          effect: mode.effect,
-        })),
+        op: "seq",
+        effects: [
+          // 820.2 / 355.3: each execution picks a mode not chosen by an earlier execution.
+          {
+            op: "custom",
+            id: "unl:curtain-call-mode",
+            params: { modes: CURTAIN_CALL_MODES.map((mode) => mode.id) },
+          },
+          {
+            op: "choose_mode",
+            modes: CURTAIN_CALL_MODES.map((mode) => ({
+              id: mode.id,
+              label: mode.id,
+              effect: mode.effect,
+            })),
+          },
+        ],
       },
     },
   ],

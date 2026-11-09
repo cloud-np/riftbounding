@@ -71,8 +71,6 @@ registerCardScript({
   name: "Pyke, Dockside Butcher",
   text: "[Hidden] (Hide it now for [rune] to react with later for [0] .)\n[Ganking] (I can move from battlefield to battlefield.)\nYou may pay [fury] as an additional cost to play me.\nWhen you play me, if you paid the additional cost, ready me and give me +2 [Might] this turn.",
   status: "implemented",
-  notes:
-    "The 'paid the additional cost' flag is recorded by the engine (triggers/finalize.ts); it is also set when a card is merely paid with runes (see the [BUG] in docs/rules/cards/unl.md).",
   abilities: [
     {
       kind: "triggered",
@@ -93,8 +91,6 @@ registerCardScript({
   name: "Nami, Headstrong",
   text: "You may pay [Calm] as an additional cost to play me.\nWhen you play me, if you paid the additional cost, [Stun] an enemy unit. (It doesn't deal combat damage this turn.)\nWhen I hold, the next time you play a unit this turn, ready it and [Buff] it.",
   status: "implemented",
-  notes:
-    "The 'paid the additional cost' flag is recorded by the engine (triggers/finalize.ts); it is also set when a card is merely paid with runes (see the [BUG] in docs/rules/cards/unl.md).",
   abilities: [
     {
       kind: "triggered",

@@ -166,12 +166,15 @@ describe("Unleashed batch 9 — battlefields and legends", () => {
 
 describe("Unleashed batch 9 — remaining units", () => {
   it("[C:Crescent Guardian][R356.2.b.1][R369.3] paying [Chaos] as the additional cost, I enter ready", () => {
-    const s = withCards(["Crescent Guardian", "Crescent Guardian"]);
-    fund(s, "p1", "Crescent Guardian", "Crescent Guardian");
+    const s = withCards(["Crescent Guardian", "Crescent Guardian", "Downstage Dramatics"]);
+    fund(s, "p1", "Crescent Guardian", "Crescent Guardian", "Downstage Dramatics");
     s.room.rules!.pools.p1!.power = { Chaos: 4 };
     s.as("p1").play("Crescent Guardian").expectOk();
     resolveChain(s);
     expect(cardsNamed(s, "p1", "base", "Crescent Guardian")[0]!.exhausted).toBe(true);
+    // The optional [Chaos] cost exists only after a spell this turn (356.2.b.1).
+    s.as("p1").play("Downstage Dramatics").expectOk();
+    resolveChain(s);
     playWith(s, "p1", "Crescent Guardian", { optionalCosts: ["optional:0"] });
     resolveChain(s);
     expect(cardsNamed(s, "p1", "base", "Crescent Guardian").some((card) => !card.exhausted)).toBe(
