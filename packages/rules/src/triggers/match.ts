@@ -13,7 +13,8 @@
  * - `cardType`: the subject's type; `zone`: `event.zone`; `from`: `event.data.from` (zone refs such
  *   as "here" resolve against the source);
  * - `sourceObjectId: "self"`: the event's `sourceObjectId` is the ability's source;
- * - `data`: equality on `event.data[key]`;
+ * - `data`: equality on `event.data[key]` (`{ player: true }` selects the player-level `attack`/
+ *   `defend` events of 466.2.c.3, i.e. "When you attack/defend");
  * - `condition`: evaluated for the source with the event bound (383.2.a.1: an "if" right after the
  *   condition is part of the trigger condition).
  */
@@ -93,6 +94,9 @@ export function eventMatches(
   const subject = event.cardId ?? event.objectId;
   if (matcher.subject) {
     if (!subject) {
+      // 383.4.e/f: a player-level designation event ("When you attack/defend", `data.player`)
+      // has a player, not an object, as its subject; "When I attack" matches the unit's event.
+      if (event.data?.player === true) return false;
       if (matcher.subject.targetRef === "self") {
         if (!presentAtEvent(room, host, event, scope.sourceObjectId)) return false;
       } else {

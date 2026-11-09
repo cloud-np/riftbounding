@@ -28,10 +28,13 @@ export const WHEN_YOU_HOLD_HERE: Trigger = { kind: "event", event: { type: "hold
 /** "When you conquer here" (battlefield, 383.4.c.2.b). */
 export const WHEN_YOU_CONQUER_HERE: Trigger = { kind: "event", event: { type: "conquer", zone: HERE, player: "self" } };
 
-/** "When you defend here" (battlefield, 383.4.f). */
+/**
+ * "When you defend here" (battlefield, 383.4.f): the player gains the Defender designation
+ * (R2-combat's player-level `defend` event, 466.2.c.3).
+ */
 export const WHEN_YOU_DEFEND_HERE: Trigger = {
   kind: "event",
-  event: { type: "defend_declared", zone: HERE, player: "self" },
+  event: { type: "defend", zone: HERE, player: "self", data: { player: true } },
 };
 
 /** "When a unit moves from here" (battlefield). */

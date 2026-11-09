@@ -1,7 +1,7 @@
 /**
  * Trigger detection — rules 382–386 (triggered abilities), 383.2.c (evaluated after the event;
  * leave-the-board triggers of the object itself, 383.2.c.3), 383.3.e / 386 (once each turn),
- * 383.4.e/f (attack/defend triggers once per combat), 390–393 (delayed triggers), 727.1.c.1
+ * 383.4.e/f (attack/defend triggers on R2-combat's designation events), 390–393 (delayed triggers), 727.1.c.1
  * (dependent keywords must be active), 816/817/823/831 (keyword triggers).
  *
  * Detection turns new `GameEvent`s into `PendingTrigger`s in `rules.triggers`; `index.ts`
@@ -17,7 +17,7 @@ import { consumeOnceCostEffects } from "../layers/costs";
 import { enterReadyApplies } from "../layers/entry";
 import { makeEnv } from "../effects/env";
 import { evaluateCondition } from "../effects/evaluate";
-import { battlefieldNameAt, battlefieldObjectId, locate } from "../effects/objects";
+import { battlefieldNameAt, battlefieldObjectId } from "../effects/objects";
 import { takeNewEvents } from "./cursor";
 import { KEYWORD_TRIGGERS } from "./keywords";
 import { phaseTriggerMatches, triggerMatchesEvent, type TriggerScope } from "./match";
@@ -196,47 +196,6 @@ function queueTrigger(
   });
 }
 
-/** 383.4.e/f: synthesize `attack`/`defend` events the first time a unit gains a designation. */
-function designationEvents(room: Room, step: RulesStepContext): GameEvent[] {
-  const rules = room.rules;
-  const combat = rules?.combat;
-  if (!rules || !combat) return [];
-  const history = (rules.history.effects ??= {});
-  const marks = (history.marks ??= {});
-  const key = `$designated:${combat.battlefield}`;
-  const seen = new Set(Array.isArray(marks[key]) ? (marks[key] as string[]) : []);
-  const out: GameEvent[] = [];
-  for (const card of step.host.unitsAt(room, combat.battlefield)) {
-    const designation = rules.objects[card.id]?.designation;
-    if (!designation || seen.has(card.id)) continue;
-    seen.add(card.id);
-    const located = locate(room, step.host, card.id);
-    const event: GameEvent = {
-      type: designation === "attacker" ? "attack" : "defend",
-      cardId: card.id,
-      playerId: located?.playerId ?? (designation === "attacker" ? combat.attacker : combat.defender),
-      zone: combat.battlefield,
-    };
-    if (designation === "attacker") (rules.objects[card.id] ??= {}).attackedThisTurn = true;
-    pushEvent(step.events, event);
-    out.push(event);
-  }
-  const playerKey = `$designatedPlayers:${combat.battlefield}`;
-  if (marks[playerKey] !== true && out.length > 0) {
-    marks[playerKey] = true;
-    for (const [type, playerId] of [
-      ["attack_declared", combat.attacker],
-      ["defend_declared", combat.defender],
-    ] as const) {
-      const event: GameEvent = { type, playerId, zone: combat.battlefield };
-      pushEvent(step.events, event);
-      out.push(event);
-    }
-  }
-  marks[key] = [...seen];
-  return out;
-}
-
 /**
  * 709 / 370.1.a (EX[137]): a unit "becomes Mighty" when its Might changes from below 5 to 5 or
  * more while on the board. The last observed Might per unit is kept in the per-turn marks; a
@@ -311,7 +270,9 @@ export function collectTriggers(room: Room, step: RulesStepContext): number {
   const rules = room.rules;
   if (!rules || room.gameOutcome) return 0;
   const events = takeNewEvents(step);
-  const synthesized = [...designationEvents(room, step), ...mightyEvents(room, step)];
+  // 383.4.e/f: Attack/Defend triggers key off R2-combat's `attack`/`defend` events (466.2.c.3,
+  // 323.2.a; emitted once per unit/player per combat). Only "becomes Mighty" is synthesized here.
+  const synthesized = mightyEvents(room, step);
   takeNewEvents(step); // the synthesized events are processed below, not again later
   const all = [...events, ...synthesized].filter((event) => event.type !== "trigger");
   if (all.length === 0) return 0;
