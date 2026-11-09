@@ -1,13 +1,17 @@
 "use client";
 
 import type { CardInstance, Room, RoomPlayer } from "@rift/protocol";
+import { createTranslator } from "@rift/i18n";
 
 import type { CardEventHandler, CardSide } from "../card/types";
 import { GameCard } from "../card/GameCard";
 import { groupAttachedCards } from "../card/attachments";
 import { useBoardInteractionOptional } from "../interaction/context";
+import { hideDropZones } from "../strict/strict-interaction";
 import { TokenPanel } from "../tokens/TokenPanel";
 import { cardImageUrl } from "@/lib/assets";
+
+const t = createTranslator("en");
 
 export interface BattlefieldInfo {
   zone: "battlefieldA" | "battlefieldB" | "battlefieldC" | "battlefieldToken";
@@ -182,13 +186,19 @@ function BattlefieldPanel({
   const opponentDrop = interaction?.getDropZoneHandlers(info.zone, "opponent");
   const ownGroups = groupAttachedCards(ownCards);
   const opponentGroups = groupAttachedCards(opponentCards);
+  const draggedCardId = interaction?.drag.active ? interaction.drag.sourceCardId : null;
+  const hideLocations = hideDropZones(
+    interaction?.strictView?.legal.hideable,
+    draggedCardId,
+  );
+  const showHidePocket = hideLocations.has(info.zone);
   return (
     <section
       data-might-border="true"
       data-board-drag-active="false"
       data-ghost-zone="false"
       data-buff-action-armed="false"
-      data-play-hidden-selecting={interaction?.armedAction.kind === "play_hidden" ? "true" : "false"}
+      data-play-hidden-selecting={showHidePocket ? "true" : "false"}
       className="gb-board-layer min-h-0 h-full relative rounded-[0.12rem] border border-dashed border-[rgba(129,163,236,0.34)] bg-transparent p-[0.16rem] after:content-[''] after:absolute after:inset-[0.12rem] after:pointer-events-none after:opacity-[0.58] after:gb-ornament-field"
     >
       <span aria-hidden="true" className="battlefield-border-line" />
@@ -196,6 +206,24 @@ function BattlefieldPanel({
       <span className="absolute right-[0.34rem] top-[0.34rem] text-[#d8e5ff] text-[0.5rem] opacity-[0.78] p-0 z-6">
         {total}
       </span>
+      {showHidePocket && interaction ? (
+        <div
+          {...interaction.getHideDropZoneHandlers(info.zone, "self")}
+          data-testid="strict-hide-pocket"
+          data-hide-zone={info.zone}
+          title={
+            t("rules.ui.hideDropHint") ??
+            "Drop here to hide; or hold Alt while dropping on the battlefield"
+          }
+          className="pointer-events-auto absolute bottom-[0.36rem] left-1/2 z-40 flex -translate-x-1/2 items-center gap-[0.24rem] whitespace-nowrap rounded-[0.22rem] border border-dashed border-[rgba(177,149,244,0.72)] bg-[rgba(31,24,51,0.94)] px-[0.38rem] py-[0.22rem] text-[0.56rem] font-bold uppercase tracking-[0.04em] text-[#e6dcff] shadow-[0_6px_16px_rgba(3,8,18,0.48)]"
+        >
+          <span aria-hidden="true">◈</span>
+          <span>{t("rules.ui.hidePocket") ?? "Hide (facedown)"}</span>
+          <span className="text-[0.5rem] font-semibold normal-case text-[#c2b2ea]">
+            {t("rules.ui.hideCost") ?? "Cost: [A]"}
+          </span>
+        </div>
+      ) : null}
       <button
         type="button"
         aria-label={`Add a card to ${info.name}`}
@@ -221,7 +249,7 @@ function BattlefieldPanel({
               owner="opponent"
               profile="board"
               exhausted={card.exhausted}
-              faceDown={card.hidden}
+              faceDown={card.hidden || card.isPlaceholder}
               labels={card.customLabels}
               attachedCards={opponentGroups.byHostId.get(card.id)}
               selected={selectedCardIds?.has(card.id)}
@@ -248,7 +276,7 @@ function BattlefieldPanel({
               owner="self"
               profile="board"
               exhausted={card.exhausted}
-              faceDown={card.hidden}
+              faceDown={card.hidden || card.isPlaceholder}
               labels={card.customLabels}
               attachedCards={ownGroups.byHostId.get(card.id)}
               selected={selectedCardIds?.has(card.id)}

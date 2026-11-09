@@ -926,31 +926,6 @@ export function BoardInteractionProvider({
   const strictHandMenu = useCallback(
     (event: CardEvent) => {
       if (!strictView) return;
-      if (event.zone === "hand") {
-        const hideable = (strictView.legal.hideable ?? []).some(
-          (entry) => entry.cardId === event.card.id,
-        );
-        if (!hideable) return;
-        openMenu(
-          event.clientX ?? pointerRef.current.x,
-          event.clientY ?? pointerRef.current.y,
-          [
-            {
-              items: [
-                {
-                  id: "hide",
-                  label: t("rules.ui.hide") ?? "Hide",
-                  onSelect: () =>
-                    setArmedAction({ kind: "play_hidden", cardId: event.card.id, from: "hand" }),
-                },
-              ],
-            },
-          ],
-          event.card.name,
-        );
-        playBoardSound("ui_click");
-        return;
-      }
       openMenu(
         event.clientX ?? pointerRef.current.x,
         event.clientY ?? pointerRef.current.y,
@@ -969,7 +944,7 @@ export function BoardInteractionProvider({
       );
       playBoardSound("ui_click");
     },
-    [strictView, openMenu, setArmedAction, triggerPing],
+    [strictView, openMenu, triggerPing],
   );
 
   const openCardMenu = useCallback(
@@ -1997,6 +1972,7 @@ export function BoardInteractionProvider({
       clientY: number,
       shiftKey: boolean,
       toIndex: number | null,
+      asHiddenOverride = false,
     ): GameActionIntent | null => {
       const payload = session.payload as { zone?: Zone; cardId?: string };
       const cardIds =
@@ -2015,9 +1991,10 @@ export function BoardInteractionProvider({
         toIndex: toIndex ?? undefined,
         shiftKey,
         asHidden:
-          armedAction.kind === "play_hidden" && session.card
+          asHiddenOverride ||
+          (armedAction.kind === "play_hidden" && session.card
             ? armedAction.cardId === session.card.id
-            : false,
+            : false),
         targetCard: cardUnderPointer(clientX, clientY),
         ...(cardIds ? { cardIds } : {}),
         includeTarget: strictActive,
@@ -2071,6 +2048,7 @@ export function BoardInteractionProvider({
         event.clientY,
         event.shiftKey,
         toIndex,
+        strictActive && event.altKey,
       );
       const legal = intent
         ? engineCanDrop(state, owner === "self" ? viewerId : (opponent?.id ?? viewerId), intent)
@@ -2126,6 +2104,8 @@ export function BoardInteractionProvider({
       shiftKey: boolean;
       clientX: number;
       clientY: number;
+      /** 811.1.b: force the hide gesture (drop pocket or Alt-drop). */
+      asHidden?: boolean;
     }) => {
       const session = dragSessionRef.current;
       if (!session) return;
@@ -2137,6 +2117,7 @@ export function BoardInteractionProvider({
         input.clientY,
         input.shiftKey,
         input.toIndex,
+        input.asHidden === true,
       );
       if (intent) {
         const actorId = input.owner === "self" ? viewerId : (opponent?.id ?? viewerId);
@@ -2194,6 +2175,7 @@ export function BoardInteractionProvider({
           shiftKey: event.shiftKey,
           clientX: event.clientX,
           clientY: event.clientY,
+          asHidden: strictActive && event.altKey,
         });
       },
       onContextMenu: (event) => {
@@ -2206,7 +2188,59 @@ export function BoardInteractionProvider({
         ? { "data-strict-prompt-option": "true" as const }
         : {}),
     }),
-    [updateDragOver, clearDropTarget, completeDrop, strictPromptOptionIds],
+    [updateDragOver, clearDropTarget, completeDrop, strictPromptOptionIds, strictActive],
+  );
+
+  /** 811.1.b: the dedicated "Hide (facedown)" pocket on a legal battlefield. */
+  const getHideDropZoneHandlers = useCallback(
+    (zone: string, owner: "self" | "opponent"): DropZoneHandlers => ({
+      onDragEnter: (event) => {
+        if (!dragSessionRef.current) return;
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      onDragOver: (event) => {
+        if (!dragSessionRef.current) return;
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+        setDrag((previous) => ({
+          ...previous,
+          overZone: zone,
+          overOwner: owner,
+          toIndex: null,
+        }));
+      },
+      onDragLeave: (event) => {
+        const current = event.currentTarget;
+        const related = event.relatedTarget;
+        if (related instanceof Node && current.contains(related)) return;
+        setDrag((previous) =>
+          previous.overZone === zone && previous.overOwner === owner
+            ? { ...previous, overZone: null, overOwner: null }
+            : previous,
+        );
+      },
+      onDrop: (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        completeDrop({
+          zone,
+          owner,
+          toIndex: null,
+          shiftKey: event.shiftKey,
+          clientX: event.clientX,
+          clientY: event.clientY,
+          asHidden: true,
+        });
+      },
+      onContextMenu: (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      "data-zone-owner": owner,
+    }),
+    [completeDrop],
   );
 
   const handlePilePress = useCallback(
@@ -3081,6 +3115,7 @@ export function BoardInteractionProvider({
     pingedCardId,
     pingCard,
     getDropZoneHandlers,
+    getHideDropZoneHandlers,
     handleZoneContextMenu,
     handlePilePress,
     handlePileContextMenu,

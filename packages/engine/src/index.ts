@@ -45,6 +45,7 @@ export {
 } from "./rules/rewind";
 export {
   strictExplainIllegal,
+  strictHiddenCards,
   strictLegalIntents,
   strictTurnState,
   strictWhoMayAct,
