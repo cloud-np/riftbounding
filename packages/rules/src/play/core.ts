@@ -19,6 +19,7 @@ import { cardKeywords } from "./keywords";
 import { planPayment, type PaymentPlan } from "./payment";
 import type { PlayPermission } from "./permissions";
 import { determineTotalCost, validateOptionalCosts } from "./total-cost";
+import { showOffChoiceSpecs, showOffSpecs } from "./show-off";
 
 export interface CoreInput {
   playerId: string;
@@ -67,7 +68,13 @@ export function planCore(room: Room, host: RulesHost, input: CoreInput): CoreRes
     ...(input.itemId ? { itemId: input.itemId } : {}),
     ...(input.facedownAt ? { facedownAt: input.facedownAt } : {}),
   };
-  const provider = input.specProvider ?? (input.ability ? effectsSpecProvider(room, host, input.ability, context) : undefined);
+  const effects = input.specProvider ?? (input.ability ? effectsSpecProvider(room, host, input.ability, context) : undefined);
+  // 832.1.c.2: the Show Off decision is made while the card is finalized (before its targets).
+  const showOff = input.kind === "card" && showOffSpecs(input.info?.name).length > 0
+    ? (): ChoiceSpec[] => showOffChoiceSpecs(room, host, input.playerId, input.sourceId)
+    : undefined;
+  const provider: ChoiceSpecProvider | undefined =
+    showOff && effects ? (choices) => [...showOff(), ...effects(choices)] : (showOff ?? effects);
   const bound = bindChoices(room, host, provider, context, input.choices);
   if (!bound.ok) return bound;
   // 356.2: every additional cost that applies (Deflect needs the bound targets).

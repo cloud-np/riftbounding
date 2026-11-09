@@ -14,7 +14,7 @@ import type { CardInstance, PaymentPlanWire, Room, Selector } from "@rift/protoc
 import type { RulesHost } from "../host";
 import type { RulesFailure } from "../types";
 import { fail } from "../types";
-import { effectiveKeywords } from "../layers";
+import { keywordsWithPrinted } from "../layers";
 import type { ObjectCostRequirement, ResolvedCost } from "./cost-model";
 
 export type CostCategory = "exhaust" | "kill" | "discard";
@@ -96,7 +96,7 @@ export function matchesCostSelector(
   }
   if (selector.name && (info?.name ?? card.name) !== selector.name) return false;
   if (selector.keyword) {
-    const keywords = effectiveKeywords(room, card.id, info?.keywords ?? card.keywords ?? []);
+    const keywords = keywordsWithPrinted(room, card.id, info?.keywords ?? card.keywords ?? [], host);
     if (!keywords.some((keyword) => keyword.toLowerCase() === selector.keyword!.toLowerCase())) return false;
   }
   if (selector.tag && !(card.subtypes ?? []).some((tag) => tag.toLowerCase() === selector.tag!.toLowerCase())) {

@@ -17,6 +17,134 @@ Owner: **R2-effects** — Effect DSL interpreter 412–448, triggers 382–398, 
   in `combatMight`. The RULES-QUESTION(479.4.c) below is resolved.
 - Candidate spells/abilities exclude Pending chain items (355.9.a.2).
 
+## R3-engine additions (how a card script uses them)
+
+Wave R3 closes engine gaps for the card agents. Everything is additive: no existing op,
+selector field, condition id, cost convention or prompt contract changed meaning. Tests live in
+`packages/rules/test/rules/effects/*.test.ts` (one file per capability, titles cite `[R…]`,
+`[EX:…]`, `[C:…]`).
+
+### Group targeting (355.11) and "any number of" (355.13)
+
+`Selector.group` is a requirement the chosen objects meet **as a whole**; `Selector.anyNumber`
+means zero or more (no upper count). On play, `requiredChoices` puts the group on
+`spec.data.group` and `validateChoices` rejects a group that does not qualify
+(`illegal_target` / 355.11.a); a `play.choice` prompt answer that breaks it is rejected and the
+prompt stays pending. On resolution, when the remaining legal targets no longer qualify, the
+controller picks a **maximal** legal subset of the original targets (355.11.b / 355.11.b.1 —
+the official examples accept subsets of different sizes, so "maximum … for that subset" is read
+as maximal by inclusion). One maximal subset is kept automatically; otherwise an
+`effects.resume` `choose-target` prompt (`rule: "355.11.b"`, `data.ask.subsets`) is opened and
+any other answer is rejected. Dropped targets are no longer affected by later references to
+the same key (`group_subset` event).
+
+```ts
+// Fox-Fire: "Kill any number of units at a battlefield with total Might 4 or less."
+{ op: "kill", target: { chosen: true, cardType: "unit", zone: "battlefield", anyNumber: true,
+  group: { sameLocation: true, totalMight: { op: "lte", value: 4 } } } }
+// Bellows Breath: "Deal 1 to up to three units at the same location."
+{ op: "deal", amount: 1, target: { chosen: true, cardType: "unit", maxCount: 3, group: { sameLocation: true } } }
+// Tricksy Tentacles: "… enemy units with the same controller and a total Might of 8 or less …"
+group: { sameController: true, totalMight: { op: "lte", value: 8 } }
+```
+
+"Each of up to N units" was already `maxCount: N` (Singularity).
+
+### Damage split (355.14, 418, 715.3) — `deal_split`
+
+`{ op: "deal_split", amount, target, source? }`. Each chosen unit is a Target (355.14.a), chosen
+on play up to the damage available then, Bonus Damage included (355.14.c / 715.3;
+`target.maxCount` can only lower that cap). At least one target unless `target.anyNumber` or
+`target.maxCount` is set. An amount that depends on another choice (Alpha Strike's "its Might")
+is asked after that choice is bound. On resolution: illegal targets are dropped (359.3.e) and a
+group is re-checked (355.11.b); with more targets than damage the controller keeps exactly one
+target per point (`choose-target`, `rule: "355.14.h"`, 355.14.h.1); the division is asked with a
+`damage-assignment` `effects.resume` prompt (`data.ask = { answer: "split", total, targets,
+minEach: 1 }`), answered with `{ assignments: [{ targetId, amount }] }` (every target ≥ 1, sum =
+total; otherwise `invalid_choice` and the prompt stays pending). One target takes everything and
+N targets for N damage take 1 each without a prompt. The damage is dealt from `source`
+(418.6.b.3) or the effect's source.
+
+```ts
+// Scorched Earth: "Deal 5 damage split among units at a single battlefield."
+{ op: "deal_split", amount: 5, target: { chosen: true, cardType: "unit", zone: "battlefield", group: { sameLocation: true } } }
+// Volibear, Furious: "When I attack, deal 5 damage split among any number of enemy units here."
+{ op: "deal_split", amount: 5, target: { chosen: true, cardType: "unit", controller: "opponent",
+  zone: { kind: "chosen", ref: "here" }, anyNumber: true } }
+// Alpha Strike: use explicit refs so the amount can read the chosen unit.
+{ op: "deal_split", amount: { kind: "might", selector: { targetRef: "friend" } },
+  source: { chosen: true, targetRef: "friend", cardType: "unit", controller: "self" },
+  target: { chosen: true, targetRef: "foes", cardType: "unit", controller: "opponent", zone: "battlefield" } }
+```
+
+UI note (R2-int lane): apps/play renders `damage-assignment` only for
+`combat.damage_assignment`; a split prompt carries its total/targets on `prompt.data.ask`.
+
+### Replacement decisions (371.2, 372, 373, 374)
+
+Optional replacements are written with a top-level `may` (or an optional cost) as `replace`;
+nothing else changes for mandatory ones:
+
+```ts
+// "… you may recall it instead."
+{ kind: "replacement", matches, replace: { op: "may", effect: { op: "recall", target: EVENT_SUBJECT } } }
+// Unlicensed Armory (delayed, via the `replace` op): "… you may pay [Fury] to heal it, exhaust it,
+// and recall it instead." — an unpayable cost is not offered (the unit just dies).
+{ op: "replace", matches: { type: "kill", subject: { targetRef: "target:0" } },
+  replace: { op: "cost_then", optional: true, cost: { power: { Fury: 1 } }, effect: { op: "seq", effects: [heal, exhaust, recall] } } }
+```
+
+When one optional or several replacements apply to a `kill`, `deal_damage` or `recall`, the
+event is **held** (370.1.c — it has not happened) and a player decides: several → the
+controller of the affected object picks the one applied first (`choose-mode`, `rule: "372"`;
+372.1/372.2 for players/uncontrolled battlefields; `$none` is offered when they control only
+optional ones); an optional one → its controller answers `yes-no` (`rule: "371.2.a"`). A
+declined optional replacement has not been applied (371.2.b: its "once each turn" use is kept)
+and the original action then happens. Inside a resolution the decision is an `effects.resume`
+prompt asked right after the instruction that caused the event; outside one (cleanup deaths,
+combat damage) it is an `effects.replacement` prompt (`data.queue`, simultaneous events one at a
+time, 373) and the waiting cleanup runs afterwards (321). Events: `replacement_held`, then
+`replaced` or the original action's event.
+
+Limits (documented, not guessed): other actions and actions caused while a replacement is being
+applied use the deterministic fallback (mandatory ones in timestamp order, optional ones not
+applied); 373's "which simultaneous event first" uses the instruction/cleanup order (the cleanup
+does not expose its batch of simultaneous deaths); a held event settles after the rest of its
+instruction, so "kill two units" with one held death is not simultaneous (370.1.a.2).
+
+### Show Off (832)
+
+Declare it with the `showOff(selector, count?)` builder (`src/cards/dsl.ts`; a passive custom
+modifier `show-off`). The play layer turns it into the play-time choice `"showOff"`
+(`choose-card`, 0..count, `rule: "832.1.c"`, not a Target) among the controller's hand cards
+(the card being played excluded; revealing emits `reveal`) and friendly board objects
+(`show_off`) matching `selector` (zone and controller are filled in). When the item finalizes the
+shown-off object's Might and costs are noted (832.1.d.1 — later changes are ignored) on
+`choices.$showOff` and, for permanents, on `objects[id].showOff`. Linked text reads them with the
+condition `SHOWED_OFF` (`custom("showed-off", { count? })`) and the amount
+`{ kind: "shown-off", property: "might" | "energy-cost" | "power-cost" | "count" }`.
+
+```ts
+// Primordial Roar: "[Show Off] a unit. If you showed off a unit, deal damage equal to that unit's Might to a unit."
+abilities: [showOff({ cardType: "unit" }),
+  { kind: "spell", effect: { op: "if", condition: SHOWED_OFF,
+    then: { op: "deal", amount: { kind: "shown-off", property: "might" }, target: aUnit() } } }]
+// Gutter Guardian: "[Show Off] a card with [Hidden]. When you play me, if you showed off, [Add] [Rune]."
+abilities: [showOff({ keyword: "Hidden" }),
+  { kind: "triggered", trigger: WHEN_PLAYED, condition: SHOWED_OFF, effect: { op: "add", resources: { power: { any: 1 } } } }]
+```
+
+### Flow (829)
+
+Nothing to script: the printed `[Flow][cost]` is parsed from the card text. A spell in its owner's
+trash may be played for its Flow cost (829.1.c.1, an alternate cost replacing the base cost;
+`legalIntents` lists it; its own timing still applies, 829.1.b.2). Once finalized it is banished
+instead of leaving the chain to the trash (829.1.b.1, `ChainItem.leaveChainTo = "banished"`; also
+when countered). `grant_keyword` "Flow" may target a spell in a trash ("give a spell in your trash
+[Flow] equal to its cost this turn"): its Flow cost is its printed cost. Cost modifiers such as
+Stargazer use the usual `cost` modifiers. Limit: several printed Flow costs (829.1.c.3) use the
+first.
+
 ## Files
 
 | Path | Contents |
@@ -222,6 +350,14 @@ Echoes ("the first time … each turn" = once-per-turn trigger), Undercover Agen
 Dr. Mundo Expert, Ultrasoft Poro, Clanging Sentry, Ruin Runner, Master Yi Honed, Gustwalker,
 Noxus Hopeful. Partial — Hidden Blade and Zhonya's Hourglass ([Hidden]), Frigid Touch and Feral
 Strength ([Repeat]).
+
+### Granted keywords in legality (810.3, 144.4.c.1)
+
+Legality and play code read keywords through the host-aware `keywordsWithPrinted` / `cardKeywords`
+(`cardTimingVerdict` takes an optional host), so a keyword granted by a passive or continuous
+effect counts: a unit with `{ kind: "passive", modifier: { kind: "keyword", keyword: "Ganking",
+target: { cardType: "unit", controller: "self" } } }` in play may make a battlefield-to-battlefield
+Standard Move.
 
 ## Open RULES-QUESTIONs
 

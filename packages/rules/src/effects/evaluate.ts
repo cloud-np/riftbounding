@@ -26,6 +26,7 @@ import type {
   PlayerSelector,
   Room,
   Selector,
+  ShowOffInfo,
   ZoneSelector,
 } from "@rift/protocol";
 import type { RulesHost } from "../host";
@@ -487,8 +488,26 @@ export function evaluateAmount(ctx: EvalContext, amount: Amount | undefined): nu
       if (values.some((value) => value === null)) return null;
       return Math.max(...(values as number[]));
     }
+    case "shown-off": {
+      // 832.1.d.1: the information noted when the object was shown off.
+      const info = shownOffInfo(ctx);
+      if (!info) return null;
+      const property = amount.property ?? "might";
+      if (property === "count") return info.ids.length;
+      const value = property === "might" ? info.might : property === "energy-cost" ? info.energy : info.power;
+      return typeof value === "number" ? value : null;
+    }
   }
   return null;
+}
+
+/** 832.1.c.1: what the resolving spell / this permanent showed off as it was played. */
+export function shownOffInfo(ctx: EvalContext): ShowOffInfo | null {
+  const fromChoices = ctx.env.choices.$showOff as ShowOffInfo | undefined;
+  if (fromChoices && Array.isArray(fromChoices.ids)) return fromChoices;
+  const source = ctx.env.sourceObjectId;
+  const fromObject = source ? ctx.room.rules?.objects[source]?.showOff : undefined;
+  return fromObject && Array.isArray(fromObject.ids) ? fromObject : null;
 }
 
 /* ---------------------------------------------------------------- conditions */
@@ -648,6 +667,16 @@ registerCustomCondition("first-played-this-turn", (ctx) => {
   const player = event?.playerId ?? ctx.env.controller;
   const played = ctx.room.rules?.history.effects?.played?.[player] ?? [];
   return !!event?.cardId && played[0] === event.cardId;
+});
+
+/**
+ * 832.1.c.1: "if you showed off" — the item / permanent showed off (at least `count` objects,
+ * default 1, for "[Show Off] five …" sets).
+ */
+registerCustomCondition("showed-off", (ctx, params) => {
+  const info = shownOffInfo(ctx);
+  const count = typeof params.count === "number" ? params.count : 1;
+  return !!info && info.ids.length >= count;
 });
 
 /** A per-turn marker set with the `mark` op equals / contains `value`. */

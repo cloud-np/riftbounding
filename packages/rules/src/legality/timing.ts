@@ -19,7 +19,7 @@ import type { Room, Verdict } from "@rift/protocol";
 import type { CardInfo, RulesHost } from "../host";
 import type { RulesFailure } from "../types";
 import { fail } from "../types";
-import { effectiveKeywords } from "../layers";
+import { effectiveKeywords, keywordsWithPrinted } from "../layers";
 import { isTurnPlayer, turnState } from "../state/turn";
 import { printedCardKeywords } from "../play/keywords";
 
@@ -85,7 +85,7 @@ export function baseActionVerdict(room: Room, playerId: string): Verdict {
 }
 
 /** Can this player play this card right now (timing only — costs/targets are R2)? */
-export function cardTimingVerdict(room: Room, playerId: string, info: CardInfo | null): Verdict {
+export function cardTimingVerdict(room: Room, playerId: string, info: CardInfo | null, host: RulesHost | null = null): Verdict {
   const base = baseActionVerdict(room, playerId);
   if (!base.ok) return base;
   if (!info) return fail("unknown_card", CONTRACT_1);
@@ -93,7 +93,11 @@ export function cardTimingVerdict(room: Room, playerId: string, info: CardInfo |
   // 135.2.d.3/135.2.e.7: printed card-level keywords come from the rules text (reminder text and
   // ability-level `[Reaction][>]` are not card permissions), see `play/keywords.ts`.
   const printed = printedCardKeywords(info);
-  const keywords = info.objectId ? effectiveKeywords(room, info.objectId, printed) : printed;
+  const keywords = info.objectId
+    ? host
+      ? keywordsWithPrinted(room, info.objectId, printed, host)
+      : effectiveKeywords(room, info.objectId, printed)
+    : printed;
   return keywordTimingVerdict(room, playerId, keywords);
 }
 

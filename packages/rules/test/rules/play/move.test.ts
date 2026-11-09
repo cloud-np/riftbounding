@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { RulesIntent } from "@rift/protocol";
-import { clearCardScripts, explainIllegal, primitives } from "../../../src";
+import { clearCardScripts, explainIllegal, primitives, registerCardScript } from "../../../src";
 import * as fake from "./fake-effects";
 import { bareScenario, boardOf, place, stepOf, toHand } from "./helpers";
 import type { RulesScenario } from "../../scenarios/dsl";
@@ -44,6 +44,19 @@ describe("Standard Move [R144][R447–R455]", () => {
     const fromBase = place(s, "p1", "Treasure Hunter", "base");
     s.as("p1").apply({ type: "rules_move", unitIds: [ganker.id, fromBase.id], to: "battlefieldB" }).expectOk();
     expect(boardOf(s, "p1").battlefieldB).toHaveLength(2);
+  });
+
+  it("[R810.3][R144.4.c.1] a Unit granted Ganking by a passive may move battlefield to battlefield", () => {
+    registerCardScript({
+      name: "Stellacorn Herder",
+      text: "test: Friendly units have [Ganking].",
+      status: "implemented",
+      abilities: [{ kind: "passive", modifier: { kind: "keyword", keyword: "Ganking", target: { cardType: "unit", controller: "self" } } }],
+    });
+    const s = bareScenario();
+    const ganker = place(s, "p1", "Stellacorn Herder", "battlefieldA");
+    expect(applyAndExplain(s, "p1", { type: "rules_move", unitIds: [ganker.id], to: "battlefieldB" })).toBeNull();
+    expect(boardOf(s, "p1").battlefieldB.map((card) => card.id)).toEqual([ganker.id]);
   });
 
   it("[R107.3.e][R144] a facedown Unit card cannot make a Standard Move", () => {

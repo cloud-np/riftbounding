@@ -9,6 +9,8 @@ export const EFFECTS_PROMPT_REASONS = {
   resume: "effects.resume",
   /** 383.3.d / 383.3.d.1: a player orders their simultaneous triggered abilities. */
   orderTriggers: "effects.order_triggers",
+  /** R3 — 371.2 / 372 / 373: apply an optional replacement, or order several replacements. */
+  replacement: "effects.replacement",
 } as const;
 
 export type EffectsPromptReason = (typeof EFFECTS_PROMPT_REASONS)[keyof typeof EFFECTS_PROMPT_REASONS];

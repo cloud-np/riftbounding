@@ -7,11 +7,23 @@ export function pushSpellToTrash(room: Room, item: ChainItem, step: RulesStepCon
   const snapshot = item.cardSnapshot;
   if (!snapshot) return;
   const owner = snapshot.ownerPlayerId ?? item.controller;
-  step.host.putCard(room, owner, "trash", snapshot);
+  const zone = spellLeavesChainTo(item);
+  step.host.putCard(room, owner, zone, snapshot);
+  if (zone === "banished") {
+    pushEvent(step.events, { type: "banish", cardId: snapshot.id, playerId: owner, cardName: snapshot.name, data: { rule: "829.1.b.1" } });
+  }
   pushEvent(step.events, {
     type: "spell_resolved",
     cardId: snapshot.id,
     playerId: item.controller,
     cardName: snapshot.name,
   });
+}
+
+/**
+ * Where a card leaving the chain goes (340/348.2: its owner's trash). R3 — 829.1.b.1: a spell
+ * played for its Flow cost is banished instead (a delayed replacement effect).
+ */
+export function spellLeavesChainTo(item: ChainItem): "trash" | "banished" {
+  return item.leaveChainTo === "banished" ? "banished" : "trash";
 }

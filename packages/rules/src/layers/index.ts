@@ -225,7 +225,22 @@ export function keywordsAtDepth(room: Room, objectId: string, source: KeywordSou
   const rawPrinted = Array.isArray(source)
     ? [...source]
     : ((source as RulesHost).cardInfo(room, objectId)?.keywords ?? []);
-  const printed = withoutSuppressed(room, objectId, rawPrinted, host);
+  return keywordsWithPrinted(room, objectId, rawPrinted, host, depth);
+}
+
+/**
+ * 475–479 with an explicit printed list **and** the host, so keyword passives and continuous
+ * effects apply (810.3: a granted Ganking is Ganking). The array form of `effectiveKeywords`
+ * has no host and only sees printed keywords plus object grants.
+ */
+export function keywordsWithPrinted(
+  room: Room,
+  objectId: string,
+  rawPrinted: readonly string[],
+  host: RulesHost | null,
+  depth = 0,
+): string[] {
+  const printed = withoutSuppressed(room, objectId, [...rawPrinted], host);
   const { added, removed } = keywordEntries(room, objectId, printed, host, depth);
   const out: string[] = [];
   const seen = new Set<string>();

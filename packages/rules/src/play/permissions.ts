@@ -15,6 +15,7 @@
 import type { CardInstance, Cost, Room, RuleRef } from "@rift/protocol";
 import type { LocatedCard, RulesHost } from "../host";
 import { isBattlefield } from "./control";
+import { flowPermission } from "./flow";
 
 export interface PlayPermission {
   /** Stable id recorded on the chain item. */
@@ -74,6 +75,9 @@ export function playPermission(room: Room, host: RulesHost, playerId: string, lo
   }
   const facedown = facedownPermission(room, host, playerId, located);
   if (facedown) return facedown;
+  // R3 — 829.1.b: a Flow spell may be played from its owner's trash for its Flow cost.
+  const flow = flowPermission(room, host, playerId, located);
+  if (flow) return flow;
   for (const provider of PROVIDERS) {
     const granted = provider(room, host, {
       playerId,

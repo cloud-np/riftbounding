@@ -6,7 +6,9 @@
  * handler binds it, clears the prompt it answered, and continues the process of play: the next
  * prompt, or payment + finalization; a play that can no longer be completed is undone (358.5).
  */
-import type { ChainItem, Prompt, PromptAnswer, PromptOption } from "@rift/protocol";
+import type { ChainItem, Prompt, PromptAnswer, PromptOption, SelectorGroupRequirement } from "@rift/protocol";
+import { makeEnv } from "../../effects/env";
+import { groupSatisfied } from "../../effects/group";
 import { fail } from "../../types";
 import { chosenPromptOption, registerPromptHandler } from "../handlers";
 import { PLAY_PROMPT_REASONS } from "./reasons";
@@ -55,6 +57,20 @@ registerPromptHandler(PLAY_PROMPT_REASONS.choice, ({ room, prompt, actorId, answ
   const chosen = selected(prompt, answer);
   const max = typeof prompt.data?.choiceMax === "number" ? prompt.data.choiceMax : (prompt.max ?? 1);
   const values = chosen.map(optionValue);
+  // 355.11.a: a group requirement is met by the chosen objects as a whole; a group that does not
+  // qualify is rejected and the prompt stays pending (411.2).
+  const spec = (prompt.data?.spec ?? {}) as { group?: SelectorGroupRequirement };
+  if (spec.group) {
+    const env = makeEnv({
+      controller: item.controller,
+      ...(item.sourceObjectId ? { sourceObjectId: item.sourceObjectId } : {}),
+      itemId: item.id,
+      choices: { ...item.choices },
+    });
+    if (!groupSatisfied({ room, host: step.host, env }, spec.group, values.map(String))) {
+      return fail("illegal_target", "355.11.a", key);
+    }
+  }
   item.choices[key] =
     max <= 1 ? (values[0] ?? null) : values.every((value) => typeof value === "number") ? (values as number[]) : values.map(String);
   // Clear the answered prompt before continuing so the next one (if any) can open.

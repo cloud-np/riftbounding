@@ -40,9 +40,9 @@ const EXPLAIN_VERDICTS: Record<RulesIntent["type"], ExplainFn> = {
       : fail("unknown_intent", "contract:§5"),
   rules_pass: (room, playerId) => passVerdict(room, playerId),
   rules_end_turn: (room, playerId) => endTurnVerdict(room, playerId),
-  rules_choose: (room, playerId, intent) =>
+  rules_choose: (room, playerId, intent, host) =>
     intent.type === "rules_choose"
-      ? chooseVerdict(room, playerId, intent.promptId, intent.answer)
+      ? chooseVerdict(room, playerId, intent.promptId, intent.answer, host)
       : fail("unknown_intent", "contract:§5"),
   rules_manual_done: (room, playerId) => manualDoneVerdict(room, playerId),
   rules_concede: (room, playerId, _intent, host) => concedeVerdict(room, playerId, host),

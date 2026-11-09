@@ -14,6 +14,7 @@ import { cardKeywords, hasKeyword } from "../play/keywords";
 import { costSummary } from "../play/cost-model";
 import { facedownCardsOf, hideLocations, planHide } from "../play/hidden";
 import { EXTRA_PLAY_ZONES, hasPlayPermissionProviders } from "../play/permissions";
+import { flowCosts } from "../play/flow";
 
 function candidateCards(room: Room, playerId: string, host: RulesHost): string[] {
   const ids: string[] = [];
@@ -26,6 +27,11 @@ function candidateCards(room: Room, playerId: string, host: RulesHost): string[]
   if (hasPlayPermissionProviders()) {
     for (const zone of EXTRA_PLAY_ZONES) {
       for (const card of host.zoneCards(room, playerId, zone)) ids.push(card.id);
+    }
+  } else {
+    // 829.1.b: Flow spells in the player's own trash.
+    for (const card of host.zoneCards(room, playerId, "trash")) {
+      if (flowCosts(room, host, card.id).length > 0) ids.push(card.id);
     }
   }
   return ids;
