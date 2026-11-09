@@ -4,7 +4,7 @@
  *
  * 811.6 / 383.4.a: the play event (`card_played`, emitted for spells, units and gear when they
  * finalize) carries `data.playedFromFacedown`, so the trigger is detected like Evelynn,
- * Entrancing's. "Once each turn" is the trigger limit (383.1.b); the discard (423.1.a: the player
+ * Entrancing's. "Once each turn" is the trigger limit (383.3.e.1); the discard (423.1.a: the player
  * chooses) only happens when the card was played on another player's turn.
  */
 import { registerCardScript } from "../sdk";

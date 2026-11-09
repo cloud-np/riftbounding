@@ -17,7 +17,7 @@ function hiddenSetup(card: string): { s: S; hiddenId: string } {
   return { s, hiddenId: hidden.id };
 }
 
-describe("Evelynn, Agony's Embrace [R811.6][R383.1.b]", () => {
+describe("Evelynn, Agony's Embrace [R811.6][R383.3.e.1]", () => {
   it("[R811.6][R383.4.a][C:Evelynn, Agony's Embrace] playing a card from face down on another player's turn: draw 1, then discard 1", () => {
     const { s, hiddenId } = hiddenSetup("Sprite Call");
     s.as("p1").endTurn().expectOk();
@@ -58,7 +58,7 @@ describe("Evelynn, Agony's Embrace [R811.6][R383.1.b]", () => {
     expect(boardOf(s, "p1").hand.length).toBe(handBefore + 1);
   });
 
-  it("[R383.1.b][C:Evelynn, Agony's Embrace] a card played from hand does not trigger it", () => {
+  it("[R811.6][C:Evelynn, Agony's Embrace] a card played from hand does not trigger it", () => {
     const s = duel({ p1: ["Evelynn, Agony's Embrace", "Sprite Call"] });
     s.placeFromDeck("p1", "Evelynn, Agony's Embrace", "legend");
     toHand(s, "p1", "Sprite Call");
@@ -67,5 +67,30 @@ describe("Evelynn, Agony's Embrace [R811.6][R383.1.b]", () => {
     s.as("p1").play("Sprite Call").expectOk();
     drive(s);
     expect(boardOf(s, "p1").hand.length).toBe(handBefore - 1);
+  });
+
+  it("[R383.3.e.1][C:Evelynn, Agony's Embrace] \"Once each turn\": a second play from face down the same turn draws nothing", () => {
+    // Bandle Tree (battlefieldB) holds two facedown cards (107.3.b.1).
+    const s = duel({ p1: ["Evelynn, Agony's Embrace", "Sprite Call", "Sprite Call"] });
+    s.placeFromDeck("p1", "Evelynn, Agony's Embrace", "legend");
+    placeUnit(s, "p1", "Caitlyn, Patrolling", "battlefieldB", "holder");
+    setControl(s.room, "battlefieldB", "p1");
+    s.room.rules!.pools.p1 = { energy: 0, power: { any: 2 } };
+    const ids: string[] = [];
+    for (let index = 0; index < 2; index += 1) {
+      const card = toHand(s, "p1", "Sprite Call");
+      ids.push(card.id);
+      s.as("p1").apply({ type: "rules_play", cardId: card.id, hide: true, location: "battlefieldB" }).expectOk();
+    }
+    s.as("p1").endTurn().expectOk();
+    drive(s);
+    s.as("p2").endTurn().expectOk();
+    drive(s);
+    const handBefore = boardOf(s, "p1").hand.length;
+    for (const id of ids) {
+      s.as("p1").apply({ type: "rules_play", cardId: id }).expectOk();
+      drive(s);
+    }
+    expect(boardOf(s, "p1").hand.length).toBe(handBefore + 1);
   });
 });
