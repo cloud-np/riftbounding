@@ -8,11 +8,17 @@
 import { describe, expect, it } from "vitest";
 
 import type { Room } from "@rift/protocol";
-import { legalIntents } from "@rift/rules";
+import { getCardScript, legalIntents, registerCardScript } from "@rift/rules";
 
 import { createEngineRulesHost } from "../src/strict/host";
 import { translateGesture } from "../src/strict/gestures";
-import { deepCopy, strictGestureRoom, type StrictGestureFixture } from "./strict-gestures-fixture";
+import {
+  apply,
+  deepCopy,
+  strictGestureRoom,
+  takeFromDeck,
+  type StrictGestureFixture,
+} from "./strict-gestures-fixture";
 
 function setup(): { fixture: StrictGestureFixture; host: ReturnType<typeof createEngineRulesHost> } {
   const fixture = strictGestureRoom();
@@ -258,7 +264,7 @@ describe("translateGesture: use/tap/activate gestures [R376–381][R403.3]", () 
         type: "rules_activate",
         objectId: fixture.ids.blade,
         ability: "equip:0",
-        targets: [fixture.ids.keeperBase],
+        choices: { "target:0": [fixture.ids.keeperBase] },
       },
     });
   });
@@ -361,6 +367,390 @@ describe("translateGesture: §6.4 manual window [contract:§6.4]", () => {
     expect(translateGesture(room, "p2", { type: "draw_cards", count: 1 }, host)).toMatchObject({
       kind: "reject",
       code: "strict_mode_action",
+    });
+  });
+});
+
+describe("translateGesture: targeting gestures [R355.7][R355.9][R355.4]", () => {
+  it("a spell dropped on a legal target binds the first target spec", () => {
+    const { fixture, host } = setup();
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        { type: "move_card", from: "hand", to: "base", cardId: fixture.ids.rebuke, targetCardId: fixture.ids.hunter },
+        host,
+      ),
+    ).toEqual({
+      kind: "intent",
+      intent: {
+        type: "rules_play",
+        cardId: fixture.ids.rebuke,
+        choices: { "target:0": [fixture.ids.hunter] },
+      },
+    });
+  });
+
+  it("a spell dragged to play (chain_add) carries the dropped target", () => {
+    const { fixture, host } = setup();
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        { type: "chain_add", from: "hand", cardId: fixture.ids.rebuke, targetCardId: fixture.ids.enemyHunter },
+        host,
+      ),
+    ).toEqual({
+      kind: "intent",
+      intent: {
+        type: "rules_play",
+        cardId: fixture.ids.rebuke,
+        choices: { "target:0": [fixture.ids.enemyHunter] },
+      },
+    });
+  });
+
+  it("a permanent dropped on a card at a battlefield plays to that battlefield", () => {
+    const { fixture, host } = setup();
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        { type: "move_card", from: "hand", to: "battlefieldA", cardId: fixture.ids.keeperHand, targetCardId: fixture.ids.hunter },
+        host,
+      ),
+    ).toEqual({
+      kind: "intent",
+      intent: { type: "rules_play", cardId: fixture.ids.keeperHand, location: "battlefieldA" },
+    });
+  });
+
+  it("a permanent dropped on a card at Base is not a target", () => {
+    const { fixture, host } = setup();
+    const result = translateGesture(
+      fixture.room,
+      "p1",
+      { type: "move_card", from: "hand", to: "base", cardId: fixture.ids.keeperHand, targetCardId: fixture.ids.keeperBase },
+      host,
+    );
+    expect(result).toMatchObject({ kind: "reject", code: "illegal_target", rule: "355.9" });
+  });
+
+  it("a spell with no target spec dropped on a unit is rejected clearly", () => {
+    const { fixture, host } = setup();
+    const result = translateGesture(
+      fixture.room,
+      "p1",
+      { type: "chain_add", from: "hand", cardId: fixture.ids.meditation, targetCardId: fixture.ids.hunter },
+      host,
+    );
+    expect(result).toMatchObject({ kind: "reject", code: "illegal_target", rule: "355.9" });
+    if (result.kind === "reject") expect(result.detail).toContain("does not target");
+  });
+
+  it("a spell dropped on a unit its target spec refuses uses the rules verdict", () => {
+    const { fixture, host } = setup();
+    const result = translateGesture(
+      fixture.room,
+      "p1",
+      { type: "chain_add", from: "hand", cardId: fixture.ids.rebuke, targetCardId: fixture.ids.keeperBase },
+      host,
+    );
+    expect(result).toMatchObject({ kind: "reject", code: "illegal_target", rule: "355.9" });
+    if (result.kind === "reject") expect(result.detail).toContain("target:0");
+  });
+
+  it("a board object with a targeting ability activates with the target bound", () => {
+    const { fixture, host } = setup();
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        { type: "move_card", from: "battlefieldA", to: "battlefieldA", cardId: fixture.ids.caitlyn, targetCardId: fixture.ids.enemyHunter },
+        host,
+      ),
+    ).toEqual({
+      kind: "intent",
+      intent: {
+        type: "rules_activate",
+        objectId: fixture.ids.caitlyn,
+        ability: "activated:1",
+        choices: { "target:0": [fixture.ids.enemyHunter] },
+      },
+    });
+  });
+
+  it("tap + target click activates the ability with the target", () => {
+    const { fixture, host } = setup();
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        {
+          type: "toggle_exhausted",
+          zone: "battlefieldA",
+          cardId: fixture.ids.caitlyn,
+          expectedExhausted: false,
+          targetCardId: fixture.ids.enemyHunter,
+        },
+        host,
+      ),
+    ).toMatchObject({
+      kind: "intent",
+      intent: {
+        type: "rules_activate",
+        objectId: fixture.ids.caitlyn,
+        ability: "activated:1",
+        choices: { "target:0": [fixture.ids.enemyHunter] },
+      },
+    });
+  });
+
+  it("several abilities that target the same object are ambiguous", () => {
+    const { fixture, host } = setup();
+    const result = translateGesture(
+      fixture.room,
+      "p1",
+      { type: "move_card", from: "base", to: "base", cardId: fixture.ids.blade, targetCardId: fixture.ids.keeperBase },
+      host,
+    );
+    expect(result).toMatchObject({ kind: "reject", code: "ambiguous_gesture", rule: "403.3" });
+    if (result.kind === "reject") {
+      expect(result.detail).toContain("activated:0");
+      expect(result.detail).toContain("equip:0");
+    }
+  });
+
+  it("Equip on an illegal target uses the equip verdict", () => {
+    const { fixture, host } = setup();
+    const result = translateGesture(
+      fixture.room,
+      "p1",
+      { type: "equip_card", equipmentCardId: fixture.ids.blade, unitCardId: fixture.ids.enemyHunter },
+      host,
+    );
+    expect(result).toMatchObject({ kind: "reject", code: "illegal_target", rule: "355.9" });
+  });
+
+  it("a unit dropped on a target at a battlefield moves there when no ability targets it", () => {
+    const { fixture, host } = setup();
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        { type: "move_card", from: "base", to: "battlefieldA", cardId: fixture.ids.keeperBase, targetCardId: fixture.ids.hunter },
+        host,
+      ),
+    ).toEqual({
+      kind: "intent",
+      intent: { type: "rules_move", unitIds: [fixture.ids.keeperBase], to: "battlefieldA" },
+    });
+  });
+
+  it("a spell dropped on a battlefield binds a choose-battlefield spec by zone", () => {
+    const original = getCardScript("Gust");
+    registerCardScript({
+      name: "Gust",
+      text: "test battlefield-choice spell",
+      status: "implemented",
+      abilities: [
+        {
+          kind: "spell",
+          effect: {
+            op: "create",
+            token: { name: "Gold" },
+            zone: { kind: "chosen", ref: "zone" },
+          },
+        },
+      ],
+    });
+    try {
+      const { fixture, host } = setup();
+      const gust = takeFromDeck(fixture.room.players[0]!.board!, "Gust", "hand");
+      expect(
+        translateGesture(
+          fixture.room,
+          "p1",
+          { type: "move_card", from: "hand", to: "battlefieldA", cardId: gust.id },
+          host,
+        ),
+      ).toEqual({
+        kind: "intent",
+        intent: { type: "rules_play", cardId: gust.id, choices: { zone: ["battlefieldA"] } },
+      });
+    } finally {
+      if (original) registerCardScript(original);
+    }
+  });
+
+  it("multiple target specs bind only the first spec that accepts the object", () => {
+    const original = getCardScript("Defy");
+    registerCardScript({
+      name: "Defy",
+      text: "test two-target spell",
+      status: "implemented",
+      abilities: [
+        {
+          kind: "spell",
+          effect: {
+            op: "seq",
+            effects: [
+              {
+                op: "return_to_hand",
+                target: {
+                  chosen: true,
+                  targetRef: "target:0",
+                  cardType: "unit",
+                  controller: "self",
+                  zone: "battlefield",
+                },
+              },
+              {
+                op: "return_to_hand",
+                target: {
+                  chosen: true,
+                  targetRef: "target:1",
+                  cardType: "unit",
+                  controller: "opponent",
+                  zone: "battlefield",
+                },
+              },
+            ],
+          },
+        },
+      ],
+    });
+    try {
+      const { fixture, host } = setup();
+      const defy = takeFromDeck(fixture.room.players[0]!.board!, "Defy", "hand");
+      defy.energyCost = 0;
+      defy.powerCost = 0;
+      const friendly = translateGesture(
+        fixture.room,
+        "p1",
+        { type: "chain_add", from: "hand", cardId: defy.id, targetCardId: fixture.ids.hunter },
+        host,
+      );
+      expect(friendly).toEqual({
+        kind: "intent",
+        intent: { type: "rules_play", cardId: defy.id, choices: { "target:0": [fixture.ids.hunter] } },
+      });
+      const enemy = translateGesture(
+        fixture.room,
+        "p1",
+        { type: "chain_add", from: "hand", cardId: defy.id, targetCardId: fixture.ids.enemyHunter },
+        host,
+      );
+      expect(enemy).toEqual({
+        kind: "intent",
+        intent: { type: "rules_play", cardId: defy.id, choices: { "target:1": [fixture.ids.enemyHunter] } },
+      });
+    } finally {
+      if (original) registerCardScript(original);
+    }
+  });
+});
+
+describe("translateGesture: prompt clicks [R411.2]", () => {
+  it("a click on a single-option prompt's option answers with rules_choose", () => {
+    const { fixture, host } = setup();
+    const prompted = apply(fixture.room, "p1", { type: "rules_play", cardId: fixture.ids.rebuke }, fixture.ctx);
+    const prompt = prompted.rules?.prompt;
+    expect(prompt?.kind).toBe("choose-target");
+    expect(prompt?.playerId).toBe("p1");
+    const result = translateGesture(
+      prompted,
+      "p1",
+      { type: "toggle_exhausted", zone: "battlefieldA", cardId: fixture.ids.hunter, expectedExhausted: false },
+      host,
+    );
+    expect(result).toEqual({
+      kind: "intent",
+      intent: { type: "rules_choose", promptId: prompt!.id, answer: { optionIds: [fixture.ids.hunter] } },
+    });
+  });
+
+  it("a click that is not one of the prompt's options is rejected and the prompt stays", () => {
+    const { fixture, host } = setup();
+    const prompted = apply(fixture.room, "p1", { type: "rules_play", cardId: fixture.ids.rebuke }, fixture.ctx);
+    const promptId = prompted.rules?.prompt?.id;
+    const before = deepCopy(prompted);
+    const result = translateGesture(
+      prompted,
+      "p1",
+      { type: "toggle_exhausted", zone: "base", cardId: fixture.ids.keeperBase, expectedExhausted: false },
+      host,
+    );
+    expect(result).toMatchObject({ kind: "reject", code: "invalid_choice", rule: "411.2" });
+    expect((prompted as Room).rules?.prompt?.id).toBe(promptId);
+    expect(prompted).toEqual(before);
+  });
+
+  it("a multi-selection prompt is left to the client's accumulate-and-confirm flow", () => {
+    const { fixture, host } = setup();
+    const room = deepCopy(fixture.room) as Room;
+    room.rules!.prompt = {
+      id: "prompt-multi",
+      kind: "choose-card",
+      playerId: "p1",
+      options: [{ id: fixture.ids.hunter }, { id: fixture.ids.caitlyn }],
+      min: 2,
+      max: 2,
+    };
+    const result = translateGesture(
+      room,
+      "p1",
+      { type: "toggle_exhausted", zone: "battlefieldA", cardId: fixture.ids.hunter, expectedExhausted: false },
+      host,
+    );
+    expect(result).toMatchObject({ kind: "reject", code: "invalid_choice", rule: "411.2" });
+    if (result.kind === "reject") expect(result.detail).toContain("accumulate");
+  });
+
+  it("a non-object prompt still demands an answer first", () => {
+    const { fixture, host } = setup();
+    const room = deepCopy(fixture.room) as Room;
+    room.rules!.prompt = {
+      id: "prompt-yesno",
+      kind: "yes-no",
+      playerId: "p1",
+      options: [{ id: "yes" }, { id: "no" }],
+      min: 1,
+      max: 1,
+    };
+    expect(
+      translateGesture(
+        room,
+        "p1",
+        { type: "toggle_exhausted", zone: "battlefieldA", cardId: fixture.ids.hunter, expectedExhausted: false },
+        host,
+      ),
+    ).toMatchObject({ kind: "reject", code: "prompt_pending", rule: "411.2" });
+  });
+});
+
+describe("translateGesture: Quick-Draw hand attachment [R819.1.d]", () => {
+  it("plays a Quick-Draw gear dropped on a unit; the keyword trigger prompts for the target", () => {
+    const { fixture, host } = setup();
+    const board = fixture.room.players[0]!.board!;
+    const blade = board.base.find((card) => card.id === fixture.ids.blade)!;
+    board.base = board.base.filter((card) => card.id !== blade.id);
+    blade.text =
+      "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] [1]";
+    blade.keywords = [...(blade.keywords ?? []), "Quick-Draw"];
+    blade.energyCost = 0;
+    blade.powerCost = 0;
+    board.hand.push(blade);
+    expect(
+      translateGesture(
+        fixture.room,
+        "p1",
+        { type: "equip_card", equipmentCardId: blade.id, unitCardId: fixture.ids.keeperBase, asAttachment: true },
+        host,
+      ),
+    ).toEqual({
+      kind: "intent",
+      intent: { type: "rules_play", cardId: blade.id, location: "base" },
     });
   });
 });

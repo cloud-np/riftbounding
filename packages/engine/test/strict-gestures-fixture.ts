@@ -91,6 +91,7 @@ export interface StrictGestureFixture {
     rebuke: string;
     caitlyn: string;
     hunter: string;
+    enemyHunter: string;
     keeperBase: string;
     blade: string;
     rune: string;
@@ -107,6 +108,7 @@ export function strictGestureRoom(): StrictGestureFixture {
   const rebuke = takeFromDeck(board, "Rebuke", "hand");
   const caitlyn = takeFromDeck(board, "Caitlyn, Patrolling", "battlefieldA");
   const hunter = takeFromDeck(board, "Treasure Hunter", "battlefieldA");
+  const enemyHunter = takeFromDeck(room.players[1]!.board!, "Treasure Hunter", "battlefieldB");
   const keeperBase = takeFromDeck(board, "Clockwork Keeper", "base");
   const blade = takeFromDeck(board, "Blade of the Exile", "base");
   const rune = board.runeArea[0]!;
@@ -119,6 +121,7 @@ export function strictGestureRoom(): StrictGestureFixture {
       rebuke: rebuke.id,
       caitlyn: caitlyn.id,
       hunter: hunter.id,
+      enemyHunter: enemyHunter.id,
       keeperBase: keeperBase.id,
       blade: blade.id,
       rune: rune.id,
