@@ -245,6 +245,46 @@ describe("scenario runner", () => {
   });
 });
 
+describe("docs/rules/scenarios.md", () => {
+  it("the minimal example passes (scoredThisTurn makes the Conquer the Final Point)", () => {
+    const result = runScenario(
+      defineScenario({
+        title: "Final Point by Conquer",
+        verification: "illustrative",
+        sources: [{ label: "Ezreal — RQ Bologna 1st place decklist", url: "https://example.invalid" }],
+        notes: "Not a real game: cards from the cited list, board invented.",
+        position: {
+          turn: { player: "P1", number: 12 },
+          battlefields: [
+            { name: "Void Gate" },
+            { name: "Targon's Peak", controller: "P2", units: { P2: ["Pouty Poro"] } },
+          ],
+          players: {
+            P1: {
+              legend: "Ezreal, Prodigal Explorer",
+              points: 7,
+              base: ["Ezreal, Prodigy"],
+              scoredThisTurn: ["Void Gate"],
+            },
+            P2: { legend: "Annie, Dark Child", points: 6 },
+          },
+        },
+        steps: [
+          {
+            by: "P1",
+            move: "Ezreal, Prodigy",
+            to: "Targon's Peak",
+            expect: { combat: { at: "Targon's Peak" } },
+          },
+          { settle: true },
+          { check: { dead: ["Pouty Poro"], points: { P1: 8 }, winner: "P1" } },
+        ],
+      }),
+    );
+    expect(result.status, explainResult(result)).toBe("pass");
+  });
+});
+
 describe("repro → scenario converter", () => {
   const repro = makeBotRepro({ actions: 70 });
 
