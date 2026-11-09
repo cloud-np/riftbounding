@@ -23,5 +23,22 @@ import "./smoke-screen";
 import "./thermo-beam";
 import "./vengeance";
 import "./wind-wall";
+// Play effects
+import "./trifarian-gloryseeker";
+import "./peak-guardian";
+import "./pit-rookie";
+import "./poro-herder";
+import "./qiyana-victorious";
+import "./riptide-rex";
+import "./scrapyard-champion";
+import "./solari-chief";
+import "./solari-shieldbearer";
+import "./sprite-mother";
+import "./stormclaw-ursine";
+import "./teemo-scout";
+import "./thousand-tailed-watcher";
+import "./vanguard-captain";
+import "./wildclaw-shaman";
+import "./zaunite-bouncer";
 
 export {};

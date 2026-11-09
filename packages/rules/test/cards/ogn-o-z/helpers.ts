@@ -37,12 +37,16 @@ export function passBoth(s: S, first = "p1"): void {
     .expectOk();
 }
 
-/** Pass priority until the chain is empty or a prompt opens (bounded). */
-export function resolveAll(s: S, guard = 12): void {
+/**
+ * Pass priority/focus until the chain is empty and no showdown or combat is open, or a prompt
+ * opens (bounded).
+ */
+export function resolveAll(s: S, guard = 16): void {
   for (let index = 0; index < guard; index += 1) {
     const rules = s.room.rules!;
-    if (rules.prompt || rules.chain.length === 0) return;
-    const who = rules.priority;
+    if (rules.prompt) return;
+    if (rules.chain.length === 0 && !rules.showdown && !rules.combat) return;
+    const who = rules.priority ?? rules.focus;
     if (!who) return;
     s.as(who).pass().expectOk();
   }
@@ -89,4 +93,14 @@ export function setMight(
   extra: Record<string, unknown> = {},
 ): void {
   s.room.rules!.objects[id] = { ...(s.room.rules!.objects[id] ?? {}), baseMight: might, ...extra };
+}
+
+/** A card on `player`'s board (base, battlefields, legend) by name. */
+export function boardCard(s: S, player: string, name: string, index = 0): CardInstance | undefined {
+  const board = boardOf(s, player) as unknown as Record<string, CardInstance[] | undefined>;
+  const found: CardInstance[] = [];
+  for (const zone of ["base", "battlefieldA", "battlefieldB", "battlefieldC", "legend"]) {
+    for (const card of board[zone] ?? []) if (card.name === name) found.push(card);
+  }
+  return found[index];
 }
