@@ -63,7 +63,10 @@ Payment is intentionally omitted from every translated intent, so the engine's a
 plan runs exactly as for a hand-written intent. For targeting gestures, `choices[<ChoiceSpec.key>]`
 holds `string[]` option ids; only the FIRST required target spec (rule order mode → targets → X)
 whose legal options include the dropped object is bound. Every other choice is left unanswered so
-the engine opens its normal prompt (forced choices are auto-bound by 411.2). `hold` is omitted.
+the engine opens its normal prompt (forced choices are auto-bound by 411.2). `hold` is omitted
+unless the gesture itself carries `hold: true` (the board's Ctrl/⌘-drop): a gesture that becomes a
+`rules_play` / `rules_activate` then carries `hold: true`, so the actor keeps Priority (337.4) and
+no automatic pass is taken for them in that transition ([`auto-pass.md`](auto-pass.md)).
 
 A mode choice (355.3) is never guessed: a drop on a card for a card whose modes hide their targets
 is rejected with `ambiguous_gesture` and `detail: "mode: <ids>"`; the client must pick the mode

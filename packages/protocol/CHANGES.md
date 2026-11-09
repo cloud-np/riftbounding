@@ -301,3 +301,21 @@ by `@rift/rules` (`layers/legacy.ts`).
 | `src/rules/effects.ts` | Typed `Condition` members `did`, `paid-additional`, `self-state`, `xp-at-least`, `alone`, `in-ids`, `in-ref`, `first-played-this-turn`, `showed-off`, `marked`, `cards-played`, `event-zone-is`; typed `Modifier` members `while`, `rules-text`, `enter-ready`, `cost-adjust`, `show-off`, `bonus-damage`, `hide-limit`, `assigned-last`, `ignore-keyword`, `victory-score`, `remove-keyword`, `no-combat-damage` | Engine concepts that were unprefixed `custom` ids (review F2/G8). |
 | `src/rules/effects.ts` | `custom` ids are `CustomId` (`<owner>:<name>`); engine state records `EngineStateModifierId` (`delayed-trigger`, `replacement`, `skip`) and the `inline` trigger | `custom` is strictly for set-specific text. |
 | `src/rules/ability.ts` | `{ kind: "suppress-printed-keyword", keyword }` replaces `{ kind: "keyword", value: 0 }`; `CardScript.additionalCosts?`, `CardScript.playPermissions?` (`ScriptAdditionalCost`, `ScriptPlayPermission`); `CardScript.repeatHandled` removed | The script is the whole card; the sentinel and the unused flag are gone (F3/F6/F10). |
+
+## Strict auto-pass / auto-resolve (additive)
+
+Design and defaults: `docs/rules/auto-pass.md`. No message name changed; old rooms and clients
+keep working (a `RulesState` without `autoPass` gets no automatic action beyond owner decision 3).
+
+| file | change | why |
+| --- | --- | --- |
+| `src/rules/auto-pass.ts` (new, re-exported from `src/rules/index.ts`) | `AutoPassPrefs` (`ownItems`, `responses`, `forcedPrompts`, `endTurn`, `hold`, optional `passUntil`, optional `standing`), `AutoPassResponseMode`, `AutoResolveMode`, `AutoEndTurnMode`, `AutoPassUntil`, `AutoPassStandingAnswer`, `AutoPassPrefsUpdate` | Per-seat auto-pass preferences and the update payload. |
+| `src/rules/core.ts` | `RulesState.autoPass?: Record<string, AutoPassPrefs>` | Preferences live in the rules snapshot, so rewind and repro replay reproduce every automatic action. Redacted per viewer to the seats they own (`@rift/sync`). |
+| `src/rules/intents.ts` | new intent `RulesSetAutoPassIntent` `{ type: "rules_set_auto_pass", prefs }` (added to `RulesIntent` / `RulesWireAction`) | Change the actor's own preferences; legal at any time in game without Priority (like `rules_concede`). |
+| `src/rules/intents.ts` | `RulesChooseIntent.applyToSimilar?: boolean` | "Yes to all": remember a yes/no or trigger-order answer for identical prompts this turn. |
+
+Gestures (`move_card`, `chain_add`, `toggle_exhausted`, `equip_card`) may carry `hold: true`; the
+engine forwards it to the `rules_play` / `rules_activate` it translates to (Ctrl/⌘-drop keeps
+Priority). Automatic actions add public log entries with keys
+`rules.auto.{pass,ownItem,passUntil,endTurn,choose,repeat,paused}` (params `player`, `count` /
+`cap`).
