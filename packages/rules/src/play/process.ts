@@ -21,7 +21,7 @@ import { fail, pushEvent } from "../types";
 import type { IntentResult } from "../intents/context";
 import { lookupAbility } from "../cards/registry";
 import { restrictionFor } from "../layers/restrictions";
-import { effectiveKeywords } from "../layers";
+import { keywordsWithPrinted } from "../layers";
 import { baseActionVerdict, keywordTimingVerdict } from "../legality/timing";
 import { appendChainItem, finalizeChainItem, passPriority, removeChainItem, runCleanupOrQueue } from "../timing/fepr";
 import { grantPriority } from "../state";
@@ -159,7 +159,7 @@ export function planPendingCard(room: Room, host: RulesHost, item: ChainItem): C
   const permission: PlayPermission = process.permission
     ? { ...process.permission }
     : { id: "hand", rule: "420.1.a" };
-  const keywords = withPermissionKeywords(effectiveKeywords(room, snapshot.id, printedCardKeywords(info)), permission);
+  const keywords = withPermissionKeywords(keywordsWithPrinted(room, snapshot.id, printedCardKeywords(info), host), permission);
   const ability = spellAbility(info);
   return planCore(room, host, {
     playerId: item.controller,

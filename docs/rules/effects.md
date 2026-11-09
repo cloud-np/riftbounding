@@ -351,6 +351,14 @@ Dr. Mundo Expert, Ultrasoft Poro, Clanging Sentry, Ruin Runner, Master Yi Honed,
 Noxus Hopeful. Partial — Hidden Blade and Zhonya's Hourglass ([Hidden]), Frigid Touch and Feral
 Strength ([Repeat]).
 
+### Granted keywords in legality (810.3, 144.4.c.1)
+
+Legality and play code read keywords through the host-aware `keywordsWithPrinted` / `cardKeywords`
+(`cardTimingVerdict` takes an optional host), so a keyword granted by a passive or continuous
+effect counts: a unit with `{ kind: "passive", modifier: { kind: "keyword", keyword: "Ganking",
+target: { cardType: "unit", controller: "self" } } }` in play may make a battlefield-to-battlefield
+Standard Move.
+
 ## Open RULES-QUESTIONs
 
 - `RULES-QUESTION(103.4)`: the engine does not store which battlefield card sits in which zone;
