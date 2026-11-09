@@ -67,7 +67,13 @@ const dryRunCache = new WeakMap<Room, Map<string, boolean>>();
 
 /** Dry-run the authoritative engine transition to test one drop. */
 export function engineCanDrop(state: Room, actorPlayerId: string, intent: GameActionIntent): boolean {
-  if (intent.type !== "move_card" && intent.type !== "chain_add" && intent.type !== "send_to_deck") {
+  const strict = state.rulesMode === "strict" && state.phase === "in_game" && !!state.rules;
+  if (
+    !strict &&
+    intent.type !== "move_card" &&
+    intent.type !== "chain_add" &&
+    intent.type !== "send_to_deck"
+  ) {
     return true;
   }
   let byKey = dryRunCache.get(state);
@@ -80,12 +86,18 @@ export function engineCanDrop(state: Room, actorPlayerId: string, intent: GameAc
   if (cached !== undefined) return cached;
   let allowed = true;
   try {
-    const result = applyGameAction(state, actorPlayerId, intent, {
-      now: 1_700_000_000_000,
-      rng: () => 0.5,
-      mode: "solo_lab",
-    });
-    allowed = result.ok && result.state !== state;
+    const result = applyGameAction(state, actorPlayerId, intent, strict
+      ? {
+          now: state.updatedAt && state.updatedAt > 0 ? state.updatedAt : 1_700_000_000_000,
+          rng: () => 0.5,
+          mode: state.roomMode ?? "multiplayer",
+        }
+      : {
+          now: 1_700_000_000_000,
+          rng: () => 0.5,
+          mode: "solo_lab",
+        });
+    allowed = result.ok && (strict || result.state !== state);
   } catch {
     allowed = false;
   }

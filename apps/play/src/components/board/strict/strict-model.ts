@@ -10,13 +10,11 @@ import type {
   CombatDamageAssignmentData,
   CombatDamageTarget,
   GameState,
-  LegalIntents,
   Prompt,
   PromptAnswer,
   PromptOption,
   WhoMayAct,
   WireAction,
-  ZoneSelector,
 } from "@rift/protocol";
 import type { Translator } from "@rift/i18n";
 
@@ -70,111 +68,6 @@ export function strictActorFor(
 ): string {
   if (who && who.kind !== "none" && controlledPlayerIds.includes(who.player)) return who.player;
   return viewerId;
-}
-
-/** The sandbox turn button in a strict room sends the strict intent (316: end the turn). */
-export function strictIntentFor(
-  intent: WireAction,
-  room: GameState | null | undefined,
-): WireAction {
-  if (!isStrictRoom(room)) return intent;
-  if (intent.type === "end_turn") return { type: "rules_end_turn" };
-  return intent;
-}
-
-/* ------------------------------------------------------------------ legal actions */
-
-export interface StrictActionButton {
-  key: string;
-  label: string;
-  intent: WireAction;
-  tone: "primary" | "neutral";
-}
-
-/** One button per legal play / activation / move / pass / end turn (`legalIntents`). */
-export function strictActionButtons(
-  room: GameState,
-  legal: LegalIntents | null,
-  t: Translator,
-): StrictActionButton[] {
-  if (!legal) return [];
-  const buttons: StrictActionButton[] = [];
-  const details = legal.playable ?? [];
-  legal.playableCardIds.forEach((cardId, index) => {
-    const detail = details[index]?.cardId === cardId ? details[index] : undefined;
-    const name = cardName(room, cardId);
-    const play = t("rules.ui.play") ?? "Play";
-    const locations = detail?.locations ?? [];
-    if (locations.length > 1) {
-      for (const location of locations) {
-        buttons.push({
-          key: `play:${cardId}:${location}`,
-          label: `${play} ${name} → ${zoneLabel(t, location)}`,
-          intent: { type: "rules_play", cardId, location: location as ZoneSelector },
-          tone: "primary",
-        });
-      }
-    } else {
-      buttons.push({
-        key: `play:${cardId}`,
-        label: `${play} ${name}`,
-        intent: {
-          type: "rules_play",
-          cardId,
-          ...(locations[0] ? { location: locations[0] as ZoneSelector } : {}),
-        },
-        tone: "primary",
-      });
-    }
-  });
-  for (const entry of legal.activatable) {
-    const manual = entry.ability.startsWith("manual:");
-    const verb = manual
-      ? (t("rules.ui.activateManual") ?? "Activate (manual)")
-      : (t("rules.ui.activate") ?? "Activate");
-    buttons.push({
-      key: `activate:${entry.objectId}:${entry.ability}`,
-      label: `${verb}: ${cardName(room, entry.objectId)}`,
-      intent: { type: "rules_activate", objectId: entry.objectId, ability: entry.ability },
-      tone: "neutral",
-    });
-  }
-  for (const move of legal.moves) {
-    const names = move.unitIds.map((id) => cardName(room, id)).join(", ");
-    buttons.push({
-      key: `move:${move.unitIds.join("+")}:${move.to}`,
-      label: `${names} — ${t("rules.ui.moveTo", { zone: zoneLabel(t, move.to) }) ?? move.to}`,
-      intent: { type: "rules_move", unitIds: [...move.unitIds], to: move.to },
-      tone: "neutral",
-    });
-  }
-  for (const entry of legal.hideable ?? []) {
-    for (const location of entry.locations) {
-      buttons.push({
-        key: `hide:${entry.cardId}:${location}`,
-        label: `${t("rules.ui.hide") ?? "Hide"} ${cardName(room, entry.cardId)} → ${zoneLabel(t, location)}`,
-        intent: { type: "rules_play", cardId: entry.cardId, hide: true, location: location as ZoneSelector },
-        tone: "neutral",
-      });
-    }
-  }
-  if (legal.canPass) {
-    buttons.push({
-      key: "pass",
-      label: t("rules.ui.pass") ?? "Pass",
-      intent: { type: "rules_pass" },
-      tone: "neutral",
-    });
-  }
-  if (legal.canEndTurn) {
-    buttons.push({
-      key: "end-turn",
-      label: t("rules.ui.endTurn") ?? "End turn",
-      intent: { type: "rules_end_turn" },
-      tone: "neutral",
-    });
-  }
-  return buttons;
 }
 
 /* ------------------------------------------------------------------ status line */

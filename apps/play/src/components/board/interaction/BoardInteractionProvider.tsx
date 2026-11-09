@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 
-import { buildAutoPayPaymentBatch, strictExplainIllegal, strictLegalIntents, strictWhoMayAct } from "@rift/engine";
+import { applyGameAction, buildAutoPayPaymentBatch, strictLegalIntents, strictWhoMayAct } from "@rift/engine";
 import { getCard, getCardByName } from "@rift/cards";
-import { createTranslator, rulesReasonText } from "@rift/i18n";
-import type { CardInstance, Room, RoomPlayer, Verdict, WireAction, Zone } from "@rift/protocol";
+import { createTranslator, promptTitle, rulesReasonText } from "@rift/i18n";
+import type { CardInstance, Room, RoomPlayer, Zone } from "@rift/protocol";
 
 import type { CardEvent } from "../card/types";
 import {
@@ -56,23 +56,27 @@ import {
   type PileSlot,
 } from "../menus/menu-builders";
 import type { BoardSlotProps, GameActionIntent } from "../slot-types";
+import { smallBlueButton, smallNeutralButton } from "@/components/ui/buttonStyles";
 import { BoardInteractionContext } from "./context";
 import { useLocalGameSettings } from "../settings/settings-values";
 import { playBoardSound } from "./sfx";
-import { StrictPlayDialog } from "../strict/StrictPlayDialog";
 import {
-  buildStrictCardMenu,
-  buildStrictHandMenu,
-  strictDropAttempt,
-  strictViewFromLegal,
+  canConfirmPromptSelection,
+  parseAmbiguousDetail,
+  promptChooseIntent,
+  promptHasBoardTargets,
+  promptNeedsAccumulation,
+  promptOptionForAction,
+  promptOptionMatchIds,
+  promptSelectionBounds,
   strictManualWindowFor,
-  strictEndTurnIntent,
-  strictPlayIntent,
+  strictUseGesture,
+  strictViewFromLegal,
+  togglePromptSelection,
+  withGestureAbility,
   type StrictBoardView,
-  type StrictMenuContext,
-  type StrictMenuEntry,
 } from "../strict/strict-interaction";
-import { isStrictRoom, strictActorFor } from "../strict/strict-model";
+import { isStrictRoom, promptForClient, strictActorFor } from "../strict/strict-model";
 import type {
   ArmedAction,
   BoardInteractionValue,
@@ -307,11 +311,15 @@ export function BoardInteractionProvider({
   const [pingedCardId, setPingedCardId] = useState<string | null>(null);
   const [emoteWheelOpen, setEmoteWheelOpen] = useState(false);
   const [diceWheelOpen, setDiceWheelOpen] = useState(false);
-  const [strictPlay, setStrictPlay] = useState<{
-    cardId: string;
-    location?: string;
-    hide?: boolean;
+  const [strictPromptSelection, setStrictPromptSelection] = useState<string[]>([]);
+  const [strictAmbiguous, setStrictAmbiguous] = useState<{
+    action: GameActionIntent;
+    owner: "self" | "opponent";
+    choice: NonNullable<ReturnType<typeof parseAmbiguousDetail>>;
   } | null>(null);
+  const [strictSelectedUnitIds, setStrictSelectedUnitIds] = useState<ReadonlySet<string>>(
+    EMPTY_SELECTION,
+  );
   const [strictNotice, setStrictNotice] = useState<{
     text: string;
     code: string;
@@ -323,6 +331,7 @@ export function BoardInteractionProvider({
   const dragSessionRef = useRef<DragSession | null>(null);
   const dragOriginRef = useRef(createDragOriginSession());
   const dragTargetElementRef = useRef<HTMLElement | null>(null);
+  const dragCardTargetElementRef = useRef<HTMLElement | null>(null);
   const dragUiRef = useRef(drag);
   const suppressClickUntilRef = useRef(0);
   const lastClickRef = useRef<{ cardId: string; at: number } | null>(null);
@@ -370,6 +379,21 @@ export function BoardInteractionProvider({
   const strictManual = !!strictView && strictManualWindowFor(state, strictActor);
   /** True while strict routing owns the board (sandbox fallback stays for the §6.4 window). */
   const strictActive = !!strictView && !strictManual;
+  const strictPrompt = useMemo(
+    () => (strictView ? promptForClient(state, controlled) : null),
+    [state, controlled, strictView],
+  );
+  const strictPromptOnBoard = !!strictPrompt && promptHasBoardTargets(state, strictPrompt);
+  const strictPromptMulti =
+    !!strictPrompt && strictPromptOnBoard && promptNeedsAccumulation(strictPrompt);
+  const strictPromptOptionIds = useMemo(
+    () => (strictPrompt ? promptOptionMatchIds(strictPrompt) : EMPTY_SELECTION),
+    [strictPrompt],
+  );
+  // A new prompt starts a fresh accumulate-then-confirm selection.
+  useEffect(() => {
+    setStrictPromptSelection([]);
+  }, [strictPrompt?.id]);
 
   const showStrictNotice = useCallback((code: string, rule: string | undefined, text?: string) => {
     if (strictNoticeTimerRef.current !== null) window.clearTimeout(strictNoticeTimerRef.current);
@@ -384,42 +408,84 @@ export function BoardInteractionProvider({
     }, 6000);
   }, []);
 
-  const showStrictRejection = useCallback(
-    (intent: WireAction) => {
-      if (!strictView) return;
-      let verdict: Verdict;
+  const previewGesture = useCallback(
+    (action: GameActionIntent, actorId: string) => {
       try {
-        verdict = strictExplainIllegal(state, strictView.actorId, intent);
+        return applyGameAction(state, actorId, action, {
+          now: state.updatedAt && state.updatedAt > 0 ? state.updatedAt : 1_700_000_000_000,
+          rng: () => 0.5,
+          mode: state.roomMode ?? "multiplayer",
+        });
       } catch {
-        verdict = { ok: false, code: "illegal_action", rule: "contract:§5" };
+        return null;
       }
-      if (verdict.ok) return;
-      showStrictNotice(verdict.code, verdict.rule);
     },
-    [state, strictView, showStrictNotice],
+    [state],
   );
 
-  const showStrictModeAction = useCallback(
-    (actionType: string) => {
-      showStrictNotice(
-        "strict_mode_action",
-        "contract:§4",
-        `${rulesReasonText(t, "strict_mode_action", "contract:§4")} (${actionType})`,
-      );
-    },
-    [showStrictNotice],
-  );
-
-  const sendStrictIntent = useCallback(
-    (intent: WireAction) => {
-      if (!strictView) return;
-      if (strictView.actorId !== viewerId && dispatchAs) {
-        dispatchAs(strictView.actorId, intent);
+  const sendAsActor = useCallback(
+    (action: GameActionIntent, actorId: string) => {
+      if (actorId !== viewerId && dispatchAs) {
+        dispatchAs(actorId, action);
         return;
       }
-      dispatch(intent);
+      dispatch(action);
     },
-    [strictView, viewerId, dispatchAs, dispatch],
+    [dispatch, dispatchAs, viewerId],
+  );
+
+  const sendStrictGesture = useCallback(
+    (action: GameActionIntent, owner: "self" | "opponent" = "self") => {
+      if (!strictView) return;
+      const actorId =
+        owner === "opponent" && opponent && dispatchAs
+          ? opponent.id
+          : strictView.actorId;
+      // 411.2 multi-selection object prompt: clicks accumulate; the board overlay confirms.
+      if (strictPrompt && strictPromptMulti) {
+        const option = promptOptionForAction(strictPrompt, action);
+        if (option) {
+          setStrictPromptSelection((current) =>
+            togglePromptSelection(strictPrompt, current, option.id),
+          );
+          return;
+        }
+      }
+      if (action.type.startsWith("rules_")) {
+        sendAsActor(action, actorId);
+        return;
+      }
+      const result = previewGesture(action, actorId);
+      if (result && !result.ok) {
+        const code = result.errorCode ?? "illegal_action";
+        const rule = result.rule;
+        const detail = result.detail;
+        if (code === "ambiguous_gesture") {
+          const choice = parseAmbiguousDetail(detail);
+          if (choice) {
+            setStrictAmbiguous({ action, owner, choice });
+            return;
+          }
+        }
+        showStrictNotice(
+          code,
+          rule,
+          `${rulesReasonText(t, code, rule)}${detail ? ` — ${detail}` : ""}`,
+        );
+        return;
+      }
+      sendAsActor(action, actorId);
+    },
+    [
+      strictView,
+      opponent,
+      dispatchAs,
+      strictPrompt,
+      strictPromptMulti,
+      previewGesture,
+      sendAsActor,
+      showStrictNotice,
+    ],
   );
 
   useEffect(() => {
@@ -544,32 +610,12 @@ export function BoardInteractionProvider({
     [showCardPreview],
   );
 
-  /** Dice, arrows/pings, card labels and board settings are the only sandbox actions strict allows. */
-  const STRICT_COSMETIC_ACTIONS = useMemo<ReadonlySet<string>>(
-    () =>
-      new Set([
-        "roll_die",
-        "target_arrow_add",
-        "target_arrow_remove",
-        "target_arrow_remove_from_source",
-        "target_arrow_clear_all",
-        "set_show_legend_xp_counter",
-        "set_stop_at_beginning_phase",
-        "set_skip_draw_phase",
-        "set_auto_score_from_hold",
-        "set_battlefield_brush",
-        "set_card_label",
-      ]),
-    [],
-  );
-
   const sendIntent = useCallback(
     (intent: GameActionIntent, owner: "self" | "opponent" = "self") => {
-      // Strict rooms: never put a sandbox gameplay action on the wire. Interactions that have a
-      // strict equivalent branch before this; anything else is explained instead of failing
-      // silently on the server (`strict_mode_action`).
-      if (strictActive && !intent.type.startsWith("rules_") && !STRICT_COSMETIC_ACTIONS.has(intent.type)) {
-        showStrictModeAction(intent.type);
+      // Strict rooms: send the natural sandbox gesture and let the engine translate it (or reject
+      // it with code/rule/detail). Sandbox rooms take the original path unchanged.
+      if (strictActive) {
+        sendStrictGesture(intent, owner);
         return;
       }
       if (owner === "opponent" && opponent && dispatchAs) {
@@ -578,7 +624,7 @@ export function BoardInteractionProvider({
       }
       dispatch(intent);
     },
-    [dispatch, dispatchAs, opponent, strictActive, STRICT_COSMETIC_ACTIONS, showStrictModeAction],
+    [dispatch, dispatchAs, opponent, strictActive, sendStrictGesture],
   );
 
   const findCard = useCallback(
@@ -617,38 +663,27 @@ export function BoardInteractionProvider({
 
   const handleEndTurn = useCallback(() => {
     if (!interactive) return;
-    if (strictActive) {
-      if (!strictView?.legal.canEndTurn) {
-        showStrictRejection(strictEndTurnIntent());
-        return;
-      }
-      playBoardSound("ui_click");
-      sendStrictIntent(strictEndTurnIntent());
+    if (
+      !strictActive &&
+      state.activeTurnPlayerId &&
+      !controlledPlayerIds.includes(state.activeTurnPlayerId)
+    ) {
       return;
     }
-    if (state.activeTurnPlayerId && !controlledPlayerIds.includes(state.activeTurnPlayerId)) return;
     const observed = {
       turnNumber: state.turnNumber ?? 0,
       activePlayerId: state.activeTurnPlayerId ?? viewerId,
       activeStep: state.activeTurnStep ?? "main",
     };
     playBoardSound("ui_click");
-    dispatch(
-      (state.activeTurnStep === "beginning"
-        ? { type: "end_beginning_phase", observed }
-        : { type: "end_turn", observed }) as GameActionIntent,
+    sendIntent(
+      (strictActive
+        ? { type: "end_turn", observed }
+        : state.activeTurnStep === "beginning"
+          ? { type: "end_beginning_phase", observed }
+          : { type: "end_turn", observed }) as GameActionIntent,
     );
-  }, [
-    interactive,
-    strictActive,
-    strictView,
-    showStrictRejection,
-    sendStrictIntent,
-    state,
-    controlledPlayerIds,
-    viewerId,
-    dispatch,
-  ]);
+  }, [interactive, strictActive, state, controlledPlayerIds, viewerId, sendIntent]);
 
   const handleSwitchPerspective = useCallback(() => {
     playBoardSound("ui_click");
@@ -729,19 +764,6 @@ export function BoardInteractionProvider({
       if (!interactive) return;
       const canActAsOwner = owner === "self" || (mode !== "multiplayer" && !!dispatchAs);
       if (!canActAsOwner) return;
-      if (strictActive && strictView) {
-        const detail = strictView.playableById.get(card.id);
-        const hideable = strictView.hideableById.get(card.id);
-        if (detail || hideable) {
-          // Options dialog: Location (355.2), optional additional costs (355.1.a), explicit
-          // payment plan (356/357) and Hide (811.1.b) all build one `rules_play`.
-          setStrictPlay({ cardId: card.id });
-          return;
-        }
-        playBoardSound("card_click");
-        showStrictRejection(strictPlayIntent({ cardId: card.id }));
-        return;
-      }
       playBoardSound("card_play");
       if (zone === "hand") {
         if (isSpell(card)) {
@@ -799,7 +821,7 @@ export function BoardInteractionProvider({
         }
       }
     },
-    [interactive, mode, dispatchAs, sendIntent, viewerId, opponent, state.sharedBattlefieldToken, strictActive, strictView, showStrictRejection],
+    [interactive, mode, dispatchAs, sendIntent, viewerId, opponent, state.sharedBattlefieldToken],
   );
 
   const toggleExhausted = useCallback(
@@ -818,77 +840,62 @@ export function BoardInteractionProvider({
     [sendIntent],
   );
 
-  const strictMenuContext = useMemo<StrictMenuContext | null>(() => {
-    if (!strictView) return null;
-    return {
-      room: state,
-      view: strictView,
-      t,
-      explain: (intent) => strictExplainIllegal(state, strictView.actorId, intent),
-    };
-  }, [state, strictView]);
-
-  const strictEntryGroup = (entry: StrictMenuEntry): number => {
-    if (entry.id === "ping") return 0;
-    if (entry.id.startsWith("activate")) return 1;
-    if (entry.id.startsWith("move")) return 2;
-    if (entry.id.startsWith("hide")) return 3;
-    return 0;
-  };
-
-  const openStrictMenu = useCallback(
-    (event: CardEvent, entries: StrictMenuEntry[]) => {
-      const sections = buildSections(
-        entries.map((entry) => ({
-          id: entry.id,
-          group: strictEntryGroup(entry),
-          label: entry.label,
-          ...(entry.hint ? { hint: entry.hint } : {}),
-          ...(entry.tone ? { tone: entry.tone } : {}),
-          disabled: entry.disabled,
-          onSelect: () => {
-            if (entry.action === "ping") {
-              triggerPing(event.card.id);
-              return;
-            }
-            if (entry.openPlay) {
-              setStrictPlay(entry.openPlay);
-              return;
-            }
-            if (entry.intent) {
-              playBoardSound("card_click");
-              sendStrictIntent(entry.intent);
-            }
-          },
-        })),
-      );
+  const strictHandMenu = useCallback(
+    (event: CardEvent) => {
+      if (!strictView) return;
+      if (event.zone === "hand") {
+        const hideable = (strictView.legal.hideable ?? []).some(
+          (entry) => entry.cardId === event.card.id,
+        );
+        if (!hideable) return;
+        openMenu(
+          event.clientX ?? pointerRef.current.x,
+          event.clientY ?? pointerRef.current.y,
+          [
+            {
+              items: [
+                {
+                  id: "hide",
+                  label: t("rules.ui.hide") ?? "Hide",
+                  onSelect: () =>
+                    setArmedAction({ kind: "play_hidden", cardId: event.card.id, from: "hand" }),
+                },
+              ],
+            },
+          ],
+          event.card.name,
+        );
+        playBoardSound("ui_click");
+        return;
+      }
       openMenu(
         event.clientX ?? pointerRef.current.x,
         event.clientY ?? pointerRef.current.y,
-        sections,
+        [
+          {
+            items: [
+              {
+                id: "ping",
+                label: t("sim.compactPing") ?? "Ping",
+                onSelect: () => triggerPing(event.card.id),
+              },
+            ],
+          },
+        ],
         event.card.name,
       );
       playBoardSound("ui_click");
     },
-    [buildSections, openMenu, triggerPing, sendStrictIntent],
+    [strictView, openMenu, setArmedAction, triggerPing],
   );
 
   const openCardMenu = useCallback(
     (event: CardEvent, owner: "self" | "opponent") => {
       if (!viewer) return;
       const isSelf = owner === "self";
-      if (strictActive && strictMenuContext) {
-        if (event.zone === "hand") {
-          if (!isSelf) return;
-          const entries = buildStrictHandMenu(strictMenuContext, event.card.id);
-          if (entries.length === 0) {
-            showStrictRejection(strictPlayIntent({ cardId: event.card.id }));
-            return;
-          }
-          openStrictMenu(event, entries);
-          return;
-        }
-        openStrictMenu(event, buildStrictCardMenu(strictMenuContext, event.card.id, event.zone));
+      if (strictActive) {
+        if (!isSelf) return;
+        strictHandMenu(event);
         return;
       }
       if (isSelf && armedAction.kind === "counter") {
@@ -1059,8 +1066,7 @@ export function BoardInteractionProvider({
       sendIntent,
       setArmedAction,
       strictActive,
-      strictMenuContext,
-      openStrictMenu,
+      strictHandMenu,
     ],
   );
 
@@ -1440,6 +1446,26 @@ export function BoardInteractionProvider({
           if (isSelf && interactive) scheduleCardPreview(card, event, 0);
           return;
         }
+        // 411.2: an object prompt is answered by clicking its board option.
+        if (strictPrompt && strictPromptOnBoard) {
+          const gesture = strictUseGesture(zone, card.id);
+          if (promptOptionForAction(strictPrompt, gesture)) {
+            playBoardSound("card_click");
+            sendIntent(gesture, owner);
+            return;
+          }
+        }
+        // Multi-unit Standard Move selection (Shift-click), then drag any selected Unit.
+        if (event.shiftKey && isUnit(card) && (zone === "base" || zone.startsWith("battlefield"))) {
+          playBoardSound("ui_click");
+          setStrictSelectedUnitIds((current) => {
+            const next = new Set(current);
+            if (next.has(card.id)) next.delete(card.id);
+            else next.add(card.id);
+            return next;
+          });
+          return;
+        }
         if (zone === "hand" || zone === "champion") {
           playCard(zone, card, owner);
           return;
@@ -1448,17 +1474,18 @@ export function BoardInteractionProvider({
           viewPile(zone, owner);
           return;
         }
-        if (zone === "base" || zone.startsWith("battlefield") || zone === "legend") {
-          // Left click opens the strict menu (Activate / Move / Hide); the menu item sends the
-          // exact `rules_*` intent. Right click uses the same builder.
-          openCardMenu(event, owner);
+        if (
+          zone === "base" ||
+          zone.startsWith("battlefield") ||
+          zone === "legend" ||
+          zone === "runeArea"
+        ) {
+          // "Use" gesture: the engine maps it to the one legal activation (or returns
+          // ambiguous_gesture so the client can choose the ability).
+          playBoardSound("card_click");
+          sendIntent(strictUseGesture(zone, card.id), owner);
           return;
         }
-        if (zone === "runeArea") {
-          openCardMenu(event, owner);
-          return;
-        }
-        showStrictModeAction("move_card");
         return;
       }
       if (!canActAsOwner) {
@@ -1537,8 +1564,8 @@ export function BoardInteractionProvider({
       viewerId,
       triggerPing,
       strictActive,
-      openCardMenu,
-      showStrictModeAction,
+      strictPrompt,
+      strictPromptOnBoard,
     ],
   );
 
@@ -1578,10 +1605,6 @@ export function BoardInteractionProvider({
             event.zone === "base" ||
             event.zone.startsWith("battlefield")
           ) {
-            if (strictActive) {
-              showStrictModeAction("move_card");
-              return;
-            }
             sendIntent({
               type: "move_card",
               from: event.zone,
@@ -1618,8 +1641,6 @@ export function BoardInteractionProvider({
       handleCardClick,
       interactive,
       sendIntent,
-      strictActive,
-      showStrictModeAction,
     ],
   );
 
@@ -1663,9 +1684,18 @@ export function BoardInteractionProvider({
     }
   }, []);
 
+  const setCardDropTarget = useCallback((element: HTMLElement | null) => {
+    if (dragCardTargetElementRef.current && dragCardTargetElementRef.current !== element) {
+      dragCardTargetElementRef.current.removeAttribute("data-strict-drop-target");
+    }
+    dragCardTargetElementRef.current = element;
+    if (element) element.setAttribute("data-strict-drop-target", "true");
+  }, []);
+
   const clearDropTarget = useCallback(() => {
     setDropTargetElement(null);
-  }, [setDropTargetElement]);
+    setCardDropTarget(null);
+  }, [setDropTargetElement, setCardDropTarget]);
 
   const beginDragSession = useCallback(
     (input: {
@@ -1761,6 +1791,9 @@ export function BoardInteractionProvider({
         native.preventDefault();
         return;
       }
+      if (strictActive && !strictSelectedUnitIds.has(event.card.id)) {
+        setStrictSelectedUnitIds(EMPTY_SELECTION);
+      }
       native.dataTransfer.effectAllowed = "copyMove";
       beginDragSession({
         kind: "boardCard",
@@ -1784,7 +1817,7 @@ export function BoardInteractionProvider({
         originElement: native.currentTarget instanceof HTMLElement ? native.currentTarget : null,
       });
     },
-    [beginDragSession, dispatchAs],
+    [beginDragSession, dispatchAs, strictActive, strictSelectedUnitIds],
   );
 
   const handlePileDragStart = useCallback(
@@ -1872,23 +1905,50 @@ export function BoardInteractionProvider({
     [resolveBoardCard],
   );
 
-  const strictDropForSession = useCallback(
+  const dropIntentForSession = useCallback(
     (
       session: DragSession,
-      targetZone: string,
-      targetOwner: "self" | "opponent",
-    ): ReturnType<typeof strictDropAttempt> => {
-      if (!strictView || session.kind !== "boardCard") return null;
-      const payload = session.payload as { zone: Zone; cardId: string };
-      return strictDropAttempt({
-        view: strictView,
-        sourceZone: payload.zone,
-        cardId: payload.cardId,
-        targetZone,
-        targetOwner,
+      zone: string,
+      owner: "self" | "opponent",
+      clientX: number,
+      clientY: number,
+      shiftKey: boolean,
+      toIndex: number | null,
+    ): GameActionIntent | null => {
+      const payload = session.payload as { zone?: Zone; cardId?: string };
+      const cardIds =
+        strictActive &&
+        session.kind === "boardCard" &&
+        payload.cardId &&
+        strictSelectedUnitIds.has(payload.cardId)
+          ? [...strictSelectedUnitIds]
+          : undefined;
+      return buildDropIntent({
+        source: { kind: session.kind, payload: session.payload, card: session.card },
+        targetZone: zone as Parameters<typeof buildDropIntent>[0]["targetZone"],
+        targetOwner: owner,
+        viewerId,
+        actorPlayerId: owner === "self" ? viewerId : (opponent?.id ?? viewerId),
+        toIndex: toIndex ?? undefined,
+        shiftKey,
+        asHidden:
+          armedAction.kind === "play_hidden" && session.card
+            ? armedAction.cardId === session.card.id
+            : false,
+        targetCard: cardUnderPointer(clientX, clientY),
+        ...(cardIds ? { cardIds } : {}),
+        includeTarget: strictActive,
       });
     },
-    [strictView],
+    [
+      strictActive,
+      strictSelectedUnitIds,
+      buildDropIntent,
+      viewerId,
+      opponent,
+      armedAction,
+      cardUnderPointer,
+    ],
   );
 
   const updateDragOver = useCallback(
@@ -1920,30 +1980,33 @@ export function BoardInteractionProvider({
           toIndex = 0;
         }
       }
-      const strictAttempt = strictActive ? strictDropForSession(session, zone, owner) : null;
-      const intent = strictActive
-        ? (strictAttempt?.intent ?? null)
-        : buildDropIntent({
-            source: { kind: session.kind, payload: session.payload, card: session.card },
-            targetZone: zone as Parameters<typeof buildDropIntent>[0]["targetZone"],
-            targetOwner: owner,
-            viewerId,
-            actorPlayerId: owner === "self" ? viewerId : (opponent?.id ?? viewerId),
-            toIndex: toIndex ?? undefined,
-            shiftKey: event.shiftKey,
-            asHidden:
-              armedAction.kind === "play_hidden" && session.card
-                ? armedAction.cardId === session.card.id
-                : false,
-            targetCard: cardUnderPointer(event.clientX, event.clientY),
-          });
-      const legal = strictActive
-        ? !!strictAttempt?.legal
-        : intent
-          ? engineCanDrop(state, owner === "self" ? viewerId : (opponent?.id ?? viewerId), intent)
-          : false;
+      const intent = dropIntentForSession(
+        session,
+        zone,
+        owner,
+        event.clientX,
+        event.clientY,
+        event.shiftKey,
+        toIndex,
+      );
+      const legal = intent
+        ? engineCanDrop(state, owner === "self" ? viewerId : (opponent?.id ?? viewerId), intent)
+        : false;
       if (legal) setDropTargetElement(target);
       else clearDropTarget();
+      if (strictActive && legal) {
+        const hoverCard = cardUnderPointer(event.clientX, event.clientY);
+        const sourceId = "cardId" in session.payload ? session.payload.cardId : null;
+        const element =
+          hoverCard && hoverCard.id !== sourceId && typeof document !== "undefined"
+            ? document
+                .elementFromPoint(event.clientX, event.clientY)
+                ?.closest<HTMLElement>("[data-card-id][data-drop-zone]")
+            : null;
+        setCardDropTarget(element ?? null);
+      } else {
+        setCardDropTarget(null);
+      }
       if (!legal && session.kind === "boardCard") {
         // Keep the ghost alive but do not highlight an illegal destination.
       }
@@ -1962,13 +2025,13 @@ export function BoardInteractionProvider({
       orderedRects,
       setDropTargetElement,
       clearDropTarget,
+      setCardDropTarget,
       viewerId,
       opponent,
       armedAction,
       state,
       cardUnderPointer,
-      strictActive,
-      strictDropForSession,
+      dropIntentForSession,
     ],
   );
 
@@ -1983,47 +2046,20 @@ export function BoardInteractionProvider({
     }) => {
       const session = dragSessionRef.current;
       if (!session) return;
-      if (strictActive) {
-        const attempt = strictDropForSession(session, input.zone, input.owner);
-        if (attempt?.legal) {
-          if (input.zone === "base" || input.zone.startsWith("battlefield")) {
-            playBoardSound("card_play");
-          } else {
-            playBoardSound("card_click");
-          }
-          sendStrictIntent(attempt.intent);
-        } else if (attempt?.reason) {
-          showStrictNotice(attempt.reason.code, attempt.reason.rule);
-        } else if (attempt) {
-          showStrictRejection(attempt.intent);
-        } else {
-          showStrictModeAction(session.kind === "boardCard" ? "move_card" : "take_card_from_deck");
-        }
-        endDragSession();
-        return;
-      }
-      const source = {
-        kind: session.kind,
-        payload: session.payload,
-        card: session.card,
-      };
-      const card = session.card;
-      const asHidden =
-        armedAction.kind === "play_hidden" && card ? armedAction.cardId === card.id : false;
-      const intent = buildDropIntent({
-        source,
-        targetZone: input.zone as Parameters<typeof buildDropIntent>[0]["targetZone"],
-        targetOwner: input.owner,
-        viewerId,
-        actorPlayerId: input.owner === "self" ? viewerId : (opponent?.id ?? viewerId),
-        toIndex: input.toIndex ?? undefined,
-        shiftKey: input.shiftKey,
-        asHidden,
-        targetCard: cardUnderPointer(input.clientX, input.clientY),
-      });
+      const intent = dropIntentForSession(
+        session,
+        input.zone,
+        input.owner,
+        input.clientX,
+        input.clientY,
+        input.shiftKey,
+        input.toIndex,
+      );
       if (intent) {
         const actorId = input.owner === "self" ? viewerId : (opponent?.id ?? viewerId);
-        if (!engineCanDrop(state, actorId, intent)) {
+        // Sandbox keeps the old dry-run pre-filter; strict rooms send the gesture and let the
+        // engine translate it (legal, or a rejection with code/rule/detail).
+        if (!strictActive && !engineCanDrop(state, actorId, intent)) {
           endDragSession();
           return;
         }
@@ -2039,19 +2075,13 @@ export function BoardInteractionProvider({
       endDragSession();
     },
     [
-      armedAction,
       viewerId,
       opponent,
       sendIntent,
       endDragSession,
       state,
-      cardUnderPointer,
       strictActive,
-      strictDropForSession,
-      sendStrictIntent,
-      showStrictRejection,
-      showStrictModeAction,
-      showStrictNotice,
+      dropIntentForSession,
     ],
   );
 
@@ -2089,8 +2119,11 @@ export function BoardInteractionProvider({
         if (event.shiftKey) return;
         zoneContextMenuHandlerRef.current(zone, owner, event);
       },
+      ...(strictPromptOptionIds.has(zone)
+        ? { "data-strict-prompt-option": "true" as const }
+        : {}),
     }),
-    [updateDragOver, clearDropTarget, completeDrop],
+    [updateDragOver, clearDropTarget, completeDrop, strictPromptOptionIds],
   );
 
   const handlePilePress = useCallback(
@@ -2098,18 +2131,6 @@ export function BoardInteractionProvider({
       if (owner !== "self" || !interactive) return;
       const board = viewer?.board;
       if (!board) return;
-      if (strictActive) {
-        if (slot === "trash") {
-          viewPile("trash", owner);
-          return;
-        }
-        if (slot === "banished") {
-          viewPile("banished", owner);
-          return;
-        }
-        showStrictModeAction(slot === "mainDeck" ? "draw_cards" : "draw_rune");
-        return;
-      }
       if (slot === "mainDeck") {
         if (board.deck.length === 0) return;
         playBoardSound("card_draw");
@@ -2131,7 +2152,7 @@ export function BoardInteractionProvider({
       }
       viewPile("banished", owner);
     },
-    [viewer, interactive, sendIntent, viewPile, strictActive, showStrictModeAction],
+    [viewer, interactive, sendIntent, viewPile],
   );
 
   const handlePileContextMenu = useCallback(
@@ -2139,18 +2160,6 @@ export function BoardInteractionProvider({
       event.preventDefault();
       event.stopPropagation();
       if (event.shiftKey) return;
-      if (strictActive) {
-        if (slot === "trash") {
-          viewPile("trash", owner);
-          return;
-        }
-        if (slot === "banished") {
-          viewPile("banished", owner);
-          return;
-        }
-        showStrictModeAction(slot === "mainDeck" ? "draw_cards" : "draw_rune");
-        return;
-      }
       if (slot === "mainDeck" && (event.ctrlKey || event.metaKey)) {
         if (owner === "self" && interactive) {
           const count = viewer?.board?.deck.length ?? 0;
@@ -2258,25 +2267,11 @@ export function BoardInteractionProvider({
       );
       playBoardSound("ui_click");
     },
-    [interactive, viewer, sendIntent, viewPile, openMenu, buildSections, strictActive, showStrictModeAction],
+    [interactive, viewer, sendIntent, viewPile, openMenu, buildSections],
   );
 
   const handleZoneContextMenuInternal = useCallback(
     (zone: string, owner: "self" | "opponent", event: React.MouseEvent) => {
-      if (strictActive) {
-        if (zone === "trash" || zone === "banished") {
-          viewPile(zone, owner);
-          return;
-        }
-        if (zone === "hand") {
-          showStrictModeAction("set_hand_reveal");
-          return;
-        }
-        if (zone === "runeArea") {
-          showStrictModeAction("draw_rune");
-          return;
-        }
-      }
       if (zone === "hand") {
         const entries = buildZoneMenu("hand", {
           owner,
@@ -2342,7 +2337,7 @@ export function BoardInteractionProvider({
         return;
       }
     },
-    [interactive, viewer, openMenu, buildSections, sendIntent, handlePileContextMenu, strictActive, viewPile, showStrictModeAction],
+    [interactive, viewer, openMenu, buildSections, sendIntent, handlePileContextMenu],
   );
 
   const handleZoneContextMenu = useCallback(
@@ -2378,11 +2373,15 @@ export function BoardInteractionProvider({
         );
         return;
       }
-      if (event.shiftKey && interactive) {
-        if (strictActive) {
-          showStrictModeAction("chain_add");
+      if (strictActive && strictPrompt && strictPromptOnBoard) {
+        const gesture = strictUseGesture(zone, `battlefield-marker:${zone}`);
+        if (promptOptionForAction(strictPrompt, gesture)) {
+          playBoardSound("card_click");
+          sendIntent(gesture, owner);
           return;
         }
+      }
+      if (event.shiftKey && interactive) {
         sendIntent(
           {
             type: "chain_add",
@@ -2411,30 +2410,33 @@ export function BoardInteractionProvider({
                   triggerPing(`battlefield-marker:${zone}`);
                 },
               },
-              {
-                id: "chain",
-                label: t("sim.tablet.addToChain") ?? "Add to Chain",
-                disabled: !interactive || strictActive,
-                ...(strictActive ? { hint: t("rules.ui.illegal") ?? "Not allowed" } : {}),
-                onSelect: () =>
-                  sendIntent(
+              ...(strictActive
+                ? []
+                : [
                     {
-                      type: "chain_add",
-                      from: "battlefieldMarker",
-                      cardId: `battlefield-marker:${zone}`,
-                      battlefieldZone: zone,
-                      clientEntryId: `chain-${viewerId}-${zone}-${Date.now()}`,
-                    } as GameActionIntent,
-                    owner,
-                  ),
-              },
+                      id: "chain",
+                      label: t("sim.tablet.addToChain") ?? "Add to Chain",
+                      disabled: !interactive,
+                      onSelect: () =>
+                        sendIntent(
+                          {
+                            type: "chain_add",
+                            from: "battlefieldMarker",
+                            cardId: `battlefield-marker:${zone}`,
+                            battlefieldZone: zone,
+                            clientEntryId: `chain-${viewerId}-${zone}-${Date.now()}`,
+                          } as GameActionIntent,
+                          owner,
+                        ),
+                    },
+                  ]),
             ],
           },
         ],
         selected ?? t("sim.battlefield") ?? "Battlefield",
       );
     },
-    [interactive, sendIntent, viewerId, state.players, openMenu, armedAction, completeTarget, triggerPing, strictActive, showStrictModeAction],
+    [interactive, sendIntent, viewerId, state.players, openMenu, armedAction, completeTarget, triggerPing, strictActive, strictPrompt, strictPromptOnBoard],
   );
 
   const handleBoardContextMenu = useCallback(
@@ -2655,12 +2657,6 @@ export function BoardInteractionProvider({
       }
       if (event.repeat) return;
 
-      if (strictActive && !command && !event.altKey && (lower === "b" || lower === "c")) {
-        event.preventDefault();
-        showStrictModeAction(lower === "b" ? "adjust_card_might" : "adjust_card_counter");
-        return;
-      }
-
       // Shift+C duplicate (press) — must be checked before the "c" hold.
       if (event.shiftKey && lower === "c" && !command && !event.altKey) {
         event.preventDefault();
@@ -2682,19 +2678,6 @@ export function BoardInteractionProvider({
         event.preventDefault();
         handleEndTurn();
         return;
-      }
-      if (strictActive) {
-        const blocked =
-          event.code === "Backspace" ||
-          (!event.shiftKey &&
-            !command &&
-            !event.altKey &&
-            ["d", "r", "a", "s", "q", "w"].includes(lower));
-        if (blocked) {
-          event.preventDefault();
-          showStrictModeAction(lower === "d" ? "draw_cards" : lower === "r" ? "rewind_last_action" : "chain_resolve");
-          return;
-        }
       }
       if (event.code === "Backspace" && event.shiftKey && !command) {
         event.preventDefault();
@@ -2869,8 +2852,6 @@ export function BoardInteractionProvider({
     sendIntent,
     armLabelPreset,
     playBoardSound,
-    strictActive,
-    showStrictModeAction,
   ]);
 
   /* --------------------------------------------------------------- derived */
@@ -2897,7 +2878,16 @@ export function BoardInteractionProvider({
     return ids;
   }, [armedAction, state, viewer, opponent]);
 
-  const selectedPlusSource = selectedCardIds;
+  const selectedPlusSource = useMemo(() => {
+    if (strictSelectedUnitIds.size === 0 && strictPromptSelection.length === 0) {
+      return selectedCardIds;
+    }
+    return new Set([
+      ...selectedCardIds,
+      ...strictSelectedUnitIds,
+      ...strictPromptSelection,
+    ]);
+  }, [selectedCardIds, strictSelectedUnitIds, strictPromptSelection]);
 
   const pileCards = useMemo(() => {
     if (!pileViewer) return [];
@@ -2906,6 +2896,43 @@ export function BoardInteractionProvider({
   }, [pileViewer, viewer, opponent, state]);
 
   const emoteList = DEFAULT_EMOTE_WHEEL;
+
+  const resolveStrictAmbiguous = (value: string) => {
+    if (!strictAmbiguous) return;
+    const { action, owner, choice } = strictAmbiguous;
+    setStrictAmbiguous(null);
+    if (choice.kind === "ability") {
+      sendStrictGesture(withGestureAbility(action, value), owner);
+      return;
+    }
+    // Mode pick: the engine has no gesture field for a 355.3 mode, so send the explicit play
+    // with the chosen mode choice (only reached from the ambiguity chooser).
+    const cardId = (action as { cardId?: string }).cardId;
+    if (!cardId) return;
+    const to = (action as { to?: string }).to;
+    const location =
+      to === "base" || (to && to.startsWith("battlefield")) ? to : undefined;
+    const actorId =
+      owner === "opponent" && opponent && dispatchAs
+        ? opponent.id
+        : (strictView?.actorId ?? viewerId);
+    sendAsActor(
+      {
+        type: "rules_play",
+        cardId,
+        ...(location ? { location } : {}),
+        choices: { mode: [value] },
+      } as GameActionIntent,
+      actorId,
+    );
+  };
+
+  const confirmStrictPromptSelection = () => {
+    if (!strictPrompt || !canConfirmPromptSelection(strictPrompt, strictPromptSelection)) return;
+    const actorId = strictPrompt.playerId;
+    setStrictPromptSelection([]);
+    sendAsActor(promptChooseIntent(strictPrompt, strictPromptSelection), actorId);
+  };
 
   const value: BoardInteractionValue = {
     slotProps: {
@@ -2923,6 +2950,7 @@ export function BoardInteractionProvider({
     canAct: interactive,
     strictView,
     strictManual,
+    strictPromptOptionIds,
     showCardPreview,
     showCardPreviewByName,
     hideCardPreview,
@@ -2974,29 +3002,78 @@ export function BoardInteractionProvider({
           outline-offset: -1px;
           box-shadow: inset 0 0 0 1px rgba(126,222,174,0.3), 0 0 14px rgba(64,210,150,0.34) !important;
         }
+        [data-strict-prompt-option="true"] {
+          outline: 1px solid rgba(126, 216, 255, 0.8) !important;
+          outline-offset: -1px;
+          box-shadow: inset 0 0 0 1px rgba(126,216,255,0.3), 0 0 14px rgba(64,164,220,0.38) !important;
+        }
+        [data-strict-drop-target="true"] {
+          outline: 2px solid rgba(255, 214, 126, 0.9) !important;
+          outline-offset: -2px;
+          box-shadow: inset 0 0 0 1px rgba(255,214,126,0.35), 0 0 16px rgba(255,180,64,0.42) !important;
+        }
         [data-card-drag-ghost] [data-card-drop-index] { display: none; }
       `}</style>
       {children}
-      {strictPlay && strictView ? (
-        <StrictPlayDialog
-          key={strictPlay.cardId}
-          room={state}
-          actorId={strictView.actorId}
-          cardId={strictPlay.cardId}
-          {...(strictView.playableById.get(strictPlay.cardId)
-            ? { detail: strictView.playableById.get(strictPlay.cardId)! }
-            : {})}
-          hideLocations={strictView.hideableById.get(strictPlay.cardId) ?? []}
-          t={t}
-          {...(strictPlay.location ? { initialLocation: strictPlay.location } : {})}
-          initialHide={strictPlay.hide === true}
-          explain={(intent) => strictExplainIllegal(state, strictView.actorId, intent)}
-          onIntent={(intent) => {
-            sendStrictIntent(intent);
-            setStrictPlay(null);
-          }}
-          onClose={() => setStrictPlay(null)}
-        />
+      {strictAmbiguous ? (
+        <div
+          className="pointer-events-auto fixed left-1/2 top-[5.2rem] z-[157] w-[min(24rem,calc(100%-1rem))] -translate-x-1/2 rounded-[0.28rem] border border-[rgba(193,210,235,0.5)] bg-[rgba(16,28,46,0.98)] p-[0.45rem] text-[#eef5ff] shadow-[0_10px_24px_rgba(2,7,18,0.6)]"
+          role="dialog"
+          data-testid="strict-ambiguous"
+          data-strict-kind={strictAmbiguous.choice.kind}
+        >
+          <p className="m-0 text-[0.62rem] font-semibold leading-[1.2]">
+            {rulesReasonText(t, "ambiguous_gesture", "403.3")}
+          </p>
+          <div className="mt-[0.3rem] flex flex-wrap gap-[0.24rem]">
+            {strictAmbiguous.choice.values.map((value) => (
+              <button
+                key={value}
+                type="button"
+                className={smallNeutralButton}
+                data-strict-ambiguous-option={value}
+                onClick={() => resolveStrictAmbiguous(value)}
+              >
+                {value}
+              </button>
+            ))}
+            <button
+              type="button"
+              className={smallNeutralButton}
+              onClick={() => setStrictAmbiguous(null)}
+            >
+              {t("rules.ui.cancel") ?? "Cancel"}
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {strictPrompt && strictPromptMulti ? (
+        <div
+          className="pointer-events-auto fixed left-1/2 top-[5.2rem] z-[157] flex -translate-x-1/2 items-center gap-[0.3rem] rounded-[0.28rem] border border-[rgba(125,218,237,0.5)] bg-[rgba(9,25,45,0.97)] px-[0.5rem] py-[0.35rem] text-[0.66rem] font-semibold text-[#d7f6fb] shadow-[0_10px_24px_rgba(2,7,18,0.55)]"
+          role="status"
+          data-testid="strict-prompt-selection"
+        >
+          <span className="max-w-[14rem] truncate">{promptTitle(t, strictPrompt)}</span>
+          <span className="tabular-nums text-[#9fdff2]">
+            {strictPromptSelection.length}/{promptSelectionBounds(strictPrompt).max}
+          </span>
+          <button
+            type="button"
+            className={smallNeutralButton}
+            onClick={() => setStrictPromptSelection([])}
+          >
+            {t("rules.ui.cancel") ?? "Cancel"}
+          </button>
+          <button
+            type="button"
+            className={smallBlueButton}
+            data-testid="strict-prompt-confirm"
+            disabled={!canConfirmPromptSelection(strictPrompt, strictPromptSelection)}
+            onClick={confirmStrictPromptSelection}
+          >
+            {t("rules.ui.confirm") ?? "Confirm"}
+          </button>
+        </div>
       ) : null}
       {strictNotice ? (
         <div

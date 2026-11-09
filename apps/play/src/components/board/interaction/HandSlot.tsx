@@ -199,7 +199,7 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                     draggable={!!interaction?.canAct && owner === "self"}
                     selected={interaction?.selectedCardIds.has(card.id)}
                     targetable={interaction?.targetableCardIds.has(card.id)}
-                    playable={!!interaction?.strictView?.playableById.has(card.id)}
+                    playable={!!interaction?.strictView?.playableCardIds.has(card.id)}
                   />
                 </div>
               </div>

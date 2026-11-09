@@ -83,6 +83,8 @@ export function GameCard({
   const strictLocked = !!interaction?.strictView && !interaction?.strictManual;
   const resolvedPlayable =
     playable ?? !!interaction?.strictView?.playableCardIds.has(card.id);
+  const resolvedTargetable =
+    targetable || !!interaction?.strictPromptOptionIds.has(card.id);
   const effectiveHandler = onCardEvent ?? interaction?.handleCardEvent;
   const interactive = !!effectiveHandler;
   const canDrag = draggable || (!!interaction?.canAct && owner === "self");
@@ -251,7 +253,7 @@ export function GameCard({
                 className="game-selection-target-focus pointer-events-none absolute -inset-[2px] z-6 rounded-[calc(var(--card-radius-main)+2px)] border"
               />
             ) : null}
-            {targetable && !selected ? (
+            {resolvedTargetable && !selected ? (
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute -inset-[2px] z-5 rounded-[calc(var(--card-radius-main)+2px)] border border-[var(--game-selection-focus-border)]"

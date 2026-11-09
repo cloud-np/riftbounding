@@ -149,6 +149,12 @@ export interface MoveCardAction extends ActionBase {
   from: Zone;
   to: Zone;
   cardId: string;
+  /** R4-gestures: additional Units dragged together (strict Standard Move). */
+  cardIds?: string[];
+  /** R4-gestures: the board object the dragged card was dropped onto (targeted play/activate). */
+  targetCardId?: string;
+  /** Alias accepted by the strict gesture translator. */
+  targetObjectId?: string;
   toIndex?: number;                      // insertion index in destination zone
   asHidden?: boolean;                    // play face-down (requires Hidden keyword)
   forced?: boolean;                      // engine internal (legality overrides)
@@ -160,6 +166,8 @@ export interface EquipCardAction extends ActionBase {
   type: "equip_card";
   equipmentCardId: string;
   unitCardId: string;
+  /** R4-gestures: explicit ability ref when a gear has several Equip abilities. */
+  ability?: string;
   asAttachment?: boolean;                // attach from hand as gear (Quick-Draw style)
 }
 export interface SendToDeckAction extends ActionBase { type: "send_to_deck"; from: Zone; cardId: string; position: "top" | "bottom"; }
@@ -169,6 +177,12 @@ export interface ToggleExhaustedAction extends ActionBase {
   zone: Zone;
   cardId: string;
   expectedExhausted: boolean;            // guard: card.exhausted must equal this
+  /** R4-gestures: explicit activated-ability ref (ambiguous-gesture chooser / panel). */
+  ability?: string;
+  /** R4-gestures: the board object this use was dropped onto (targeted activation). */
+  targetCardId?: string;
+  /** Alias accepted by the strict gesture translator. */
+  targetObjectId?: string;
 }
 export interface SetRuneExhaustedAction extends ActionBase { type: "set_rune_exhausted"; cardId: string; exhausted: boolean; }  // rune_batch op only
 export interface DrawCardsAction extends ActionBase { type: "draw_cards"; count?: number; to?: BoardZone | "banished"; }     // default 1 → hand
@@ -329,6 +343,10 @@ export interface ChainAddAction extends ActionBase {
   type: "chain_add";
   from: Zone | "battlefieldMarker";      // "battlefieldMarker" plays the battlefield itself (Baron Pit etc.)
   cardId: string;
+  /** R4-gestures: the board object the card was dropped onto (targeted play). */
+  targetCardId?: string;
+  /** Alias accepted by the strict gesture translator. */
+  targetObjectId?: string;
   clientEntryId?: string;                // "chain_<n>_<n>" (dedupe/optimistic merge)
   battlefieldZone?: BattlefieldZone;     // when from = battlefieldMarker
 }
