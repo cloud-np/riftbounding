@@ -70,26 +70,39 @@ findings, scratch probes), then merged into `r4-engine` and finally integrated h
   [`docs/rules/CARD-AUTHORING.md`](docs/rules/CARD-AUTHORING.md). Self-play outcomes are identical
   per seed to `r4-engine`.
 
+- **R4 play-test fixes (owner live testing of Practice vs Bot, merged into `r4-engine`).** Bot seats
+  count as present; strict prompts get a production banner and board highlights; focus/priority
+  response banner that never reveals whether the holder can respond (Pass = W); gesture-only play
+  with arrow targeting (no option lists) on a cached per-drag legality snapshot (hover is O(1)); chain
+  controls map to `rules_pass`; Hidden (811) hide pockets and facedown plays; attached gear fans out
+  beside its unit (`AttachedCardFan`); trash/banished show and browse their cards; token art via one
+  resolver; units move from a battlefield back to base (144.4.b); Weaponmaster uses scripted Equip
+  costs (821.1.c); effect moves recall when impossible (449.2.c); affordable optional additional
+  costs such as Accelerate are prompted (355.1.a); strict rewind/forward with seeded randomness and
+  repro export/replay in Practice vs Bot and solo_lab ([`docs/rules/rewind.md`](docs/rules/rewind.md));
+  the strict rules panel is dev-only. Reports: `.orchestrator/reports/r4-fix-*`, `r4-gestures-*`,
+  `r4-rewind.final.txt`.
+
 ## 3. Current state
 
 ### Tests per package (final run of this branch)
 
 | Package | Files | Passed | Skipped / failed | Notes |
 | --- | ---: | ---: | --- | --- |
-| `@rift/rules` (default) | 176 | 1986 | 0 / 0 | no `[BUG]` skip remains; includes `test/registry/` (integrity, duplicates, legacy state) |
+| `@rift/rules` (default) | 177 | 2001 | 0 / 0 | no `[BUG]` skip remains; includes `test/registry/` (integrity, duplicates, legacy state) |
 | `@rift/rules` (host config) | 1 | 1 | 0 / 0 | |
-| `@rift/engine` | 23 | 163 | 0 / 0 | `.recon/oracle` present; includes strict rewind/repro |
-| `@rift/sync` | 6 | 57 | 0 / 0 | |
-| `@rift/i18n` | 5 | 168 | 0 / 0 | includes the strict locale suite |
+| `@rift/engine` | 23 | 174 | 0 / 0 | `.recon/oracle` present; includes strict rewind/repro |
+| `@rift/sync` | 6 | 58 | 0 / 0 | |
+| `@rift/i18n` | 5 | 171 | 0 / 0 | includes the strict locale suite |
 | `@rift/cards` | 8 | 104 | 0 / 0 | includes the catalog keyword audit |
 | `realtime` | 8 | 76 | 0 / 0 | includes Practice-vs-Bot rewind/repro |
-| `play` | 46 | 327 | 0 / 0 | includes gesture/board strict tests and rewind visibility |
+| `play` | 52 | 354 | 0 / 0 | includes gesture/board strict tests and rewind visibility |
 
 Typecheck: `pnpm --filter @rift/rules typecheck` and root `pnpm typecheck` are clean (0 errors).
 
 ### Rules coverage (`docs/rules-coverage.md`)
 
-663 / 2321 rule ids tested (28.6%); 1438 tagged test titles; 0 unknown ids
+666 / 2321 rule ids tested (28.7%); 1454 tagged test titles; 0 unknown ids
 (`node packages/rules/scripts/rules-coverage.mjs --check`).
 
 ### Card scripts (`docs/cards-coverage.md`)
@@ -116,11 +129,13 @@ Typecheck: `pnpm --filter @rift/rules typecheck` and root `pnpm typecheck` are c
 
 | Deck mode | Seeds | Wins | Turn caps | Action caps | Stuck | Crashes | Avg turns |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `fixture` | 1–200 | 200 | 0 | 0 | 0 | 0 | 32.02 |
-| `catalog` | 1–400 | 394 | 6 | 0 | 0 | 0 | 35.86 |
+| `fixture` | 1–200 | 200 | 0 | 0 | 0 | 0 | 31.59 |
+| `catalog` | 1–400 | 392 | 8 | 0 | 0 | 0 | 36.98 |
 
 (Re-run after the Weaponmaster attach-cost fix merged into `r4-engine` and again after the
 maintainability pass: per-seed outcomes of the pass are identical to `r4-engine` `b1eb4f9`.)
+Latest sweep (after the play-test fixes): the bot can now pay optional costs such as Accelerate, which
+shifts a few catalog games (392 wins / 8 legal turn caps); still 0 stuck and 0 crashes.
 
 The six catalog turn caps (seeds 62, 143, 157, 268, 323, 338) are long but legal games; raise
 `SELFPLAY_MAX_TURNS` to finish them. The default 50-game fixture run is 50/50 wins, avg 30.88.

@@ -10,13 +10,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | --- | ---: |
 | Numbered rule entries in corpus | 2494 |
 | Rule bodies (entries minus section headings) | 2321 |
-| Rules with at least one test | 663 |
-| Rules coverage | 28.6% |
-| Tagged test titles | 1438 |
-| `[R…]` tags | 2477 |
+| Rules with at least one test | 666 |
+| Rules coverage | 28.7% |
+| Tagged test titles | 1454 |
+| `[R…]` tags | 2506 |
 | `[EX:…]` tags | 116 |
 | Range tags (not expanded) | 25 unique / 29 refs |
-| Test/helper files scanned | 202 |
+| Test/helper files scanned | 203 |
 | Unknown rule ids referenced | 0 |
 
 ## Per-section coverage
@@ -46,7 +46,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Might Bonus | 5 | 0 | 0.0% | 0 | 0 |
 | Flavor Text | 2 | 0 | 0.0% | 0 | 0 |
 | Illustration | 1 | 0 | 0.0% | 0 | 0 |
-| Units | 68 | 18 | 26.5% | 48 | 2 |
+| Units | 68 | 19 | 27.9% | 52 | 2 |
 | Gear | 32 | 2 | 6.3% | 2 | 0 |
 | Spells | 18 | 0 | 0.0% | 0 | 0 |
 | Runes | 15 | 2 | 13.3% | 2 | 0 |
@@ -77,7 +77,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Step 4: Resolve | 5 | 3 | 60.0% | 7 | 0 |
 | Showdowns | 25 | 10 | 40.0% | 19 | 0 |
 | Playing Cards | 9 | 1 | 11.1% | 1 | 0 |
-| The Process of Play | 152 | 79 | 52.0% | 306 | 38 |
+| The Process of Play | 152 | 79 | 52.0% | 316 | 38 |
 | Abilities | 3 | 1 | 33.3% | 1 | 0 |
 | Passive Abilities | 5 | 2 | 40.0% | 15 | 0 |
 | Presence on Permanents | 3 | 2 | 66.7% | 6 | 0 |
@@ -90,7 +90,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Delayed Abilities | 14 | 5 | 35.7% | 24 | 2 |
 | Linked Abilities | 5 | 0 | 0.0% | 0 | 0 |
 | Playing or Activating Abilities | 35 | 14 | 40.0% | 48 | 0 |
-| Game Actions | 12 | 2 | 16.7% | 28 | 0 |
+| Game Actions | 12 | 2 | 16.7% | 29 | 0 |
 | Responsibility | 8 | 2 | 25.0% | 5 | 0 |
 | Draw | 10 | 2 | 20.0% | 4 | 0 |
 | Exhaust | 9 | 3 | 33.3% | 6 | 0 |
@@ -98,8 +98,8 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Recycle | 11 | 6 | 54.5% | 12 | 2 |
 | Deal | 24 | 10 | 41.7% | 26 | 5 |
 | Heal | 5 | 2 | 40.0% | 2 | 0 |
-| Play | 15 | 9 | 60.0% | 49 | 2 |
-| Move | 7 | 1 | 14.3% | 4 | 0 |
+| Play | 15 | 9 | 60.0% | 50 | 2 |
+| Move | 7 | 1 | 14.3% | 5 | 0 |
 | Hide | 5 | 1 | 20.0% | 1 | 0 |
 | Discard | 8 | 3 | 37.5% | 11 | 1 |
 | Stun | 8 | 4 | 50.0% | 10 | 2 |
@@ -125,9 +125,9 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Skip | 10 | 2 | 20.0% | 2 | 1 |
 | Pay | 9 | 1 | 11.1% | 4 | 0 |
 | Copy | 5 | 0 | 0.0% | 0 | 0 |
-| Movement | 21 | 5 | 23.8% | 9 | 0 |
+| Movement | 21 | 7 | 33.3% | 15 | 0 |
 | Recalls | 9 | 5 | 55.6% | 6 | 0 |
-| Combat | 12 | 5 | 41.7% | 11 | 0 |
+| Combat | 12 | 5 | 41.7% | 12 | 0 |
 | Step 1: The Combat Showdown Step | 16 | 10 | 62.5% | 20 | 0 |
 | Step 2: The Combat Damage Step | 19 | 12 | 63.2% | 23 | 5 |
 | Step 3: The Resolution Step | 23 | 16 | 69.6% | 28 | 0 |
@@ -155,7 +155,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Naming Cards, Types, and Tags | 9 | 0 | 0.0% | 0 | 0 |
 | Ignoring Effects | 3 | 2 | 66.7% | 2 | 2 |
 | Keywords | 14 | 6 | 42.9% | 26 | 0 |
-| Accelerate | 13 | 3 | 23.1% | 8 | 0 |
+| Accelerate | 13 | 3 | 23.1% | 10 | 0 |
 | Action | 16 | 2 | 12.5% | 3 | 1 |
 | Assault | 11 | 4 | 36.4% | 16 | 1 |
 | Deathknell | 14 | 4 | 28.6% | 14 | 0 |
@@ -182,7 +182,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Deploy | 8 | 4 | 50.0% | 7 | 0 |
 | Disarm | 11 | 3 | 27.3% | 3 | 1 |
 | Show Off | 14 | 2 | 14.3% | 2 | 0 |
-| **Total** | **2321** | **663** | **28.6%** | **2477** | **116** |
+| **Total** | **2321** | **666** | **28.7%** | **2506** | **116** |
 
 ## Per-rule coverage — Sections 300–479
 
@@ -414,7 +414,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 354.4 | The Process of Play | 0 | 0 | 0 | If there are Tasks outstanding or currently being handled, finish those Tasks before continuing thi… |
 | 355 | The Process of Play | 5 | 5 | 0 | 2. Make relevant choices. |
 | 355.1 | The Process of Play | 0 | 0 | 0 | If the card has an effect that specifies a choice or instructs an action that is not a cost "As I a… |
-| 355.1.a | The Process of Play | 9 | 9 | 0 | This includes the choice of whether or not to pay an Optional Additional Cost. |
+| 355.1.a | The Process of Play | 13 | 13 | 0 | This includes the choice of whether or not to pay an Optional Additional Cost. |
 | 355.2 | The Process of Play | 3 | 3 | 0 | For Units, choose a valid Location where that Unit will enter upon being Played. |
 | 355.2.a | The Process of Play | 4 | 4 | 0 | By default, Valid locations include the controller’s Base or a Battlefield the controller controls. |
 | 355.2.b | The Process of Play | 4 | 4 | 0 | Some Game Effects may grant players permission to play Units to locations that are not normally Val… |
@@ -453,7 +453,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 355.11.b | The Process of Play | 3 | 2 | 1 | If the group of targets no longer collectively fulfill the targeting restriction as the spell or ab… |
 | 355.11.b.1 | The Process of Play | 3 | 2 | 1 | Any legal subset must include the maximum number of legal targets possible for that subset. |
 | 355.12 | The Process of Play | 2 | 2 | 0 | If a spell specifies that a player may perform a Game Action on some number of Game Objects, then a… |
-| 355.13 | The Process of Play | 16 | 16 | 0 | If a card specifies that a player chooses “any number” or “up to” some number of Game Objects to be… |
+| 355.13 | The Process of Play | 17 | 17 | 0 | If a card specifies that a player chooses “any number” or “up to” some number of Game Objects to be… |
 | 355.14 | The Process of Play | 3 | 3 | 0 | Splitting |
 | 355.14.a | The Process of Play | 1 | 1 | 0 | If a card specifies that an amount of damage may be split among some number of Units, then each Uni… |
 | 355.14.b | The Process of Play | 1 | 1 | 0 | The Targets are chosen when the spell or ability is finalized on the chain. |
@@ -484,7 +484,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 356.2.a.1 | The Process of Play | 3 | 2 | 1 | Some Additional Costs specified by Passive Abilities on the card being played or another card are M… |
 | 356.2.a.2 | The Process of Play | 0 | 0 | 0 | The cost imposed by the Deflect keyword is a Mandatory Additional Cost. See rule 809. Deflect for m… |
 | 356.2.b | The Process of Play | 0 | 0 | 0 | Optional Additional Costs |
-| 356.2.b.1 | The Process of Play | 8 | 7 | 1 | Some Optional Costs specified by Passive Abilities on the card being played or another card are Non… |
+| 356.2.b.1 | The Process of Play | 11 | 10 | 1 | Some Optional Costs specified by Passive Abilities on the card being played or another card are Non… |
 | 356.3 | The Process of Play | 3 | 3 | 0 | Apply cost increases. |
 | 356.4 | The Process of Play | 20 | 20 | 0 | Apply discounts. |
 | 356.4.a | The Process of Play | 0 | 0 | 0 | Discounts may be applied by the card being played or by any other card or effect. |
@@ -496,7 +496,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 356.4.d.1 | The Process of Play | 0 | 0 | 0 | These discounts may be applied in any order as long as they are applied after component discounts. |
 | 356.4.e | The Process of Play | 1 | 1 | 0 | If a discount applies a minimum cost, that minimum applies only to that discount. |
 | 356.4.f | The Process of Play | 1 | 1 | 0 | Discounts can reduce additional costs, including to 0. |
-| 356.4.f.1 | The Process of Play | 21 | 19 | 2 | An optional additional cost was "paid" if the player made the decision to pay it. It doesn't matter… |
+| 356.4.f.1 | The Process of Play | 23 | 21 | 2 | An optional additional cost was "paid" if the player made the decision to pay it. It doesn't matter… |
 | 356.4.g | The Process of Play | 2 | 1 | 1 | If a discount applies a variable cost reduction to the card, that value is checked now. |
 | 356.5 | The Process of Play | 0 | 0 | 0 | Apply modifications to the total cost in any order. |
 | 356.5.a | The Process of Play | 0 | 0 | 0 | If an effect allows a player to play a card ignoring “any and all costs,” set the total cost to [0]… |
@@ -779,7 +779,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 411.1.b.1 | Game Actions | 0 | 0 | 0 | As long as any conditions, if applicable, are met. |
 | 411.1.b.2 | Game Actions | 0 | 0 | 0 | As long as any costs, if applicable, are paid. |
 | 411.1.b.3 | Game Actions | 0 | 0 | 0 | As long as it does not result in any forbidden action being taken or game state being created. |
-| 411.2 | Game Actions | 27 | 27 | 0 | Limited Actions |
+| 411.2 | Game Actions | 28 | 28 | 0 | Limited Actions |
 | 411.2.a | Game Actions | 0 | 0 | 0 | A Limited Action is a game action that a spell, ability, or circumstance of the turn's progression … |
 | 411.2.b | Game Actions | 0 | 0 | 0 | These actions can only be taken when a player is instructed to do so as the execution of an effect … |
 | 412.1 | Responsibility | 0 | 0 | 0 | Game Actions may be the responsibility of up to one player. The player that performs the Game Actio… |
@@ -860,7 +860,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 420.1 | Play | 0 | 0 | 0 | A player Plays cards by placing them on the chain and queuing them to be finalized. See rule 349. P… |
 | 420.1.a | Play | 7 | 7 | 0 | By default, a player can only Play cards from their hand or their Chosen Champion zone. |
 | 420.2 | Play | 0 | 0 | 0 | This is a Discretionary Action. |
-| 420.2.a | Play | 7 | 7 | 0 | As long as a player has the resources to pay the costs associated with the card and legal choices t… |
+| 420.2.a | Play | 8 | 8 | 0 | As long as a player has the resources to pay the costs associated with the card and legal choices t… |
 | 420.3 | Play | 17 | 17 | 0 | Game effects may result in cards being Played as part of their resolution. |
 | 420.3.a | Play | 0 | 0 | 0 | This treats Play as a Limited Action. |
 | 420.3.b | Play | 3 | 3 | 0 | Treat all steps of Play as normal, except as noted by the game effect instructing this Limited Play… |
@@ -873,7 +873,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 420.4.b | Play | 0 | 0 | 0 | Non-triggered abilities and conditional clauses that check cards being played do so by means of ref… |
 | 420.5 | Play | 4 | 2 | 2 | If an effect refers to a card being played and doesn’t do so by means of checking whether cards wer… |
 | 421.1 | Move | 0 | 0 | 0 | Moving is the act of a Game Object moving between two Locations on The Board. See rule 447. Movemen… |
-| 421.2 | Move | 4 | 4 | 0 | Moving is a Limited Action. |
+| 421.2 | Move | 5 | 5 | 0 | Moving is a Limited Action. |
 | 421.2.a | Move | 0 | 0 | 0 | Players may only move Game Objects when instructed to do so by Game Effects or costs. |
 | 421.2.b | Move | 0 | 0 | 0 | The Standard Move inherent to Units may also cause Movement. See rule 144. for more information on … |
 | 421.3 | Move | 0 | 0 | 0 | The Standard Move inherent to Units is a Discretionary Action. |
@@ -1165,13 +1165,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 449 | Movement | 1 | 1 | 0 | Moving is defined by the Origin and Destination of the Permanent that is changing locations. |
 | 449.1 | Movement | 0 | 0 | 0 | The Origin is where the Permanent is starting from. |
 | 449.2 | Movement | 4 | 4 | 0 | The Destination is where the Permanent is going to. |
-| 449.2.a | Movement | 1 | 1 | 0 | In Modes of Play with more than two players, Battlefields with Staged Combats or Combats in Progres… |
+| 449.2.a | Movement | 2 | 2 | 0 | In Modes of Play with more than two players, Battlefields with Staged Combats or Combats in Progres… |
 | 449.2.b | Movement | 0 | 0 | 0 | In Modes of Play with teammates, Battlefields occupied by a player’s teammates are Invalid Destinat… |
-| 449.2.c | Movement | 0 | 0 | 0 | If an action would require a Move that would cause a Unit to become present in a Location where it … |
+| 449.2.c | Movement | 2 | 2 | 0 | If an action would require a Move that would cause a Unit to become present in a Location where it … |
 | 450 | Movement | 0 | 0 | 0 | Players may choose to move their Units with the Standard Move. See rule 144. for more information o… |
 | 451 | Movement | 0 | 0 | 0 | Spells, Abilities, or other effects may cause a Move to occur. |
-| 451.1 | Movement | 0 | 0 | 0 | The source of the Move will provide details on any restrictions on legality for Destination. |
-| 451.2 | Movement | 2 | 2 | 0 | Units cannot Move to a Battlefield that already has units from 2 other players present by any means. |
+| 451.1 | Movement | 1 | 1 | 0 | The source of the Move will provide details on any restrictions on legality for Destination. |
+| 451.2 | Movement | 4 | 4 | 0 | Units cannot Move to a Battlefield that already has units from 2 other players present by any means. |
 | 452 | Movement | 1 | 1 | 0 | The Destination becomes Contested if it is an Uncontested Battlefield not controlled by the control… |
 | 453 | Movement | 0 | 0 | 0 | Units may cause a Non-Combat Showdown when they Move. See rule 341. Showdowns for more information. |
 | 454 | Movement | 0 | 0 | 0 | Units may cause Combat when they Move. See rule 461. Combat for more information. |
@@ -1192,7 +1192,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 463.2 | Combat | 0 | 0 | 0 | If Staged Combats stop being Staged before the Steps of Combat are initiated, they are not resolved… |
 | 463.3 | Combat | 0 | 0 | 0 | If a Combat and Showdown are staged at the same Battlefield and the turn player initiates the Showd… |
 | 464 | Combat | 2 | 2 | 0 | Combat can only occur between Units controlled by exactly two players. |
-| 464.1 | Combat | 3 | 3 | 0 | In Modes of Play with more than two players, Battlefields with Staged Combats or Combats in Progres… |
+| 464.1 | Combat | 4 | 4 | 0 | In Modes of Play with more than two players, Battlefields with Staged Combats or Combats in Progres… |
 | 464.2 | Combat | 2 | 2 | 0 | In Modes of Play with more than two players, Battlefields with Staged Combats or Combats in Progres… |
 | 464.2.a | Combat | 0 | 0 | 0 | If an effect would require a Unit be played to a Battlefield with a Staged Combat or a Combat in Pr… |
 | 464.2.b | Combat | 0 | 0 | 0 | Any subsequent reference to "here" in the corresponding effect is reassigned to the Controller's Ba… |
@@ -1335,7 +1335,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 803 | Keywords | 0 | 0 | 0 | Similar to other rules text, execute any effects of Keywords in the order listed when reading the c… |
 | 805.1 | Accelerate | 0 | 0 | 0 | Accelerate is an Optional Additional Cost keyword. |
 | 805.1.a | Accelerate | 0 | 0 | 0 | Accelerate is present on Units. |
-| 805.1.b | Accelerate | 5 | 5 | 0 | Accelerate is functionally short for "As you play me, you may pay [1][C] as an additional cost. If … |
+| 805.1.b | Accelerate | 6 | 6 | 0 | Accelerate is functionally short for "As you play me, you may pay [1][C] as an additional cost. If … |
 | 805.1.b.1 | Accelerate | 1 | 1 | 0 | If the unit has one or more domains, the Power portion of the Accelerate cost can be paid only with… |
 | 805.1.b.2 | Accelerate | 0 | 0 | 0 | If the unit has no domain, the Power portion of the Accelerate cost can be paid with [A] (a Power o… |
 | 805.2 | Accelerate | 0 | 0 | 0 | Accelerate is an Optional Additional Cost to be paid as a player plays the unit with the ability. |
@@ -1344,7 +1344,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 805.3 | Accelerate | 0 | 0 | 0 | Accelerate has no function while on the board. |
 | 805.4 | Accelerate | 0 | 0 | 0 | Multiple instances of Accelerate are redundant. |
 | 805.5 | Accelerate | 0 | 0 | 0 | Accelerate, and whether or not a unit has Accelerate, is a characteristic of the Unit and may be ch… |
-| 805.6 | Accelerate | 2 | 2 | 0 | Accelerate generates a delayed replacement effect that replaces a unit entering the board exhausted… |
+| 805.6 | Accelerate | 3 | 3 | 0 | Accelerate generates a delayed replacement effect that replaces a unit entering the board exhausted… |
 | 805.6.a | Accelerate | 0 | 0 | 0 | Accelerate will not interact with, or trigger, abilities that are affected by units becoming ready. |
 | 806.1 | Action | 0 | 0 | 0 | Action is a Permissive keyword. |
 | 806.1.a | Action | 0 | 0 | 0 | It is present on Cards, Rune Abilities, Legend Abilities or Permanent Abilities. |
@@ -1660,7 +1660,7 @@ Range tags such as `[R341–R348]` label a section; they are not expanded into p
 
 | Range | References | First location |
 | --- | ---: | --- |
-| `[R179–187]` | 1 | packages/rules/test/rules/effects/actions.test.ts:223 |
+| `[R179–187]` | 1 | packages/rules/test/rules/effects/actions.test.ts:264 |
 | `[R193–196]` | 1 | packages/rules/test/rules/combat/scoring.test.ts:88 |
 | `[R307–310]` | 1 | packages/rules/test/rules/turn-states.test.ts:31 |
 | `[R307–313]` | 1 | packages/rules/test/property/timing.test.ts:13 |
@@ -1673,17 +1673,17 @@ Range tags such as `[R341–R348]` label a section; they are not expanded into p
 | `[R387–393]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:254 |
 | `[R402–407]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:27 |
 | `[R412–448]` | 1 | packages/rules/test/rules/cleanup-actions.test.ts:29 |
-| `[R414–417]` | 1 | packages/rules/test/rules/effects/actions.test.ts:6 |
-| `[R430–441]` | 1 | packages/rules/test/rules/effects/actions.test.ts:223 |
+| `[R414–417]` | 1 | packages/rules/test/rules/effects/actions.test.ts:7 |
+| `[R430–441]` | 1 | packages/rules/test/rules/effects/actions.test.ts:264 |
 | `[R447–455]` | 1 | packages/rules/test/rules/play/move.test.ts:27 |
-| `[R456–460]` | 1 | packages/rules/test/rules/effects/actions.test.ts:156 |
+| `[R456–460]` | 1 | packages/rules/test/rules/effects/actions.test.ts:157 |
 | `[R467.2.c.6–467.2.c.9]` | 1 | packages/rules/test/rules/combat/assignment-examples.test.ts:142 |
 | `[R475–479]` | 2 | packages/rules/test/rules/layers.test.ts:5 |
 | `[R475–482]` | 1 | packages/rules/test/rules/effects/layers.test.ts:35 |
 | `[R649–652]` | 1 | packages/rules/test/rules/combat/scoring.test.ts:141 |
-| `[R712–715]` | 1 | packages/rules/test/rules/effects/actions.test.ts:54 |
+| `[R712–715]` | 1 | packages/rules/test/rules/effects/actions.test.ts:55 |
 | `[R716–719]` | 1 | packages/rules/test/rules/effects/layers.test.ts:35 |
-| `[R728–733]` | 1 | packages/rules/test/rules/effects/actions.test.ts:223 |
+| `[R728–733]` | 1 | packages/rules/test/rules/effects/actions.test.ts:264 |
 | `[R764–767]` | 1 | packages/rules/test/rules/effects/costs-ignore.test.ts:100 |
 
 ## Unknown rule ids in tags
