@@ -122,7 +122,12 @@ describe("strict gestures equal their rules_* intent [R349–359][R449–455]", 
     expectSameState(
       room,
       { type: "equip_card", equipmentCardId: ids.blade, unitCardId: ids.keeperBase },
-      { type: "rules_activate", objectId: ids.blade, ability: "equip:0", targets: [ids.keeperBase] },
+      {
+        type: "rules_activate",
+        objectId: ids.blade,
+        ability: "equip:0",
+        choices: { "target:0": [ids.keeperBase] },
+      },
     );
   });
 
@@ -248,6 +253,193 @@ describe("§6.4 manual window keeps free board actions", () => {
     } finally {
       if (original) registerCardScript(original);
     }
+  });
+});
+
+describe("targeting gestures equal their rules_* intent [R355.7][R355.9]", () => {
+  it("a spell dropped on a unit binds that target", () => {
+    const { room, ids } = strictGestureRoom();
+    expectSameState(
+      room,
+      { type: "move_card", from: "hand", to: "base", cardId: ids.rebuke, targetCardId: ids.hunter },
+      { type: "rules_play", cardId: ids.rebuke, choices: { "target:0": [ids.hunter] } },
+    );
+  });
+
+  it("a board ability dragged onto a unit binds that target", () => {
+    const { room, ids } = strictGestureRoom();
+    const ability = strictLegalIntents(room, "p1")!.activatable.find(
+      (entry) => entry.objectId === ids.caitlyn,
+    )!.ability;
+    expectSameState(
+      room,
+      { type: "move_card", from: "battlefieldA", to: "battlefieldA", cardId: ids.caitlyn, targetCardId: ids.enemyHunter },
+      {
+        type: "rules_activate",
+        objectId: ids.caitlyn,
+        ability,
+        choices: { "target:0": [ids.enemyHunter] },
+      },
+    );
+  });
+
+  it("binds only the first target spec and prompts for the rest", () => {
+    const original = getCardScript("Defy");
+    registerCardScript({
+      name: "Defy",
+      text: "test two-target spell",
+      status: "implemented",
+      abilities: [
+        {
+          kind: "spell",
+          effect: {
+            op: "seq",
+            effects: [
+              {
+                op: "return_to_hand",
+                target: {
+                  chosen: true,
+                  targetRef: "target:0",
+                  cardType: "unit",
+                  controller: "self",
+                  zone: "battlefield",
+                },
+              },
+              {
+                op: "return_to_hand",
+                target: {
+                  chosen: true,
+                  targetRef: "target:1",
+                  cardType: "unit",
+                  controller: "opponent",
+                  zone: "battlefield",
+                },
+              },
+            ],
+          },
+        },
+      ],
+    });
+    try {
+      const { room, ids, ctx } = strictGestureRoom();
+      takeFromDeck(room.players[1]!.board!, "Treasure Hunter", "battlefieldB");
+      const defy = takeFromDeck(room.players[0]!.board!, "Defy", "hand");
+      defy.energyCost = 0;
+      defy.powerCost = 0;
+      const next = apply(
+        room,
+        "p1",
+        { type: "chain_add", from: "hand", cardId: defy.id, targetCardId: ids.hunter },
+        ctx,
+      );
+      expect(next.rules?.prompt?.kind).toBe("choose-target");
+      expect(next.rules?.prompt?.options?.some((option) => option.id === ids.enemyHunter)).toBe(true);
+      expect(next.rules?.prompt?.options?.some((option) => option.id === ids.hunter)).toBe(false);
+    } finally {
+      if (original) registerCardScript(original);
+    }
+  });
+
+  it("a click on an open prompt's option equals rules_choose", () => {
+    const { room, ids, ctx } = strictGestureRoom();
+    const prompted = apply(room, "p1", { type: "rules_play", cardId: ids.rebuke }, ctx);
+    const promptId = prompted.rules?.prompt?.id;
+    expect(promptId).toBeTruthy();
+    expectSameState(
+      prompted,
+      { type: "toggle_exhausted", zone: "battlefieldA", cardId: ids.hunter, expectedExhausted: false },
+      { type: "rules_choose", promptId: promptId!, answer: { optionIds: [ids.hunter] } },
+    );
+  });
+
+  it("a click that is not an option is rejected and leaves the prompt open", () => {
+    const { room, ids, ctx } = strictGestureRoom();
+    const prompted = apply(room, "p1", { type: "rules_play", cardId: ids.rebuke }, ctx);
+    expectRejected(
+      prompted,
+      "p1",
+      { type: "toggle_exhausted", zone: "base", cardId: ids.keeperBase, expectedExhausted: false },
+      "invalid_choice",
+      "411.2",
+    );
+    expect(prompted.rules?.prompt).toBeTruthy();
+  });
+});
+
+describe("illegal target gestures [§5]", () => {
+  it("a gear dragged on two targetable units is ambiguous", () => {
+    const { room, ids } = strictGestureRoom();
+    expectRejected(
+      room,
+      "p1",
+      { type: "move_card", from: "base", to: "base", cardId: ids.blade, targetCardId: ids.keeperBase },
+      "ambiguous_gesture",
+      "403.3",
+    );
+  });
+
+  it("Equip on an enemy unit is an illegal target", () => {
+    const { room, ids } = strictGestureRoom();
+    expectRejected(
+      room,
+      "p1",
+      { type: "equip_card", equipmentCardId: ids.blade, unitCardId: ids.enemyHunter },
+      "illegal_target",
+      "355.9",
+    );
+  });
+
+  it("a no-target spell dropped on a unit is an illegal target", () => {
+    const { room, ids } = strictGestureRoom();
+    expectRejected(
+      room,
+      "p1",
+      { type: "chain_add", from: "hand", cardId: ids.meditation, targetCardId: ids.hunter },
+      "illegal_target",
+      "355.9",
+    );
+  });
+});
+
+describe("Quick-Draw hand attachment [R819.1.d]", () => {
+  it("plays the gear and lets the keyword trigger prompt for the dropped unit", () => {
+    const { room, ids, ctx } = strictGestureRoom();
+    const board = room.players[0]!.board!;
+    const blade = board.base.find((card) => card.id === ids.blade)!;
+    board.base = board.base.filter((card) => card.id !== blade.id);
+    blade.text =
+      "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] [1]";
+    blade.keywords = [...(blade.keywords ?? []), "Quick-Draw"];
+    blade.energyCost = 0;
+    blade.powerCost = 0;
+    board.hand.push(blade);
+
+    const played = apply(
+      room,
+      "p1",
+      { type: "equip_card", equipmentCardId: ids.blade, unitCardId: ids.keeperBase, asAttachment: true },
+      ctx,
+    );
+    expect(played.rules?.prompt?.kind).toBe("choose-target");
+    expect(played.rules?.prompt?.playerId).toBe("p1");
+    expect(played.rules?.prompt?.options?.some((option) => option.id === ids.keeperBase)).toBe(true);
+
+    let next = apply(
+      played,
+      "p1",
+      { type: "toggle_exhausted", zone: "base", cardId: ids.keeperBase, expectedExhausted: false },
+      ctx,
+    );
+    // The keyword trigger is on the chain; resolve it (priority passes) before it attaches.
+    for (let step = 0; step < 8 && next.rules?.chain.length; step += 1) {
+      const actor = next.rules?.priority;
+      if (!actor) break;
+      next = apply(next, actor, { type: "rules_pass" }, ctx);
+    }
+    expect(next.rules?.chain).toEqual([]);
+    expect(next.players[0]?.board?.base.find((card) => card.id === ids.blade)?.attachedToCardId).toBe(
+      ids.keeperBase,
+    );
   });
 });
 

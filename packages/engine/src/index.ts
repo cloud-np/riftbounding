@@ -50,3 +50,4 @@ export {
   strictWhoMayAct,
 } from "./strict/view";
 export { pickStrictBotAction } from "./strict/bot";
+export { translateGesture } from "./strict/gestures";

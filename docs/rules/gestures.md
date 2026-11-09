@@ -7,8 +7,9 @@ nothing in strict rules is rejected with the precise reason instead of being sil
 
 Implementation: `packages/engine/src/strict/gestures.ts`
 (`translateGesture(room, actor, action, host)` → `intent | reject | passthrough`), wired into the
-strict gate of `applyGameAction` (`packages/engine/src/engine.ts`). Sandbox rooms
-(`rulesMode` absent/`"sandbox"`) never reach the translator and are byte-for-byte unchanged.
+strict gate of `applyGameAction` (`packages/engine/src/engine.ts`) and re-exported from
+`@rift/engine` for client previews. Sandbox rooms (`rulesMode` absent/`"sandbox"`) never reach the
+translator and are byte-for-byte unchanged.
 
 ## Routing
 
@@ -21,12 +22,13 @@ strict gate of `applyGameAction` (`packages/engine/src/engine.ts`). Sandbox room
 | every other gameplay action | `translateGesture`: `intent` applied like a `rules_*` action, or `reject` |
 
 The translation is pure and deterministic: it reads the room through the rules view
-(`legalIntents`, `whoMayAct`, `explainIllegal`, `activatedAbilitiesOf`) and never mutates it.
+(`legalIntents`, `explainIllegal`, `activatedAbilitiesOf`, `requiredChoices`) and never mutates it.
 
 ## Mapping table
 
 `from`/`to` are board/zone ids from the wire (`"hand"`, `"base"`, `"battlefieldA"`,
 `"battlefieldB"`, `"battlefieldC"`, `"battlefieldToken"`, …). `bf` = any active battlefield zone.
+`targetCardId` is the additive targeting field (alias `targetObjectId`); see the client contract.
 
 | gesture (wire action) | payload | strict intent |
 |---|---|---|
@@ -36,6 +38,10 @@ The translation is pure and deterministic: it reads the room through the rules v
 | card played from trash/banishment (effect permission, Flow) | `move_card { from:"trash"\|"banished", to:"base"\|bf, cardId }` | `rules_play { cardId, location }` |
 | spell dragged out to play / dropped on the chain | `chain_add { from, cardId }` | `rules_play { cardId }` |
 | Hide (facedown) drop | `move_card { …, asHidden:true }` | `rules_play { cardId, hide:true, location }` |
+| **hand card dropped on a board object** whose play has a target spec that accepts it | `move_card`/`chain_add { …, cardId, targetCardId }` | `rules_play { cardId, choices:{ <spec.key>:[targetId] } }` (no location for spells) |
+| hand permanent (unit/gear) dropped on a card at a battlefield, no target spec | `move_card { …, cardId, targetCardId }` | `rules_play { cardId, location:<target's battlefield> }` |
+| **board object dropped on another object** with one legal ability whose target spec accepts it | `move_card`/`toggle_exhausted`/`equip_card` { …, cardId/equipmentCardId, targetCardId/unitCardId } | `rules_activate { objectId, ability, choices:{ <spec.key>:[targetId] } }` |
+| board unit dropped on a card at a battlefield and no ability targets it | `move_card { from:"base"\|bf, to:bf2, cardId, targetCardId }` | `rules_move { unitIds:[cardId], to:<target's battlefield> }` |
 | unit(s) dragged Base → battlefield | `move_card { from:"base", to:bf, cardId }` | `rules_move { unitIds:[cardId], to }` |
 | unit(s) dragged battlefield → Base | `move_card { from:bf, to:"base", cardId }` | `rules_move { unitIds:[cardId], to:"base" }` |
 | units dragged battlefield → battlefield | `move_card { from:bf, to:bf2, cardId }` | `rules_move` (Ganking is checked by 144.4.c) |
@@ -43,26 +49,42 @@ The translation is pure and deterministic: it reads the room through the rules v
 | multi-card off-board move | `move_off_board_cards_batch { from:"base"\|bf, to:"base"\|bf, cardIds }` | `rules_move { unitIds:cardIds, to }` |
 | use/exhaust/tap a card, legend, rune or gear | `toggle_exhausted { zone, cardId, expectedExhausted:false }` | `rules_activate { objectId, ability }` for the single legal ability |
 | use with an explicit ability | `toggle_exhausted { …, ability:"rune:exhaust" }` | `rules_activate { objectId, ability }` |
-| gear on the board dropped on a unit | `equip_card { equipmentCardId, unitCardId }` | `rules_activate { objectId:gear, ability:"equip:0", targets:[unitCardId] }` |
+| gear on the board dropped on a unit | `equip_card { equipmentCardId, unitCardId }` | `rules_activate { objectId:gear, ability:"equip:<n>", choices:{ "target:0":[unitCardId] } }` |
+| Quick-Draw gear dropped from hand on a unit | `equip_card { …, asAttachment:true }` | `rules_play { cardId, location:"base" }`; the `quick-draw` trigger then prompts for the unit |
+| **click/drop on an open prompt's option** (single-selection `choose-target` / `choose-card` / `choose-battlefield`) | `toggle_exhausted` / `move_card` / `chain_add` / `equip_card` naming the option | `rules_choose { promptId, answer:{ optionIds:[optionId] } }` |
 | end turn (sandbox button/shortcut) | `end_turn {}` | `rules_end_turn {}` |
 
-Payment and choices are intentionally omitted from every translated intent, so the engine's
-automatic payment plan and its normal prompts (targets, modes, X, triggered/optional decisions)
-run exactly as for a hand-written intent. `hold` is omitted (default false).
+Payment is intentionally omitted from every translated intent, so the engine's automatic payment
+plan runs exactly as for a hand-written intent. For targeting gestures, `choices[<ChoiceSpec.key>]`
+holds `string[]` option ids; only the FIRST required target spec (rule order mode → targets → X)
+whose legal options include the dropped object is bound. Every other choice is left unanswered so
+the engine opens its normal prompt (forced choices are auto-bound by 411.2). `hold` is omitted.
+
+A mode choice (355.3) is never guessed: a drop on a card for a card whose modes hide their targets
+is rejected with `ambiguous_gesture` and `detail: "mode: <ids>"`; the client must pick the mode
+first. Multi-selection target specs (`min > 1` or `max > 1`) are not completed by one drop; the
+bound single option is validated by the rules layer and rejected if the spec needs more.
 
 ### Rejections
 
 | case | result |
 |---|---|
 | mapped intent is illegal | the `explainIllegal` Verdict of that exact intent: `code` + `rule` (+ `detail`) |
-| tap matches several legal activated abilities (e.g. a Rune: `rune:exhaust`, `rune:recycle`; Blade of the Exile: `activated:0`, `equip:0`) | `ambiguous_gesture` (rule 403.3), `detail: "abilities: <ref>, <ref>"`; nothing is applied |
-| a pending prompt for the actor | `prompt_pending` (411.2) |
-| free-form manipulation (draws, runes, counters, might, score/XP, shuffles, control transfers, arbitrary zone moves, `chain_resolve`, `create_token`, payments, reorder) | `strict_mode_action` (`contract:§4`) with a detail naming the action; nothing is applied |
-| a hand gear dropped on a unit (`equip_card asAttachment:true`) | `strict_mode_action`, rule 819.1.d (Quick-Draw's attach trigger is not implemented in `@rift/rules`; play the gear with `rules_play` instead) |
+| spell dropped on an object its target specs all refuse | the targeted play's verdict (`illegal_target` 355.9 / `no_legal_targets` 355.8) |
+| card with no target spec dropped on a non-battlefield object | `illegal_target` (355.9), `detail: "card <id> does not target <id>"` |
+| board object with no targeting ability dropped on an object (not a unit→battlefield move) | `illegal_target` (355.9), `detail: "<id> has no activated ability that targets <id>"` |
+| several legal abilities accept the dropped object | `ambiguous_gesture` (403.3), `detail: "abilities: <ref>, <ref>"`; nothing is applied |
+| tap matches several legal activated abilities (e.g. a Rune: `rune:exhaust`, `rune:recycle`) | `ambiguous_gesture` (403.3), candidate refs in `detail` |
+| click during a prompt that is not one of its options | `invalid_choice` (411.2), prompt stays open |
+| click during a prompt that needs more than one selection | `invalid_choice` (411.2) with an "accumulate clicks and send rules_choose on confirm" detail |
+| a non-object prompt (yes-no / mode / number / damage assignment) | `prompt_pending` (411.2); answer it with `rules_choose` |
+| free-form manipulation (draws, runes, counters, might, score/XP, shuffles, control transfers, arbitrary zone moves, `chain_resolve`, `create_token`, payments, reorder) | `strict_mode_action` (`contract:§4`) with a detail naming the action |
+| a non-Quick-Draw gear dropped from hand on a unit | `strict_mode_action`, rule 819.1.d (there is no attach-on-play; use Equip) |
 
 Reason strings: `rules.reason.<code>` in `packages/i18n/data/i18n-{en,fr,ko,zh-CN}.json`.
 `ambiguous_gesture` is the only new reason code (added to `IntReasonCode` in
-`packages/protocol/src/rules/domains/int.ts`).
+`packages/protocol/src/rules/domains/int.ts`); the other rejections reuse existing codes
+(`invalid_choice`, `illegal_target`, `prompt_pending`, `strict_mode_action`).
 
 ### §6.4 manual window exception
 
@@ -81,25 +103,44 @@ need a "pick an action" list.
   `move_card { from:"hand", to, cardId }`; dragging a spell out (or dropping it on anything that
   plays it) stays `chain_add { from, cardId }` (the `clientEntryId` is ignored by the strict
   intent). Do not send a separate "play" button action.
+- **Targeting**: when the pointer is over a board card, add `targetCardId:<dropped-onto id>` to the
+  same gesture: `move_card { from:"hand", to:<target's zone>, cardId, targetCardId }` for plays,
+  `chain_add { from, cardId, targetCardId }` for spells, and
+  `move_card { from:"base"|bf, to:<target's zone>, cardId, targetCardId }` / `toggle_exhausted
+  { zone, cardId, expectedExhausted:false, targetCardId }` for board abilities. The engine binds
+  the first accepting target spec; the rest prompt. `targetObjectId` is accepted as an alias.
 - **Move**: dragging a unit Base ↔ battlefield / battlefield ↔ battlefield stays
   `move_card { from, to, cardId }`. For a multi-unit drag send
-  `move_card { from, to, cardId:<primary>, cardIds:[allIds] }` (or `unitIds:[…]`).
+  `move_card { from, to, cardId:<primary>, cardIds:[allIds] }` (or `unitIds:[…]`). A unit dropped
+  on a card at another battlefield moves to that battlefield when no ability targets it.
 - **Use**: tapping/clicking a ready board card, rune, gear or legend is
   `toggle_exhausted { zone, cardId, expectedExhausted:false }`. A ready Gold token is the same
   gesture (its `kill+exhaust: add` ability runs). To disambiguate or to click one ability in a
   panel, add `ability:"<ref>"`; the refs come from `strictLegalIntents(...).activatable`.
 - **Legend**: `BoardInteractionProvider.handleCardClick` currently returns without sending
-  anything for `zone === "legend"` (unless it is a spell). To make legend abilities usable by a
-  gesture, send `toggle_exhausted { zone:"legend", cardId, expectedExhausted:false }` (with
-  `ability` from the legal activations when more than one is legal).
+  anything for `zone === "legend"` (unless it is a spell). Send
+  `toggle_exhausted { zone:"legend", cardId, expectedExhausted:false }` (with `ability` when more
+  than one activation is legal).
 - **Equip**: a gear already on the board dropped on a unit stays
-  `equip_card { equipmentCardId, unitCardId }` (optionally `ability:"equip:<n>"`). A gear dropped
-  from hand on a unit stays `equip_card { …, asAttachment:true }` and is rejected until the
-  Quick-Draw attach trigger exists in `@rift/rules`; send the plain play gesture instead.
+  `equip_card { equipmentCardId, unitCardId }` (optionally `ability:"equip:<n>"`). A Quick-Draw
+  gear dropped from hand on a unit stays `equip_card { …, asAttachment:true }`: the engine plays
+  it to Base and the `quick-draw` keyword trigger opens a `choose-target` prompt for the unit.
+  Keep highlighting the dropped unit while that prompt is open (the client may answer it with the
+  normal prompt-click gesture below or `StrictPromptDialog`). A non-Quick-Draw gear drop is
+  rejected (819.1.d); send the plain play gesture / Equip instead.
+- **Prompt clicks**: while a single-selection object prompt (`choose-target`, `choose-card`,
+  `choose-battlefield`) is open for this client, a click/drop that names one of its options sends
+  the payload above and the engine answers with `rules_choose { promptId, answer:{ optionIds:[id] } }`.
+  The simplest click is `toggle_exhausted { zone, cardId, expectedExhausted:false }`; a drop can
+  use `move_card`/`chain_add`/`equip_card`. For a prompt with `min`/`max` > 1, accumulate the
+  clicks client-side and send ONE `rules_choose` with all selected option ids on confirm (the
+  engine only validates each `rules_choose`); a single click is rejected with `invalid_choice` and
+  the prompt stays open. A click on a non-option is also rejected with `invalid_choice`.
 - **End turn**: `end_turn {}` and `rules_end_turn {}` both work in strict rooms now.
 - **Drop highlight**: `engineCanDrop` dry-runs `applyGameAction` on the real room, so in strict
-  rooms the drag highlight now follows strict legality for `move_card`/`chain_add` (it shows the
-  `explainIllegal` result only as a boolean; `strictExplainIllegal` still gives the text).
+  rooms the drag highlight follows strict legality for `move_card`/`chain_add`; for the exact
+  rejection text use the new `translateGesture` export from `@rift/engine` (or
+  `strictExplainIllegal` for a hand-written intent).
 - **Obsolete client pickers**: the strict panel's per-play / per-activate / per-move buttons are no
   longer required to play; keep them only as an accessibility/fallback surface. The panel's
   prompt dialog (`StrictPromptDialog`) and Pass/End turn/Concede buttons remain necessary. An
@@ -108,30 +149,34 @@ need a "pick an action" list.
 
 ## Not implemented here (lead / rules-side follow-ups)
 
-1. **Native choose-ability prompt.** The rules layer has no public API to open a prompt from the
-   engine side, so `translateGesture` cannot open a "choose one of these abilities" prompt and
-   returns `ambiguous_gesture` instead. A rules-side change would add a `PromptKind` (e.g.
-   `"choose-ability"`), a prompt reason/handler that executes the chosen `rules_activate`, and a
-   way for the strict play/activate flow to open it. Then the ambiguity rejection can become a
-   normal `Prompt`.
-2. **Quick-Draw attachment** (`819.1.d`): the attach-on-play trigger is missing in `@rift/rules`,
-   so the hand→unit `equip_card` gesture is rejected. Implement the trigger and translate that
-   gesture to `rules_play` + a bound attach choice.
-3. **Legend gesture** (apps/play): send the tap gesture for `zone === "legend"` (see above).
-4. **`packages/engine/src/index.ts`**: optionally re-export `translateGesture` (and its result
-   type) if the client should preview the exact intent before sending; the server does not need
-   the export.
-5. **`packages/protocol/CHANGES.md`**: note the additive `IntReasonCode` member
-   `ambiguous_gesture` (one line) if that file is maintained per wave.
-6. **Chain slot / main-deck drops** (apps/play): dropping a card on the chain now means "play it",
+1. **Protocol typing for the target field.** `GameplayAction` is a closed union; the runtime keeps
+   the extra field (the realtime message carries `action: unknown`), but the typed client cannot
+   send it. Add optional `targetCardId?: string` (and optional `ability?: string` on
+   `toggle_exhausted` / `equip_card`) to the matching interfaces in
+   `packages/protocol/src/actions.ts`, and note it in `packages/protocol/CHANGES.md` together with
+   `ambiguous_gesture`. Not edited by this lane because that file is outside its ownership.
+2. **Native choose-ability prompt.** The rules layer has no public API to open a prompt from the
+   engine side, so several targetable abilities produce `ambiguous_gesture` instead of a prompt.
+   A rules-side change would add a `PromptKind` (e.g. `"choose-ability"`), a prompt reason/handler
+   that executes the chosen `rules_activate`, and a way for the strict play/activate flow to open
+   it.
+3. **Quick-Draw pre-binding.** `rules_play` choices only feed the card's spell ability; a keyword
+   trigger's choices are made when the trigger is placed (403.2). The drop therefore plays the
+   gear and lets the normal `quick-draw` prompt choose the unit. Carrying the dropped unit into
+   the trigger would need a rules-side "trigger choice pre-binding" change.
+4. **Legend gesture** (apps/play): send the tap gesture for `zone === "legend"` (see above).
+5. **Chain slot / main-deck drops** (apps/play): dropping a card on the chain now means "play it",
    and dropping on the main deck stays rejected (`strict_mode_action`). Hide those drop targets in
    strict rooms if the visual affordance is confusing; behaviour is already correct.
 
 ## Tests
 
-- `packages/engine/test/strict-gestures-unit.test.ts` — one pure `translateGesture` case per
-  mapping row, ambiguity, explanations, cosmetics, prompt guard, manual window, sandbox passthrough.
-- `packages/engine/test/strict-gestures.test.ts` — end-to-end through `applyGameAction`: every
-  legal gesture equals the state of the equivalent `rules_*` intent; every illegal gesture keeps
-  the room unchanged and returns the code/rule; the manual window keeps free board actions; the
-  same gestures in a sandbox room keep their original behaviour.
+- `packages/engine/test/strict-gestures-unit.test.ts` — pure `translateGesture` cases: every old
+  mapping row, targeting plays, target-spec binding, board ability targeting, Equip-by-drag,
+  ambiguity, prompt clicks (option, non-option, multi-selection, non-object prompt), Quick-Draw,
+  multiple target specs, cosmetics, manual window, sandbox passthrough.
+- `packages/engine/test/strict-gestures.test.ts` — end-to-end through `applyGameAction`: legal
+  gestures equal the state of the equivalent `rules_*` intent (with the same `choices`), illegal
+  gestures keep the room unchanged and return code/rule, prompt clicks equal `rules_choose`, the
+  Quick-Draw trigger prompts and attaches only through the rules layer, the manual window keeps
+  free board actions, and sandbox rooms keep their original behaviour.
