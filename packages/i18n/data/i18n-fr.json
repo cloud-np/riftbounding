@@ -1884,7 +1884,10 @@
     ]
    ],
    "rules.ui.damageCannotBeDealt": "Ne peut pas subir de dégâts",
-   "rules.ui.useSuggestion": "Utiliser la suggestion"
+   "rules.ui.useSuggestion": "Utiliser la suggestion",
+   "sim.botBadge": "Bot",
+   "sim.practiceVsBot": "S’entraîner contre le bot",
+   "sim.practiceVsBotCreated": "Salle d’entraînement contre le bot créée."
   },
   "parts": {
    "suggestionItem": [

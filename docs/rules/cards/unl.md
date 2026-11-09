@@ -87,7 +87,7 @@ builders (Repeat, look-reveal-draw).
 
 <!-- status:start -->
 
-Scripted in this lane: **216** (implemented 152, partial 40, manual 24).
+Scripted in this lane: **216** (implemented 154, partial 38, manual 24).
 
 | Card                        | Status      | Module                          | Notes                                                                                                                                                                                                                                                                                                             |
 | --------------------------- | ----------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -96,7 +96,7 @@ Scripted in this lane: **216** (implemented 152, partial 40, manual 24).
 | Allay, Eager Admirer        | implemented | `passive-units.ts`              |                                                                                                                                                                                                                                                                                                                   |
 | Alpha Strike | partial | `r4-spells.ts` | The split damage is automated (355.14). "For each unit this kills" is read as each affected unit left with lethal damage when the spell resolves: deaths happen in the following Cleanup, so a replaced death still gains the XP (730.1). |
 | Alpha Wildclaw              | implemented | `passive-units.ts`              |                                                                                                                                                                                                                                                                                                                   |
-| Altar of Blood | partial | `r4-battlefields.ts` | The optional [3] replacement is automated (371.2). The apply/decline decision goes to the Turn Player instead of the dying unit's controller (190.6.a, 371.2.a, [BUG] in `r4-bugs.test.ts`); the payment is charged to the dying unit's controller. |
+| Altar of Blood | implemented | `r4-battlefields.ts` | The optional [3] replacement is automated (371.2). The apply/decline decision goes to the player the ability names (the dying unit's controller, 190.6.c / 371.2.a) and the payment is charged to them (R4-engine E). |
 | Amateur Recital             | implemented | `battlefields.ts`               |                                                                                                                                                                                                                                                                                                                   |
 | Angler Beast                | implemented | `angler-beast.ts`               |                                                                                                                                                                                                                                                                                                                   |
 | Arachnoid Horror | partial | `r4-units.ts` | [Hunt 2] works. The play-location permission to an occupied battlefield (355.2.b) cannot be registered by a card script. |
@@ -146,7 +146,7 @@ Scripted in this lane: **216** (implemented 152, partial 40, manual 24).
 | Elder Dragon                | partial     | `more-units.ts`                 | 'Any amount of your damage is enough to kill enemy units' is not automated: lethal damage is always Might (142.4.b, 418.1) and there is no modifier lowering it; only the play trigger is.                                                                                                                        |
 | Enthralling Protector       | implemented | `xp-buff-units.ts`              |                                                                                                                                                                                                                                                                                                                   |
 | Enthusiastic Promoter       | implemented | `units-misc.ts`                 |                                                                                                                                                                                                                                                                                                                   |
-| Evelynn, Entrancing | partial | `r4-units.ts` | [Hidden] and [Backline] work. "When you play me from facedown" is lost when the unit-played event is emitted (811.1.b). |
+| Evelynn, Entrancing | implemented | `r4-units.ts` | [Hidden] and [Backline] work. "When you play me from facedown" reads `data.playedFromFacedown` from the play event (811.6, R4-engine E). |
 | Evershade Stalker           | implemented | `evershade-stalker.ts`          |                                                                                                                                                                                                                                                                                                                   |
 | Existential Dread           | implemented | `more-spells.ts`                | A paid Repeat stuns a second attacking unit chosen for that execution (820.2).                                                                                                                                                                                                                                     |
 | Fate Weaver                 | implemented | `look-units.ts`                 |                                                                                                                                                                                                                                                                                                                   |
@@ -187,7 +187,7 @@ Scripted in this lane: **216** (implemented 152, partial 40, manual 24).
 | Jhin, Meticulous Killer | partial | `r4-units.ts` | [Vision] works. The alternative [mind] cost is gated on resources spent this turn (357, 166.2). |
 | Jhin, Murderous Artist      | partial     | `jhin-murderous-artist.ts`      | The Add trigger goes on the chain like any triggered ability and can be responded to; triggered Add abilities must finalize and resolve immediately without passing Priority (430.2, 430.2.a).                                                                                                                    |
 | Jhin, Virtuoso | manual | `r4-manual.ts` | Resources spent this turn (357, 166.2) and "spells banished with me" (428) are not tracked. |
-| Katarina, Reckless          | partial     | `more-units.ts`                 | 'When you play a card from face down, deal 2 to an enemy unit' is not automated: a unit played from facedown resolves on finalization, so by the time triggers are detected its play (and whether it came from facedown, 811.1.b) is gone; only the hide trigger is.                                              |
+| Katarina, Reckless          | partial     | `more-units.ts`                 | 'When you play a card from face down, deal 2 to an enemy unit' is not automated from the script yet; the engine now records `data.playedFromFacedown` on the play events (811.6, R4-engine E). Only the hide trigger is scripted.                                              |
 | Keeper of Masks | partial | `r4-units.ts` | The two Reflection tokens are played; "they become copies of me" is missing (446). |
 | Keeper's Verdict            | implemented | `keepers-verdict.ts`            |                                                                                                                                                                                                                                                                                                                   |
 | Kha'Zix, Evolving Hunter    | implemented | `combat-trigger-units.ts`       |                                                                                                                                                                                                                                                                                                                   |
@@ -333,32 +333,31 @@ Scripted in this lane: **216** (implemented 152, partial 40, manual 24).
 | Control change (take control of a unit)                                                                                             | 435, 190                 | Conscription                                                                                                                                                            | 1     |
 | Playing a card from the Trash / by an opponent with a stated cost                                                                   | 354, 420.3               | Death from Below, Dancing Grenade, Heedless Resurrection, Undying Loyalty                                                                                               | 4     |
 | Damage doubling and lethal-damage modifiers                                                                                         | 433.1.b, 142.4.b         | Lotus Trap, Elder Dragon                                                                                                                                               | 2     |
-| Optional replacements with a cost (payer attribution); replacing token plays; battlefield tokens                                    | 190.6.a, 371.2.a, 186    | Altar of Blood (payer attribution), Zilean Time Mage, Baron Nashor, Ivern Green Father                                                                                  | 4     |
+| Replacing token plays (the proposed location is not kept); battlefield tokens                                                                 | 370–375, 186             | Zilean Time Mage, Baron Nashor, Ivern Green Father                                                                                  | 3     |
 | Granting Repeat; suppressing keyword triggers (Temporary); movement taxes; play-location permissions (Ambush anywhere, occupied)    | 820, 816, 451, 355.2.b   | Syndra Transcendent, LeBlanc Everywhere at Once, Mageseeker Investigator, Rengar Trophy Hunter, Stalking Wolf, Arachnoid Horror, Determined Sentry (can't move to base), The Academy | 8     |
 | An activated ability with more than one exhaust cost (a chosen unit and the source)                                                 | 357.2                    | Forgotten Signpost                                                                                                                                                     | 1     |
-| "Win the game" effects; play-from-facedown provenance is not on `unit_played`/`card_played`; naming a unit played from a revealed hand | 105, 470.1, 811.6        | Gutter Palace, Evelynn Entrancing, Katarina Reckless, Bone Skewer                                                                                                       | 4     |
+| "Win the game" effects; naming a unit played from a revealed hand (the engine now records the facedown origin, 811.6, but the affected scripts are not upgraded yet) | 105, 470.1             | Gutter Palace, Katarina Reckless, Bone Skewer                                                                                                                          | 3     |
 
 ## Unscripted Unleashed cards
 
-Wave R4 scripted every previously unscripted card. Five are fully implemented (Repulse, Tricksy
-Tentacles, Undying Legion, Curtain Call, Thrill of the Hunt), twelve are partial (the automated part
-is in the status table and the blocked line is in the gap table) and twenty-two are manual (a script
-with the missing piece named in `notes`; the engine's §6.4 manual window resolves them).
+Wave R4 scripted every previously unscripted card. Of the 40 names that had no script after R3,
+seven are now fully implemented (Repulse, Tricksy Tentacles, Undying Legion, Curtain Call, Thrill
+of the Hunt, Altar of Blood, Evelynn, Entrancing), ten are partial (the automated part is in the
+status table and the blocked line is in the gap table) and the rest are manual (a script with the
+missing piece named in `notes`; the engine's §6.4 manual window resolves them).
 
-## Engine bugs (skipped reproductions in `test/cards/unl/bugs.test.ts`, `r4-bugs.test.ts` and `r4b-bugs.test.ts`)
+## Engine bugs (regressions in `test/cards/unl/bugs.test.ts`, `r4-bugs.test.ts` and `r4b-bugs.test.ts`)
 
-- **Play-from-facedown provenance is lost on the play event** (`timing/fepr/finalize.ts` emits
-  `unit_played`/`gear_played` and `play/process.ts` emits `card_played` without
-  `playedFromFacedown`, 811.6): Evelynn, Entrancing ("when you play me from facedown"), Katarina,
-  Reckless ("when you play a card from face down") and Bone Skewer cannot detect the trigger
-  (skipped test in `r4b-bugs.test.ts`).
-- **Optional replacements of a battlefield ability ask the wrong player** (`replacements/
-  interceptor.ts` `replacementSources` gives a battlefield replacement the Turn Player as its
-  `controller`): the `usable` gate checks the Turn Player's Runes and the apply/decline prompt goes
-  to them, but 190.6.a says the battlefield's controller controls the ability "unless that ability
-  indicates another player does" and Altar of Blood names the dying unit's controller, so 371.2.a
-  gives that player the choice. Altar of Blood: a non-Turn-Player whose unit would die is never
-  offered the [3] payment (skipped test in `r4-bugs.test.ts`).
+None open. R4-engine lane E fixed both reproductions and the tests stay unskipped as regressions:
+
+- **Play-from-facedown provenance** (811.6): `unit_played`/`gear_played`/`card_played` now carry
+  `data.playedFromFacedown`; Evelynn, Entrancing is `implemented`. Katarina, Reckless and Bone
+  Skewer still need their own trigger scripts (see their status rows).
+- **Optional battlefield replacement payer** (190.6.a / 190.6.c / 371.2.a): the `usable` gate,
+  prompt, decision sources and payment now use the player the ability names (the dying unit's
+  controller). Altar of Blood is `implemented`.
+- **Pending non-standard cost skipped the resource check** (420.2.a / 357.1): `planPayment` now
+  probes pending cost candidates before listing the play (lane E; bot self-play seed 18 etc.).
 
 ## Data issue (not an engine bug, affects unscripted cards)
 

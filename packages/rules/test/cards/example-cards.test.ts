@@ -214,7 +214,7 @@ describe("cards from the official examples", () => {
     s.as("p1").play("Frigid Touch", { choices: { "target:0": unit.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(effectiveMight(s.room, unit.id, s.host)).toBe(5);
-    expect(getCardScript("Frigid Touch")?.status).toBe("partial");
+    expect(getCardScript("Frigid Touch")?.status).toBe("implemented");
   });
 
   it("[C:Falling Star] deals 3 to a unit and 3 to a unit (two separate targets)", () => {

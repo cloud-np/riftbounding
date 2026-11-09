@@ -19,9 +19,9 @@ registerCustomCondition("ogn-oz:killed-by-you", (ctx) => {
 registerCardScript({
   name: "Solari Shrine",
   text: "When you kill a stunned enemy unit, you may exhaust this to draw 1.",
-  status: "partial",
+  status: "implemented",
   notes:
-    "Direct Kill instructions work (the kill event carries the responsible player, 429.5.b). Damage kills in the Cleanup are attributed through the damage's `damageSource` (429.5.c/.c.1). Status stays with the Origins O–Z card lane.",
+    "Direct Kill instructions work (the kill event carries the responsible player, 429.5.b). Damage kills in the Cleanup are attributed through the damage's `damageSource` (429.5.c/.c.1).",
   abilities: [
     {
       kind: "triggered",

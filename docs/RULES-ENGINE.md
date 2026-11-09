@@ -76,6 +76,37 @@ now unskipped. Wire additions are in `packages/protocol/CHANGES.md`, `## R4-engi
   appended to the Top-Most card. Printed Rules Text passives use the `rules-text` wrapper
   (718.2).
 
+## Status (Wave R4, final integration pass)
+
+R4 also added the card upgrades, the bot/self-play harness, Practice-vs-Bot rooms, gesture-driven
+strict play and the gesture-only board client. All R4 `[BUG]` reproductions are unskipped and
+green; no engine source changed in this final pass.
+
+- **R4-engine lane E** ([findings](../.orchestrator/reports/r4-engine-e-findings.md)): pending
+  non-standard costs are resource-checked before a play is listed (420.2.a / 357.1); an unscripted
+  printed `[Equip]` is no longer exposed as a free `manual:<n>` duplicate (818.1.c.2); a
+  `choose-mode` offers only modes whose mandatory targets have legal choices (355.8 / 355.3,
+  including a pending choice before a later target spec); battlefield replacement decisions go to
+  the player the ability names (190.6.a/.c / 371.2.a); `unit_played`/`gear_played`/`card_played`
+  carry `data.playedFromFacedown` (811.6, Evelynn, Entrancing); damage records a `damageSource`
+  so a Cleanup kill is attributed to the spell/ability that dealt it (429.5.c/.c.1, Solari Shrine).
+- **Bot and self-play** ([`rules/bot.md`](rules/bot.md)): a seeded, read-only random picker
+  (`@rift/rules` bot) plus the engine binding and headless CLI
+  (`pnpm --filter @rift/rules selfplay`). It takes only strictly legal intents and answers every
+  prompt kind; it is intentionally dumb (uniform random, X = 0, yes to optional costs).
+- **Practice vs Bot** ([`rules/bot-room.md`](rules/bot-room.md)): lobby shortcut creating a strict
+  `single_player` room whose second seat is `isBot`, server-driven with per-viewer redaction,
+  auto setup and bounded bot waking (`BOT_ACTION_CAP = 64`).
+- **Gesture-driven strict play** ([`rules/gestures.md`](rules/gestures.md)): the engine translates
+  board gestures (play/drop/move/activate/equip/prompt click/chain A-S/end turn) into the matching
+  `rules_*` intent; ambiguous abilities are rejected with `ambiguous_gesture` instead of guessed.
+  The client (`docs/rules/int.md`) sends only gestures, answers single-select prompts by clicking
+  the board, and keeps `StrictPromptHost` for non-object prompts. The left `StrictRulesPanel` is
+  developer-only (`NODE_ENV !== "production"`); production uses chain A/S, board End turn, the
+  concede entry and the prompt host.
+- **Card lanes**: every R4 card report is in `docs/rules/cards/`; the merged status is in
+  [`../progress.md`](../progress.md) and [`cards-coverage.md`](cards-coverage.md).
+
 ## Toggle & safety
 
 | State | Behaviour |
@@ -609,7 +640,28 @@ replacement sources, kill/die last-known information, Deathknell event choices, 
 the Weaponmaster/Quick-Draw/Deploy keyword triggers, and attached triggers / Effect-Text passives
 (`rules-text` wrapper for 718.2).
 
+Fixed in R4-engine lane E (removed from this list): pending cost playability (420.2.a), the
+duplicate free `manual:<n>` for an unscripted `[Equip]`, mode prompts with no legal target
+(355.8), battlefield replacement payer attribution (190.6.a/.c / 371.2.a), facedown-play
+provenance on the play events (811.6), and Cleanup damage-kill attribution (429.5.c/.c.1).
+
 Remaining:
+
+- **429.5.d multi-source attribution.** `damageSource` keeps one latest source; a kill is
+  attributed to one spell/ability, not to the ability plus its creating Game Object, and
+  multiple contributing sources are not represented. Combat damage records the assigning player,
+  not the source unit (429.5.c.2).
+- **190.6.c signal.** Only a `cost_then.player` selector is read as "this ability indicates that
+  a player makes a choice"; other instructions that name a player still resolve as the
+  battlefield's controller.
+- **718.3 move trigger vs the combat staged by the same move.** Pendulum Blade's appended "When I
+  move to a battlefield" trigger is not automated; implementing it queues the move trigger before
+  the Combat Task, and `test/cards/ven-ogs/units-b.test.ts` (Riven) reads the attack trigger
+  synchronously. RULES-QUESTION.
+- **Bot quality is bounded by legal-move coverage.** The random bot only exercises what
+  `legalIntents` exposes; a card whose legal actions are not enumerated will never be played by
+  self-play. Bot rooms switch the live `Room.roomMode` from `single_player` to `multiplayer` so
+  turns alternate (session doc stays `single_player`) — design question in `progress.md`.
 
 - **491.8.a teammate invitations** (a teammate acting on the Turn Player's turn) are not
   implemented; the priority domain owns them.

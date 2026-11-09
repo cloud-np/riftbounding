@@ -1,6 +1,6 @@
 /**
- * Engine bugs found while scripting Unleashed cards (minimal reproductions, skipped until the
- * engine lane fixes them; card tests work around them where noted).
+ * Engine regressions found while scripting Unleashed cards. All are fixed in R4; the minimal
+ * reproductions stay as regression coverage.
  */
 import { describe, expect, it } from "vitest";
 import { effectiveKeywords } from "../../../src";

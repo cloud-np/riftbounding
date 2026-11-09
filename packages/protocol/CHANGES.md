@@ -248,6 +248,16 @@ Repeat play-time choices are namespaced `repeat:<run>:<key>` in `ChainItem.choic
 each additional execution may choose different targets); they are ordinary choice records, not a
 new wire field. No new prompt reason or event was added in this wave.
 
+## R4-engine lane E — damage attribution (additive)
+
+| file | change | why |
+| --- | --- | --- |
+| `src/rules/domains/effects.ts` | `EffectsObjectFields.damageSource?: { objectId?: string; playerId?: string }` | 429.5.c / 429.5.c.1 / 429.5.c.2: the most recent damage source recorded on the damaged object, so a Cleanup kill is attributed to the spell/ability (and responsible player) that dealt the damage. Read as last-known information; optional and never set by sandbox rooms. |
+
+The lane also made `unit_played` / `gear_played` / `card_played` carry `data.playedFromFacedown:
+true` (811.6). That is an event payload inside the existing `data` object, not a new wire field.
+No new prompt reason, action or message name was added.
+
 ## R4-gestures — board gesture payloads (additive)
 
 | file | change | why |

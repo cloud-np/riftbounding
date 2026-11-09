@@ -13,9 +13,9 @@ import { HERE, custom } from "../dsl";
 registerCardScript({
   name: "Altar of Blood",
   text: "If a unit here would die during combat, its controller may pay [rune] [rune] [rune] to heal it, exhaust it, and recall it instead.",
-  status: "partial",
+  status: "implemented",
   notes:
-    "The optional replacement is automated (371.2, 418). The apply/decline decision goes to the player the ability names (the dying unit's controller, 190.6.c / 371.2.a) and the payment is charged to them. Status stays with the Unleashed card lane.",
+    "The optional replacement is automated (371.2, 418). The apply/decline decision goes to the player the ability names (the dying unit's controller, 190.6.c / 371.2.a) and the payment is charged to them.",
   abilities: [
     {
       kind: "replacement",

@@ -7,7 +7,7 @@
  * duration (801.3.a.3), Empowered (442.2), Might modifications, prevention, counters, the
  * "additional cost was paid" record (356.4.f.1), a Show Off record (832) or a Hidden card's
  * `hiddenTurn`/`hiddenBy` (811.1.b). These are the positive proofs for bugs 1, 3, 4, 8, 9 and 20
- * from progress.md §5; the original `[BUG]` tests stay lead-owned.
+ * from progress.md §5; those original `[BUG]` tests were unskipped by the R4 integration pass.
  */
 import { describe, expect, it } from "vitest";
 import { effectiveKeywords } from "../../../../src";

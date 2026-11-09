@@ -113,9 +113,7 @@ registerAdditionalCosts("Entrenched Boar", [
 registerCardScript({
   name: "Entrenched Boar",
   text: "You may have me enter ready. If you do, I can't move this turn.",
-  status: "partial",
-  notes:
-    "Modelled through the optional-cost flag: choosing the empty optional cost makes me enter ready and adds the move restriction. The flag is also set by paying the ordinary cost with runes (356.4.f.1 [BUG]), which would apply it without the choice.",
+  status: "implemented",
   abilities: [
     {
       kind: "passive",

@@ -1861,7 +1861,10 @@
     ]
    ],
    "rules.ui.damageCannotBeDealt": "无法受到伤害",
-   "rules.ui.useSuggestion": "使用建议"
+   "rules.ui.useSuggestion": "使用建议",
+   "sim.botBadge": "机器人",
+   "sim.practiceVsBot": "与机器人练习",
+   "sim.practiceVsBotCreated": "与机器人练习的房间已创建。"
   },
   "parts": {
    "suggestionItem": [

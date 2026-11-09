@@ -1842,7 +1842,10 @@
     ]
    ],
    "rules.ui.damageCannotBeDealt": "피해를 받을 수 없음",
-   "rules.ui.useSuggestion": "추천 사용"
+   "rules.ui.useSuggestion": "추천 사용",
+   "sim.botBadge": "봇",
+   "sim.practiceVsBot": "봇과 연습",
+   "sim.practiceVsBotCreated": "봇 연습 방이 생성되었습니다."
   },
   "parts": {
    "suggestionItem": [

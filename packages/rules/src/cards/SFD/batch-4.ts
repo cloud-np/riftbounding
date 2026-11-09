@@ -30,8 +30,6 @@ import {
 } from "./common";
 
 const MANUAL: Effect = { op: "custom", id: "manual" };
-const REPEAT_NOTE =
-  "Repeat (820.1.d / 820.2): the engine charges the Repeat cost but does not execute the instructions a second time (with new choices); only the first execution is automated.";
 const CHOOSE_TRIGGER =
   '"When you choose …" triggers: choosing objects with spells/abilities (355.7) emits no event the trigger layer can match.';
 
@@ -620,13 +618,12 @@ registerCardScript({
   ],
 });
 
-/* ---------------------------------------------------------------- Repeat spells (first execution) */
+/* ---------------------------------------------------------------- Repeat spells */
 
 registerCardScript({
   name: "Marching Orders",
   text: "[Action] (Play on your turn or in showdowns.)\n[Repeat][3] (You may pay the additional cost to repeat this spell's effect.)\nChoose a friendly unit anywhere and an enemy unit at a battlefield. They deal damage equal to their Mights to each other.",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",
@@ -654,8 +651,7 @@ registerCardScript({
 registerCardScript({
   name: "Piercing Light",
   text: "[Repeat][2][Fury]  (You may pay the additional cost to repeat this spell's effect.)\nDeal 2 to a unit at a battlefield, then deal 2 to up to one other unit.",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",
@@ -677,8 +673,7 @@ registerCardScript({
 registerCardScript({
   name: "Rocket Barrage",
   text: "[REPEAT][4][Mind] (You may pay the additional cost to repeat this spell's effect, and may make different choices.)\nChoose one —\n- Deal 4 to a unit in a base.\n- Kill a gear.",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",
@@ -704,8 +699,7 @@ registerCardScript({
 registerCardScript({
   name: "Thwonk!",
   text: "[ACTION] (Play on your turn or in showdowns.)\n[REPEAT][2] (You may pay the additional cost to repeat this spell's effect.)\nStun an attacking unit. (It doesn't deal combat damage this turn.)",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",
@@ -717,8 +711,7 @@ registerCardScript({
 registerCardScript({
   name: "Hard Bargain",
   text: "[REACTION] (Play any time, even before spells and abilities resolve.)\n[REPEAT][2] (You may pay the additional cost to repeat this spell's effect.)\nCounter a spell unless its controller pays [2].",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",
@@ -743,8 +736,7 @@ registerCardScript({
 registerCardScript({
   name: "Temptation",
   text: "[Repeat][2] (You may pay the additional cost to repeat this spell's effect.)\nMove an enemy unit to a location where there's a unit with the same controller.",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",

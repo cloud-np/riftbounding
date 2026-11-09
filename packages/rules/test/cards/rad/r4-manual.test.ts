@@ -17,7 +17,7 @@ const STATUSES: Record<string, "implemented" | "partial" | "manual"> = {
   "Ekko, Boy Who Shattered Time": "partial",
   "Ekko, Ingenious": "manual",
   Encore: "partial",
-  "Entrenched Boar": "partial",
+  "Entrenched Boar": "implemented",
   "Evelynn, Agony's Embrace": "manual",
   "Evelynn, Consuming": "manual",
   Fanfare: "implemented",

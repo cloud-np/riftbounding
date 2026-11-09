@@ -134,9 +134,9 @@ registerCustomCondition("unl:enemy-at-other-location", (ctx) => {
 registerCardScript({
   name: "Evelynn, Entrancing",
   text: "[Hidden] (Hide now for [rune] to react with later for [0] .)\n[Backline] (I must be assigned combat damage last.)\nWhen you play me from facedown on your turn, you may move an enemy unit at a different location to my battlefield.",
-  status: "partial",
+  status: "implemented",
   notes:
-    "'When you play me from facedown' is automated from the play event's `data.playedFromFacedown` (811.6). [Hidden] and [Backline] are printed keywords. Status left to the Unleashed card lane (R4-cards) to flip to implemented.",
+    "'When you play me from facedown' is automated from the play event's `data.playedFromFacedown` (811.6). [Hidden] and [Backline] are printed keywords.",
   abilities: [
     {
       kind: "triggered",
