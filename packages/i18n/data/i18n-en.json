@@ -8404,7 +8404,99 @@
      ]
     ],
     "damageCannotBeDealt": "Can't be dealt damage",
-    "useSuggestion": "Use suggestion"
+    "useSuggestion": "Use suggestion",
+    "autoPass": {
+     "title": "Auto-pass",
+     "open": "Auto-pass settings",
+     "ownItems": "Pass on my own chain items",
+     "responses": "Response windows",
+     "responsesStop": "Always stop",
+     "responsesSafe": "Skip when I clearly can't respond",
+     "responsesNoResponse": "Skip whenever I have no response",
+     "forcedPrompts": "Choices with one legal answer",
+     "forcedOff": "Always ask",
+     "forcedSafe": "Answer when it reveals nothing",
+     "forcedAll": "Always answer",
+     "endTurn": "End my turn when there is nothing to do",
+     "endTurnManual": "Never",
+     "endTurnSafe": "When it reveals nothing",
+     "endTurnNoAction": "Whenever nothing is playable",
+     "leakWarning": "Reveals to your opponent that you had no option (they see an instant pass).",
+     "hold": "Full control (hold priority)",
+     "holdHint": "Hold Ctrl/⌘ while dropping a card to keep priority for that play.",
+     "passUntilEndOfTurn": "Pass until end of turn",
+     "passUntilOpponent": "Pass until the opponent acts",
+     "cancelPassUntil": "Stop passing",
+     "activeUntilEndOfTurn": "Passing until end of turn",
+     "activeUntilOpponent": "Passing until the opponent acts",
+     "applyToSimilar": "Same answer for identical prompts this turn",
+     "defaultOrder": "Default order",
+     "notice": {
+      "pass": [
+       [
+        "player"
+       ],
+       " auto-passed (×",
+       [
+        "count"
+       ],
+       ")"
+      ],
+      "ownItem": [
+       [
+        "player"
+       ],
+       " auto-passed on their own item (×",
+       [
+        "count"
+       ],
+       ")"
+      ],
+      "passUntil": [
+       [
+        "player"
+       ],
+       " auto-passed: pass until (×",
+       [
+        "count"
+       ],
+       ")"
+      ],
+      "endTurn": [
+       [
+        "player"
+       ],
+       "'s turn was ended automatically"
+      ],
+      "choose": [
+       [
+        "player"
+       ],
+       "'s only legal choice was made automatically (×",
+       [
+        "count"
+       ],
+       ")"
+      ],
+      "repeat": [
+       [
+        "player"
+       ],
+       "'s answer was repeated: same answer this turn (×",
+       [
+        "count"
+       ],
+       ")"
+      ],
+      "paused": [
+       "Automatic actions paused after ",
+       [
+        "cap"
+       ],
+       " in a row"
+      ]
+     }
+    }
    }
   }
  },

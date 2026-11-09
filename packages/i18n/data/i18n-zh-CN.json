@@ -1980,7 +1980,95 @@
    "rules.ui.useSuggestion": "使用建议",
    "sim.botBadge": "机器人",
    "sim.practiceVsBot": "与机器人练习",
-   "sim.practiceVsBotCreated": "与机器人练习的房间已创建。"
+   "sim.practiceVsBotCreated": "与机器人练习的房间已创建。",
+   "rules.ui.autoPass.title": "自动让过",
+   "rules.ui.autoPass.open": "自动让过设置",
+   "rules.ui.autoPass.ownItems": "在我自己的结算链项目上让过",
+   "rules.ui.autoPass.responses": "响应时机",
+   "rules.ui.autoPass.responsesStop": "总是停下",
+   "rules.ui.autoPass.responsesSafe": "明显无法响应时跳过",
+   "rules.ui.autoPass.responsesNoResponse": "没有可用响应时都跳过",
+   "rules.ui.autoPass.forcedPrompts": "只有一个合法答案的选择",
+   "rules.ui.autoPass.forcedOff": "总是询问",
+   "rules.ui.autoPass.forcedSafe": "不泄露信息时自动选择",
+   "rules.ui.autoPass.forcedAll": "总是自动选择",
+   "rules.ui.autoPass.endTurn": "无事可做时结束我的回合",
+   "rules.ui.autoPass.endTurnManual": "从不",
+   "rules.ui.autoPass.endTurnSafe": "不泄露信息时",
+   "rules.ui.autoPass.endTurnNoAction": "没有可用操作时",
+   "rules.ui.autoPass.leakWarning": "会让对手知道你当时没有选择（对手会看到你立即让过）。",
+   "rules.ui.autoPass.hold": "完全控制（保留优先权）",
+   "rules.ui.autoPass.holdHint": "拖放卡牌时按住 Ctrl/⌘，可在该次使用后保留优先权。",
+   "rules.ui.autoPass.passUntilEndOfTurn": "让过直到回合结束",
+   "rules.ui.autoPass.passUntilOpponent": "让过直到对手行动",
+   "rules.ui.autoPass.cancelPassUntil": "停止让过",
+   "rules.ui.autoPass.activeUntilEndOfTurn": "正在让过直到回合结束",
+   "rules.ui.autoPass.activeUntilOpponent": "正在让过直到对手行动",
+   "rules.ui.autoPass.applyToSimilar": "本回合相同提示使用相同答案",
+   "rules.ui.autoPass.defaultOrder": "默认顺序",
+   "rules.ui.autoPass.notice.pass": [
+    [
+     "player"
+    ],
+    " 已自动让过（×",
+    [
+     "count"
+    ],
+    "）"
+   ],
+   "rules.ui.autoPass.notice.ownItem": [
+    [
+     "player"
+    ],
+    " 在自己的项目上自动让过（×",
+    [
+     "count"
+    ],
+    "）"
+   ],
+   "rules.ui.autoPass.notice.passUntil": [
+    [
+     "player"
+    ],
+    " 已自动让过：持续让过（×",
+    [
+     "count"
+    ],
+    "）"
+   ],
+   "rules.ui.autoPass.notice.endTurn": [
+    [
+     "player"
+    ],
+    " 的回合已自动结束"
+   ],
+   "rules.ui.autoPass.notice.choose": [
+    [
+     "player"
+    ],
+    " 唯一的合法选择已自动完成（×",
+    [
+     "count"
+    ],
+    "）"
+   ],
+   "rules.ui.autoPass.notice.repeat": [
+    [
+     "player"
+    ],
+    " 的答案已重复：本回合相同答案（×",
+    [
+     "count"
+    ],
+    "）"
+   ],
+   "rules.ui.autoPass.notice.paused": [
+    "连续 ",
+    [
+     "cap"
+    ],
+    " 次自动操作后已暂停"
+   ]
   },
   "parts": {
    "suggestionItem": [
