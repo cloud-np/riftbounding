@@ -5,9 +5,7 @@ import { HERE_ZONE } from "./custom";
 registerCardScript({
   name: "Soraka, Wanderer",
   text: "I must be assigned combat damage last.\nIf another unit you control here would die, if it has less Might than me, instead heal it, exhaust it, and recall it. (Send it to base. This isn't a move.)",
-  status: "partial",
-  notes:
-    '"I must be assigned combat damage last" is exposed as the `assigned-last` modifier, which combat damage assignment (467.2.c) does not read yet.',
+  status: "implemented",
   abilities: [
     {
       kind: "passive",

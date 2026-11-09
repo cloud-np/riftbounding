@@ -118,9 +118,10 @@ describe("fixture deck card scripts", () => {
     s.as("p1").apply({ type: "rules_activate", objectId: caitlyn.id, ability: "activated:1", choices: { "target:0": enemy.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, enemy.id)).toBe("trash");
-    // "I must be assigned combat damage last" is exposed for R2-combat.
+    // "I must be assigned combat damage last" is Backline's text (826.3), read by combat assignment
+    // (test/edge-cases/combat.test.ts); the legacy modifier stays exposed.
     expect(activeModifiers(s.room, s.host).some((m) => m.modifier.kind === "assigned-last")).toBe(true);
-    expect(getCardScript("Caitlyn, Patrolling")?.status).toBe("partial");
+    expect(getCardScript("Caitlyn, Patrolling")?.status).toBe("implemented");
   });
 
   it("[C:Astral Heron][EX:420.5] at a battlefield, the first card each turn makes the next card cost [2][Rune][Rune] less", () => {
