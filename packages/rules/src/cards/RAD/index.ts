@@ -15,5 +15,10 @@ import "./units";
 import "./battlefields";
 import "./bombs-and-more";
 import "./batch6";
+// Wave R4 (lane RAD): Show Off/Flow/damage-split upgrades and the remaining cards.
+import "./r4-units";
+import "./r4-spells";
+import "./r4-battlefields";
+import "./r4-manual";
 
 export {};

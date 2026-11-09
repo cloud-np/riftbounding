@@ -221,6 +221,30 @@ registerCustomCondition("rad:event-player-unmarked", (ctx, params) => {
   return marks(ctx.room)[`${markKey(ctx, params.key)}:${player}`] === undefined;
 });
 
+/* ---------------------------------------------------------------- wave R4 conditions */
+
+/** 369.3 / 356.4.f.1: this permanent was played paying an optional additional cost. */
+registerCustomCondition("rad:paid-additional-self", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  return !!source && ctx.room.rules?.objects[source]?.paidAdditionalCost === true;
+});
+
+/**
+ * Akali, Brash (RAD-015): "the first/second time I move each turn" — the source's move count
+ * this turn is kept in the per-turn marks (383.1.b: a per-turn ordinal, not a trigger limit).
+ */
+function moveCount(room: Room, source: string): number {
+  const value = marks(room)[`rad:moves:${source}`];
+  return typeof value === "number" ? value : 0;
+}
+
+registerCustomCondition("rad:move-count-lt", (ctx, params) => {
+  const source = ctx.env.sourceObjectId;
+  if (!source) return false;
+  const limit = typeof params.n === "number" ? params.n : 2;
+  return moveCount(ctx.room, source) < limit;
+});
+
 /* ---------------------------------------------------------------- effects */
 
 /** Marks the event's player for `key` this turn (per-player "first time each turn"). */
@@ -555,4 +579,191 @@ registerPlayPermission((room, _host, query) => {
     return { id: MAY_PLAY, rule: "420.1.a" };
   }
   return null;
+});
+
+/* ---------------------------------------------------------------- wave R4 effects */
+
+/**
+ * Akali, Brash (RAD-015): the first move each turn Adds [1][Rune]; the second banishes the top
+ * card of the Main Deck and grants "until your next Ending Phase, you may play that card"
+ * (420.1.a). Ordinal tracked in the per-turn marks; later moves do nothing.
+ */
+registerCustomEffect("rad:akali-move", (_params, context) => {
+  const machine = context.machine;
+  const ctx = ctxOf(context);
+  const source = ctx.env.sourceObjectId;
+  if (!machine || !source) return RESOLVED;
+  const key = `rad:moves:${source}`;
+  const count = moveCount(context.room, source);
+  marks(context.room)[key] = count + 1;
+  if (count === 0) {
+    machine.push({ effect: { op: "add", resources: { energy: 1, power: { any: 1 } } } });
+  } else if (count === 1) {
+    machine.push({
+      effect: {
+        op: "look",
+        amount: 1,
+        then: {
+          op: "seq",
+          effects: [
+            { op: "banish", target: { targetRef: "looked" } },
+            { op: "custom", id: "rad:may-play-until-ending", params: { ref: "looked" } },
+          ],
+        },
+      },
+    });
+  }
+  return RESOLVED;
+});
+
+/**
+ * "Its base Might becomes N this turn" for `selector` (default `it`): modelled as a this-turn
+ * Might change of N − base Might (layers 479; trait-altering "becomes" is approximated, see
+ * docs/rules/cards/rad.md). `energyCostOf` instead uses that object's Energy cost.
+ */
+registerCustomEffect("rad:base-might-becomes", (params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const ctx = ctxOf(context);
+  const ids = params.selector
+    ? resolveSelector(ctx, params.selector as Selector)
+    : machine.env.it
+      ? [machine.env.it]
+      : [];
+  let value: number | null =
+    typeof params.value === "number" ? Math.trunc(params.value) : null;
+  if (value === null && params.value && typeof params.value === "object") {
+    value = evaluateAmount(ctx, params.value as Amount);
+    if (value !== null) value = Math.trunc(value);
+  }
+  if (params.energyCostOf) {
+    const [sourceId] = resolveSelector(ctx, params.energyCostOf as Selector);
+    value = sourceId ? (costsOf(ctx.room, ctx.host, sourceId)?.energy ?? null) : null;
+  }
+  if (value === null) return RESOLVED;
+  const frames = ids.map((id) => {
+    const base =
+      ctx.room.rules?.objects[id]?.baseMight ?? ctx.host.cardInfo(ctx.room, id)?.might ?? 0;
+    return {
+      effect: {
+        op: "temporary_might" as const,
+        amount: value! - base,
+        target: { targetRef: `obj:${id}` },
+      },
+    };
+  });
+  machine.push(...frames);
+  return RESOLVED;
+});
+
+/**
+ * Seraphic Wyvern (RAD-092): "If you would channel runes, channel that many runes plus 1
+ * exhausted rune instead." Replaces the proposed `channel` (431): the original count first
+ * (ready unless the effect said otherwise), then one exhausted rune.
+ */
+registerCustomEffect("rad:channel-plus-one", (_params, context) => {
+  const machine = context.machine;
+  const ctx = ctxOf(context);
+  if (!machine) return RESOLVED;
+  const base = typeof ctx.env.event?.amount === "number" ? ctx.env.event.amount : 0;
+  machine.push({
+    effect: {
+      op: "seq",
+      effects: [
+        ...(base > 0 ? [{ op: "channel" as const, amount: base }] : []),
+        { op: "channel" as const, amount: 1, exhausted: true },
+      ],
+    },
+  });
+  return RESOLVED;
+});
+
+/** Fanfare (RAD-047): fewer than three unit plays have been counted for this source this turn. */
+function fanfareCount(room: Room, source: string): number {
+  const value = marks(room)[`rad:fanfare:${source}`];
+  return typeof value === "number" ? value : 0;
+}
+
+registerCustomCondition("rad:fanfare-pending", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  return !!source && fanfareCount(ctx.room, source) < 3;
+});
+
+/** Fanfare: count the unit play and draw 1 (the delayed trigger stops after three). */
+registerCustomEffect("rad:fanfare-draw", (_params, context) => {
+  const machine = context.machine;
+  const ctx = ctxOf(context);
+  const source = ctx.env.sourceObjectId;
+  if (!machine || !source) return RESOLVED;
+  const count = fanfareCount(context.room, source);
+  if (count >= 3) return RESOLVED;
+  marks(context.room)[`rad:fanfare:${source}`] = count + 1;
+  machine.push({ effect: { op: "draw", amount: 1 } });
+  return RESOLVED;
+});
+
+/**
+ * "Kill that unit at end of turn": created by a delayed "next unit you play" trigger (390–393);
+ * the unit is frozen to `obj:<id>` so the turn-end trigger can still find it.
+ */
+registerCustomEffect("rad:delayed-kill-event", (_params, context) => {
+  const ctx = ctxOf(context);
+  const id = ctx.env.event?.cardId;
+  if (!id) return RESOLVED;
+  addContinuousEffect(context.room, hostOf(context), {
+    controller: ctx.env.controller,
+    duration: "this-turn",
+    modifier: {
+      kind: "custom",
+      id: "delayed-trigger",
+      params: {
+        trigger: { kind: "turn-end" },
+        effect: { op: "kill", target: { targetRef: `obj:${id}` } },
+        once: true,
+        choices: {},
+      },
+    },
+    ...(ctx.env.sourceObjectId ? { sourceObjectId: ctx.env.sourceObjectId } : {}),
+  });
+  pushEvent(context.step.events, {
+    type: "delayed_created",
+    playerId: ctx.env.controller,
+    data: { rule: "391.2" },
+  });
+  return RESOLVED;
+});
+
+/**
+ * "Choose two —" (Encore, RAD-152; 355.3): a resolution-time multi-mode choice. The engine's
+ * `requiredChoices` only asks one mode on play, so this card-specific op asks for exactly `min`
+ * modes on resolution and runs each chosen mode (a partial: mode/target timing, see the lane doc).
+ */
+registerCustomEffect("rad:choose-modes", (params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const ctx = ctxOf(context);
+  const modes = (params.modes as Array<{ id: string; label?: string; effect: Effect }> | undefined) ?? [];
+  const min = typeof params.min === "number" ? params.min : 1;
+  const max = typeof params.max === "number" ? params.max : min;
+  const answer = machine.frame.answer;
+  if (answer === undefined) {
+    return machine.ask({
+      kind: "choose-mode",
+      playerId: ctx.env.controller,
+      options: modes.map((mode) => ({ id: mode.id, ...(mode.label ? { label: mode.label } : {}) })),
+      min,
+      max,
+      rule: String(params.rule ?? "355.3"),
+      promptKey: String(params.promptKey ?? "rules.prompt.chooseModes"),
+      data: { answer: "options" },
+    });
+  }
+  machine.frame.answer = undefined;
+  const picked = Array.isArray(answer)
+    ? answer.filter((entry): entry is string => typeof entry === "string")
+    : typeof answer === "string"
+      ? [answer]
+      : [];
+  machine.push(...modes.filter((mode) => picked.includes(mode.id)).map((mode) => ({ effect: mode.effect })));
+  return RESOLVED;
 });
