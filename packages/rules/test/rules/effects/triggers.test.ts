@@ -121,6 +121,17 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
     expect(s.room.rules!.triggers).toHaveLength(0);
   });
 
+  it("[R383.3.d.1][R303.2.a] outside the Combat Chain, triggers during a combat keep Turn Order from the Turn Player", () => {
+    const s = scenario();
+    s.room.rules!.combat = { battlefield: "battlefieldA", attacker: "p2", defender: "p1", step: "showdown" };
+    s.room.rules!.triggers.push(
+      { id: "t-attacker", controller: "p2", sourceName: "B" },
+      { id: "t-turn-player", controller: "p1", sourceName: "A" },
+    );
+    expect(flushPendingTriggers(s.room, stepFor(s))).toBe(2);
+    expect(s.room.rules!.chain.map((item) => item.controller)).toEqual(["p1", "p2"]);
+  });
+
   it("[R383.3.d] a player orders their own simultaneous triggers", () => {
     registerCardScript(triggered("Treasure Hunter", { kind: "event", event: { type: "unit_played" } }, { op: "gain_xp", amount: 1 }));
     registerCardScript(triggered("Stellacorn Herder", { kind: "event", event: { type: "unit_played" } }, { op: "draw", amount: 1 }));

@@ -3,9 +3,10 @@
  *
  * Owner: R2-effects. Consumer: R2-combat (466.2.d / 466.2.d.1).
  * Semantics: adds every `PendingTrigger` in `rules.triggers` to the chain. `opts.order` is the
- * player order to place them in (default: Turn Order starting with the Turn Player, 303.2.a).
- * R2-combat passes `[attacker, ...non-defender players in Turn Order, defender]` for the combat
- * chain (466.2.d.1). Returns the number of chain items added.
+ * player order to place them in (default: Turn Order starting with the Turn Player, 303.2.a /
+ * 383.3.d.1, during a combat too). R2-combat passes `[attacker, ...non-defender players in Turn
+ * Order, defender]` once, for the Combat Chain (466.2.d.1). Returns the number of chain items
+ * added.
  *
  * Before flushing, triggers for events emitted so far in this step are detected, so a caller
  * that just emitted events (e.g. combat designations) finds them queued. 383.3.d: a player with
@@ -25,13 +26,15 @@ import { EFFECTS_PROMPT_REASONS } from "../prompts/effects/reasons";
 import { collectTriggers } from "./detect";
 import { keywordTrigger } from "./keywords";
 
-/** 466.2.d.1: during a combat the Attacker places first and the Defender last. */
+/**
+ * 303.2.a / 383.3.d.1: simultaneous triggers are placed in Turn Order from the Turn Player —
+ * also during a combat. The Attacker-first order of 466.2.d.1 applies only to the Combat Chain
+ * (triggers made Pending by beginning the combat and establishing Attacker and Defender); R2-combat
+ * passes it explicitly from `beginCombat` (`combatTriggerOrder`), and a 383.3.d ordering prompt
+ * carries it on to the players who place after the prompt is answered.
+ */
 function defaultOrder(room: Room, step: RulesStepContext): string[] {
-  const order = playersInTurnOrder(room, step.host);
-  const combat = room.rules?.combat;
-  if (!combat) return order;
-  const middle = order.filter((id) => id !== combat.attacker && id !== combat.defender);
-  return [combat.attacker, ...middle, combat.defender].filter((id) => order.includes(id));
+  return playersInTurnOrder(room, step.host);
 }
 
 /** Inline effect + options for keyword / delayed triggers (refs `keyword:*`, `delayed:*`). */
