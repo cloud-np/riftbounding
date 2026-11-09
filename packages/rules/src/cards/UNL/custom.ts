@@ -706,14 +706,10 @@ export function equip(cost: Cost): Ability {
   };
 }
 
-export const enterReady = ENTER_READY_MODIFIER;
-
 export const PETS = ["Bird", "Cat", "Dog", "Poro"];
 
 export const ENTERS_EXHAUSTED_NOTE =
   "'This enters exhausted' is a play trigger that exhausts it, not a replacement while it enters (369, 149.1): in the window before it resolves it could still be used.";
-
-export const ENTER_READY = ENTER_READY_MODIFIER;
 
 export const MOVED_TO_BATTLEFIELD: Condition = { kind: "event-zone-is", battlefield: true };
 

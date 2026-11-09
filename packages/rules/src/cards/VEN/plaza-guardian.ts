@@ -1,6 +1,5 @@
 /** Plaza Guardian. */
-import { registerCardScript, SELF } from "../sdk";
-import { perCount } from "./custom";
+import { perCount, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Plaza Guardian",

@@ -1,7 +1,15 @@
 /** Daisy!. */
 import type { Condition } from "@rift/protocol";
-import { aUnit, custom, HERE, registerCardScript, SELF, whilePassive as whenever } from "../sdk";
-import { ENTER_READY, PETS } from "./custom";
+import {
+  aUnit,
+  custom,
+  ENTER_READY_MODIFIER,
+  HERE,
+  registerCardScript,
+  SELF,
+  whilePassive as whenever,
+} from "../sdk";
+import { PETS } from "./custom";
 
 const ENEMY_HERE = aUnit({ controller: "opponent", zone: HERE });
 
@@ -17,7 +25,7 @@ registerCardScript({
   notes:
     "The printed cost reduction has no amount or symbol ('Reduce my cost by for each …'); it is read as [1] Energy per tag (366.2.a). Otherwise automated.",
   abilities: [
-    { kind: "passive", modifier: ENTER_READY },
+    { kind: "passive", modifier: ENTER_READY_MODIFIER },
     ...PETS.map((tag) => whenever(DAISY_TAG(tag), { kind: "cost", amount: -1, target: SELF })),
     {
       kind: "triggered",

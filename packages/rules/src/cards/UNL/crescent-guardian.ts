@@ -1,6 +1,11 @@
 /** Crescent Guardian. */
-import { custom, PAID_ADDITIONAL, registerCardScript, whilePassive as whenever } from "../sdk";
-import { ENTER_READY } from "./custom";
+import {
+  custom,
+  ENTER_READY_MODIFIER,
+  PAID_ADDITIONAL,
+  registerCardScript,
+  whilePassive as whenever,
+} from "../sdk";
 
 registerCardScript({
   name: "Crescent Guardian",
@@ -17,5 +22,5 @@ registerCardScript({
       condition: custom("unl:played-spell-this-turn"),
     },
   ],
-  abilities: [whenever(PAID_ADDITIONAL, ENTER_READY)],
+  abilities: [whenever(PAID_ADDITIONAL, ENTER_READY_MODIFIER)],
 });

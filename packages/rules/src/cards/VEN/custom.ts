@@ -953,17 +953,3 @@ export const WHEN_I_MOVE_TO_A_BATTLEFIELD: Trigger = {
 };
 
 export const FEWER_RUNES = custom("ven:fewer-runes-than-an-opponent");
-
-/** One conditional modifier per threshold of `selector`'s count (values from several sources add). */
-export function perCount(
-  selector: Selector,
-  steps: number,
-  build: (index: number) => Modifier,
-): Ability[] {
-  return Array.from({ length: steps }, (_, index) =>
-    conditional(
-      { kind: "count", selector, comparison: { op: "gte", value: index + 1 } },
-      build(index),
-    ),
-  );
-}

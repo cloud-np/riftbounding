@@ -1,6 +1,5 @@
 /** Repair Specialist. */
-import { notIntrinsic, registerCardScript, SELF } from "../sdk";
-import { perCount } from "./custom";
+import { notIntrinsic, perCount, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Repair Specialist",

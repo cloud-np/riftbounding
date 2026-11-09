@@ -1,6 +1,5 @@
 /** Shadowcloaked Lurker. */
-import { registerCardScript, SELF } from "../sdk";
-import { perCount } from "./custom";
+import { perCount, registerCardScript, SELF } from "../sdk";
 
 const SHADOWCLOAKED_LURKER = "Shadowcloaked Lurker";
 
