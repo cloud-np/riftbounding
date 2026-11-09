@@ -19,9 +19,9 @@ describe("Assault and Shield [R807][R814]", () => {
     expect(combatKeywordProfile(s.room, unit.id, s.host).assault).toBe(1);
     expect(combatMight(s.room, unit.id, s.host)).toBe(5);
     s.room.rules!.objects[unit.id] = { designation: "attacker" };
-    // Tripwire: if the layers start including Assault in effectiveMight, combatMight must drop
-    // its own bonus (see TODO in combat/keywords.ts).
-    expect(effectiveMight(s.room, unit.id, s.host)).toBe(5);
+    // 807.1.c: Assault is a Might passive, so the layers include it and combat does not add it
+    // again (no double counting).
+    expect(effectiveMight(s.room, unit.id, s.host)).toBe(6);
     expect(combatMight(s.room, unit.id, s.host)).toBe(6);
     s.room.rules!.objects[unit.id] = { designation: "defender" };
     expect(combatMight(s.room, unit.id, s.host)).toBe(5);

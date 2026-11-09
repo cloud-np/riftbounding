@@ -7,7 +7,8 @@
  *   counters (703) + "this turn" Might (`objects.temporaryMight`) + longer object Might
  *   modifications (`objects.mightMods`) + Might passives/continuous effects whose target
  *   matches + Might Bonuses of attached cards (479.4.d / 718.4, modelled as host-targeted
- *   passives). 479.4.e: increases are applied before decreases (the sum is order-independent;
+ *   passives) + Assault/Shield while the designation is held (807.1.c / 814.1.c,
+ *   `combat-keywords.ts`). 479.4.e: increases are applied before decreases (the sum is order-independent;
  *   snapshotted limits are applied by the op that creates the effect, 479.4.b).
  * - Keywords (479.3 Ability-Altering layer): printed + R1 `grantedKeywords` + object keyword
  *   grants with active durations + keyword passives/continuous effects, minus removals
@@ -26,6 +27,7 @@ import type { RulesHost } from "../host";
 import { getCardScript } from "../cards/registry";
 import { durationActive } from "./durations";
 import { activeModifiers, type ActiveModifier } from "./passives";
+import { designationMightBonus } from "./combat-keywords";
 
 /* ---------------------------------------------------------------- selector bridge */
 
@@ -122,6 +124,9 @@ export function rawMight(room: Room, cardId: string, host: RulesHost, depth = 0)
       if (!modifierTargets(room, host, active, cardId, depth + 1)) continue;
       add(modifierMightAmount(room, host, active, depth));
     }
+    // 807.1.c / 814.1.c: Assault/Shield are Might passives while the designation is held. This is
+    // the only place their bonus is applied (combat reads `effectiveMight`).
+    add(designationMightBonus(room, cardId, host));
   }
   // 479.4.e: increases first, then decreases.
   return base + increases + decreases;
@@ -148,7 +153,7 @@ export function splitKeyword(keyword: string): { name: string; value?: number } 
   return { name: keyword.trim() };
 }
 
-interface KeywordEntry {
+export interface KeywordEntry {
   name: string;
   value?: number;
 }
@@ -184,6 +189,22 @@ function keywordEntries(
     }
   }
   return { added, removed };
+}
+
+/** Printed keywords of an object after script suppression markers (727.1.b, 831.2). */
+export function printedKeywordsOf(room: Room, objectId: string, host: RulesHost): string[] {
+  return withoutSuppressed(room, objectId, [...(host.cardInfo(room, objectId)?.keywords ?? [])], host);
+}
+
+/** Every granted keyword instance (object grants, passives, continuous effects) with its value. */
+export function grantedKeywordInstances(room: Room, objectId: string, host: RulesHost): KeywordEntry[] {
+  const { added, removed } = keywordEntries(room, objectId, [], host, 0);
+  return added.filter((entry) => !removed.has(entry.name.toLowerCase()));
+}
+
+/** Keywords removed from an object (801.3.b), lower-cased. */
+export function removedKeywords(room: Room, objectId: string, host: RulesHost): Set<string> {
+  return keywordEntries(room, objectId, [], host, 0).removed;
 }
 
 /**
