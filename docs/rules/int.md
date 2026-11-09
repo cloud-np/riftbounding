@@ -201,6 +201,13 @@ the wire gesture has no mode field; not checked in a browser yet.
   and Skip/Cancel/Confirm where applicable. Every option card is highlighted (attached cards
   included) and chip hover applies a stronger highlight; clicking a card or chip sends the same
   `rules_choose`.
+- **Hidden (811.1.b/811.6).** Dragging a `legalIntents.hideable` card shows a "Hide (facedown)"
+  pocket with the fixed `[A]` cost on each legal battlefield; dropping there sends
+  `move_card { …, asHidden:true }`. Alt+drop on a normal battlefield is the keyboard equivalent.
+  Own facedown cards use the normal `playableCardIds` highlight and clicking one sends the
+  facedown-play gesture; the owner's hover preview shows its identity, while the opponent's
+  redacted placeholder renders as a card back. Same-turn attempts use the engine's
+  `not_in_hand` / 420.1.a rejection toast.
 - **Response windows (312/313/338.1.b/347.2).** The focus/priority holder gets a production
   respond banner: "Showdown at <battlefield>" / "Combat at <battlefield>" / "Respond to <chain
   item>", the translated instruction, and Pass (W → `rules_pass`). Playable cards and activatable

@@ -216,6 +216,16 @@ export function promptOptionForAction(
   return null;
 }
 
+/** 811.1.b: the legal Hide drop zones for the card currently being dragged. */
+export function hideDropZones(
+  hideable: readonly { cardId: string; locations: readonly string[] }[] | undefined,
+  draggedCardId: string | null | undefined,
+): ReadonlySet<string> {
+  if (!draggedCardId || !hideable) return new Set<string>();
+  const entry = hideable.find((candidate) => candidate.cardId === draggedCardId);
+  return new Set(entry?.locations ?? []);
+}
+
 /** `min`/`max` > one selection: clicks accumulate locally and one `rules_choose` is sent. */
 export function promptNeedsAccumulation(prompt: Prompt): boolean {
   const count = (prompt.options ?? []).filter((option) => !option.disabled).length;

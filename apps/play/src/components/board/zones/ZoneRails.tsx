@@ -162,6 +162,7 @@ export function BaseZone({
                   owner={owner}
                   profile="board"
                   exhausted={card.exhausted}
+                  faceDown={card.hidden || card.isPlaceholder}
                   labels={card.customLabels}
                   attachedCards={byHostId.get(card.id)}
                   onCardEvent={onCardEvent}

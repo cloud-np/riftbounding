@@ -1816,6 +1816,9 @@
    ],
    "rules.ui.answerPromptFirst": "请先完成待处理的选择",
    "rules.ui.skip": "跳过",
+   "rules.ui.hidePocket": "隐藏（背面朝上）",
+   "rules.ui.hideCost": "费用：[A]",
+   "rules.ui.hideDropHint": "拖放到此处以隐藏；或在战场上拖放时按住 Alt",
    "rules.ui.showdownAt": [
     "对决：",
     [

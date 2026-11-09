@@ -8267,6 +8267,9 @@
     ],
     "answerPromptFirst": "Answer the pending choice first",
     "skip": "Skip",
+    "hidePocket": "Hide (facedown)",
+    "hideCost": "Cost: [A]",
+    "hideDropHint": "Drop here to hide; or hold Alt while dropping on the battlefield",
     "showdownAt": [
      "Showdown at ",
      [
