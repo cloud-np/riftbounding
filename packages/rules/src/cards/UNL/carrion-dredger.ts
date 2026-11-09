@@ -17,7 +17,7 @@ registerCardScript({
       keywords: ["Deathknell"],
       effect: {
         op: "create",
-        token: token("Bird", { might: 1, keywords: ["Deflect"], play: true }),
+        token: token("Bird", { might: 1, play: true }),
         zone: "base",
       },
     },

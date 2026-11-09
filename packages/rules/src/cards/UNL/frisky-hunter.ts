@@ -16,7 +16,7 @@ registerCardScript({
       trigger: WHEN_PLAYED,
       effect: {
         op: "create",
-        token: token("Bird", { might: 1, keywords: ["Deflect"], play: true }),
+        token: token("Bird", { might: 1, play: true }),
         zone: HERE,
       },
     },

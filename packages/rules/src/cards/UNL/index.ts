@@ -24,5 +24,19 @@ import "./ruined-rex";
 import "./scrutinizing-sergeant";
 import "./walking-roost";
 import "./wuju-apprentice";
+// batch 2
+import "./keyword-units";
+import "./level-units";
+import "./arena-kingpin";
+import "./divining-shells";
+import "./dragonsoul-sage";
+import "./lillia-protector-of-dreams";
+import "./master-yi-wuju-master";
+import "./megatusk";
+import "./petal-pixie";
+import "./soul-shepherd";
+import "./vi-hotheaded";
+import "./xerath-freed";
+import "./xp-buff-units";
 
 export {};

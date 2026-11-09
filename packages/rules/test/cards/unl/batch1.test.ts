@@ -2,7 +2,7 @@
  * Unleashed (UNL) batch 1 — play effects and Deathknell units.
  */
 import { describe, expect, it } from "vitest";
-import { effectiveKeywords, getCardScript, xpOf } from "../../../src";
+import { effectiveKeywordValues, effectiveKeywords, getCardScript, xpOf } from "../../../src";
 import { boardOf, fund, place, run, zoneOf } from "../../rules/effects/helpers";
 import { answer, cardsNamed, hand, resolveChain, withCards } from "./helpers";
 
@@ -90,7 +90,7 @@ describe("Unleashed batch 1 — play effects", () => {
     resolveChain(s);
     const birds = cardsNamed(s, "p1", "battlefieldA", "Bird");
     expect(birds).toHaveLength(1);
-    expect(effectiveKeywords(s.room, birds[0]!.id, s.host)).toContain("Deflect");
+    expect(effectiveKeywordValues(s.room, birds[0]!.id, s.host).deflect).toBe(1);
     // [R135.2.d.3] the reminder text's [Deflect] is not the Hunter's own keyword.
     const hunter = s.findBoardCardAnywhere("Frisky Hunter")!;
     expect(effectiveKeywords(s.room, hunter.id, s.host)).not.toContain("Deflect");
@@ -103,6 +103,8 @@ describe("Unleashed batch 1 — play effects", () => {
     resolveChain(s);
     expect(cardsNamed(s, "p2", "base", "Bird")).toHaveLength(1);
     expect(cardsNamed(s, "p1", "base", "Bird")).toHaveLength(0);
+    const bird = cardsNamed(s, "p2", "base", "Bird")[0]!;
+    expect(effectiveKeywordValues(s.room, bird.id, s.host).deflect).toBe(1);
     expect(
       effectiveKeywords(s.room, s.findBoardCardAnywhere("Walking Roost")!.id, s.host),
     ).toContain("Deflect");
@@ -204,7 +206,7 @@ describe("Unleashed batch 1 — Deathknell", () => {
     resolveChain(s);
     const birds = cardsNamed(s, "p1", "base", "Bird");
     expect(birds).toHaveLength(1);
-    expect(effectiveKeywords(s.room, birds[0]!.id, s.host)).toContain("Deflect");
+    expect(effectiveKeywordValues(s.room, birds[0]!.id, s.host).deflect).toBe(1);
   });
 
   it("[C:Ruined Rex][R808][R418] Deathknell: deal 4 to an enemy unit", () => {
