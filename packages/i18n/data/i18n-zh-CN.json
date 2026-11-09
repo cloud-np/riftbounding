@@ -1870,6 +1870,7 @@
    "rules.ui.hidePocket": "隐藏（背面朝上）",
    "rules.ui.hideCost": "费用：[A]",
    "rules.ui.hideDropHint": "拖放到此处以隐藏；或在战场上拖放时按住 Alt",
+   "rules.ui.targetAimInstruction": "选择目标：将箭头拖到高亮的单位上",
    "rules.ui.showdownAt": [
     "对决：",
     [

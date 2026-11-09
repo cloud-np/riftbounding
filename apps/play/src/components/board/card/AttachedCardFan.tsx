@@ -107,6 +107,8 @@ export function AttachedCardFan({ cards, zone, owner, onCardEvent }: AttachedCar
             key={`attached-${attachedCard.id}`}
             aria-hidden={promptOption ? undefined : "true"}
             data-attached-card-id={attachedCard.id}
+            data-card-id={attachedCard.id}
+            data-drop-zone={zone}
             data-attached-card-rank={index}
             data-attached-card-z={zIndex}
             data-attached-card-name={faceDown ? undefined : attachedCard.name}

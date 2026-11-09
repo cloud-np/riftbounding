@@ -166,6 +166,8 @@ export interface BoardInteractionValue {
   getDropZoneHandlers: (zone: string, owner: "self" | "opponent") => DropZoneHandlers;
   /** 811.1.b: drop pocket that hides the dragged card at this battlefield. */
   getHideDropZoneHandlers: (zone: string, owner: "self" | "opponent") => DropZoneHandlers;
+  /** 411.2: click a player seat when it is a prompt option (choose-player). */
+  handlePlayerTargetClick: (playerId: string) => void;
   handleZoneContextMenu: (zone: string, owner: "self" | "opponent", event: React.MouseEvent) => void;
   handlePilePress: (slot: "mainDeck" | "runeDeck" | "trash" | "banished", owner: "self" | "opponent", event: React.MouseEvent) => void;
   handlePileContextMenu: (slot: "mainDeck" | "runeDeck" | "trash" | "banished", owner: "self" | "opponent", event: React.MouseEvent) => void;

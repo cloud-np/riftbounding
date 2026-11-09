@@ -202,10 +202,20 @@ the wire gesture has no mode field; not checked in a browser yet.
   card art/name renders like a sandbox chain card, including token art (`tokens/<Name>.webp`).
   Hidden/facedown (including redacted `__hidden_zone__` chain placeholders) stay card backs.
 - **Prompt surface.** While a controlled seat has a board-object prompt, `BoardInteractionProvider`
-  renders a production banner with the source card name + translated instruction, option chips,
-  and Skip/Cancel/Confirm where applicable. Every option card is highlighted (attached cards
-  included) and chip hover applies a stronger highlight; clicking a card or chip sends the same
-  `rules_choose`.
+  renders a production banner with the source card name + translated instruction, pinned count for
+  multi-target, and Skip/Cancel/Confirm where applicable. Option cards are highlighted (attached
+  cards included) and targeted by the arrow overlay below; there is no option list.
+- **Arrow targeting (strict).** Board-object prompts (`choose-target`, `choose-card`,
+  `choose-battlefield`, `choose-player`) no longer list options as chips. `TargetArrowOverlay`
+  draws an arrow from the source (chain card / source object) to the pointer, snaps to highlighted
+  options, and shows a red not-allowed arrow over non-options; attached gear fans out so it can be
+  aimed at, and battlefield/player seats are anchors too. Clicking an option sends the existing
+  `rules_choose`/gesture answer; clicking a non-option sends nothing. Multi-target prompts pin
+  arrows with index badges, auto-confirm at max, and otherwise show Confirm once min is reached.
+  Esc/right-click cancels (or skips an optional prompt). Keyboard: Tab/arrow keys cycle the
+  highlighted target, Enter locks it.
+- **Public target arrows.** Chosen `target:*` values on chain items are drawn as passive
+  controller-coloured arrows for both viewers; hidden/facedown/redacted targets are skipped.
 - **Hidden (811.1.b/811.6).** Dragging a `legalIntents.hideable` card shows a "Hide (facedown)"
   pocket with the fixed `[A]` cost on each legal battlefield; dropping there sends
   `move_card { …, asHidden:true }`. Alt+drop on a normal battlefield is the keyboard equivalent.

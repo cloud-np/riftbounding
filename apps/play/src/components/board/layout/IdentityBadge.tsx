@@ -4,6 +4,7 @@ import type { RoomPlayer } from "@rift/protocol";
 import { createTranslator } from "@rift/i18n";
 
 import type { CardSide } from "../card/types";
+import { useBoardInteractionOptional } from "../interaction/context";
 
 const t = createTranslator("en");
 
@@ -23,6 +24,8 @@ export function IdentityBadge({
 }) {
   const variant = side === "self" ? "player" : "opponent";
   const hasTimer = !!clock;
+  const interaction = useBoardInteractionOptional();
+  const playerTarget = !!interaction?.strictPromptOptionIds.has(player.id);
   const isBot = !!player.isBot;
   const isOnline = isBot || (online ?? !player.leftAt);
   const hasBotBadge = isBot && !hasTimer;
@@ -31,10 +34,25 @@ export function IdentityBadge({
   return (
     <div
       data-player-identity-rail={side}
+      data-target-player-id={player.id}
+      data-strict-prompt-option={playerTarget ? "true" : undefined}
+      data-strict-prompt-hover={
+        playerTarget && interaction?.strictPromptHoverId === player.id ? "true" : undefined
+      }
+      onClick={
+        playerTarget
+          ? (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              interaction?.handlePlayerTargetClick(player.id);
+            }
+          : undefined
+      }
       className={
-        side === "self"
+        (side === "self"
           ? "absolute left-[calc(var(--track-edge-inset)+var(--score-track-rail-width)/2-var(--identity-badge-width)/2)] bottom-(--identity-badge-edge-inset) z-13 flex translate-x-(--identity-badge-player-nudge) items-center pointer-events-none"
-          : "absolute top-(--identity-badge-edge-inset) right-[calc(var(--track-edge-inset)+var(--score-track-rail-width)/2-var(--identity-badge-width)/2)] z-13 flex -translate-x-(--identity-badge-opponent-nudge) items-center pointer-events-none"
+          : "absolute top-(--identity-badge-edge-inset) right-[calc(var(--track-edge-inset)+var(--score-track-rail-width)/2-var(--identity-badge-width)/2)] z-13 flex -translate-x-(--identity-badge-opponent-nudge) items-center pointer-events-none") +
+        (playerTarget ? " pointer-events-auto cursor-pointer" : "")
       }
       style={{ height: "var(--identity-badge-height)" }}
     >

@@ -93,6 +93,9 @@ function BattlefieldMarker({
       data-card-id={`battlefield-marker:${info.zone}`}
       data-drop-zone={info.zone}
       data-battlefield-marker={info.zone}
+      data-strict-prompt-hover={
+        interaction?.strictPromptHoverId === info.zone ? "true" : undefined
+      }
       data-preview-landscape="true"
       data-preview-rotation="0"
       draggable={!!interaction?.canAct}
