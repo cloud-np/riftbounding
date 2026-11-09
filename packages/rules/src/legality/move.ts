@@ -22,7 +22,9 @@ export function moveTimingVerdict(
   host: RulesHost,
 ): Verdict {
   const base = baseActionVerdict(room, playerId);
-  if (!base.ok) return base;
+  // 144.1.a: a Standard Move can be performed during the player's Main Phase. Keep the
+  // move-specific citation (the shared gate cites 316 for every intent).
+  if (!base.ok) return base.code === "not_main_phase" ? fail("not_main_phase", "144.1.a") : base;
   const rules = room.rules!;
   if (!isTurnPlayer(room, playerId)) return fail("not_your_turn", "410");
   // 144.1.b/c: not during a Closed State, Showdown or Combat. A Closed State is not a

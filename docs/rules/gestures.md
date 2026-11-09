@@ -44,7 +44,7 @@ The translation is pure and deterministic: it reads the room through the rules v
 | **board object dropped on another object** with one legal ability whose target spec accepts it | `move_card`/`toggle_exhausted`/`equip_card` { …, cardId/equipmentCardId, targetCardId/unitCardId } | `rules_activate { objectId, ability, choices:{ <spec.key>:[targetId] } }` |
 | board unit dropped on a card at a battlefield and no ability targets it | `move_card { from:"base"\|bf, to:bf2, cardId, targetCardId }` | `rules_move { unitIds:[cardId], to:<target's battlefield> }` |
 | unit(s) dragged Base → battlefield | `move_card { from:"base", to:bf, cardId }` | `rules_move { unitIds:[cardId], to }` |
-| unit(s) dragged battlefield → Base | `move_card { from:bf, to:"base", cardId }` | `rules_move { unitIds:[cardId], to:"base" }` |
+| unit(s) dragged battlefield → Base | `move_card { from:bf, to:"base", cardId }` | `rules_move { unitIds:[cardId], to:"base" }` (144.4.b; an incidental `targetCardId` over a Base card is ignored when no ability targets it) |
 | units dragged battlefield → battlefield | `move_card { from:bf, to:bf2, cardId }` | `rules_move` (Ganking is checked by 144.4.c) |
 | several units dragged together | `move_card { …, cardId, cardIds:[…] }` (or `unitIds`) | `rules_move { unitIds, to }` |
 | multi-card off-board move | `move_off_board_cards_batch { from:"base"\|bf, to:"base"\|bf, cardIds }` | `rules_move { unitIds:cardIds, to }` |
@@ -167,6 +167,11 @@ need a "pick an action" list.
   `move_card { from, to, cardId }`. For a multi-unit drag send
   `move_card { from, to, cardId:<primary>, cardIds:[allIds] }` (or `unitIds:[…]`). A unit dropped
   on a card at another battlefield moves to that battlefield when no ability targets it.
+  **Client note**: the board currently adds `targetCardId` for every strict drop over a card
+  (`drop-intents.ts:targetCardIdFor`, `includeTarget: strictActive`). The engine now ignores it for
+  multi-unit moves and falls back to the Standard Move for a Unit dropped on the Base over a card,
+  but the preferred fix is to include `targetCardId` only for a deliberate card-on-card gesture
+  (an armed target/ability), so a plain zone drop stays a plain `move_card`.
 - **Use**: tapping/clicking a ready board card, rune, gear or legend is
   `toggle_exhausted { zone, cardId, expectedExhausted:false }`. A ready Gold token is the same
   gesture (its `kill+exhaust: add` ability runs). To disambiguate or to click one ability in a

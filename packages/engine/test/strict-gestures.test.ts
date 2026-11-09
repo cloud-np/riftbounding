@@ -679,6 +679,240 @@ describe("Hidden cards: hide and play from facedown [R811]", () => {
   });
 });
 
+describe("Standard Move out of a battlefield [R144]", () => {
+  function resolveChain(room: Room, ctx: ReturnType<typeof makeContext>): Room {
+    let next = room;
+    for (let step = 0; step < 8 && next.rules?.chain.length; step += 1) {
+      const actor = next.rules?.priority;
+      if (!actor) break;
+      next = apply(next, actor, { type: "rules_pass" }, ctx);
+    }
+    return next;
+  }
+
+  it("[R144.1.a][R144.4.b] legalIntents offers Base and the drag maps to that rules_move", () => {
+    const { room, ids } = strictGestureRoom();
+    const legal = strictLegalIntents(room, "p1");
+    expect(legal?.moves.find((move) => move.to === "base")?.unitIds).toEqual(
+      expect.arrayContaining([ids.caitlyn, ids.hunter]),
+    );
+    expect(outcome(room, "p1", { type: "rules_move", unitIds: [ids.caitlyn], to: "base" }).ok).toBe(true);
+    const next = expectSameState(
+      room,
+      { type: "move_card", from: "battlefieldA", to: "base", cardId: ids.caitlyn },
+      { type: "rules_move", unitIds: [ids.caitlyn], to: "base" },
+    );
+    expect(next.players[0]?.board?.base.some((card) => card.id === ids.caitlyn)).toBe(true);
+    expect(next.players[0]?.board?.battlefieldA.some((card) => card.id === ids.caitlyn)).toBe(false);
+  });
+
+  it("[R144.4.b] an incidental targetCardId on the Base does not block moving a Unit out", () => {
+    const { room, ids } = strictGestureRoom();
+    expectSameState(
+      room,
+      {
+        type: "move_card",
+        from: "battlefieldA",
+        to: "base",
+        cardId: ids.hunter,
+        targetCardId: ids.keeperBase,
+      },
+      { type: "rules_move", unitIds: [ids.hunter], to: "base" },
+    );
+  });
+
+  it("[R144.3] a multi-Unit drag keeps every Unit even with an incidental targetCardId", () => {
+    const { room, ids } = strictGestureRoom();
+    const next = expectSameState(
+      room,
+      {
+        type: "move_card",
+        from: "battlefieldA",
+        to: "base",
+        cardId: ids.caitlyn,
+        cardIds: [ids.caitlyn, ids.hunter],
+        targetCardId: ids.keeperBase,
+      },
+      { type: "rules_move", unitIds: [ids.caitlyn, ids.hunter], to: "base" },
+    );
+    expect(next.players[0]?.board?.base.some((card) => card.id === ids.caitlyn)).toBe(true);
+    expect(next.players[0]?.board?.base.some((card) => card.id === ids.hunter)).toBe(true);
+  });
+
+  it("[R144.2] a Unit moved in last turn is readied by Awaken and can move out", () => {
+    const fixture = strictGestureRoom();
+    let room = apply(
+      fixture.room,
+      "p1",
+      { type: "rules_move", unitIds: [fixture.ids.keeperBase], to: "battlefieldA" },
+      fixture.ctx,
+    );
+    expect(
+      room.players[0]?.board?.battlefieldA.find((card) => card.id === fixture.ids.keeperBase)?.exhausted,
+    ).toBe(true);
+    room = apply(room, "p1", { type: "end_turn" }, fixture.ctx);
+    room = apply(room, "p2", { type: "end_turn" }, fixture.ctx);
+    expect(
+      room.players[0]?.board?.battlefieldA.find((card) => card.id === fixture.ids.keeperBase)?.exhausted,
+    ).toBe(false);
+    const next = expectSameState(
+      room,
+      { type: "move_card", from: "battlefieldA", to: "base", cardId: fixture.ids.keeperBase },
+      { type: "rules_move", unitIds: [fixture.ids.keeperBase], to: "base" },
+    );
+    expect(next.players[0]?.board?.base.some((card) => card.id === fixture.ids.keeperBase)).toBe(true);
+  });
+
+  it("[R144.4.b][R719] attached Gear moves with the Unit back to Base", () => {
+    const fixture = strictGestureRoom();
+    let room = apply(
+      fixture.room,
+      "p1",
+      {
+        type: "rules_activate",
+        objectId: fixture.ids.blade,
+        ability: "equip:0",
+        choices: { "target:0": [fixture.ids.keeperBase] },
+      },
+      fixture.ctx,
+    );
+    room = resolveChain(room, fixture.ctx);
+    room = apply(
+      room,
+      "p1",
+      { type: "rules_move", unitIds: [fixture.ids.keeperBase], to: "battlefieldA" },
+      fixture.ctx,
+    );
+    expect(
+      room.players[0]?.board?.battlefieldA.find((card) => card.id === fixture.ids.blade)?.attachedToCardId,
+    ).toBe(fixture.ids.keeperBase);
+    room = apply(room, "p1", { type: "end_turn" }, fixture.ctx);
+    room = apply(room, "p2", { type: "end_turn" }, fixture.ctx);
+    const next = expectSameState(
+      room,
+      { type: "move_card", from: "battlefieldA", to: "base", cardId: fixture.ids.keeperBase },
+      { type: "rules_move", unitIds: [fixture.ids.keeperBase], to: "base" },
+    );
+    expect(
+      next.players[0]?.board?.base.find((card) => card.id === fixture.ids.blade)?.attachedToCardId,
+    ).toBe(fixture.ids.keeperBase);
+    expect(next.players[0]?.board?.battlefieldA.some((card) => card.id === fixture.ids.blade)).toBe(false);
+  });
+
+  it("[R144.4.b] a Unit at a battlefield its controller does not control can still move to Base", () => {
+    const fixture = strictGestureRoom();
+    const board = fixture.room.players[0]!.board!;
+    const hunter = board.battlefieldA.find((card) => card.id === fixture.ids.hunter)!;
+    board.battlefieldA = board.battlefieldA.filter((card) => card.id !== hunter.id);
+    board.battlefieldB.push(hunter);
+    const next = expectSameState(
+      fixture.room,
+      { type: "move_card", from: "battlefieldB", to: "base", cardId: hunter.id },
+      { type: "rules_move", unitIds: [hunter.id], to: "base" },
+    );
+    expect(next.players[0]?.board?.base.some((card) => card.id === hunter.id)).toBe(true);
+  });
+
+  it("[R144.1.c] a showdown or combat blocks it; once ended the move is legal", () => {
+    const fixture = strictGestureRoom();
+    const gesture = {
+      type: "move_card",
+      from: "battlefieldA",
+      to: "base",
+      cardId: fixture.ids.hunter,
+    } as const;
+    const showdown = deepCopy(fixture.room) as Room;
+    showdown.rules!.showdown = { battlefield: "battlefieldA", kind: "non_combat", startedBy: "p1" };
+    showdown.rules!.priority = "p1";
+    showdown.rules!.focus = "p1";
+    expectRejected(showdown, "p1", gesture, "showdown_active", "144.1.c");
+    const combat = deepCopy(fixture.room) as Room;
+    combat.rules!.combat = {
+      battlefield: "battlefieldA",
+      attacker: "p1",
+      defender: "p2",
+      step: "showdown",
+    };
+    combat.rules!.priority = "p1";
+    combat.rules!.focus = null;
+    expectRejected(combat, "p1", gesture, "showdown_active", "144.1.c");
+    const cleared = deepCopy(showdown) as Room;
+    cleared.rules!.showdown = null;
+    cleared.rules!.focus = null;
+    cleared.rules!.priority = "p1";
+    expectSameState(cleared, gesture, { type: "rules_move", unitIds: [fixture.ids.hunter], to: "base" });
+  });
+
+  it("[R144.2] an exhausted Unit cannot move out", () => {
+    const fixture = strictGestureRoom();
+    const moved = apply(
+      fixture.room,
+      "p1",
+      { type: "rules_move", unitIds: [fixture.ids.caitlyn], to: "base" },
+      fixture.ctx,
+    );
+    expectRejected(
+      moved,
+      "p1",
+      { type: "move_card", from: "base", to: "battlefieldA", cardId: fixture.ids.caitlyn },
+      "unit_exhausted",
+      "144.2",
+    );
+  });
+
+  it("[R144.1.b] a closed state blocks the move", () => {
+    const fixture = strictGestureRoom();
+    const closed = deepCopy(fixture.room) as Room;
+    closed.rules!.chain = [
+      { id: "chain-test", kind: "card", status: "pending", controller: "p1", choices: {}, origin: "play" },
+    ];
+    closed.rules!.priority = "p1";
+    expectRejected(
+      closed,
+      "p1",
+      { type: "move_card", from: "battlefieldA", to: "base", cardId: fixture.ids.hunter },
+      "chain_not_empty",
+      "144.1.b",
+    );
+  });
+
+  it("[R144.1.a] outside the Main Phase the move is rejected with 144.1.a", () => {
+    const fixture = strictGestureRoom();
+    const beginning = deepCopy(fixture.room) as Room;
+    beginning.rules!.turn.phase = "beginning";
+    beginning.rules!.turn.step = "beginning";
+    beginning.rules!.priority = "p1";
+    expectRejected(
+      beginning,
+      "p1",
+      { type: "move_card", from: "battlefieldA", to: "base", cardId: fixture.ids.hunter },
+      "not_main_phase",
+      "144.1.a",
+    );
+  });
+
+  it("sandbox rooms keep the sandbox move handler", () => {
+    const fixture = strictGestureRoom();
+    const sandbox = deepCopy(fixture.room) as Room;
+    delete sandbox.rulesMode;
+    delete sandbox.rules;
+    const next = apply(
+      sandbox,
+      "p1",
+      {
+        type: "move_card",
+        from: "battlefieldA",
+        to: "base",
+        cardId: fixture.ids.caitlyn,
+        targetCardId: fixture.ids.keeperBase,
+      },
+      makeContext(),
+    );
+    expect(next.players[0]?.board?.base.some((card) => card.id === fixture.ids.caitlyn)).toBe(true);
+    expect(next.rules).toBeUndefined();
+  });
+});
+
 describe("sandbox rooms are unchanged", () => {
   it("the same gestures keep their original sandbox behaviour", () => {
     const ctx = makeContext();
