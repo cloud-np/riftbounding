@@ -8,25 +8,20 @@
 import type { CardInstance, Room } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import { battlefieldController } from "../actions/control";
+import { hasUnitPresentAt, playersPresentAt, unitsPresentAt } from "../state/presence";
 
-function isUnit(room: Room, host: RulesHost, card: CardInstance): boolean {
-  if (card.hidden) return false;
-  const type = (host.cardInfo(room, card.id)?.type ?? card.type ?? "").toLowerCase();
-  return type.includes("unit");
-}
-
-/** Units a player has at a location (facedown cards excluded). */
+/** Units a player has at a location (facedown cards excluded, 107.3; `state/presence.ts`). */
 export function visibleUnitsAt(room: Room, host: RulesHost, playerId: string, zone: string): CardInstance[] {
-  return host.zoneCards(room, playerId, zone).filter((card) => isUnit(room, host, card));
+  return unitsPresentAt(room, host, zone, playerId);
 }
 
 export function hasVisibleUnitAt(room: Room, host: RulesHost, playerId: string, zone: string): boolean {
-  return visibleUnitsAt(room, host, playerId, zone).length > 0;
+  return hasUnitPresentAt(room, host, playerId, zone);
 }
 
 /** Players with Units at a battlefield (451.2 counts them). */
 export function playersWithUnitsAt(room: Room, host: RulesHost, zone: string): string[] {
-  return host.activePlayerIds(room).filter((id) => hasVisibleUnitAt(room, host, id, zone));
+  return playersPresentAt(room, host, zone);
 }
 
 /** 190.2.b: delegates to the stored control model (`actions/control.ts`). */

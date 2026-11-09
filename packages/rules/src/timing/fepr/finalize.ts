@@ -6,6 +6,7 @@ import { executeCardScript } from "../../effects/execute";
 import { runFinalizeHooks } from "../hooks";
 import { afterChainItemResolved } from "./after";
 import { noteExpirationFepr, removeChainItem } from "./chain";
+import { hasUnitPresentAt } from "../../state/presence";
 
 /** 337.2: Units/Gear/Add-resource abilities resolve immediately on finalize. */
 export function finalizeChainItem(room: Room, item: ChainItem, step: RulesStepContext): void {
@@ -61,7 +62,7 @@ export function resolvePermanent(room: Room, item: ChainItem, isUnit: boolean, s
     // (830.1.b.1) and 355.2.b permissions allow battlefields without the controller's Units.
     const zones = step.host.battlefieldZones(room);
     const validated = item.totalCost !== undefined;
-    if (zones.includes(requested as BattlefieldZone) && (validated || step.host.hasUnitAt(room, item.controller, requested))) {
+    if (zones.includes(requested as BattlefieldZone) && (validated || hasUnitPresentAt(room, step.host, item.controller, requested))) {
       destination = requested;
     } else if (requested === "base") {
       destination = "base";

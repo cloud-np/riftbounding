@@ -9,6 +9,7 @@ import { flushPendingTriggers } from "../triggers";
 import { areOpponents } from "../scoring/teams";
 import { battlefieldController } from "../actions/control";
 import { designateCombatants } from "./designate";
+import { hasUnitPresentAt } from "../state/presence";
 
 export interface CombatParticipants {
   attacker: string;
@@ -31,7 +32,7 @@ export interface CombatParticipants {
 export function combatParticipants(room: Room, zone: BattlefieldZone, host: RulesHost): CombatParticipants | null {
   const rules = room.rules;
   if (!rules) return null;
-  const present = turnOrderStartingAt(room, rules.turn.player, host).filter((id) => host.hasUnitAt(room, id, zone));
+  const present = turnOrderStartingAt(room, rules.turn.player, host).filter((id) => hasUnitPresentAt(room, host, id, zone));
   if (present.length < 2) return null;
   const applier = rules.contested[zone];
   const attacker = applier && present.includes(applier) ? applier : present[0]!;
@@ -72,7 +73,7 @@ export function combatBarsDestination(
     involved = participants ? [participants.attacker, participants.defender] : [];
   } else return false;
   if (!involved.includes(playerId)) return true;
-  return kind === "move" && !host.hasUnitAt(room, playerId, zone);
+  return kind === "move" && !hasUnitPresentAt(room, host, playerId, zone);
 }
 
 /**

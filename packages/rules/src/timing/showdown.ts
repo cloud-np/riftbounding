@@ -22,6 +22,7 @@ import {
 } from "../turn-state";
 import { conquer } from "../actions/primitives";
 import { battlefieldController } from "../actions/control";
+import { hasUnitPresentAt } from "../state/presence";
 
 export interface BeginShowdownOptions {
   force?: boolean;
@@ -122,7 +123,7 @@ export function endShowdown(room: Room, step: RulesStepContext): boolean {
   // battlefield, that player establishes Control over it.
   const present = step.host
     .activePlayerIds(room)
-    .filter((id) => step.host.hasUnitAt(room, id, zone));
+    .filter((id) => hasUnitPresentAt(room, step.host, id, zone));
   if (present.length === 1) {
     const winner = present[0];
     if (winner && battlefieldController(room, zone, step.host) !== winner) {

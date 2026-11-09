@@ -15,6 +15,7 @@ import { registerEffectOp } from "../registry";
 import { recordOutcome, targets } from "../targets";
 import { ctxOf, hostOf } from "./util";
 import { controllerOf, isBattlefieldZone, locationOf, locationZones } from "../objects";
+import { hasUnitPresentAt } from "../../state/presence";
 
 registerEffectOp("move", (effect, context) => {
   if (effect.op !== "move") return { status: "manual", reason: "effect_not_implemented:move" };
@@ -55,7 +56,7 @@ registerEffectOp("move", (effect, context) => {
     if (isBattlefieldZone(context.room, host, destination)) {
       const others = host
         .activePlayerIds(context.room)
-        .filter((player) => player !== controller && host.hasUnitAt(context.room, player, destination));
+        .filter((player) => player !== controller && hasUnitPresentAt(context.room, host, player, destination));
       if (others.length >= 2) continue; // 451.2
     }
     if (restrictionFor(context.room, host, { kind: "move", objectId: id, to: destination })) continue;

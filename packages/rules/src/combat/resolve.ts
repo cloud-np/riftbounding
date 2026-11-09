@@ -14,6 +14,7 @@ import { runCleanup } from "../cleanup/cleanup";
 import { conquer } from "../actions/score";
 import { battlefieldController, loseControl, setBattlefieldController } from "../actions/control";
 import { clearCombatDesignations } from "./designate";
+import { hasUnitPresentAt, unitsPresentAt } from "../state/presence";
 
 /** 468.1.a: "3c. Heal all Units." and "3d. Recall Attackers present … if Defenders are still present." */
 export const COMBAT_CLEANUP_INSERTS = ["heal-all-units", "recall-attackers"] as const;
@@ -41,7 +42,7 @@ export function determineCombatResult(room: Room, step: RulesStepContext): { win
   if (!rules || !combat) return { winner: null, loser: null };
   const zone = combat.battlefield;
   const progress = (rules.history.combatProgress ??= { battlefield: zone, stage: "result" });
-  const present = step.host.activePlayerIds(room).filter((id) => step.host.hasUnitAt(room, id, zone));
+  const present = step.host.activePlayerIds(room).filter((id) => hasUnitPresentAt(room, step.host, id, zone));
   const participants = [combat.attacker, combat.defender];
   let winner: string | null = null;
   let loser: string | null = null;
@@ -61,7 +62,7 @@ export function determineCombatResult(room: Room, step: RulesStepContext): { win
   }
   progress.result = { winner, loser, noResult };
   const unitResults: Record<string, "win" | "loss"> = {};
-  for (const card of step.host.unitsAt(room, zone)) {
+  for (const card of unitsPresentAt(room, step.host, zone)) {
     const located = step.host.findCard(room, card.id);
     if (!located) continue;
     if (located.playerId === winner) unitResults[card.id] = "win";
@@ -98,7 +99,7 @@ export function establishCombatControl(room: Room, step: RulesStepContext): void
   if (rules.staged.showdowns.includes(zone) || rules.staged.combats.includes(zone)) return;
   // 468.5.a
   delete rules.contested[zone];
-  const present = step.host.activePlayerIds(room).filter((id) => step.host.hasUnitAt(room, id, zone));
+  const present = step.host.activePlayerIds(room).filter((id) => hasUnitPresentAt(room, step.host, id, zone));
   if (present.length === 0) {
     // 468.5.b
     loseControl(room, zone, step, "468.5.b");

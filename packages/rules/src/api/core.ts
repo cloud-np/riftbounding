@@ -37,6 +37,8 @@ export {
   turnOrderStartingAt,
   turnState,
 } from "../state";
+// 107.3: face-up Units present at a location (the host's unitsAt/hasUnitAt count facedown cards).
+export { hasUnitPresentAt, playersPresentAt, unitsPresentAt } from "../state/presence";
 
 export { advance } from "../timing/advance";
 export type { AdvanceResult } from "../timing/advance";

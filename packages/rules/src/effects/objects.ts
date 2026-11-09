@@ -11,6 +11,7 @@
 import { getCardByName } from "@rift/cards";
 import type { BattlefieldZone, CardInstance, ChainItem, Room } from "@rift/protocol";
 import type { LocatedCard, RulesHost } from "../host";
+import { hasUnitPresentAt, unitsPresentAt } from "../state/presence";
 
 /** 107: zones that make up the Board for "on the board" checks. */
 export function boardZoneList(room: Room, host: RulesHost): string[] {
@@ -69,7 +70,7 @@ export function battlefieldContributorAt(room: Room, host: RulesHost, zone: stri
 
 /** 190: the controller of a battlefield is the only player with units there (presence proxy). */
 export function battlefieldController(room: Room, host: RulesHost, zone: string): string | null {
-  const present = host.activePlayerIds(room).filter((id) => host.hasUnitAt(room, id, zone));
+  const present = host.activePlayerIds(room).filter((id) => hasUnitPresentAt(room, host, id, zone));
   return present.length === 1 ? present[0]! : null;
 }
 
@@ -192,7 +193,7 @@ export function nameOf(room: Room, host: RulesHost, id: string): string | null {
 
 /** Units at a location for one player (or all players). */
 export function unitIdsAt(room: Room, host: RulesHost, zone: string, playerId?: string): string[] {
-  return host.unitsAt(room, zone, playerId).map((card) => card.id);
+  return unitsPresentAt(room, host, zone, playerId).map((card) => card.id);
 }
 
 /** 719 / 435: the top-most card a card is attached to. */

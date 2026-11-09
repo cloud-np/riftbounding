@@ -18,14 +18,14 @@ import {
   type DamageAssignment,
 } from "./assignment";
 import { combatContribution } from "./keywords";
+import { unitsPresentAt } from "../state/presence";
 
 /** Units at the combat battlefield holding `designation` (467.2.a / 467.2.b). */
 export function combatSideUnits(room: Room, step: RulesStepContext, side: "attacker" | "defender"): string[] {
   const rules = room.rules;
   const combat = rules?.combat;
   if (!rules || !combat) return [];
-  return step.host
-    .unitsAt(room, combat.battlefield)
+  return unitsPresentAt(room, step.host, combat.battlefield)
     .filter((card) => rules.objects[card.id]?.designation === side)
     .map((card) => card.id);
 }

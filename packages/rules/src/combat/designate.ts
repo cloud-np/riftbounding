@@ -4,6 +4,7 @@
 import type { Room } from "@rift/protocol";
 import type { RulesStepContext } from "../types";
 import { pushEvent } from "../types";
+import { unitsPresentAt } from "../state/presence";
 
 /**
  * 323.2 / 466.2.c.3: keep Attacker/Defender designations correct while a combat is in progress.
@@ -32,7 +33,7 @@ export function designateCombatants(room: Room, step: RulesStepContext): boolean
     }
     return changed;
   }
-  const atBattlefield = new Set(step.host.unitsAt(room, combat.battlefield).map((card) => card.id));
+  const atBattlefield = new Set(unitsPresentAt(room, step.host, combat.battlefield).map((card) => card.id));
   for (const [cardId, object] of Object.entries(rules.objects)) {
     if (object.designation && !atBattlefield.has(cardId)) {
       delete object.designation;
@@ -42,7 +43,7 @@ export function designateCombatants(room: Room, step: RulesStepContext): boolean
   for (const player of new Set([combat.attacker, combat.defender, ...room.players.map((entry) => entry.id)])) {
     const designation =
       player === combat.attacker ? "attacker" : player === combat.defender ? "defender" : undefined;
-    for (const card of step.host.unitsAt(room, combat.battlefield, player)) {
+    for (const card of unitsPresentAt(room, step.host, combat.battlefield, player)) {
       const object = (rules.objects[card.id] ??= {});
       if (designation && object.designation !== designation) {
         object.designation = designation;

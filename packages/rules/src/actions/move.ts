@@ -3,6 +3,7 @@ import type { BattlefieldZone, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../types";
 import { effectiveMight, pushEvent } from "../types";
 import { interceptAction } from "../timing/hooks";
+import { hasUnitPresentAt } from "../state/presence";
 
 export function recall(room: Room, cardId: string, step: RulesStepContext): boolean {
   const located = step.host.findCard(room, cardId);
@@ -94,7 +95,7 @@ export function movePrimitive(
   const battlefield = step.host.battlefieldZones(room).includes(destination as BattlefieldZone)
     ? (destination as BattlefieldZone)
     : null;
-  const controlledBefore = battlefield ? step.host.hasUnitAt(room, located.playerId, battlefield) : false;
+  const controlledBefore = battlefield ? hasUnitPresentAt(room, step.host, located.playerId, battlefield) : false;
   const moved = step.host.moveCard(room, located.playerId, located.zone, destination, cardId);
   if (!moved) return false;
   const info = step.host.cardInfo(room, cardId);

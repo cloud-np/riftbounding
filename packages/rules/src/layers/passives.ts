@@ -19,6 +19,7 @@ import type { CardInstance, Condition, Modifier, Room } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import { getCardScript } from "../cards/registry";
 import { durationActive } from "./durations";
+import { hasUnitPresentAt } from "../state/presence";
 
 export interface ActiveModifier {
   /** Object id, `battlefield:<zone>` or the continuous effect's source. */
@@ -118,7 +119,7 @@ export function activeModifiers(room: Room, host: RulesHost, depth = 0): ActiveM
     const script = name ? getCardScript(name) : undefined;
     if (!script || script.status === "manual") continue;
     const sourceId = `battlefield:${zone}`;
-    const present = host.activePlayerIds(room).filter((id) => host.hasUnitAt(room, id, zone));
+    const present = host.activePlayerIds(room).filter((id) => hasUnitPresentAt(room, host, id, zone));
     const controller = present.length === 1 ? present[0]! : (rules.turn.player ?? "");
     for (const ability of script.abilities) {
       if (ability.kind !== "passive") continue;

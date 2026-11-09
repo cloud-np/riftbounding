@@ -9,6 +9,7 @@ import type { Room, Selector } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import { activeModifiers } from "./passives";
 import { modifierTargets } from "./index";
+import { hasUnitPresentAt } from "../state/presence";
 
 export function enterReadyApplies(
   room: Room,
@@ -24,7 +25,7 @@ export function enterReadyApplies(
     const params = modifier.params ?? {};
     if (params.battlefieldYouControl === true) {
       if (!(host.battlefieldZones(room) as string[]).includes(zone)) continue;
-      const present = host.activePlayerIds(room).filter((id) => host.hasUnitAt(room, id, zone));
+      const present = host.activePlayerIds(room).filter((id) => hasUnitPresentAt(room, host, id, zone));
       if (present.length !== 1 || present[0] !== controller) continue;
     }
     const target = params.target as Selector | undefined;

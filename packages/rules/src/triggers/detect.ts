@@ -21,6 +21,7 @@ import { battlefieldNameAt, battlefieldObjectId } from "../effects/objects";
 import { takeNewEvents } from "./cursor";
 import { KEYWORD_TRIGGERS } from "./keywords";
 import { phaseTriggerMatches, triggerMatchesEvent, type TriggerScope } from "./match";
+import { hasUnitPresentAt, unitsPresentAt } from "../state/presence";
 
 export interface TriggerEntry {
   ref: string;
@@ -94,7 +95,7 @@ export function triggerSources(room: Room, host: RulesHost): TriggerSource[] {
     if (!name) continue;
     const entries = scriptEntries(name);
     if (entries.length === 0) continue;
-    const present = host.activePlayerIds(room).filter((id) => host.hasUnitAt(room, id, zone));
+    const present = host.activePlayerIds(room).filter((id) => hasUnitPresentAt(room, host, id, zone));
     out.push({
       sourceId: battlefieldObjectId(zone),
       controller: present.length === 1 ? present[0]! : (room.rules?.turn.player ?? ""),
@@ -211,7 +212,7 @@ function mightyEvents(room: Room, step: RulesStepContext): GameEvent[] {
   const out: GameEvent[] = [];
   for (const playerId of step.host.activePlayerIds(room)) {
     for (const zone of ["base", ...step.host.battlefieldZones(room)]) {
-      for (const card of step.host.unitsAt(room, zone, playerId)) {
+      for (const card of unitsPresentAt(room, step.host, zone, playerId)) {
         const might = effectiveMight(room, card.id, step.host);
         next[card.id] = might;
         const before = previous[card.id];

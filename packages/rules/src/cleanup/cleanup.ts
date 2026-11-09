@@ -32,6 +32,7 @@ import { emptyPools, heal, kill, recall } from "../actions/primitives";
 import { PROMPT_REASONS } from "../prompts/reasons";
 import { runCleanupHooks } from "../timing/hooks";
 import { turnOrderStartingAt } from "../state/turn";
+import { hasUnitPresentAt, unitsPresentAt } from "../state/presence";
 
 /** 322: how many times a cleanup may repeat before the guard fires. */
 export const MAX_CLEANUP_PASSES = 12;
@@ -132,7 +133,7 @@ export function runCleanup(
       const controller = battlefieldController(room, zone, step.host);
       if (!controller) continue;
       if (rules.showdown?.battlefield === zone || rules.combat?.battlefield === zone) continue;
-      if (step.host.hasUnitAt(room, controller, zone)) continue;
+      if (hasUnitPresentAt(room, step.host, controller, zone)) continue;
       loseControl(room, zone, step, "323.5");
     }
   }
@@ -182,7 +183,7 @@ export function runCleanup(
       // 323.8
       unstageShowdown(rules, zone);
       stageCombat(rules, zone);
-    } else if (step.host.hasUnitAt(room, contestedBy, zone)) {
+    } else if (hasUnitPresentAt(room, step.host, contestedBy, zone)) {
       // 323.7 / 323.7.a
       if (!showdownHere) stageShowdown(rules, zone);
       unstageCombat(rules, zone);
@@ -219,7 +220,7 @@ export function runCleanup(
     }
     const ongoing =
       (rules.showdown?.battlefield === zone) || (rules.combat?.battlefield === zone);
-    if (!ongoing && !step.host.hasUnitAt(room, contestedBy, zone)) {
+    if (!ongoing && !hasUnitPresentAt(room, step.host, contestedBy, zone)) {
       delete rules.contested[zone];
       unstageShowdown(rules, zone);
       unstageCombat(rules, zone);
@@ -369,8 +370,8 @@ function runInsertedStep(room: Room, step: RulesStepContext, inserted: CleanupIn
       // 468.3.d / 740.3.a: a recall here is a tie and makes the combat "No Result".
       const combat = rules.combat;
       if (!combat) return;
-      if (!step.host.hasUnitAt(room, combat.defender, combat.battlefield)) return;
-      const attackers = step.host.unitsAt(room, combat.battlefield, combat.attacker);
+      if (!hasUnitPresentAt(room, step.host, combat.defender, combat.battlefield)) return;
+      const attackers = unitsPresentAt(room, step.host, combat.battlefield, combat.attacker);
       let recalled = false;
       for (const card of [...attackers]) recalled = recall(room, card.id, step) || recalled;
       const progress = rules.history.combatProgress;
@@ -382,7 +383,7 @@ function runInsertedStep(room: Room, step: RulesStepContext, inserted: CleanupIn
 
 /** 323.8 / 463: units of two opposing players (teammates are not opponents, 491) are present. */
 function opposingPlayersPresent(room: Room, zone: BattlefieldZone, step: RulesStepContext): boolean {
-  const present = step.host.activePlayerIds(room).filter((id) => step.host.hasUnitAt(room, id, zone));
+  const present = step.host.activePlayerIds(room).filter((id) => hasUnitPresentAt(room, step.host, id, zone));
   return present.some((a) => present.some((b) => areOpponents(room, a, b)));
 }
 
@@ -400,7 +401,7 @@ function contestedAppliers(room: Room, zone: BattlefieldZone, step: RulesStepCon
   const controller = battlefieldController(room, zone, step.host);
   return turnOrderStartingAt(room, rules.turn.player, step.host).filter(
     (id) =>
-      step.host.hasUnitAt(room, id, zone) &&
+      hasUnitPresentAt(room, step.host, id, zone) &&
       id !== controller &&
       !(controller && isTeamMode(room) && !areOpponents(room, id, controller)),
   );

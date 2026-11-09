@@ -54,6 +54,7 @@ import {
   typeMatches,
   typeOf,
 } from "./objects";
+import { hasUnitPresentAt, unitsPresentAt } from "../state/presence";
 
 /* ---------------------------------------------------------------- players */
 
@@ -556,7 +557,7 @@ export function evaluateCondition(ctx: EvalContext, condition: Condition | undef
       const zones = condition.zone ? [condition.zone] : (host.battlefieldZones(room) as string[]);
       return players.some((player) =>
         zones.some((zone) => {
-          const present = host.activePlayerIds(room).filter((id) => host.hasUnitAt(room, id, zone));
+          const present = host.activePlayerIds(room).filter((id) => hasUnitPresentAt(room, host, id, zone));
           return present.length === 1 && present[0] === player;
         }),
       );
@@ -618,7 +619,7 @@ registerCustomCondition("alone", (ctx, params) => {
   const location = locationOf(ctx.room, ctx.host, id);
   const controller = controllerOf(ctx.room, ctx.host, id);
   if (!location || !controller) return false;
-  return ctx.host.unitsAt(ctx.room, location, controller).every((card) => card.id === id);
+  return unitsPresentAt(ctx.room, ctx.host, location, controller).every((card) => card.id === id);
 });
 
 /** `it` is one of the listed ids (continuous effects frozen to several chosen objects). */

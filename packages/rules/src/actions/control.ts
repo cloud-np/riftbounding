@@ -4,6 +4,7 @@ import type { RulesStepContext } from "../types";
 import { pushEvent } from "../types";
 import type { RulesHost } from "../host";
 import { interceptAction } from "../timing/hooks";
+import { hasUnitPresentAt } from "../state/presence";
 
 /**
  * 190.2: the player who controls a battlefield, or null when it is Uncontrolled.
@@ -22,7 +23,7 @@ export function battlefieldController(room: Room, zone: string, host: RulesHost)
   const applier = rules.contested[zone as BattlefieldZone];
   const present = host
     .activePlayerIds(room)
-    .filter((id) => id !== applier && host.hasUnitAt(room, id, zone));
+    .filter((id) => id !== applier && hasUnitPresentAt(room, host, id, zone));
   return present.length === 1 ? present[0]! : null;
 }
 
@@ -70,10 +71,10 @@ export function establishControl(
   const rules = room.rules;
   if (!rules) return false;
   const others = step.host.activePlayerIds(room).filter(
-    (id) => id !== playerId && step.host.hasUnitAt(room, id, zone),
+    (id) => id !== playerId && hasUnitPresentAt(room, step.host, id, zone),
   );
   if (others.length > 0) return false;
-  if (!step.host.hasUnitAt(room, playerId, zone)) return false;
+  if (!hasUnitPresentAt(room, step.host, playerId, zone)) return false;
   delete rules.contested[zone];
   setBattlefieldController(room, zone, playerId);
   pushEvent(step.events, { type: "establish_control", playerId, zone });
@@ -86,7 +87,7 @@ export function battlefieldStates(
   zone: string,
   host: RulesHost,
 ): { occupied: boolean; uncontrolled: boolean; open: boolean; controller: string | null } {
-  const occupied = host.activePlayerIds(room).some((id) => host.hasUnitAt(room, id, zone));
+  const occupied = host.activePlayerIds(room).some((id) => hasUnitPresentAt(room, host, id, zone));
   const controller = battlefieldController(room, zone, host);
   return { occupied, uncontrolled: controller === null, open: !occupied && controller === null, controller };
 }

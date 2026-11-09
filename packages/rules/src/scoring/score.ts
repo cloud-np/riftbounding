@@ -14,6 +14,7 @@ import { battlefieldController } from "../actions/control";
 import { interceptAction } from "../timing/hooks";
 import { restrictionFor } from "../layers/restrictions";
 import { isTeamMode, teamOf, teammatesOf } from "./teams";
+import { hasUnitPresentAt } from "../state/presence";
 
 export type ScoreKind = "conquer" | "hold";
 
@@ -140,7 +141,7 @@ export function snapshotScoringStep(room: Room, playerId: string, step: RulesSte
   const snapshot: ScoringStepSnapshot = { player: playerId, control: {}, occupiedBy: {} };
   for (const zone of host.battlefieldZones(room)) {
     snapshot.control[zone] = battlefieldController(room, zone, host);
-    snapshot.occupiedBy[zone] = host.activePlayerIds(room).filter((id) => host.hasUnitAt(room, id, zone));
+    snapshot.occupiedBy[zone] = host.activePlayerIds(room).filter((id) => hasUnitPresentAt(room, host, id, zone));
   }
   if (room.rules) room.rules.history.scoringSnapshot = snapshot;
   return snapshot;
