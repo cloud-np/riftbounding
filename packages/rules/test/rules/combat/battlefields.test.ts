@@ -2,7 +2,7 @@
  * Battlefields and control helpers — 170.11, 190.6, 194.4, 195, 464.1 / 464.2.
  */
 import { describe, expect, it } from "vitest";
-import type { GameVariant } from "@rift/protocol";
+import type { GameVariant, RulesIntent } from "@rift/protocol";
 import {
   battlefieldAbilityController,
   battlefieldStates,
@@ -89,11 +89,11 @@ describe("FFA invalid destinations [R464.1][R464.2]", () => {
     t.room.rules!.turn.player = "p3";
     t.room.rules!.priority = "p3";
     t.place("p3", "Stellacorn Herder", "base", "mover");
-    const intent = { type: "rules_move", unitIds: ["mover"], to: "battlefieldA" } as const;
+    const intent: RulesIntent = { type: "rules_move", unitIds: ["mover"], to: "battlefieldA" };
     const explained = explainIllegal(t.room, "p3", intent, t.host);
     expect(explained).toMatchObject({ ok: false, code: "invalid_location", rule: "449.2.a" });
     expect(t.apply("p3", intent)).toMatchObject({ ok: false, code: "invalid_location", rule: "449.2.a" });
-    expect(explainIllegal(t.room, "p3", { ...intent, to: "battlefieldB" }, t.host)).toMatchObject({ ok: true });
+    expect(explainIllegal(t.room, "p3", { type: "rules_move", unitIds: ["mover"], to: "battlefieldB" }, t.host)).toMatchObject({ ok: true });
   });
 
   it("[R464] the restriction only exists with more than two players", () => {
