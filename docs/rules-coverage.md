@@ -10,13 +10,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | --- | ---: |
 | Numbered rule entries in corpus | 2494 |
 | Rule bodies (entries minus section headings) | 2321 |
-| Rules with at least one test | 503 |
-| Rules coverage | 21.7% |
-| Tagged test titles | 512 |
-| `[R…]` tags | 893 |
-| `[EX:…]` tags | 111 |
+| Rules with at least one test | 631 |
+| Rules coverage | 27.2% |
+| Tagged test titles | 1182 |
+| `[R…]` tags | 2055 |
+| `[EX:…]` tags | 116 |
 | Range tags (not expanded) | 25 unique / 29 refs |
-| Test/helper files scanned | 77 |
+| Test/helper files scanned | 137 |
 | Unknown rule ids referenced | 0 |
 
 ## Per-section coverage
@@ -24,11 +24,11 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Section heading | Rules | Rules with ≥1 test | Coverage | `[R]` tags | `[EX:]` tags |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Golden Rule | 1 | 0 | 0.0% | 0 | 0 |
-| Silver Rule | 7 | 0 | 0.0% | 0 | 0 |
-| “Can’t beats Can” | 7 | 2 | 28.6% | 4 | 0 |
+| Silver Rule | 7 | 1 | 14.3% | 2 | 0 |
+| “Can’t beats Can” | 7 | 3 | 42.9% | 24 | 0 |
 | Deck Construction | 34 | 0 | 0.0% | 0 | 0 |
 | Spaces | 1 | 0 | 0.0% | 0 | 0 |
-| The Board | 26 | 3 | 11.5% | 5 | 0 |
+| The Board | 26 | 3 | 11.5% | 6 | 0 |
 | Non-Board Zones | 42 | 0 | 0.0% | 0 | 0 |
 | Setup Process | 20 | 0 | 0.0% | 0 | 0 |
 | Game Objects | 7 | 0 | 0.0% | 0 | 0 |
@@ -41,33 +41,33 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Name | 4 | 0 | 0.0% | 0 | 0 |
 | Category | 24 | 0 | 0.0% | 0 | 0 |
 | Domain | 8 | 0 | 0.0% | 0 | 0 |
-| Rules Text | 41 | 9 | 22.0% | 15 | 0 |
+| Rules Text | 41 | 9 | 22.0% | 19 | 0 |
 | Effect Text | 6 | 0 | 0.0% | 0 | 0 |
 | Might Bonus | 5 | 0 | 0.0% | 0 | 0 |
 | Flavor Text | 2 | 0 | 0.0% | 0 | 0 |
 | Illustration | 1 | 0 | 0.0% | 0 | 0 |
-| Units | 68 | 16 | 23.5% | 37 | 2 |
+| Units | 68 | 18 | 26.5% | 44 | 2 |
 | Gear | 32 | 2 | 6.3% | 2 | 0 |
 | Spells | 18 | 0 | 0.0% | 0 | 0 |
 | Runes | 15 | 2 | 13.3% | 2 | 0 |
-| Basic Runes | 5 | 4 | 80.0% | 10 | 0 |
+| Basic Runes | 5 | 4 | 80.0% | 11 | 0 |
 | Rune Pools | 7 | 2 | 28.6% | 3 | 0 |
-| Battlefields | 43 | 14 | 32.6% | 15 | 1 |
+| Battlefields | 43 | 15 | 34.9% | 20 | 1 |
 | Legends | 14 | 0 | 0.0% | 0 | 0 |
 | Multiple Types | 10 | 0 | 0.0% | 0 | 0 |
-| Tokens | 39 | 6 | 15.4% | 7 | 0 |
+| Tokens | 39 | 8 | 20.5% | 15 | 0 |
 | Control | 1 | 0 | 0.0% | 0 | 0 |
 | Everything Else | 21 | 0 | 0.0% | 0 | 0 |
-| Winning | 17 | 10 | 58.8% | 13 | 0 |
+| Winning | 17 | 10 | 58.8% | 14 | 0 |
 | Locations | 6 | 0 | 0.0% | 0 | 0 |
-| Costs | 22 | 7 | 31.8% | 12 | 2 |
-| The Turn | 8 | 2 | 25.0% | 8 | 0 |
-| States of the Turn | 14 | 11 | 78.6% | 16 | 0 |
+| Costs | 22 | 7 | 31.8% | 16 | 2 |
+| The Turn | 8 | 2 | 25.0% | 11 | 0 |
+| States of the Turn | 14 | 12 | 85.7% | 17 | 0 |
 | Priority and Focus | 18 | 5 | 27.8% | 14 | 0 |
-| Start of Turn | 19 | 5 | 26.3% | 7 | 0 |
-| Main Phase | 26 | 2 | 7.7% | 2 | 0 |
-| Ending Phase | 11 | 4 | 36.4% | 10 | 0 |
-| Cleanups | 38 | 18 | 47.4% | 55 | 2 |
+| Start of Turn | 19 | 6 | 31.6% | 13 | 0 |
+| Main Phase | 26 | 3 | 11.5% | 3 | 0 |
+| Ending Phase | 11 | 5 | 45.5% | 16 | 0 |
+| Cleanups | 38 | 19 | 50.0% | 58 | 2 |
 | Chains and Showdowns | 3 | 0 | 0.0% | 0 | 0 |
 | Chains | 14 | 0 | 0.0% | 0 | 0 |
 | Handling Tasks and Resolving Chain Items | 10 | 1 | 10.0% | 1 | 0 |
@@ -77,112 +77,112 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Step 4: Resolve | 5 | 3 | 60.0% | 7 | 0 |
 | Showdowns | 25 | 10 | 40.0% | 19 | 0 |
 | Playing Cards | 9 | 1 | 11.1% | 1 | 0 |
-| The Process of Play | 152 | 62 | 40.8% | 117 | 34 |
-| Abilities | 3 | 0 | 0.0% | 0 | 0 |
-| Passive Abilities | 5 | 1 | 20.0% | 1 | 0 |
-| Presence on Permanents | 3 | 1 | 33.3% | 1 | 0 |
-| Presence on Card outside of the Board | 3 | 1 | 33.3% | 1 | 0 |
-| Replacement Effects | 34 | 6 | 17.6% | 5 | 3 |
-| Activated Abilities | 21 | 4 | 19.0% | 11 | 4 |
-| Triggered Abilities | 69 | 17 | 24.6% | 20 | 7 |
+| The Process of Play | 152 | 79 | 52.0% | 244 | 38 |
+| Abilities | 3 | 1 | 33.3% | 1 | 0 |
+| Passive Abilities | 5 | 2 | 40.0% | 14 | 0 |
+| Presence on Permanents | 3 | 2 | 66.7% | 6 | 0 |
+| Presence on Card outside of the Board | 3 | 1 | 33.3% | 15 | 0 |
+| Replacement Effects | 34 | 12 | 35.3% | 44 | 3 |
+| Activated Abilities | 21 | 4 | 19.0% | 24 | 4 |
+| Triggered Abilities | 69 | 30 | 43.5% | 132 | 7 |
 | Presence on Cards outside of the Board | 9 | 1 | 11.1% | 0 | 1 |
-| Reflexive Triggers | 10 | 3 | 30.0% | 3 | 1 |
-| Delayed Abilities | 14 | 3 | 21.4% | 3 | 2 |
+| Reflexive Triggers | 10 | 4 | 40.0% | 5 | 1 |
+| Delayed Abilities | 14 | 5 | 35.7% | 16 | 2 |
 | Linked Abilities | 5 | 0 | 0.0% | 0 | 0 |
-| Playing or Activating Abilities | 35 | 14 | 40.0% | 32 | 0 |
-| Game Actions | 12 | 2 | 16.7% | 26 | 0 |
-| Responsibility | 8 | 1 | 12.5% | 1 | 0 |
-| Draw | 10 | 1 | 10.0% | 1 | 0 |
-| Exhaust | 9 | 3 | 33.3% | 5 | 0 |
-| Ready | 8 | 1 | 12.5% | 1 | 0 |
-| Recycle | 11 | 4 | 36.4% | 5 | 2 |
-| Deal | 24 | 6 | 25.0% | 5 | 5 |
+| Playing or Activating Abilities | 35 | 14 | 40.0% | 47 | 0 |
+| Game Actions | 12 | 2 | 16.7% | 27 | 0 |
+| Responsibility | 8 | 2 | 25.0% | 5 | 0 |
+| Draw | 10 | 2 | 20.0% | 3 | 0 |
+| Exhaust | 9 | 3 | 33.3% | 6 | 0 |
+| Ready | 8 | 2 | 25.0% | 3 | 0 |
+| Recycle | 11 | 6 | 54.5% | 12 | 2 |
+| Deal | 24 | 10 | 41.7% | 25 | 5 |
 | Heal | 5 | 2 | 40.0% | 2 | 0 |
-| Play | 15 | 5 | 33.3% | 11 | 2 |
-| Move | 7 | 1 | 14.3% | 1 | 0 |
+| Play | 15 | 8 | 53.3% | 36 | 2 |
+| Move | 7 | 1 | 14.3% | 4 | 0 |
 | Hide | 5 | 1 | 20.0% | 1 | 0 |
-| Discard | 8 | 2 | 25.0% | 3 | 1 |
-| Stun | 8 | 2 | 25.0% | 4 | 2 |
+| Discard | 8 | 3 | 37.5% | 10 | 1 |
+| Stun | 8 | 3 | 37.5% | 9 | 2 |
 | Reveal | 14 | 2 | 14.3% | 1 | 1 |
-| Counter | 9 | 3 | 33.3% | 3 | 0 |
-| Buff | 9 | 2 | 22.2% | 2 | 2 |
+| Counter | 9 | 3 | 33.3% | 4 | 0 |
+| Buff | 9 | 3 | 33.3% | 5 | 2 |
 | Banish | 9 | 3 | 33.3% | 2 | 1 |
-| Kill | 20 | 4 | 20.0% | 3 | 1 |
-| Add | 8 | 4 | 50.0% | 9 | 1 |
-| Channel | 8 | 2 | 25.0% | 2 | 2 |
+| Kill | 20 | 4 | 20.0% | 6 | 1 |
+| Add | 8 | 4 | 50.0% | 20 | 1 |
+| Channel | 8 | 3 | 37.5% | 14 | 2 |
 | Burn Out | 18 | 6 | 33.3% | 9 | 1 |
-| Double | 5 | 1 | 20.0% | 1 | 2 |
-| Swap | 7 | 2 | 28.6% | 2 | 0 |
+| Double | 5 | 1 | 20.0% | 3 | 2 |
+| Swap | 7 | 3 | 42.9% | 4 | 0 |
 | Attach | 20 | 4 | 20.0% | 3 | 1 |
 | Detach | 15 | 1 | 6.7% | 1 | 0 |
-| Predict | 8 | 3 | 37.5% | 3 | 0 |
-| Prevent | 21 | 8 | 38.1% | 8 | 1 |
+| Predict | 8 | 4 | 50.0% | 6 | 0 |
+| Prevent | 21 | 9 | 42.9% | 11 | 1 |
 | Replace | 18 | 0 | 0.0% | 0 | 0 |
-| Create | 20 | 1 | 5.0% | 1 | 0 |
+| Create | 20 | 4 | 20.0% | 31 | 0 |
 | Burn | 7 | 2 | 28.6% | 2 | 0 |
-| Empower | 23 | 2 | 8.7% | 2 | 0 |
-| Disempower | 6 | 1 | 16.7% | 1 | 0 |
+| Empower | 23 | 9 | 39.1% | 15 | 0 |
+| Disempower | 6 | 3 | 50.0% | 4 | 0 |
 | Skip | 10 | 2 | 20.0% | 2 | 1 |
-| Pay | 9 | 0 | 0.0% | 0 | 0 |
+| Pay | 9 | 1 | 11.1% | 4 | 0 |
 | Copy | 5 | 0 | 0.0% | 0 | 0 |
 | Movement | 21 | 5 | 23.8% | 9 | 0 |
 | Recalls | 9 | 5 | 55.6% | 6 | 0 |
 | Combat | 12 | 5 | 41.7% | 11 | 0 |
-| Step 1: The Combat Showdown Step | 16 | 8 | 50.0% | 13 | 0 |
-| Step 2: The Combat Damage Step | 19 | 12 | 63.2% | 19 | 5 |
-| Step 3: The Resolution Step | 23 | 13 | 56.5% | 20 | 0 |
-| Scoring | 21 | 11 | 52.4% | 18 | 0 |
-| Layers | 53 | 6 | 11.3% | 8 | 3 |
+| Step 1: The Combat Showdown Step | 16 | 10 | 62.5% | 19 | 0 |
+| Step 2: The Combat Damage Step | 19 | 12 | 63.2% | 22 | 5 |
+| Step 3: The Resolution Step | 23 | 16 | 69.6% | 27 | 0 |
+| Scoring | 21 | 12 | 57.1% | 21 | 0 |
+| Layers | 53 | 8 | 15.1% | 37 | 3 |
 | Modes of Play | 16 | 0 | 0.0% | 0 | 0 |
 | 1v1 (Duel) | 8 | 1 | 12.5% | 1 | 0 |
 | 1v1 (Match) | 12 | 0 | 0.0% | 0 | 0 |
 | FFA3 (Skirmish) | 8 | 1 | 12.5% | 1 | 0 |
 | FFA4 (War) | 9 | 1 | 11.1% | 1 | 0 |
-| 2v2 (Magma Chamber) | 37 | 4 | 10.8% | 5 | 0 |
+| 2v2 (Magma Chamber) | 37 | 5 | 13.5% | 6 | 0 |
 | Conceding | 23 | 8 | 34.8% | 17 | 0 |
-| Buffs | 14 | 4 | 28.6% | 4 | 0 |
-| Mighty | 5 | 4 | 80.0% | 3 | 3 |
-| Bonus Damage | 10 | 4 | 40.0% | 4 | 4 |
-| Attachment | 25 | 5 | 20.0% | 5 | 1 |
+| Buffs | 14 | 5 | 35.7% | 12 | 0 |
+| Mighty | 5 | 4 | 80.0% | 7 | 3 |
+| Bonus Damage | 10 | 6 | 60.0% | 6 | 5 |
+| Attachment | 25 | 6 | 24.0% | 14 | 1 |
 | Inactive | 13 | 1 | 7.7% | 0 | 1 |
-| Keywords can be Dependent Keywords | 14 | 2 | 14.3% | 1 | 1 |
-| XP | 11 | 3 | 27.3% | 3 | 0 |
+| Keywords can be Dependent Keywords | 14 | 3 | 21.4% | 12 | 1 |
+| XP | 11 | 3 | 27.3% | 9 | 0 |
 | Additional Turns | 4 | 0 | 0.0% | 0 | 0 |
-| Special Terms | 15 | 6 | 40.0% | 6 | 0 |
+| Special Terms | 15 | 9 | 60.0% | 36 | 0 |
 | Counters | 13 | 0 | 0.0% | 0 | 0 |
 | Making New Choices | 11 | 0 | 0.0% | 0 | 0 |
-| Untargetability | 6 | 2 | 33.3% | 2 | 1 |
+| Untargetability | 6 | 2 | 33.3% | 7 | 1 |
 | Naming Cards, Types, and Tags | 9 | 0 | 0.0% | 0 | 0 |
 | Ignoring Effects | 3 | 2 | 66.7% | 2 | 2 |
-| Keywords | 14 | 3 | 21.4% | 3 | 0 |
-| Accelerate | 13 | 3 | 23.1% | 3 | 0 |
+| Keywords | 14 | 6 | 42.9% | 22 | 0 |
+| Accelerate | 13 | 3 | 23.1% | 8 | 0 |
 | Action | 16 | 2 | 12.5% | 3 | 1 |
-| Assault | 11 | 4 | 36.4% | 4 | 1 |
-| Deathknell | 14 | 1 | 7.1% | 1 | 0 |
-| Deflect | 11 | 2 | 18.2% | 2 | 0 |
-| Ganking | 9 | 1 | 11.1% | 1 | 0 |
-| Hidden | 22 | 2 | 9.1% | 4 | 0 |
-| Legion | 8 | 0 | 0.0% | 0 | 0 |
+| Assault | 11 | 4 | 36.4% | 15 | 1 |
+| Deathknell | 14 | 4 | 28.6% | 9 | 0 |
+| Deflect | 11 | 3 | 27.3% | 8 | 0 |
+| Ganking | 9 | 3 | 33.3% | 8 | 0 |
+| Hidden | 22 | 4 | 18.2% | 11 | 0 |
+| Legion | 8 | 1 | 12.5% | 3 | 0 |
 | Reaction | 17 | 2 | 11.8% | 3 | 0 |
-| Shield | 11 | 4 | 36.4% | 4 | 1 |
+| Shield | 11 | 4 | 36.4% | 12 | 1 |
 | Tank | 8 | 4 | 50.0% | 5 | 0 |
-| Temporary | 7 | 2 | 28.6% | 2 | 0 |
-| Vision | 8 | 2 | 25.0% | 2 | 0 |
-| Equip | 20 | 2 | 10.0% | 2 | 0 |
-| Quick-Draw | 7 | 1 | 14.3% | 2 | 0 |
-| Repeat | 15 | 3 | 20.0% | 2 | 1 |
-| Weaponmaster | 16 | 0 | 0.0% | 0 | 0 |
-| Ambush | 9 | 0 | 0.0% | 0 | 0 |
+| Temporary | 7 | 2 | 28.6% | 5 | 0 |
+| Vision | 8 | 2 | 25.0% | 6 | 0 |
+| Equip | 20 | 3 | 15.0% | 3 | 0 |
+| Quick-Draw | 7 | 2 | 28.6% | 3 | 0 |
+| Repeat | 15 | 7 | 46.7% | 9 | 1 |
+| Weaponmaster | 16 | 1 | 6.3% | 2 | 0 |
+| Ambush | 9 | 1 | 11.1% | 1 | 0 |
 | Hunt | 9 | 2 | 22.2% | 3 | 0 |
 | Level | 9 | 1 | 11.1% | 1 | 0 |
 | Unique | 7 | 0 | 0.0% | 0 | 0 |
 | Backline | 8 | 2 | 25.0% | 3 | 0 |
-| Empowered | 8 | 2 | 25.0% | 2 | 0 |
-| Flow | 10 | 0 | 0.0% | 0 | 0 |
-| Deploy | 8 | 1 | 12.5% | 2 | 0 |
-| Disarm | 11 | 2 | 18.2% | 2 | 1 |
-| Show Off | 14 | 0 | 0.0% | 0 | 0 |
-| **Total** | **2321** | **503** | **21.7%** | **893** | **111** |
+| Empowered | 8 | 2 | 25.0% | 14 | 0 |
+| Flow | 10 | 1 | 10.0% | 1 | 0 |
+| Deploy | 8 | 2 | 25.0% | 3 | 0 |
+| Disarm | 11 | 3 | 27.3% | 3 | 1 |
+| Show Off | 14 | 2 | 14.3% | 2 | 0 |
+| **Total** | **2321** | **631** | **27.2%** | **2055** | **116** |
 
 ## Per-rule coverage — Sections 300–479
 
@@ -192,13 +192,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 303 | The Turn | 0 | 0 | 0 | The phases of a turn are rigid, but the actions taken during those steps can be done in any order, … |
 | 303.1 | The Turn | 0 | 0 | 0 | Game Actions of any nature are performed one at a time and are executed completely. |
 | 303.2 | The Turn | 1 | 1 | 0 | Game Actions cannot be performed simultaneously for any reason. |
-| 303.2.a | The Turn | 7 | 7 | 0 | If one or more game actions, game effects, or Triggered Abilities are activated simultaneously, the… |
+| 303.2.a | The Turn | 10 | 10 | 0 | If one or more game actions, game effects, or Triggered Abilities are activated simultaneously, the… |
 | 304 | The Turn | 0 | 0 | 0 | The Turn Player is the player taking the current turn. |
 | 305 | The Turn | 0 | 0 | 0 | When there are no items on the Chain and the Turn Player cannot or chooses not to perform any Discr… |
 | 306 | The Turn | 0 | 0 | 0 | The Turn Player changes when the current Turn Player reaches the End of all of the Phases of their … |
 | 308 | States of the Turn | 0 | 0 | 0 | At any given time, the turn is in either a Neutral State or a Showdown State. |
 | 308.1 | States of the Turn | 1 | 1 | 0 | If a Showdown or Combat is in progress, the turn is in a Showdown State. |
-| 308.1.a | States of the Turn | 0 | 0 | 0 | Only cards and abilities with the Action or Reaction keywords can be played or activated in a Showd… |
+| 308.1.a | States of the Turn | 1 | 1 | 0 | Only cards and abilities with the Action or Reaction keywords can be played or activated in a Showd… |
 | 308.2 | States of the Turn | 1 | 1 | 0 | If no Showdown or Combat is in progress, the turn is in a Neutral State. |
 | 309 | States of the Turn | 1 | 1 | 0 | At any given time, the turn is in either an Open State or a Closed State. |
 | 309.1 | States of the Turn | 2 | 2 | 0 | If a Chain exists, the turn is in a Closed State. |
@@ -231,9 +231,9 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 315.1 | Start of Turn | 1 | 1 | 0 | Awaken Phase |
 | 315.1.a | Start of Turn | 0 | 0 | 0 | The following Task becomes Outstanding: |
 | 315.1.b | Start of Turn | 0 | 0 | 0 | 1. The Turn Player readies all Game Objects they control that are able to be readied. See rule 416.… |
-| 315.2 | Start of Turn | 1 | 1 | 0 | Beginning Phase |
+| 315.2 | Start of Turn | 2 | 2 | 0 | Beginning Phase |
 | 315.2.a | Start of Turn | 0 | 0 | 0 | Beginning Step |
-| 315.2.a.1 | Start of Turn | 0 | 0 | 0 | At the start of Beginning Phase game effects take place. |
+| 315.2.a.1 | Start of Turn | 5 | 5 | 0 | At the start of Beginning Phase game effects take place. |
 | 315.2.b | Start of Turn | 2 | 2 | 0 | Scoring Step |
 | 315.2.b.1 | Start of Turn | 0 | 0 | 0 | The following Task becomes Outstanding: |
 | 315.2.b.2 | Start of Turn | 0 | 0 | 0 | 1. The Turn Player Holds all Battlefields they Control. See rule 469. Scoring for more information. |
@@ -250,7 +250,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 316.1 | Main Phase | 0 | 0 | 0 | When all steps of the Start of Turn have been completed, the Main Phase begins. |
 | 316.2 | Main Phase | 0 | 0 | 0 | The following Tasks become Outstanding in the specified order: |
 | 316.3 | Main Phase | 1 | 1 | 0 | 1. Each player's Rune Pool empties. Any unspent Energy and Power are lost. See rule 165. Rune Pools… |
-| 316.4 | Main Phase | 0 | 0 | 0 | 2. At the start of Main Phase game effects take place. |
+| 316.4 | Main Phase | 1 | 1 | 0 | 2. At the start of Main Phase game effects take place. |
 | 316.5 | Main Phase | 0 | 0 | 0 | The Main Phase has no defined structure. |
 | 316.5.a | Main Phase | 0 | 0 | 0 | A player may take any number of Discretionary Actions they are able to perform during this phase. S… |
 | 316.5.b | Main Phase | 0 | 0 | 0 | This is denoted as a Neutral Open State, and only the Turn Player has the ability to play spells or… |
@@ -273,13 +273,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 316.9 | Main Phase | 1 | 1 | 0 | When a player has no more Discretionary Actions they wish to execute, they must indicate they are e… |
 | 316.9.a | Main Phase | 0 | 0 | 0 | This ends the Main Phase. |
 | 316.9.b | Main Phase | 0 | 0 | 0 | Play proceeds to the Ending Phase. |
-| 317.1 | Ending Phase | 0 | 0 | 0 | Ending Step |
+| 317.1 | Ending Phase | 1 | 1 | 0 | Ending Step |
 | 317.1.a | Ending Phase | 0 | 0 | 0 | At the end of this turn and at the end of turn Game Effects take place. |
 | 317.1.b | Ending Phase | 0 | 0 | 0 | Specific game effects and abilities will reference this timing and phase as necessary. |
 | 317.2 | Ending Phase | 0 | 0 | 0 | Expiration Step |
 | 317.2.a | Ending Phase | 0 | 0 | 0 | Invoke an Ending Special Cleanup. See rule 318. Cleanups for more information. |
 | 317.2.b | Ending Phase | 2 | 2 | 0 | Insert “3c. Heal all Units.” |
-| 317.2.c | Ending Phase | 1 | 1 | 0 | Insert “3d. All ‘this turn’ effects expire simultaneously.” |
+| 317.2.c | Ending Phase | 6 | 6 | 0 | Insert “3d. All ‘this turn’ effects expire simultaneously.” |
 | 317.2.d | Ending Phase | 0 | 0 | 0 | Insert “3e. Each player’s Rune Pool empties. Any unspent Energy and Power are lost.” |
 | 317.2.e | Ending Phase | 0 | 0 | 0 | The following Task becomes Outstanding: |
 | 317.2.f | Ending Phase | 6 | 6 | 0 | 1. If any items underwent the FEPR process, return to the start of the Expiration Step |
@@ -295,13 +295,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 319.8 | Cleanups | 0 | 0 | 0 | After a Move is completed |
 | 320 | Cleanups | 0 | 0 | 0 | While a Cleanup is occurring, Chain Items cannot be Finalized or Resolved. |
 | 320.1 | Cleanups | 0 | 0 | 0 | New Pending Items can be added, but Finalized Items cannot be executed and Priority and Focus are n… |
-| 321 | Cleanups | 7 | 7 | 0 | Similarly, while Chain Items are Resolving, a Cleanup cannot occur. |
+| 321 | Cleanups | 8 | 8 | 0 | Similarly, while Chain Items are Resolving, a Cleanup cannot occur. |
 | 321.1 | Cleanups | 5 | 5 | 0 | If an event occurs during the Resolution of a Chain Item that qualifies for a Cleanup, that Cleanup… |
 | 322 | Cleanups | 3 | 3 | 0 | If an event occurs during a Cleanup that qualifies for a Cleanup, another Cleanup will occur immedi… |
 | 322.1 | Cleanups | 0 | 0 | 0 | These new Cleanups are themselves Outstanding Tasks. |
 | 323 | Cleanups | 0 | 0 | 0 | When a Cleanup occurs, the following Tasks become Outstanding in the order described: |
 | 323.1 | Cleanups | 0 | 0 | 0 | 1. If a player has points greater than or equal to the Victory Score, and more points than every op… |
-| 323.2 | Cleanups | 0 | 0 | 0 | 2. Assign or Remove the Attacker or Defender designation from Units as needed if there is a Combat … |
+| 323.2 | Cleanups | 2 | 2 | 0 | 2. Assign or Remove the Attacker or Defender designation from Units as needed if there is a Combat … |
 | 323.2.a | Cleanups | 1 | 1 | 0 | If there are Units present at the Battlefield the Combat is taking place at, but do not have a desi… |
 | 323.2.b | Cleanups | 0 | 0 | 0 | If there are Units present at the Battlefield the Combat is taking place at, but have the opposite … |
 | 323.2.c | Cleanups | 2 | 2 | 0 | If there are Units at locations other than the Battlefield that the Combat is taking place at, but … |
@@ -414,23 +414,23 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 354.4 | The Process of Play | 0 | 0 | 0 | If there are Tasks outstanding or currently being handled, finish those Tasks before continuing thi… |
 | 355 | The Process of Play | 5 | 5 | 0 | 2. Make relevant choices. |
 | 355.1 | The Process of Play | 0 | 0 | 0 | If the card has an effect that specifies a choice or instructs an action that is not a cost "As I a… |
-| 355.1.a | The Process of Play | 1 | 1 | 0 | This includes the choice of whether or not to pay an Optional Additional Cost. |
-| 355.2 | The Process of Play | 2 | 2 | 0 | For Units, choose a valid Location where that Unit will enter upon being Played. |
-| 355.2.a | The Process of Play | 3 | 3 | 0 | By default, Valid locations include the controller’s Base or a Battlefield the controller controls. |
-| 355.2.b | The Process of Play | 1 | 1 | 0 | Some Game Effects may grant players permission to play Units to locations that are not normally Val… |
-| 355.3 | The Process of Play | 3 | 3 | 0 | For Spells and Abilities with a bulleted list of modes to choose from, make the appropriate choices… |
-| 355.4 | The Process of Play | 1 | 1 | 0 | For Spells and Abilities that Move one or more Units, choose a valid Location as the Move Destinati… |
-| 355.4.a | The Process of Play | 1 | 1 | 0 | A valid Location for a Move Effect is one other than the Units’ current Location where they are all… |
+| 355.1.a | The Process of Play | 5 | 5 | 0 | This includes the choice of whether or not to pay an Optional Additional Cost. |
+| 355.2 | The Process of Play | 3 | 3 | 0 | For Units, choose a valid Location where that Unit will enter upon being Played. |
+| 355.2.a | The Process of Play | 4 | 4 | 0 | By default, Valid locations include the controller’s Base or a Battlefield the controller controls. |
+| 355.2.b | The Process of Play | 3 | 3 | 0 | Some Game Effects may grant players permission to play Units to locations that are not normally Val… |
+| 355.3 | The Process of Play | 13 | 13 | 0 | For Spells and Abilities with a bulleted list of modes to choose from, make the appropriate choices… |
+| 355.4 | The Process of Play | 5 | 5 | 0 | For Spells and Abilities that Move one or more Units, choose a valid Location as the Move Destinati… |
+| 355.4.a | The Process of Play | 2 | 2 | 0 | A valid Location for a Move Effect is one other than the Units’ current Location where they are all… |
 | 355.5 | The Process of Play | 1 | 1 | 0 | If a card requires you to specifically choose one or more Game Objects, that choice is made now. |
-| 355.5.a | The Process of Play | 2 | 0 | 2 | This does not include cards that affect one or more Game Objects based on criteria. |
-| 355.5.b | The Process of Play | 2 | 1 | 1 | This does not include making choices for Triggered Abilities of permanents, or Delayed or Reflexive… |
+| 355.5.a | The Process of Play | 6 | 4 | 2 | This does not include cards that affect one or more Game Objects based on criteria. |
+| 355.5.b | The Process of Play | 3 | 2 | 1 | This does not include making choices for Triggered Abilities of permanents, or Delayed or Reflexive… |
 | 355.6 | The Process of Play | 0 | 0 | 0 | Targeting |
-| 355.7 | The Process of Play | 4 | 4 | 0 | When a card Chooses one or more specific Game Objects, Players, or Zones to affect, they are Target… |
+| 355.7 | The Process of Play | 16 | 16 | 0 | When a card Chooses one or more specific Game Objects, Players, or Zones to affect, they are Target… |
 | 355.8 | The Process of Play | 4 | 4 | 0 | In order to put a spell or ability on the chain, valid choices must be made for all targets. |
 | 355.9 | The Process of Play | 1 | 1 | 0 | A target is a valid choice if it meets all of the following requirements: |
 | 355.9.a | The Process of Play | 0 | 0 | 0 | It is a permanent or rune on the board, a finalized spell or ability on the chain, a player or zone… |
 | 355.9.a.1 | The Process of Play | 2 | 2 | 0 | “Unit,” “gear,” and “rune” refer to objects on the Board unless specified otherwise. |
-| 355.9.a.2 | The Process of Play | 1 | 1 | 0 | “Spell” and “ability” refer to finalized objects on the Chain unless specified otherwise. |
+| 355.9.a.2 | The Process of Play | 2 | 2 | 0 | “Spell” and “ability” refer to finalized objects on the Chain unless specified otherwise. |
 | 355.9.a.3 | The Process of Play | 0 | 0 | 0 | “Facedown card” refers to a card in a Facedown Zone unless specified otherwise. |
 | 355.9.a.4 | The Process of Play | 0 | 0 | 0 | “Legend” refers to a legend in the Legend Zone. |
 | 355.9.a.5 | The Process of Play | 0 | 0 | 0 | “Chosen Champion” and “unit in the Champion Zone” refer to a unit in the Champion Zone unless speci… |
@@ -448,45 +448,45 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 355.10.e | The Process of Play | 0 | 0 | 0 | It is part of a set of objects chosen in whole or in part by other players. e.g., “Each player kill… |
 | 355.10.f | The Process of Play | 0 | 0 | 0 | It is identified in an instruction that a player “must” complete. e.g., “You must recycle one of yo… |
 | 355.10.g | The Process of Play | 0 | 0 | 0 | It is a legend “you” control. e.g. “Ready your legend.” doesn’t target any legend. If a player cont… |
-| 355.11 | The Process of Play | 0 | 0 | 0 | Some cards identify a group of Targets with Targeting Requirements that must be met by the group as… |
-| 355.11.a | The Process of Play | 0 | 0 | 0 | As they’re finalized on the chain, such cards can choose any group of valid targets that collective… |
-| 355.11.b | The Process of Play | 0 | 0 | 0 | If the group of targets no longer collectively fulfill the targeting restriction as the spell or ab… |
-| 355.11.b.1 | The Process of Play | 0 | 0 | 0 | Any legal subset must include the maximum number of legal targets possible for that subset. |
-| 355.12 | The Process of Play | 1 | 1 | 0 | If a spell specifies that a player may perform a Game Action on some number of Game Objects, then a… |
-| 355.13 | The Process of Play | 2 | 2 | 0 | If a card specifies that a player chooses “any number” or “up to” some number of Game Objects to be… |
-| 355.14 | The Process of Play | 0 | 0 | 0 | Splitting |
-| 355.14.a | The Process of Play | 0 | 0 | 0 | If a card specifies that an amount of damage may be split among some number of Units, then each Uni… |
-| 355.14.b | The Process of Play | 0 | 0 | 0 | The Targets are chosen when the spell or ability is finalized on the chain. |
-| 355.14.c | The Process of Play | 2 | 1 | 1 | A number of Targets can only be chosen up to, and not exceeding, the initial amount of damage avail… |
+| 355.11 | The Process of Play | 1 | 1 | 0 | Some cards identify a group of Targets with Targeting Requirements that must be met by the group as… |
+| 355.11.a | The Process of Play | 3 | 3 | 0 | As they’re finalized on the chain, such cards can choose any group of valid targets that collective… |
+| 355.11.b | The Process of Play | 3 | 2 | 1 | If the group of targets no longer collectively fulfill the targeting restriction as the spell or ab… |
+| 355.11.b.1 | The Process of Play | 3 | 2 | 1 | Any legal subset must include the maximum number of legal targets possible for that subset. |
+| 355.12 | The Process of Play | 2 | 2 | 0 | If a spell specifies that a player may perform a Game Action on some number of Game Objects, then a… |
+| 355.13 | The Process of Play | 12 | 12 | 0 | If a card specifies that a player chooses “any number” or “up to” some number of Game Objects to be… |
+| 355.14 | The Process of Play | 1 | 1 | 0 | Splitting |
+| 355.14.a | The Process of Play | 1 | 1 | 0 | If a card specifies that an amount of damage may be split among some number of Units, then each Uni… |
+| 355.14.b | The Process of Play | 1 | 1 | 0 | The Targets are chosen when the spell or ability is finalized on the chain. |
+| 355.14.c | The Process of Play | 4 | 2 | 2 | A number of Targets can only be chosen up to, and not exceeding, the initial amount of damage avail… |
 | 355.14.d | The Process of Play | 0 | 0 | 0 | Each Target is valid, and contributes to Targeting Effects individually. |
-| 355.14.e | The Process of Play | 0 | 0 | 0 | The choice of how much damage is divided across the split is not decided until the resolution of th… |
-| 355.14.f | The Process of Play | 0 | 0 | 0 | Each Target must receive a valid amount of damage. |
-| 355.14.g | The Process of Play | 0 | 0 | 0 | Valid damage is a positive integer amount, greater than or equal to 1 damage. See rule 418. Deal fo… |
-| 355.14.h | The Process of Play | 0 | 0 | 0 | If, at resolution of the spell or effect, there are more Targets than available damage to divide, t… |
-| 355.14.h.1 | The Process of Play | 0 | 0 | 0 | That player cannot choose to have fewer Targets than they have damage to split when choosing which … |
+| 355.14.e | The Process of Play | 2 | 2 | 0 | The choice of how much damage is divided across the split is not decided until the resolution of th… |
+| 355.14.f | The Process of Play | 1 | 1 | 0 | Each Target must receive a valid amount of damage. |
+| 355.14.g | The Process of Play | 1 | 1 | 0 | Valid damage is a positive integer amount, greater than or equal to 1 damage. See rule 418. Deal fo… |
+| 355.14.h | The Process of Play | 1 | 1 | 0 | If, at resolution of the spell or effect, there are more Targets than available damage to divide, t… |
+| 355.14.h.1 | The Process of Play | 2 | 1 | 1 | That player cannot choose to have fewer Targets than they have damage to split when choosing which … |
 | 355.14.i | The Process of Play | 0 | 0 | 0 | Any costs that were paid, or effects that were triggered as a result of those Game Objects being ch… |
 | 355.15 | The Process of Play | 0 | 0 | 0 | These choices cannot be changed after this step unless instructed to by a spell or ability. See rul… |
 | 355.16 | The Process of Play | 0 | 0 | 0 | A player may not make choices during this step that will deterministically result in illegal choice… |
 | 355.17 | The Process of Play | 2 | 1 | 1 | If a Game Effect has introduced a mandatory requirement on any of these choices, that mandatory req… |
 | 355.17.a | The Process of Play | 0 | 0 | 0 | If there are multiple mandatory requirements that do not conflict, players must make a choice that … |
 | 355.17.b | The Process of Play | 3 | 2 | 1 | If there are one or more restrictions on choices being made during this process, those restrictions… |
-| 355.18 | The Process of Play | 5 | 5 | 0 | If a spell or ability requires one or more players to make choices that are not outlined in this se… |
+| 355.18 | The Process of Play | 11 | 11 | 0 | If a spell or ability requires one or more players to make choices that are not outlined in this se… |
 | 356 | The Process of Play | 5 | 5 | 0 | 3. Determine Total Cost. |
 | 356.1 | The Process of Play | 0 | 0 | 0 | Apply base cost modifications in any order. |
 | 356.1.a | The Process of Play | 0 | 0 | 0 | If an ability or instruction allows you to play a card “for [Cost]”, replace the card’s Base Costs … |
-| 356.1.b | The Process of Play | 0 | 0 | 0 | If an ability or instruction allows you to "ignore" one or more of a card's costs, set the appropri… |
+| 356.1.b | The Process of Play | 1 | 1 | 0 | If an ability or instruction allows you to "ignore" one or more of a card's costs, set the appropri… |
 | 356.1.b.1 | The Process of Play | 0 | 0 | 0 | If a card allows a player to play a card "ignoring its cost," its base Energy cost and base Power c… |
 | 356.1.b.2 | The Process of Play | 0 | 0 | 0 | If a card instructs a player to play a card "ignoring its Energy cost" or "ignoring its Power cost,… |
 | 356.1.b.3 | The Process of Play | 1 | 0 | 1 | Further additional costs and/or cost increases applied in subsequent steps may raise the card's Tot… |
 | 356.1.c | The Process of Play | 0 | 0 | 0 | Effects that refer to the Base Cost of the card refer to the Printed or Copied Base Cost of said ca… |
 | 356.2 | The Process of Play | 2 | 2 | 0 | Apply additional costs in any order. |
 | 356.2.a | The Process of Play | 0 | 0 | 0 | Mandatory Additional Costs |
-| 356.2.a.1 | The Process of Play | 2 | 1 | 1 | Some Additional Costs specified by Passive Abilities on the card being played or another card are M… |
+| 356.2.a.1 | The Process of Play | 3 | 2 | 1 | Some Additional Costs specified by Passive Abilities on the card being played or another card are M… |
 | 356.2.a.2 | The Process of Play | 0 | 0 | 0 | The cost imposed by the Deflect keyword is a Mandatory Additional Cost. See rule 809. Deflect for m… |
 | 356.2.b | The Process of Play | 0 | 0 | 0 | Optional Additional Costs |
-| 356.2.b.1 | The Process of Play | 2 | 1 | 1 | Some Optional Costs specified by Passive Abilities on the card being played or another card are Non… |
-| 356.3 | The Process of Play | 2 | 2 | 0 | Apply cost increases. |
-| 356.4 | The Process of Play | 3 | 3 | 0 | Apply discounts. |
+| 356.2.b.1 | The Process of Play | 6 | 5 | 1 | Some Optional Costs specified by Passive Abilities on the card being played or another card are Non… |
+| 356.3 | The Process of Play | 3 | 3 | 0 | Apply cost increases. |
+| 356.4 | The Process of Play | 18 | 18 | 0 | Apply discounts. |
 | 356.4.a | The Process of Play | 0 | 0 | 0 | Discounts may be applied by the card being played or by any other card or effect. |
 | 356.4.b | The Process of Play | 0 | 0 | 0 | Discounts may say that cards "cost [amount] less" or that one or more of their costs are "reduced b… |
 | 356.4.c | The Process of Play | 0 | 0 | 0 | Discounts that only apply to a component of the cost will be applied when that component is added t… |
@@ -494,18 +494,18 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 356.4.c.2 | The Process of Play | 0 | 0 | 0 | Discounts that apply to a given component of a spell’s cost cannot reduce that component to less th… |
 | 356.4.d | The Process of Play | 0 | 0 | 0 | Discounts that apply to the total cost of a spell and not any one component of the cost must be app… |
 | 356.4.d.1 | The Process of Play | 0 | 0 | 0 | These discounts may be applied in any order as long as they are applied after component discounts. |
-| 356.4.e | The Process of Play | 0 | 0 | 0 | If a discount applies a minimum cost, that minimum applies only to that discount. |
+| 356.4.e | The Process of Play | 1 | 1 | 0 | If a discount applies a minimum cost, that minimum applies only to that discount. |
 | 356.4.f | The Process of Play | 1 | 1 | 0 | Discounts can reduce additional costs, including to 0. |
-| 356.4.f.1 | The Process of Play | 3 | 1 | 2 | An optional additional cost was "paid" if the player made the decision to pay it. It doesn't matter… |
-| 356.4.g | The Process of Play | 1 | 0 | 1 | If a discount applies a variable cost reduction to the card, that value is checked now. |
+| 356.4.f.1 | The Process of Play | 9 | 7 | 2 | An optional additional cost was "paid" if the player made the decision to pay it. It doesn't matter… |
+| 356.4.g | The Process of Play | 2 | 1 | 1 | If a discount applies a variable cost reduction to the card, that value is checked now. |
 | 356.5 | The Process of Play | 0 | 0 | 0 | Apply modifications to the total cost in any order. |
 | 356.5.a | The Process of Play | 0 | 0 | 0 | If an effect allows a player to play a card ignoring “any and all costs,” set the total cost to [0]… |
 | 356.6 | The Process of Play | 2 | 2 | 0 | Energy and Power costs can't be reduced below 0. |
 | 356.7 | The Process of Play | 1 | 0 | 1 | Costs may be Energy costs, Power costs, or non-standard costs. |
-| 357 | The Process of Play | 9 | 9 | 0 | 4. Pay the card's costs. |
+| 357 | The Process of Play | 10 | 10 | 0 | 4. Pay the card's costs. |
 | 357.1 | The Process of Play | 6 | 6 | 0 | In total, pay the combined Energy cost (if any) and Power cost (if any). |
 | 357.1.a | The Process of Play | 0 | 0 | 0 | During this step, the card's controller can use activated abilities with the Reaction tag that Add … |
-| 357.2 | The Process of Play | 4 | 3 | 1 | In addition, pay any non-standard Cost summed in step 3 in any order. |
+| 357.2 | The Process of Play | 9 | 8 | 1 | In addition, pay any non-standard Cost summed in step 3 in any order. |
 | 357.2.a | The Process of Play | 2 | 1 | 1 | Costs that are replaced with other events by replacement effects are still considered paid. |
 | 357.3 | The Process of Play | 0 | 0 | 0 | A player may not pay costs during this step that will deterministically result in illegal choices o… |
 | 358 | The Process of Play | 1 | 1 | 0 | 5. Check legality. |
@@ -544,45 +544,45 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 359.3.e.11 | The Process of Play | 0 | 0 | 0 | Instructions that can be partially followed are followed as much as possible and negated otherwise. |
 | 359.3.e.12 | The Process of Play | 0 | 0 | 0 | If the spell checks information about a target that is no longer legal or a card or permanent whose… |
 | 359.3.e.12.a | The Process of Play | 0 | 0 | 0 | If the spell checks information about a target that is legal or a card or permanent whose location,… |
-| 359.3.e.13 | The Process of Play | 0 | 0 | 0 | A spell or ability that moves something to a different zone as a cost or effect can "look back" at … |
+| 359.3.e.13 | The Process of Play | 2 | 2 | 0 | A spell or ability that moves something to a different zone as a cost or effect can "look back" at … |
 | 359.3.e.14 | The Process of Play | 3 | 1 | 2 | Some instructions may reference Game Objects affected by, or Game Actions performed in, other instr… |
 | 359.3.e.14.a | The Process of Play | 2 | 1 | 1 | In order for a later linked instruction to execute, its earlier linked instruction must have execut… |
-| 359.3.e.14.b | The Process of Play | 6 | 3 | 3 | If the Game Action performed in an earlier linked instruction is Negated, this will not affect the … |
+| 359.3.e.14.b | The Process of Play | 7 | 4 | 3 | If the Game Action performed in an earlier linked instruction is Negated, this will not affect the … |
 | 359.3.e.14.c | The Process of Play | 0 | 0 | 0 | Referencing a game action in this way only refers to the game action being performed and the object… |
 | 359.3.e.15 | The Process of Play | 0 | 0 | 0 | A spell or ability that leaves the chain during the process of its resolution will cease further ex… |
-| 359.3.e.16 | The Process of Play | 3 | 2 | 1 | If a Delayed Ability’s duration has ended before it was generated, the Delayed Ability is not gener… |
+| 359.3.e.16 | The Process of Play | 4 | 3 | 1 | If a Delayed Ability’s duration has ended before it was generated, the Delayed Ability is not gener… |
 | 359.3.f | The Process of Play | 0 | 0 | 0 | Referents |
 | 359.3.f.1 | The Process of Play | 1 | 1 | 0 | Some information used by abilities is referenced from the source of those abilities, or from one or… |
-| 359.3.f.2 | The Process of Play | 0 | 0 | 0 | Information referenced in an instruction in this way will be checked on execution of the instructio… |
+| 359.3.f.2 | The Process of Play | 8 | 8 | 0 | Information referenced in an instruction in this way will be checked on execution of the instructio… |
 | 359.3.f.2.a | The Process of Play | 0 | 0 | 0 | When a referent checks information on execution of the instruction related to a target, and that ta… |
 | 359.3.f.3 | The Process of Play | 0 | 0 | 0 | Some information used by triggered abilities is referenced from the trigger condition of the abilit… |
-| 359.3.f.3.a | The Process of Play | 0 | 0 | 0 | In the case of a delayed triggered ability, the information is referenced when the triggered abilit… |
+| 359.3.f.3.a | The Process of Play | 3 | 3 | 0 | In the case of a delayed triggered ability, the information is referenced when the triggered abilit… |
 | 359.3.f.3.b | The Process of Play | 0 | 0 | 0 | In the case of a linked ability that references information from a linked triggered ability, that i… |
 | 359.3.f.4 | The Process of Play | 0 | 0 | 0 | Some information used by the effect of a triggered ability is referenced from the triggered ability… |
-| 361 | Abilities | 0 | 0 | 0 | An Ability is the structured rules and capabilities of Game Objects or Spells. |
+| 361 | Abilities | 1 | 1 | 0 | An Ability is the structured rules and capabilities of Game Objects or Spells. |
 | 361.1 | Abilities | 0 | 0 | 0 | An Ability has multiple structures. Passive Abilities Replacement Effects Activated Abilities Trigg… |
 | 362 | Abilities | 0 | 0 | 0 | A card can have more than one Ability and more than one type of Ability. |
 | 364 | Passive Abilities | 0 | 0 | 0 | Conditions, rules, constraints, or statements that affect the course of regular play. |
 | 364.1 | Passive Abilities | 1 | 1 | 0 | These abilities have a wide variety of formats to recognize. |
 | 364.2 | Passive Abilities | 0 | 0 | 0 | They can be recognized by being statements of fact. |
 | 364.3 | Passive Abilities | 0 | 0 | 0 | Passive Abilities can be conditional. |
-| 364.3.a | Passive Abilities | 0 | 0 | 0 | Conditional Passive Abilities can be recognized by the occurrence of "if" or "while" as part of the… |
-| 365.1 | Presence on Permanents | 0 | 0 | 0 | Passive Abilities of Permanents are typically only active while on the Board. |
+| 364.3.a | Passive Abilities | 13 | 13 | 0 | Conditional Passive Abilities can be recognized by the occurrence of "if" or "while" as part of the… |
+| 365.1 | Presence on Permanents | 5 | 5 | 0 | Passive Abilities of Permanents are typically only active while on the Board. |
 | 366.1 | Presence on Card outside of the Board | 0 | 0 | 0 | Passive Abilities of cards in zones that are outside of the Board will self-describe their context. |
 | 366.2 | Presence on Card outside of the Board | 0 | 0 | 0 | Passive Abilities can alter the costs of cards as they are played. |
-| 366.2.a | Presence on Card outside of the Board | 1 | 1 | 0 | These apply at all times in any zone from which the card with the ability can be played. |
+| 366.2.a | Presence on Card outside of the Board | 15 | 15 | 0 | These apply at all times in any zone from which the card with the ability can be played. |
 | 368 | Replacement Effects | 1 | 1 | 0 | An ability that alters the application of another game effect or game rule. |
 | 368.1 | Replacement Effects | 0 | 0 | 0 | Passive Abilities can be Replacement Effects. |
 | 369 | Replacement Effects | 0 | 0 | 0 | Replacement Effects intercede during the execution of a Game Effect and alter its execution. |
-| 369.1 | Replacement Effects | 1 | 0 | 1 | A Replacement Effect can usually be identified by the presence of the terms “as,” “would,” or "inst… |
+| 369.1 | Replacement Effects | 3 | 2 | 1 | A Replacement Effect can usually be identified by the presence of the terms “as,” “would,” or "inst… |
 | 369.2 | Replacement Effects | 1 | 1 | 0 | Some Game Actions are themselves Replacement Effects. |
-| 369.3 | Replacement Effects | 3 | 2 | 1 | Replacement Effects that apply to a unit as it enters the Board can be identified by describing how… |
+| 369.3 | Replacement Effects | 29 | 28 | 1 | Replacement Effects that apply to a unit as it enters the Board can be identified by describing how… |
 | 370 | Replacement Effects | 0 | 0 | 0 | A Replacement Effect can alter the typical flow of play, including other cards' executions. |
 | 370.1 | Replacement Effects | 0 | 0 | 0 | Replacement Effects apply to any event or instruction that qualifies for their application. A Repla… |
 | 370.1.a | Replacement Effects | 0 | 0 | 0 | An event is the singular moment that results from a Game Action being performed or from a Game Obje… |
 | 370.1.a.1 | Replacement Effects | 0 | 0 | 0 | Modifying or replacing an event is the same as modifying or replacing that Game Action or change in… |
 | 370.1.a.2 | Replacement Effects | 0 | 0 | 0 | An event can occur simultaneously with other events only when those events are all the result of th… |
-| 370.1.b | Replacement Effects | 0 | 0 | 0 | When a Replacement Effect applies, it replaces the qualifying event with one or more Game Actions o… |
+| 370.1.b | Replacement Effects | 3 | 3 | 0 | When a Replacement Effect applies, it replaces the qualifying event with one or more Game Actions o… |
 | 370.1.b.1 | Replacement Effects | 0 | 0 | 0 | In the case of Replacement Effects that describe a game action to occur “as” an event occurs, the d… |
 | 370.1.c | Replacement Effects | 0 | 0 | 0 | Replacement Effects are applied before any qualifying event has actually occurred. |
 | 370.1.c.1 | Replacement Effects | 0 | 0 | 0 | If the Replacement Effect of a Game Object applies to an event that involves that same Game Object … |
@@ -591,25 +591,25 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 370.4 | Replacement Effects | 0 | 0 | 0 | A Game Object can apply its Replacement Effects to any qualifying events that occur simultaneously … |
 | 371 | Replacement Effects | 0 | 0 | 0 | Some Replacement Effects will begin with “once each turn,” or “N times each turn.” |
 | 371.1 | Replacement Effects | 0 | 0 | 0 | These Replacement Effects may only be applied to the specified number of events each turn. Once the… |
-| 371.2 | Replacement Effects | 0 | 0 | 0 | If the Replacement Effect says a player “may” apply the Replacement Effect, the player has the choi… |
-| 371.2.a | Replacement Effects | 0 | 0 | 0 | When an event the Replacement Effect could apply to occurs, the player who controls the Replacement… |
-| 371.2.b | Replacement Effects | 0 | 0 | 0 | If they do not, it has not been applied this turn. |
-| 372 | Replacement Effects | 0 | 0 | 0 | If more than one Replacement Effect applies to the same event being executed, then the controller o… |
+| 371.2 | Replacement Effects | 1 | 1 | 0 | If the Replacement Effect says a player “may” apply the Replacement Effect, the player has the choi… |
+| 371.2.a | Replacement Effects | 1 | 1 | 0 | When an event the Replacement Effect could apply to occurs, the player who controls the Replacement… |
+| 371.2.b | Replacement Effects | 1 | 1 | 0 | If they do not, it has not been applied this turn. |
+| 372 | Replacement Effects | 1 | 1 | 0 | If more than one Replacement Effect applies to the same event being executed, then the controller o… |
 | 372.1 | Replacement Effects | 0 | 0 | 0 | If it is a player being acted on, that player decides the order the Replacement Effects will apply. |
 | 372.2 | Replacement Effects | 0 | 0 | 0 | If the affected object is an Uncontrolled Battlefield then the Current Turn Player decides the orde… |
-| 373 | Replacement Effects | 0 | 0 | 0 | If more than one event occurs simultaneously that Replacement Effects could apply to, each event is… |
+| 373 | Replacement Effects | 1 | 1 | 0 | If more than one event occurs simultaneously that Replacement Effects could apply to, each event is… |
 | 373.1 | Replacement Effects | 0 | 0 | 0 | Although these events are simultaneous, the applied Replacement Effects are ordered. If multiple ap… |
 | 373.1.a | Replacement Effects | 0 | 0 | 0 | When executing Replacement Effects, the Game Actions that comprise their instructions are performed… |
 | 373.2 | Replacement Effects | 0 | 0 | 0 | When applying Replacement Effects to events that occur simultaneously, each Replacement Effect may … |
 | 373.2.a | Replacement Effects | 0 | 0 | 0 | A sequence of Replacement Effects is an uninterrupted series of applications to a set of simultaneo… |
 | 373.2.a.1 | Replacement Effects | 0 | 0 | 0 | A Replacement Effect that replaces an event or Game Action that is part of another Replacement Effe… |
-| 374 | Replacement Effects | 1 | 1 | 0 | A Replacement Effect’s controller is the player that controls the source of the Replacement Effect. |
-| 375 | Replacement Effects | 1 | 0 | 1 | If an event that a Replacement Effect applies to would be modified by the Game Effect that generate… |
-| 377 | Activated Abilities | 1 | 1 | 0 | Activated Abilities are repeatable effects with a cost. They follow a process of going onto the cha… |
-| 377.1 | Activated Abilities | 8 | 6 | 2 | Activated Abilities are recognized by the presence of a ":" in the text of the card, preceded by a … |
+| 374 | Replacement Effects | 2 | 2 | 0 | A Replacement Effect’s controller is the player that controls the source of the Replacement Effect. |
+| 375 | Replacement Effects | 3 | 2 | 1 | If an event that a Replacement Effect applies to would be modified by the Game Effect that generate… |
+| 377 | Activated Abilities | 4 | 4 | 0 | Activated Abilities are repeatable effects with a cost. They follow a process of going onto the cha… |
+| 377.1 | Activated Abilities | 14 | 12 | 2 | Activated Abilities are recognized by the presence of a ":" in the text of the card, preceded by a … |
 | 377.2 | Activated Abilities | 0 | 0 | 0 | Card text will refer to activating Activated Abilities with the word “use” or “play.” |
 | 377.2.a | Activated Abilities | 0 | 0 | 0 | If “using” or “playing” an Activated Ability is part of a trigger condition, that condition is fulf… |
-| 377.2.b | Activated Abilities | 5 | 3 | 2 | If an Activated Ability has a condition on “using” or “playing” it, that condition must be true in … |
+| 377.2.b | Activated Abilities | 9 | 7 | 2 | If an Activated Ability has a condition on “using” or “playing” it, that condition must be true in … |
 | 377.3 | Activated Abilities | 0 | 0 | 0 | Activated Abilities use the chain. |
 | 377.3.a | Activated Abilities | 0 | 0 | 0 | Declare activation of the Ability. |
 | 377.3.a.1 | Activated Abilities | 0 | 0 | 0 | The ability goes on the chain but has no card to represent it, so players need to take note that it… |
@@ -627,17 +627,17 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 381.2 | Activated Abilities | 0 | 0 | 0 | If the source of the Activated Ability is uncontrolled and it isn’t a Battlefield, that is the owne… |
 | 381.3 | Activated Abilities | 0 | 0 | 0 | If the Activated Ability specifies that one or more players other than the controller or owner of t… |
 | 383 | Triggered Abilities | 0 | 0 | 0 | Triggered Abilities are repeatable effects that happen when a Condition is met. |
-| 383.1 | Triggered Abilities | 0 | 0 | 0 | Triggered Abilities can usually be recognized by the word "when" followed by a game action or event… |
+| 383.1 | Triggered Abilities | 1 | 1 | 0 | Triggered Abilities can usually be recognized by the word "when" followed by a game action or event… |
 | 383.1.a | Triggered Abilities | 0 | 0 | 0 | The phrases that identify triggered abilities do not always appear at the beginning of sentences or… |
-| 383.1.b | Triggered Abilities | 0 | 0 | 0 | If an ability triggers “the [Nth] time” something happens and that trigger condition is met multipl… |
-| 383.2 | Triggered Abilities | 0 | 0 | 0 | Triggered Abilities have a Condition and an Effect. |
+| 383.1.b | Triggered Abilities | 2 | 2 | 0 | If an ability triggers “the [Nth] time” something happens and that trigger condition is met multipl… |
+| 383.2 | Triggered Abilities | 1 | 1 | 0 | Triggered Abilities have a Condition and an Effect. |
 | 383.2.a | Triggered Abilities | 0 | 0 | 0 | The Condition is the clause with When, At, or the Nth Time. |
-| 383.2.a.1 | Triggered Abilities | 3 | 2 | 1 | Any additional conditional statement immediately after the Condition must be true in order for the … |
-| 383.2.b | Triggered Abilities | 0 | 0 | 0 | The Effect is the Instructions that are not part of the Condition. |
+| 383.2.a.1 | Triggered Abilities | 24 | 23 | 1 | Any additional conditional statement immediately after the Condition must be true in order for the … |
+| 383.2.b | Triggered Abilities | 1 | 1 | 0 | The Effect is the Instructions that are not part of the Condition. |
 | 383.2.c | Triggered Abilities | 0 | 0 | 0 | The Condition of a Trigger is evaluated after a potentially inciting event has been processed, unle… |
 | 383.2.c.1 | Triggered Abilities | 0 | 0 | 0 | If a Game Object has a Triggered Ability that is active in a specific zone, it is evaluated and sub… |
 | 383.2.c.2 | Triggered Abilities | 2 | 0 | 2 | A Game Object will not be able to successfully evaluate its Trigger Condition, however, if it leave… |
-| 383.2.c.3 | Triggered Abilities | 2 | 1 | 1 | If a Game Object has a Triggered Ability whose condition is the Game Object leaving the board, such… |
+| 383.2.c.3 | Triggered Abilities | 5 | 4 | 1 | If a Game Object has a Triggered Ability whose condition is the Game Object leaving the board, such… |
 | 383.2.c.3.a | Triggered Abilities | 2 | 1 | 1 | Triggered Abilities that trigger from Game Objects leaving the board trigger and are placed on the … |
 | 383.2.c.3.b | Triggered Abilities | 0 | 0 | 0 | When the Triggered Ability is being processed, note any information about the source of the Trigger… |
 | 383.3 | Triggered Abilities | 0 | 0 | 0 | When a Condition is met, a Triggered Ability behaves like an Activated Ability and is placed on the… |
@@ -645,18 +645,18 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 383.3.a.1 | Triggered Abilities | 0 | 0 | 0 | The decision of “may” when it appears in this way is solely whether or not to perform said triggere… |
 | 383.3.a.2 | Triggered Abilities | 1 | 1 | 0 | If the controller of the Triggered Ability chooses not to perform that Triggered Ability during fin… |
 | 383.3.a.3 | Triggered Abilities | 2 | 2 | 0 | If “you may” or “they may” appears in any later part of the Effect of a triggered ability, it is de… |
-| 383.3.b | Triggered Abilities | 3 | 2 | 1 | If a Triggered Ability contains a cost within instructions at the beginning of the effect or immedi… |
+| 383.3.b | Triggered Abilities | 7 | 6 | 1 | If a Triggered Ability contains a cost within instructions at the beginning of the effect or immedi… |
 | 383.3.b.1 | Triggered Abilities | 1 | 1 | 0 | The cost must be paid in order to finalize the Triggered Ability to the Chain. |
 | 383.3.c | Triggered Abilities | 0 | 0 | 0 | Triggered Abilities can be put on the Chain during Closed States or Open States on any player's tur… |
 | 383.3.d | Triggered Abilities | 2 | 2 | 0 | If more than one Triggered Ability is Triggered simultaneously, then the player that controls the A… |
 | 383.3.d.1 | Triggered Abilities | 2 | 2 | 0 | If multiple players separately control Triggered Abilities that are Triggered simultaneously, then … |
-| 383.3.e | Triggered Abilities | 0 | 0 | 0 | Some Triggered Abilities will trigger “once each turn,” or “N times each turn.” |
+| 383.3.e | Triggered Abilities | 6 | 6 | 0 | Some Triggered Abilities will trigger “once each turn,” or “N times each turn.” |
 | 383.3.e.1 | Triggered Abilities | 0 | 0 | 0 | Such a Triggered Ability will only be performed the specified number of times each turn. If its tri… |
 | 383.3.e.2 | Triggered Abilities | 0 | 0 | 0 | If the Triggered Ability says “you may” or “they may” as the first part of its effect, its controll… |
 | 383.3.e.2.a | Triggered Abilities | 0 | 0 | 0 | During finalization of the Triggered Ability, the player who controls the Triggered Ability may cho… |
 | 383.3.e.2.b | Triggered Abilities | 1 | 0 | 1 | If they do not, it is removed from the chain. |
-| 383.4 | Triggered Abilities | 0 | 0 | 0 | Some Conditions are commonly used and structured in a way that explicitly defines their use and oth… |
-| 383.4.a | Triggered Abilities | 1 | 1 | 0 | Play Effects are Triggered Abilities whose Condition includes the Permanent that has the Play Effec… |
+| 383.4 | Triggered Abilities | 2 | 2 | 0 | Some Conditions are commonly used and structured in a way that explicitly defines their use and oth… |
+| 383.4.a | Triggered Abilities | 14 | 14 | 0 | Play Effects are Triggered Abilities whose Condition includes the Permanent that has the Play Effec… |
 | 383.4.a.1 | Triggered Abilities | 0 | 0 | 0 | These are commonly structured as “When you play me…” for Units and “When you play this…” for Gear. |
 | 383.4.a.2 | Triggered Abilities | 1 | 1 | 0 | These Triggered Abilities are put on the Chain as Pending Items after the Permanent these effects c… |
 | 383.4.a.3 | Triggered Abilities | 0 | 0 | 0 | These Triggered Abilities can be referred to as Play Effects. |
@@ -666,27 +666,27 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 383.4.b.2 | Triggered Abilities | 0 | 0 | 0 | These Triggered Abilities are put on the Chain as Pending Items after a spell or ability targets an… |
 | 383.4.b.3 | Triggered Abilities | 0 | 0 | 0 | Although these abilities say “choose” in their Condition, they trigger specifically when an appropr… |
 | 383.4.b.4 | Triggered Abilities | 0 | 0 | 0 | These Triggered Abilities can be referred to as Targeting Effects. |
-| 383.4.c | Triggered Abilities | 0 | 0 | 0 | Conquer Effects are Triggered Abilities whose Condition includes a Unit participating in, and succe… |
+| 383.4.c | Triggered Abilities | 7 | 7 | 0 | Conquer Effects are Triggered Abilities whose Condition includes a Unit participating in, and succe… |
 | 383.4.c.1 | Triggered Abilities | 0 | 0 | 0 | These are commonly structured as “When I conquer…” and “When you conquer…” |
 | 383.4.c.2 | Triggered Abilities | 0 | 0 | 0 | This category of Triggered Abilities encompasses only those that are triggered from Units that were… |
-| 383.4.c.2.a | Triggered Abilities | 0 | 0 | 0 | The Conquer Abilities of Units are put on the Chain as Pending Items after the Unit(s) these effect… |
-| 383.4.c.2.b | Triggered Abilities | 0 | 0 | 0 | The Conquer Abilities of anything that references the player Conquering are put on the Chain as Pen… |
+| 383.4.c.2.a | Triggered Abilities | 5 | 5 | 0 | The Conquer Abilities of Units are put on the Chain as Pending Items after the Unit(s) these effect… |
+| 383.4.c.2.b | Triggered Abilities | 3 | 3 | 0 | The Conquer Abilities of anything that references the player Conquering are put on the Chain as Pen… |
 | 383.4.c.2.c | Triggered Abilities | 0 | 0 | 0 | If the act of gaining one point from Conquering is negated or replaced in any way, the Conquer Effe… |
 | 383.4.c.3 | Triggered Abilities | 0 | 0 | 0 | These Triggered Abilities can be referred to as Conquer Effects. |
-| 383.4.d | Triggered Abilities | 0 | 0 | 0 | Hold Effects are Triggered Abilities whose Condition includes a Unit being present at a Battlefield… |
+| 383.4.d | Triggered Abilities | 12 | 12 | 0 | Hold Effects are Triggered Abilities whose Condition includes a Unit being present at a Battlefield… |
 | 383.4.d.1 | Triggered Abilities | 0 | 0 | 0 | These are commonly structured as “When I hold…” or “When you hold…” |
 | 383.4.d.2 | Triggered Abilities | 0 | 0 | 0 | This category of Triggered Abilities encompasses only those that are triggered from Units that were… |
-| 383.4.d.2.a | Triggered Abilities | 0 | 0 | 0 | The Hold Abilities of Units are put on the Chain as Pending Items after the Unit these effects corr… |
-| 383.4.d.2.b | Triggered Abilities | 0 | 0 | 0 | The Hold Abilities of anything that references the player Holding are put on the Chain as Pending I… |
+| 383.4.d.2.a | Triggered Abilities | 2 | 2 | 0 | The Hold Abilities of Units are put on the Chain as Pending Items after the Unit these effects corr… |
+| 383.4.d.2.b | Triggered Abilities | 5 | 5 | 0 | The Hold Abilities of anything that references the player Holding are put on the Chain as Pending I… |
 | 383.4.d.2.c | Triggered Abilities | 1 | 1 | 0 | If the act of gaining one point from Holding is negated or replaced in any way, the Hold Effect wil… |
 | 383.4.d.3 | Triggered Abilities | 0 | 0 | 0 | These Triggered Abilities can be referred to as Hold Effects. |
-| 383.4.e | Triggered Abilities | 1 | 1 | 0 | Attack Triggers are Triggered Abilities that trigger when a Unit or Player gains the Attacker desig… |
+| 383.4.e | Triggered Abilities | 19 | 19 | 0 | Attack Triggers are Triggered Abilities that trigger when a Unit or Player gains the Attacker desig… |
 | 383.4.e.1 | Triggered Abilities | 0 | 0 | 0 | These are commonly structured as “When I attack…” or “When you attack…” |
 | 383.4.e.2 | Triggered Abilities | 0 | 0 | 0 | These Triggered Abilities are put on the Chain as Pending Items after the Unit these effects corres… |
 | 383.4.e.2.a | Triggered Abilities | 1 | 1 | 0 | These triggers will only have their condition checked once per combat, despite a Unit being able to… |
-| 383.4.e.2.b | Triggered Abilities | 0 | 0 | 0 | If the trigger condition contains other requirements besides attacking and if those requirements ar… |
+| 383.4.e.2.b | Triggered Abilities | 1 | 1 | 0 | If the trigger condition contains other requirements besides attacking and if those requirements ar… |
 | 383.4.e.3 | Triggered Abilities | 0 | 0 | 0 | These Triggered Abilities can be referred to as Attack Triggers. |
-| 383.4.f | Triggered Abilities | 1 | 1 | 0 | Defend Triggers are Triggered Abilities that trigger when a Unit or Player gains the Defender desig… |
+| 383.4.f | Triggered Abilities | 6 | 6 | 0 | Defend Triggers are Triggered Abilities that trigger when a Unit or Player gains the Defender desig… |
 | 383.4.f.1 | Triggered Abilities | 0 | 0 | 0 | These are commonly structured as “When I defend…” or “When you defend…” |
 | 383.4.f.2 | Triggered Abilities | 0 | 0 | 0 | These Triggered Abilities are put on the Chain as Pending Items after the Unit these effects corres… |
 | 383.4.f.2.a | Triggered Abilities | 0 | 0 | 0 | These triggers will only have their condition checked once per combat, despite a Unit being able to… |
@@ -706,7 +706,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 386.2.b | Presence on Cards outside of the Board | 1 | 0 | 1 | If they do not apply the Replacement Effect, it has not been applied this turn. If they do not perf… |
 | 386.3 | Presence on Cards outside of the Board | 0 | 0 | 0 | For such Passive Abilities, they will be active until they have been applied to the specified numbe… |
 | 386.3.a | Presence on Cards outside of the Board | 0 | 0 | 0 | If such a Passive Ability says “you may” or “they may” as the first part of the ability after the “… |
-| 388 | Reflexive Triggers | 0 | 0 | 0 | Reflexive Triggers are a type of Triggered Ability that create one or more Chain Items when their c… |
+| 388 | Reflexive Triggers | 2 | 2 | 0 | Reflexive Triggers are a type of Triggered Ability that create one or more Chain Items when their c… |
 | 388.1 | Reflexive Triggers | 0 | 0 | 0 | Reflexive Triggers can be recognized by the phrase “Do this:” or “Do one of the following:”. |
 | 388.1.a | Reflexive Triggers | 1 | 1 | 0 | “Do this” can be followed by “N times.” The Reflexive Trigger will thus be added to the chain N tim… |
 | 388.1.b | Reflexive Triggers | 0 | 0 | 0 | “Do one of the following” can instead be “Do X of the following” or “Do the following”. The effect … |
@@ -718,18 +718,18 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 389.2 | Reflexive Triggers | 1 | 1 | 0 | If a Reflexive Trigger creates more than one Pending Item it creates them all in order, but does no… |
 | 391 | Delayed Abilities | 0 | 0 | 0 | Delayed Abilities are a type of Ability that specifies a window of applicability during which they … |
 | 391.1 | Delayed Abilities | 0 | 0 | 0 | Delayed Abilities can be any other type of Ability, and contain all of the properties of that type … |
-| 391.2 | Delayed Abilities | 1 | 1 | 0 | Delayed Triggers are Triggered Abilities that can be recognized by describing a specific time of th… |
-| 391.3 | Delayed Abilities | 0 | 0 | 0 | Delayed Replacements are Replacement Effects that can be recognized by specifying the effect they a… |
+| 391.2 | Delayed Abilities | 5 | 5 | 0 | Delayed Triggers are Triggered Abilities that can be recognized by describing a specific time of th… |
+| 391.3 | Delayed Abilities | 3 | 3 | 0 | Delayed Replacements are Replacement Effects that can be recognized by specifying the effect they a… |
 | 391.3.a | Delayed Abilities | 0 | 0 | 0 | Some Delayed Replacements take the form “then recycle it,” or “then banish it,” in reference to cha… |
-| 391.4 | Delayed Abilities | 0 | 0 | 0 | Delayed Passive Abilities are Passive Abilities that are applicable only during a specified window … |
+| 391.4 | Delayed Abilities | 2 | 2 | 0 | Delayed Passive Abilities are Passive Abilities that are applicable only during a specified window … |
 | 391.5 | Delayed Abilities | 0 | 0 | 0 | Delayed Linked Abilities are Linked Abilities that are generated by another Ability and reference t… |
 | 391.5.a | Delayed Abilities | 0 | 0 | 0 | If that Ability affects a Game Object, the Delayed Linked Ability’s window will be as long as that … |
 | 391.5.b | Delayed Abilities | 0 | 0 | 0 | If the Delayed Linked Ability references the source of the abilities, its window will be as long as… |
 | 391.5.c | Delayed Abilities | 0 | 0 | 0 | The appropriate zones for these Delayed Linked Abilities will be determined implicitly by the Linke… |
 | 391.5.c.1 | Delayed Abilities | 0 | 0 | 0 | If the Linked Ability causes the affected Game Objects to change zone to a non-board zone, the appr… |
 | 391.5.c.2 | Delayed Abilities | 0 | 0 | 0 | Otherwise, the appropriate zone is whatever zone the Linked Ability triggered or was played from, o… |
-| 392 | Delayed Abilities | 3 | 1 | 2 | Delayed Abilities will resolve or be active just like the ability they augment, but only during the… |
-| 393 | Delayed Abilities | 1 | 1 | 0 | Delayed Abilities are not associated with Units or Gear; they are created by other Abilities or Spe… |
+| 392 | Delayed Abilities | 4 | 2 | 2 | Delayed Abilities will resolve or be active just like the ability they augment, but only during the… |
+| 393 | Delayed Abilities | 4 | 4 | 0 | Delayed Abilities are not associated with Units or Gear; they are created by other Abilities or Spe… |
 | 395 | Linked Abilities | 0 | 0 | 0 | Linked Abilities are a set of Abilities with one or more of the component Abilities referencing the… |
 | 395.1 | Linked Abilities | 0 | 0 | 0 | Component Abilities can reference other Abilities in the set by means of referencing those Abilitie… |
 | 396 | Linked Abilities | 0 | 0 | 0 | In order for a set of Abilities to be Linked, they must be present in the printed Effect or Rules T… |
@@ -743,11 +743,11 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 402.1 | Playing or Activating Abilities | 1 | 1 | 0 | Add a Pending Item to the chain representing the Ability that is either being Activated or Triggere… |
 | 402.2 | Playing or Activating Abilities | 0 | 0 | 0 | If there is currently a game effect being resolved, continue resolving the game effect instead of c… |
 | 403 | Playing or Activating Abilities | 3 | 3 | 0 | 2. Make relevant choices |
-| 403.1 | Playing or Activating Abilities | 2 | 2 | 0 | If the first part of a Triggered Ability’s effect is “you may,” or “they may,” its controller decid… |
+| 403.1 | Playing or Activating Abilities | 13 | 13 | 0 | If the first part of a Triggered Ability’s effect is “you may,” or “they may,” its controller decid… |
 | 403.1.a | Playing or Activating Abilities | 1 | 1 | 0 | If they choose not to perform the Triggered Ability now, it is removed from the chain. |
-| 403.2 | Playing or Activating Abilities | 2 | 2 | 0 | Make all choices required for this ability, such as targets, modes, or other relevant decisions. Se… |
+| 403.2 | Playing or Activating Abilities | 4 | 4 | 0 | Make all choices required for this ability, such as targets, modes, or other relevant decisions. Se… |
 | 403.3 | Playing or Activating Abilities | 9 | 9 | 0 | If legal options are not available for an Activated Ability, it is not legal to activate it. |
-| 403.4 | Playing or Activating Abilities | 2 | 2 | 0 | If there are not enough options to make legal choices for a Triggered Ability that has been put on … |
+| 403.4 | Playing or Activating Abilities | 3 | 3 | 0 | If there are not enough options to make legal choices for a Triggered Ability that has been put on … |
 | 403.4.a | Playing or Activating Abilities | 2 | 2 | 0 | This is not an Ability being countered. |
 | 403.4.b | Playing or Activating Abilities | 2 | 2 | 0 | If there are legal options to choose, the ability’s controller must choose them. They may not decli… |
 | 404 | Playing or Activating Abilities | 1 | 1 | 0 | 3. Determine Total Cost |
@@ -759,7 +759,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 404.3 | Playing or Activating Abilities | 0 | 0 | 0 | Apply any other cost increases or decreases as necessary. See rule 349. Playing Cards for more info… |
 | 405 | Playing or Activating Abilities | 1 | 1 | 0 | 4. Pay Costs |
 | 405.1 | Playing or Activating Abilities | 0 | 0 | 0 | Pay costs as determined in the prior step. See rule 349. Playing Cards for more information. |
-| 405.2 | Playing or Activating Abilities | 3 | 3 | 0 | At this stage, players may decline to pay for Triggered Abilities that have incurred a cost. If the… |
+| 405.2 | Playing or Activating Abilities | 4 | 4 | 0 | At this stage, players may decline to pay for Triggered Abilities that have incurred a cost. If the… |
 | 405.2.a | Playing or Activating Abilities | 1 | 1 | 0 | This is not an Ability being countered. |
 | 406 | Playing or Activating Abilities | 0 | 0 | 0 | 5. Check Legality |
 | 406.1 | Playing or Activating Abilities | 0 | 0 | 0 | Ensure that the Ability’s targets are still legal. |
@@ -779,18 +779,18 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 411.1.b.1 | Game Actions | 0 | 0 | 0 | As long as any conditions, if applicable, are met. |
 | 411.1.b.2 | Game Actions | 0 | 0 | 0 | As long as any costs, if applicable, are paid. |
 | 411.1.b.3 | Game Actions | 0 | 0 | 0 | As long as it does not result in any forbidden action being taken or game state being created. |
-| 411.2 | Game Actions | 25 | 25 | 0 | Limited Actions |
+| 411.2 | Game Actions | 26 | 26 | 0 | Limited Actions |
 | 411.2.a | Game Actions | 0 | 0 | 0 | A Limited Action is a game action that a spell, ability, or circumstance of the turn's progression … |
 | 411.2.b | Game Actions | 0 | 0 | 0 | These actions can only be taken when a player is instructed to do so as the execution of an effect … |
 | 412.1 | Responsibility | 0 | 0 | 0 | Game Actions may be the responsibility of up to one player. The player that performs the Game Actio… |
 | 412.2 | Responsibility | 0 | 0 | 0 | In the case where a Game Action is performed by procedures of the game and not by any player, that … |
 | 412.3 | Responsibility | 0 | 0 | 0 | Certain rules assign responsibility to players for Game Actions that they are not normally responsi… |
-| 412.4 | Responsibility | 0 | 0 | 0 | If an ability triggers when “you” do something, it triggers when a Game Action that you are respons… |
+| 412.4 | Responsibility | 4 | 4 | 0 | If an ability triggers when “you” do something, it triggers when a Game Action that you are respons… |
 | 412.5 | Responsibility | 0 | 0 | 0 | Note that certain Game Actions, specifically Kill, can be attributed to spells and abilities. This … |
 | 412.5.a | Responsibility | 0 | 0 | 0 | Spells and abilities have attribution for game actions, while players have responsibility. |
 | 412.6 | Responsibility | 1 | 1 | 0 | Some Game Effects may check if a player has performed a Game Action “with” a Game Object. In order … |
 | 412.6.a | Responsibility | 0 | 0 | 0 | Abilities granted via the effect text of a Game Object to another Game Object count for both Game O… |
-| 414.1 | Draw | 0 | 0 | 0 | Drawing a card takes a single card from a zone and adds it to the player's Hand. |
+| 414.1 | Draw | 2 | 2 | 0 | Drawing a card takes a single card from a zone and adds it to the player's Hand. |
 | 414.1.a | Draw | 0 | 0 | 0 | Unless specified otherwise, drawing takes cards from the top of the Main Deck. |
 | 414.2 | Draw | 0 | 0 | 0 | This is a Limited Action. |
 | 414.2.a | Draw | 0 | 0 | 0 | Each player draws 1 during the Draw Phase on their turn. |
@@ -807,9 +807,9 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 415.2 | Exhaust | 0 | 0 | 0 | "Exhausted" is a state for Game Objects on the board that other game effects and rules can referenc… |
 | 415.3 | Exhaust | 0 | 0 | 0 | This is a Limited Action. |
 | 415.3.a | Exhaust | 0 | 0 | 0 | Most Exhaust actions will be costs for Activated Abilities or Discretionary Actions. |
-| 415.4 | Exhaust | 2 | 2 | 0 | When Exhausting is listed as a Cost, then the Action must be able to be completed for the cost to b… |
+| 415.4 | Exhaust | 3 | 3 | 0 | When Exhausting is listed as a Cost, then the Action must be able to be completed for the cost to b… |
 | 415.5 | Exhaust | 2 | 2 | 0 | In abilities, the Exhaust symbol represents the cost "Exhaust this" or "Exhaust me." It resembles a… |
-| 416.1 | Ready | 0 | 0 | 0 | Readying is an action that marks a non-spell Game Object on the board as available for action. |
+| 416.1 | Ready | 2 | 2 | 0 | Readying is an action that marks a non-spell Game Object on the board as available for action. |
 | 416.1.a | Ready | 0 | 0 | 0 | To mark it, rotate the card 90 degrees opposite of Exhausting, so that it is vertically oriented in… |
 | 416.1.b | Ready | 0 | 0 | 0 | A Unit that is already Ready cannot be Readied again. |
 | 416.1.c | Ready | 1 | 1 | 0 | If a Unit is instructed to be Readied while it is already Ready, nothing additional happens. |
@@ -817,22 +817,22 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 416.3 | Ready | 0 | 0 | 0 | This is a Limited Action. |
 | 416.3.a | Ready | 0 | 0 | 0 | A player Readies all non-spell Game Objects they Control during the Awakening Phase on their turn. |
 | 416.3.b | Ready | 0 | 0 | 0 | Players may also Ready Game Objects on the board when effects or spells instruct them to do so. |
-| 417.1 | Recycle | 1 | 1 | 0 | Recycling cards is the action in which a player takes one or more cards from a specific zone and th… |
+| 417.1 | Recycle | 3 | 3 | 0 | Recycling cards is the action in which a player takes one or more cards from a specific zone and th… |
 | 417.1.a | Recycle | 0 | 0 | 0 | Main Deck cards are Recycled to the Main Deck. |
-| 417.1.b | Recycle | 2 | 2 | 0 | Runes are Recycled to the Rune Deck. |
-| 417.1.c | Recycle | 0 | 0 | 0 | Each player Recycles cards to their own Main Deck and Rune Deck, regardless of which player is inst… |
+| 417.1.b | Recycle | 4 | 4 | 0 | Runes are Recycled to the Rune Deck. |
+| 417.1.c | Recycle | 2 | 2 | 0 | Each player Recycles cards to their own Main Deck and Rune Deck, regardless of which player is inst… |
 | 417.2 | Recycle | 0 | 0 | 0 | This is a Limited Action. |
 | 417.2.a | Recycle | 0 | 0 | 0 | The player must Recycle cards from the specified zones when instructed to do so by game effects or … |
 | 417.3 | Recycle | 0 | 0 | 0 | When Recycling is listed as a Cost, the action must be able to be completed for the cost to be paid. |
 | 417.4 | Recycle | 2 | 2 | 0 | When Recycling is part of an effect, a player must Recycle as many cards as possible from the speci… |
-| 417.5 | Recycle | 0 | 0 | 0 | If 2 or more cards are Recycled to the Main Deck simultaneously, they are placed on the bottom of t… |
+| 417.5 | Recycle | 1 | 1 | 0 | If 2 or more cards are Recycled to the Main Deck simultaneously, they are placed on the bottom of t… |
 | 417.5.a | Recycle | 0 | 0 | 0 | If 2 or more cards are Recycled to the Rune Deck simultaneously, they are placed on the bottom of t… |
 | 417.6 | Recycle | 2 | 0 | 2 | This action, when instructed, is sometimes formatted as "Recycle X from [Zone]." That means to take… |
 | 418.1 | Deal | 0 | 0 | 0 | Spells, Units, Abilities, and other game effects may Deal Damage to units. |
 | 418.1.a | Deal | 0 | 0 | 0 | Assigning Damage during the Combat Damage Step is not Dealing Damage, but will cause Damage to be D… |
-| 418.1.b | Deal | 1 | 1 | 0 | To Deal Damage to Units, mark the specified amount of Damage on the Unit. |
-| 418.1.c | Deal | 0 | 0 | 0 | Damage is marked on each unit separately. |
-| 418.1.d | Deal | 0 | 0 | 0 | Damage can be Dealt to more than one Unit at the same time. |
+| 418.1.b | Deal | 4 | 4 | 0 | To Deal Damage to Units, mark the specified amount of Damage on the Unit. |
+| 418.1.c | Deal | 1 | 1 | 0 | Damage is marked on each unit separately. |
+| 418.1.d | Deal | 4 | 4 | 0 | Damage can be Dealt to more than one Unit at the same time. |
 | 418.1.e | Deal | 1 | 1 | 0 | Valid Damage is a positive integer amount, greater than or equal to 1 Damage. |
 | 418.1.e.1 | Deal | 4 | 2 | 2 | Only Valid Damage is Dealt. |
 | 418.2 | Deal | 0 | 0 | 0 | Only Damage can be Dealt. |
@@ -840,40 +840,40 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 418.3.a | Deal | 0 | 0 | 0 | Assigning Damage causes Damage to be dealt outside of being directed to Deal Damage. See rule 461. … |
 | 418.4 | Deal | 0 | 0 | 0 | Dealing can have the intrinsic property of Bonus Damage. |
 | 418.5 | Deal | 0 | 0 | 0 | Bonus Damage is a property granted to the action of Dealing and alters the amount of Damage distrib… |
-| 418.6 | Deal | 0 | 0 | 0 | Deal actions can originate from one or more sources. |
-| 418.6.a | Deal | 2 | 1 | 1 | If a game effect does not specify a source, the game effect describing the Deal action is the sourc… |
-| 418.6.b | Deal | 0 | 0 | 0 | If a game effect does specify a source, then that source is what is considered the origin of the Da… |
+| 418.6 | Deal | 3 | 3 | 0 | Deal actions can originate from one or more sources. |
+| 418.6.a | Deal | 4 | 3 | 1 | If a game effect does not specify a source, the game effect describing the Deal action is the sourc… |
+| 418.6.b | Deal | 2 | 2 | 0 | If a game effect does specify a source, then that source is what is considered the origin of the Da… |
 | 418.6.b.1 | Deal | 0 | 0 | 0 | Units and Spells can be the source of Damage for Deal actions. |
 | 418.6.b.2 | Deal | 0 | 0 | 0 | Abilities can be the source of Damage for Deal actions. |
 | 418.6.b.2.a | Deal | 0 | 0 | 0 | When an Ability is the source of Damage for a Deal action, it is in addition to the Spell or Unit t… |
-| 418.6.b.3 | Deal | 1 | 0 | 1 | When a spell or ability specifies a Unit as the source of the Damage for the Deal action, it is not… |
+| 418.6.b.3 | Deal | 5 | 4 | 1 | When a spell or ability specifies a Unit as the source of the Damage for the Deal action, it is not… |
 | 418.6.b.4 | Deal | 0 | 0 | 0 | The controller of the source of a Deal action is responsible for that Deal action unless the player… |
 | 418.6.c | Deal | 0 | 0 | 0 | Damage Dealt as a result of being assigned during Combat has the Units as its source. |
 | 418.6.c.1 | Deal | 0 | 0 | 0 | The Damage assigned, and subsequently Dealt, to attackers has the defenders as the source and vice … |
 | 418.7 | Deal | 0 | 0 | 0 | Deal actions can distribute Damage as part of combat actions or non-combat actions. |
-| 418.8 | Deal | 1 | 0 | 1 | Some Deal actions may be written as “Deal X … for each …” Such actions Deal one instance of Damage. |
+| 418.8 | Deal | 2 | 1 | 1 | Some Deal actions may be written as “Deal X … for each …” Such actions Deal one instance of Damage. |
 | 419.1 | Heal | 1 | 1 | 0 | Damage being cleared from Units is Healing. |
 | 419.1.a | Heal | 0 | 0 | 0 | If Damage is cleared for any reason it is considered Healing. |
 | 419.2 | Heal | 1 | 1 | 0 | More than one Unit can be Healed at the same time. |
 | 419.3 | Heal | 0 | 0 | 0 | Healing is a Limited Action. |
 | 419.3.a | Heal | 0 | 0 | 0 | Players may only Heal units when game effects instruct them to, or at specific points in the turn. |
 | 420.1 | Play | 0 | 0 | 0 | A player Plays cards by placing them on the chain and queuing them to be finalized. See rule 349. P… |
-| 420.1.a | Play | 4 | 4 | 0 | By default, a player can only Play cards from their hand or their Chosen Champion zone. |
+| 420.1.a | Play | 5 | 5 | 0 | By default, a player can only Play cards from their hand or their Chosen Champion zone. |
 | 420.2 | Play | 0 | 0 | 0 | This is a Discretionary Action. |
 | 420.2.a | Play | 3 | 3 | 0 | As long as a player has the resources to pay the costs associated with the card and legal choices t… |
-| 420.3 | Play | 2 | 2 | 0 | Game effects may result in cards being Played as part of their resolution. |
+| 420.3 | Play | 12 | 12 | 0 | Game effects may result in cards being Played as part of their resolution. |
 | 420.3.a | Play | 0 | 0 | 0 | This treats Play as a Limited Action. |
-| 420.3.b | Play | 0 | 0 | 0 | Treat all steps of Play as normal, except as noted by the game effect instructing this Limited Play… |
+| 420.3.b | Play | 2 | 2 | 0 | Treat all steps of Play as normal, except as noted by the game effect instructing this Limited Play… |
 | 420.3.b.1 | Play | 1 | 1 | 0 | Such game effects may specify choices or effects such as alternate costs, ignored costs, play locat… |
 | 420.3.b.2 | Play | 0 | 0 | 0 | Such game effects may specify those choices or effects based on the condition of the board. If they… |
 | 420.3.c | Play | 0 | 0 | 0 | If there are no eligible cards to Play when instructed to Play in this manner, then nothing happens… |
 | 420.4 | Play | 0 | 0 | 0 | Some Abilities trigger when cards are played or otherwise check whether cards have been played. |
-| 420.4.a | Play | 0 | 0 | 0 | Any such triggered abilities trigger when the act of playing the card has been completed by the res… |
-| 420.4.a.1 | Play | 0 | 0 | 0 | If a game effect prevents the resolution of the card—for example, because the card was countered—ab… |
+| 420.4.a | Play | 10 | 10 | 0 | Any such triggered abilities trigger when the act of playing the card has been completed by the res… |
+| 420.4.a.1 | Play | 1 | 1 | 0 | If a game effect prevents the resolution of the card—for example, because the card was countered—ab… |
 | 420.4.b | Play | 0 | 0 | 0 | Non-triggered abilities and conditional clauses that check cards being played do so by means of ref… |
-| 420.5 | Play | 3 | 1 | 2 | If an effect refers to a card being played and doesn’t do so by means of checking whether cards wer… |
+| 420.5 | Play | 4 | 2 | 2 | If an effect refers to a card being played and doesn’t do so by means of checking whether cards wer… |
 | 421.1 | Move | 0 | 0 | 0 | Moving is the act of a Game Object moving between two Locations on The Board. See rule 447. Movemen… |
-| 421.2 | Move | 1 | 1 | 0 | Moving is a Limited Action. |
+| 421.2 | Move | 4 | 4 | 0 | Moving is a Limited Action. |
 | 421.2.a | Move | 0 | 0 | 0 | Players may only move Game Objects when instructed to do so by Game Effects or costs. |
 | 421.2.b | Move | 0 | 0 | 0 | The Standard Move inherent to Units may also cause Movement. See rule 144. for more information on … |
 | 421.3 | Move | 0 | 0 | 0 | The Standard Move inherent to Units is a Discretionary Action. |
@@ -884,19 +884,19 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 422.2.a | Hide | 0 | 0 | 0 | The Hidden keyword allows a player to pay a cost to Hide a card any time they have a Hidden card in… |
 | 422.3 | Hide | 0 | 0 | 0 | Cards that are facedown at Battlefields have their gameplay properties and permissions defined by t… |
 | 422.4 | Hide | 0 | 0 | 0 | If a facedown card would change zones or if the game ends, its owner reveals it to all players. See… |
-| 423.1 | Discard | 0 | 0 | 0 | Discarding a card is moving it from a player's hand directly into their trash without activating or… |
-| 423.1.a | Discard | 2 | 2 | 0 | The player who is performing the action chooses which cards to send to their Trash, and may use Pri… |
+| 423.1 | Discard | 1 | 1 | 0 | Discarding a card is moving it from a player's hand directly into their trash without activating or… |
+| 423.1.a | Discard | 7 | 7 | 0 | The player who is performing the action chooses which cards to send to their Trash, and may use Pri… |
 | 423.1.b | Discard | 0 | 0 | 0 | “When I am discarded” abilities or other Triggered Abilities that trigger on discarding are execute… |
 | 423.2 | Discard | 0 | 0 | 0 | Discarding is a Limited Action. |
 | 423.2.a | Discard | 0 | 0 | 0 | A player must Discard cards when instructed to do so by game effects or costs. |
 | 423.3 | Discard | 0 | 0 | 0 | When Discarding is listed as a Cost, then the Action must be able to be completed for the cost to b… |
-| 423.4 | Discard | 2 | 1 | 1 | When Discarding is part of an effect, then a player must Discard as many cards as possible from the… |
+| 423.4 | Discard | 3 | 2 | 1 | When Discarding is part of an effect, then a player must Discard as many cards as possible from the… |
 | 423.5 | Discard | 0 | 0 | 0 | This action is formatted as "Discard X." |
-| 424.1 | Stun | 0 | 0 | 0 | Stunning is the act of selecting one or more Units on the Board and rendering them Stunned. |
+| 424.1 | Stun | 3 | 3 | 0 | Stunning is the act of selecting one or more Units on the Board and rendering them Stunned. |
 | 424.1.a | Stun | 0 | 0 | 0 | Stunned is a binary state. A Unit is Stunned or it isn't. |
 | 424.1.a.1 | Stun | 3 | 1 | 2 | A Stunned Unit can not be Stunned again. |
 | 424.1.a.2 | Stun | 0 | 0 | 0 | Stunned Units lose the Stunned status during step 3d of the end of turn cleanup. |
-| 424.1.b | Stun | 3 | 3 | 0 | A Stunned Unit does not contribute its might to damage in the combat damage step. See rule 467. The… |
+| 424.1.b | Stun | 5 | 5 | 0 | A Stunned Unit does not contribute its might to damage in the combat damage step. See rule 467. The… |
 | 424.1.c | Stun | 0 | 0 | 0 | A Stunned Unit must still have damage applied to it equal to, or greater than, its full might value… |
 | 424.2 | Stun | 0 | 0 | 0 | Stunning is a Limited Action. |
 | 424.2.a | Stun | 0 | 0 | 0 | Players may only Stun Units when directed to by Game Effects. |
@@ -915,7 +915,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 425.4 | Reveal | 0 | 0 | 0 | Game Effects can manipulate or modify the cards Revealed while they are Revealed |
 | 425.4.a | Reveal | 1 | 0 | 1 | While cards are Revealed, those cards can be further manipulated, or accessed. They can even have t… |
 | 426.1 | Counter | 0 | 0 | 0 | Countering is the act of negating the execution, activation, or otherwise playing of a card or abil… |
-| 426.1.a | Counter | 1 | 1 | 0 | A card or ability that is Countered does nothing and is cleared from the chain. |
+| 426.1.a | Counter | 2 | 2 | 0 | A card or ability that is Countered does nothing and is cleared from the chain. |
 | 426.1.a.1 | Counter | 1 | 1 | 0 | Cards that are cleared from the chain in this way are placed in the trash. |
 | 426.1.b | Counter | 1 | 1 | 0 | A card that is Countered is not considered to have been played for abilities that trigger on cards … |
 | 426.1.c | Counter | 0 | 0 | 0 | Countering does not refund any costs paid to play a card, activate an ability, or trigger an abilit… |
@@ -923,9 +923,9 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 426.2 | Counter | 0 | 0 | 0 | Countering is a Limited Action. |
 | 426.2.a | Counter | 0 | 0 | 0 | Players may only Counter cards and abilities when directed to by Game Effects. |
 | 426.3 | Counter | 0 | 0 | 0 | This action is formatted as "Counter [a card or ability on the chain]." |
-| 427.1 | Buff | 0 | 0 | 0 | Buffing is the action of placing a Buff counter on a Unit. See rule 701. Buffs for more information. |
+| 427.1 | Buff | 1 | 1 | 0 | Buffing is the action of placing a Buff counter on a Unit. See rule 701. Buffs for more information. |
 | 427.1.a | Buff | 0 | 0 | 0 | A Buff is also an object. |
-| 427.1.b | Buff | 1 | 1 | 0 | To Buff a unit, place a Buff Counter on it if it does not have one already |
+| 427.1.b | Buff | 3 | 3 | 0 | To Buff a unit, place a Buff Counter on it if it does not have one already |
 | 427.1.b.1 | Buff | 0 | 0 | 0 | If the unit already has a Buff Counter on it, it does not get another one. |
 | 427.1.b.2 | Buff | 0 | 0 | 0 | Some effects may grant a Game Object permission to be Buffed multiple times. Such an effect ignores… |
 | 427.1.c | Buff | 3 | 1 | 2 | Units with Buff Counters can still be chosen for actions that Buff units, but will not be Buffed as… |
@@ -947,7 +947,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 429.1.a.1.a | Kill | 0 | 0 | 0 | This is referred to as a Kill Instruction. |
 | 429.1.a.1.b | Kill | 0 | 0 | 0 | When a unit with a Deathknell or other ability that triggers on its own death is to be put in the T… |
 | 429.1.a.2 | Kill | 0 | 0 | 0 | Passive Kill is when the action is taken as a result of Lethal Damage or as a consequence for any o… |
-| 429.2 | Kill | 1 | 1 | 0 | When a permanent is killed it is placed directly in the trash from its place of origin. |
+| 429.2 | Kill | 4 | 4 | 0 | When a permanent is killed it is placed directly in the trash from its place of origin. |
 | 429.2.a | Kill | 1 | 1 | 0 | It is only considered Killed if its origin was any zone on the board. |
 | 429.2.b | Kill | 0 | 0 | 0 | This is not a subset of Move. |
 | 429.3 | Kill | 0 | 0 | 0 | Killing is a Limited Action. |
@@ -962,17 +962,17 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 429.5.d | Kill | 1 | 0 | 1 | Abilities originating from Game Objects that are attributed Kill Actions are attributed in addition… |
 | 429.6 | Kill | 0 | 0 | 0 | This action is formatted as "Kill [one or more permanents]." e.g., "Kill an enemy unit." e.g., "Kil… |
 | 430.1 | Add | 0 | 0 | 0 | Adding is the action of putting resources into a player's Rune Pool. |
-| 430.2 | Add | 3 | 3 | 0 | Triggered and activated abilities that Add resources finalize immediately when they are played, eve… |
+| 430.2 | Add | 9 | 9 | 0 | Triggered and activated abilities that Add resources finalize immediately when they are played, eve… |
 | 430.2.a | Add | 2 | 2 | 0 | Priority and Focus will not pass from Add abilities being finalized or resolving. Any ongoing Task … |
 | 430.2.b | Add | 0 | 0 | 0 | Spells that Add resources will be finalized and will resolve at the normal timing for spells. |
-| 430.3 | Add | 3 | 2 | 1 | Activated abilities that Add resources and have the Reaction tag can be activated at any time that … |
+| 430.3 | Add | 4 | 3 | 1 | Activated abilities that Add resources and have the Reaction tag can be activated at any time that … |
 | 430.4 | Add | 0 | 0 | 0 | Adding is a Limited Action. |
 | 430.4.a | Add | 0 | 0 | 0 | Players may only Add resources when Game Effects direct them to do so. |
-| 430.5 | Add | 2 | 2 | 0 | This action is formatted as "Add [one or more resources]." e.g., "Add [2]." means "Add 2 Energy." e… |
+| 430.5 | Add | 6 | 6 | 0 | This action is formatted as "Add [one or more resources]." e.g., "Add [2]." means "Add 2 Energy." e… |
 | 431.1 | Channel | 0 | 0 | 0 | Channeling is the action of taking one or more Runes from the top of a player's Rune Deck and putti… |
 | 431.2 | Channel | 3 | 1 | 2 | The Game Effect that instructs a player to channel 1 or more runes may specify the conditions or ci… |
-| 431.2.a | Channel | 0 | 0 | 0 | By default, runes are channeled readied. |
-| 431.3 | Channel | 1 | 1 | 0 | If there aren’t sufficient runes in the Rune Deck, channel as many as possible. |
+| 431.2.a | Channel | 10 | 10 | 0 | By default, runes are channeled readied. |
+| 431.3 | Channel | 3 | 3 | 0 | If there aren’t sufficient runes in the Rune Deck, channel as many as possible. |
 | 431.4 | Channel | 0 | 0 | 0 | Channeling is a Limited Action. |
 | 431.4.a | Channel | 0 | 0 | 0 | A player Channels two Runes during the Channel Phase on their turn. |
 | 431.4.b | Channel | 0 | 0 | 0 | Players may also Channel runes when Game Effects direct them to do so. |
@@ -996,11 +996,11 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 432.4.a | Burn Out | 0 | 0 | 0 | Players may only burn out when Game Effects direct them to do so. |
 | 432.5 | Burn Out | 0 | 0 | 0 | Burning Out is a Replacement Effect. See rule 367. Replacement Effects for more information. |
 | 433.1 | Double | 0 | 0 | 0 | Doubling is the act of increasing a numeric attribute by an amount equal to that attribute’s curren… |
-| 433.1.a | Double | 3 | 1 | 2 | This creates an effect that modulates that attribute by that specific amount for the duration speci… |
+| 433.1.a | Double | 5 | 3 | 2 | This creates an effect that modulates that attribute by that specific amount for the duration speci… |
 | 433.1.b | Double | 0 | 0 | 0 | Some Game Effects may also cause Damage to be Doubled; in this case, those effects are the equivale… |
 | 433.2 | Double | 0 | 0 | 0 | Doubling is a Limited Action. |
 | 433.2.a | Double | 0 | 0 | 0 | Players may only Double when Game Effects direct them to do so. |
-| 434.1 | Swap | 0 | 0 | 0 | Swapping is the act of increasing one numeric value and decreasing another numeric value on some nu… |
+| 434.1 | Swap | 2 | 2 | 0 | Swapping is the act of increasing one numeric value and decreasing another numeric value on some nu… |
 | 434.1.a | Swap | 0 | 0 | 0 | Swapping creates two different effects that apply to each attribute. One that Increases one value a… |
 | 434.1.b | Swap | 1 | 1 | 0 | To accomplish this, determine the difference between these values and then apply an Increase for th… |
 | 434.1.c | Swap | 1 | 1 | 0 | If both attributes are the same numeric value, Swapping has no effect. |
@@ -1042,19 +1042,19 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 436.4 | Detach | 0 | 0 | 0 | When a card Detaches from a Top-Most Card, its location is the same as the Top-Most Card from which… |
 | 436.4.a | Detach | 0 | 0 | 0 | If the Detached card was a Gear and this causes it to become present at a Battlefield, it will be R… |
 | 436.4.b | Detach | 0 | 0 | 0 | If the Attached card was Detached because the Top-Most Card changed zones from a board zone to a no… |
-| 437.1 | Predict | 1 | 1 | 0 | Predicting a card is the act of looking at a single card from the top of the Main Deck and choosing… |
+| 437.1 | Predict | 3 | 3 | 0 | Predicting a card is the act of looking at a single card from the top of the Main Deck and choosing… |
 | 437.1.a | Predict | 1 | 1 | 0 | When more than one card is Predicted, the Predicting player looks at that many cards and Recycles a… |
 | 437.2 | Predict | 0 | 0 | 0 | Predicting is a Limited Action. |
 | 437.2.a | Predict | 0 | 0 | 0 | Players may only Predict cards when instructed to do so by game effects. |
 | 437.3 | Predict | 0 | 0 | 0 | This action, when instructed, is formatted as "Predict X." |
-| 437.3.a | Predict | 0 | 0 | 0 | If omitted, X is presumed to be 1. |
+| 437.3.a | Predict | 1 | 1 | 0 | If omitted, X is presumed to be 1. |
 | 437.4 | Predict | 0 | 0 | 0 | If a player attempts to Predict more cards than are available in their Main Deck, they will Predict… |
 | 437.4.a | Predict | 1 | 1 | 0 | The Player will not perform a Burn Out as a result of Predicting with too few cards in their deck. |
 | 438.1 | Prevent | 0 | 0 | 0 | Preventing damage is the act of reducing the Damage a set of game objects would take. |
 | 438.1.a | Prevent | 1 | 1 | 0 | Prevent is an action that interacts with Damage. |
 | 438.1.a.1 | Prevent | 0 | 0 | 0 | Prevent includes any applied Bonus Damage when determining the total damage being prevented. |
 | 438.1.b | Prevent | 0 | 0 | 0 | Prevent appears in statements that define an amount of damage and the source of the damage it will … |
-| 438.1.b.1 | Prevent | 0 | 0 | 0 | Prevent actions are usually formatted as “Prevent the next X [source] damage that would be dealt to… |
+| 438.1.b.1 | Prevent | 1 | 1 | 0 | Prevent actions are usually formatted as “Prevent the next X [source] damage that would be dealt to… |
 | 438.1.b.1.a | Prevent | 0 | 0 | 0 | The X is referred to as the Prevent Value. |
 | 438.1.b.1.b | Prevent | 1 | 1 | 0 | X can be “All,” which specifies an infinite amount of damage. |
 | 438.1.b.2 | Prevent | 0 | 0 | 0 | Prevent will always apply to the next damage that would be dealt to a unit affected by the Prevent … |
@@ -1063,7 +1063,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 438.3 | Prevent | 1 | 1 | 0 | When damage is dealt this way, reduce the Prevent Value being tracked on the Unit affected by the P… |
 | 438.3.a | Prevent | 1 | 1 | 0 | If the Prevent Value is 0 or less, then Prevent is no longer being tracked on the Unit in question,… |
 | 438.3.b | Prevent | 0 | 0 | 0 | The reduced value is the newly tracked Prevent Value. |
-| 438.3.c | Prevent | 1 | 1 | 0 | If the Prevent Value is “All” then it remains “All.” |
+| 438.3.c | Prevent | 3 | 3 | 0 | If the Prevent Value is “All” then it remains “All.” |
 | 438.4 | Prevent | 1 | 1 | 0 | Damage dealt to a Unit that has that all of that damage Prevented is not considered to have been de… |
 | 438.5 | Prevent | 0 | 0 | 0 | Damage can still be assigned to Units in combat that are affected by Prevent. The damage dealt as a… |
 | 438.5.a | Prevent | 2 | 1 | 1 | Damage can be assigned to a Unit up to a value that would be Lethal considering the Prevent Value o… |
@@ -1092,18 +1092,18 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 440.1 | Create | 0 | 0 | 0 | Creating is the act of producing a Game Object that previously did not exist in the game. |
 | 440.2 | Create | 0 | 0 | 0 | Effects that Create one or more Game Objects will direct where those Game Objects must go - the Gam… |
 | 440.2.a | Create | 0 | 0 | 0 | Prior to being Created, these Game Objects did not exist outside of the zone they were Created to. … |
-| 440.2.b | Create | 0 | 0 | 0 | If a zone is not specified by the effect, the Game Object will be created to the appropriate zone f… |
+| 440.2.b | Create | 3 | 3 | 0 | If a zone is not specified by the effect, the Game Object will be created to the appropriate zone f… |
 | 440.2.b.1 | Create | 1 | 1 | 0 | Permanents will be Created at any location on the Board that they can be played to. |
 | 440.2.b.2 | Create | 0 | 0 | 0 | Spells will be Created on the Chain. |
 | 440.2.b.3 | Create | 0 | 0 | 0 | Runes will be Created at base. |
 | 440.2.b.4 | Create | 0 | 0 | 0 | Legends will be Created in the Legend Zone. |
 | 440.2.b.5 | Create | 0 | 0 | 0 | Battlefields will be Created in the Battlefield Zone. |
-| 440.2.c | Create | 0 | 0 | 0 | The zone a Game Object is created to can be specified implicitly by the Game Action being performed. |
+| 440.2.c | Create | 26 | 26 | 0 | The zone a Game Object is created to can be specified implicitly by the Game Action being performed. |
 | 440.3 | Create | 0 | 0 | 0 | An effect that Creates a Game Object will specify the state and nature of the Game Object created. |
 | 440.3.a | Create | 0 | 0 | 0 | If the Game Object is a token, it will follow the normal rules for tokens. See rule 179. Tokens for… |
 | 440.3.b | Create | 0 | 0 | 0 | If the effect specifies a Game Object is Created for a specific duration, it exists while that dura… |
 | 440.3.c | Create | 0 | 0 | 0 | If a Non-Token Game Object is Created from a finite set of choices made by a Linked Ability during … |
-| 440.4 | Create | 0 | 0 | 0 | Unless specified otherwise by the Game Effect that Creates a Game Object, any such Game Object is o… |
+| 440.4 | Create | 1 | 1 | 0 | Unless specified otherwise by the Game Effect that Creates a Game Object, any such Game Object is o… |
 | 440.4.a | Create | 0 | 0 | 0 | A Created permanent, rune, legend, or spell is controlled by its owner as it is Created. |
 | 440.4.b | Create | 0 | 0 | 0 | A Created battlefield is uncontrolled as it is Created. |
 | 440.5 | Create | 0 | 0 | 0 | This action, when instructed, is usually formatted as "Create [X] at [Y]" or “Add [X] to [Y].” |
@@ -1120,15 +1120,15 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 442.1.a | Empower | 0 | 0 | 0 | Empowered is a binary state. A Game Object is Empowered or it isn’t. |
 | 442.1.b | Empower | 1 | 1 | 0 | An Empowered Game Object can not be Empowered. |
 | 442.1.c | Empower | 0 | 0 | 0 | If a Game Object is instructed to be Empowered when it is already Empowered, nothing additional hap… |
-| 442.1.c.1 | Empower | 0 | 0 | 0 | Some effects may grant a Game Object permission to be Empowered multiple times. Such an effect igno… |
-| 442.2 | Empower | 0 | 0 | 0 | “Empowered” is a state for Game Objects on the board that other game effects and abilities can refe… |
-| 442.2.a | Empower | 0 | 0 | 0 | When a Game Object becomes Empowered as a result of the Empower game action, that is an event that … |
+| 442.1.c.1 | Empower | 1 | 1 | 0 | Some effects may grant a Game Object permission to be Empowered multiple times. Such an effect igno… |
+| 442.2 | Empower | 2 | 2 | 0 | “Empowered” is a state for Game Objects on the board that other game effects and abilities can refe… |
+| 442.2.a | Empower | 1 | 1 | 0 | When a Game Object becomes Empowered as a result of the Empower game action, that is an event that … |
 | 442.3 | Empower | 0 | 0 | 0 | Empowering is a Limited Action. |
 | 442.3.a | Empower | 0 | 0 | 0 | Players may only Empower Game Objects when directed to by Game Effects. |
-| 443.1 | Disempower | 0 | 0 | 0 | Disempowering is the act of removing the Empowered status from one or more Game Objects. |
+| 443.1 | Disempower | 2 | 2 | 0 | Disempowering is the act of removing the Empowered status from one or more Game Objects. |
 | 443.1.a | Disempower | 0 | 0 | 0 | Disempowering affects only cards that are currently Empowered. |
 | 443.1.a.1 | Disempower | 1 | 1 | 0 | Game effects that instruct a player to Disempower a card that is not currently Empowered will do no… |
-| 443.1.b | Disempower | 0 | 0 | 0 | Disempowering a Game Object that has multiple Empowered statuses will remove one of those statuses. |
+| 443.1.b | Disempower | 1 | 1 | 0 | Disempowering a Game Object that has multiple Empowered statuses will remove one of those statuses. |
 | 443.2 | Disempower | 0 | 0 | 0 | Disempowering is a Limited Action. |
 | 443.2.a | Disempower | 0 | 0 | 0 | Players may only Disempower Game Objects when directed to by Game Effects. |
 | 444.1 | Skip | 0 | 0 | 0 | Skipping an event is the act of replacing that event with nothing. |
@@ -1144,7 +1144,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 445.1 | Pay | 0 | 0 | 0 | Paying a resource is the act of removing that resource from your Rune Pool. |
 | 445.1.a | Pay | 0 | 0 | 0 | Pay is an action that interacts with Energy and Power. |
 | 445.1.b | Pay | 0 | 0 | 0 | In order to qualify as a resource to be removed from the Rune Pool, the resource must be [1] or gre… |
-| 445.2 | Pay | 0 | 0 | 0 | When a player is instructed to Pay a resource, that player may remove that resource from their Rune… |
+| 445.2 | Pay | 4 | 4 | 0 | When a player is instructed to Pay a resource, that player may remove that resource from their Rune… |
 | 445.2.a | Pay | 0 | 0 | 0 | If the instruction to Pay resources is part of paying costs for a card or ability, choosing not to … |
 | 445.2.b | Pay | 0 | 0 | 0 | If the instruction to Pay resources is part of paying any other cost, choosing not to pay those res… |
 | 445.2.c | Pay | 0 | 0 | 0 | Players may activate abilities that Add resources with the Reaction keyword at any time that they a… |
@@ -1198,15 +1198,15 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 464.2.b | Combat | 0 | 0 | 0 | Any subsequent reference to "here" in the corresponding effect is reassigned to the Controller's Ba… |
 | 464.3 | Combat | 1 | 1 | 0 | All choices that would result in a Combat occurring between more than two players simultaneously ar… |
 | 466.1 | Step 1: The Combat Showdown Step | 0 | 0 | 0 | Combat will open in one of two ways: when a Combat and Showdown are staged at the same Battlefield … |
-| 466.2 | Step 1: The Combat Showdown Step | 0 | 0 | 0 | When Combat opens, it either opens with a Combat Showdown, or the current Showdown becomes a Combat… |
+| 466.2 | Step 1: The Combat Showdown Step | 1 | 1 | 0 | When Combat opens, it either opens with a Combat Showdown, or the current Showdown becomes a Combat… |
 | 466.2.a | Step 1: The Combat Showdown Step | 0 | 0 | 0 | The following Tasks become Outstanding, in the order described: |
 | 466.2.b | Step 1: The Combat Showdown Step | 0 | 0 | 0 | 1. Start of combat effects happen now. If the Combat opened with a Combat Showdown, start of showdo… |
-| 466.2.c | Step 1: The Combat Showdown Step | 0 | 0 | 0 | 2. Establish who is Attacker and who is Defender. |
+| 466.2.c | Step 1: The Combat Showdown Step | 1 | 1 | 0 | 2. Establish who is Attacker and who is Defender. |
 | 466.2.c.1 | Step 1: The Combat Showdown Step | 1 | 1 | 0 | The Attacker is the player whose unit(s) applied the Contested status to the Battlefield. |
 | 466.2.c.1.a | Step 1: The Combat Showdown Step | 1 | 1 | 0 | If a showdown opens as part of combat, this player gains Focus as the showdown begins. |
 | 466.2.c.1.b | Step 1: The Combat Showdown Step | 1 | 1 | 0 | If a showdown was already ongoing when the combat opens, the player who has Focus maintains their F… |
 | 466.2.c.2 | Step 1: The Combat Showdown Step | 2 | 2 | 0 | The Defender is the player who did not apply the Contested status to the Battlefield. |
-| 466.2.c.3 | Step 1: The Combat Showdown Step | 1 | 1 | 0 | The attacker and defender gain the Attacker or Defender designation now, as appropriate. Units at t… |
+| 466.2.c.3 | Step 1: The Combat Showdown Step | 5 | 5 | 0 | The attacker and defender gain the Attacker or Defender designation now, as appropriate. Units at t… |
 | 466.2.c.3.a | Step 1: The Combat Showdown Step | 0 | 0 | 0 | If a Unit controlled by the Attacker or Defender becomes present at this Battlefield after this mom… |
 | 466.2.d | Step 1: The Combat Showdown Step | 1 | 1 | 0 | 3. Add items to the Combat Chain if establishing Attacker and Defender has caused Triggered Abiliti… |
 | 466.2.d.1 | Step 1: The Combat Showdown Step | 4 | 4 | 0 | The Attacking player, who has Focus, places Triggered Abilities on the Chain first, followed by all… |
@@ -1215,7 +1215,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 466.2.f | Step 1: The Combat Showdown Step | 0 | 0 | 0 | Players proceed with any play on the Chain as normal. |
 | 467.1 | Step 2: The Combat Damage Step | 1 | 1 | 0 | If both Attacking and Defending units remain at this battlefield, the following Tasks become Outsta… |
 | 467.2 | Step 2: The Combat Damage Step | 0 | 0 | 0 | 1. When the Showdown closes, Attackers and Defenders resolve Combat Damage at the Battlefield that … |
-| 467.2.a | Step 2: The Combat Damage Step | 1 | 1 | 0 | Sum the Might of all Attacking Units. |
+| 467.2.a | Step 2: The Combat Damage Step | 3 | 3 | 0 | Sum the Might of all Attacking Units. |
 | 467.2.b | Step 2: The Combat Damage Step | 0 | 0 | 0 | Sum the Might of all Defending Units. |
 | 467.2.c | Step 2: The Combat Damage Step | 5 | 5 | 0 | Starting with the Attacker, each player assigns an amount of damage equal to their summed Might amo… |
 | 467.2.c.1 | Step 2: The Combat Damage Step | 0 | 0 | 0 | Assigning Damage is not Dealing Damage. |
@@ -1229,7 +1229,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 467.2.c.7 | Step 2: The Combat Damage Step | 1 | 0 | 1 | If multiple Units have abilities or effects that require a player to assign them damage with the sa… |
 | 467.2.c.8 | Step 2: The Combat Damage Step | 3 | 2 | 1 | If a Unit has one or more Abilities or effects applying to it that demand it be assigned damage in … |
 | 467.2.c.9 | Step 2: The Combat Damage Step | 1 | 0 | 1 | If there is more than one unit in which this situation applies to, each unit is dealt with individu… |
-| 467.2.c.10 | Step 2: The Combat Damage Step | 3 | 2 | 1 | If a unit cannot be dealt damage, then no amount of damage can be considered lethal. Such a unit is… |
+| 467.2.c.10 | Step 2: The Combat Damage Step | 4 | 3 | 1 | If a unit cannot be dealt damage, then no amount of damage can be considered lethal. Such a unit is… |
 | 467.2.d | Step 2: The Combat Damage Step | 1 | 1 | 0 | Deal Damage to each unit equal to the amount assigned to it. |
 | 467.3 | Step 2: The Combat Damage Step | 0 | 0 | 0 | 2. Skip the FEPR process and cancel any outstanding tasks. Proceed to the Resolution Step. |
 | 468.1 | Step 3: The Resolution Step | 0 | 0 | 0 | 1. Perform a Combat Cleanup. |
@@ -1237,10 +1237,10 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 468.1.a.1 | Step 3: The Resolution Step | 0 | 0 | 0 | Insert “3c. Heal all Units.” |
 | 468.1.a.2 | Step 3: The Resolution Step | 1 | 1 | 0 | Insert “3d. Recall Attackers present at the Battlefield if Defenders are still present.” See rule 4… |
 | 468.2 | Step 3: The Resolution Step | 1 | 1 | 0 | The following Task becomes Outstanding: Reminder: Resolve any items on the chain from dealing comba… |
-| 468.3 | Step 3: The Resolution Step | 0 | 0 | 0 | 1. Determine Combat Result |
+| 468.3 | Step 3: The Resolution Step | 3 | 3 | 0 | 1. Determine Combat Result |
 | 468.3.a | Step 3: The Resolution Step | 2 | 2 | 0 | A Player has won a combat if they received either the attacker or defender designation and are the … |
 | 468.3.b | Step 3: The Resolution Step | 1 | 1 | 0 | A Player has lost a combat if they received either the attacker or defender designation and are the… |
-| 468.3.c | Step 3: The Resolution Step | 0 | 0 | 0 | Units at this battlefield inherit the same combat result as their controllers. |
+| 468.3.c | Step 3: The Resolution Step | 2 | 2 | 0 | Units at this battlefield inherit the same combat result as their controllers. |
 | 468.3.d | Step 3: The Resolution Step | 2 | 2 | 0 | There is “No Result” if units were recalled during step 3d of the Combat Cleanup, if both Players h… |
 | 468.3.d.1 | Step 3: The Resolution Step | 1 | 1 | 0 | If “No Result” was reached, and both players have units remaining, stage a Showdown and a Combat at… |
 | 468.4 | Step 3: The Resolution Step | 1 | 1 | 0 | The following Task becomes Outstanding: Reminder: Resolve any items on the chain from determining c… |
@@ -1253,11 +1253,11 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 468.6 | Step 3: The Resolution Step | 0 | 0 | 0 | The following Task becomes Outstanding: Reminder: Resolve any items on the chain from establishing … |
 | 468.7 | Step 3: The Resolution Step | 2 | 2 | 0 | 1. Combat ends. |
 | 468.7.a | Step 3: The Resolution Step | 1 | 1 | 0 | Remove Attacker and Defender Designation from all Units and Players. |
-| 468.7.b | Step 3: The Resolution Step | 0 | 0 | 0 | At the end of Combat or Combat ends effects take place. |
+| 468.7.b | Step 3: The Resolution Step | 2 | 2 | 0 | At the end of Combat or Combat ends effects take place. |
 | 468.7.c | Step 3: The Resolution Step | 0 | 0 | 0 | All “this combat” effects expire simultaneously. |
-| 470 | Scoring | 0 | 0 | 0 | Scoring is the act of a Player seizing or maintaining control over Battlefields they have not yet S… |
+| 470 | Scoring | 1 | 1 | 0 | Scoring is the act of a Player seizing or maintaining control over Battlefields they have not yet S… |
 | 470.1 | Scoring | 0 | 0 | 0 | Scoring is a distinct process from Gaining Points. Scoring may result in a player Gaining Points, b… |
-| 470.2 | Scoring | 1 | 1 | 0 | Card text will refer to the process of Gaining Points in the following way: “Score X points.” The “… |
+| 470.2 | Scoring | 3 | 3 | 0 | Card text will refer to the process of Gaining Points in the following way: “Score X points.” The “… |
 | 470.3 | Scoring | 0 | 0 | 0 | Card text will refer to the process of Scoring using the word “score” without referring to some num… |
 | 471 | Scoring | 0 | 0 | 0 | A player Scores in one of two ways: |
 | 471.1 | Scoring | 1 | 1 | 0 | Conquer: A player gains Control of a Battlefield they did not yet Score this turn. |
@@ -1287,7 +1287,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 478.2 | Layers | 0 | 0 | 0 | Layers are applied in sequence. Each effect in them is applied as soon as able, and only a single t… |
 | 478.3 | Layers | 0 | 0 | 0 | When a sequence of applications completes, recur the process, and evaluate each layer again applyin… |
 | 478.4 | Layers | 0 | 0 | 0 | The removal or disqualification of an effect is separate from the application of the effect, but st… |
-| 479 | Layers | 0 | 0 | 0 | Layers are applied in the following order: |
+| 479 | Layers | 2 | 2 | 0 | Layers are applied in the following order: |
 | 479.1 | Layers | 0 | 0 | 0 | 1. Copy Effects |
 | 479.1.a | Layers | 0 | 0 | 0 | This layer deals with all copy effects. |
 | 479.1.b | Layers | 0 | 0 | 0 | When a Copy effect is applied to a Game Object, the traits specified by the Copy Effect replace or … |
@@ -1301,10 +1301,10 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 479.3.a | Layers | 0 | 0 | 0 | This layer deals with non-Copy effects that grant, remove, or replace the abilities or rules text o… |
 | 479.3.b | Layers | 0 | 0 | 0 | Effects for this layer can be identified by the phrase "become(s)," "give," "lose(s)," "have," "has… |
 | 479.3.c | Layers | 0 | 0 | 0 | Abilities of Effect Text of Attached cards are appended in this layer. |
-| 479.4 | Layers | 1 | 1 | 0 | 4. Arithmetic Effects |
+| 479.4 | Layers | 18 | 18 | 0 | 4. Arithmetic Effects |
 | 479.4.a | Layers | 0 | 0 | 0 | This layer deals with the mathematics of increasing and decreasing the numeric values of the traits… |
-| 479.4.b | Layers | 2 | 1 | 1 | When an arithmetic effect from a source that is not a passive ability has a limitation that applies… |
-| 479.4.c | Layers | 5 | 3 | 2 | Players cannot increase a numeric attribute by a negative amount. If an effect would instruct a pla… |
+| 479.4.b | Layers | 10 | 9 | 1 | When an arithmetic effect from a source that is not a passive ability has a limitation that applies… |
+| 479.4.c | Layers | 6 | 4 | 2 | Players cannot increase a numeric attribute by a negative amount. If an effect would instruct a pla… |
 | 479.4.d | Layers | 1 | 1 | 0 | Might Bonuses of Attached cards are applied in this layer. |
 | 479.4.e | Layers | 0 | 0 | 0 | This layer applies arithmetic in the following way. |
 | 479.4.e.1 | Layers | 0 | 0 | 0 | 1. Increases |
@@ -1319,15 +1319,15 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 
 | Rule | Heading | Tests | `[R]` | `[EX:]` | Text |
 | --- | --- | ---: | ---: | ---: | --- |
-| 801 | Keywords | 0 | 0 | 0 | A Keyword is a specific term that appears on Cards that acts as a shorthand for a specific game eff… |
+| 801 | Keywords | 1 | 1 | 0 | A Keyword is a specific term that appears on Cards that acts as a shorthand for a specific game eff… |
 | 801.1 | Keywords | 0 | 0 | 0 | A Keyword can be an ability. |
 | 801.2 | Keywords | 0 | 0 | 0 | Keywords can be identified by having a colored highlight behind them. |
 | 801.2.a | Keywords | 0 | 0 | 0 | The color of the highlight has no effect on gameplay. |
-| 801.3 | Keywords | 0 | 0 | 0 | Keywords can be referenced or specified by other Game Effects. |
-| 801.3.a | Keywords | 0 | 0 | 0 | Other effects may grant Keywords. |
+| 801.3 | Keywords | 7 | 7 | 0 | Keywords can be referenced or specified by other Game Effects. |
+| 801.3.a | Keywords | 10 | 10 | 0 | Other effects may grant Keywords. |
 | 801.3.a.1 | Keywords | 0 | 0 | 0 | The definition and rules of the specific Keyword will determine the behavior if a Keyword is grante… |
 | 801.3.a.2 | Keywords | 1 | 1 | 0 | The effect that granted the Keyword will specify the duration for which it is granted. |
-| 801.3.a.3 | Keywords | 1 | 1 | 0 | If an effect that grants a Keyword does not specify a duration, the duration is as long as that Gam… |
+| 801.3.a.3 | Keywords | 2 | 2 | 0 | If an effect that grants a Keyword does not specify a duration, the duration is as long as that Gam… |
 | 801.3.b | Keywords | 1 | 1 | 0 | Other effects may remove Keywords. |
 | 801.3.b.1 | Keywords | 0 | 0 | 0 | The effect that removed the Keyword will specify the duration it is removed. |
 | 801.3.b.2 | Keywords | 0 | 0 | 0 | If an effect that removes a Keyword does not specify a duration, the duration is as long as that Ga… |
@@ -1335,7 +1335,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 803 | Keywords | 0 | 0 | 0 | Similar to other rules text, execute any effects of Keywords in the order listed when reading the c… |
 | 805.1 | Accelerate | 0 | 0 | 0 | Accelerate is an Optional Additional Cost keyword. |
 | 805.1.a | Accelerate | 0 | 0 | 0 | Accelerate is present on Units. |
-| 805.1.b | Accelerate | 1 | 1 | 0 | Accelerate is functionally short for "As you play me, you may pay [1][C] as an additional cost. If … |
+| 805.1.b | Accelerate | 5 | 5 | 0 | Accelerate is functionally short for "As you play me, you may pay [1][C] as an additional cost. If … |
 | 805.1.b.1 | Accelerate | 1 | 1 | 0 | If the unit has one or more domains, the Power portion of the Accelerate cost can be paid only with… |
 | 805.1.b.2 | Accelerate | 0 | 0 | 0 | If the unit has no domain, the Power portion of the Accelerate cost can be paid with [A] (a Power o… |
 | 805.2 | Accelerate | 0 | 0 | 0 | Accelerate is an Optional Additional Cost to be paid as a player plays the unit with the ability. |
@@ -1344,7 +1344,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 805.3 | Accelerate | 0 | 0 | 0 | Accelerate has no function while on the board. |
 | 805.4 | Accelerate | 0 | 0 | 0 | Multiple instances of Accelerate are redundant. |
 | 805.5 | Accelerate | 0 | 0 | 0 | Accelerate, and whether or not a unit has Accelerate, is a characteristic of the Unit and may be ch… |
-| 805.6 | Accelerate | 1 | 1 | 0 | Accelerate generates a delayed replacement effect that replaces a unit entering the board exhausted… |
+| 805.6 | Accelerate | 2 | 2 | 0 | Accelerate generates a delayed replacement effect that replaces a unit entering the board exhausted… |
 | 805.6.a | Accelerate | 0 | 0 | 0 | Accelerate will not interact with, or trigger, abilities that are affected by units becoming ready. |
 | 806.1 | Action | 0 | 0 | 0 | Action is a Permissive keyword. |
 | 806.1.a | Action | 0 | 0 | 0 | It is present on Cards, Rune Abilities, Legend Abilities or Permanent Abilities. |
@@ -1368,22 +1368,22 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 807.1.b.1 | Assault | 0 | 0 | 0 | The X is referenced in the functional text of the ability. |
 | 807.1.b.2 | Assault | 0 | 0 | 0 | The X is referred to as the Assault Value. |
 | 807.1.b.3 | Assault | 0 | 0 | 0 | If X is omitted, it is presumed to be 1. |
-| 807.1.c | Assault | 2 | 2 | 0 | It is functionally short for "While I am an attacker, I have +X [M]." |
+| 807.1.c | Assault | 9 | 9 | 0 | It is functionally short for "While I am an attacker, I have +X [M]." |
 | 807.1.d | Assault | 1 | 1 | 0 | Being an attacker means the Unit has gained the Attacker designation during Combat. See rule 461. C… |
 | 807.1.d.1 | Assault | 1 | 1 | 0 | Assault remains in effect as long as the Unit maintains the Attacker designation. |
-| 807.2 | Assault | 1 | 0 | 1 | If a Unit has Assault or has been granted Assault and is granted Assault by an additional source, t… |
+| 807.2 | Assault | 5 | 4 | 1 | If a Unit has Assault or has been granted Assault and is granted Assault by an additional source, t… |
 | 807.3 | Assault | 0 | 0 | 0 | Assault, and whether or not a unit has Assault, is a characteristic of the Unit and may be checked … |
-| 808.1 | Deathknell | 0 | 0 | 0 | Deathknell is a Triggered Ability keyword. |
+| 808.1 | Deathknell | 1 | 1 | 0 | Deathknell is a Triggered Ability keyword. |
 | 808.1.a | Deathknell | 0 | 0 | 0 | It is present on Permanents. |
 | 808.1.b | Deathknell | 0 | 0 | 0 | It is formatted as "[Deathknell][>] [Effect]". |
 | 808.1.b.1 | Deathknell | 0 | 0 | 0 | [Effect] is the rules text for the specific instance of Deathknell. This is referred to as the Deat… |
-| 808.1.c | Deathknell | 0 | 0 | 0 | It is functionally short for "When I die, [Effect]." |
+| 808.1.c | Deathknell | 6 | 6 | 0 | It is functionally short for "When I die, [Effect]." |
 | 808.1.c.1 | Deathknell | 0 | 0 | 0 | [Effect] is the rules text of the Deathknell effect. |
 | 808.1.c.2 | Deathknell | 0 | 0 | 0 | [Effect] may be written in the past tense. In doing so, it refers to the moment the Deathknell trig… |
 | 808.1.d | Deathknell | 0 | 0 | 0 | The Trigger for this and similar effects that trigger on their source’s death is the Permanent bein… |
 | 808.1.d.1 | Deathknell | 0 | 0 | 0 | If the Permanent with the effect is not sent to the Trash, for example because its "killed" event w… |
 | 808.1.d.2 | Deathknell | 1 | 1 | 0 | The trigger will be added to the chain as a Pending Item before the card with an ability that trigg… |
-| 808.1.d.3 | Deathknell | 0 | 0 | 0 | Before the card is moved to the Trash, note its location, its attributes, and any other details rel… |
+| 808.1.d.3 | Deathknell | 1 | 1 | 0 | Before the card is moved to the Trash, note its location, its attributes, and any other details rel… |
 | 808.2 | Deathknell | 0 | 0 | 0 | Each instance of Deathknell a Permanent may have will trigger separately. |
 | 808.2.a | Deathknell | 0 | 0 | 0 | The controller will choose the order to add these Triggers to the chain. |
 | 808.3 | Deathknell | 0 | 0 | 0 | Deathknell, and whether or not a permanent has Deathknell, is a characteristic of the permanent and… |
@@ -1393,12 +1393,12 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 809.1.b.1 | Deflect | 0 | 0 | 0 | The X is referenced in the functional text of the ability. |
 | 809.1.b.2 | Deflect | 0 | 0 | 0 | The X is referred to as the Deflect Value. |
 | 809.1.b.3 | Deflect | 0 | 0 | 0 | If X is omitted, it is presumed to be 1. |
-| 809.1.c | Deflect | 1 | 1 | 0 | It is functionally short for "Spells and abilities an opponent controls that target [me/this] cost … |
+| 809.1.c | Deflect | 5 | 5 | 0 | It is functionally short for "Spells and abilities an opponent controls that target [me/this] cost … |
 | 809.1.c.1 | Deflect | 1 | 1 | 0 | The Power used to pay this cost may always be of any Domain. |
 | 809.1.d | Deflect | 0 | 0 | 0 | It is an effect that imposes a Mandatory Additional Cost on Spells and Abilities that choose the Ga… |
-| 809.2 | Deflect | 0 | 0 | 0 | If a Game Object has Deflect, or has been granted Deflect, and is granted Deflect by an additional … |
+| 809.2 | Deflect | 2 | 2 | 0 | If a Game Object has Deflect, or has been granted Deflect, and is granted Deflect by an additional … |
 | 809.3 | Deflect | 0 | 0 | 0 | Deflect, and whether or not a Game Object has Deflect, is a characteristic of the permanent and may… |
-| 810.1 | Ganking | 0 | 0 | 0 | Ganking is a Passive Ability keyword. |
+| 810.1 | Ganking | 5 | 5 | 0 | Ganking is a Passive Ability keyword. |
 | 810.1.a | Ganking | 0 | 0 | 0 | It is present on Units. |
 | 810.1.b | Ganking | 1 | 1 | 0 | It is functionally short for "I may move to a battlefield from another battlefield with a standard … |
 | 810.1.c | Ganking | 0 | 0 | 0 | It is a passive ability that adds permissions to the Unit's Standard Move. |
@@ -1406,11 +1406,11 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 810.1.c.2 | Ganking | 0 | 0 | 0 | It does not have an activation cost. |
 | 810.1.c.3 | Ganking | 0 | 0 | 0 | It does not give additional abilities or activations of Movement, only new options for the Standard… |
 | 810.2 | Ganking | 0 | 0 | 0 | Multiple instances of Ganking are redundant. |
-| 810.3 | Ganking | 0 | 0 | 0 | Ganking, and whether or not a unit has Ganking, is a characteristic of the Unit and may be checked … |
+| 810.3 | Ganking | 2 | 2 | 0 | Ganking, and whether or not a unit has Ganking, is a characteristic of the Unit and may be checked … |
 | 811.1 | Hidden | 0 | 0 | 0 | Hidden is a keyword that acts as a prerequisite to perform the Hide Discretionary Action. |
 | 811.1.a | Hidden | 0 | 0 | 0 | It is present on Spells, Units, and Gear. |
-| 811.1.b | Hidden | 3 | 3 | 0 | It is functionally short for "While this card is in your hand or in your Champion Zone on your turn… |
-| 811.1.c | Hidden | 0 | 0 | 0 | It allows the player to take the Discretionary Action Hide. |
+| 811.1.b | Hidden | 7 | 7 | 0 | It is functionally short for "While this card is in your hand or in your Champion Zone on your turn… |
+| 811.1.c | Hidden | 1 | 1 | 0 | It allows the player to take the Discretionary Action Hide. |
 | 811.1.c.1 | Hidden | 0 | 0 | 0 | Hide is not a subset of Play. |
 | 811.1.c.2 | Hidden | 1 | 1 | 0 | Hiding a card does not open a chain. |
 | 811.1.c.3 | Hidden | 0 | 0 | 0 | Playing a card from facedown (or "from Hidden") does open a chain. |
@@ -1427,14 +1427,14 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 811.4 | Hidden | 0 | 0 | 0 | Multiple instances of Hidden are redundant. |
 | 811.5 | Hidden | 0 | 0 | 0 | Hidden, and whether or not a card has Hidden, is a characteristic of the card and may be checked or… |
 | 811.5.a | Hidden | 0 | 0 | 0 | This is true as long as the card is not facedown. A facedown card is not a card with Hidden. |
-| 811.6 | Hidden | 0 | 0 | 0 | A card that is Hidden gains Reaction the turn after it is hidden while facedown or played from face… |
+| 811.6 | Hidden | 2 | 2 | 0 | A card that is Hidden gains Reaction the turn after it is hidden while facedown or played from face… |
 | 811.6.a | Hidden | 0 | 0 | 0 | The property is granted to the card in its facedown state, and is not publicly known. |
 | 812.1 | Legion | 0 | 0 | 0 | Legion is a Dependent Keyword. |
 | 812.1.a | Legion | 0 | 0 | 0 | It is formatted as "[Legion][>] [Text]". |
 | 812.1.b | Legion | 0 | 0 | 0 | Starting from the Keyword to the end of the clause, the entire statement is the Legion Ability. |
 | 812.1.b.1 | Legion | 0 | 0 | 0 | Legion is functionally short for “If you have played another card this turn, this card gains [Text]… |
 | 812.1.b.2 | Legion | 0 | 0 | 0 | The [Text] is the Dependent Ability. |
-| 812.1.c | Legion | 0 | 0 | 0 | As long as a card different than the one with the Legion ability has been Finalized by you on the s… |
+| 812.1.c | Legion | 3 | 3 | 0 | As long as a card different than the one with the Legion ability has been Finalized by you on the s… |
 | 812.2 | Legion | 0 | 0 | 0 | All instances of Legion on cards a player controls are satisfied by that player playing a single ca… |
 | 812.3 | Legion | 0 | 0 | 0 | Legion, and whether or not a card has Legion, is a characteristic of the card and may be checked or… |
 | 813.1 | Reaction | 0 | 0 | 0 | Reaction is a Permissive keyword. |
@@ -1459,11 +1459,11 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 814.1.b | Shield | 0 | 0 | 0 | Shield is formatted as "Shield [X]". |
 | 814.1.b.1 | Shield | 0 | 0 | 0 | The X is referenced in the functional text of the ability. |
 | 814.1.b.2 | Shield | 1 | 1 | 0 | The X is referred to as the Shield Value. |
-| 814.1.b.3 | Shield | 1 | 1 | 0 | If X is omitted, it is presumed to be 1. |
-| 814.1.c | Shield | 2 | 2 | 0 | It is functionally short for "While I am a defender, I have +X [M]." |
+| 814.1.b.3 | Shield | 2 | 2 | 0 | If X is omitted, it is presumed to be 1. |
+| 814.1.c | Shield | 5 | 5 | 0 | It is functionally short for "While I am a defender, I have +X [M]." |
 | 814.1.d | Shield | 0 | 0 | 0 | Being a defender means the Unit has gained the Defender designation during Combat. See rule 461. Co… |
 | 814.1.d.1 | Shield | 0 | 0 | 0 | Shield remains in effect as long as the Unit maintains the Defender designation. |
-| 814.2 | Shield | 1 | 0 | 1 | If a Unit has Shield, or has been granted Shield, and is granted Shield by an additional source, th… |
+| 814.2 | Shield | 5 | 4 | 1 | If a Unit has Shield, or has been granted Shield, and is granted Shield by an additional source, th… |
 | 814.3 | Shield | 0 | 0 | 0 | Shield, and whether or not a unit has Shield, is a characteristic of the Unit and may be checked or… |
 | 815.1 | Tank | 0 | 0 | 0 | Tank is a Passive Ability keyword. |
 | 815.1.a | Tank | 0 | 0 | 0 | It is present on Units. |
@@ -1475,14 +1475,14 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 815.3 | Tank | 0 | 0 | 0 | Tank, and whether or not a unit has Tank, is a characteristic of the Unit and may be checked or ref… |
 | 816.1 | Temporary | 0 | 0 | 0 | Temporary is a Triggered Ability keyword. |
 | 816.1.a | Temporary | 0 | 0 | 0 | It is present on Permanents. |
-| 816.1.b | Temporary | 1 | 1 | 0 | It is functionally short for "At the start of this permanent's controller's Beginning Phase, before… |
+| 816.1.b | Temporary | 4 | 4 | 0 | It is functionally short for "At the start of this permanent's controller's Beginning Phase, before… |
 | 816.1.c | Temporary | 1 | 1 | 0 | The Trigger Condition is the controller of the permanent's Beginning Phase starting. |
 | 816.2 | Temporary | 0 | 0 | 0 | Multiple instances of Temporary are redundant. |
 | 816.2.a | Temporary | 0 | 0 | 0 | Regardless of how many instances there are, the ability will only trigger once. |
 | 816.3 | Temporary | 0 | 0 | 0 | Temporary, and whether or not a permanent has Temporary, is a characteristic of the permanent and m… |
 | 817.1 | Vision | 0 | 0 | 0 | Vision is a Triggered Ability keyword. |
 | 817.1.a | Vision | 0 | 0 | 0 | It is present on Permanents. |
-| 817.1.b | Vision | 1 | 1 | 0 | It is functionally short for "When this is played, [Predict].” |
+| 817.1.b | Vision | 5 | 5 | 0 | It is functionally short for "When this is played, [Predict].” |
 | 817.1.c | Vision | 1 | 1 | 0 | The trigger is the permanent entering the Board. |
 | 817.2 | Vision | 0 | 0 | 0 | Multiple instances of Vision trigger separately. |
 | 817.2.a | Vision | 0 | 0 | 0 | The player may choose to recycle or not recycle for each instance of Vision separately. |
@@ -1495,7 +1495,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 818.1.b.2 | Equip | 0 | 0 | 0 | The chosen Unit will become the Top-Most Card for the Attach action. |
 | 818.1.c | Equip | 1 | 1 | 0 | Equip is formatted as “Equip [Cost]” |
 | 818.1.c.1 | Equip | 0 | 0 | 0 | If paying costs or making choices for this ability causes triggered abilities to trigger, they will… |
-| 818.1.c.2 | Equip | 0 | 0 | 0 | Equip is functionally short for “[Cost]: Attach this gear to a unit you control.” |
+| 818.1.c.2 | Equip | 1 | 1 | 0 | Equip is functionally short for “[Cost]: Attach this gear to a unit you control.” |
 | 818.1.c.3 | Equip | 0 | 0 | 0 | Equip costs may include both resource costs and non-resource costs. |
 | 818.1.c.4 | Equip | 0 | 0 | 0 | Equip abilities may also include text that alters the Equip cost. Such text is taken into account w… |
 | 818.1.c.5 | Equip | 0 | 0 | 0 | Equip abilities may include text that alters the timing or targeting of the Equip ability. |
@@ -1512,27 +1512,27 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 819.1.a | Quick-Draw | 0 | 0 | 0 | Quick-Draw is present on Gear with Equip abilities. |
 | 819.1.b | Quick-Draw | 2 | 2 | 0 | Cards with Quick-Draw have Reaction inherently. |
 | 819.1.c | Quick-Draw | 0 | 0 | 0 | Quick-Draw allows cards to be played and Attached using Reaction timing. |
-| 819.1.d | Quick-Draw | 0 | 0 | 0 | Quick-Draw is functionally short for “[Reaction]” and “When you play this, attach it to a Unit you … |
+| 819.1.d | Quick-Draw | 1 | 1 | 0 | Quick-Draw is functionally short for “[Reaction]” and “When you play this, attach it to a Unit you … |
 | 819.2 | Quick-Draw | 0 | 0 | 0 | Multiple instances of Quick-Draw do not trigger separately and have no effect beyond the first. |
 | 819.3 | Quick-Draw | 0 | 0 | 0 | Quick-Draw, and whether or not a gear has Quick-Draw, is a characteristic of the Gear and may be ch… |
 | 820.1 | Repeat | 0 | 0 | 0 | Repeat is an Optional Additional Cost keyword. |
 | 820.1.a | Repeat | 0 | 0 | 0 | Repeat is present on Spells and Abilities. |
 | 820.1.b | Repeat | 0 | 0 | 0 | Repeat is an optional cost that a player may pay to execute the effect of their spells and abilitie… |
-| 820.1.c | Repeat | 1 | 1 | 0 | Repeat is formatted as “Repeat [Cost]” |
+| 820.1.c | Repeat | 2 | 2 | 0 | Repeat is formatted as “Repeat [Cost]” |
 | 820.1.c.1 | Repeat | 0 | 0 | 0 | The Cost is an Additional Cost to be paid during the steps of playing the spell or ability. |
 | 820.1.c.2 | Repeat | 0 | 0 | 0 | If a spell or ability has more than one instance of Repeat, each Cost may be paid or not paid indiv… |
 | 820.1.c.3 | Repeat | 1 | 1 | 0 | Each Repeat Cost can be paid only a single time. |
-| 820.1.d | Repeat | 0 | 0 | 0 | Repeat is functionally short for “You may pay [Cost] as an additional cost as you play this. If you… |
-| 820.1.d.1 | Repeat | 0 | 0 | 0 | When the additional cost is paid, the effect of the spell or ability, upon resolution, will be perf… |
+| 820.1.d | Repeat | 3 | 3 | 0 | Repeat is functionally short for “You may pay [Cost] as an additional cost as you play this. If you… |
+| 820.1.d.1 | Repeat | 1 | 1 | 0 | When the additional cost is paid, the effect of the spell or ability, upon resolution, will be perf… |
 | 820.1.d.2 | Repeat | 0 | 0 | 0 | Any instructions not performed on resolution of the spell or ability are ignored. |
-| 820.2 | Repeat | 0 | 0 | 0 | When a spell or ability’s effect is performed an additional time with Repeat, choices must be made … |
+| 820.2 | Repeat | 1 | 1 | 0 | When a spell or ability’s effect is performed an additional time with Repeat, choices must be made … |
 | 820.2.a | Repeat | 1 | 0 | 1 | Choices made for the additional execution do not have to be the same as the choices made for the in… |
 | 820.3 | Repeat | 0 | 0 | 0 | Multiple instances of Repeat can be paid for separately. The spell or ability’s instructions will b… |
-| 820.3.a | Repeat | 0 | 0 | 0 | Regardless of the number of times a spell or ability's instructions are executed with this keyword,… |
+| 820.3.a | Repeat | 1 | 1 | 0 | Regardless of the number of times a spell or ability's instructions are executed with this keyword,… |
 | 820.4 | Repeat | 0 | 0 | 0 | Repeat, and whether or not a spell or ability has Repeat, is a characteristic of the spell or abili… |
 | 821.1 | Weaponmaster | 0 | 0 | 0 | Weaponmaster is a Triggered Ability keyword. |
 | 821.1.a | Weaponmaster | 0 | 0 | 0 | Weaponmaster is present on Units. |
-| 821.1.b | Weaponmaster | 0 | 0 | 0 | Weaponmaster is a Play Effect that chooses an Equipment you control and allows you to pay its Equip… |
+| 821.1.b | Weaponmaster | 2 | 2 | 0 | Weaponmaster is a Play Effect that chooses an Equipment you control and allows you to pay its Equip… |
 | 821.1.c | Weaponmaster | 0 | 0 | 0 | Weaponmaster is functionally short for: “When you play me, you may choose a Card you control with t… |
 | 821.1.c.1 | Weaponmaster | 0 | 0 | 0 | Weaponmaster can choose an Equipment whether it has an Equip ability or not. |
 | 821.1.c.2 | Weaponmaster | 0 | 0 | 0 | The cost of the Equip ability is determined as though that Equip ability was being activated choosi… |
@@ -1548,7 +1548,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 821.3 | Weaponmaster | 0 | 0 | 0 | Weaponmaster, and whether or not a unit has Weaponmaster, is a characteristic of the Unit and may b… |
 | 822.1 | Ambush | 0 | 0 | 0 | Ambush is a Passive Ability keyword. |
 | 822.1.a | Ambush | 0 | 0 | 0 | It is normally present on Units. |
-| 822.1.b | Ambush | 0 | 0 | 0 | It is functionally short for "I may be played to a battlefield where you control Units" and “I have… |
+| 822.1.b | Ambush | 1 | 1 | 0 | It is functionally short for "I may be played to a battlefield where you control Units" and “I have… |
 | 822.1.c | Ambush | 0 | 0 | 0 | It is a passive ability that adds options to locations that are valid for a Unit to be played to du… |
 | 822.1.d | Ambush | 0 | 0 | 0 | Ambush can also appear as a verb on a card. In such a case, the verb is taken to mean “play with th… |
 | 822.2 | Ambush | 0 | 0 | 0 | Multiple instances of Ambush are redundant. |
@@ -1593,28 +1593,28 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 827.1.b | Empower | 0 | 0 | 0 | Empower has a cost to activate and Empowers the source of the ability when the cost is paid. See ru… |
 | 827.1.b.1 | Empower | 0 | 0 | 0 | The source game object is not a target of the Empower ability. |
 | 827.1.c | Empower | 0 | 0 | 0 | Empower is formatted as “Empower [Cost]” |
-| 827.1.c.1 | Empower | 0 | 0 | 0 | Empower is functionally short for “[Cost]: Empower this. Play only if not Empowered.” |
-| 827.1.c.2 | Empower | 0 | 0 | 0 | Empower costs may include both resource costs and non-resource costs. |
-| 827.1.c.3 | Empower | 0 | 0 | 0 | Empower abilities may also include text that alters the Empower cost. Such text is taken into accou… |
+| 827.1.c.1 | Empower | 2 | 2 | 0 | Empower is functionally short for “[Cost]: Empower this. Play only if not Empowered.” |
+| 827.1.c.2 | Empower | 3 | 3 | 0 | Empower costs may include both resource costs and non-resource costs. |
+| 827.1.c.3 | Empower | 3 | 3 | 0 | Empower abilities may also include text that alters the Empower cost. Such text is taken into accou… |
 | 827.1.c.4 | Empower | 0 | 0 | 0 | Empower abilities may include text that alters the timing of the Empower ability. |
 | 827.1.c.5 | Empower | 0 | 0 | 0 | Game Objects with Empower abilities may have or gain permissions to be Empowered multiple times. Su… |
 | 827.2 | Empower | 0 | 0 | 0 | When the Empower action completes from this keyword, the source permanent or legend becomes Empower… |
 | 827.2.a | Empower | 0 | 0 | 0 | This is an event other Game Effects and Triggered Abilities can reference. |
-| 827.3 | Empower | 0 | 0 | 0 | Multiple instances of Empower are equivalent to multiple activated abilities and can each be activa… |
+| 827.3 | Empower | 1 | 1 | 0 | Multiple instances of Empower are equivalent to multiple activated abilities and can each be activa… |
 | 827.4 | Empower | 0 | 0 | 0 | Empower and whether a permanent or legend has Empower are a characteristic of those Game Objects an… |
 | 828.1 | Empowered | 0 | 0 | 0 | Empowered is a Dependent Keyword. |
 | 828.1.a | Empowered | 0 | 0 | 0 | It is formatted as “[Empowered][>] [Text].” |
 | 828.1.b | Empowered | 0 | 0 | 0 | Starting from the keyword to the end of the clause, the entire statement is the Empowered Ability. |
 | 828.1.b.1 | Empowered | 1 | 1 | 0 | It is functionally short for “While I have the Empowered status, this card gains ‘[Text]’.” |
 | 828.1.b.2 | Empowered | 0 | 0 | 0 | The [Text] here is the Dependent Ability. |
-| 828.1.c | Empowered | 1 | 1 | 0 | As long as the Game Object has the Empowered status, then the Dependent Ability will be active. |
+| 828.1.c | Empowered | 13 | 13 | 0 | As long as the Game Object has the Empowered status, then the Dependent Ability will be active. |
 | 828.1.d | Empowered | 0 | 0 | 0 | If the Dependent Ability is a Triggered Ability whose condition is “When I become Empowered,” or a … |
 | 828.2 | Empowered | 0 | 0 | 0 | Empowered and whether or not a card has an Empowered Ability is a characteristic of the card that m… |
 | 829.1 | Flow | 0 | 0 | 0 | Flow is a Passive Ability keyword. |
 | 829.1.a | Flow | 0 | 0 | 0 | Flow is present on Spells. |
 | 829.1.b | Flow | 0 | 0 | 0 | It is functionally short for “You may play this from your trash for its flow cost. Then banish it.” |
 | 829.1.b.1 | Flow | 0 | 0 | 0 | Banishing the spell in this way is a delayed replacement effect. If the spell would leave the chain… |
-| 829.1.b.2 | Flow | 0 | 0 | 0 | Playing a spell for its Flow cost does not change the timing at which it can be played, nor any per… |
+| 829.1.b.2 | Flow | 1 | 1 | 0 | Playing a spell for its Flow cost does not change the timing at which it can be played, nor any per… |
 | 829.1.c | Flow | 0 | 0 | 0 | Flow is formatted as “Flow [Cost]” |
 | 829.1.c.1 | Flow | 0 | 0 | 0 | The cost is an alternate cost that replaces the base cost of the spell to be paid during finalizati… |
 | 829.1.c.2 | Flow | 0 | 0 | 0 | Flow costs may include both resource costs and non-resource costs. |
@@ -1623,7 +1623,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 830.1 | Deploy | 0 | 0 | 0 | Deploy is a Passive Ability and a Triggered Ability keyword. |
 | 830.1.a | Deploy | 0 | 0 | 0 | Deploy is present on Gear. |
 | 830.1.b | Deploy | 0 | 0 | 0 | Deploy is short for “This may be played or created to any battlefield,” “Play or create this only t… |
-| 830.1.b.1 | Deploy | 0 | 0 | 0 | Deploy grants permission for Gear to be played to any Battlefield, including enemy occupied and ope… |
+| 830.1.b.1 | Deploy | 1 | 1 | 0 | Deploy grants permission for Gear to be played to any Battlefield, including enemy occupied and ope… |
 | 830.1.b.2 | Deploy | 0 | 0 | 0 | Gear with Deploy can be Moved by appropriate effects. |
 | 830.1.b.3 | Deploy | 2 | 2 | 0 | Non-Unit Gear with Deploy are not recalled from Battlefields in step 5 of a Cleanup. See rule 318. … |
 | 830.2 | Deploy | 0 | 0 | 0 | Multiple instances of Deploy are redundant. |
@@ -1634,7 +1634,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 831.1.c | Disarm | 0 | 0 | 0 | Disarm is formatted as “Disarm X.” |
 | 831.1.c.1 | Disarm | 0 | 0 | 0 | The X is referenced in the functional text of the ability. |
 | 831.1.c.2 | Disarm | 0 | 0 | 0 | The X is referred to as the Disarm Value. |
-| 831.1.c.3 | Disarm | 0 | 0 | 0 | If X is omitted, it is presumed to be 1. |
+| 831.1.c.3 | Disarm | 1 | 1 | 0 | If X is omitted, it is presumed to be 1. |
 | 831.1.d | Disarm | 1 | 1 | 0 | Disarm is functionally short for “When I attack, give an enemy unit here -X [M] this turn.” |
 | 831.1.d.1 | Disarm | 0 | 0 | 0 | Regardless of how many instances of the Disarm keyword a unit has, it will only trigger once using … |
 | 831.2 | Disarm | 2 | 1 | 1 | If a Unit has Disarm, or has been granted Disarm, and is granted Disarm by an additional source, th… |
@@ -1642,9 +1642,9 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 832.1 | Show Off | 0 | 0 | 0 | Show Off is a Passive Ability keyword. |
 | 832.1.a | Show Off | 0 | 0 | 0 | Show Off is normally present on Cards. |
 | 832.1.b | Show Off | 0 | 0 | 0 | Show Off is formatted as “[Show Off] [Object].” |
-| 832.1.b.1 | Show Off | 0 | 0 | 0 | The “[Object]” in this ability could be one object or multiple; object/s of a given type; or it cou… |
+| 832.1.b.1 | Show Off | 1 | 1 | 0 | The “[Object]” in this ability could be one object or multiple; object/s of a given type; or it cou… |
 | 832.1.c | Show Off | 0 | 0 | 0 | Show Off is functionally short for “As you play [me/this], you may reveal [Object] from your hand a… |
-| 832.1.c.1 | Show Off | 0 | 0 | 0 | Showing Off one or more Cards or Game Objects in this way can be referenced by linked abilities and… |
+| 832.1.c.1 | Show Off | 1 | 1 | 0 | Showing Off one or more Cards or Game Objects in this way can be referenced by linked abilities and… |
 | 832.1.c.2 | Show Off | 0 | 0 | 0 | The decision of whether or not to Show Off is made by the controller of the chain item with Show Of… |
 | 832.1.c.3 | Show Off | 0 | 0 | 0 | If [Object] is a set of Cards or Game Objects, that set can be composed of Game Objects on the boar… |
 | 832.1.c.4 | Show Off | 0 | 0 | 0 | If some or all of the [Object] set leave the appropriate zones during the finalization process afte… |
@@ -1690,5 +1690,5 @@ Range tags such as `[R341–R348]` label a section; they are not expanded into p
 
 None.
 
-`--check` mode: exits non-zero if any tag references an unknown rule id.
+Run with `--check` to fail on unknown rule ids.
 
