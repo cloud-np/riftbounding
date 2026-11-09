@@ -41,18 +41,18 @@ replacement (Symbol of the Solari). Those rows were removed.
 
 ## Engine bugs found
 
-| Bug | Rule ids | Reproduction | Cards affected |
-| --- | --- | --- | --- |
-| A Passive Kill from lethal damage in the Cleanup is not attributed to the spell/ability that dealt the damage, so "When you kill …" does not trigger for damage kills. | 429.5.c, 429.5.c.1 | `it.skip("[BUG][C:Solari Shrine]…")` in `test/cards/ogn-o-z/r4b-bugs.test.ts` | Solari Shrine, Immortal Phoenix |
+None open. The 429.5.c / 429.5.c.1 reproduction (a Cleanup damage kill attributed to the spell's
+controller, `test/cards/ogn-o-z/r4b-bugs.test.ts`) is unskipped and passes after R4-engine lane E;
+Solari Shrine is `implemented`. Immortal Phoenix's remaining partial line is 429.5.d multi-source
+attribution, below.
 
 ## Card status
 
-131 of 131 scripted: 101 implemented, 18 partial, 12 manual.
+131 of 131 scripted: 102 implemented, 17 partial, 12 manual.
 
-R4b: Vanguard Helm is fully automated. Solari Shrine is automated for direct Kill instructions;
-a kill from lethal damage in the Cleanup still lacks the responsible player (429.5.c, `[BUG]` in
-`test/cards/ogn-o-z/r4b-bugs.test.ts`). The `kill` event carries last-known
-`buffs`/`stunned`/`empowered` (383.2.c.3.b, lane C).
+R4b: Vanguard Helm and Solari Shrine are fully automated. The `kill` event carries last-known
+`buffs`/`stunned`/`empowered` (383.2.c.3.b, lane C) and Cleanup damage kills carry the responsible
+spell/ability (429.5.c, lane E).
 
 | Card                         | Status      | Notes                                                                                                                                                                              |
 | ---------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -114,7 +114,7 @@ a kill from lethal damage in the Cleanup still lacks the responsible player (429
 | Soaring Scout                | implemented |                                                                                                                                                                                    |
 | Solari Chief                 | implemented |                                                                                                                                                                                    |
 | Solari Shieldbearer          | implemented |                                                                                                                                                                                    |
-| Solari Shrine | partial | Direct Kill instructions trigger (429.5.b); a damage kill in the Cleanup is not attributed to the spell (429.5.c, `[BUG]` r4b-bugs.test.ts). |
+| Solari Shrine | implemented | "When you kill" triggers on direct kills (429.5.b) and Cleanup damage kills attributed through `damageSource` (429.5.c/.c.1, lane E). |
 | Soulgorger                   | implemented |                                                                                                                                                                                    |
 | Spectral Matron              | implemented |                                                                                                                                                                                    |
 | Spirit's Refuge              | implemented |                                                                                                                                                                                    |

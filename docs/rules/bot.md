@@ -112,33 +112,31 @@ SELFPLAY_GAMES=300 SELFPLAY_DECK=catalog \
 
 The CLI is `test/bot/selfplay.run.ts` under its own
 `test/bot/vitest.selfplay.config.ts`; it is not part of the default suite. The default suite
-runs only a handful of passing seeds in `test/bot/selfplay.test.ts`; every failing seed found by
-a sweep is recorded there as `it.skip("[BUG][R..] selfplay seed N: …")`.
+runs a handful of seeds in `test/bot/selfplay.test.ts`; the originally failing seeds are
+unskipped regression tests (no `[BUG]` skip remains).
 
 ## 5. Results and findings
 
-Final sweep (default caps 80 turns / 4 000 actions):
+The sweep found three engine bugs; all are fixed by R4-engine lane E, so the final tree has no
+stuck/crash seeds. Final sweep (default caps 80 turns / 4 000 actions):
 
 | Deck mode | Seeds | Wins | Turn caps | Action caps | Stuck | Crashes | Avg turns |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| `fixture` | 300 | 300 | 0 | 0 | 0 | 0 | 31.85 |
-| `catalog` | 620 | 593 | 10 | 0 | 17 | 0 | 35.94 |
-| both | 920 | 893 | 10 | 0 | 17 | 0 | 34.61 |
+| `fixture` | 200 | 200 | 0 | 0 | 0 | 0 | 32.00 |
+| `catalog` | 400 | 394 | 6 | 0 | 0 | 0 | 35.83 |
 
-Every `stuck` is a reproducible engine bug, not a harness failure:
+The six turn caps (seeds 62, 143, 157, 268, 323, 338) are long but legal games, not failures;
+raise `SELFPLAY_MAX_TURNS` to finish them.
 
-- **R420.2.a** (15 seeds) — a pending non-standard cost (kill/exhaust/discard) makes
-  `planPayment` skip the resource check, so an unaffordable card is listed as playable; after
-  answering the cost prompt the play cancels with `insufficient_resources` and the card stays
-  in hand.
-- **R818.1.c.2** (seed 312, Svellsongur) — an unscripted `[Equip]` line is exposed twice: as
-  the built-in `equip:0` and as a free `manual:0` activated ability. Activating `manual:0`
-  only opens and closes the manual window, so it can be repeated forever.
-- **R355.8** (seed 530, Sanction) — a mode prompt offers a mode whose mandatory target has no
-  legal choice; choosing it cancels the play with `no_legal_targets`.
+Root causes, rule quotes and fixes are in `.orchestrator/reports/r4-selfplay-findings.md` and
+`.orchestrator/reports/r4-engine-e-findings.md`:
 
-Root causes, rule quotes and suggested fixes are in
-`.orchestrator/reports/r4-selfplay-findings.md`.
+- **R420.2.a** — a pending non-standard cost (kill/exhaust/discard) skipped the resource check;
+  `planPayment` now probes the pending candidates (`play/payment.ts`).
+- **R818.1.c.2** — an unscripted `[Equip]` line was exposed twice (built-in `equip:0` plus a free
+  `manual:0`); manual entries now skip `[Equip]` lines (`cards/registry.ts`).
+- **R355.8** — a mode prompt offered a mode with no legal target; mode collection now probes each
+  mode's mandatory choices (`effects/choices.ts`).
 
 ## 6. Known bot limitations
 

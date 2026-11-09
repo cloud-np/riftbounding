@@ -61,8 +61,8 @@ describe("Vendetta batch 4b", () => {
     s.as("p1").play("Ol' Poro").expectError("restricted");
   });
 
-  it("[C:Ol' Poro][R054.1] is a manual card (restriction in hand not enforceable)", () => {
-    expect(getCardScript("Ol' Poro")?.status).toBe("manual");
+  it("[C:Ol' Poro][R054.1] is an implemented card (the restriction is read from the script in hand)", () => {
+    expect(getCardScript("Ol' Poro")?.status).toBe("implemented");
   });
 
   it("[C:Ocean Drake][R383.4.a] when you play me, may return a non-Dragon unit to its owner's hand", () => {

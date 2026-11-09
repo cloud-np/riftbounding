@@ -1,10 +1,8 @@
 /**
- * OGN O–Z R4b engine reproduction — Solari Shrine's "When you kill …" (429.5).
+ * OGN O–Z R4b engine regression — Solari Shrine's "When you kill …" (429.5).
  *
- * Remaining engine gap: a Passive Kill caused by lethal damage in the Cleanup must be attributed
- * to the spell/ability that dealt the damage (429.5.c / 429.5.c.1), but the cleanup's `kill`
- * carries no responsible player, so "When you kill a stunned enemy unit" does not trigger for a
- * damage kill. Direct Kill instructions (Vengeance) do work.
+ * R4-engine lane E attributes a Passive Kill caused by lethal damage in the Cleanup to the
+ * spell/ability that dealt the damage (429.5.c / 429.5.c.1); direct Kill instructions also work.
  */
 import { describe, expect, it } from "vitest";
 import { fund, place } from "../../rules/effects/helpers";

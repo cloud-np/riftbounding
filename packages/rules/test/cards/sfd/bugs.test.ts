@@ -1,16 +1,15 @@
 /**
- * Engine reproductions found while scripting Spiritforged (wave R3). Each case is skipped and
- * describes the rules-correct behaviour; the card scripts do not work around these.
+ * Engine regressions found while scripting Spiritforged (wave R3). Each body describes the
+ * rules-correct behaviour; the card scripts do not work around these.
  */
 import { describe, expect, it } from "vitest";
 import { effectiveMight } from "../../../src";
 import { run } from "../../rules/effects/helpers";
 import { addPool, boardCard, fund, put, settle, withCards } from "./helpers";
 
-describe("SFD engine reproductions", () => {
+describe("SFD engine reproductions (all fixed in R4)", () => {
   it("[C:Feral Strength][R820.1.d][R820.1.d.1] a paid Repeat cost executes the spell's effect a second time", () => {
-    // The Repeat cost is charged (play/additional-costs.ts) and `cost:repeat` is recorded, but
-    // resolution executes the instructions only once: +2 instead of +4.
+    // 820.1.d: the Repeat cost is charged and the instructions execute once per paid instance.
     const s = withCards(["Feral Strength"]);
     const unit = put(s, "p1", "Caitlyn, Patrolling", "base");
     fund(s, "p1", "Feral Strength");

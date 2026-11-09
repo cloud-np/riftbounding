@@ -1,8 +1,8 @@
 /**
- * Unleashed (UNL) R4 — reproductions of engine bugs found by these card tests.
+ * Unleashed (UNL) R4 — engine regressions found by these card tests.
  *
- * Each test is skipped: the engine lanes own the fix. The lane report (`docs/rules/cards/unl.md`)
- * lists the same rows.
+ * All are fixed by R4-engine lane E; the tests stayed as regression coverage. The lane report
+ * (`docs/rules/cards/unl.md`) lists the same rows.
  */
 import { describe, expect, it } from "vitest";
 import { place, run, zoneOf } from "../../rules/effects/helpers";

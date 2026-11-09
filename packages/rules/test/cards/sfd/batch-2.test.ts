@@ -338,7 +338,7 @@ describe("SFD batch 2 — Mech lords and passives", () => {
   });
 });
 
-describe("SFD batch 2 — Repeat spells (first execution; Repeat is an engine gap)", () => {
+describe("SFD batch 2 — Repeat spells (engine Repeat, 820.1.d / 820.2)", () => {
   it("[C:Bellows Breath][R355.13] deals 1 to up to three units at the same location", () => {
     const s = withCards(["Bellows Breath"]);
     const a = put(s, "p2", "Astral Heron", "battlefieldA");
@@ -356,7 +356,7 @@ describe("SFD batch 2 — Repeat spells (first execution; Repeat is an engine ga
     expect([damageOf(s, a.id), damageOf(s, b.id), damageOf(s, c.id), damageOf(s, far.id)]).toEqual([
       1, 1, 1, 0,
     ]);
-    expect(statusOf("Bellows Breath")).toBe("partial");
+    expect(statusOf("Bellows Breath")).toBe("implemented");
   });
 
   it("[C:Blood Rush][R807] gives a unit [Assault 2] this turn", () => {

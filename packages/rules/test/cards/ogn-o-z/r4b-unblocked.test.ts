@@ -19,9 +19,9 @@ describe("Origins O–Z R4b — last-known information on kill/die [R383.2.c.3.b
     driveAll(s, (prompt) => (prompt.kind === "yes-no" ? ["yes"] : [prompt.options![0]!.id]));
     expect(zoneOf(s, enemy.id)).toBe("trash");
     expect(s.host.isExhausted(s.room, shrine.id)).toBe(true);
-    // Played Vengeance (-1) then Solari Shrine drew 1. A damage kill stays [BUG] (429.5.c).
+    // Played Vengeance (-1) then Solari Shrine drew 1. Damage kills are attributed too (429.5.c).
     expect(boardOf(s, "p1").hand.length).toBe(before);
-    expect(getCardScript("Solari Shrine")?.status).toBe("partial");
+    expect(getCardScript("Solari Shrine")?.status).toBe("implemented");
   });
 
   it("[C:Vanguard Helm][R383.2.c.3.b][R359.3.e.13] when a buffed friendly unit dies, buff another friendly unit", () => {

@@ -23,9 +23,6 @@ import {
   whilePassive,
 } from "./common";
 
-const REPEAT_NOTE =
-  "Repeat (820.1.d / 820.2): the engine charges the Repeat cost but does not execute the instructions a second time (with new choices); only the first execution is automated.";
-
 const MECHS: Selector = { cardType: "unit", controller: "self", tag: "Mech" };
 
 /** "I cost [N] less for each …" as stacked conditional discounts (356.4, 356.4.g), `steps` deep. */
@@ -599,7 +596,7 @@ registerCardScript({
   ],
 });
 
-/* ---------------------------------------------------------------- Repeat spells (first execution) */
+/* ---------------------------------------------------------------- Repeat spells */
 
 const DEAL_ONE_SAME_LOCATION: Effect = {
   op: "seq",
@@ -621,16 +618,14 @@ const DEAL_ONE_SAME_LOCATION: Effect = {
 registerCardScript({
   name: "Bellows Breath",
   text: "[Action] (Play on your turn or in showdowns.)\n[Repeat][1][Mind] (You may pay the additional cost to repeat this spell's effect.)\nDeal 1 to up to three units at the same location.",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [{ kind: "spell", effect: DEAL_ONE_SAME_LOCATION }],
 });
 
 registerCardScript({
   name: "Blood Rush",
   text: "[Action] (Play on your turn or in showdowns.)\n[Repeat] [1] (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 2] this turn. (+2 [Might] while it's an attacker.)",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [
     notIntrinsic("Assault"),
     {
@@ -648,24 +643,21 @@ registerCardScript({
 registerCardScript({
   name: "Danger Zone",
   text: "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] [1] [Rune] (You may pay the additional cost to repeat this spell's effect.)\nGive your Mechs +1 [Might] this turn.",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [{ kind: "spell", effect: { op: "temporary_might", amount: 1, target: MECHS } }],
 });
 
 registerCardScript({
   name: "Desert's Call",
   text: "[Repeat][2] (You may pay the additional cost to repeat this spell's effect.)\nPlay a 2 [Might] Sand Soldier unit token.",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [{ kind: "spell", effect: sandSoldier() }],
 });
 
 registerCardScript({
   name: "Called Shot",
   text: "[ACTION] (Play on your turn or in showdowns.)\n[REPEAT] [CHAOS] (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other.",
-  status: "partial",
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",

@@ -255,7 +255,7 @@ describe("Unleashed R4 — partial keyword-only unit scripts", () => {
     const evelynn = place(s, "p1", "Evelynn, Entrancing", "base");
     expect(effectiveKeywords(s.room, evelynn.id, s.host)).toContain("Hidden");
     expect(combatKeywordProfile(s.room, evelynn.id, s.host).backline).toBe(true);
-    expect(getCardScript("Evelynn, Entrancing")?.status).toBe("partial");
+    expect(getCardScript("Evelynn, Entrancing")?.status).toBe("implemented");
   });
 
   it("[C:Poppy, Defender of the Meek][R822] keeps [Ambush] and [Tank]", () => {

@@ -57,7 +57,6 @@ Effects: `rad:mark-event-player`, `rad:let-x`, `rad:draw-card`, `rad:reveal-top-
 | Bonus Damage filtered by source type ("abilities of friendly gear")                                                           | 712–715                | Ziggs, Short-Fused                                                                                                                        |     1 |
 | Triggered abilities of cards in the trash (play-from-trash triggers)                                                          | 385                    | Forbidden Technique, Meticulous Restorationist                                                                                            |     2 |
 | Per-turn history of where units/gear were played (conditional cost reduction)                                                 | 356.4, 420.5           | Hold 'Em, Hunters' Circle                                                                                                                 |     2 |
-| Facedown-play provenance for units/gear (not on `unit_played`/`card_played`)                                                  | 811.6, 422.4           | Elnuk Herd, Evelynn, Consuming, Evelynn, Agony's Embrace                                                                                  |     3 |
 | Triggered abilities that Add resources finalize and resolve immediately                                                       | 430.2, 430.2.a         | Sneaky Zeebles                                                                                                                            |     1 |
 | A cost that exhausts two or more objects (`Cost.exhaust` is one selector)                                                     | 357.2, 415.4           | Invigorating Bloom, Seraphine, Starry-Eyed Songstress                                                                                     |     2 |
 | Applied costs on moves ("opponents must pay [1][Rune] to move units here")                                                    | 204.4, 449             | Gravity Field                                                                                                                             |     1 |
@@ -81,17 +80,15 @@ Effects: `rad:mark-event-player`, `rad:let-x`, `rad:draw-card`, `rad:reveal-top-
 | "Choose two —" modes at play time (play-layer `choose_mode` asks one)                                                         | 355.3, 355.8           | Encore                                                                                                                                    |     1 |
 | Channel proposal does not carry the original "exhausted" condition                                                           | 431.2                  | Seraphic Wyvern                                                                                                                           |     1 |
 
-## Engine keyword gaps and bugs (reproduced in `test/cards/rad/bugs.test.ts`, skipped)
+## Engine keywords and bugs
 
 Keywords are the engine's (cards are marked by their own lines). R4-engine fixed Deploy's hold
-trigger (830.1.b), built-in Equip (818.1.c.2), Quick-Draw's attach trigger (819.1.d) and the
-`317.2.c` keep-list (hidden records included), so those reproductions are for the lead to un-skip.
-
-- **"If you paid the additional cost" is true whenever runes pay** (356.4.f.1): `notePaidAdditionalCost`
-  (`triggers/finalize.ts`) treats any non-empty `paid.additional` as the optional cost, but
-  `paidCostRecord` (`play/payment.ts`) also stores `exhaustedRunes`/`recycledRunes`/`power` there,
-  so Clockwork Keeper and Shimmering Swimmer trigger without the optional cost (their tests fund
-  plays from the Rune Pool).
+trigger (830.1.b), built-in Equip (818.1.c.2), Quick-Draw's attach trigger (819.1.d), the
+`317.2.c` keep-list (hidden records included), the paid-optional-cost flag (356.4.f.1) and
+facedown-play provenance on the play events (811.6). No `[BUG]` reproduction remains open in this
+lane; `test/cards/rad/bugs.test.ts` stays as regression coverage. Facedown-dependent scripts
+(Elnuk Herd, Evelynn, Consuming, Evelynn, Agony's Embrace) are still `partial`/`manual` because
+their own clauses were not upgraded, not because the engine lacks the event data.
 
 Other engine behaviour worth knowing when testing (not bugs of this lane):
 
@@ -102,7 +99,7 @@ Other engine behaviour worth knowing when testing (not bugs of this lane):
 
 ## Card status
 
-Counts: implemented: 120, partial: 34, manual: 14, remaining: 0
+Counts: implemented: 117, partial: 32, manual: 14, remaining: 0
 
 Wave R4b upgraded Storm Raptor, Mournful Spirit, Blade of the Exile, the Bomb gear token and its six
 makers that only needed Deploy/Deathknell (all but Ziggs, Short-Fused, which keeps its gear
@@ -151,13 +148,13 @@ Bonus Damage gap).
 | Ekko, Boy Who Shattered Time      | partial     | Empower and the discount are automated; disempower is a resolution precondition, the discount is consumed by the next card of any type, and the granted kill-at-end trigger attaches to the next unit. |
 | Ekko, Ingenious                   | manual      | The mandatory 'return a friendly unit to hand' additional cost is not a payable Cost part (357.2).                                                        |
 | Ekko, Revolutionary               | implemented |                                                                                                                                                             |
-| Elnuk Herd                        | partial     | "Recycle me if I was played from face down": a unit\'s play effect cannot tell a facedown play (811.6; not recorded on unit_played).                        |
+| Elnuk Herd                        | partial     | "Recycle me if I was played from face down": the engine now records `data.playedFromFacedown` (811.6, R4-engine E); this script has not been upgraded yet.                        |
 | Encore                            | partial     | All four modes work, but both modes and targets are chosen on resolution (play-layer choose_mode asks one mode, 355.3 / 355.8).                           |
-| Entrenched Boar                   | partial     | Modelled with the optional-cost flag (369.3); the flag is also set by rune payment (356.4.f.1 [BUG]).                                                     |
+| Entrenched Boar                   | implemented | Optional-cost flag (369.3); rune payment no longer sets it (356.4.f.1, R4-engine B).                                                                       |
 | Ephemeral Ward                    | implemented |                                                                                                                                                             |
 | Evelynn in Control                | implemented |                                                                                                                                                             |
-| Evelynn, Agony's Embrace          | manual      | Facedown provenance is not on `card_played` (811.6, 385), so the trigger cannot be detected.                                                              |
-| Evelynn, Consuming                | manual      | A unit play effect cannot tell a facedown play (`unit_played` has no provenance, 811.6).                                                                  |
+| Evelynn, Agony's Embrace          | manual      | Facedown provenance is now on `card_played` (811.6, R4-engine E); this script has not been upgraded yet (also needs the trash trigger, 385).                                                              |
+| Evelynn, Consuming                | manual      | The engine now records `data.playedFromFacedown` on `unit_played` (811.6, R4-engine E); this script has not been upgraded yet.                                                                  |
 | Evelynn, in Control               | implemented |                                                                                                                                                             |
 | Explosimian | implemented |  |
 | Fanfare                           | implemented |                                                                                                                                                           |

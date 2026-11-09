@@ -15,183 +15,42 @@ A card is scripted when `packages/rules/src/cards/**/*.ts` contains a matching `
 
 | Status | Cards | % of playable |
 | --- | ---: | ---: |
-| implemented | 673 | 61.7% |
-| partial | 238 | 21.8% |
-| manual | 56 | 5.1% |
-| unscripted | 123 | 11.3% |
+| implemented | 805 | 73.9% |
+| partial | 200 | 18.3% |
+| manual | 85 | 7.8% |
+| unscripted | 0 | 0.0% |
 | unknown | 0 | 0.0% |
-| **Scripted (any status)** | **967** | **88.7%** |
-| **Automated (implemented + partial)** | **911** | **83.6%** |
+| **Scripted (any status)** | **1090** | **100.0%** |
+| **Automated (implemented + partial)** | **1005** | **92.2%** |
 | **Total playable names** | **1090** | **100.0%** |
 
 ## By type
 
 | Type | Total | Implemented | Partial | Manual | Unscripted | Unknown | Automated coverage |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Unit | 554 | 365 | 108 | 21 | 60 | 0 | 85.4% |
-| Spell | 271 | 180 | 58 | 9 | 24 | 0 | 87.8% |
-| Gear | 132 | 57 | 51 | 14 | 10 | 0 | 81.8% |
-| Battlefield | 74 | 43 | 6 | 10 | 15 | 0 | 66.2% |
-| Legend | 58 | 27 | 15 | 2 | 14 | 0 | 72.4% |
+| Unit | 554 | 410 | 110 | 34 | 0 | 0 | 93.9% |
+| Spell | 271 | 229 | 27 | 15 | 0 | 0 | 94.5% |
+| Gear | 132 | 87 | 33 | 12 | 0 | 0 | 90.9% |
+| Battlefield | 74 | 45 | 13 | 16 | 0 | 0 | 78.4% |
+| Legend | 58 | 33 | 17 | 8 | 0 | 0 | 86.2% |
 | Unit Gear | 1 | 1 | 0 | 0 | 0 | 0 | 100.0% |
 
 ## By set
 
 | Set | Total | Implemented | Partial | Manual | Unscripted | Unknown | Automated coverage |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Origins | 292 | 208 | 54 | 30 | 0 | 0 | 89.7% |
-| Spiritforged | 221 | 119 | 78 | 23 | 1 | 0 | 89.1% |
-| Unleashed | 219 | 145 | 33 | 2 | 39 | 0 | 81.3% |
-| Vendetta | 167 | 80 | 46 | 1 | 40 | 0 | 75.4% |
-| Radiance | 168 | 99 | 26 | 0 | 43 | 0 | 74.4% |
+| Origins | 292 | 217 | 49 | 26 | 0 | 0 | 91.1% |
+| Spiritforged | 221 | 167 | 33 | 21 | 0 | 0 | 90.5% |
+| Unleashed | 219 | 157 | 38 | 24 | 0 | 0 | 89.0% |
+| Vendetta | 167 | 121 | 46 | 0 | 0 | 0 | 100.0% |
+| Radiance | 168 | 121 | 33 | 14 | 0 | 0 | 91.7% |
 | Proving Grounds | 23 | 22 | 1 | 0 | 0 | 0 | 100.0% |
 
 ## Unscripted cards by set
 
 The full list of playable names with no `name`/`status` script in `packages/rules/src/cards`.
 
-### Spiritforged (1)
-
-| Card | Type |
-| --- | --- |
-| Janna, Savior | Unit |
-
-### Unleashed (39)
-
-| Card | Type |
-| --- | --- |
-| Alpha Strike | Spell |
-| Altar of Blood | Battlefield |
-| Arachnoid Horror | Unit |
-| Bone Skewer | Spell |
-| Conscription | Spell |
-| Cursed Sarcophagus | Gear |
-| Curtain Call | Spell |
-| Determined Sentry | Unit |
-| Evelynn, Entrancing | Unit |
-| Forgotten Library | Battlefield |
-| Forgotten Signpost | Gear |
-| Frigid Jewel | Gear |
-| Gardens of Becoming | Battlefield |
-| Heedless Resurrection | Spell |
-| Ivern, Green Father | Legend |
-| Jhin, Meticulous Killer | Unit |
-| Jhin, Virtuoso | Legend |
-| Keeper of Masks | Unit |
-| LeBlanc, Deceiver | Legend |
-| Lotus Trap | Spell |
-| Mageseeker Investigator | Unit |
-| Mirror Image | Spell |
-| Poppy, Defender of the Meek | Unit |
-| Prepared Neophyte | Unit |
-| Rengar, Trophy Hunter | Unit |
-| Repulse | Spell |
-| Revna the Lorekeeper | Unit |
-| Shadow Watcher | Unit |
-| Stalking Wolf | Unit |
-| Syndra, Transcendent | Unit |
-| The Academy | Battlefield |
-| The List | Gear |
-| Towering Pairofant | Unit |
-| Trapping Grounds | Battlefield |
-| Tricksy Tentacles | Spell |
-| Undying Legion | Unit |
-| Undying Loyalty | Spell |
-| Vi, Piltover Enforcer | Legend |
-| Zilean, Time Mage | Unit |
-
-### Vendetta (40)
-
-| Card | Type |
-| --- | --- |
-| Acceleration Gate | Spell |
-| Akali, Rogue Assassin | Legend |
-| Blade Twirler | Unit |
-| Dame the Despoiler | Unit |
-| Decree of Discord | Spell |
-| Decree of Focus | Spell |
-| Dragon Roost | Battlefield |
-| Dune Surfer | Unit |
-| Endless Riches | Gear |
-| Fallen Feline | Unit |
-| Forgotten Relic | Gear |
-| Gangplank, Naval | Unit |
-| Glowstone | Gear |
-| Heisho, Shell of the World | Battlefield |
-| Helm of Suppression | Gear |
-| Jayce, Hammer in Hand | Unit |
-| Kennen, Heart of the Tempest | Legend |
-| Kharox | Unit |
-| Lux, Crownguard | Unit |
-| Mask Mother | Unit |
-| Mel, Defiant Soul | Unit |
-| Mystic Vortex | Battlefield |
-| Nasus, Curator of the Sands | Legend |
-| Otterpus | Unit |
-| Piltovan Forge | Battlefield |
-| Profiteer | Unit |
-| Ravenbloom Prefect | Unit |
-| Rebuttal | Spell |
-| Renekton, Butcher of the Sands | Legend |
-| Risen Altar | Battlefield |
-| Sacred Protector | Unit |
-| Sandstone Chimera | Unit |
-| Sandswept Tomb | Battlefield |
-| Shady Spectacles | Gear |
-| Sky Cruiser | Unit |
-| Stargazer | Unit |
-| Tail-Cloaked Matriarch | Unit |
-| Temporal Breach | Spell |
-| Tornado Warrior | Unit |
-| Wild Claw | Spell |
-
-### Radiance (43)
-
-| Card | Type |
-| --- | --- |
-| Akali, Brash | Unit |
-| Black Market | Battlefield |
-| Bloodscent Swarm | Unit |
-| Bushwhack Trap | Gear |
-| Chronobreak | Spell |
-| Dune Devourer | Unit |
-| Ekko, Boy Who Shattered Time | Legend |
-| Ekko, Ingenious | Unit |
-| Encore | Spell |
-| Entrenched Boar | Unit |
-| Evelynn, Agony's Embrace | Legend |
-| Evelynn, Consuming | Unit |
-| Fanfare | Spell |
-| Firebrand Raider | Unit |
-| Firelights' Hideout | Battlefield |
-| Gutter Guardian | Unit |
-| Heimerdinger, Academy Instructor | Unit |
-| Herald of the Emperor | Unit |
-| Hunters' Circle | Battlefield |
-| Incorrigible Construct | Unit |
-| K'Sante, Pride of Nazumah | Legend |
-| Kai'Sa, Rebel | Unit |
-| Last Caress | Spell |
-| Lingering Animus | Unit |
-| Lulu, Whimsical | Unit |
-| Meticulous Restorationist | Unit |
-| Mordekaiser, Iron Revenant | Legend |
-| Mordekaiser, Twice Slain | Unit |
-| Neeko, Blending In | Unit |
-| Orianna, Lady of Clockwork | Legend |
-| Orianna, Mechanical Marvel | Unit |
-| Packed Amphitheater | Battlefield |
-| Parallel Convergence | Spell |
-| Piltovan Guidebot | Unit |
-| Primordial Roar | Spell |
-| Remember the Fallen | Spell |
-| Scorched Earth | Spell |
-| Seraphic Wyvern | Unit |
-| Seraphine, Inspiring | Unit |
-| Seraphine, Starry-Eyed Songstress | Legend |
-| Skystrike Squadron | Unit |
-| Spirit of the Forge | Unit |
-| The Empyrean | Unit |
+None — every playable name has a script.
 
 ## Scripts outside the playable set
 
@@ -199,7 +58,7 @@ These script files name a token, rune, marker, or otherwise excluded card. They 
 
 | Name | Status | File |
 | --- | --- | --- |
-| Bomb | unknown | `packages/rules/src/cards/RAD/bombs-and-more.ts` |
+| Bomb | implemented | `packages/rules/src/cards/tokens/bomb.ts` |
 | Equip | unknown | `packages/rules/src/cards/UNL/gear-misc.ts` |
 | Gold | implemented | `packages/rules/src/cards/tokens/gold.ts` |
 | Shadow Clone | implemented | `packages/rules/src/cards/VEN/shadow-clone-token.ts` |
@@ -209,4 +68,5 @@ These script files name a token, rune, marker, or otherwise excluded card. They 
 - packages/rules/src/cards/RAD/bombs-and-more.ts: card "Bomb" has no status literal
 - packages/rules/src/cards/UNL/gear-misc.ts: card "Equip" has no status literal
 - packages/rules/src/cards/VEN/batch4-more.ts: card "Shadow Clone" has no status literal
+- packages/rules/src/cards/tokens/bomb.ts: card "Bomb" has no status literal
 

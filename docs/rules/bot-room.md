@@ -77,9 +77,9 @@ pnpm --filter play dev       # Next.js on http://localhost:3000
 3. In the lobby's **Private Play** panel click **Practice vs Bot**.
 4. The room opens already strict with a `Practice Bot` seat. Click **Start Match**; setup runs
    automatically (battlefields, first player, mulligans).
-5. Play normally: `StrictRulesPanel` (plays/activations/moves/Pass/End turn) and
-   `StrictPromptDialog` for prompts. Press **End Turn**; the bot takes its turn and the turn
-   returns to you.
+5. Play normally with board gestures (drag to play/move/equip, click to use, prompt clicks);
+   the dev-only `StrictRulesPanel` keeps Pass/End turn/Concede, and `StrictPromptHost` answers
+   non-object prompts. Press **End Turn**; the bot takes its turn and the turn returns to you.
 
 ## Tests
 
@@ -93,8 +93,8 @@ pnpm --filter play dev       # Next.js on http://localhost:3000
 
 ## Known limits
 
-- The bot is intentionally dumb (first legal progress action, else end-turn/pass); it is the
-  bot-core lane's `pickRandomAction` at integration.
+- The bot is intentionally dumb: `pickRandomAction` picks uniformly among the legal progress
+  actions (prompt → manual done → play/activate/move → end turn → pass), not a heuristic.
 - Setup is automatic in bot rooms: there is no battlefield/mulligan choice.
 - Rewind in `single_player` strict rooms remains rejected (see `progress.md`), including practice
   vs bot.

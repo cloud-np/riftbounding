@@ -83,9 +83,9 @@ registerCustomCondition("ven:poro-early-turns", (ctx) => {
 registerCardScript({
   name: "Ol' Poro",
   text: "I can't be played on your first, second or third turns.",
-  status: "manual",
+  status: "implemented",
   notes:
-    "The self restriction (054.1) is read from this script by `restrictionFor` even while the card is in hand; the status stays manual until R4-cards upgrades the script.",
+    "The self restriction (054.1) is read from this script by `restrictionFor` even while the card is in hand.",
   abilities: [
     conditional(custom("ven:poro-early-turns"), {
       kind: "restriction",

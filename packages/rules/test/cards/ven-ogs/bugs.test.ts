@@ -1,7 +1,6 @@
 /**
- * Engine bugs found while scripting Vendetta / Proving Grounds (ven-ogs lane). Each test is the
- * minimal reproduction of rules-wrong behaviour, skipped until the engine is fixed (the engine
- * is outside this lane). Unskip to verify a fix.
+ * Engine regressions found while scripting Vendetta / Proving Grounds (ven-ogs lane). Each test
+ * keeps the minimal reproduction of the previously rules-wrong behaviour; all are fixed in R4.
  */
 import { describe, expect, it } from "vitest";
 import { getCardScript, registerCardScript } from "../../../src";
