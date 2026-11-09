@@ -1,5 +1,6 @@
 /**
- * R2-int: `rules_concede` routing and Verdict forwarding through `applyGameAction`.
+ * R2-int: `rules_concede` routing, Verdict forwarding through `applyGameAction`, and the
+ * client read-side strict view (`strictLegalIntents` / `strictWhoMayAct` / `strictExplainIllegal`).
  *
  * Self-contained: uses the strict-rules suite's committed deck fixture
  * (`packages/rules/test/fixtures/decks.json`), not the uncommitted `.recon/oracle` dumps.
@@ -9,7 +10,14 @@ import fs from "node:fs";
 import path from "node:path";
 
 import type { DeckSections, Room } from "@rift/protocol";
-import { applyGameAction, createInitialGameState } from "../src";
+import {
+  applyGameAction,
+  createInitialGameState,
+  strictExplainIllegal,
+  strictLegalIntents,
+  strictTurnState,
+  strictWhoMayAct,
+} from "../src";
 
 const DECKS = path.resolve(__dirname, "../../rules/test/fixtures/decks.json");
 
@@ -102,5 +110,34 @@ describe("strict rules_concede routing [R650][R651.1]", () => {
     const result = applyGameAction(room, "p2", { type: "rules_concede" }, ctx());
     expect(result).toMatchObject({ ok: false, errorCode: "strict_mode_action" });
     expect(room.gameOutcome).toBeUndefined();
+  });
+});
+
+describe("client strict read view [R312][R410][§5]", () => {
+  it("[R312] enumerates the priority holder's legal intents and who may act", () => {
+    const room = strictInGame();
+    expect(strictWhoMayAct(room)).toMatchObject({ kind: "priority", player: "p1" });
+    expect(strictTurnState(room)).toBe("neutral_open");
+    const legal = strictLegalIntents(room, "p1");
+    expect(legal).toMatchObject({ playerId: "p1", canEndTurn: true });
+    expect(strictLegalIntents(room, "p2")).toMatchObject({ canEndTurn: false, canPass: false });
+  });
+
+  it("[R410] explains a rejection with the same Verdict as the write path", () => {
+    const room = strictInGame();
+    const verdict = strictExplainIllegal(room, "p2", { type: "rules_end_turn" });
+    const write = applyGameAction(room, "p2", { type: "rules_end_turn" }, ctx());
+    expect(verdict.ok).toBe(false);
+    if (verdict.ok || write.ok) return;
+    expect(write.errorCode).toBe(verdict.code);
+    expect(write.rule).toBe(verdict.rule);
+    expect(strictExplainIllegal(room, "p1", { type: "rules_end_turn" })).toEqual({ ok: true });
+  });
+
+  it("is null outside strict in-game rooms", () => {
+    const sandbox = strictMulligan("sandbox");
+    expect(strictLegalIntents(sandbox, "p1")).toBeNull();
+    expect(strictWhoMayAct(sandbox)).toBeNull();
+    expect(strictLegalIntents(strictMulligan("strict"), "p1")).toBeNull();
   });
 });
