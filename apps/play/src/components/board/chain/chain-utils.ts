@@ -53,6 +53,7 @@ export function chainDisplayEntry(entry: ChainEntry, room: Room): ChainEntry {
     card: {
       ...entry.card,
       name: entry.card.name.trim() ? entry.card.name : source.name,
+      source: source.source,
       cardCode: entry.card.cardCode ?? source.cardCode,
       imageUrl: entry.card.imageUrl ?? source.imageUrl,
       type: entry.card.type ?? source.type,

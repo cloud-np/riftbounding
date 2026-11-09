@@ -1779,6 +1779,26 @@
     "개 선택"
    ],
    "rules.ui.yourPriority": "당신에게 우선권이 있습니다",
+   "rules.ui.mustChoose": [
+    [
+     "player"
+    ],
+    " 님이 선택해야 합니다: ",
+    [
+     "reason"
+    ]
+   ],
+   "rules.ui.promptFromSource": [
+    [
+     "source"
+    ],
+    " — ",
+    [
+     "prompt"
+    ]
+   ],
+   "rules.ui.answerPromptFirst": "먼저 대기 중인 선택에 답하세요",
+   "rules.ui.skip": "건너뛰기",
    "rules.ui.priorityOf": [
     [
      "player"

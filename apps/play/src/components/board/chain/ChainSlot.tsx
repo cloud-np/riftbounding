@@ -6,8 +6,13 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { createTranslator } from "@rift/i18n";
 import type { ChainEntry } from "@rift/protocol";
+import { strictWhoMayAct } from "@rift/engine";
 
 import type { BoardSlotProps } from "../slot-types";
+import {
+  promptForClient,
+  strictChainStatus,
+} from "../strict/strict-model";
 import { ChainEntryCard } from "./ChainEntryCard";
 import {
   chainControlIntent,
@@ -54,14 +59,24 @@ export function ChainSlot({
   );
   const top = entries[0] ?? null;
   const ownerId = top?.byPlayerId ?? null;
+  const strictRoom = state.rulesMode === "strict" && state.phase === "in_game" && !!state.rules;
+  const strictWho = useMemo(
+    () => (strictRoom ? strictWhoMayAct(state) : null),
+    [state, strictRoom],
+  );
+  const strictPrompt = useMemo(
+    () => (strictRoom ? promptForClient(state, controlledPlayerIds) : null),
+    [state, controlledPlayerIds, strictRoom],
+  );
+  const promptPending = !!strictPrompt;
   const canResolveAsOwner =
     mode !== "multiplayer" && !!ownerId && controlledPlayerIds.includes(ownerId);
-  const canResolve = priority.canResolve || canResolveAsOwner;
+  const canResolve = (priority.canResolve || canResolveAsOwner) && !promptPending;
+  const canApprove = priority.canApprove && !promptPending;
   const showResolveRow = !embedded || !(priority.viewerIsOwner || canResolveAsOwner);
   const queuedExtraTurns = new Set(
     (state.pendingExtraTurns ?? []).map((item) => item.sourceEntryId),
   );
-  const strictRoom = state.rulesMode === "strict" && state.phase === "in_game" && !!state.rules;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -158,17 +173,21 @@ export function ChainSlot({
       if (key === "s" && canResolve) {
         event.preventDefault();
         resolve(top);
-      } else if (key === "a" && priority.viewerIsParticipant) {
+      } else if (key === "a" && canApprove) {
         event.preventDefault();
         approve(top);
       }
     };
     window.addEventListener("keydown", onKeyDown, true);
     return () => window.removeEventListener("keydown", onKeyDown, true);
-  }, [approve, canResolve, priority.viewerIsParticipant, resolve, top]);
+  }, [approve, canApprove, canResolve, resolve, top]);
 
-  const summary = prioritySummary(priority, t);
-  const isReady = priority.allApproved || priority.participants.length === 0;
+  const sandboxSummary = prioritySummary(priority, t);
+  const summary =
+    (strictRoom
+      ? strictChainStatus(state, strictWho, controlledPlayerIds, t, strictPrompt)
+      : null) ?? sandboxSummary;
+  const isReady = !promptPending && (priority.allApproved || priority.participants.length === 0);
   const dropActive = dragOver;
 
   const handleDrop = (event: DragEvent<HTMLElement>) => {
@@ -320,7 +339,11 @@ export function ChainSlot({
                   type="button"
                   className={`${RESOLVE_BUTTON_CLASS} ${canResolve ? BUTTON_ACTIVE : BUTTON_IDLE}`}
                   aria-label={t("sim.resolveShortcut") ?? "Resolve (S)"}
-                  title={t("sim.resolveShortcut") ?? "Resolve (S)"}
+                  title={
+                    promptPending
+                      ? (t("rules.ui.answerPromptFirst") ?? "Answer the pending choice first")
+                      : (t("sim.resolveShortcut") ?? "Resolve (S)")
+                  }
                   disabled={!canResolve}
                   onClick={() => top && resolve(top)}
                   data-testid="chain-resolve"
@@ -334,21 +357,23 @@ export function ChainSlot({
                   className={`${RESOLVE_BUTTON_CLASS} ${
                     priority.viewerApproved
                       ? BUTTON_APPROVE
-                      : priority.canApprove
+                      : canApprove
                         ? BUTTON_ACTIVE
                         : BUTTON_IDLE
-                  } ${priority.canApprove && !priority.viewerApproved ? "expected-action-button expected-action-button--approval" : ""}`}
+                  } ${canApprove && !priority.viewerApproved ? "expected-action-button expected-action-button--approval" : ""}`}
                   aria-label={
                     priority.viewerApproved
                       ? (t("sim.chainApprovedShortcut") ?? "Chain approved (A)")
                       : (t("sim.approveShortcut") ?? "Approve (A)")
                   }
                   title={
-                    priority.viewerApproved
-                      ? (t("sim.chainApprovedShortcut") ?? "Chain approved (A)")
-                      : (t("sim.approveShortcut") ?? "Approve (A)")
+                    promptPending
+                      ? (t("rules.ui.answerPromptFirst") ?? "Answer the pending choice first")
+                      : priority.viewerApproved
+                        ? (t("sim.chainApprovedShortcut") ?? "Chain approved (A)")
+                        : (t("sim.approveShortcut") ?? "Approve (A)")
                   }
-                  disabled={!priority.viewerIsParticipant}
+                  disabled={!canApprove}
                   onClick={() => top && approve(top)}
                   data-testid="chain-approve"
                   data-setup-action="chain-approve"

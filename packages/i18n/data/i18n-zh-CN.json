@@ -1796,6 +1796,26 @@
     " 个"
    ],
    "rules.ui.yourPriority": "你拥有优先权",
+   "rules.ui.mustChoose": [
+    [
+     "player"
+    ],
+    " 必须选择：",
+    [
+     "reason"
+    ]
+   ],
+   "rules.ui.promptFromSource": [
+    [
+     "source"
+    ],
+    " — ",
+    [
+     "prompt"
+    ]
+   ],
+   "rules.ui.answerPromptFirst": "请先完成待处理的选择",
+   "rules.ui.skip": "跳过",
    "rules.ui.priorityOf": [
     [
      "player"

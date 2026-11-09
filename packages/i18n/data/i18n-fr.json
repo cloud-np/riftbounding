@@ -1819,6 +1819,26 @@
     ]
    ],
    "rules.ui.yourPriority": "Vous avez la priorité",
+   "rules.ui.mustChoose": [
+    [
+     "player"
+    ],
+    " doit choisir : ",
+    [
+     "reason"
+    ]
+   ],
+   "rules.ui.promptFromSource": [
+    [
+     "source"
+    ],
+    " — ",
+    [
+     "prompt"
+    ]
+   ],
+   "rules.ui.answerPromptFirst": "Répondez d'abord au choix en attente",
+   "rules.ui.skip": "Passer",
    "rules.ui.priorityOf": [
     [
      "player"

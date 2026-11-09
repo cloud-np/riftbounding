@@ -55,8 +55,8 @@ Sandbox rooms never set `isBot`, and no sandbox code path changes.
 - Presence: a bot seat has no transport, but `connectedPlayerIds()` and
   `playerHasConnection()` treat it as always connected (`RoomPlayer.isBot`). It never triggers
   the player-left banner / Play Both Sides / Claim Win, and a disconnect-win claim against it is
-  rejected. The client also skips bot seats in the player-left flow and hides their action
-  clock (the server resolves bot turns instantly, so a per-player timer would freeze at 00:00).
+  rejected. The client also skips bot seats in the player-left flow and shows a Bot badge instead
+  of a frozen action-clock 00:00; the seat still gets the normal avatar/presence treatment.
 
 ## UI
 

@@ -76,7 +76,7 @@ import {
   withGestureAbility,
   type StrictBoardView,
 } from "../strict/strict-interaction";
-import { isStrictRoom, promptForClient, strictActorFor } from "../strict/strict-model";
+import { isStrictRoom, optionLabel, promptForClient, promptInstruction, promptSourceName, strictActorFor } from "../strict/strict-model";
 import type {
   ArmedAction,
   BoardInteractionValue,
@@ -312,6 +312,7 @@ export function BoardInteractionProvider({
   const [emoteWheelOpen, setEmoteWheelOpen] = useState(false);
   const [diceWheelOpen, setDiceWheelOpen] = useState(false);
   const [strictPromptSelection, setStrictPromptSelection] = useState<string[]>([]);
+  const [strictPromptHoverId, setStrictPromptHoverId] = useState<string | null>(null);
   const [strictAmbiguous, setStrictAmbiguous] = useState<{
     action: GameActionIntent;
     owner: "self" | "opponent";
@@ -390,9 +391,28 @@ export function BoardInteractionProvider({
     () => (strictPrompt ? promptOptionMatchIds(strictPrompt) : EMPTY_SELECTION),
     [strictPrompt],
   );
+  const strictPromptSource = useMemo(
+    () => (strictPrompt ? promptSourceName(state, strictPrompt) : null),
+    [strictPrompt, state],
+  );
+  const strictPromptInstruction = useMemo(
+    () => (strictPrompt ? promptInstruction(t, strictPrompt) : null),
+    [strictPrompt],
+  );
+  const strictPromptTitle = useMemo(() => {
+    if (!strictPrompt) return "";
+    const instruction = strictPromptInstruction ?? promptTitle(t, strictPrompt);
+    return strictPromptSource
+      ? (t("rules.ui.promptFromSource", {
+          source: strictPromptSource,
+          prompt: instruction,
+        }) ?? `${strictPromptSource} — ${instruction}`)
+      : instruction;
+  }, [strictPrompt, strictPromptInstruction, strictPromptSource]);
   // A new prompt starts a fresh accumulate-then-confirm selection.
   useEffect(() => {
     setStrictPromptSelection([]);
+    setStrictPromptHoverId(null);
   }, [strictPrompt?.id]);
 
   const showStrictNotice = useCallback((code: string, rule: string | undefined, text?: string) => {
@@ -2934,6 +2954,27 @@ export function BoardInteractionProvider({
     sendAsActor(promptChooseIntent(strictPrompt, strictPromptSelection), actorId);
   };
 
+  const chooseStrictPromptOption = (optionId: string) => {
+    if (!strictPrompt) return;
+    if (strictPromptMulti) {
+      setStrictPromptSelection((current) =>
+        togglePromptSelection(strictPrompt, current, optionId),
+      );
+      return;
+    }
+    setStrictPromptHoverId(null);
+    sendAsActor(promptChooseIntent(strictPrompt, [optionId]), strictPrompt.playerId);
+  };
+
+  const skipStrictPrompt = () => {
+    if (!strictPrompt) return;
+    const { min } = promptSelectionBounds(strictPrompt);
+    if (min > 0) return;
+    setStrictPromptSelection([]);
+    setStrictPromptHoverId(null);
+    sendAsActor(promptChooseIntent(strictPrompt, []), strictPrompt.playerId);
+  };
+
   const value: BoardInteractionValue = {
     slotProps: {
       state,
@@ -2951,6 +2992,7 @@ export function BoardInteractionProvider({
     strictView,
     strictManual,
     strictPromptOptionIds,
+    strictPromptHoverId,
     showCardPreview,
     showCardPreviewByName,
     hideCardPreview,
@@ -3007,6 +3049,11 @@ export function BoardInteractionProvider({
           outline-offset: -1px;
           box-shadow: inset 0 0 0 1px rgba(126,216,255,0.3), 0 0 14px rgba(64,164,220,0.38) !important;
         }
+        [data-strict-prompt-hover="true"] {
+          outline: 2px solid rgba(180, 241, 255, 1) !important;
+          outline-offset: -2px;
+          box-shadow: inset 0 0 0 1px rgba(180,241,255,0.5), 0 0 22px rgba(90,206,255,0.7) !important;
+        }
         [data-strict-drop-target="true"] {
           outline: 2px solid rgba(255, 214, 126, 0.9) !important;
           outline-offset: -2px;
@@ -3047,32 +3094,83 @@ export function BoardInteractionProvider({
           </div>
         </div>
       ) : null}
-      {strictPrompt && strictPromptMulti ? (
+      {strictPrompt && strictPromptOnBoard ? (
         <div
-          className="pointer-events-auto fixed left-1/2 top-[5.2rem] z-[157] flex -translate-x-1/2 items-center gap-[0.3rem] rounded-[0.28rem] border border-[rgba(125,218,237,0.5)] bg-[rgba(9,25,45,0.97)] px-[0.5rem] py-[0.35rem] text-[0.66rem] font-semibold text-[#d7f6fb] shadow-[0_10px_24px_rgba(2,7,18,0.55)]"
+          className="pointer-events-auto fixed left-1/2 top-[5.2rem] z-[157] w-[min(30rem,calc(100%-1rem))] -translate-x-1/2 rounded-[0.28rem] border border-[rgba(125,218,237,0.5)] bg-[rgba(9,25,45,0.97)] px-[0.5rem] py-[0.4rem] text-[0.66rem] font-semibold text-[#d7f6fb] shadow-[0_10px_24px_rgba(2,7,18,0.55)]"
           role="status"
-          data-testid="strict-prompt-selection"
+          data-testid="strict-prompt-banner"
+          data-strict-prompt-id={strictPrompt.id}
+          data-strict-prompt-kind={strictPrompt.kind}
         >
-          <span className="max-w-[14rem] truncate">{promptTitle(t, strictPrompt)}</span>
-          <span className="tabular-nums text-[#9fdff2]">
-            {strictPromptSelection.length}/{promptSelectionBounds(strictPrompt).max}
-          </span>
-          <button
-            type="button"
-            className={smallNeutralButton}
-            onClick={() => setStrictPromptSelection([])}
-          >
-            {t("rules.ui.cancel") ?? "Cancel"}
-          </button>
-          <button
-            type="button"
-            className={smallBlueButton}
-            data-testid="strict-prompt-confirm"
-            disabled={!canConfirmPromptSelection(strictPrompt, strictPromptSelection)}
-            onClick={confirmStrictPromptSelection}
-          >
-            {t("rules.ui.confirm") ?? "Confirm"}
-          </button>
+          <div className="flex items-start gap-[0.4rem]">
+            <p className="m-0 min-w-0 flex-1 leading-[1.3]" data-testid="strict-prompt-banner-title">
+              {strictPromptTitle}
+            </p>
+            {strictPromptMulti ? (
+              <span className="shrink-0 tabular-nums text-[#9fdff2]">
+                {strictPromptSelection.length}/{promptSelectionBounds(strictPrompt).max}
+              </span>
+            ) : null}
+          </div>
+          <div className="mt-[0.3rem] flex flex-wrap items-center gap-[0.24rem]" data-testid="strict-prompt-chips">
+            {(strictPrompt.options ?? [])
+              .filter((option) => !option.disabled)
+              .map((option) => {
+                const selected = strictPromptSelection.includes(option.id);
+                return (
+                  <button
+                    key={option.id}
+                    type="button"
+                    className={
+                      "inline-flex min-h-[1.55rem] max-w-[12rem] items-center truncate rounded-[0.2rem] border px-[0.36rem] text-[0.62rem] font-semibold " +
+                      (selected
+                        ? "border-[rgba(139,222,189,0.8)] bg-[rgba(31,86,70,0.92)] text-[#dffbef]"
+                        : "border-[rgba(166,185,209,0.34)] bg-[rgba(18,32,52,0.9)] text-[#d8e7f8] hover:border-[rgba(201,226,255,0.62)]")
+                    }
+                    data-testid="strict-prompt-chip"
+                    data-strict-prompt-option-id={option.id}
+                    data-selected={selected ? "true" : undefined}
+                    onPointerEnter={() => setStrictPromptHoverId(option.id)}
+                    onPointerLeave={() => setStrictPromptHoverId(null)}
+                    onFocus={() => setStrictPromptHoverId(option.id)}
+                    onBlur={() => setStrictPromptHoverId(null)}
+                    onClick={() => chooseStrictPromptOption(option.id)}
+                  >
+                    {optionLabel(state, t, option)}
+                  </button>
+                );
+              })}
+            {strictPromptMulti ? (
+              <button
+                type="button"
+                className={smallNeutralButton}
+                onClick={() => setStrictPromptSelection([])}
+              >
+                {t("rules.ui.cancel") ?? "Cancel"}
+              </button>
+            ) : null}
+            {promptSelectionBounds(strictPrompt).min === 0 ? (
+              <button
+                type="button"
+                className={smallNeutralButton}
+                data-testid="strict-prompt-skip"
+                onClick={skipStrictPrompt}
+              >
+                {t("rules.ui.skip") ?? "Skip"}
+              </button>
+            ) : null}
+            {strictPromptMulti ? (
+              <button
+                type="button"
+                className={smallBlueButton}
+                data-testid="strict-prompt-confirm"
+                disabled={!canConfirmPromptSelection(strictPrompt, strictPromptSelection)}
+                onClick={confirmStrictPromptSelection}
+              >
+                {t("rules.ui.confirm") ?? "Confirm"}
+              </button>
+            ) : null}
+          </div>
         </div>
       ) : null}
       {strictNotice ? (

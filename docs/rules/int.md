@@ -194,12 +194,22 @@ the wire gesture has no mode field; not checked in a browser yet.
 - **Chain cards.** `ChainSlot` maps each strict-projected `chainEntries` item through
   `chainDisplayEntry` (`chain-utils.ts`): a triggered/activated item carries no `cardSnapshot`, so
   its public source card is looked up by `sourceCardId` (or by catalog name in `CardArt`) and the
-  card art/name renders like a sandbox chain card. Hidden/facedown (including redacted
-  `__hidden_zone__` chain placeholders) stay card backs.
+  card art/name renders like a sandbox chain card, including token art (`tokens/<Name>.webp`).
+  Hidden/facedown (including redacted `__hidden_zone__` chain placeholders) stay card backs.
+- **Prompt surface.** While a controlled seat has a board-object prompt, `BoardInteractionProvider`
+  renders a production banner with the source card name + translated instruction, option chips,
+  and Skip/Cancel/Confirm where applicable. Every option card is highlighted (attached cards
+  included) and chip hover applies a stronger highlight; clicking a card or chip sends the same
+  `rules_choose`.
+- **Chain status.** Strict rooms derive the status line from `whoMayAct` instead of the sandbox
+  vote counter: "<player> must choose: <instruction>" while a prompt is pending, else priority /
+  focus. Resolve/Approve are disabled and explain the prompt while it is pending.
 - **Attachments.** Sandbox `equip_card` and the strict `attach` op both keep attached gear in the
   unit's zone list with `attachedToCardId`. `groupAttachedCards` removes those cards from the row
   and `GameCard` draws them tucked behind the unit (offset up/right) with the real gear art;
   detach/move/kill leave the gear at its location and it renders as its own card again.
+- **Seats.** `IdentityBadge` renders an avatar/initial and presence dot for every present seat;
+  bot seats are always online and show a Bot badge in the clock slot (no frozen 00:00 timer).
 
 
 ## Open questions / findings

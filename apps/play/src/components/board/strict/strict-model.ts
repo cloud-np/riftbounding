@@ -16,7 +16,7 @@ import type {
   WhoMayAct,
   WireAction,
 } from "@rift/protocol";
-import type { Translator } from "@rift/i18n";
+import { promptTitle, type Translator } from "@rift/i18n";
 
 export function isStrictRoom(room: GameState | null | undefined): boolean {
   return !!room && room.rulesMode === "strict" && room.phase === "in_game" && !!room.rules;
@@ -107,6 +107,58 @@ export function strictStatus(
   return mine
     ? (t("rules.ui.yourPriority") ?? "")
     : (t("rules.ui.priorityOf", { player: name }) ?? name);
+}
+
+/** A board prompt's instruction: the card's own prompt key, else the kind-specific instruction. */
+export function promptInstruction(t: Translator, prompt: Prompt): string {
+  if (prompt.kind === "choose-target") {
+    return t("rules.prompt.chooseTarget") ?? promptTitle(t, prompt);
+  }
+  if (prompt.kind === "choose-card") {
+    return t("rules.prompt.choose") ?? promptTitle(t, prompt);
+  }
+  if (prompt.kind === "choose-battlefield") {
+    return t("rules.prompt.chooseDestination") ?? promptTitle(t, prompt);
+  }
+  return promptTitle(t, prompt);
+}
+
+/** The source card name of a pending play/trigger prompt (e.g. "Sand Soldier"). */
+export function promptSourceName(room: GameState, prompt: Prompt): string | null {
+  const item = prompt.sourceItemId
+    ? room.rules?.chain.find((entry) => entry.id === prompt.sourceItemId)
+    : undefined;
+  return item?.cardName ?? item?.sourceName ?? null;
+}
+
+/**
+ * Strict chain-lane status. Unlike the sandbox vote counter this never claims a player has
+ * priority while the rules engine is waiting for a prompt: that player must choose first.
+ */
+export function strictChainStatus(
+  room: GameState,
+  who: WhoMayAct | null,
+  controlledPlayerIds: readonly string[],
+  t: Translator,
+  prompt: Prompt | null,
+): string | null {
+  if (!who || who.kind === "none") return null;
+  const name = playerName(room, who.player);
+  if (who.kind === "prompt") {
+    const reason = prompt ? promptInstruction(t, prompt) : null;
+    return (
+      t("rules.ui.mustChoose", { player: name, reason: reason ?? "" }) ??
+      `${name} must choose${reason ? `: ${reason}` : ""}`
+    );
+  }
+  if (who.kind === "manual") {
+    const card = room.rules?.manual?.cardName ?? "";
+    return controlledPlayerIds.includes(who.player)
+      ? (t("rules.ui.manualWindow", { card }) ?? card)
+      : (t("rules.ui.manualWindowOther", { player: name, card }) ?? card);
+  }
+  if (who.kind === "focus") return t("rules.ui.focusOf", { player: name }) ?? name;
+  return t("rules.ui.priorityOf", { player: name }) ?? `${name} has priority`;
 }
 
 /* ------------------------------------------------------------------ prompts (411.2) */
