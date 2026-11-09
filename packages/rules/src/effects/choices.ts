@@ -25,6 +25,7 @@ import type {
   Amount,
   ChoiceRecord,
   Effect,
+  GameEvent,
   PlayerSelector,
   PromptKind,
   PromptOption,
@@ -37,6 +38,7 @@ import type {
 } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import { fail } from "../types";
+import { eventLki } from "../triggers/match";
 import type { EvalContext } from "./env";
 import { idsOf, makeEnv } from "./env";
 import {
@@ -73,22 +75,29 @@ export interface ChoiceContext {
   sourceObjectId?: string;
   itemId?: string;
   choices: ChoiceRecord;
+  /**
+   * 383.2.c.3.b / 808.1.d.3: the event that triggered this ability. The choice scan reads the
+   * leaving source's last-known information from it ("a unit or gear here", "where I was").
+   */
+  event?: GameEvent;
 }
 
 const RESERVED_ZONE_REFS = new Set(["here", "self-zone", "event-zone", "event-from"]);
 const X_OPTIONS = 20;
 
 function evalContext(room: Room, host: RulesHost, ctx: ChoiceContext): EvalContext {
-  return {
-    room,
-    host,
-    env: makeEnv({
-      controller: ctx.controller,
-      ...(ctx.sourceObjectId ? { sourceObjectId: ctx.sourceObjectId } : {}),
-      ...(ctx.itemId ? { itemId: ctx.itemId } : {}),
-      choices: { ...(ctx.choices ?? {}) },
-    }),
-  };
+  const env = makeEnv({
+    controller: ctx.controller,
+    ...(ctx.sourceObjectId ? { sourceObjectId: ctx.sourceObjectId } : {}),
+    ...(ctx.itemId ? { itemId: ctx.itemId } : {}),
+    choices: { ...(ctx.choices ?? {}) },
+    ...(ctx.event ? { event: ctx.event } : {}),
+  });
+  // 383.2.c.3.b: seed the leaving source's last-known zone/status before the choice scan, so a
+  // chosen target "here" is legal while the source is already in the trash.
+  const subject = ctx.event ? (ctx.event.cardId ?? ctx.event.objectId) : undefined;
+  if (ctx.event && subject) env.vars.$lki = { [subject]: eventLki(ctx.event) };
+  return { room, host, env };
 }
 
 function isEffect(value: unknown): value is Effect {

@@ -47,7 +47,10 @@ function inlineAbility(
     const [, keyword, raw] = ref.split(":");
     const def = keyword ? keywordTrigger(keyword) : undefined;
     if (!def) return {};
-    return { effect: def.effect(Math.max(1, Number(raw) || 1)) };
+    return {
+      effect: def.effect(Math.max(1, Number(raw) || 1)),
+      ...(def.optional ? { optional: true } : {}),
+    };
   }
   if (ref.startsWith("delayed:")) {
     const id = ref.slice("delayed:".length);

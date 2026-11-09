@@ -33,6 +33,12 @@ export interface TriggerEntry {
   anyTurn?: boolean;
   /** Delayed triggers: the creating ability's bindings (359.3.f.3.a). */
   choices?: Record<string, unknown>;
+  /**
+   * 718.2 / 718.3 / 719.1: an attached card's Effect Text is appended to its Top-Most card.
+   * The triggered ability is executed from this card's script while the host stays the source
+   * object (`sourceObjectId`), so "self/here/host" refer to the Top-Most card.
+   */
+  scriptName?: string;
 }
 
 export interface TriggerSource {
@@ -77,15 +83,35 @@ function boardCards(room: Room, host: RulesHost): Array<{ card: CardInstance; co
 /** 384.2: triggered abilities of permanents are evaluated while on the Board. */
 export function triggerSources(room: Room, host: RulesHost): TriggerSource[] {
   const out: TriggerSource[] = [];
-  for (const { card, controller } of boardCards(room, host)) {
-    // 718.2: an attached card's own rules text is Inactive.
-    const entries = card.attachedToCardId ? [] : scriptEntries(card.name);
+  const cards = boardCards(room, host);
+  for (const { card, controller } of cards) {
+    // 718.2 / 719.1: an attached card's printed Rules Text is Inactive; its Effect Text is
+    // appended to the Top-Most card (718.3) and executed from the attached card's script while
+    // the host remains the source object (`sourceId`).
+    if (card.attachedToCardId) continue;
+    const entries = scriptEntries(card.name);
+    for (const attached of cards) {
+      if (attached.card.attachedToCardId !== card.id) continue;
+      for (const entry of scriptEntries(attached.card.name)) {
+        entries.push({ ...entry, scriptName: attached.card.name });
+      }
+    }
     const keywords = keywordsAtDepth(room, card.id, host, 0).map((keyword) => keyword.toLowerCase());
     if (keywords.length > 0) {
       const values = effectiveKeywordValues(room, card.id, host);
       for (const def of KEYWORD_TRIGGERS) {
         if (!keywords.includes(def.keyword)) continue;
-        entries.push({ ref: `keyword:${def.keyword}:${Math.max(1, values[def.keyword] ?? 1)}`, trigger: def.trigger });
+        const value = Math.max(1, values[def.keyword] ?? 1);
+        // 816.2.a / 819.2 / 830.2: several instances trigger once (with the summed value);
+        // 817.2 / 821.1.c.7: multiple instances trigger separately.
+        const instances = def.once ? 1 : value;
+        for (let index = 0; index < instances; index += 1) {
+          entries.push({
+            ref: `keyword:${def.keyword}:${value}`,
+            trigger: def.trigger,
+            ...(def.optional ? { optional: true } : {}),
+          });
+        }
       }
     }
     if (entries.length > 0) out.push({ sourceId: card.id, controller, name: card.name, entries });
@@ -126,8 +152,10 @@ export function triggerSources(room: Room, host: RulesHost): TriggerSource[] {
   return out;
 }
 
-function limitKey(sourceId: string, ref: string): string {
-  return `${sourceId}|${ref}`;
+function limitKey(sourceId: string, scriptName: string | undefined, ref: string): string {
+  // An attached card's Effect Text can reuse the host's `triggered:<n>` refs; the script name
+  // keeps two attached scripts (and the host's own text) on separate once-per-turn limits.
+  return scriptName ? `${sourceId}|${scriptName}|${ref}` : `${sourceId}|${ref}`;
 }
 
 /** 383.3.e.1 / 386.1: has a limited ability already been performed its allowed times? */
@@ -136,16 +164,16 @@ export function limitReached(room: Room, sourceId: string, entry: TriggerEntry):
   if (!limit) return false;
   const allowed = limit.kind === "once-per-turn" ? 1 : limit.kind === "per-turn" ? (limit.count ?? 1) : null;
   if (allowed === null) return false;
-  const used = room.rules?.history.effects?.limits?.[limitKey(sourceId, entry.ref)] ?? 0;
+  const used = room.rules?.history.effects?.limits?.[limitKey(sourceId, entry.scriptName, entry.ref)] ?? 0;
   return used >= allowed;
 }
 
-export function noteLimitUse(room: Room, sourceId: string, ref: string): void {
+export function noteLimitUse(room: Room, sourceId: string, ref: string, scriptName?: string): void {
   const rules = room.rules;
   if (!rules) return;
   const history = (rules.history.effects ??= {});
   const limits = (history.limits ??= {});
-  const key = limitKey(sourceId, ref);
+  const key = limitKey(sourceId, scriptName, ref);
   limits[key] = (limits[key] ?? 0) + 1;
 }
 
@@ -176,22 +204,25 @@ function queueTrigger(
 ): void {
   const rules = room.rules;
   if (!rules) return;
+  // 718.3 / 719.1: an attached card's appended ability executes from its own script, but the
+  // Top-Most card stays the source object and the controller is the host's controller.
+  const sourceName = entry.scriptName ?? source.name;
   const pending: PendingTrigger = {
     id: step.host.nextId("trigger"),
     controller,
     sourceObjectId: source.sourceId,
-    sourceName: source.name,
+    sourceName,
     abilityRef: entry.ref,
     ...(event ? { event } : {}),
     ...(entry.optional ? { optional: true } : {}),
     conditionMet: true,
   };
   rules.triggers.push(pending);
-  if (!entry.optional) noteLimitUse(room, source.sourceId, entry.ref);
+  if (!entry.optional) noteLimitUse(room, source.sourceId, entry.ref, entry.scriptName);
   pushEvent(step.events, {
     type: "trigger",
     playerId: controller,
-    cardName: source.name,
+    cardName: sourceName,
     ...(source.sourceId ? { sourceObjectId: source.sourceId } : {}),
     data: { ref: entry.ref, triggerId: pending.id, ...(event ? { on: event.type } : {}) },
   });

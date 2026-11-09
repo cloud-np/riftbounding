@@ -36,6 +36,12 @@ export function kill(
   const might = step.host.cardInfo(room, cardId)?.type.toLowerCase().includes("unit")
     ? effectiveMight(room, cardId, step.host)
     : undefined;
+  // 383.2.c.3.b / 424: note the object's state before the rules object is dropped, so
+  // "When a stunned enemy unit here dies" (and buffed/empowered conditions) can be read.
+  const object = room.rules?.objects[cardId];
+  const stunned = object?.stunned === true;
+  const buffs = object?.buffs ?? 0;
+  const empowered = object?.empowered ?? 0;
   const attached = attachedCardIds(room, cardId, step);
   // 429 / 056: the engine's move routes a card to its owner's Trash (a stolen unit included).
   const moved = step.host.moveCard(room, located.playerId, located.zone, "trash", cardId);
@@ -54,6 +60,9 @@ export function kill(
       ...(might !== undefined ? { might } : {}),
       ...(located.card.source === "token" ? { token: true } : {}),
       ...(source?.playerId ? { responsible: source.playerId } : {}),
+      stunned,
+      buffs,
+      empowered,
     },
   });
   return true;

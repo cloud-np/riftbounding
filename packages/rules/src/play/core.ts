@@ -7,7 +7,7 @@
  * choice is pending (from the choices bound so far) so an unaffordable play is rejected before
  * it reaches the chain (420.2.a); Deflect (809) can only add cost, so that is a lower bound.
  */
-import type { Ability, ChoiceRecord, PaymentPlanWire, Room } from "@rift/protocol";
+import type { Ability, ChoiceRecord, GameEvent, PaymentPlanWire, Room } from "@rift/protocol";
 import type { CardInfo, RulesHost } from "../host";
 import type { RulesFailure } from "../types";
 import { validateChoices, type ChoiceSpec } from "../effects/choices";
@@ -45,6 +45,8 @@ export interface CoreInput {
   extraAdditional?: readonly AdditionalCostSpec[];
   /** Choice specs of a built-in ability (replaces R2-effects' `requiredChoices`). */
   specProvider?: ChoiceSpecProvider;
+  /** 383.2.c.3.b: the trigger event a triggered ability's choices are scanned against. */
+  event?: GameEvent;
 }
 
 export interface CorePlan {
@@ -67,6 +69,7 @@ export function planCore(room: Room, host: RulesHost, input: CoreInput): CoreRes
     sourceObjectId: input.sourceId,
     ...(input.itemId ? { itemId: input.itemId } : {}),
     ...(input.facedownAt ? { facedownAt: input.facedownAt } : {}),
+    ...(input.event ? { event: input.event } : {}),
   };
   const effects = input.specProvider ?? (input.ability ? effectsSpecProvider(room, host, input.ability, context) : undefined);
   // 832.1.c.2: the Show Off decision is made while the card is finalized (before its targets).
@@ -132,6 +135,7 @@ export function planCore(room: Room, host: RulesHost, input: CoreInput): CoreRes
       controller: input.playerId,
       sourceObjectId: input.sourceId,
       ...(input.itemId ? { itemId: input.itemId } : {}),
+      ...(input.event ? { event: input.event } : {}),
       choices: bound.choices,
     });
     if (!legal.ok) return legal;

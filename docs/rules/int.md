@@ -103,9 +103,21 @@ same verdict.
 `ui.rules` in `packages/i18n/data/i18n-en.json`: `reason.<ReasonCode>` (+ `unknown`),
 `promptReason.<reason>` (dotted reasons nest: `combat.damage_assignment`), `promptKind.<kind>`,
 `prompt.<promptKey>` (every `rules.prompt.*` the engine emits, incl. `cost.<category>`) and
-`ui.<label>`. fr / ko / zh-CN fall back to English through `createTranslator` (no machine
-translation). `rules-text.test.ts` derives the lists from the protocol and rules sources, so a new
+`ui.<label>`. `rules-text.test.ts` derives the lists from the protocol and rules sources, so a new
 code fails until it has an English string.
+
+### Translations
+
+The same `rules.*` keys live in `data/i18n-{fr,ko,zh-CN}.json` under `ui.patterns` (flat dotted
+keys; `ui.exact` keeps its generated-key invariant, and `createTranslator` still falls back to
+English for any other missing key). Terminology follows the existing card/sentence catalogs, e.g.
+Assault → Assaut / 맹공 / 强攻, Shield → Bouclier / 보호막 /
+坚守, Tank → Tank / 탱커 / 壁垒, Ganking → Gank / 개입 / 游走, Deflect → Protection / 굴절 / 法盾,
+Equip → Équiper / 장착 / 装配, battlefield → champ de bataille / 전장 / 战场, showdown →
+confrontation / 결전 / 对决, chain → chaîne / 체인 / 结算链. `rules-text-locales.test.ts` fails
+when an English `rules.*` key is missing from a locale or its placeholders differ. The strict
+components still bind `createTranslator("en")` (`StrictRulesPanel`, `RoomShell`, `GameScreen`), so
+the active locale must be wired before these catalogs reach the screen.
 
 ## apps/play strict UI
 

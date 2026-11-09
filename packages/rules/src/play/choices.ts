@@ -8,7 +8,7 @@
  * or a real choice → returned as `pending` so the process opens a prompt. Specs are re-queried
  * after each binding so later choices can depend on earlier ones (e.g. targets of a mode).
  */
-import type { Ability, ChoiceRecord, ChoiceValue, PromptOption, Room } from "@rift/protocol";
+import type { Ability, ChoiceRecord, ChoiceValue, GameEvent, PromptOption, Room } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import type { RulesFailure } from "../types";
 import { fail } from "../types";
@@ -29,6 +29,8 @@ export interface ChoiceBindContext {
   itemId?: string;
   /** 811.1.d.2: a spell played from facedown chooses from objects at this battlefield. */
   facedownAt?: string;
+  /** 383.2.c.3.b: the trigger event a triggered ability's choices are scanned against. */
+  event?: GameEvent;
 }
 
 /** The value a chosen option binds under `ChoiceSpec.key`. */
@@ -90,6 +92,7 @@ export function effectsSpecProvider(
       controller: context.controller,
       ...(context.sourceObjectId ? { sourceObjectId: context.sourceObjectId } : {}),
       ...(context.itemId ? { itemId: context.itemId } : {}),
+      ...(context.event ? { event: context.event } : {}),
       choices,
     });
 }

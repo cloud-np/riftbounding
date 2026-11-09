@@ -1680,7 +1680,209 @@
      "suggestions"
     ],
     " ?"
-   ]
+   ],
+   "rules.reason.not_your_priority": "Vous n’avez pas la priorité.",
+   "rules.reason.closed_state_requires_reaction": "L’état est fermé : seules les cartes Réaction et les compétences peuvent être jouées.",
+   "rules.reason.showdown_requires_action": "Pendant une confrontation, seules les cartes Action ou Réaction et les compétences peuvent être jouées.",
+   "rules.reason.not_your_turn": "Ce n’est pas votre tour.",
+   "rules.reason.not_main_phase": "Cela ne peut être fait que pendant votre phase principale.",
+   "rules.reason.chain_not_empty": "La Chaîne doit être vide.",
+   "rules.reason.prompt_pending": "Un choix est en attente. Répondez-y d’abord.",
+   "rules.reason.game_over": "La partie est terminée.",
+   "rules.reason.not_in_game": "La partie n’a pas commencé.",
+   "rules.reason.strict_mode_action": "Cette action n’est pas autorisée avec les règles strictes.",
+   "rules.reason.rules_require_strict": "Cela nécessite une salle en règles strictes.",
+   "rules.reason.loop_guard": "Le jeu a interrompu une boucle infinie.",
+   "rules.reason.nothing_to_pass": "Il n’y a rien à passer.",
+   "rules.reason.no_pending_prompt": "Aucun choix n’est en attente.",
+   "rules.reason.unknown_card": "Carte inconnue.",
+   "rules.reason.unknown_intent": "Action inconnue.",
+   "rules.reason.illegal_action": "Cette action n’est pas légale pour le moment.",
+   "rules.reason.insufficient_resources": "Vous ne pouvez pas payer le coût.",
+   "rules.reason.illegal_target": "Ce n’est pas une cible légale.",
+   "rules.reason.no_legal_targets": "Il n’y a aucune cible légale.",
+   "rules.reason.invalid_location": "Ce n’est pas un emplacement valide.",
+   "rules.reason.unit_exhausted": "Cette unité est épuisée.",
+   "rules.reason.unit_not_found": "Unité introuvable.",
+   "rules.reason.card_not_found": "Carte introuvable.",
+   "rules.reason.not_in_hand": "Cette carte n’est pas dans votre main.",
+   "rules.reason.invalid_payment": "Ce paiement ne couvre pas exactement le coût.",
+   "rules.reason.restricted": "Un effet l’empêche.",
+   "rules.reason.showdown_active": "Pas pendant une confrontation.",
+   "rules.reason.combat_active": "Pas pendant un combat.",
+   "rules.reason.invalid_choice": "Ce choix n’est pas autorisé.",
+   "rules.reason.manual_window_pending": "Terminez d’abord la résolution manuelle, puis appuyez sur Terminé.",
+   "rules.reason.no_manual_window": "Il n’y a aucune résolution manuelle à terminer.",
+   "rules.reason.not_implemented": "Cette carte n’est pas encore implémentée.",
+   "rules.reason.unknown": "Ce n’est pas autorisé pour le moment.",
+   "rules.promptReason.burn_out": "Épuisement de pioche : choisissez un adversaire qui gagne 1 point",
+   "rules.promptReason.stage_showdown": "Choisissez la confrontation qui a lieu en premier",
+   "rules.promptReason.stage_combat": "Choisissez le combat qui a lieu en premier",
+   "rules.promptReason.combat.damage_assignment": "Assignez les dégâts de combat",
+   "rules.promptReason.play.choice": "Faites un choix pour la carte en cours de jeu",
+   "rules.promptReason.play.cost": "Choisissez ce qui paie le coût",
+   "rules.promptReason.play.trigger": "Décidez d’une compétence déclenchée",
+   "rules.promptReason.effects.resume": "Faites un choix pendant la résolution de l’effet",
+   "rules.promptReason.effects.order_triggers": "Ordonnez vos compétences déclenchées",
+   "rules.promptReason.effects.replacement": "Décidez comment les effets de remplacement s’appliquent",
+   "rules.promptKind.choose-opponent": "Choisissez un adversaire",
+   "rules.promptKind.choose-player": "Choisissez un joueur",
+   "rules.promptKind.choose-card": "Choisissez des cartes",
+   "rules.promptKind.choose-target": "Choisissez des cibles",
+   "rules.promptKind.choose-mode": "Choisissez un mode",
+   "rules.promptKind.choose-battlefield": "Choisissez un champ de bataille",
+   "rules.promptKind.choose-number": "Choisissez un nombre",
+   "rules.promptKind.yes-no": "Oui ou non",
+   "rules.promptKind.order": "Choisissez l’ordre",
+   "rules.promptKind.manual": "Résoudre manuellement",
+   "rules.promptKind.choose-cost": "Choisissez ce qui paie le coût",
+   "rules.promptKind.damage-assignment": "Assignez les dégâts",
+   "rules.prompt.burnOutOpponent": "Épuisement de pioche : choisissez un adversaire qui gagne 1 point",
+   "rules.prompt.chooseShowdownBattlefield": "Choisissez le champ de bataille de la prochaine confrontation",
+   "rules.prompt.chooseCombatBattlefield": "Choisissez le champ de bataille du prochain combat",
+   "rules.prompt.combatDamageAssignment": "Assignez les dégâts de combat",
+   "rules.prompt.chooseDestination": "Choisissez une destination",
+   "rules.prompt.chooseDiscard": "Choisissez les cartes à défausser",
+   "rules.prompt.chooseRecycle": "Choisissez les cartes à recycler",
+   "rules.prompt.chooseSearch": "Choisissez une carte que vous avez trouvée",
+   "rules.prompt.predictRecycle": "Prédiction : choisissez les cartes à recycler",
+   "rules.prompt.orderTriggers": "Ordonnez vos compétences déclenchées",
+   "rules.prompt.payCost": "Payer le coût ?",
+   "rules.prompt.may": "Voulez-vous faire cela ?",
+   "rules.prompt.choose": "Choisir",
+   "rules.prompt.chooseMode": "Choisissez un mode",
+   "rules.prompt.chooseTarget": "Choisissez une cible",
+   "rules.prompt.equipTarget": "Choisissez une unité que vous contrôlez pour l’équiper",
+   "rules.prompt.mayTrigger": "Utiliser cette compétence déclenchée ?",
+   "rules.prompt.payTriggerCost": "Payer le coût de cette compétence déclenchée ?",
+   "rules.prompt.applyReplacement": "Appliquer cet effet de remplacement ?",
+   "rules.prompt.orderReplacements": "Choisissez l’ordre d’application des effets de remplacement",
+   "rules.prompt.chooseGroupSubset": "Choisissez les membres du groupe à affecter",
+   "rules.prompt.splitDamage": "Répartissez les dégâts entre les cibles",
+   "rules.prompt.splitKeepTargets": "Choisissez les cibles à conserver",
+   "rules.prompt.showOff": "Exhibition : jouer une carte de votre main ?",
+   "rules.prompt.cardsOrRunes": "Choisissez des cartes ou des runes",
+   "rules.prompt.chooseOpponent": "Choisissez un adversaire",
+   "rules.prompt.guessCardType": "Devinez un type de carte",
+   "rules.prompt.mayReturnUnit": "Renvoyer une unité dans la main de son propriétaire ?",
+   "rules.prompt.revealAndDraw": "Révéler une carte et piocher ?",
+   "rules.prompt.spendBuffToReady": "Dépenser un buff pour préparer ?",
+   "rules.prompt.topOrBottom": "Le placer au-dessus ou en dessous de votre deck ?",
+   "rules.prompt.unlessDraw": "Piocher une carte pour éviter cela ?",
+   "rules.prompt.cost.exhaust": "Choisissez ce qu’il faut épuiser pour payer le coût",
+   "rules.prompt.cost.kill": "Choisissez ce qu’il faut éliminer pour payer le coût",
+   "rules.prompt.cost.discard": "Choisissez les cartes à défausser pour payer le coût",
+   "rules.ui.rulesMode": "Règles",
+   "rules.ui.modeSandbox": "Bac à sable",
+   "rules.ui.modeStrict": "Strict",
+   "rules.ui.rulesModeHint": "Les règles strictes imposent le timing, la priorité, les coûts et les choix.",
+   "rules.ui.strictBadge": "Règles strictes",
+   "rules.ui.legalActions": "Actions légales",
+   "rules.ui.noLegalActions": "Aucune action légale",
+   "rules.ui.play": "Jouer",
+   "rules.ui.hide": "Cacher",
+   "rules.ui.activate": "Activer",
+   "rules.ui.activateManual": "Activer (manuel)",
+   "rules.ui.moveTo": [
+    "Déplacer vers ",
+    [
+     "zone"
+    ]
+   ],
+   "rules.ui.pass": "Passer",
+   "rules.ui.endTurn": "Terminer le tour",
+   "rules.ui.concede": "Abandonner",
+   "rules.ui.concedeConfirm": "Abandonner la partie ?",
+   "rules.ui.done": "Terminé",
+   "rules.ui.confirm": "Confirmer",
+   "rules.ui.cancel": "Annuler",
+   "rules.ui.yes": "Oui",
+   "rules.ui.no": "Non",
+   "rules.ui.moveUp": "Monter",
+   "rules.ui.moveDown": "Descendre",
+   "rules.ui.selectRange": [
+    "Choisissez ",
+    [
+     "min"
+    ],
+    " à ",
+    [
+     "max"
+    ]
+   ],
+   "rules.ui.yourPriority": "Vous avez la priorité",
+   "rules.ui.priorityOf": [
+    [
+     "player"
+    ],
+    " a la priorité"
+   ],
+   "rules.ui.focusOf": [
+    [
+     "player"
+    ],
+    " a la focalisation"
+   ],
+   "rules.ui.waitingForChoice": [
+    "En attente de ",
+    [
+     "player"
+    ],
+    " : ",
+    [
+     "reason"
+    ]
+   ],
+   "rules.ui.manualWindow": [
+    "Résolvez ",
+    [
+     "card"
+    ],
+    " manuellement, puis appuyez sur Terminé."
+   ],
+   "rules.ui.manualWindowOther": [
+    "En attente de ",
+    [
+     "player"
+    ],
+    " pour résoudre ",
+    [
+     "card"
+    ],
+    " manuellement"
+   ],
+   "rules.ui.illegal": "Non autorisé",
+   "rules.ui.reasonWithRule": [
+    [
+     "reason"
+    ],
+    " (règle ",
+    [
+     "rule"
+    ],
+    ")"
+   ],
+   "rules.ui.damageTotal": [
+    "Assignez ",
+    [
+     "total"
+    ],
+    " dégâts"
+   ],
+   "rules.ui.damageRemaining": [
+    [
+     "remaining"
+    ],
+    " dégâts restants à assigner"
+   ],
+   "rules.ui.damageLethal": [
+    "Létal : ",
+    [
+     "lethal"
+    ]
+   ],
+   "rules.ui.damageCannotBeDealt": "Ne peut pas subir de dégâts",
+   "rules.ui.useSuggestion": "Utiliser la suggestion"
   },
   "parts": {
    "suggestionItem": [

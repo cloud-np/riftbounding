@@ -278,7 +278,9 @@ export function matchesSelector(
   // A reference ("self", "it", a bound choice …) matches only the referenced objects.
   if (isRef && !refIds(ctx, selector.targetRef!).includes(id)) return false;
   if (!options.ignoreZone && !(isRef && selector.zone === undefined)) {
-    const zone = zoneOfObject(ctx, id) ?? lki?.zone ?? null;
+    // 383.2.c.3.b: a leave-the-board event subject is read with its last-known zone (the card
+    // has already moved to the trash when its "when I die" trigger is matched).
+    const zone = lki?.zone ?? zoneOfObject(ctx, id) ?? null;
     const zones = selector.zone !== undefined ? resolveZoneNames(ctx, selector.zone) : defaultZones(room, host, selector);
     if (!zone) return false;
     if (zones.length > 0 && !zones.includes(zone)) return false;
@@ -342,9 +344,21 @@ export function matchesSelector(
     if (!located || !isBoardZone(room, host, located.zone)) return false;
     if (!!located.card.exhausted !== selector.exhausted) return false;
   }
-  if (selector.stunned !== undefined && !!object?.stunned !== selector.stunned) return false;
-  if (selector.buffed !== undefined && (object?.buffs ?? 0) > 0 !== selector.buffed) return false;
-  if (selector.empowered !== undefined && (object?.empowered ?? 0) > 0 !== selector.empowered) return false;
+  // 424 / 427 / 442 / 383.2.c.3.b: use the live object while it is on the board, otherwise the
+  // last-known status carried by the event (or noted before the instruction moved it).
+  const known = lki ?? lkiOf(env, id);
+  if (selector.stunned !== undefined) {
+    const stunned = object ? object.stunned === true : (known?.stunned ?? false);
+    if (stunned !== selector.stunned) return false;
+  }
+  if (selector.buffed !== undefined) {
+    const buffs = object ? (object.buffs ?? 0) : (known?.buffs ?? 0);
+    if (buffs > 0 !== selector.buffed) return false;
+  }
+  if (selector.empowered !== undefined) {
+    const empowered = object ? (object.empowered ?? 0) : (known?.empowered ?? 0);
+    if (empowered > 0 !== selector.empowered) return false;
+  }
   if (selector.token !== undefined && isToken(located?.card) !== selector.token) return false;
   if (selector.excludeRefs) {
     for (const ref of selector.excludeRefs) if (refIds(ctx, ref).includes(id)) return false;

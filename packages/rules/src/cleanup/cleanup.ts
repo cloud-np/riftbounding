@@ -11,7 +11,7 @@
  * (317.2.a–d) inserts 3c/3d/3e after 3a; the Combat Cleanup (468.1.a) inserts 3c/3d the same
  * way. Inserted steps run before step 4 and any follow-up cleanup is a NORMAL cleanup (324.2).
  */
-import type { BattlefieldZone, Room } from "@rift/protocol";
+import type { BattlefieldZone, ObjectRulesState, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../types";
 import { pushEvent } from "../types";
 import { combatMight } from "../combat/keywords";
@@ -34,6 +34,7 @@ import { runCleanupHooks } from "../timing/hooks";
 import { turnOrderStartingAt } from "../state/turn";
 import { hasUnitPresentAt, unitsPresentAt } from "../state/presence";
 import { cardKeywords } from "../play/keywords";
+import { pruneObjectMods } from "../layers/mods";
 
 /** 322: how many times a cleanup may repeat before the guard fires. */
 export const MAX_CLEANUP_PASSES = 12;
@@ -326,6 +327,42 @@ export function runCleanup(
   return changed;
 }
 
+/**
+ * 317.2.c: the rules object carries state that outlives the Expiration Step, so it must be kept.
+ *
+ * The rules object is the only home of persistent object state in a plain-JSON room. Dropping it
+ * at 3d would also drop the state with it: a permanent keyword grant (801.3.a.3: "the duration is
+ * as long as that Game Object remains on the Board"), Empowered (442.2: a state on the board),
+ * a Might modification, a prevention shield, a counter, a buff, the "additional cost was paid"
+ * record (356.4.f.1), a Show Off record (832) or a Hidden card's "hidden this turn" record
+ * (811.1.b: "Beginning on the next turn…"). Battlefield objects keep their control state (190.5).
+ *
+ * Transient per-turn state (`enteredThisTurn`, `movedThisTurn`, `damagedThisTurn`, combat
+ * designations) is deliberately absent: `startNextTurn`/the combat cleanups own those.
+ */
+function hasPersistentObjectState(object: ObjectRulesState): boolean {
+  return (
+    !!object.buffs ||
+    // Steel Paws has Might 0 but still keeps its Empowered status (442.2); `!baseMight` used to
+    // treat 0 as "no base Might".
+    object.baseMight !== undefined ||
+    !!object.counters ||
+    !!object.grantedKeywords?.length ||
+    !!object.grantedAbilities?.length ||
+    !!object.keywordGrants?.length ||
+    !!object.mightMods?.length ||
+    !!object.prevent?.length ||
+    !!object.empowered ||
+    !!object.paidAdditionalCost ||
+    object.hiddenTurn !== undefined ||
+    object.hiddenBy !== undefined ||
+    object.showOff !== undefined ||
+    !!object.targetedBy?.length ||
+    // 190.5: a battlefield's control state is constant; never expire it.
+    object.controller !== undefined
+  );
+}
+
 /** Execute one 324.1 inserted step. */
 function runInsertedStep(room: Room, step: RulesStepContext, inserted: CleanupInsertStep): void {
   const rules = room.rules;
@@ -341,8 +378,11 @@ function runInsertedStep(room: Room, step: RulesStepContext, inserted: CleanupIn
       return;
     }
     case "expire-this-turn": {
-      // 317.2.c: "3d. All 'this turn' effects expire simultaneously." Also clears transient
-      // per-turn object state (424.1.a.2 stun, 323.2.c lingering designations).
+      // 317.2.c: "3d. All 'this turn' effects expire simultaneously." Prune first so a "this turn"
+      // layer entry that is expiring right now cannot keep an otherwise-empty rules object alive
+      // (the same prune also runs in the cleanup hook, 324.1; it is idempotent). Also clears
+      // transient per-turn object state (424.1.a.2 stun, 323.2.c lingering designations).
+      pruneObjectMods(room, { endOfTurn: true });
       rules.effects = rules.effects.filter(
         (effect) => effect.duration !== "this-turn" && effect.duration !== "until-next-ending",
       );
@@ -350,17 +390,7 @@ function runInsertedStep(room: Room, step: RulesStepContext, inserted: CleanupIn
         delete object.stunned;
         delete object.designation;
         delete object.temporaryMight;
-        if (
-          !object.buffs &&
-          !object.baseMight &&
-          !object.counters &&
-          !object.grantedKeywords?.length &&
-          !object.grantedAbilities?.length &&
-          // 190.5: a battlefield's control state is constant; never expire it.
-          object.controller === undefined
-        ) {
-          delete rules.objects[objectId];
-        }
+        if (!hasPersistentObjectState(object)) delete rules.objects[objectId];
       }
       return;
     }

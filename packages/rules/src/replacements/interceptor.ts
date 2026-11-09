@@ -80,7 +80,8 @@ export function replacementSources(room: Room, host: RulesHost): ReplacementSour
   for (const playerId of host.activePlayerIds(room)) {
     for (const zone of zones) {
       for (const card of host.zoneCards(room, playerId, zone)) {
-        if (card.attachedToCardId) continue; // 718.2
+        // 718.2 makes only the printed Rules Text inactive; 718.3/719.1 append the attached
+        // card's Effect Text to its Top-Most card, so its replacement abilities are active.
         const script = getCardScript(card.name);
         if (!script || script.status === "manual") continue;
         script.abilities.forEach((ability, index) => {
@@ -217,6 +218,8 @@ function matchesProposal(room: Room, host: RulesHost, source: ReplacementSource,
   return eventMatches(room, host, matcher, event, {
     controller: source.controller,
     ...(source.sourceObjectId ? { sourceObjectId: source.sourceObjectId } : {}),
+    // 359.3.f.3.a / 391.3 / 375: a delayed replacement refers to what its creator chose.
+    ...(source.choices ? { choices: source.choices } : {}),
   });
 }
 

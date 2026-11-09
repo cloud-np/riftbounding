@@ -182,11 +182,16 @@ describe("strict-rules strings (R2-int) [R411.2]", () => {
     expect(promptTitle(en, { kind: "brand-new-kind" })).toBe("brand-new-kind");
   });
 
-  it("falls back to English for fr / ko / zh-CN (existing missing-key behaviour)", () => {
-    for (const locale of ["fr", "ko", "zh-CN"]) {
+  it("uses the localized strict-rules strings in fr / ko / zh-CN", () => {
+    const expected = {
+      fr: { reason: "Ce n’est pas votre tour.", done: "Terminé" },
+      ko: { reason: "당신의 턴이 아닙니다.", done: "완료" },
+      "zh-CN": { reason: "还没轮到你。", done: "完成" },
+    } as const;
+    for (const locale of ["fr", "ko", "zh-CN"] as const) {
       const t = createTranslator(locale);
-      expect(rulesReasonText(t, "not_your_turn")).toBe("It isn't your turn.");
-      expect(t("rules.ui.done")).toBe("Done");
+      expect(rulesReasonText(t, "not_your_turn")).toBe(expected[locale].reason);
+      expect(t("rules.ui.done")).toBe(expected[locale].done);
     }
   });
 });
