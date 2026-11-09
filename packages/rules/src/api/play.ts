@@ -64,5 +64,11 @@ export { planHide, executeHide, hideLocations, HIDE_COST } from "../play/hidden"
 export { PLAY_PROMPT_REASONS } from "../prompts/play/reasons";
 
 // 399–407 for triggered abilities (R2-effects drives the trigger queue, 382+).
-export { prepareTriggeredItem, completeTriggeredItem, planPendingTrigger } from "../play/triggered";
+export {
+  prepareTriggeredItem,
+  completeTriggeredItem,
+  answerTriggerDecision,
+  triggeredAbilityOf,
+  triggerLeadingCost,
+} from "../play/triggered";
 export type { TriggerPrepareOptions, TriggerPrepareResult } from "../play/triggered";

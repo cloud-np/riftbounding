@@ -201,7 +201,8 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
     const second = place(s, "p2", "Stellacorn Herder", "battlefieldA");
     s.as("p1").play("Treasure Hunter").expectOk();
     s.expectPrompt("choose-target", "p1");
-    expect(s.room.rules!.prompt!.data?.reason).toBe("effects.trigger_choice");
+    // 403.2 through the single 399–407 path: the play layer's choice prompt.
+    expect(s.room.rules!.prompt).toMatchObject({ rule: "403.2", data: { reason: "play.choice", key: "target:0" } });
     s.as("p1").choose({ optionIds: [second.id] }).expectOk();
     expect(s.room.rules!.chain[0]!.choices["target:0"]).toBe(second.id);
     expect(s.room.rules!.chain[0]!.targetSnapshot?.[second.id]).toMatchObject({ zone: "battlefieldA" });

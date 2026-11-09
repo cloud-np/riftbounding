@@ -9,6 +9,8 @@ export const PLAY_PROMPT_REASONS = {
   choice: "play.choice",
   /** 357.2: which objects pay a non-standard cost (exhaust/discard/kill) of a Pending item. */
   cost: "play.cost",
+  /** 403.1 "you may" / 405.2 pay or decline: a Pending triggered ability's yes/no decision. */
+  trigger: "play.trigger",
 } as const;
 
 export type PlayPromptReason = (typeof PLAY_PROMPT_REASONS)[keyof typeof PLAY_PROMPT_REASONS];

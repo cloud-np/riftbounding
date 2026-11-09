@@ -14,4 +14,6 @@ function firstOptions(prompt: Prompt): PromptAnswer {
 // 355 play-time choices (R2-effects choice specs) and 357.2 cost objects (`choose-cost`).
 registerPromptAnswerer("play.choice", firstOptions);
 registerPromptAnswerer("play.cost", firstOptions);
+// 403.1 "you may" / 405.2 pay or decline for a Pending triggered ability: "yes" is offered first.
+registerPromptAnswerer("play.trigger", firstOptions);
 registerPromptAnswerer("kind:choose-cost", firstOptions);

@@ -10,9 +10,8 @@ function firstOptions(prompt: Prompt): PromptAnswer {
   return { optionIds: options.slice(0, count).map((option) => option.id) };
 }
 
-/** 355.18 resolution choices, 403.1/403.2 trigger choices: first options ("yes" for may). */
+/** 355.18 resolution choices: first options ("yes" for may). */
 registerPromptAnswerer("effects.resume", (prompt) => firstOptions(prompt));
-registerPromptAnswerer("effects.trigger_choice", (prompt) => firstOptions(prompt));
 
 /** 383.3.d: place the triggers in the offered order. */
 registerPromptAnswerer("effects.order_triggers", (prompt) => ({

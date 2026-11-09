@@ -108,8 +108,13 @@ export interface PlayProcessState {
   kind?: "card" | "activated" | "triggered";
   /** 404.1.b.1: a triggered ability's cost (its cost within instructions), if any. */
   triggerCost?: Cost;
-  /** `choices` (355, R2-effects choice specs) or `payment` (357.2 cost-object choice). */
-  stage: "choices" | "payment";
+  /**
+   * `choices` (355 / 403.2, R2-effects choice specs) or `payment` (357.2 cost-object choice);
+   * triggered abilities also wait on `may` (403.1 "you may") and `cost` (405.2 pay or decline).
+   */
+  stage: "choices" | "payment" | "may" | "cost";
+  /** 405.2: the controller chose to pay the triggered ability's cost (triggered items only). */
+  costAccepted?: boolean;
   /** The permission the card is played with (card items only). */
   permission?: PlayPermissionWire;
   /** 358.5 undo: the zone/index/owner the card was played from (card items only). */

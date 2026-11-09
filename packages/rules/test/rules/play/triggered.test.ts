@@ -65,7 +65,10 @@ describe("triggered abilities through 402–407 [R403][R404][R405]", () => {
     const item = pendingTrigger(s, source.id, "Stellacorn Herder");
     expect(prepareTriggeredItem(s.room, stepOf(s), item, { cost: { energy: 2 } })).toBe("removed");
     const again = pendingTrigger(s, source.id, "Stellacorn Herder");
-    expect(prepareTriggeredItem(s.room, stepOf(s), again, { cost: { energy: 1 } })).toBe("finalized");
+    // 405.2: its controller may decline to pay — a real choice, so it is prompted (411.2).
+    expect(prepareTriggeredItem(s.room, stepOf(s), again, { cost: { energy: 1 } })).toBe("pending");
+    expect(s.room.rules?.prompt).toMatchObject({ kind: "yes-no", rule: "405.2", data: { reason: "play.trigger", stage: "cost" } });
+    s.as("p1").choose({ optionIds: ["yes"] }).expectOk();
     expect(s.room.rules?.chain[0]).toMatchObject({ status: "finalized", totalCost: { energy: 1, power: 0 } });
     expect(pool(s, "p1").energy).toBe(0);
   });

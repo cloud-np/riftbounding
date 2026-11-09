@@ -1,11 +1,10 @@
 /**
- * Trigger prompts — `effects.order_triggers` (383.3.d / 383.3.d.1) and
- * `effects.trigger_choice` (403.1 / 403.2).
+ * Trigger prompts — `effects.order_triggers` (383.3.d / 383.3.d.1). The 403.1 / 403.2 / 405.2
+ * decisions of a Pending trigger are play prompts (`play.trigger`, `play.choice`).
  */
 import { flushInOrder, placeOrdered } from "../../triggers";
-import { answerTriggerChoice } from "../../triggers/finalize";
 import { registerPromptHandler } from "../handlers";
-import { booleanOf, selectedObjectIds, selectedOptionIds } from "./answers";
+import { selectedOptionIds } from "./answers";
 import { EFFECTS_PROMPT_REASONS } from "./reasons";
 
 /**
@@ -23,22 +22,5 @@ registerPromptHandler(EFFECTS_PROMPT_REASONS.orderTriggers, ({ room, prompt, ans
   placeOrdered(room, step, prompt.playerId, ordered);
   const order = Array.isArray(prompt.data?.order) ? (prompt.data.order as string[]) : [];
   flushInOrder(room, step, order);
-  return { ok: true };
-});
-
-registerPromptHandler(EFFECTS_PROMPT_REASONS.triggerChoice, ({ room, prompt, answer, step }) => {
-  const rules = room.rules;
-  if (!rules) return { ok: true };
-  const selected = selectedOptionIds(prompt, answer);
-  const data = (prompt.data ?? {}) as Record<string, unknown>;
-  if (rules.prompt?.id === prompt.id) rules.prompt = null;
-  const yesNo = data.stage === "may" || data.stage === "cost";
-  answerTriggerChoice(
-    room,
-    step,
-    data,
-    yesNo ? selected : selectedObjectIds(prompt, selected),
-    yesNo ? booleanOf(answer, selected) : undefined,
-  );
   return { ok: true };
 });

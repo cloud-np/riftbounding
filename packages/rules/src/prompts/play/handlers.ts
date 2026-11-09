@@ -1,5 +1,6 @@
 /**
- * R2-play prompt handlers — 355 choices and 357.2 cost objects of a Pending chain item.
+ * R2-play prompt handlers — 355 / 403.2 choices, 357.2 cost objects and 403.1 / 405.2 trigger
+ * decisions of a Pending chain item.
  *
  * The answer was already checked by `promptAnswerVerdict` (offered options, min..max). The
  * handler binds it, clears the prompt it answered, and continues the process of play: the next
@@ -12,7 +13,7 @@ import { PLAY_PROMPT_REASONS } from "./reasons";
 import { optionValue } from "../../play/choices";
 import { completeCardItem, continuePendingItem, planPendingCard } from "../../play/process";
 import { completeActivationItem, planPendingActivation } from "../../play/activation";
-import { completeTriggeredItem, planPendingTrigger } from "../../play/triggered";
+import { answerTriggerDecision, prepareTriggeredItem } from "../../play/triggered";
 import type { RulesStepContext } from "../../types";
 import type { Room } from "@rift/protocol";
 
@@ -38,7 +39,9 @@ function pendingItem(room: Room, prompt: Prompt): ChainItem | undefined {
 
 function resume(room: Room, step: RulesStepContext, item: ChainItem) {
   if (item.process?.kind === "triggered") {
-    return continuePendingItem(room, step, item, planPendingTrigger, (r, s, i, core) => completeTriggeredItem(r, s, i, core));
+    // 403–407: the triggered path re-plans, prompts again, finalizes or removes the trigger.
+    prepareTriggeredItem(room, step, item);
+    return { ok: true } as const;
   }
   if (item.kind === "activated") return continuePendingItem(room, step, item, planPendingActivation, completeActivationItem);
   return continuePendingItem(room, step, item, planPendingCard, completeCardItem);
@@ -50,7 +53,7 @@ registerPromptHandler(PLAY_PROMPT_REASONS.choice, ({ room, prompt, actorId, answ
   const key = typeof prompt.data?.key === "string" ? prompt.data.key : undefined;
   if (!key) return fail("invalid_choice", prompt.rule ?? "355");
   const chosen = selected(prompt, answer);
-  const max = prompt.max ?? 1;
+  const max = typeof prompt.data?.choiceMax === "number" ? prompt.data.choiceMax : (prompt.max ?? 1);
   const values = chosen.map(optionValue);
   item.choices[key] =
     max <= 1 ? (values[0] ?? null) : values.every((value) => typeof value === "number") ? (values as number[]) : values.map(String);
@@ -70,4 +73,16 @@ registerPromptHandler(PLAY_PROMPT_REASONS.cost, ({ room, prompt, actorId, answer
   item.process.request.plan = { ...(item.process.request.plan ?? {}), [category]: ids };
   if (room.rules?.prompt?.id === prompt.id) room.rules.prompt = null;
   return resume(room, step, item);
+});
+
+/** 403.1 / 405.2: the controller's yes/no for a Pending triggered ability. */
+registerPromptHandler(PLAY_PROMPT_REASONS.trigger, ({ room, prompt, actorId, answer, step }) => {
+  const item = pendingItem(room, prompt);
+  if (!item || item.controller !== actorId) return fail("no_pending_prompt", "411.2");
+  const yes =
+    typeof answer.boolean === "boolean"
+      ? answer.boolean
+      : answer.value === true || answer.value === "yes" || selected(prompt, answer).some((option) => option.id === "yes");
+  if (room.rules?.prompt?.id === prompt.id) room.rules.prompt = null;
+  return answerTriggerDecision(room, step, item, prompt.data?.stage, yes);
 });

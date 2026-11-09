@@ -24,11 +24,13 @@ export function openChoicePrompt(room: Room, step: RulesStepContext, item: Chain
     sourceItemId: item.id,
     options: spec.options.map((option) => ({ ...option })),
     min: spec.min,
-    max: spec.max,
+    // "Up to N" with fewer legal options offers what exists; the bound shape follows `choiceMax`.
+    max: Math.max(spec.min, Math.min(spec.max, spec.options.length)),
     data: {
       reason: PLAY_PROMPT_REASONS.choice,
       key: spec.key,
       targeted: spec.targeted,
+      choiceMax: spec.max,
       ...(spec.data ? { spec: spec.data } : {}),
     },
   };

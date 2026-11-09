@@ -1,7 +1,8 @@
 /**
  * Production hook registrations for the effects layer (import-time, no game state).
  *
- * - `finalize:afterFinalize` (337.1): 403 for triggered items + the 359.3.e target snapshot;
+ * - `finalize:afterFinalize` (337.1): the 359.3.e target snapshot and the 337.4 Priority reset
+ *   (403–407 for triggered items run before Finalization, in `play/triggered.ts`);
  * - `advance:beforeTasks` (303.2.a / 334.1): turn-structure triggers, then detect + flush event
  *   triggers before Outstanding Tasks and FEPR;
  * - `cleanup:afterStep3a` (324.1): expire per-object "this turn"/"this combat" layer entries at

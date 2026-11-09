@@ -15,6 +15,7 @@ import {
   turnState,
 } from "../turn-state";
 import { finalizeChainItem, runCleanupOrQueue } from "./fepr";
+import { prepareTriggeredItem } from "../play/triggered";
 import { processNextTask, queueTask } from "./tasks";
 import { projectRules } from "../turn-state";
 import { runAdvanceHooks } from "./hooks";
@@ -59,7 +60,10 @@ export function advance(room: Room, step: RulesStepContext): AdvanceResult {
     if (rules.chain.length > 0) {
       const pending = rules.chain.find((item) => item.status === "pending");
       if (pending) {
-        finalizeChainItem(room, pending, step);
+        // 399–407 / 407.3: a Pending triggered ability performs the remaining steps of playing
+        // (403 choices, 404–405 cost, 407 finalize) — or is removed, or waits on a prompt.
+        if (pending.kind === "triggered") prepareTriggeredItem(room, step, pending);
+        else finalizeChainItem(room, pending, step);
         // 321/NEW-10: if finalizing opened a manual/prompt window the cleanup is queued as an
         // Outstanding Task (321.1) instead of running during resolution.
         runCleanupOrQueue(room, step);
