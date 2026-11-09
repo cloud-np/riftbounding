@@ -267,8 +267,9 @@ describe("prompt answers with exclusive choices [R467.2.c.8][R411.2]", () => {
     setControl(s.room, "battlefieldA", "p2");
     placeUnit(s, "p1", "Stellacorn Herder", "base", "attacker");
     s.as("p1").move("Stellacorn Herder", "battlefieldA").expectOk();
-    s.as("p1").pass().expectOk();
-    s.as("p2").pass().expectOk();
+    // Stellacorn Herder's own move trigger (draw 1) resolves before the Combat opens (402.1,
+    // 323.12); then both players pass in the Combat Showdown.
+    passUntilSettled(s, { stopAtPrompt: true });
     s.expectPrompt("damage-assignment", "p1");
     expect(damageData(s.room)?.targets.find((target) => target.objectId === "cait")?.exclusiveChoices).toEqual([
       "tank",
