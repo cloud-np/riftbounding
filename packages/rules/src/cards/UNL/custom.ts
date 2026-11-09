@@ -2,7 +2,7 @@
  * Unleashed (UNL) card-specific conditions and effects (`unl:` prefix). Import-time registry
  * entries only (no game state); each reads the room through the shared evaluator helpers.
  */
-import type { Room } from "@rift/protocol";
+import type { Effect, Room } from "@rift/protocol";
 import type { RulesHost } from "../../host";
 import { pushEvent } from "../../types";
 import { registerCustomCondition, refIds } from "../../effects/evaluate";
@@ -17,6 +17,7 @@ import {
   locate,
   locationOf,
   ownerOf,
+  tagsOf,
 } from "../../effects/objects";
 import { forgetObject } from "../../effects/ops/util";
 import { unitsPresentAt } from "../../state/presence";
@@ -204,7 +205,80 @@ registerCustomCondition("unl:attacking-with-another", (ctx) => {
   );
 });
 
+/** One of the objects bound to `ref` has one of `tags` (143.1; e.g. "a Bird, Cat, Dog or Poro"). */
+registerCustomCondition("unl:ref-has-any-tag", (ctx, params) => {
+  const ref = typeof params.ref === "string" ? params.ref : "kept";
+  const tags = (Array.isArray(params.tags) ? params.tags : []).map((tag) =>
+    String(tag).toLowerCase(),
+  );
+  return refIds(ctx, ref).some((id) =>
+    tagsOf(locate(ctx.room, ctx.host, id)?.card).some((tag) => tags.includes(tag.toLowerCase())),
+  );
+});
+
+/** `it` has one of `tags` (143.1). */
+registerCustomCondition("unl:it-has-any-tag", (ctx, params) => {
+  const tags = (Array.isArray(params.tags) ? params.tags : []).map((tag) =>
+    String(tag).toLowerCase(),
+  );
+  const id = ctx.env.it;
+  return (
+    !!id &&
+    tagsOf(locate(ctx.room, ctx.host, id)?.card).some((tag) => tags.includes(tag.toLowerCase()))
+  );
+});
+
+/** A showdown is in progress (340–348). */
+registerCustomCondition("unl:in-showdown", (ctx) => !!ctx.room.rules?.showdown);
+
+/**
+ * Forbidding Waste — "While a unit here is defending alone" (466.2.c.3 Defender; 740.2.a alone:
+ * no other friendly units here). Evaluated for `it`.
+ */
+registerCustomCondition("unl:defending-alone", (ctx) => {
+  const id = ctx.env.it;
+  if (!id || ctx.room.rules?.objects[id]?.designation !== "defender") return false;
+  const zone = locationOf(ctx.room, ctx.host, id);
+  const controller = locate(ctx.room, ctx.host, id)?.playerId;
+  if (!zone || !controller) return false;
+  return unitsPresentAt(ctx.room, ctx.host, zone, controller).every((card) => card.id === id);
+});
+
 /* ---------------------------------------------------------------- effects */
+
+/**
+ * "The next time it would die this turn, <replace> instead" (367–370 delayed replacement, 391.3;
+ * Smite, Tactical Retreat). Created for `it` (the chosen unit, validated by the enclosing
+ * `for_each`) with the object bound literally, because a delayed replacement's matcher does not
+ * see the creating ability's choices; `replace` refers to the unit as `{ targetRef: "event" }`.
+ */
+registerCustomEffect("unl:replace-next-death", (params, context) => {
+  const ctx = evalContextOf(context);
+  const id = ctx.env.it;
+  const replace = params.replace as Effect | undefined;
+  if (!id || !replace) return RESOLVED;
+  addContinuousEffect(context.room, ctx.host, {
+    controller: ctx.env.controller,
+    duration: "this-turn",
+    modifier: {
+      kind: "custom",
+      id: "replacement",
+      params: {
+        matches: { type: "kill", subject: { targetRef: `obj:${id}` } },
+        replace,
+        once: true,
+      },
+    },
+    ...(ctx.env.sourceObjectId ? { sourceObjectId: ctx.env.sourceObjectId } : {}),
+  });
+  pushEvent(context.step.events, {
+    type: "replacement_created",
+    playerId: ctx.env.controller,
+    cardId: id,
+  });
+  recordOutcome(context, [id], true);
+  return RESOLVED;
+});
 
 /**
  * Abandon — "Counter a spell. Return it to its owner's hand instead of putting it in their

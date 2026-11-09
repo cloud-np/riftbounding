@@ -76,5 +76,13 @@ import "./nidalee-cat-form";
 import "./passive-units";
 import "./vex-gloomist";
 import "./vilemaw";
+// batch 5 (gear, battlefields, look and Sprite units, replacements)
+import "./battlefields";
+import "./death-replacement-spells";
+import "./gear-misc";
+import "./look-units";
+import "./sprite-makers";
+import "./units-misc";
+import "./vex-apathetic";
 
 export {};
