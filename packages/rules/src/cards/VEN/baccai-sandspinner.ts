@@ -8,7 +8,6 @@
 import { registerCardScript } from "../registry";
 import { SELF } from "../dsl";
 import {
-  DEFLECT_GAP,
   ON_BOARD,
   conditional,
   empower,
@@ -20,8 +19,7 @@ import {
 registerCardScript({
   name: "Baccai Sandspinner",
   text: "[Empower 5] THis ability costs [3] less if you control 4 or fewer runes. (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered]  I have [deflect] and [assault 2]. (Opponents must pay [rune] to choose me with a spell or ability. +2 [might]  if im the attacker.)",
-  status: "partial",
-  notes: DEFLECT_GAP,
+  status: "implemented",
   abilities: [
     notIntrinsic("Deflect"),
     notIntrinsic("Assault"),

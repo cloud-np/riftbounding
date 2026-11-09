@@ -5,13 +5,12 @@
  */
 import { registerCardScript } from "../registry";
 import { SELF } from "../dsl";
-import { DEFLECT_GAP, empower, notIntrinsic, whileEmpowered } from "./shared";
+import { empower, notIntrinsic, whileEmpowered } from "./shared";
 
 registerCardScript({
   name: "Serene Ascetic",
   text: "[empower][3] ([3]: Empower me. Use only if not Empowered.)\n[empowered] I have [deflect] and [shield 3]. (Opponents must pay [rune] to choose me with a spell or ability. +3[might] while I'm a defender.)",
-  status: "partial",
-  notes: DEFLECT_GAP,
+  status: "implemented",
   abilities: [
     notIntrinsic("Deflect"),
     notIntrinsic("Shield"),

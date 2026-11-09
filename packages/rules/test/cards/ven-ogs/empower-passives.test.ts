@@ -45,7 +45,7 @@ describe("Vendetta: Empower passives", () => {
     s.as("p2").pass().expectOk();
     expect(might(s, hawk.id)).toBe(4);
     expect(keywordValue(s, hawk.id, "Deflect")).toBe(2);
-    expect(getCardScript("Solari Sunhawk")?.status).toBe("partial");
+    expect(getCardScript("Solari Sunhawk")?.status).toBe("implemented");
   });
 
   it("[C:Serene Ascetic][R828.1.c] Empower [3]: Deflect and Shield 3 only while Empowered", () => {

@@ -8,7 +8,7 @@
  */
 import { registerCardScript } from "../registry";
 import { SELF, custom } from "../dsl";
-import { DEFLECT_GAP, conditional, notIntrinsic } from "./shared";
+import { conditional, notIntrinsic } from "./shared";
 
 const atLeast = (n: number) => custom("ven:self-empowered-at-least", { n });
 
@@ -16,7 +16,8 @@ registerCardScript({
   name: "Kayle, Justified",
   text: "[Empower] [3] ([3]: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 [Might] for each time I'm [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking].",
   status: "partial",
-  notes: `Only my own Empower stacks: other effects that empower me use the binary empower op, which does not read the 442.1.c.1 permission. ${DEFLECT_GAP}`,
+  notes:
+    "Only my own Empower stacks: other effects that empower me use the binary empower op, which does not read the 442.1.c.1 permission.",
   abilities: [
     notIntrinsic("Deflect"),
     notIntrinsic("Ganking"),

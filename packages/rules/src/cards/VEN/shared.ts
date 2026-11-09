@@ -76,10 +76,6 @@ export const FLOW_GAP =
 export const ENTERS_EXHAUSTED_GAP =
   '"This enters exhausted" is not automated: gear enter ready (149.1) and the entry layer only has an enter-ready replacement (369.3).';
 
-/** Status note shared by the cards whose Deflect comes from a passive (see ven-ogs.md gaps). */
-export const DEFLECT_GAP =
-  "Deflect from the Empowered passive is granted (effectiveKeywords), but R2-play's Deflect cost reads printed and object-granted keywords only, so it is not charged (809.1.c).";
-
 /** 827.1.c.1: "[Cost]: Empower this. Use only if not Empowered." */
 export function empower(cost: Cost): Ability {
   return {
@@ -271,31 +267,6 @@ registerCustomEffect("ven:empower-stacking", (params, context) => {
   recordOutcome(context, done, done.length > 0);
   return RESOLVED;
 });
-
-/**
- * 359.3.f.3.a: run `effect` once per object bound to `ref` (a legal chosen target, 359.3.e),
- * with every `targetRef: "$bound"` in it frozen to that object (`obj:<id>`). Used where a
- * created effect must keep referring to the chosen object outside this resolution (e.g. the
- * matcher of a delayed replacement, which is evaluated without the creator's choices).
- */
-export const BOUND = "$bound";
-
-registerCustomEffect("ven:with-bound", (params, context) => {
-  const machine = context.machine;
-  const ref = typeof params.ref === "string" ? params.ref : "";
-  const effect = params.effect as Effect | undefined;
-  if (!machine || !ref || !effect) return RESOLVED;
-  const ids = refIds(evalContextOf(context), ref);
-  const frames = ids.map((id) => ({ effect: freezeBound(effect, id) }));
-  machine.push(...frames);
-  return RESOLVED;
-});
-
-function freezeBound(value: Effect, id: string): Effect {
-  return JSON.parse(JSON.stringify(value), (key, entry) =>
-    key === "targetRef" && entry === BOUND ? `obj:${id}` : entry,
-  ) as Effect;
-}
 
 /**
  * 356.4.f.1 / 355.1.a: the spell being resolved was played with its printed optional additional

@@ -9,7 +9,6 @@
 import { registerCardScript } from "../registry";
 import { SELF } from "../dsl";
 import {
-  DEFLECT_GAP,
   ON_BOARD,
   empower,
   notIntrinsic,
@@ -20,8 +19,7 @@ import {
 registerCardScript({
   name: "Grumpy Rockbear",
   text: "[Empower] [12] . this ability costs [1] less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered] I have [deflect] and [shield 3]",
-  status: "partial",
-  notes: DEFLECT_GAP,
+  status: "implemented",
   abilities: [
     notIntrinsic("Deflect"),
     notIntrinsic("Shield"),
