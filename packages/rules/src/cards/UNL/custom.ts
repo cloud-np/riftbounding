@@ -2,14 +2,60 @@
  * Unleashed (UNL) card-specific conditions and effects (`unl:` prefix). Import-time registry
  * entries only (no game state); each reads the room through the shared evaluator helpers.
  */
+import type { Room } from "@rift/protocol";
+import type { RulesHost } from "../../host";
 import { pushEvent } from "../../types";
 import { registerCustomCondition, refIds } from "../../effects/evaluate";
 import { registerCustomEffect } from "../../effects/ops";
 import { RESOLVED } from "../../effects/execute";
-import { recordOutcome } from "../../effects/targets";
-import { locate } from "../../effects/objects";
+import type { EvalContext } from "../../effects/env";
+import { idsOf } from "../../effects/env";
+import { evalContextOf, recordOutcome } from "../../effects/targets";
+import {
+  battlefieldZoneOf,
+  isBattlefieldZone,
+  locate,
+  locationOf,
+  ownerOf,
+} from "../../effects/objects";
+import { forgetObject } from "../../effects/ops/util";
 import { unitsPresentAt } from "../../state/presence";
-import { evalContextOf } from "../../effects/targets";
+import { battlefieldController } from "../../actions/control";
+import { teamOf } from "../../scoring/teams";
+import { removeChainItem } from "../../timing/fepr/chain";
+import { addContinuousEffect } from "../../layers/mods";
+
+/* ---------------------------------------------------------------- shared helpers */
+
+/** The first object bound to a choice key, even if it is now an illegal target (359.3.e). */
+function chosenId(ctx: EvalContext, ref: string): string | undefined {
+  const value = ref in ctx.env.vars ? ctx.env.vars[ref] : ctx.env.choices[ref];
+  return idsOf(value)[0];
+}
+
+/**
+ * The location a chosen object was at when the chain item finalized (359.3.e snapshot), else its
+ * current location. "There" / "that battlefield" refer to it even if the object left (359.3.f).
+ */
+function chosenLocation(ctx: EvalContext, ref: string): string | null {
+  const id = chosenId(ctx, ref);
+  if (!id) return null;
+  return ctx.env.snapshot?.[id]?.zone ?? locationOf(ctx.room, ctx.host, id);
+}
+
+/** 740.1 "you or allies": the controller's team (2v2, 491) or just the controller. */
+function teamPlayers(room: Room, playerId: string): string[] {
+  const team = teamOf(room, playerId);
+  return team.length > 0 ? team : [playerId];
+}
+
+/** A player controls a battlefield (190.2, stored control with the presence fallback). */
+function controlsZone(room: Room, host: RulesHost, players: string[], zone: string): boolean {
+  const controller = battlefieldController(room, zone, host);
+  return !!controller && players.includes(controller);
+}
+
+/* ---------------------------------------------------------------- conditions */
 
 /**
  * Loyal Poro — "If I didn't die alone" (740.2.a: alone = no other friendly units at its
@@ -38,6 +84,145 @@ registerCustomCondition("unl:opponent-within", (ctx, params) => {
 });
 
 /**
+ * An optional additional cost (by its R2-play id: "repeat", "repeat:1", "optional:0", …) was paid
+ * for this chain item (355.1.a; R2-play records it as `choices["cost:<id>"]`). Used for Repeat
+ * (820.1.d: "execute the instructions … one additional time").
+ */
+registerCustomCondition("unl:paid-cost", (ctx, params) => {
+  const id = typeof params.id === "string" ? params.id : "repeat";
+  return ctx.env.choices[`cost:${id}`] === true;
+});
+
+/**
+ * `it` (a battlefield pseudo-object) is controlled by you or an ally (190.2; "battlefields you or
+ * allies control").
+ */
+registerCustomCondition("unl:battlefield-controlled-by-team", (ctx) => {
+  const zone = ctx.env.it ? battlefieldZoneOf(ctx.env.it) : null;
+  if (!zone) return false;
+  return controlsZone(ctx.room, ctx.host, teamPlayers(ctx.room, ctx.env.controller), zone);
+});
+
+/** "If you control a facedown card" (107.3: facedown cards at battlefields, 811). */
+registerCustomCondition("unl:controls-facedown", (ctx) =>
+  ctx.host
+    .battlefieldZones(ctx.room)
+    .some((zone) =>
+      ctx.host.zoneCards(ctx.room, ctx.env.controller, zone).some((card) => card.hidden === true),
+    ),
+);
+
+/** `it` is at the location the chosen object (`ref`) was at when the item finalized. */
+registerCustomCondition("unl:at-chosen-location", (ctx, params) => {
+  const ref = typeof params.ref === "string" ? params.ref : "target:0";
+  const zone = chosenLocation(ctx, ref);
+  return !!zone && !!ctx.env.it && locationOf(ctx.room, ctx.host, ctx.env.it) === zone;
+});
+
+/**
+ * Isolate — "if there's an enemy unit alone at that battlefield" (740.2.a: alone = no other
+ * friendly units of its controller there); "that battlefield" is where the chosen unit was.
+ */
+registerCustomCondition("unl:enemy-alone-at-chosen", (ctx, params) => {
+  const ref = typeof params.ref === "string" ? params.ref : "target:0";
+  const zone = chosenLocation(ctx, ref);
+  if (!zone || !isBattlefieldZone(ctx.room, ctx.host, zone)) return false;
+  return ctx.host
+    .activePlayerIds(ctx.room)
+    .filter((id) => id !== ctx.env.controller)
+    .some((id) => unitsPresentAt(ctx.room, ctx.host, zone, id).length === 1);
+});
+
+/** "If you played this from your hand" — not from facedown (811.1.b) or another zone (354). */
+registerCustomCondition("unl:played-from-hand", (ctx) => {
+  const item = ctx.room.rules?.chain.find((entry) => entry.id === ctx.env.itemId);
+  if (!item || item.playedFromFacedown) return false;
+  const permission = item.process?.permission?.id;
+  const from = item.process?.fromZone;
+  return (
+    (permission === undefined || permission === "hand") && (from === undefined || from === "hand")
+  );
+});
+
+/**
+ * "When it/I win(s) a combat" (468.3.c: units at the battlefield inherit their controller's result;
+ * R2-combat's `combat_result` event lists them in `data.units`).
+ */
+registerCustomCondition("unl:unit-won-combat", (ctx, params) => {
+  const event = ctx.env.event;
+  if (event?.type !== "combat_result") return false;
+  const ref = typeof params.ref === "string" ? params.ref : "self";
+  const ids = ref === "self" ? [ctx.env.sourceObjectId ?? ""] : refIds(ctx, ref);
+  const units = (event.data?.units ?? {}) as Record<string, string>;
+  return ids.some((id) => units[id] === "win");
+});
+
+/** `it` (a battlefield pseudo-object) has at least one unit you control (107.3 presence). */
+registerCustomCondition("unl:you-have-units-at-it", (ctx) => {
+  const zone = ctx.env.it ? battlefieldZoneOf(ctx.env.it) : null;
+  return !!zone && unitsPresentAt(ctx.room, ctx.host, zone, ctx.env.controller).length > 0;
+});
+
+/* ---------------------------------------------------------------- effects */
+
+/**
+ * Abandon — "Counter a spell. Return it to its owner's hand instead of putting it in their
+ * trash." (426.1.a: a countered card leaves the chain; the replacement sends the card to its
+ * owner's hand, 056). Acts on `it` (the chosen spell). Costs are not refunded (426.1.c).
+ */
+registerCustomEffect("unl:counter-to-hand", (_params, context) => {
+  const ctx = evalContextOf(context);
+  const id = ctx.env.it;
+  const item = id ? context.room.rules?.chain.find((entry) => entry.id === id) : undefined;
+  if (!item) {
+    recordOutcome(context, [], false);
+    return RESOLVED;
+  }
+  removeChainItem(context.room, item.id);
+  if (item.kind === "card" && item.cardSnapshot) {
+    const owner = item.cardSnapshot.ownerPlayerId ?? item.controller;
+    ctx.host.putCard(context.room, owner, "hand", item.cardSnapshot);
+  }
+  pushEvent(context.step.events, {
+    type: "counter",
+    playerId: ctx.env.controller,
+    cardName: item.cardName,
+    ...(item.cardSnapshot ? { cardId: item.cardSnapshot.id } : {}),
+    data: { itemId: item.id, controller: item.controller, kind: item.kind, to: "hand" },
+  });
+  recordOutcome(context, [item.id], true);
+  return RESOLVED;
+});
+
+/**
+ * Lilting Lullaby — "Its controller can't play spells this turn." A player-level restriction
+ * (054.1 can't beats can) expressed as `play` restrictions on that player's spell cards in hand and
+ * facedown at battlefields (811.1.b), for this turn. Acts on `it` (the chosen spell).
+ */
+registerCustomEffect("unl:no-spells-this-turn", (_params, context) => {
+  const ctx = evalContextOf(context);
+  const id = ctx.env.it;
+  const item = id ? context.room.rules?.chain.find((entry) => entry.id === id) : undefined;
+  if (!item) return RESOLVED;
+  const player = item.controller;
+  const zones: Array<"hand" | "battlefield"> = ["hand", "battlefield"];
+  for (const zone of zones) {
+    addContinuousEffect(context.room, ctx.host, {
+      controller: ctx.env.controller,
+      duration: "this-turn",
+      modifier: {
+        kind: "restriction",
+        restriction: "play",
+        target: { cardType: "spell", zone, controller: { kind: "player", id: player } },
+      },
+      ...(ctx.env.sourceObjectId ? { sourceObjectId: ctx.env.sourceObjectId } : {}),
+    });
+  }
+  recordOutcome(context, [], true);
+  return RESOLVED;
+});
+
+/**
  * "Draw it" for a card picked from among the looked-at top cards of your Main Deck (414.1: the
  * card is put into its owner's hand from the Main Deck; `draw` event so draw triggers see it).
  */
@@ -61,5 +246,58 @@ registerCustomEffect("unl:draw-ref", (params, context) => {
     });
   }
   recordOutcome(context, drawn, drawn.length > 0);
+  return RESOLVED;
+});
+
+/**
+ * Keeper's Verdict — "Its owner places it on the top or bottom of their Main Deck." The owner
+ * makes the choice (412.4 / 355.18: a choice made on resolution by the instructed player); the
+ * object leaves the board and loses its rules state (705, 186.1 for tokens). Acts on `it`.
+ */
+registerCustomEffect("unl:owner-top-or-bottom", (_params, context) => {
+  const ctx = evalContextOf(context);
+  const machine = context.machine;
+  const id = ctx.env.it;
+  if (!id || !machine) return RESOLVED;
+  const owner = ownerOf(context.room, ctx.host, id);
+  const located = locate(context.room, ctx.host, id);
+  if (!owner || !located) {
+    recordOutcome(context, [], false);
+    return RESOLVED;
+  }
+  const answer = machine.frame.answer;
+  const picked = Array.isArray(answer) ? answer[0] : answer;
+  if (picked !== "top" && picked !== "bottom") {
+    return machine.ask({
+      kind: "choose-mode",
+      playerId: owner,
+      options: [
+        { id: "top", label: "Top" },
+        { id: "bottom", label: "Bottom" },
+      ],
+      min: 1,
+      max: 1,
+      rule: "412.4",
+      promptKey: "rules.prompt.topOrBottom",
+      data: { answer: "options" },
+    });
+  }
+  machine.frame.answer = undefined;
+  if (located.card.attachedToCardId) ctx.host.detach(context.room, id);
+  if (!ctx.host.moveCardToOwnerZone(context.room, id, "deck", picked)) {
+    recordOutcome(context, [], false);
+    return RESOLVED;
+  }
+  forgetObject(context.room, ctx.host, id);
+  // Not a Move (421: moves are between locations), so no "move" event.
+  pushEvent(context.step.events, {
+    type: "place_in_deck",
+    cardId: id,
+    playerId: owner,
+    zone: "deck",
+    cardName: located.card.name,
+    data: { from: located.zone, position: picked },
+  });
+  recordOutcome(context, [id], true);
   return RESOLVED;
 });
