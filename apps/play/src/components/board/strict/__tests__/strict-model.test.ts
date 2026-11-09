@@ -167,6 +167,24 @@ describe("strict board model (R2-int)", () => {
     expect(strictActionButtons(room(), null, t)).toEqual([]);
   });
 
+  it("[R811.1.b] offers Hide at each legal battlefield", () => {
+    const buttons = strictActionButtons(
+      room(),
+      legal({
+        hideable: [{ cardId: "c1", locations: ["battlefieldA", "battlefieldB"] }],
+      }),
+      t,
+    );
+    expect(buttons.map((button) => button.label)).toEqual([
+      "Hide Rebuke → Battlefield A",
+      "Hide Rebuke → Battlefield B",
+    ]);
+    expect(buttons.map((button) => button.intent)).toEqual([
+      { type: "rules_play", cardId: "c1", hide: true, location: "battlefieldA" },
+      { type: "rules_play", cardId: "c1", hide: true, location: "battlefieldB" },
+    ]);
+  });
+
   it("[R411.2] shows whose decision is pending, and the manual window", () => {
     const r = room();
     expect(

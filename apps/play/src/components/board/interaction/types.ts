@@ -12,6 +12,7 @@ import type { LabelPreset } from "../menus/label-presets";
 import type { HoverPreviewLayout, PreviewAnchorRect } from "../hover/hover-metrics";
 import type { BoardSlotProps } from "../slot-types";
 import type { GameActionIntent } from "../slot-types";
+import type { StrictBoardView } from "../strict/strict-interaction";
 
 export type ArmedAction =
   | { kind: "none" }
@@ -125,6 +126,11 @@ export interface BoardInteractionValue {
   viewerId: string;
   mode: BoardSlotProps["mode"];
   canAct: boolean;
+
+  /* strict-rules board view (null in sandbox rooms) */
+  strictView: StrictBoardView | null;
+  /** §6.4 manual window is open for the acting seat (sandbox board actions stay legal). */
+  strictManual: boolean;
 
   /* hover preview */
   showCardPreview: (card: CardInstance, anchor?: PreviewAnchorInput, options?: ShowCardPreviewOptions) => void;

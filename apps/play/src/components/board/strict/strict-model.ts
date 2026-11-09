@@ -148,6 +148,16 @@ export function strictActionButtons(
       tone: "neutral",
     });
   }
+  for (const entry of legal.hideable ?? []) {
+    for (const location of entry.locations) {
+      buttons.push({
+        key: `hide:${entry.cardId}:${location}`,
+        label: `${t("rules.ui.hide") ?? "Hide"} ${cardName(room, entry.cardId)} → ${zoneLabel(t, location)}`,
+        intent: { type: "rules_play", cardId: entry.cardId, hide: true, location: location as ZoneSelector },
+        tone: "neutral",
+      });
+    }
+  }
   if (legal.canPass) {
     buttons.push({
       key: "pass",
