@@ -13,7 +13,7 @@ import {
   xpOf,
 } from "../../src";
 import { scenario } from "../scenarios/dsl";
-import { boardOf, eventTypes, place, run, spell, zoneOf } from "../rules/effects/helpers";
+import { boardOf, eventTypes, fund, place, run, spell, zoneOf } from "../rules/effects/helpers";
 
 // Tests that override a card's script register it themselves; production scripts stay loaded for
 // the rest (no global clear between tests).
@@ -106,8 +106,9 @@ describe("official examples — effects", () => {
         },
       ],
     });
-    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Stellacorn Herder", "Clockwork Keeper"], energy: 9 } });
+    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Stellacorn Herder", "Clockwork Keeper"] } });
     place(s, "p1", "Treasure Hunter", "base");
+    fund(s, "p1", "Caitlyn, Patrolling", "Stellacorn Herder", "Clockwork Keeper");
     s.as("p1").play("Caitlyn, Patrolling").expectOk();
     s.as("p1").choose({ optionIds: ["no"] }).expectOk();
     s.as("p1").play("Stellacorn Herder").expectOk();

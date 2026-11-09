@@ -85,3 +85,33 @@ export function eventTypes(events: GameEvent[]): string[] {
 export function objectOf(room: Room, id: string) {
   return room.rules?.objects[id];
 }
+
+/**
+ * Fund plays exactly (357.1, 131): add each named card's printed Energy cost and Power cost
+ * (as Power of the card's first Domain, 135.2.e.6) to the player's Rune Pool, read from the
+ * catalog through `host.cardInfo`. The card must be in the player's hand or on the board. Payment
+ * still runs through R2-play's planner; this only provides the resources a real player would
+ * have channeled.
+ */
+export function fund(s: RulesScenario, playerId: string, ...names: string[]): void {
+  const pool = s.room.rules?.pools[playerId];
+  if (!pool) throw new Error(`fund: no pool for ${playerId}`);
+  const board = boardOf(s, playerId) as unknown as Record<string, CardInstance[] | undefined>;
+  const used = new Set<string>();
+  for (const name of names) {
+    let card: CardInstance | undefined;
+    for (const zone of ["hand", "base", "battlefieldA", "battlefieldB", "battlefieldC", "champion", "legend", "deck"]) {
+      card = (board[zone] ?? []).find((entry) => entry.name === name && !used.has(entry.id));
+      if (card) break;
+    }
+    if (!card) throw new Error(`fund: ${name} not found for ${playerId}`);
+    used.add(card.id);
+    const info = s.host.cardInfo(s.room, card.id);
+    pool.energy += info?.energyCost ?? 0;
+    const power = info?.powerCost ?? 0;
+    if (power > 0) {
+      const domain = (info?.domains?.[0] ?? "any") as keyof typeof pool.power;
+      pool.power = { ...pool.power, [domain]: (pool.power[domain] ?? 0) + power };
+    }
+  }
+}

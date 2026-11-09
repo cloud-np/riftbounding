@@ -14,7 +14,7 @@ import {
   victoryScoreAdjustment,
 } from "../../src";
 import { scenario } from "../scenarios/dsl";
-import { boardOf, place, stepFor, zoneOf } from "../rules/effects/helpers";
+import { boardOf, fund, place, stepFor, zoneOf } from "../rules/effects/helpers";
 
 function passBoth(s: ReturnType<typeof scenario>, first = "p1"): void {
   const second = first === "p1" ? "p2" : "p1";
@@ -112,6 +112,8 @@ describe("fixture deck card scripts", () => {
     const ctx = (choices: Record<string, unknown>) => ({ controller: "p1", sourceObjectId: caitlyn.id, choices: choices as never });
     expect(validateChoices(s.room, s.host, ability, ctx({ "target:0": enemy.id }))).toMatchObject({ ok: false, rule: "377.2.b" });
     s.host.moveCard(s.room, "p1", "base", "battlefieldB", caitlyn.id);
+    // The host's raw move applies the engine's arrival exhaustion; [Tap] needs a ready object (415.4).
+    s.host.setExhausted(s.room, caitlyn.id, false);
     expect(validateChoices(s.room, s.host, ability, ctx({ "target:0": enemy.id })).ok).toBe(true);
     s.as("p1").apply({ type: "rules_activate", objectId: caitlyn.id, ability: "activated:1", choices: { "target:0": enemy.id } }).expectOk();
     s.as("p2").pass().expectOk();
@@ -170,8 +172,9 @@ describe("fixture deck card scripts", () => {
   });
 
   it("[C:Whiteflame Protector] when played, gives a chosen unit +8 Might this turn", () => {
-    const s = scenario({ p1: { hand: ["Whiteflame Protector"], energy: 8 } });
+    const s = scenario({ p1: { hand: ["Whiteflame Protector"] } });
     const friend = place(s, "p1", "Caitlyn, Patrolling", "base");
+    fund(s, "p1", "Whiteflame Protector");
     s.as("p1").play("Whiteflame Protector").expectOk();
     s.expectPrompt("choose-target", "p1");
     s.as("p1").choose({ optionIds: [friend.id] }).expectOk();
@@ -226,8 +229,9 @@ describe("fixture deck card scripts", () => {
   });
 
   it("[C:Riven, The Exile] units played to a battlefield you control enter ready; to the base exhausted", () => {
-    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Stellacorn Herder"], energy: 9 } });
+    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Stellacorn Herder"] } });
     place(s, "p1", "Treasure Hunter", "battlefieldA");
+    fund(s, "p1", "Caitlyn, Patrolling", "Stellacorn Herder");
     s.as("p1").play("Caitlyn, Patrolling", { location: "battlefieldA" }).expectOk();
     expect(s.findBoardCard("Caitlyn, Patrolling")!.exhausted).toBe(false);
     s.as("p1").play("Stellacorn Herder").expectOk();

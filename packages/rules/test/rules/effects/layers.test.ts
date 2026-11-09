@@ -10,7 +10,7 @@ import {
   restrictionFor,
 } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
-import { eventTypes, place, run } from "./helpers";
+import { eventTypes, fund, place, run } from "./helpers";
 
 afterEach(() => clearCardScripts());
 
@@ -261,8 +261,9 @@ describe("restrictions, costs, entry [R054][R356][R369.3]", () => {
       status: "implemented",
       abilities: [{ kind: "passive", modifier: { kind: "custom", id: "enter-ready", params: { battlefieldYouControl: true, target: { cardType: "unit" } } } }],
     });
-    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Stellacorn Herder"], energy: 9 } });
+    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Stellacorn Herder"] } });
     place(s, "p1", "Treasure Hunter", "battlefieldA");
+    fund(s, "p1", "Caitlyn, Patrolling", "Stellacorn Herder");
     s.as("p1").play("Caitlyn, Patrolling", { location: "battlefieldA" }).expectOk();
     const caitlyn = s.findBoardCard("Caitlyn, Patrolling")!;
     expect(caitlyn.exhausted).toBe(false);

@@ -10,7 +10,7 @@ import {
   xpOf,
 } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
-import { boardOf, place, registerAll, run, spell } from "./helpers";
+import { boardOf, fund, place, registerAll, run, spell } from "./helpers";
 
 const DRAW_THEN_XP: Effect = {
   op: "seq",
@@ -91,7 +91,8 @@ describe("effect interpreter — control ops [§6.2][R359.3.d]", () => {
   });
 
   it("[R355.3] choose_mode executes the mode chosen on play", () => {
-    const s = scenario({ p1: { hand: ["Defy"], energy: 1 } });
+    const s = scenario({ p1: { hand: ["Defy"] } });
+    fund(s, "p1", "Defy");
     s.as("p1").play("Defy", { choices: { mode: "xp" } }).expectOk();
     const before = handSize(s);
     s.as("p2").pass().expectOk();
@@ -99,14 +100,32 @@ describe("effect interpreter — control ops [§6.2][R359.3.d]", () => {
     expect(handSize(s)).toBe(before);
   });
 
-  it("[R355.3][R355.18] a mode left unbound is asked when the spell resolves", () => {
-    const s = scenario({ p1: { hand: ["Defy"], energy: 1 } });
+  it("[R355.3] a mode the intent leaves unbound is chosen while the spell is played", () => {
+    const s = scenario({ p1: { hand: ["Defy"] } });
+    fund(s, "p1", "Defy");
     s.as("p1").play("Defy").expectOk();
-    s.as("p2").pass().expectOk();
     s.expectPrompt("choose-mode", "p1");
+    expect(s.room.rules?.prompt?.rule).toBe("355.3");
     expect(s.room.rules?.prompt?.options?.map((option) => option.id)).toEqual(["draw", "xp"]);
     s.as("p1").choose({ optionIds: ["draw"] }).expectOk();
+    const before = handSize(s);
+    s.as("p2").pass().expectOk();
+    expect(handSize(s)).toBe(before + 1);
     expect(xpOf(s.room, "p1")).toBe(0);
+  });
+
+  it("[R355.18][§6.2] a mode reached on resolution without a play-time binding is asked then", () => {
+    const s = scenario();
+    const result = run(s, {
+      op: "choose_mode",
+      modes: [
+        { id: "draw", label: "Draw 1", effect: { op: "draw", amount: 1 } },
+        { id: "xp", label: "Gain 3 XP", effect: { op: "gain_xp", amount: 3 } },
+      ],
+    });
+    expect(result.status).toBe("await");
+    s.expectPrompt("choose-mode", "p1");
+    expect(s.room.rules?.prompt?.options?.map((option) => option.id)).toEqual(["draw", "xp"]);
   });
 
   it("[§6.2] for_each binds each matching object as \"it\"; repeat runs N times", () => {

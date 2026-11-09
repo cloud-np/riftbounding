@@ -17,7 +17,7 @@ import {
   xpOf,
 } from "../../src";
 import { scenario } from "../scenarios/dsl";
-import { boardOf, place, run, spell, zoneOf } from "../rules/effects/helpers";
+import { boardOf, fund, place, run, spell, zoneOf } from "../rules/effects/helpers";
 
 type S = ReturnType<typeof scenario>;
 
@@ -45,6 +45,7 @@ describe("cards from the official examples", () => {
     const s = withCards(["Void Seeker"]);
     const enemy = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
     const before = boardOf(s, "p1").hand.length;
+    fund(s, "p1", "Void Seeker");
     s.as("p1").play("Void Seeker", { choices: { "target:0": enemy.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, enemy.id)).toBe("trash");
@@ -55,6 +56,7 @@ describe("cards from the official examples", () => {
     const s = withCards(["Hidden Blade"]);
     const enemy = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
     const before = boardOf(s, "p2").hand.length;
+    fund(s, "p1", "Hidden Blade");
     s.as("p1").play("Hidden Blade", { choices: { "target:0": enemy.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, enemy.id)).toBe("trash");
@@ -68,6 +70,7 @@ describe("cards from the official examples", () => {
     const b = place(s, "p1", "Stellacorn Herder", "battlefieldA");
     const ability = lookupAbility("Flash", "spell")!.ability;
     expect(requiredChoices(s.room, s.host, ability, { controller: "p1", choices: {} })[0]).toMatchObject({ min: 0, max: 2 });
+    fund(s, "p1", "Flash");
     s.as("p1").play("Flash", { choices: { "target:0": [a.id, b.id] } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, a.id)).toBe("base");
@@ -78,6 +81,7 @@ describe("cards from the official examples", () => {
     const s = withCards(["Singularity"]);
     const a = place(s, "p2", "Whiteflame Protector", "battlefieldA");
     const b = place(s, "p2", "Astral Heron", "battlefieldA");
+    fund(s, "p1", "Singularity");
     s.as("p1").play("Singularity", { choices: { "target:0": [a.id, b.id] } }).expectOk();
     s.host.moveCardToOwnerZone(s.room, b.id, "hand");
     s.as("p2").pass().expectOk();
@@ -89,6 +93,7 @@ describe("cards from the official examples", () => {
     place(s, "p1", "Annie, Fiery", "base");
     const a = place(s, "p2", "Whiteflame Protector", "battlefieldA");
     const b = place(s, "p2", "Astral Heron", "battlefieldA");
+    fund(s, "p1", "Singularity");
     s.as("p1").play("Singularity", { choices: { "target:0": [a.id, b.id] } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(s.room.rules!.objects[a.id]?.damage).toBe(7);
@@ -99,6 +104,7 @@ describe("cards from the official examples", () => {
     const s = withCards(["Hextech Ray"], ["Zhonya's Hourglass"]);
     const unit = place(s, "p2", "Treasure Hunter", "battlefieldA");
     const zhonya = place(s, "p2", "Zhonya's Hourglass", "base");
+    fund(s, "p1", "Hextech Ray");
     s.as("p1").play("Hextech Ray", { choices: { "target:0": unit.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, unit.id)).toBe("base");
@@ -109,9 +115,11 @@ describe("cards from the official examples", () => {
   it("[C:Noxian Guillotine][EX:392] kills the chosen unit the next time it takes damage this turn", () => {
     const s = withCards(["Noxian Guillotine", "Hextech Ray"]);
     const enemy = place(s, "p2", "Whiteflame Protector", "battlefieldA");
+    fund(s, "p1", "Noxian Guillotine");
     s.as("p1").play("Noxian Guillotine", { choices: { "target:0": enemy.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, enemy.id)).toBe("battlefieldA");
+    fund(s, "p1", "Hextech Ray");
     s.as("p1").play("Hextech Ray", { choices: { "target:0": enemy.id } }).expectOk();
     s.as("p2").pass().expectOk();
     passBoth(s);
@@ -122,8 +130,10 @@ describe("cards from the official examples", () => {
     const s = withCards(["Hextech Ray", "Noxian Guillotine"]);
     const other = place(s, "p2", "Astral Heron", "battlefieldA");
     const enemy = place(s, "p2", "Whiteflame Protector", "battlefieldA");
+    fund(s, "p1", "Hextech Ray");
     s.as("p1").play("Hextech Ray", { choices: { "target:0": other.id } }).expectOk();
     s.as("p2").pass().expectOk();
+    fund(s, "p1", "Noxian Guillotine");
     s.as("p1").play("Noxian Guillotine", { choices: { "target:0": enemy.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, enemy.id)).toBe("trash");
@@ -136,8 +146,10 @@ describe("cards from the official examples", () => {
     const b = place(s, "p2", "Astral Heron", "battlefieldA");
     s.as("p1").apply({ type: "rules_activate", objectId: tome.id, ability: listActivatedAbilities("Ravenborn Tome")[0]!.ref }).expectOk();
     s.as("p2").pass().expectOk();
+    fund(s, "p1", "Hextech Ray");
     s.as("p1").play("Hextech Ray", { choices: { "target:0": a.id } }).expectOk();
     s.as("p2").pass().expectOk();
+    fund(s, "p1", "Void Seeker");
     s.as("p1").play("Void Seeker", { choices: { "target:0": b.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(s.room.rules!.objects[a.id]?.damage).toBe(4);
@@ -148,6 +160,7 @@ describe("cards from the official examples", () => {
     const s = withCards(["Last Stand"]);
     const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     s.room.rules!.objects[unit.id] = { baseMight: 3 };
+    fund(s, "p1", "Last Stand");
     s.as("p1").play("Last Stand", { choices: { "target:0": unit.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(effectiveMight(s.room, unit.id, s.host)).toBe(6);
@@ -163,12 +176,15 @@ describe("cards from the official examples", () => {
     const s = withCards(["Discipline", "Feral Strength", "Frigid Touch"]);
     const unit = place(s, "p1", "Caitlyn, Patrolling", "base");
     const before = boardOf(s, "p1").hand.length;
+    fund(s, "p1", "Discipline");
     s.as("p1").play("Discipline", { choices: { "target:0": unit.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(effectiveMight(s.room, unit.id, s.host)).toBe(5);
     expect(boardOf(s, "p1").hand.length).toBe(before - 1 + 1);
+    fund(s, "p1", "Feral Strength");
     s.as("p1").play("Feral Strength", { choices: { "target:0": unit.id } }).expectOk();
     s.as("p2").pass().expectOk();
+    fund(s, "p1", "Frigid Touch");
     s.as("p1").play("Frigid Touch", { choices: { "target:0": unit.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(effectiveMight(s.room, unit.id, s.host)).toBe(5);
@@ -179,6 +195,7 @@ describe("cards from the official examples", () => {
     const s = withCards(["Falling Star"]);
     const a = place(s, "p2", "Whiteflame Protector", "battlefieldA");
     const b = place(s, "p2", "Astral Heron", "base");
+    fund(s, "p1", "Falling Star");
     s.as("p1").play("Falling Star", { choices: { "target:0": a.id, "target:1": b.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(s.room.rules!.objects[a.id]?.damage).toBe(3);
@@ -188,6 +205,7 @@ describe("cards from the official examples", () => {
   it("[C:Eclipse] gives a unit -4 Might this turn, then Predict", () => {
     const s = withCards(["Eclipse"]);
     const enemy = place(s, "p2", "Astral Heron", "battlefieldA");
+    fund(s, "p1", "Eclipse");
     s.as("p1").play("Eclipse", { choices: { "target:0": enemy.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(effectiveMight(s.room, enemy.id, s.host)).toBe(3);
@@ -199,6 +217,7 @@ describe("cards from the official examples", () => {
     const s = withCards(["Hextech Ray"]);
     const enemy = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
     run(s, { op: "prevent", amount: 3, target: { targetRef: "obj:" + enemy.id } }, { controller: "p2" });
+    fund(s, "p1", "Hextech Ray");
     s.as("p1").play("Hextech Ray", { choices: { "target:0": enemy.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(s.room.rules!.objects[enemy.id]?.damage).toBeUndefined();
@@ -207,6 +226,7 @@ describe("cards from the official examples", () => {
   it("[C:Ride the Wind] moves a friendly unit and readies it", () => {
     const s = withCards(["Ride the Wind"]);
     const unit = place(s, "p1", "Caitlyn, Patrolling", "base", { exhausted: true });
+    fund(s, "p1", "Ride the Wind");
     s.as("p1").play("Ride the Wind", { choices: { "target:0": unit.id, destination: "battlefieldB" } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, unit.id)).toBe("battlefieldB");
@@ -218,6 +238,7 @@ describe("cards from the official examples", () => {
     const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA", { exhausted: true });
     const stop = registerActionInterceptor((_room, _step, proposal) => (proposal.type === "move" ? null : proposal));
     try {
+      fund(s, "p1", "Ride the Wind");
       s.as("p1").play("Ride the Wind", { choices: { "target:0": unit.id, destination: "base" } }).expectOk();
       s.as("p2").pass().expectOk();
     } finally {
@@ -231,6 +252,7 @@ describe("cards from the official examples", () => {
     const s = withCards(["Retreat"]);
     const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     const runes = boardOf(s, "p1").runeArea.length;
+    fund(s, "p1", "Retreat");
     s.as("p1").play("Retreat", { choices: { "target:0": unit.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, unit.id)).toBe("hand");
@@ -243,6 +265,7 @@ describe("cards from the official examples", () => {
     const s = withCards(["Challenge"]);
     const mine = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     const theirs = place(s, "p2", "Whiteflame Protector", "battlefieldA");
+    fund(s, "p1", "Challenge");
     s.as("p1").play("Challenge", { choices: { "target:0": mine.id, "target:1": theirs.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, mine.id)).toBe("trash");
@@ -256,6 +279,7 @@ describe("cards from the official examples", () => {
     const victim = place(s, "p1", "Astral Heron", "base");
     const other = place(s, "p1", "Caitlyn, Patrolling", "base");
     const before = boardOf(s, "p1").hand.length;
+    fund(s, "p1", "Deathgrip");
     s.as("p1").play("Deathgrip", { choices: { "target:0": victim.id, "target:1": other.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, victim.id)).toBe("trash");
@@ -267,9 +291,11 @@ describe("cards from the official examples", () => {
     const s = withCards(["Stupefy", "Stupefy"]);
     const one = place(s, "p2", "Treasure Hunter", "battlefieldA");
     const three = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
+    fund(s, "p1", "Stupefy");
     s.as("p1").play("Stupefy", { choices: { "target:0": one.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(effectiveMight(s.room, one.id, s.host)).toBe(1);
+    fund(s, "p1", "Stupefy");
     s.as("p1").play("Stupefy", { choices: { "target:0": three.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(effectiveMight(s.room, three.id, s.host)).toBe(2);
@@ -284,6 +310,7 @@ describe("cards from the official examples", () => {
       const herald = place(s, "p1", "Eclipse Herald", "base", { exhausted: true });
       s.room.rules!.objects[herald.id] = { baseMight: 7 };
       const enemy = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
+      fund(s, "p1", "Rebuke");
       s.as("p1").play("Rebuke", { choices: { "target:0": enemy.id } }).expectOk();
       s.as("p2").pass().expectOk();
       expect(s.room.rules!.chain[0]?.cardName).toBe("Eclipse Herald");
@@ -299,6 +326,7 @@ describe("cards from the official examples", () => {
     const s = withCards(["Hextech Ray", "Hextech Ray"], ["Viktor, Leader"]);
     place(s, "p2", "Viktor, Leader", "base");
     const friend = place(s, "p2", "Treasure Hunter", "battlefieldA");
+    fund(s, "p1", "Hextech Ray");
     s.as("p1").play("Hextech Ray", { choices: { "target:0": friend.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(s.room.rules!.chain[0]?.cardName).toBe("Viktor, Leader");
@@ -306,6 +334,7 @@ describe("cards from the official examples", () => {
     const recruit = boardOf(s, "p2").base.find((card) => card.name === "Recruit")!;
     expect(recruit).toBeTruthy();
     s.host.moveCard(s.room, "p2", "base", "battlefieldA", recruit.id);
+    fund(s, "p1", "Hextech Ray");
     s.as("p1").play("Hextech Ray", { choices: { "target:0": recruit.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(s.room.rules!.chain).toHaveLength(0);
@@ -316,10 +345,12 @@ describe("cards from the official examples", () => {
     place(s, "p2", "Wraith of Echoes", "base");
     const a = place(s, "p2", "Treasure Hunter", "battlefieldA");
     const b = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
+    fund(s, "p1", "Hextech Ray");
     s.as("p1").play("Hextech Ray", { choices: { "target:0": a.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(s.room.rules!.chain).toHaveLength(1);
     passBoth(s, "p2");
+    fund(s, "p1", "Hextech Ray");
     s.as("p1").play("Hextech Ray", { choices: { "target:0": b.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, b.id)).toBe("trash");
@@ -332,6 +363,7 @@ describe("cards from the official examples", () => {
     const hand = boardOf(s, "p2").hand;
     hand.splice(0, hand.length);
     hand.push(boardOf(s, "p2").deck.pop()!);
+    fund(s, "p1", "Hidden Blade");
     s.as("p1").play("Hidden Blade", { choices: { "target:0": agent.id } }).expectOk();
     s.as("p2").pass().expectOk();
     // Hidden Blade: its controller draws 2 → 3 cards; Deathknell: discard 2 (choose), draw 2.
@@ -402,6 +434,7 @@ describe("cards from the official examples", () => {
 
   it("[C:Master Yi, Honed][EX:369.3] I enter ready", () => {
     const s = withCards(["Master Yi, Honed"]);
+    fund(s, "p1", "Master Yi, Honed");
     s.as("p1").play("Master Yi, Honed").expectOk();
     expect(s.findBoardCard("Master Yi, Honed")!.exhausted).toBe(false);
   });
@@ -423,6 +456,7 @@ describe("cards from the official examples", () => {
     const hopeful = s.handCard("p1", "Noxus Hopeful")!;
     expect(costAdjustments(s.room, s.host, { playerId: "p1", cardId: hopeful.id })).toEqual([]);
     const enemy = place(s, "p2", "Whiteflame Protector", "battlefieldA");
+    fund(s, "p1", "Hextech Ray");
     s.as("p1").play("Hextech Ray", { choices: { "target:0": enemy.id } }).expectOk();
     expect(costAdjustments(s.room, s.host, { playerId: "p1", cardId: hopeful.id })).toEqual([
       expect.objectContaining({ energy: -2 }),

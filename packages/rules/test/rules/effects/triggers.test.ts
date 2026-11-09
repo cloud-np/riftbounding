@@ -9,7 +9,7 @@ import {
   xpOf,
 } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
-import { boardOf, place, spell, stepFor, zoneOf } from "./helpers";
+import { boardOf, fund, place, spell, stepFor, zoneOf } from "./helpers";
 
 afterEach(() => clearCardScripts());
 
@@ -88,7 +88,8 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   it("[R384.2] triggered abilities of permanents only trigger while on the board", () => {
     registerCardScript(triggered("Treasure Hunter", { kind: "event", event: { type: "unit_played" } }, { op: "gain_xp", amount: 1 }));
     registerCardScript(spell("Caitlyn, Patrolling", { op: "seq", effects: [] }));
-    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Treasure Hunter"], energy: 9 } });
+    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Treasure Hunter"] } });
+    fund(s, "p1", "Caitlyn, Patrolling");
     s.as("p1").play("Caitlyn, Patrolling").expectOk();
     expect(s.room.rules?.chain).toHaveLength(0);
     expect(xpOf(s.room, "p1")).toBe(0);
@@ -97,9 +98,10 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   it("[R383.3.d.1][R303.2.a] simultaneous triggers of different players: Turn Player places first", () => {
     const watcher = triggered("Treasure Hunter", { kind: "event", event: { type: "unit_played" } }, { op: "gain_xp", amount: 1 });
     registerCardScript(watcher);
-    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling"], energy: 9 } });
+    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling"] } });
     place(s, "p1", "Treasure Hunter", "base");
     place(s, "p2", "Treasure Hunter", "base");
+    fund(s, "p1", "Caitlyn, Patrolling");
     s.as("p1").play("Caitlyn, Patrolling").expectOk();
     const chain = s.room.rules!.chain;
     expect(chain.map((item) => item.controller)).toEqual(["p1", "p2"]);
@@ -122,9 +124,10 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
   it("[R383.3.d] a player orders their own simultaneous triggers", () => {
     registerCardScript(triggered("Treasure Hunter", { kind: "event", event: { type: "unit_played" } }, { op: "gain_xp", amount: 1 }));
     registerCardScript(triggered("Stellacorn Herder", { kind: "event", event: { type: "unit_played" } }, { op: "draw", amount: 1 }));
-    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling"], energy: 9 } });
+    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling"] } });
     const hunter = place(s, "p1", "Treasure Hunter", "base");
     place(s, "p1", "Stellacorn Herder", "base");
+    fund(s, "p1", "Caitlyn, Patrolling");
     s.as("p1").play("Caitlyn, Patrolling").expectOk();
     s.expectPrompt("order", "p1");
     const prompt = s.room.rules!.prompt!;
@@ -199,8 +202,9 @@ describe("triggered abilities [R382–R386][R402–R407]", () => {
         limit: { kind: "once-per-turn" },
       }),
     );
-    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Stellacorn Herder"], energy: 9 } });
+    const s = scenario({ p1: { hand: ["Caitlyn, Patrolling", "Stellacorn Herder"] } });
     place(s, "p1", "Treasure Hunter", "base");
+    fund(s, "p1", "Caitlyn, Patrolling", "Stellacorn Herder");
     s.as("p1").play("Caitlyn, Patrolling").expectOk();
     expect(s.room.rules!.chain).toHaveLength(1);
     s.as("p1").pass().expectOk();

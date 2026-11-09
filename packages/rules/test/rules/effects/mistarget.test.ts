@@ -1,7 +1,7 @@
 import { afterEach, beforeAll, describe, expect, it } from "vitest";
 import { registerActionInterceptor } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
-import { boardOf, place, registerAll, run, spell, zoneOf } from "./helpers";
+import { boardOf, fund, place, registerAll, run, spell, zoneOf } from "./helpers";
 
 const unsubscribe: Array<() => void> = [];
 afterEach(() => {
@@ -133,9 +133,10 @@ describe("mistargeting on resolution [R359.3.e]", () => {
   });
 
   it("[R359.3.e.14.b][EX:359.3.e.14.b] \"if you do\" does not execute when the referenced action was replaced (Deathgrip)", () => {
-    const s = scenario({ p1: { hand: ["Defy"], energy: 1 } });
+    const s = scenario({ p1: { hand: ["Defy"] } });
     const victim = place(s, "p1", "Caitlyn, Patrolling", "base");
     const other = place(s, "p1", "Treasure Hunter", "base");
+    fund(s, "p1", "Defy");
     unsubscribe.push(registerActionInterceptor((_room, _step, proposal) => (proposal.type === "kill" ? null : proposal)));
     s.as("p1").play("Defy", { choices: { "target:0": victim.id, "target:1": other.id } }).expectOk();
     s.as("p2").pass().expectOk();
@@ -143,9 +144,10 @@ describe("mistargeting on resolution [R359.3.e]", () => {
   });
 
   it("[R359.3.e.14.b] Deathgrip without replacement: the other unit gets the killed unit's Might", () => {
-    const s = scenario({ p1: { hand: ["Defy"], energy: 1 } });
+    const s = scenario({ p1: { hand: ["Defy"] } });
     const victim = place(s, "p1", "Caitlyn, Patrolling", "base");
     const other = place(s, "p1", "Treasure Hunter", "base");
+    fund(s, "p1", "Defy");
     s.as("p1").play("Defy", { choices: { "target:0": victim.id, "target:1": other.id } }).expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, victim.id)).toBe("trash");
