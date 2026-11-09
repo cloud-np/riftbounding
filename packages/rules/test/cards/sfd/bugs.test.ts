@@ -4,6 +4,7 @@
  */
 import { describe, expect, it } from "vitest";
 import { effectiveMight } from "../../../src";
+import { run } from "../../rules/effects/helpers";
 import { addPool, boardCard, fund, put, settle, withCards } from "./helpers";
 
 describe("SFD engine reproductions", () => {
@@ -57,6 +58,31 @@ describe("SFD engine reproductions", () => {
     expect(
       s.room.rules!.chain.some((item) => item.kind === "triggered") || !!s.room.rules!.prompt,
     ).toBe(true);
+  });
+
+  it.skip("[BUG] [C:Counter Strike][R375][R359.3.f.3.a] a delayed replacement's matcher sees the creating ability's choices", () => {
+    // `replace` stores `choices` with the replacement, but `replacements/interceptor.ts`
+    // `matchesProposal` evaluates `matches` without them, so `subject: { targetRef: "target:0" }`
+    // never matches (Counter Strike binds the object id instead, sfd:prevent-next-damage-to-it).
+    const s = withCards(["Hextech Ray"]);
+    const unit = put(s, "p2", "Astral Heron", "battlefieldA");
+    run(
+      s,
+      {
+        op: "replace",
+        matches: { type: "damage", subject: { targetRef: "target:0" } },
+        replace: { prevent: 9999 },
+      },
+      {
+        choices: { "target:0": unit.id },
+      },
+    );
+    fund(s, "p1", "Hextech Ray");
+    s.as("p1")
+      .play("Hextech Ray", { choices: { "target:0": unit.id } })
+      .expectOk();
+    settle(s);
+    expect(s.room.rules!.objects[unit.id]?.damage ?? 0).toBe(0);
   });
 
   it.skip("[BUG] [C:Long Sword][R819.1.d] Quick-Draw: when you play it, attach it to a unit you control", () => {

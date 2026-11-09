@@ -179,6 +179,19 @@ export function countNamed(s: S, playerId: string, zone: string, name: string): 
   return namesIn(s, playerId, zone).filter((entry) => entry === name).length;
 }
 
+/** Move a named card (hand/deck/trash) to the top of its owner's Main Deck (the draw end). */
+export function onTop(s: S, playerId: string, name: string): CardInstance {
+  const board = boardOf(s, playerId);
+  for (const pool of [board.hand, board.deck, board.trash]) {
+    const index = pool.findIndex((card) => card.name === name);
+    if (index < 0) continue;
+    const [card] = pool.splice(index, 1);
+    board.deck.push(card!);
+    return card!;
+  }
+  throw new Error(`onTop: ${name} not found for ${playerId}`);
+}
+
 /** A board card of `playerId` by name (any board zone). */
 export function boardCard(
   s: S,

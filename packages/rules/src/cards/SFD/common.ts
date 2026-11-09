@@ -358,6 +358,12 @@ registerCustomCondition("sfd:it-battlefield-friendly", (ctx) => {
   return !!controller && teamOf(ctx.room, ctx.env.controller).includes(controller);
 });
 
+/** The event's player is the ability's controller or an ally ("When you or an ally …", 491.2). */
+registerCustomCondition("sfd:event-player-friendly", (ctx) => {
+  const player = ctx.env.event?.playerId;
+  return !!player && teamOf(ctx.room, ctx.env.controller).includes(player);
+});
+
 /** The kill event happened at the battlefield of the combat in progress ("When I die in combat"). */
 registerCustomCondition("sfd:died-in-combat", (ctx) => {
   const event = ctx.env.event;
