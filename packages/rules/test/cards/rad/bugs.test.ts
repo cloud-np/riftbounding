@@ -31,4 +31,42 @@ describe("RAD lane — engine bug reproductions", () => {
     resolveAll(s);
     expect(boardOf(s, "p1").base.filter((card) => card.name === "Gold")).toHaveLength(3);
   });
+
+  /**
+   * 830.1.b: Deploy is short for, among others, "When an opponent holds here, kill this." The task
+   * lists Deploy as implemented, but `triggers/keywords.ts` has no Deploy trigger (only Vision,
+   * Temporary, Hunt, Disarm), so a Deploy gear survives an opponent's hold.
+   */
+  it.skip("[BUG][C:Banner of Conquest][R830.1.b] a Deploy gear is killed when an opponent holds its battlefield", () => {
+    const s = withCards(["Banner of Conquest"]);
+    const banner = put(s, "p1", "Banner of Conquest", "battlefieldB");
+    put(s, "p2", "Treasure Hunter", "battlefieldB");
+    s.room.rules!.objects["battlefieldB"] = { controller: "p2" };
+    s.as("p1").endTurn().expectOk();
+    resolveAll(s);
+    expect(s.host.findCard(s.room, banner.id)?.zone).toBe("trash");
+  });
+
+  /**
+   * 818.1.c.2: "[Equip] [Cost]" means "[Cost]: Attach this gear to a unit you control." The play
+   * layer lists the built-in `equip:<n>` ability, but `executeCardScript` finds no script ability for
+   * that ref, so the activation resolves in the §6.4 manual window instead of attaching.
+   */
+  it.skip("[BUG][C:Nazuman Ntofo][R818.1.c.2] the built-in Equip ability attaches the gear", () => {
+    const s = withCards(["Nazuman Ntofo"]);
+    const gear = put(s, "p1", "Nazuman Ntofo", "base");
+    const unit = put(s, "p1", "Caitlyn, Patrolling", "base");
+    s.room.rules!.pools.p1 = { energy: 1, power: {} };
+    s.as("p1")
+      .apply({
+        type: "rules_activate",
+        objectId: gear.id,
+        ability: "equip:0",
+        choices: { "target:0": unit.id },
+      } as never)
+      .expectOk();
+    resolveAll(s);
+    expect(s.room.rules!.manual).toBeNull();
+    expect(s.host.findCard(s.room, gear.id)?.card.attachedToCardId).toBe(unit.id);
+  });
 });

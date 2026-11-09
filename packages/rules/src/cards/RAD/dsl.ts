@@ -44,8 +44,11 @@ export function aBattlefield(ref: string, extra: Partial<Selector> = {}): Select
   return { chosen: true, cardType: "battlefield", targetRef: ref, ...extra };
 }
 
-/** `it` is a unit or a gear. */
-export const UNIT_OR_GEAR: Condition = custom("rad:unit-or-gear");
+/** `it` is a face-up unit or gear (107.3: a facedown card is neither). */
+export const UNIT_OR_GEAR: Condition = {
+  kind: "and",
+  conditions: [custom("rad:unit-or-gear"), custom("rad:face-up")],
+};
 
 /** "… equal to <value>": run `effect` with the value substituted for `{kind:"x"}` / "$X" / "{X}". */
 export function letX(amount: RadAmount, effect: Effect): Effect {

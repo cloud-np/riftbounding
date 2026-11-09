@@ -450,6 +450,53 @@ registerCustomEffect("rad:scope-guess", (params, context) => {
   return RESOLVED;
 });
 
+/* ---------------------------------------------------------------- linked abilities */
+
+const LINK = "rad:link";
+
+/**
+ * Linked abilities (one ability refers to what another did, e.g. "the banished card"): remember
+ * the referenced cards for this source object under `key`. Stored as a permanent continuous
+ * effect (it carries no modifier the layers read); tokens are not cards (185) and are skipped.
+ */
+registerCustomEffect("rad:link-cards", (params, context) => {
+  const host = hostOf(context);
+  const ctx = ctxOf(context);
+  const source = ctx.env.sourceObjectId;
+  if (!source) return RESOLVED;
+  const ids = refIds(ctx, String(params.ref ?? "it")).filter((id) => {
+    const located = locate(context.room, host, id);
+    return !!located && located.card.source !== "token";
+  });
+  if (ids.length === 0) return RESOLVED;
+  addContinuousEffect(context.room, host, {
+    controller: ctx.env.controller,
+    duration: "permanent",
+    modifier: {
+      kind: "custom",
+      id: LINK,
+      params: { key: String(params.key ?? ""), source, cardIds: ids },
+    },
+    sourceObjectId: source,
+  });
+  return RESOLVED;
+});
+
+/** Binds the cards linked to this source under `key` to the variable `as`. */
+registerCustomEffect("rad:bind-linked", (params, context) => {
+  const ctx = ctxOf(context);
+  const source = ctx.env.sourceObjectId;
+  const ids: string[] = [];
+  for (const effect of context.room.rules?.effects ?? []) {
+    const modifier = effect.modifier;
+    if (modifier.kind !== "custom" || modifier.id !== LINK) continue;
+    if (modifier.params?.source !== source || modifier.params?.key !== params.key) continue;
+    for (const id of (modifier.params?.cardIds as string[] | undefined) ?? []) ids.push(id);
+  }
+  if (context.machine) context.machine.env.vars[String(params.as ?? "linked")] = ids;
+  return RESOLVED;
+});
+
 /* ---------------------------------------------------------------- "you may play that card" (420.1.a) */
 
 const MAY_PLAY = "rad:may-play";
