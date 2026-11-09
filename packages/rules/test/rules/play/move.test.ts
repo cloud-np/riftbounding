@@ -70,6 +70,17 @@ describe("Standard Move [R144][R447–R455]", () => {
     });
   });
 
+  it("[R144.1.a] a Standard Move outside the Main Phase cites the move timing rule", () => {
+    const s = bareScenario();
+    const unit = place(s, "p1", "Treasure Hunter", "battlefieldA");
+    s.room.rules!.turn.phase = "beginning";
+    s.room.rules!.turn.step = "beginning";
+    expect(applyAndExplain(s, "p1", { type: "rules_move", unitIds: [unit.id], to: "base" })).toEqual({
+      code: "not_main_phase",
+      rule: "144.1.a",
+    });
+  });
+
   it("[R421][R475] a restriction on moving (“can't move from here to base”) forbids the Standard Move", () => {
     const s = bareScenario();
     const unit = place(s, "p1", "Stellacorn Herder", "battlefieldA");

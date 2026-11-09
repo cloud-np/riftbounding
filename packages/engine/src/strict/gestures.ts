@@ -443,7 +443,7 @@ function translateObjectTarget(
   objectId: string,
   targetId: string,
   host: RulesHost,
-  options: { requested?: string; onlyEquip?: boolean; moveFallback?: boolean } = {},
+  options: { requested?: string; onlyEquip?: boolean; moveFallback?: boolean; dropZone?: string } = {},
 ): GestureTranslation {
   if (!objectId) return reject("strict_mode_action", GESTURE_CONTRACT, "a target gesture needs a dragged object");
   if (!targetId) return reject("strict_mode_action", GESTURE_CONTRACT, "a target gesture needs a target object");
@@ -503,13 +503,22 @@ function translateObjectTarget(
     const draggedInfo = dragged ? host.cardInfo(room, objectId) : null;
     const target = host.findCard(room, targetId);
     const targetZone = target?.zone ?? (isBattlefieldZone(targetId) ? targetId : "");
+    // The board adds `targetCardId` for any strict drop over a card, including a plain zone
+    // drop. A Unit dropped on the Base over a card is 144.4.b (Battlefield → Base), not a
+    // failed targeting gesture; battlefields already had this fallback. Base only counts when
+    // the drop zone itself is Base (a deliberate card-on-card drop stays a targeting gesture).
+    const moveZone =
+      isBattlefieldZone(targetZone) ||
+      (targetZone === "base" && (options.dropZone === "base" || options.dropZone === undefined))
+        ? targetZone
+        : "";
     if (
       dragged &&
       draggedInfo?.type.toLowerCase().includes("unit") &&
-      isBattlefieldZone(targetZone) &&
-      targetZone !== dragged.zone
+      moveZone &&
+      moveZone !== dragged.zone
     ) {
-      return intentOrReject(room, actorId, moveIntent([objectId], targetZone), host);
+      return intentOrReject(room, actorId, moveIntent([objectId], moveZone), host);
     }
   }
   return explainUntargetable(room, actorId, objectId, targetId, host);
@@ -653,14 +662,26 @@ function translateMoveCard(
   const boardSource = from === "base" || isBattlefieldZone(from);
   const boardTarget = to === "base" || isBattlefieldZone(to);
   if (boardSource && boardTarget) {
-    if (targetId) {
-      return translateObjectTarget(room, actorId, cardId, targetId, host, { moveFallback: true });
-    }
-    const unitIds = stringList(action.cardIds);
-    const ids = unitIds.length > 0 ? unitIds : stringList(action.unitIds);
+    const selected = stringList(action.cardIds);
+    const ids = selected.length > 0 ? selected : stringList(action.unitIds);
     if (ids.length === 0 && cardId) ids.push(cardId);
     if (ids.length === 0) {
       return reject("strict_mode_action", GESTURE_CONTRACT, "move_card needs a cardId/cardIds");
+    }
+    // 144.3: several Units move together to one destination. A multi-Unit drag is always the
+    // Standard Move; the board also sends the card under the pointer as `targetCardId`, which
+    // must not turn the move into a single-object activation.
+    if (ids.length > 1) {
+      if (from === to) {
+        return reject("strict_mode_action", GESTURE_CONTRACT, "reordering a zone is not a game action");
+      }
+      return intentOrReject(room, actorId, moveIntent(ids, to), host);
+    }
+    if (targetId) {
+      return translateObjectTarget(room, actorId, ids[0] ?? cardId, targetId, host, {
+        moveFallback: true,
+        dropZone: to,
+      });
     }
     if (from === to) {
       // Same-zone reorder is a UI arrangement, not a strict game action.
