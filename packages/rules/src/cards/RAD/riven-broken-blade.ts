@@ -19,15 +19,17 @@ function mode(id: string, label: string, effect: Effect) {
     effect: {
       op: "requires" as const,
       condition: not(marked(KEY, id)),
-      effect: { op: "seq" as const, effects: [{ op: "mark" as const, key: KEY, value: id }, effect] },
+      effect: {
+        op: "seq" as const,
+        effects: [{ op: "mark" as const, key: KEY, value: id }, effect],
+      },
     },
   };
 }
 
 registerCardScript({
   name: "Riven, Broken Blade",
-  text:
-    "When I become exhausted, choose one that hasn't been chosen this turn –\n• [Buff] me. (Give me a +1 [Might] buff if I don't have one.)\n• Spend my buff to [Stun] an enemy unit. (It doesn't deal combat damage this turn.)\n• Spend my buff to ready me.",
+  text: "When I become exhausted, choose one that hasn't been chosen this turn –\n• [Buff] me. (Give me a +1 [Might] buff if I don't have one.)\n• Spend my buff to [Stun] an enemy unit. (It doesn't deal combat damage this turn.)\n• Spend my buff to ready me.",
   status: "implemented",
   abilities: [
     {
@@ -41,7 +43,11 @@ registerCardScript({
             op: "seq",
             effects: [
               { op: "spend_buff", target: SELF },
-              { op: "if", condition: custom("did"), then: { op: "stun", target: aUnit({ controller: "opponent" }) } },
+              {
+                op: "if",
+                condition: custom("did"),
+                then: { op: "stun", target: aUnit({ controller: "opponent" }) },
+              },
             ],
           }),
           mode("ready", "Spend my buff to ready me", {

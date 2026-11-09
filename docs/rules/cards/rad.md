@@ -39,20 +39,22 @@ Effects: `rad:mark-event-player`, `rad:let-x`, `rad:draw-card`, `rad:reveal-top-
 
 ## Capability gaps
 
-| Capability                                                                          | Rule ids       | Cards blocked                                             | Count |
-| ----------------------------------------------------------------------------------- | -------------- | --------------------------------------------------------- | ----: |
-| Location choice for units/gear played by an effect (`play` op always uses the base) | 355.2, 420.3.b | Dockside Lock-Up, Transpositionist, Drakehound Packmaster |     3 |
-| Show Off keyword (reveal/pick as you play; "if you showed off")                     | 832            | Battle Preparations, Rousing Display                      |     2 |
-| Triggered abilities of cards in the trash (play-from-trash triggers)                | 385            | Forbidden Technique                                       |     1 |
-| Per-turn history of where units/gear were played (conditional cost reduction)       | 356.4          | Hold 'Em                                                  |     1 |
-| Triggered abilities that Add resources finalize and resolve immediately             | 430.2, 430.2.a | Sneaky Zeebles                                            |     1 |
-| A cost that exhausts two objects (`Cost.exhaust` is one selector)                   | 357.2, 415.4   | Invigorating Bloom                                        |     1 |
-| Applied costs on moves ("opponents must pay [1][Rune] to move units here")          | 204.4, 449     | Gravity Field                                             |     1 |
-| Trigger-count modification ("[Deathknell] effects here trigger an additional time") | 808, 383       | Detonation Amplifier                                      |     1 |
-| `play` op ignoring only the Energy cost (it ignores all or none)                    | 356.1.b, 420.3 | Clocktower Guardian                                       |     1 |
-| Granting an activated ability to other objects ("Friendly legends have '[Tap]: …'") | 365, 801.3     | Heartening Soul                                           |     1 |
-| Passives granting keywords to cards in hand (layers' array form ignores passives)   | 801.3, 806.1   | Jarvan IV, Martial Paragon                                |     1 |
-| Facedown-play provenance for units/gear (not on `unit_played`/`card_played`)        | 811.6, 422.4   | Elnuk Herd                                                |     1 |
+| Capability                                                                                                                    | Rule ids       | Cards blocked                                                                                                                             | Count |
+| ----------------------------------------------------------------------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----: |
+| Bomb gear token script (its [Deathknell]: deal 2 to an enemy unit here, kill your other Bombs here) under `src/cards/tokens/` | 187, 808       | Amateur Demolitionist, Explosimian, Satchel Charge, Hexplosive Minefield, Ziggs, Explosive, Ziggs, Hexplosives Expert, Ziggs, Short-Fused |     7 |
+| Location choice for units/gear played by an effect (`play` op always uses the base)                                           | 355.2, 420.3.b | Dockside Lock-Up, Transpositionist, Drakehound Packmaster                                                                                 |     3 |
+| Show Off keyword (reveal/pick as you play; "if you showed off")                                                               | 832            | Battle Preparations, Rousing Display                                                                                                      |     2 |
+| Bonus Damage filtered by source type ("abilities of friendly gear")                                                           | 712–715        | Ziggs, Short-Fused                                                                                                                        |     1 |
+| Triggered abilities of cards in the trash (play-from-trash triggers)                                                          | 385            | Forbidden Technique                                                                                                                       |     1 |
+| Per-turn history of where units/gear were played (conditional cost reduction)                                                 | 356.4          | Hold 'Em                                                                                                                                  |     1 |
+| Triggered abilities that Add resources finalize and resolve immediately                                                       | 430.2, 430.2.a | Sneaky Zeebles                                                                                                                            |     1 |
+| A cost that exhausts two objects (`Cost.exhaust` is one selector)                                                             | 357.2, 415.4   | Invigorating Bloom                                                                                                                        |     1 |
+| Applied costs on moves ("opponents must pay [1][Rune] to move units here")                                                    | 204.4, 449     | Gravity Field                                                                                                                             |     1 |
+| Trigger-count modification ("[Deathknell] effects here trigger an additional time")                                           | 808, 383       | Detonation Amplifier                                                                                                                      |     1 |
+| `play` op ignoring only the Energy cost (it ignores all or none)                                                              | 356.1.b, 420.3 | Clocktower Guardian                                                                                                                       |     1 |
+| Granting an activated ability to other objects ("Friendly legends have '[Tap]: …'")                                           | 365, 801.3     | Heartening Soul                                                                                                                           |     1 |
+| Passives granting keywords to cards in hand (layers' array form ignores passives)                                             | 801.3, 806.1   | Jarvan IV, Martial Paragon                                                                                                                |     1 |
+| Facedown-play provenance for units/gear (not on `unit_played`/`card_played`)                                                  | 811.6, 422.4   | Elnuk Herd                                                                                                                                |     1 |
 
 ## Engine keyword gaps and bugs (reproduced in `test/cards/rad/bugs.test.ts`, skipped)
 
@@ -71,6 +73,12 @@ Keywords are the engine's (cards are marked by their own lines), but at `8933035
   earlier turn can be played from face down. The same keep-list drops `keywordGrants`,
   `mightMods`, `prevent`, `empowered` and `paidAdditionalCost` (effects.md asked to keep them).
 
+- **"If you paid the additional cost" is true whenever runes pay** (356.4.f.1): `notePaidAdditionalCost`
+  (`triggers/finalize.ts`) treats any non-empty `paid.additional` as the optional cost, but
+  `paidCostRecord` (`play/payment.ts`) also stores `exhaustedRunes`/`recycledRunes`/`power` there,
+  so Clockwork Keeper and Shimmering Swimmer trigger without the optional cost (their tests fund
+  plays from the Rune Pool).
+
 Other engine behaviour worth knowing when testing (not bugs of this lane):
 
 - Unattached non-Deploy gear at a battlefield is recalled to the base by the host's
@@ -80,26 +88,26 @@ Other engine behaviour worth knowing when testing (not bugs of this lane):
 
 ## Card status
 
-Counts: implemented: 87, partial: 15, remaining: 61
+Counts: implemented: 95, partial: 22, remaining: 46
 
 | Card                              | Status      | Not automated (rule)                                                                                                                                        |
 | --------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Ahri, Confident                   | implemented |                                                                                                                                                             |
 | Akali, Brash                      | remaining   |                                                                                                                                                             |
-| Amateur Demolitionist             | remaining   |                                                                                                                                                             |
+| Amateur Demolitionist             | partial     |                                                                                                                                                             |
 | An Offer You Can't Refuse         | implemented |                                                                                                                                                             |
 | Angler Wyrm                       | implemented |                                                                                                                                                             |
 | Antagonistic Apparatus            | implemented |                                                                                                                                                             |
 | Armored Tusker                    | implemented |                                                                                                                                                             |
 | Avalanche                         | implemented |                                                                                                                                                             |
-| Bandle Scouts' Academy            | remaining   |                                                                                                                                                             |
+| Bandle Scouts' Academy            | implemented |                                                                                                                                                             |
 | Banner of Conquest                | implemented |                                                                                                                                                             |
 | Battle Preparations               | partial     | [Show Off] (832) is not implemented, so "if you showed off, ready up to 2 runes" never applies.                                                             |
 | Battlefield Armorer               | implemented |                                                                                                                                                             |
 | Bedeviling Stranger               | implemented |                                                                                                                                                             |
 | Bilgewater Tracker                | implemented |                                                                                                                                                             |
 | Black Market                      | remaining   |                                                                                                                                                             |
-| Black Rose Sanctum                | remaining   |                                                                                                                                                             |
+| Black Rose Sanctum                | implemented |                                                                                                                                                             |
 | Bloodscent Swarm                  | remaining   |                                                                                                                                                             |
 | Blossoming Dreamroot              | implemented |                                                                                                                                                             |
 | Brawl                             | implemented |                                                                                                                                                             |
@@ -112,7 +120,7 @@ Counts: implemented: 87, partial: 15, remaining: 61
 | Command: Attack                   | implemented |                                                                                                                                                             |
 | Concert Poster                    | implemented |                                                                                                                                                             |
 | Consult the Heavens               | implemented |                                                                                                                                                             |
-| Cosmic Vista                      | remaining   |                                                                                                                                                             |
+| Cosmic Vista                      | implemented |                                                                                                                                                             |
 | Demacian Illuminators             | remaining   |                                                                                                                                                             |
 | Demacian Standard                 | implemented |                                                                                                                                                             |
 | Demon Shade                       | implemented |                                                                                                                                                             |
@@ -121,11 +129,11 @@ Counts: implemented: 87, partial: 15, remaining: 61
 | Dockside Lock-Up                  | partial     | The banished card is played by the play op, which puts a unit at its controller's base (no location choice, 355.2 / 420.3.b).                               |
 | Drakehound Packmaster             | partial     |                                                                                                                                                             |
 | Dune Devourer                     | remaining   |                                                                                                                                                             |
-| Durand Memorial                   | remaining   |                                                                                                                                                             |
+| Durand Memorial                   | implemented |                                                                                                                                                             |
 | Ekko, Boy Who Shattered Time      | remaining   |                                                                                                                                                             |
 | Ekko, Ingenious                   | remaining   |                                                                                                                                                             |
 | Ekko, Revolutionary               | implemented |                                                                                                                                                             |
-| Elnuk Herd                        | partial     | "Recycle me if I was played from face down": a unit's play effect cannot tell a facedown play (811.6; not recorded on unit_played).                         |
+| Elnuk Herd                        | partial     | "Recycle me if I was played from face down": a unit\'s play effect cannot tell a facedown play (811.6; not recorded on unit_played).                        |
 | Encore                            | remaining   |                                                                                                                                                             |
 | Entrenched Boar                   | remaining   |                                                                                                                                                             |
 | Ephemeral Ward                    | implemented |                                                                                                                                                             |
@@ -133,7 +141,7 @@ Counts: implemented: 87, partial: 15, remaining: 61
 | Evelynn, Agony's Embrace          | remaining   |                                                                                                                                                             |
 | Evelynn, Consuming                | remaining   |                                                                                                                                                             |
 | Evelynn, in Control               | implemented |                                                                                                                                                             |
-| Explosimian                       | remaining   |                                                                                                                                                             |
+| Explosimian                       | partial     |                                                                                                                                                             |
 | Fanfare                           | remaining   |                                                                                                                                                             |
 | Firebrand Raider                  | remaining   |                                                                                                                                                             |
 | Firelights' Hideout               | remaining   |                                                                                                                                                             |
@@ -145,7 +153,7 @@ Counts: implemented: 87, partial: 15, remaining: 61
 | Heartening Soul                   | partial     | Granting an activated ability to friendly legends needs granted abilities (365, 801.3 for abilities).                                                       |
 | Heimerdinger, Academy Instructor  | remaining   |                                                                                                                                                             |
 | Herald of the Emperor             | remaining   |                                                                                                                                                             |
-| Hexplosive Minefield              | remaining   |                                                                                                                                                             |
+| Hexplosive Minefield              | partial     |                                                                                                                                                             |
 | High Note                         | implemented |                                                                                                                                                             |
 | Hold 'Em                          | partial     | The [2] discount needs a per-turn record of where units/gear were played (356.4; no play-location history).                                                 |
 | Hunker Down                       | implemented |                                                                                                                                                             |
@@ -159,7 +167,7 @@ Counts: implemented: 87, partial: 15, remaining: 61
 | Invigorating Bloom                | partial     | The activated ability's cost exhausts two objects (a friendly Mighty unit and this); `Cost.exhaust` holds one selector (357.2).                             |
 | Iridescent Avian                  | implemented |                                                                                                                                                             |
 | Jarvan IV, Exemplar of Demacia    | implemented |                                                                                                                                                             |
-| Jarvan IV, Martial Paragon        | partial     | "Your gear with [Deploy] have [Action]" grants a keyword to cards in hand; the play layer's keyword array form does not see passives (801.3, 806).          |
+| Jarvan IV, Martial Paragon        | partial     | "Your gear with [Deploy] have [Action]" grants a keyword to cards in hand; the play layer\'s keyword array form does not see passives (801.3, 806).         |
 | Jarvan IV, Royal Heir             | implemented |                                                                                                                                                             |
 | K'Sante, Courageous               | implemented |                                                                                                                                                             |
 | K'Sante, Dauntless                | implemented |                                                                                                                                                             |
@@ -196,7 +204,7 @@ Counts: implemented: 87, partial: 15, remaining: 61
 | Portable Portal                   | implemented |                                                                                                                                                             |
 | Primordial Roar                   | remaining   |                                                                                                                                                             |
 | Protector's Shield                | implemented |                                                                                                                                                             |
-| Rakelstake                        | remaining   |                                                                                                                                                             |
+| Rakelstake                        | implemented |                                                                                                                                                             |
 | Rally for War                     | implemented |                                                                                                                                                             |
 | Raucous Anthem                    | implemented |                                                                                                                                                             |
 | Raving Witness                    | implemented |                                                                                                                                                             |
@@ -207,17 +215,17 @@ Counts: implemented: 87, partial: 15, remaining: 61
 | Riptide Mage                      | implemented |                                                                                                                                                             |
 | Riven, Deserter                   | implemented |                                                                                                                                                             |
 | Rousing Display                   | partial     | [Show Off] (832) is not implemented, so the four-Recruit branch never applies.                                                                              |
-| Ruined Monastery                  | remaining   |                                                                                                                                                             |
+| Ruined Monastery                  | implemented |                                                                                                                                                             |
 | Runeblade Anvil                   | implemented |                                                                                                                                                             |
 | Sanctum Conservator               | implemented |                                                                                                                                                             |
-| Satchel Charge                    | remaining   |                                                                                                                                                             |
+| Satchel Charge                    | partial     |                                                                                                                                                             |
 | Scorched Earth                    | remaining   |                                                                                                                                                             |
-| Scrutinizing Scope                | remaining   |                                                                                                                                                             |
+| Scrutinizing Scope                | implemented |                                                                                                                                                             |
 | Seraphic Wyvern                   | remaining   |                                                                                                                                                             |
 | Seraphine, Inspiring              | remaining   |                                                                                                                                                             |
 | Seraphine, Not Alone              | implemented |                                                                                                                                                             |
 | Seraphine, Starry-Eyed Songstress | remaining   |                                                                                                                                                             |
-| Shimmering Swimmer                | remaining   |                                                                                                                                                             |
+| Shimmering Swimmer                | implemented |                                                                                                                                                             |
 | Siren of the Shallows             | implemented |                                                                                                                                                             |
 | Siren's Song                      | implemented |                                                                                                                                                             |
 | Skystrike Squadron                | remaining   |                                                                                                                                                             |
@@ -244,6 +252,6 @@ Counts: implemented: 87, partial: 15, remaining: 61
 | Whirling Twirligig                | implemented |                                                                                                                                                             |
 | Wrath of the Freljord             | implemented |                                                                                                                                                             |
 | Zero Point Inflection             | implemented |                                                                                                                                                             |
-| Ziggs, Explosive                  | remaining   |                                                                                                                                                             |
-| Ziggs, Hexplosives Expert         | remaining   |                                                                                                                                                             |
-| Ziggs, Short-Fused                | remaining   |                                                                                                                                                             |
+| Ziggs, Explosive                  | partial     |                                                                                                                                                             |
+| Ziggs, Hexplosives Expert         | partial     |                                                                                                                                                             |
+| Ziggs, Short-Fused                | partial     |                                                                                                                                                             |

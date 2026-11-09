@@ -8,6 +8,13 @@ registerCardScript({
   abilities: [
     // The catalog lists [Disarm] (reminder text); it is not intrinsic (831.2: values are summed).
     { kind: "keyword", keyword: "Disarm", value: 0 },
-    { kind: "passive", modifier: { kind: "keyword", keyword: "Disarm", target: { cardType: "unit", controller: "self", tag: "Mech" } } },
+    {
+      kind: "passive",
+      modifier: {
+        kind: "keyword",
+        keyword: "Disarm",
+        target: { cardType: "unit", controller: "self", tag: "Mech" },
+      },
+    },
   ],
 });

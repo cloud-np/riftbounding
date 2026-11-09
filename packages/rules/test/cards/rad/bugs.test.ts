@@ -69,4 +69,21 @@ describe("RAD lane — engine bug reproductions", () => {
     expect(s.room.rules!.manual).toBeNull();
     expect(s.host.findCard(s.room, gear.id)?.card.attachedToCardId).toBe(unit.id);
   });
+
+  /**
+   * 356.4.f.1 / 383.2.a.1: "if you paid the additional cost" means the optional additional cost.
+   * `triggers/finalize.ts` (`notePaidAdditionalCost`) treats any non-empty `paid.additional` as
+   * paid, but `play/payment.ts` (`paidCostRecord`) also records `exhaustedRunes`/`recycledRunes`/
+   * `power` there — so paying a card with runes makes every "if you paid the additional cost"
+   * effect apply (Clockwork Keeper, Shimmering Swimmer).
+   */
+  it.skip("[BUG][C:Shimmering Swimmer][C:Clockwork Keeper][R356.4.f.1] paying with runes is not paying the optional additional cost", () => {
+    const s = withCards(["Clockwork Keeper"]);
+    s.room.rules!.pools.p1 = { energy: 0, power: {} };
+    for (const rune of boardOf(s, "p1").runeArea) rune.exhausted = false;
+    s.as("p1").play("Clockwork Keeper").expectOk();
+    expect(boardOf(s, "p1").runeArea.every((rune) => rune.exhausted)).toBe(true);
+    // No optional cost was chosen: the "if you paid the additional cost" trigger must not fire.
+    expect(s.room.rules!.chain).toHaveLength(0);
+  });
 });

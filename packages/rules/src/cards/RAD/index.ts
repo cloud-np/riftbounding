@@ -12,5 +12,7 @@ import "./simple-units";
 import "./spells";
 import "./gear";
 import "./units";
+import "./battlefields";
+import "./bombs-and-more";
 
 export {};
