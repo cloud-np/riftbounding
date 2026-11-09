@@ -21,7 +21,7 @@ registerCardScript({
   text: "When you kill a stunned enemy unit, you may exhaust this to draw 1.",
   status: "partial",
   notes:
-    "Direct Kill instructions work (the kill event carries the responsible player, 429.5.b). A kill caused by lethal damage in the Cleanup is not attributed to the damage spell ([BUG][R429.5.c]); that reproduction is in test/cards/ogn-o-z/r4b-bugs.test.ts.",
+    "Direct Kill instructions work (the kill event carries the responsible player, 429.5.b). Damage kills in the Cleanup are attributed through the damage's `damageSource` (429.5.c/.c.1). Status stays with the Origins O–Z card lane.",
   abilities: [
     {
       kind: "triggered",

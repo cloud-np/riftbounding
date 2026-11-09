@@ -18,14 +18,16 @@
  * R3: 371.2 optional replacements and 372/373 ordering hold the event for a decision
  * (`replacements/decisions.ts`); the event is settled by `answerHeld`/`resettleHeld`.
  */
-import type { Ability, EventMatcher, GameEvent, Room } from "@rift/protocol";
+import type { Ability, EventMatcher, GameEvent, PlayerSelector, Room } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import type { RulesStepContext } from "../types";
 import { pushEvent } from "../types";
 import { getCardScript } from "../cards/registry";
 import { registerActionInterceptor, type ActionProposal } from "../timing/hooks";
+import { battlefieldController } from "../actions/control";
 import { durationActive } from "../layers/durations";
 import { makeEnv } from "../effects/env";
+import { resolvePlayers } from "../effects/evaluate";
 import { startMachine } from "../effects/machine";
 import { eventMatches } from "../triggers/match";
 import { battlefieldNameAt } from "../effects/objects";
@@ -102,12 +104,15 @@ export function replacementSources(room: Room, host: RulesHost): ReplacementSour
     const name = battlefieldNameAt(room, host, zone);
     const script = name ? getCardScript(name) : undefined;
     if (!script || script.status === "manual") continue;
+    // 190.6.a/.b: a battlefield's controller controls its abilities; while it is Uncontrolled
+    // the Turn Player does (unless the ability indicates another player, see 190.6.c below).
+    const controller = battlefieldController(room, zone, host) ?? room.rules?.turn.player ?? "";
     script.abilities.forEach((ability, index) => {
       if (ability.kind !== "replacement") return;
       out.push({
         id: `battlefield:${zone}|replacement:${index}`,
         sourceObjectId: `battlefield:${zone}`,
-        controller: room.rules?.turn.player ?? "",
+        controller,
         matches: ability.matches,
         replace: ability.replace,
         ...(ability.limit ? { limit: ability.limit } : {}),
@@ -284,7 +289,7 @@ export function replacementInterceptor(room: Room, step: RulesStepContext, propo
       current = { ...current, amount: after };
       continue;
     }
-    if (!usable(room, step, source)) continue;
+    if (!usable(room, step, source, current)) continue;
     instead.push(source);
   }
   if (instead.length === 0) return current;
@@ -323,13 +328,14 @@ export function replacementInterceptor(room: Room, step: RulesStepContext, propo
 /** 370.1.b: replace the event with the replacement's instructions (374: its controller's). */
 function applyReplacement(room: Room, step: RulesStepContext, source: ReplacementSource, current: ActionProposal): void {
   const active = applying(step);
+  const controller = controllerFor(room, step.host, source, current);
   noteUse(room, source);
   active.add(source.id);
   pushEvent(step.events, {
     type: "replaced",
     ...(current.cardId ? { cardId: current.cardId } : {}),
     ...(source.sourceObjectId ? { sourceObjectId: source.sourceObjectId } : {}),
-    playerId: source.controller,
+    playerId: controller,
     data: { action: current.type, replacement: source.id },
   });
   startMachine(
@@ -337,7 +343,7 @@ function applyReplacement(room: Room, step: RulesStepContext, source: Replacemen
     step,
     effectToRun(source.replace),
     makeEnv({
-      controller: source.controller,
+      controller,
       ...(source.sourceObjectId ? { sourceObjectId: source.sourceObjectId } : {}),
       kind: "replacement",
       event: proposalEvent(current),
@@ -347,13 +353,33 @@ function applyReplacement(room: Room, step: RulesStepContext, source: Replacemen
   active.delete(source.id);
 }
 
+/**
+ * 190.6.a/.b/.c / 371.2.a: the player who controls a replacement ability. A battlefield's
+ * replacement belongs to its controller (Turn Player while Uncontrolled); if the ability names a
+ * different player as the one who makes its choices/actions (e.g. Altar of Blood: "its controller
+ * may pay …", a `cost_then.player` selector over the event), that player controls it.
+ */
+function controllerFor(room: Room, host: RulesHost, source: ReplacementSource, proposal: ActionProposal): string {
+  const replace = source.replace as { op?: string; player?: unknown } | undefined;
+  const player = replace && replace.op === "cost_then" ? replace.player : undefined;
+  if (!player) return source.controller;
+  const env = makeEnv({
+    controller: source.controller,
+    ...(source.sourceObjectId ? { sourceObjectId: source.sourceObjectId } : {}),
+    event: proposalEvent(proposal),
+    ...(source.choices ? { choices: { ...source.choices } } : {}),
+  });
+  return resolvePlayers({ room, host, env }, player as PlayerSelector)[0] ?? source.controller;
+}
+
 /** "You may pay [X] to … instead": only a payable optional cost can be applied (371.2, 445). */
-function usable(room: Room, step: RulesStepContext, source: ReplacementSource): boolean {
+function usable(room: Room, step: RulesStepContext, source: ReplacementSource, proposal: ActionProposal): boolean {
   const cost = optionalReplaceCost(source.replace);
   if (!cost) return true;
+  const controller = controllerFor(room, step.host, source, proposal);
   return costPayable(
-    { room, step, controller: source.controller, ...(source.sourceObjectId ? { sourceObjectId: source.sourceObjectId } : {}) },
-    source.controller,
+    { room, step, controller, ...(source.sourceObjectId ? { sourceObjectId: source.sourceObjectId } : {}) },
+    controller,
     cost,
   );
 }
@@ -401,7 +427,8 @@ function hold(room: Room, step: RulesStepContext, held: HeldReplacement): void {
 export function decisionSources(room: Room, step: RulesStepContext, held: HeldReplacement): DecisionSource[] {
   return applicableFor(room, step, held).map((source) => ({
     id: source.id,
-    controller: source.controller,
+    // 190.6.c / 371.2.a: the player the ability names makes its choices.
+    controller: controllerFor(room, step.host, source, held.proposal),
     ...(source.sourceObjectId ? { sourceObjectId: source.sourceObjectId } : {}),
     optional: isOptionalReplace(source.replace),
   }));
@@ -414,7 +441,7 @@ function applicableFor(room: Room, step: RulesStepContext, held: HeldReplacement
     if (active.has(source.id) || declined.has(source.id) || !limitOk(room, source)) return false;
     const replace = source.replace as { prevent?: unknown };
     if (replace && typeof replace === "object" && "prevent" in replace && !("op" in replace)) return false;
-    return matchesProposal(room, step.host, source, held.proposal) && usable(room, step, source);
+    return matchesProposal(room, step.host, source, held.proposal) && usable(room, step, source, held.proposal);
   });
 }
 

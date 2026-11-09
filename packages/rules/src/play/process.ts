@@ -295,7 +295,7 @@ export function completeCardItem(
     ...(snapshot ? { cardId: snapshot.id } : {}),
     playerId: item.controller,
     ...(item.cardName ? { cardName: item.cardName } : {}),
-    data: { itemId: item.id, hold },
+    data: { itemId: item.id, hold, ...(item.playedFromFacedown ? { playedFromFacedown: true } : {}) },
   });
   finalizeChainItem(room, item, step);
   applyEnterReady(room, item, step);

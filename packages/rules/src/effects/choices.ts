@@ -252,6 +252,34 @@ function scanOp(collector: Collector, effect: Effect): void {
   for (const field of ["amount", "times"]) addAmount(collector, record[field] as Amount | undefined);
 }
 
+/**
+ * 355.8 / 420.2.a: probe one mode with the mode bound. A mode is a legal option only when every
+ * mandatory play-time choice inside it has at least `min` options; modes without choices are
+ * always completable. The nested `walk` is the same code path `bindChoices` later uses, so the
+ * offer and the binding agree.
+ */
+function modeCompletable(collector: Collector, mode: { id: string; effect: Effect }): boolean {
+  if (mode.effect.op === "requires" && !evaluateCondition(collector.ctx, mode.effect.condition)) return false;
+  const probeCtx: EvalContext = {
+    ...collector.ctx,
+    env: {
+      ...collector.ctx.env,
+      choices: { ...collector.ctx.env.choices, mode: mode.id },
+    },
+  };
+  const probe: Collector = {
+    specs: [],
+    seen: new Set<string>(["mode"]),
+    includeBound: false,
+    ctx: probeCtx,
+    requires: [],
+    groups: new Map(),
+  };
+  walk(probe, mode.effect);
+  if (!probe.requires.every((entry) => evaluateCondition(probeCtx, entry.condition))) return false;
+  return probe.specs.every((spec) => spec.min <= 0 || spec.options.length >= spec.min);
+}
+
 function walk(collector: Collector, effect: Effect | undefined): void {
   if (!effect) return;
   switch (effect.op) {
@@ -279,9 +307,9 @@ function walk(collector: Collector, effect: Effect | undefined): void {
       if (modes.length === 0) {
         if (!collector.seen.has("mode")) {
           collector.seen.add("mode");
-          const available = effect.modes.filter((mode) =>
-            mode.effect.op !== "requires" ? true : evaluateCondition(collector.ctx, mode.effect.condition),
-          );
+          // 355.8 / 420.2.a: a mode whose mandatory choices cannot be made is not a legal
+          // option, and a play with no completable mode has no legal choices at all.
+          const available = effect.modes.filter((mode) => modeCompletable(collector, mode));
           collector.specs.push({
             key: "mode",
             kind: "choose-mode",

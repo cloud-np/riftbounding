@@ -190,6 +190,30 @@ source left (Mournful Spirit).
   (`unit_played` optional reduced-cost Equip, 821.1.b/c) and `Deploy` (`hold` by an opponent kills
   the gear, 830.1.b) are detected through the same source list.
 
+### Play provenance (811.6) and damage-kill attribution (429.5.c)
+
+Lane E adds two event facts that card scripts read:
+
+- `unit_played` / `gear_played` (337.2 permanent resolution) and `card_played` (350.1) carry
+  `data.playedFromFacedown: true` when the play came from a hidden card (811.6). A trigger matcher
+  uses `data: { playedFromFacedown: true }` (Evelynn, Entrancing; Katarina, Reckless; Bone
+  Skewer).
+- `ObjectRulesState.damageSource` records the object and the responsible player of the most recent
+  damage dealt to an object (`deal` / `deal_split` pass the source and their controller;
+  combat damage passes the assigning player). Cleanup step 3 passes it to `kill`, so a passive
+  kill from lethal damage is attributed to the spell/ability (429.5.c / 429.5.c.1) and combat
+  damage to the assigning player (429.5.c.2): the `kill` event gets `sourceObjectId` and
+  `data.responsible`. "When you kill …" triggers (Solari Shrine) therefore fire for damage kills.
+
+### Battlefield replacement control (190.6)
+
+A battlefield's replacement ability belongs to the battlefield's controller (190.6.a; the Turn
+Player while Uncontrolled, 190.6.b), not automatically to the Turn Player. When the replacement
+text names another player as the one who makes its choices — modelled as the `player` of a
+`cost_then` replacement (Altar of Blood's "its controller may pay …") — that player controls the
+ability (190.6.c): the `usable` payment gate, the `effects.replacement` prompt and the applied
+instructions all use that player (371.2.a).
+
 ## Files
 
 | Path | Contents |

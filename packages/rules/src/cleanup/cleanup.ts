@@ -116,7 +116,9 @@ export function runCleanup(
     const info = step.host.cardInfo(room, cardId);
     if (!info?.type.toLowerCase().includes("unit")) continue;
     if (object.damage >= combatMight(room, cardId, step.host)) {
-      kill(room, cardId, step);
+      // 429.5.c / 429.5.c.1: a damage kill is attributed to the spell/ability that dealt it
+      // (and its controller); combat damage attributes the assigned damage's player (429.5.c.2).
+      kill(room, cardId, step, object.damageSource);
     }
   }
 

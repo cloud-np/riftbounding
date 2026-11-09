@@ -49,7 +49,11 @@ registerEffectOp("deal", (effect, context) => {
     }
     const total = amount + bonus;
     if (total < 1) continue;
-    const dealt = dealDamage(context.room, id, total, context.step, sourceId ? { objectId: sourceId } : undefined);
+    const dealt = dealDamage(context.room, id, total, context.step, {
+      ...(sourceId ? { objectId: sourceId } : {}),
+      // 429.5.c.1: the controller of the deal action is responsible for a resulting kill.
+      playerId: ctx.env.controller,
+    });
     if (dealt > 0) done.push(id);
   }
   recordOutcome(context, done, done.length > 0);

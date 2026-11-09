@@ -110,7 +110,8 @@ export function bindChoices(
   for (let round = 0; round < MAX_ROUNDS; round += 1) {
     const specs = provider(choices);
     let progressed = false;
-    for (const spec of specs) {
+    for (let index = 0; index < specs.length; index += 1) {
+      const spec = specs[index]!;
       if (spec.targeted && !targetKeys.includes(spec.key)) targetKeys.push(spec.key);
       const options = restrictToFacedown(room, host, spec, context.facedownAt).filter((option) => !option.disabled);
       if (Object.prototype.hasOwnProperty.call(choices, spec.key)) {
@@ -134,6 +135,29 @@ export function bindChoices(
         progressed = true;
         continue;
       }
+      // 355.8: a real choice earlier in rule order must not hide a later mandatory choice with
+      // no legal option (e.g. an optional [Show Off] before "Give a unit +2 [Might]" with no
+      // unit on the board). A later selector may depend on this choice ("return an enemy unit
+      // there"), so probe each option of the pending spec: only fail when the later choice has
+      // no legal option for any of them.
+      let blocked: ChoiceSpec | null = null;
+      for (const later of specs.slice(index + 1)) {
+        if (later.min <= 0) continue;
+        const laterOptions = restrictToFacedown(room, host, later, context.facedownAt).filter((option) => !option.disabled);
+        if (laterOptions.length >= later.min) continue;
+        const satisfiable = options.some((option) => {
+          const probe = provider({ ...choices, [spec.key]: optionValue(option) });
+          const reprobe = probe.find((entry) => entry.key === later.key);
+          if (!reprobe) return true;
+          const reprobed = restrictToFacedown(room, host, reprobe, context.facedownAt).filter((entry) => !entry.disabled);
+          return reprobed.length >= reprobe.min;
+        });
+        if (!satisfiable) {
+          blocked = later;
+          break;
+        }
+      }
+      if (blocked) return fail("no_legal_targets", blocked.targeted ? "355.8" : blocked.rule, blocked.key);
       return { ok: true, choices, targetKeys, pending: { ...spec, options } };
     }
     if (!progressed) break;

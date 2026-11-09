@@ -9,16 +9,19 @@
  *   play a ready Reflection token there; "it becomes a copy of another unit there" is missing
  *   (446).
  * - Revna the Lorekeeper (UNL-005), Jhin, Meticulous Killer (UNL-089), Arachnoid Horror (UNL-117),
- *   Rengar, Trophy Hunter (UNL-120), Evelynn, Entrancing (UNL-141): one line is blocked by a
- *   capability gap; see the lane report.
+ *   Rengar, Trophy Hunter (UNL-120): one line is blocked by a capability gap; see the lane report.
+ *   Evelynn, Entrancing (UNL-141) is scripted: R4-engine-e records the facedown-play provenance on
+ *   `unit_played` (811.6).
  * - Poppy, Defender of the Meek (UNL-178): the additional cost / discount cannot be automated
  *   (356.2.b.1) and the printed discount amount is missing from the catalog.
  * - Stalking Wolf (UNL-166, errata): the mandatory "kill a Bird, Cat, Dog, or Poro" cost cannot be
  *   expressed by the cost selector (357.2).
  */
 import { registerCardScript } from "../registry";
-import { HERE, SELF, WHEN_PLAYED, token } from "../dsl";
+import { HERE, SELF, WHEN_PLAYED, aUnit, custom, token } from "../dsl";
 import { registerPlayPermission } from "../../play/permissions";
+import { registerCustomCondition } from "../../effects/evaluate";
+import { locationOf } from "../../effects/objects";
 import { legionActive } from "../../play/keyword-helpers";
 
 /** 812.2 / 420.1.a: [Legion] "You may play me from your trash for [3] [Fury]." */
@@ -122,13 +125,42 @@ registerCardScript({
   abilities: [{ kind: "keyword", keyword: "Reaction", value: 0 }],
 });
 
+registerCustomCondition("unl:enemy-at-other-location", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  const from = source ? locationOf(ctx.room, ctx.host, source) : null;
+  return !!from && !!ctx.env.it && locationOf(ctx.room, ctx.host, ctx.env.it) !== from;
+});
+
 registerCardScript({
   name: "Evelynn, Entrancing",
   text: "[Hidden] (Hide now for [rune] to react with later for [0] .)\n[Backline] (I must be assigned combat damage last.)\nWhen you play me from facedown on your turn, you may move an enemy unit at a different location to my battlefield.",
   status: "partial",
   notes:
-    "'When you play me from facedown' is not detectable: the facedown origin is gone when the unit-played event is emitted (811.1.b; see the [BUG] for Katarina, Reckless). [Hidden] and [Backline] are printed keywords.",
-  abilities: [],
+    "'When you play me from facedown' is automated from the play event's `data.playedFromFacedown` (811.6). [Hidden] and [Backline] are printed keywords. Status left to the Unleashed card lane (R4-cards) to flip to implemented.",
+  abilities: [
+    {
+      kind: "triggered",
+      // 811.6: the facedown provenance is on the 383.4.a play event (`data.playedFromFacedown`).
+      trigger: {
+        kind: "event",
+        event: {
+          type: "unit_played",
+          subject: SELF,
+          player: "self",
+          data: { playedFromFacedown: true },
+          condition: { kind: "is-turn-player", player: "self" },
+        },
+      },
+      effect: {
+        op: "may",
+        effect: {
+          op: "move",
+          target: aUnit({ controller: "opponent", where: custom("unl:enemy-at-other-location") }),
+          to: HERE,
+        },
+      },
+    },
+  ],
 });
 
 registerCardScript({

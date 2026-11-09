@@ -9,7 +9,7 @@ import { place, run, zoneOf } from "../../rules/effects/helpers";
 import { withCards } from "./helpers";
 
 describe("Unleashed R4 — engine bugs", () => {
-  it.skip("[BUG][C:Altar of Blood][R190.6.a][R371.2.a] the optional replacement is offered to the dying unit's controller, not the Turn Player", () => {
+  it("[C:Altar of Blood][R190.6.a][R371.2.a] the optional replacement is offered to the dying unit's controller, not the Turn Player", () => {
     const s = withCards([], [], { battlefields: { p1: "Altar of Blood" } });
     // The Turn Player (p1) owns no resources; the dying unit and its 3 Energy belong to p2.
     const unit = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
