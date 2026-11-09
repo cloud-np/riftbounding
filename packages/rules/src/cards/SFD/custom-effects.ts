@@ -8,6 +8,7 @@ import type {
   Amount,
   ChainItem,
   Effect,
+  KeywordName,
   PromptOption,
   Selector,
   TokenSpec,
@@ -307,10 +308,10 @@ registerCustomEffect("sfd:give-my-keywords-and-might", (_params, context) => {
   const values = effectiveKeywordValues(context.room, source, host);
   const frames: Effect[] = keywordsAtDepth(context.room, source, host, 0).map((keyword) => {
     const value = values[keyword.toLowerCase()];
-    const valued = value !== undefined && value > 1 ? `${keyword} ${value}` : keyword;
     return {
       op: "grant_keyword",
-      keyword: valued,
+      keyword: keyword as KeywordName,
+      ...(value !== undefined && value > 1 ? { value } : {}),
       target: { targetRef: "it" },
       duration: "this-turn",
     };

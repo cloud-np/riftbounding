@@ -4,7 +4,7 @@
  * must pass them into the `EventMatcher` evaluation.
  */
 import { describe, expect, it } from "vitest";
-import { getCardScript, registerCardScript } from "../../../../src";
+import { getCardScript } from "../../../../src";
 import { fund, place, run, spell, zoneOf } from "../../effects/helpers";
 import {
   fund as sfdFund,
@@ -14,6 +14,7 @@ import {
 } from "../../../cards/sfd/helpers";
 import { withCards as unlCards } from "../../../cards/unl/helpers";
 import { withCards as venCards } from "../../../cards/ven-ogs/helpers";
+import { registerTestCardScript } from "../../../../src/testing";
 
 describe("delayed replacements read the creator's choices [R359.3.f.3.a][R391.3]", () => {
   it("[R359.3.f.3.a][R391.3] a delayed replacement's matcher sees the creating ability's chosen object", () => {
@@ -57,7 +58,7 @@ describe("delayed replacements read the creator's choices [R359.3.f.3.a][R391.3]
     // it, and recall it instead." The heal is required: a recalled unit keeps its marked damage
     // and would be killed again by cleanup 3a (323.4).
     const original = getCardScript("Highlander")!;
-    registerCardScript(
+    registerTestCardScript(
       spell("Highlander", {
         op: "for_each",
         selector: { chosen: true, cardType: "unit", controller: "self", targetRef: "target:0" },
@@ -91,7 +92,7 @@ describe("delayed replacements read the creator's choices [R359.3.f.3.a][R391.3]
       expect(zoneOf(s, unit.id)).toBe("base");
       expect(s.room.rules!.objects[unit.id]?.damage ?? 0).toBe(0);
     } finally {
-      registerCardScript(original);
+      registerTestCardScript(original);
     }
   });
 });

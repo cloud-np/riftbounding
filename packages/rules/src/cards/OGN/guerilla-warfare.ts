@@ -13,7 +13,7 @@ registerCardScript({
   notes:
     'Not automated: "You can hide ignoring costs this turn" — no effect hook for the Hide cost (422, 811.1.a).',
   abilities: [
-    { kind: "keyword", keyword: "Hidden", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Hidden" },
     {
       kind: "spell",
       effect: {

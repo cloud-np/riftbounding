@@ -30,7 +30,7 @@ registerCardScript({
   status: "partial",
   notes: `"Banish a card from any trash to …" is a cost within the instruction: it is paid on resolution instead of when the trigger finalizes (cost_then has no banish-from-trash cost, 740.4.a.2). ${PAID_FLAG_NOTE}`,
   abilities: [
-    notIntrinsic("Assault"),
+    ...notIntrinsic("Assault"),
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,
@@ -52,7 +52,7 @@ registerCardScript({
             condition: { kind: "custom", id: "did" },
             then: {
               op: "grant_keyword",
-              keyword: "Assault 2",
+              keyword: "Assault", value: 2,
               target: aUnit({ targetRef: "target:0" }),
               duration: "this-turn",
             },
@@ -69,7 +69,7 @@ registerCardScript({
   status: "implemented",
   abilities: [
     // The catalog's Assault comes from the Shadow Clone's reminder text (135.2.d.3).
-    notIntrinsic("Assault"),
+    ...notIntrinsic("Assault"),
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,

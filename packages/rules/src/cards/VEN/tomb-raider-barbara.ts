@@ -11,7 +11,7 @@ import { runesControlled } from "./shared";
 
 const GEAR = {
   chosen: true,
-  cardType: "gear",
+  cardType: "gear" as const,
   controller: "opponent" as const,
   targetRef: "target:0",
 };

@@ -12,8 +12,8 @@ registerCardScript({
   text: "[Tap]: [REACTION] - [ADD] [Fury]. (Abilities that add resources can't be reacted to.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
-    { kind: "keyword", keyword: "Add", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
+    { kind: "suppress-printed-keyword", keyword: "Add" },
     {
       kind: "activated",
       cost: { exhaust: SELF },

@@ -11,7 +11,7 @@ registerCardScript({
   text: "[Vision] (When you play this, look at the top card of your Main Deck. You may recycle it.)\n[Action] Kill this, [tap] : Give a unit +2 [might] this turn.",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Action", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Action" },
     {
       kind: "activated",
       cost: { kill: SELF, exhaust: SELF },

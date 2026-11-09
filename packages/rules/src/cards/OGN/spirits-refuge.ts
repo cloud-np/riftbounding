@@ -14,7 +14,7 @@ registerCardScript({
   text: "When you play this, buff a friendly unit. (If it doesn't have a buff, it gets a +1 [Might] buff.)\nFriendly buffed units have [DEFLECT] if they didn't already. (Opponents must pay [Rune] to choose those units with a spell or ability.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Deflect", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Deflect" },
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,

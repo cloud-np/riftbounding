@@ -2,13 +2,13 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { runCleanup } from "../../src";
 import { scenario } from "../scenarios/dsl";
 import { boardOf, putCardAt, readyUnit, stepOf } from "../scenarios/cleanup-helpers";
-import { registerCardScript } from "../../src";
+import { registerTestCardScript } from "../../src/testing";
 
 // R2-effects: Treasure Hunter's printed "When I move, play a Gold gear token exhausted" now
 // triggers (383 / 402.1) and keeps the state Closed until it resolves. This suite uses it as a
 // vanilla unit for timing/showdown mechanics, so it overrides the production script (the trigger
 // itself is covered by test/cards/fixture-deck.test.ts).
-beforeAll(() => registerCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
+beforeAll(() => registerTestCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
 
 describe("combat seams [R323.13][R466.2.c.1.b][R468.7]", () => {
   it("[R323.13][R466.2.c.1.b] upgrading a non-combat Showdown keeps the current Focus holder", () => {

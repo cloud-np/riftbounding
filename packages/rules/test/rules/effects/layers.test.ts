@@ -1,16 +1,15 @@
 import { afterEach, describe, expect, it } from "vitest";
 import type { CardScript } from "@rift/protocol";
 import {
-  clearCardScripts,
   costAdjustments,
   effectiveKeywords,
   effectiveKeywordValues,
   effectiveMight,
   evaluateAmount,
   makeEnv,
-  registerCardScript,
   restrictionFor,
 } from "../../../src";
+import { clearCardScripts, registerTestCardScript } from "../../../src/testing";
 import { scenario } from "../../scenarios/dsl";
 import { eventTypes, fund, place, run } from "./helpers";
 
@@ -39,7 +38,7 @@ const BLADE: CardScript = {
 
 describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () => {
   it("[R364.1][R479.4] a passive Might modifier applies to every matching unit", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Treasure Hunter",
       text: "test: other friendly units here have +1 Might",
       status: "implemented",
@@ -62,7 +61,7 @@ describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () 
   });
 
   it("[R718.3][R718.4][R479.4.d][R718.2] an attached card's effect text applies to the top-most card; its rules text is Inactive", () => {
-    registerCardScript(BLADE);
+    registerTestCardScript(BLADE);
     const s = scenario();
     const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     const other = place(s, "p1", "Treasure Hunter", "base");
@@ -82,7 +81,7 @@ describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () 
     const s = scenario();
     const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     s.room.rules!.objects[unit.id] = { baseMight: 3 };
-    run(s, { op: "grant_keyword", keyword: "Shield 2", target: { targetRef: "obj:" + unit.id }, duration: "this-turn" });
+    run(s, { op: "grant_keyword", keyword: "Shield", value: 2, target: { targetRef: "obj:" + unit.id }, duration: "this-turn" });
     expect(effectiveKeywords(s.room, unit.id, s.host)).toContain("Shield");
     expect(effectiveKeywordValues(s.room, unit.id, s.host).shield).toBe(2);
     s.as("p1").endTurn().expectOk();
@@ -125,7 +124,7 @@ describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () 
   });
 
   it("[R708][R709][EX:709] a unit \"becomes Mighty\" when its Might goes from below 5 to 5 or more", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Rebuke",
       text: "test",
       status: "implemented",
@@ -140,7 +139,7 @@ describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () 
   });
 
   it("[R727.1.b][R824.1.b.1][EX:727.1.b.2] a Level ability is Inactive until its controller has enough XP", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Treasure Hunter",
       text: "test: [Level 3][>] I have +1 [M] and Ganking.",
       status: "implemented",
@@ -173,7 +172,7 @@ describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () 
   });
 
   it("[R828.1.b.1][R828.1.c] an Empowered ability is active while the object is Empowered", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Treasure Hunter",
       text: "test: [Empowered][>] I have +2 [M].",
       status: "implemented",
@@ -192,7 +191,7 @@ describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () 
   });
 
   it("[R478][R478.1.c] a self-referencing conditional passive (Mighty) is evaluated without looping", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Astral Heron",
       text: "test: While I'm Mighty, I have Deflect.",
       status: "implemented",
@@ -213,7 +212,7 @@ describe("layers — Might and keywords [R475–R482][R143.2][R716–R719]", () 
 
 describe("restrictions, costs, entry [R054][R356][R369.3]", () => {
   it("[R054.1][R358.3.a][EX:358.3.a] \"can't\" beats \"can\": a can't-move unit's move instruction is negated", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Treasure Hunter",
       text: "test: I can't move and can't be readied.",
       status: "implemented",
@@ -231,7 +230,7 @@ describe("restrictions, costs, entry [R054][R356][R369.3]", () => {
   });
 
   it("[R356.4][R366.2.a] costAdjustments reports discounts that apply to the card being played", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Treasure Hunter",
       text: "test: Units you play cost [1] less.",
       status: "implemented",
@@ -266,7 +265,7 @@ describe("restrictions, costs, entry [R054][R356][R369.3]", () => {
   });
 
   it("[R369.3][EX:369.3] \"units you play to battlefields you control enter ready\" replaces entering exhausted", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Riven, The Exile",
       text: "Units you play to battlefields you control enter ready.",
       status: "implemented",

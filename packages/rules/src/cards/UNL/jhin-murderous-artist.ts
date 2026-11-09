@@ -13,7 +13,7 @@ registerCardScript({
   notes:
     "The Add trigger goes on the chain like any triggered ability and can be responded to; triggered Add abilities must finalize and resolve immediately without passing Priority (430.2, 430.2.a).",
   abilities: [
-    { kind: "keyword", keyword: "Add", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Add" },
     {
       kind: "triggered",
       trigger: WHEN_I_MOVE,

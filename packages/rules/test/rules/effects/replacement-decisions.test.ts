@@ -4,9 +4,9 @@
  */
 import { describe, expect, it } from "vitest";
 import type { CardScript, Effect } from "@rift/protocol";
-import { registerCardScript } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
 import { boardOf, fund, place, run, zoneOf } from "./helpers";
+import { registerTestCardScript } from "../../../src/testing";
 
 type S = ReturnType<typeof scenario>;
 
@@ -63,7 +63,7 @@ const armoryReplacement = (unitId: string): Effect => ({
 
 describe("optional replacements [R371.2]", () => {
   it("[R371.2][R371.2.a][R371.2.b] the controller may decline; a declined \"once each turn\" replacement is still available", () => {
-    registerCardScript(optionalRecall("Blade of the Exile", true));
+    registerTestCardScript(optionalRecall("Blade of the Exile", true));
     const s = scenario();
     place(s, "p1", "Blade of the Exile", "base");
     const a = place(s, "p1", "Treasure Hunter", "battlefieldA");
@@ -124,7 +124,7 @@ describe("optional replacements [R371.2]", () => {
   });
 
   it("[R373][R371.2.a] two units dying in one cleanup are decided one at a time", () => {
-    registerCardScript(optionalRecall("Blade of the Exile", false));
+    registerTestCardScript(optionalRecall("Blade of the Exile", false));
     const s = withCards(["Singularity"]);
     place(s, "p1", "Blade of the Exile", "base");
     const a = place(s, "p1", "Treasure Hunter", "battlefieldA");

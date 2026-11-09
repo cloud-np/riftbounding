@@ -14,11 +14,11 @@ import {
   registerActionInterceptor,
   requiredChoices,
   lookupAbility,
-  registerCardScript,
   xpOf,
 } from "../../src";
 import { scenario } from "../scenarios/dsl";
 import { boardOf, fund, place, run, spell, zoneOf } from "../rules/effects/helpers";
+import { registerTestCardScript } from "../../src/testing";
 
 type S = ReturnType<typeof scenario>;
 
@@ -329,7 +329,7 @@ describe("cards from the official examples", () => {
 
   it("[C:Eclipse Herald][EX:424.1.a.1] when you stun an enemy unit, ready me and give me +1 Might this turn", () => {
     const original = getCardScript("Rebuke")!;
-    registerCardScript(spell("Rebuke", { op: "stun", target: { chosen: true, cardType: "unit" } }));
+    registerTestCardScript(spell("Rebuke", { op: "stun", target: { chosen: true, cardType: "unit" } }));
     try {
       const s = withCards(["Eclipse Herald"]);
       s.moveDeckCardToHand("p1", "Rebuke");
@@ -344,7 +344,7 @@ describe("cards from the official examples", () => {
       expect(s.host.isExhausted(s.room, herald.id)).toBe(false);
       expect(effectiveMight(s.room, herald.id, s.host)).toBe(8);
     } finally {
-      registerCardScript(original);
+      registerTestCardScript(original);
     }
   });
 

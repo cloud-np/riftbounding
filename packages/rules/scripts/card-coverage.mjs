@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 /**
- * card-coverage.mjs — card-script coverage for @rift/rules.
+ * card-coverage.mjs — card-script coverage for @rift/rules, read from the runtime registry.
  *
- * Reads packages/cards/data/cards.json, reduces it to unique playable card
- * names, scans packages/rules/src/cards for TypeScript script files
- *   name: "…"  +  status: "implemented" | "partial" | "manual"
- * and writes docs/cards-coverage.md.
+ * Reads packages/cards/data/cards.json, reduces it to unique playable card names, loads the
+ * production card pool (`src/index.ts`, through Node's native TypeScript support and
+ * `lib/register-ts.mjs`) and reports each name's registered status (`cardScriptNames()` /
+ * `getCardScript()`), then writes docs/cards-coverage.md.
  *
- * The scan is deliberately regex-based so it works before src/cards/registry.ts
- * exists and while the card-script wave is still landing.
+ * Cross-check (G5): a regex scan of `src/cards` (`lib/card-sources.mjs`) must find exactly the
+ * registered names, each in one file; any disagreement (a helper-built script, a duplicate, a
+ * stray literal) fails with exit 1. The scan also supplies the file column.
  *
  * Scope decisions (documented in the generated report):
  * - Alt arts collapse to one name (one script per unique name).
@@ -21,32 +22,21 @@
  * - A name printed in several sets is counted once, under its first non-alt
  *   printing's set in cards.json order.
  *
- * Zero dependencies. Run from packages/rules:
- *   node scripts/card-coverage.mjs
- *   node scripts/card-coverage.mjs --scripts-dir /tmp/fixture   (development)
+ * Run from packages/rules (Node >= 22.18):
+ *   node scripts/card-coverage.mjs           (write docs/cards-coverage.md)
+ *   node scripts/card-coverage.mjs --check   (exit 1 if the committed report is stale)
  */
 
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import "./lib/register-ts.mjs";
+import { REPO_ROOT, scanCardSources } from "./lib/card-sources.mjs";
 
-const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
-const PKG_DIR = path.resolve(SCRIPT_DIR, "..");
-const REPO_ROOT = path.resolve(PKG_DIR, "../..");
 const CARDS_FILE = path.join(REPO_ROOT, "packages", "cards", "data", "cards.json");
-const SCRIPTS_DIR = path.join(PKG_DIR, "src", "cards");
 const OUT_FILE = path.join(REPO_ROOT, "docs", "cards-coverage.md");
+const CHECK = process.argv.slice(2).includes("--check");
 
-const ARGS = process.argv.slice(2);
-let SCRIPTS_DIR_OVERRIDE = null;
-for (let i = 0; i < ARGS.length; i += 1) {
-  if (ARGS[i] === "--scripts-dir" && ARGS[i + 1]) {
-    SCRIPTS_DIR_OVERRIDE = path.resolve(ARGS[++i]);
-  }
-}
-
-const STATUSES = ["implemented", "partial", "manual", "unscripted", "unknown"];
-const STATUS_RANK = { implemented: 3, partial: 2, manual: 1, unknown: 0 };
+const STATUSES = ["implemented", "partial", "manual", "unscripted"];
 const SET_ORDER = [
   "Origins",
   "Spiritforged",
@@ -57,21 +47,6 @@ const SET_ORDER = [
   "Arcane Box Set",
   "Secret Garden",
 ];
-
-const NAME_RE = /\bname\s*:\s*(["'`])((?:\\.|(?!\1)[^\\])*)\1/g;
-const STATUS_RE = /\bstatus\s*:\s*["'](implemented|partial|manual)["']/g;
-
-function walk(dir) {
-  if (!fs.existsSync(dir)) return [];
-  const out = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === "node_modules" || entry.name.startsWith(".")) continue;
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) out.push(...walk(full));
-    else if (/\.(ts|tsx)$/.test(entry.name)) out.push(full);
-  }
-  return out.sort();
-}
 
 function pct(n, d) {
   if (d === 0) return "0.0%";
@@ -115,54 +90,28 @@ function loadPlayableCards() {
   return byName;
 }
 
-function scanScripts() {
-  const files = walk(SCRIPTS_DIR_OVERRIDE || SCRIPTS_DIR);
-  const scripts = new Map(); // name -> { status, file }
-  const outOfScope = [];
-  const warnings = [];
+async function loadRegistry() {
+  const rules = await import("../src/index.ts");
+  const scripts = new Map();
+  for (const name of rules.cardScriptNames()) scripts.set(name, { status: rules.getCardScript(name).status });
+  return scripts;
+}
 
-  for (const file of files) {
-    const text = fs.readFileSync(file, "utf8");
-    const names = [];
-    const statuses = [];
-    let match;
-    NAME_RE.lastIndex = 0;
-    while ((match = NAME_RE.exec(text)) !== null) {
-      names.push({ index: match.index, value: match[2] });
-    }
-    STATUS_RE.lastIndex = 0;
-    while ((match = STATUS_RE.exec(text)) !== null) {
-      statuses.push({ index: match.index, value: match[1] });
-    }
-    if (names.length === 0) continue;
-
-    let statusIndex = 0;
-    for (let i = 0; i < names.length; i += 1) {
-      const name = names[i];
-      const nextName = names[i + 1];
-      while (
-        statusIndex < statuses.length &&
-        statuses[statusIndex].index < name.index
-      ) {
-        statusIndex += 1;
-      }
-      const status =
-        statusIndex < statuses.length &&
-        (!nextName || statuses[statusIndex].index < nextName.index)
-          ? statuses[statusIndex++].value
-          : "unknown";
-      const relative = path.relative(REPO_ROOT, file);
-      const previous = scripts.get(name.value);
-      if (!previous || STATUS_RANK[status] > STATUS_RANK[previous.status]) {
-        scripts.set(name.value, { status, file: relative });
-      }
-      if (status === "unknown") {
-        warnings.push(`${relative}: card "${name.value}" has no status literal`);
-      }
-    }
+/** Runtime registry + source scan; throws on any disagreement (G5 cross-check). */
+async function scanScripts() {
+  const registry = await loadRegistry();
+  const source = scanCardSources();
+  const problems = [];
+  for (const [name, files] of source.names) {
+    if (!registry.has(name)) problems.push(`scan finds "${name}" (${files.join(", ")}) but the registry does not`);
+    if (files.length > 1) problems.push(`"${name}" is registered by several files: ${files.join(", ")}`);
   }
-
-  return { files, scripts, outOfScope, warnings };
+  for (const name of registry.keys()) {
+    if (!source.names.has(name)) problems.push(`registry has "${name}" but no \`registerCardScript({ name: "…" })\` literal was found`);
+  }
+  const scripts = new Map();
+  for (const [name, entry] of registry) scripts.set(name, { status: entry.status, file: source.names.get(name)?.[0] ?? "?" });
+  return { files: source.files, scripts, outOfScope: [], problems };
 }
 
 function buildReport(playable, scan) {
@@ -239,7 +188,7 @@ function buildReport(playable, scan) {
   );
   lines.push("");
   lines.push(
-    "A card is scripted when `packages/rules/src/cards/**/*.ts` contains a matching `name: \"…\"` and a `status: \"implemented\" | \"partial\" | \"manual\"` literal. The scan is regex-based so it works before the registry exists.",
+    "A card is scripted when the runtime registry (`cardScriptNames()` / `getCardScript()`) has a script for its name; the status is the registered script's. A source scan of `packages/rules/src/cards` cross-checks the registry (every name in exactly one file) and supplies the file column.",
   );
   lines.push("");
   lines.push("## Scope");
@@ -268,24 +217,18 @@ function buildReport(playable, scan) {
   lines.push(`| **Automated (implemented + partial)** | **${automated}** | **${pct(automated, total)}** |`);
   lines.push(`| **Total playable names** | **${total}** | **100.0%** |`);
   lines.push("");
-  if (scan.files.length === 0) {
-    lines.push(
-      `> \`${path.relative(REPO_ROOT, SCRIPTS_DIR_OVERRIDE || SCRIPTS_DIR)}\` does not exist yet (or has no \`.ts\` files). Every playable card is reported as unscripted.`,
-    );
-    lines.push("");
-  }
 
   lines.push("## By type");
   lines.push("");
   lines.push(
-    "| Type | Total | Implemented | Partial | Manual | Unscripted | Unknown | Automated coverage |",
+    "| Type | Total | Implemented | Partial | Manual | Unscripted | Automated coverage |",
   );
-  lines.push("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |");
+  lines.push("| --- | ---: | ---: | ---: | ---: | ---: | ---: |");
   for (const bucket of [...byType.values()].sort(
     (a, b) => b.total - a.total || a.type.localeCompare(b.type),
   )) {
     lines.push(
-      `| ${esc(bucket.type)} | ${bucket.total} | ${bucket.implemented} | ${bucket.partial} | ${bucket.manual} | ${bucket.unscripted} | ${bucket.unknown} | ${pct(bucket.implemented + bucket.partial, bucket.total)} |`,
+      `| ${esc(bucket.type)} | ${bucket.total} | ${bucket.implemented} | ${bucket.partial} | ${bucket.manual} | ${bucket.unscripted} | ${pct(bucket.implemented + bucket.partial, bucket.total)} |`,
     );
   }
   lines.push("");
@@ -293,14 +236,14 @@ function buildReport(playable, scan) {
   lines.push("## By set");
   lines.push("");
   lines.push(
-    "| Set | Total | Implemented | Partial | Manual | Unscripted | Unknown | Automated coverage |",
+    "| Set | Total | Implemented | Partial | Manual | Unscripted | Automated coverage |",
   );
-  lines.push("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |");
+  lines.push("| --- | ---: | ---: | ---: | ---: | ---: | ---: |");
   for (const bucket of [...bySet.values()].sort(
     (a, b) => setRank(a.set) - setRank(b.set) || a.set.localeCompare(b.set),
   )) {
     lines.push(
-      `| ${esc(bucket.set)} | ${bucket.total} | ${bucket.implemented} | ${bucket.partial} | ${bucket.manual} | ${bucket.unscripted} | ${bucket.unknown} | ${pct(bucket.implemented + bucket.partial, bucket.total)} |`,
+      `| ${esc(bucket.set)} | ${bucket.total} | ${bucket.implemented} | ${bucket.partial} | ${bucket.manual} | ${bucket.unscripted} | ${pct(bucket.implemented + bucket.partial, bucket.total)} |`,
     );
   }
   lines.push("");
@@ -308,7 +251,7 @@ function buildReport(playable, scan) {
   lines.push("## Unscripted cards by set");
   lines.push("");
   lines.push(
-    "The full list of playable names with no `name`/`status` script in `packages/rules/src/cards`.",
+    "The full list of playable names with no registered script.",
   );
   lines.push("");
   const setNames = [...unscriptedBySet.keys()].sort(
@@ -337,7 +280,7 @@ function buildReport(playable, scan) {
     lines.push("## Scripts outside the playable set");
     lines.push("");
     lines.push(
-      "These script files name a token, rune, marker, or otherwise excluded card. They do not count toward coverage.",
+      "Registered scripts for a token, rune, marker, or otherwise excluded card. They do not count toward coverage.",
     );
     lines.push("");
     lines.push("| Name | Status | File |");
@@ -348,12 +291,6 @@ function buildReport(playable, scan) {
     lines.push("");
   }
 
-  if (scan.warnings.length > 0) {
-    lines.push("## Warnings");
-    lines.push("");
-    for (const warning of scan.warnings) lines.push(`- ${warning}`);
-    lines.push("");
-  }
 
   return {
     markdown: `${lines.join("\n")}\n`,
@@ -364,28 +301,38 @@ function buildReport(playable, scan) {
   };
 }
 
-function main() {
+async function main() {
   if (!fs.existsSync(CARDS_FILE)) {
     console.error(`Missing ${path.relative(REPO_ROOT, CARDS_FILE)}.`);
     process.exit(1);
   }
   const playable = loadPlayableCards();
-  const scan = scanScripts();
+  const scan = await scanScripts();
+  if (scan.problems.length > 0) {
+    console.error("Registry / source-scan disagreement (G5):");
+    for (const problem of scan.problems) console.error(`  - ${problem}`);
+    process.exit(1);
+  }
   const report = buildReport(playable, scan);
 
-  fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
-  fs.writeFileSync(OUT_FILE, report.markdown);
-
-  console.log(`Wrote ${path.relative(REPO_ROOT, OUT_FILE)}`);
+  if (CHECK) {
+    const current = fs.existsSync(OUT_FILE) ? fs.readFileSync(OUT_FILE, "utf8") : "";
+    if (current !== report.markdown) {
+      console.error(`--check failed: ${path.relative(REPO_ROOT, OUT_FILE)} is stale; run \`pnpm --filter @rift/rules coverage:cards\`.`);
+      process.exit(1);
+    }
+    console.log(`${path.relative(REPO_ROOT, OUT_FILE)} is up to date.`);
+  } else {
+    fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
+    fs.writeFileSync(OUT_FILE, report.markdown);
+    console.log(`Wrote ${path.relative(REPO_ROOT, OUT_FILE)}`);
+  }
   console.log(
     `Playable names: ${report.total}; implemented: ${report.counts.implemented}; partial: ${report.counts.partial}; manual: ${report.counts.manual}; unscripted: ${report.counts.unscripted}; script files: ${scan.files.length}`,
   );
   console.log(
     `Scripted: ${report.scripted}/${report.total} (${pct(report.scripted, report.total)}); automated: ${report.automated}/${report.total} (${pct(report.automated, report.total)})`,
   );
-  if (scan.warnings.length > 0) {
-    console.warn(`Warnings: ${scan.warnings.length} (see report)`);
-  }
 }
 
-main();
+await main();

@@ -8,7 +8,7 @@ registerCardScript({
   text: "[Empower][2] ([2]: Empower me. Use only if not Empowered.)\n[Empowered] I have +1 [Might] and [Ganking]. (I can move from battlefield to battlefield.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Ganking"),
+    ...notIntrinsic("Ganking"),
     empower({ energy: 2 }),
     whileEmpowered({ kind: "might", amount: 1, target: SELF }),
     whileEmpowered({ kind: "keyword", keyword: "Ganking", target: SELF }),

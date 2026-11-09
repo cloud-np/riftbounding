@@ -10,7 +10,7 @@ registerCardScript({
   text: "When you play me, play a 1 [Might] Bird unit token with [Deflect] here. (Opponents must pay [Rune] to choose it with a spell or ability.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Deflect", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Deflect" },
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,

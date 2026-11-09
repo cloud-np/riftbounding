@@ -10,7 +10,7 @@ registerCardScript({
   status: "implemented",
   abilities: [
     // [Ganking] is part of the [Level 3] dependent ability (727.1.b), not intrinsic.
-    { kind: "keyword", keyword: "Ganking", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Ganking" },
     {
       kind: "passive",
       modifier: { kind: "custom", id: "conditional", params: { condition: LEVEL_3, modifier: { kind: "might", amount: 1, target: SELF } } },

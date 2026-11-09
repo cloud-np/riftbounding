@@ -21,11 +21,11 @@ registerCardScript({
   text: "[Empower] [12] . this ability costs [1] less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered] I have [deflect] and [shield 3]",
   status: "implemented",
   abilities: [
-    notIntrinsic("Deflect"),
-    notIntrinsic("Shield"),
+    ...notIntrinsic("Deflect"),
+    ...notIntrinsic("Shield"),
     empower({ energy: 12 }),
     whileEmpowered({ kind: "keyword", keyword: "Deflect", target: SELF }),
-    whileEmpowered({ kind: "keyword", keyword: "Shield 3", target: SELF }),
+    whileEmpowered({ kind: "keyword", keyword: "Shield", value: 3, target: SELF }),
     ...perCountCostReduction({ cardType: "rune", controller: "self" }, 12, SELF, [ON_BOARD]),
   ],
 });

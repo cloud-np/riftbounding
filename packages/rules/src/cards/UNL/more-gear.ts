@@ -24,8 +24,8 @@ registerCardScript({
   status: "partial",
   notes: ENTERS_EXHAUSTED_NOTE,
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
-    { kind: "keyword", keyword: "Add", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
+    { kind: "suppress-printed-keyword", keyword: "Add" },
     { kind: "triggered", trigger: WHEN_PLAYED, effect: { op: "exhaust", target: SELF } },
     {
       kind: "activated",
@@ -98,7 +98,7 @@ registerCardScript({
   notes:
     "The win condition is not automated: there is no effect that wins the game (a Victory outside scoring, 470.1 / 105); only the Bird-making ability is. The catalog's [Deflect] is the token's (suppressed).",
   abilities: [
-    { kind: "keyword", keyword: "Deflect", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Deflect" },
     {
       kind: "activated",
       cost: { discard: 1, exhaust: SELF },
@@ -173,7 +173,7 @@ registerCardScript({
   notes:
     "The '[1] less for each friendly unit with [Temporary]' reduction is not automated: cost modifiers apply to cards, not to activated abilities (366, 377); the ability is offered at its full [4]. The catalog's [Temporary] is the Sprite token's (suppressed).",
   abilities: [
-    { kind: "keyword", keyword: "Temporary", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Temporary" },
     {
       kind: "activated",
       cost: { energy: 4, exhaust: SELF },
@@ -193,8 +193,8 @@ registerCardScript({
   notes:
     "'Spend this Energy only during showdowns' is approximated by only allowing the ability to be used during a showdown: the Energy then sits in the pool until it empties (054.1, 166).",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
-    { kind: "keyword", keyword: "Add", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
+    { kind: "suppress-printed-keyword", keyword: "Add" },
     {
       kind: "activated",
       cost: { exhaust: SELF },

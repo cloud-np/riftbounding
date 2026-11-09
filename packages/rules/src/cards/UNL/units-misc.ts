@@ -31,8 +31,8 @@ import {
   not,
   token,
 } from "../dsl";
+import { WHEN_I_HOLD } from "../lib/triggers";
 
-const WHEN_I_HOLD = { kind: "event", event: { type: "hold", subject: SELF } } as const;
 
 registerCardScript({
   name: "Enthusiastic Promoter",
@@ -52,8 +52,8 @@ registerCardScript({
   text: '[Hidden] (Hide now for [Rune] to react with later for [0].)\n[Backline] (I must be assigned combat damage last.)\nOnce each turn, when an enemy unit dies while I\'m at a battlefield, play a Gold gear token exhausted. (It has "[Reaction] Kill this, [Tap]: [Add] [Rune].")',
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
-    { kind: "keyword", keyword: "Add", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
+    { kind: "suppress-printed-keyword", keyword: "Add" },
     {
       kind: "triggered",
       trigger: {

@@ -3,11 +3,10 @@
  */
 import { afterEach, describe, expect, it } from "vitest";
 import {
-  clearCardScripts,
   registerActionInterceptor,
-  registerCardScript,
   registerCleanupHook,
 } from "../../../src";
+import { clearCardScripts, registerTestCardScript } from "../../../src/testing";
 import { scenario, type RulesScenario } from "../../scenarios/dsl";
 import {
   boardOf,
@@ -170,7 +169,7 @@ describe("combat damage and resolution [R467][R468]", () => {
   });
 
   it("[R468.2][R468.4] the combat result waits until chain items from the Combat Cleanup resolve", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Combat Cleanup Probe",
       text: "test trigger",
       status: "implemented",

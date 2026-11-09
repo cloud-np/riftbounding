@@ -8,6 +8,7 @@
  */
 import { registerCardScript } from "../registry";
 import { WHEN_I_BECOME_EXHAUSTED, token } from "../dsl";
+import { notIntrinsic } from "../lib/keywords";
 
 registerCardScript({
   name: "Reckless Innovator",
@@ -39,5 +40,6 @@ registerCardScript({
         ],
       },
     },
+    ...notIntrinsic("Reaction", "Add"),
   ],
 });

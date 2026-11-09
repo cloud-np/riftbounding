@@ -3,7 +3,7 @@
  * reflexive "Then do this" effects, and cards whose text needs engine capabilities that do not
  * exist yet (partial / manual, with the missing capability named).
  */
-import type { Condition, Effect, Modifier, Selector } from "@rift/protocol";
+import type { Ability, Condition, Effect, KeywordName, Modifier, Selector } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import {
   EVENT_SUBJECT,
@@ -43,7 +43,7 @@ function named(cardName: string, extra: Partial<Selector> = {}): Selector {
 
 /** Stacked keyword instances ("[Assault] equal to …"), `cap` deep. */
 function stackedKeyword(
-  keyword: string,
+  keyword: KeywordName,
   condition: (k: number) => Condition,
   targetSelector: Selector,
   cap: number,
@@ -299,7 +299,7 @@ registerCardScript({
       effect: {
         op: "for_each",
         selector: target({ controller: "opponent", zone: HERE_ZONE }),
-        effect: { op: "custom", id: "sfd:deal-keyword-value", params: { keyword: "assault" } },
+        effect: { op: "custom", id: "sfd:deal-keyword-value", params: { keyword: "Assault" } },
       },
     },
   ],
@@ -349,7 +349,7 @@ registerCardScript({
   notes:
     "Assault equal to the number of enemy units here is expressed as stacked conditional Assault instances (807, 823.2-style summing) up to 10 enemy units; the layers have no computed keyword values (479.3).",
   abilities: [
-    notIntrinsic("Assault"),
+    ...notIntrinsic("Assault"),
     ...stackedKeyword(
       "Assault",
       (k) => ({
@@ -370,11 +370,11 @@ registerCardScript({
   notes:
     "Each Equipment's Assault is expressed as stacked conditional Assault instances on units with 1…8 of your Equipment attached; the layers cannot grant one keyword instance per attached card (479.3, 718.3).",
   abilities: [
-    notIntrinsic("Assault"),
-    ...Array.from({ length: 8 }, (_, index) => ({
-      kind: "passive" as const,
+    ...notIntrinsic("Assault"),
+    ...Array.from({ length: 8 }, (_, index): Ability => ({
+      kind: "passive",
       modifier: {
-        kind: "keyword" as const,
+        kind: "keyword",
         keyword: "Assault",
         target: { cardType: "unit", where: custom("sfd:it-equipment-at-least", { n: index + 1 }) },
       },
@@ -823,11 +823,11 @@ registerCardScript({
   text: "When you play me or when I hold, look at the top 4 cards of your Main Deck. You may reveal a gear from among them and draw it. Then recycle the rest.",
   status: "implemented",
   abilities: [
-    ...[WHEN_PLAYED, WHEN_I_HOLD].map((trigger) => ({
-      kind: "triggered" as const,
+    ...[WHEN_PLAYED, WHEN_I_HOLD].map((trigger): Ability => ({
+      kind: "triggered",
       trigger,
       effect: {
-        op: "look" as const,
+        op: "look",
         amount: 4,
         then: {
           op: "seq" as const,
@@ -931,7 +931,7 @@ registerCardScript({
   notes:
     '"Your Gold [Add] an additional [1]": modifying the resources a token\'s Add ability produces (430.2) is not supported.',
   abilities: [
-    notIntrinsic("Add"),
+    ...notIntrinsic("Add"),
     {
       kind: "triggered",
       trigger: {
@@ -950,7 +950,7 @@ registerCardScript({
   notes:
     '"When I conquer, you may recycle another friendly unit to play a Mech from your trash, reducing its Energy cost by that unit\'s Might": the trigger is detected but resolves in the §6.4 manual window (effect plays cannot apply a computed cost reduction, 420.3/356.4).',
   abilities: [
-    notIntrinsic("Assault"),
+    ...notIntrinsic("Assault"),
     {
       kind: "passive",
       modifier: {
@@ -1073,7 +1073,7 @@ registerCardScript({
   notes:
     "\"I don't deal combat damage\": no modifier removes a unit's combat damage (467.2.b) other than Stun.",
   abilities: [
-    notIntrinsic("Action"),
+    ...notIntrinsic("Action"),
     {
       kind: "triggered",
       trigger: WHEN_I_ATTACK_OR_DEFEND,
@@ -1098,7 +1098,7 @@ registerCardScript({
   text: "Your Sand Soldiers have [Weaponmaster].\n[1], [Tap]: Play a 2 [Might] Sand Soldier unit token to your base. Use only if you've played an Equipment this turn.",
   status: "implemented",
   abilities: [
-    notIntrinsic("Weaponmaster"),
+    ...notIntrinsic("Weaponmaster"),
     {
       kind: "passive",
       modifier: {

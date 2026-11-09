@@ -44,7 +44,14 @@ export type Ability =
       replace: Effect | { prevent: Amount };
       limit?: Limit;
     }
-  | { kind: "keyword"; keyword: KeywordName; value?: number };
+  /**
+   * F3: the catalog lists `keyword` for this card, but it is not one of the card's own printed
+   * keywords — it appears only in reminder text, in quoted granted text, as an ability's keyword,
+   * or in a dependent ability (727.1.b: Inactive until its condition holds; 831.2). The layers
+   * then ignore the catalog entry; the keyword applies only when an ability actually grants it.
+   * The registry integrity test lists the catalog keywords that need this marker.
+   */
+  | { kind: "suppress-printed-keyword"; keyword: KeywordName };
 
 /** §6.1 — keyed by unique card name (alt arts share a script). */
 export interface CardScript {

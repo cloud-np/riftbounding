@@ -16,6 +16,7 @@ import type { CardInstance, Cost, Room, RuleRef } from "@rift/protocol";
 import type { LocatedCard, RulesHost } from "../host";
 import { isBattlefield } from "./control";
 import { flowPermission } from "./flow";
+import { orderedRegistry } from "../registry-table";
 
 export interface PlayPermission {
   /** Stable id recorded on the chain item. */
@@ -39,15 +40,12 @@ export type PlayPermissionProvider = (
   query: { playerId: string; card: CardInstance; zone: string; ownerId: string },
 ) => PlayPermission | null;
 
-const PROVIDERS: PlayPermissionProvider[] = [];
+const PROVIDER_REGISTRY = orderedRegistry<PlayPermissionProvider>("play permission");
+const PROVIDERS = PROVIDER_REGISTRY.list;
 
 /** Grant play permission from another zone (R2-effects / tests). Returns an unsubscribe. */
 export function registerPlayPermission(provider: PlayPermissionProvider): () => void {
-  PROVIDERS.push(provider);
-  return () => {
-    const index = PROVIDERS.indexOf(provider);
-    if (index >= 0) PROVIDERS.splice(index, 1);
-  };
+  return PROVIDER_REGISTRY.register(provider);
 }
 
 /** 811.1.b / 811.6: hidden on an earlier turn, by this player, at a battlefield. */

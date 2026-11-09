@@ -3,6 +3,7 @@
  */
 import type {
   Ability,
+  CardTypeName,
   Condition,
   Effect,
   KeywordName,
@@ -19,9 +20,7 @@ import type { RadAmount } from "./custom";
  * ("Your gear have [Deflect]") or in another object's text (a token's [Deflect]); they are not the
  * card's own (135.2.d.3, 727.1.b). Marked with value 0 so the layers ignore the printed copy.
  */
-export function notIntrinsic(...keywords: KeywordName[]): Ability[] {
-  return keywords.map((keyword) => ({ kind: "keyword" as const, keyword, value: 0 }));
-}
+export { notIntrinsic } from "../lib/keywords";
 
 /** "I enter ready." — 369.3 replacement (EX[134]). */
 export const ENTER_READY: Ability = {
@@ -113,7 +112,7 @@ export function costLessForEach(selector: Selector, per: number, max: number): A
  * "Opponents can't play <type> this turn" — a play restriction (054.1) on every card of that type
  * the opponents could play, in each zone a card can be played from (420.1.a, 811.1.b, 354).
  */
-export function opponentsCantPlay(cardType: string): Effect {
+export function opponentsCantPlay(cardType: CardTypeName): Effect {
   const zones: ZoneSelector[] = ["hand", "champion", "trash", "banished", "deck", "battlefield"];
   return {
     op: "seq",

@@ -19,12 +19,8 @@
 import type { Trigger } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import { HERE, SELF, aUnit, custom, token } from "../dsl";
+import { WHEN_I_ATTACK, WHEN_I_ATTACK_OR_DEFEND } from "../lib/triggers";
 
-const WHEN_I_ATTACK: Trigger = { kind: "event", event: { type: "attack", subject: SELF } };
-const WHEN_I_ATTACK_OR_DEFEND: Trigger = {
-  kind: "event",
-  event: { type: ["attack", "defend"], subject: SELF },
-};
 const ENEMY_HERE = aUnit({ controller: "opponent", zone: HERE });
 
 registerCardScript({
@@ -45,7 +41,7 @@ registerCardScript({
   text: "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen I attack, [Stun] an enemy unit here. (It doesn't deal combat damage this turn.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
     { kind: "triggered", trigger: WHEN_I_ATTACK, effect: { op: "stun", target: ENEMY_HERE } },
   ],
 });
@@ -55,7 +51,7 @@ registerCardScript({
   text: "[shield] (+1 [Might] while I'm a defender.)\nWhen I hold, play a ready 3 [might] Sprite unit token with [temporary] here. (Kill it at the start of its controller's next Beginning Phase, before scoring.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Temporary", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Temporary" },
     {
       kind: "triggered",
       trigger: { kind: "event", event: { type: "hold", subject: SELF } },
@@ -73,7 +69,7 @@ registerCardScript({
   text: "When I attack or defend, give one of your other units here +3[Might] and [Tank] this turn. (It must be assigned combat damage first.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Tank", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Tank" },
     {
       kind: "triggered",
       trigger: WHEN_I_ATTACK_OR_DEFEND,
@@ -107,7 +103,7 @@ registerCardScript({
   text: "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen I attack or defend, if an enemy unit is alone here, give me +2 [Might] this turn and gain 2 XP.",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
     {
       kind: "triggered",
       trigger: WHEN_I_ATTACK_OR_DEFEND,

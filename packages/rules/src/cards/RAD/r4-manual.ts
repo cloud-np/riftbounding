@@ -3,6 +3,7 @@
  * `manual` script (the §6.4 fallback) and document the exact gap.
  */
 import { registerCardScript } from "../registry";
+import { notIntrinsic } from "../lib/keywords";
 
 /** Evelynn, Agony's Embrace (RAD-153/175, legend) — play-from-facedown trigger + conditional discard. */
 registerCardScript({
@@ -21,7 +22,7 @@ registerCardScript({
   status: "manual",
   notes:
     "A unit play effect has no facedown provenance: `unit_played` does not carry `playedFromFacedown` (811.6); [Ambush] is the printed keyword.",
-  abilities: [],
+  abilities: [...notIntrinsic("Reaction")],
 });
 
 /** Heimerdinger, Academy Instructor (RAD-132) — replaces a played unit token with a Mech token. */

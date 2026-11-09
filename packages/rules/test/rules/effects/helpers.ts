@@ -2,8 +2,9 @@
  * R2-effects test helpers (kept out of the shared DSL/generators, lane discipline).
  */
 import type { CardInstance, CardScript, Effect, GameEvent, Room } from "@rift/protocol";
-import { executeEffect, registerCardScript, type RulesStepContext } from "../../../src";
+import { executeEffect, type RulesStepContext } from "../../../src";
 import type { RulesScenario } from "../../scenarios/dsl";
+import { registerTestCardScript } from "../../../src/testing";
 
 export function stepFor(s: RulesScenario, events: GameEvent[] = []): RulesStepContext {
   return { ctx: s.ctx, host: s.host, events };
@@ -75,7 +76,7 @@ export function spell(name: string, effect: Effect, text = "test spell"): CardSc
 }
 
 export function registerAll(scripts: CardScript[]): void {
-  for (const script of scripts) registerCardScript(script);
+  for (const script of scripts) registerTestCardScript(script);
 }
 
 export function eventTypes(events: GameEvent[]): string[] {

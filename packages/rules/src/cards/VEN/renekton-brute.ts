@@ -15,8 +15,8 @@ registerCardScript({
   status: "partial",
   notes: `"When my Might becomes 10 or more" is not automated: only the 5-Might threshold (become_mighty, 709) is synthesized as an event (383.1).`,
   abilities: [
-    notIntrinsic("Deflect"),
-    notIntrinsic("Ganking"),
+    ...notIntrinsic("Deflect"),
+    ...notIntrinsic("Ganking"),
     {
       kind: "activated",
       cost: { energy: 1 },

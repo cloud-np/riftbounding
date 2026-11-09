@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import type { ChainItem } from "@rift/protocol";
-import { clearCardScripts, registerCardScript } from "../../src";
+import { clearCardScripts, registerTestCardScript } from "../../src/testing";
 import { appendChainItem, finalizeChainItem, resolveNewest } from "../../src/timing/fepr";
 import { scenario } from "../scenarios/dsl";
 
@@ -8,7 +8,7 @@ import { scenario } from "../scenarios/dsl";
 // triggers (383 / 402.1) and keeps the state Closed until it resolves. This suite uses it as a
 // vanilla unit for timing/showdown mechanics, so it overrides the production script (the trigger
 // itself is covered by test/cards/fixture-deck.test.ts).
-beforeAll(() => registerCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
+beforeAll(() => registerTestCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
 
 function readyUnit(s: ReturnType<typeof scenario>, name: string): void {
   const unit = s.findBoardCard(name);
@@ -81,14 +81,14 @@ describe("showdowns [R341–R348]", () => {
   });
 
   it("[R346.1] Focus does not pass when the chain opened from a triggered ability", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Test Trigger",
       text: "Test-only triggered ability.",
       status: "implemented",
       abilities: [
         {
           kind: "triggered",
-          trigger: { kind: "event", event: { type: "test_trigger" } },
+          trigger: { kind: "event", event: { type: "test_trigger" as never } },
           effect: { op: "seq", effects: [] },
         },
       ],

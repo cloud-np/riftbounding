@@ -11,7 +11,7 @@ registerCardScript({
   text: "I have +1 [Might] for each of your units with [Temporary] at my battlefield.",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Temporary", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Temporary" },
     {
       kind: "passive",
       modifier: {

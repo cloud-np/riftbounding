@@ -9,12 +9,8 @@ import { registerCardScript } from "../registry";
 import type { Trigger } from "@rift/protocol";
 import { SELF, token } from "../dsl";
 import { empower } from "./shared";
+import { WHEN_I_DIE_EMPOWERED } from "../lib/triggers";
 
-/** 808 / 383.2.c.3.b: "When I die while Empowered" (the kill event carries last-known status). */
-const WHEN_I_DIE_EMPOWERED: Trigger = {
-  kind: "event",
-  event: { type: "die", subject: { ...SELF, cardType: "unit", empowered: true } },
-};
 
 registerCardScript({
   name: "Noxian Emissary",

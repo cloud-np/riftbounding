@@ -8,8 +8,8 @@ registerCardScript({
   text: "[empower][2][fury] ([2][fury]: Empower me. Use only if not Empowered.)\n[empowered] I have [assault 3]. (+3[might] while I'm an attacker.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Assault"),
+    ...notIntrinsic("Assault"),
     empower({ energy: 2, power: { Fury: 1 } }),
-    whileEmpowered({ kind: "keyword", keyword: "Assault 3", target: SELF }),
+    whileEmpowered({ kind: "keyword", keyword: "Assault", value: 3, target: SELF }),
   ],
 });

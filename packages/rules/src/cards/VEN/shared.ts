@@ -6,7 +6,7 @@
  *   if not Empowered." (the 377.2.b precondition is enforced by `validateChoices`).
  * - `whileEmpowered(modifier)` — 828.1.b/c: an "[Empowered] …" passive is a Dependent Ability,
  *   active only while the source has the Empowered status (`conditional` modifier, 727.1.b).
- * - `notIntrinsic(keyword)` — 727.1.b / 135.2.d.3: the catalog lists keywords that only appear
+ * - `...notIntrinsic(keyword)` (re-exported from `cards/lib`) — 727.1.b / 135.2.d.3: the catalog lists keywords that only appear
  *   in reminder text or in a dependent/conditional ability; the marker removes the printed
  *   instance so only the ability that grants it applies.
  */
@@ -44,24 +44,7 @@ import {
   locationOf,
 } from "../../effects/objects";
 import { SELF, custom, not } from "../dsl";
-
-/** "When I become [Empowered]" (442.2.a / 828.1.d). */
-export const WHEN_I_BECOME_EMPOWERED: Trigger = {
-  kind: "event",
-  event: { type: "empower", subject: SELF },
-};
-
-/** "When I attack" (383.4.e, R2-combat's unit `attack` event). */
-export const WHEN_I_ATTACK: Trigger = { kind: "event", event: { type: "attack", subject: SELF } };
-
-/** "When I defend" (383.4.f). */
-export const WHEN_I_DEFEND: Trigger = { kind: "event", event: { type: "defend", subject: SELF } };
-
-/** "When I conquer" (383.4.c.2.a: I was present at the conquered battlefield). */
-export const WHEN_I_CONQUER: Trigger = { kind: "event", event: { type: "conquer", subject: SELF } };
-
-/** "When I hold" (383.4.d.2.a). */
-export const WHEN_I_HOLD: Trigger = { kind: "event", event: { type: "hold", subject: SELF } };
+export { WHEN_I_ATTACK, WHEN_I_BECOME_EMPOWERED, WHEN_I_CONQUER, WHEN_I_DEFEND, WHEN_I_HOLD } from "../lib/triggers";
 
 export const SELF_EMPOWERED: Condition = custom("self-empowered");
 
@@ -104,9 +87,7 @@ export function conditional(condition: Condition, modifier: Modifier): Ability {
 }
 
 /** 727.1.b: the printed (catalog) keyword is not intrinsic; an ability grants it. */
-export function notIntrinsic(keyword: string): Ability {
-  return { kind: "keyword", keyword, value: 0 };
-}
+export { notIntrinsic } from "../lib/keywords";
 
 /** "you control N or more / fewer runes" (runes are in the Rune Area, 107). */
 export function runesControlled(op: "lte" | "gte", value: number): Condition {
@@ -504,29 +485,6 @@ registerCustomCondition("ven:at-showdown", (ctx) => {
   return locationOf(ctx.room, ctx.host, id) === zone;
 });
 
-/**
- * "a friendly unit that's in combat with an enemy Fury unit": `it` holds a combat designation at
- * the combat battlefield and the opposing side has a unit of `params.domain` there (383.4.e/f,
- * 466.2).
- */
-registerCustomCondition("ven:in-combat-with-enemy-domain", (ctx, params) => {
-  const id = ctx.env.it;
-  const rules = ctx.room.rules;
-  const combat = rules?.combat;
-  const domain = typeof params.domain === "string" ? params.domain.toLowerCase() : "";
-  if (!id || !combat || !domain) return false;
-  if (locationOf(ctx.room, ctx.host, id) !== combat.battlefield) return false;
-  const designation = rules?.objects[id]?.designation;
-  if (!designation) return false;
-  const mine = controllerOf(ctx.room, ctx.host, id);
-  return unitsPresentAt(ctx.room, ctx.host, combat.battlefield).some((card) => {
-    if (controllerOf(ctx.room, ctx.host, card.id) === mine) return false;
-    if (!rules?.objects[card.id]?.designation) return false;
-    const domains = ctx.host.cardInfo(ctx.room, card.id)?.domains ?? [];
-    return domains.some((entry) => String(entry).toLowerCase() === domain);
-  });
-});
-
 /** Every id bound anywhere in a chain item's choices (targets, modes, chosen cards/players). */
 function choiceIds(choices: Record<string, unknown> | undefined): string[] {
   if (!choices) return [];
@@ -539,20 +497,6 @@ function choiceIds(choices: Record<string, unknown> | undefined): string[] {
   for (const value of Object.values(choices)) visit(value);
   return out;
 }
-
-/** "that's being chosen by an enemy Fury spell": a Fury spell on the chain has `it` as a choice. */
-registerCustomCondition("ven:chosen-by-enemy-domain-spell", (ctx, params) => {
-  const id = ctx.env.it;
-  const domain = typeof params.domain === "string" ? params.domain.toLowerCase() : "";
-  if (!id || !domain) return false;
-  return (ctx.room.rules?.chain ?? []).some((item) => {
-    if (item.kind !== "card" || item.controller === ctx.env.controller) return false;
-    if (!choiceIds(item.choices).includes(id)) return false;
-    const info = ctx.host.cardInfo(ctx.room, item.cardSnapshot?.id ?? item.id);
-    const domains = info?.domains ?? item.cardSnapshot?.domains ?? [];
-    return (domains as string[]).some((entry) => String(entry).toLowerCase() === domain);
-  });
-});
 
 /** Decree of Focus: in combat with an enemy Fury unit, or chosen by an enemy Fury spell. */
 registerCustomCondition("ven:decree-focus-eligible", (ctx) => {

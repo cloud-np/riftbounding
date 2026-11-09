@@ -63,7 +63,7 @@ registerCardScript({
   status: "implemented",
   abilities: [
     equip({ power: { Body: 1 } }),
-    { kind: "keyword", keyword: "Hunt", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Hunt" },
     { kind: "passive", modifier: { kind: "keyword", keyword: "Hunt", target: HOST } },
     { kind: "passive", modifier: { kind: "might", amount: 2, target: HOST } },
   ],

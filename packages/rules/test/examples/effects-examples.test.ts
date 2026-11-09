@@ -9,11 +9,11 @@ import {
   effectiveMight,
   makeEnv,
   matchingIds,
-  registerCardScript,
   xpOf,
 } from "../../src";
 import { scenario } from "../scenarios/dsl";
 import { boardOf, eventTypes, fund, place, run, spell, zoneOf } from "../rules/effects/helpers";
+import { registerTestCardScript } from "../../src/testing";
 
 // Tests that override a card's script register it themselves; production scripts stay loaded for
 // the rest (no global clear between tests).
@@ -92,7 +92,7 @@ describe("official examples — effects", () => {
   });
 
   it("[EX:383.3.e.2.b][EX:386.2.b] a declined optional once-each-turn trigger can still trigger later that turn", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Treasure Hunter",
       text: "test: Once each turn, when a unit is played, you may gain 1 XP.",
       status: "implemented",
@@ -121,7 +121,7 @@ describe("official examples — effects", () => {
   });
 
   it("[EX:392] Noxian Guillotine: \"Choose a unit. Kill it the next time it takes damage this turn.\" (delayed trigger)", () => {
-    registerCardScript(
+    registerTestCardScript(
       spell("Rebuke", {
         op: "delayed",
         trigger: { kind: "event", event: { type: "damage", subject: { targetRef: "target:0" } } },
@@ -129,7 +129,7 @@ describe("official examples — effects", () => {
         once: true,
       }),
     );
-    registerCardScript(spell("Gust", { op: "deal", amount: 1, target: { chosen: true, cardType: "unit" } }));
+    registerTestCardScript(spell("Gust", { op: "deal", amount: 1, target: { chosen: true, cardType: "unit" } }));
     const s = scenario({ p1: { hand: ["Rebuke", "Gust"], energy: 5 } });
     const enemy = place(s, "p2", "Whiteflame Protector", "battlefieldA");
     const other = place(s, "p2", "Astral Heron", "battlefieldA");
@@ -148,8 +148,8 @@ describe("official examples — effects", () => {
   });
 
   it("[EX:392] Ravenborn Tome: \"The next spell you play this turn deals 1 Bonus Damage.\"", () => {
-    registerCardScript(spell("Rebuke", { op: "deal", amount: 2, target: { chosen: true, cardType: "unit" } }));
-    registerCardScript(spell("Gust", { op: "deal", amount: 2, target: { chosen: true, cardType: "unit" } }));
+    registerTestCardScript(spell("Rebuke", { op: "deal", amount: 2, target: { chosen: true, cardType: "unit" } }));
+    registerTestCardScript(spell("Gust", { op: "deal", amount: 2, target: { chosen: true, cardType: "unit" } }));
     const s = scenario({ p1: { hand: ["Rebuke", "Gust"], energy: 5 } });
     const a = place(s, "p2", "Whiteflame Protector", "battlefieldA");
     const b = place(s, "p2", "Astral Heron", "battlefieldA");
@@ -233,8 +233,8 @@ describe("official examples — effects", () => {
         },
       ],
     };
-    registerCardScript(watcher);
-    registerCardScript(spell("Rebuke", { op: "deal", amount: 5, target: { chosen: true, cardType: "unit", maxCount: 2 } }));
+    registerTestCardScript(watcher);
+    registerTestCardScript(spell("Rebuke", { op: "deal", amount: 5, target: { chosen: true, cardType: "unit", maxCount: 2 } }));
     const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
     const herder = place(s, "p2", "Stellacorn Herder", "battlefieldA");
     const friend = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
@@ -247,7 +247,7 @@ describe("official examples — effects", () => {
   });
 
   it("[EX:383.2.c.2] a surviving watcher triggers when another friendly unit dies", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Stellacorn Herder",
       text: "test: When another unit you control dies, gain 1 XP.",
       status: "implemented",
@@ -259,7 +259,7 @@ describe("official examples — effects", () => {
         },
       ],
     });
-    registerCardScript(spell("Rebuke", { op: "kill", target: { chosen: true, cardType: "unit" } }));
+    registerTestCardScript(spell("Rebuke", { op: "kill", target: { chosen: true, cardType: "unit" } }));
     const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
     place(s, "p2", "Stellacorn Herder", "base");
     const friend = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
@@ -282,13 +282,13 @@ describe("official examples — effects", () => {
   });
 
   it("[EX:424.1.a.1] stunning an already stunned unit does not trigger \"when you stun an enemy unit\"", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Treasure Hunter",
       text: "test: When you stun an enemy unit, gain 1 XP.",
       status: "implemented",
       abilities: [{ kind: "triggered", trigger: { kind: "event", event: { type: "stun", player: "self", subject: { cardType: "unit", controller: "opponent" } } }, effect: { op: "gain_xp", amount: 1 } }],
     });
-    registerCardScript(spell("Rebuke", { op: "stun", target: { chosen: true, cardType: "unit" } }));
+    registerTestCardScript(spell("Rebuke", { op: "stun", target: { chosen: true, cardType: "unit" } }));
     const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
     place(s, "p1", "Treasure Hunter", "base");
     const enemy = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");

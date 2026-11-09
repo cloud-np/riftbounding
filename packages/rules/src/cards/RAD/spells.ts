@@ -7,6 +7,7 @@ import type { Condition } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import { SHOWED_OFF, aUnit, custom, showOff, token } from "../dsl";
 import { aBattlefield, drawCard, letX, opponentsCantPlay, zoneRef } from "./dsl";
+import { notIntrinsic } from "../lib/keywords";
 
 const FACE_UP = custom("rad:face-up");
 
@@ -35,6 +36,7 @@ registerCardScript({
         ],
       },
     },
+    ...notIntrinsic("Reaction", "Add"),
   ],
 });
 
@@ -99,7 +101,7 @@ registerCardScript({
       effect: {
         op: "seq",
         effects: [
-          { op: "grant_keyword", keyword: "Shield 2", target: aUnit(), duration: "this-turn" },
+          { op: "grant_keyword", keyword: "Shield", value: 2, target: aUnit(), duration: "this-turn" },
           { op: "predict", amount: 1 },
         ],
       },
@@ -355,7 +357,7 @@ registerCardScript({
         selector: aBattlefield("battlefield"),
         effect: {
           op: "grant_keyword",
-          keyword: "Shield 2",
+          keyword: "Shield", value: 2,
           target: { cardType: "unit", controller: "self", zone: zoneRef("battlefield") },
           duration: "this-turn",
         },
@@ -379,7 +381,7 @@ registerCardScript({
           { amount: { kind: "might", selector: { targetRef: "it" } } },
           {
             op: "grant_keyword",
-            keyword: "Assault {X}",
+            keyword: "Assault", value: { kind: "x" },
             target: { targetRef: "it" },
             duration: "this-turn",
           },
@@ -432,7 +434,7 @@ registerCardScript({
         effects: [
           {
             op: "grant_keyword",
-            keyword: "Shield 2",
+            keyword: "Shield", value: 2,
             target: aUnit({ controller: "self", targetRef: "target:0" }),
             duration: "this-turn",
           },
@@ -660,6 +662,7 @@ registerCardScript({
         else: { op: "create", token: token("Gold", { exhausted: true, play: true }) },
       },
     },
+    ...notIntrinsic("Reaction", "Add"),
   ],
 });
 

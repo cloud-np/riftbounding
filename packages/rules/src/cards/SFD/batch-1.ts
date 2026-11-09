@@ -3,6 +3,7 @@
  * Deathknell units. Each `registerCardScript` call registers one card (text = current text,
  * errata applied).
  */
+import type { Selector } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import { SELF, WHEN_I_DIE, WHEN_PLAYED, custom } from "../dsl";
 import {
@@ -16,7 +17,7 @@ import {
   whilePassive,
 } from "./common";
 
-const ENEMY_UNIT = { cardType: "unit", controller: "opponent" as const };
+const ENEMY_UNIT: Selector = { cardType: "unit", controller: "opponent" };
 
 registerCardScript({
   name: "Against the Odds",

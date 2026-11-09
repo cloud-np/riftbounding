@@ -88,7 +88,7 @@ registerCardScript({
   text: "[Accelerate] (You may pay [1][Mind] as an additional cost to have me enter ready.)\nWhen I move from a location, play a 3 [Might] Sprite unit token with [Temporary] there. (Kill it at the start of its controller's Beginning Phase, before scoring.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Temporary", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Temporary" },
     {
       kind: "triggered",
       trigger: WHEN_I_MOVE,

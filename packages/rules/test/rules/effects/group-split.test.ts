@@ -76,7 +76,6 @@ const VOLIBEAR: CardScript = {
   text: "[DEFLECT 2] When I attack, deal 5 damage split among any number of enemy units here.",
   status: "partial",
   abilities: [
-    { kind: "keyword", keyword: "Deflect", value: 2 },
     {
       kind: "triggered",
       trigger: { kind: "event", event: { type: "attack", subject: { targetRef: "self" } } },
@@ -112,7 +111,7 @@ describe("damage splitting [R355.14][R418]", () => {
   it("[R715.3][EX:715.3][C:Volibear, Furious][C:Annie, Fiery] Bonus Damage is split too and raises the target cap to 6", () => {
     const s = withCards([], []);
     const volibear = place(s, "p1", "Treasure Hunter", "battlefieldA");
-    const ability = VOLIBEAR.abilities[1]!;
+    const ability = VOLIBEAR.abilities[0]!;
     recruits(s, "p2", "battlefieldA", 7);
     const ctx = { controller: "p1", sourceObjectId: volibear.id, choices: {} };
     // 355.13: "any number of" allows zero targets.

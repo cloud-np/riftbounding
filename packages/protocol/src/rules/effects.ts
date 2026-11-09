@@ -79,11 +79,12 @@ export interface Selector {
   zone?: ZoneSelector;
   controller?: "self" | "opponent" | "any" | "all" | PlayerSelector;
   owner?: PlayerSelector;
-  cardType?: string;
+  cardType?: CardTypeName;
   /** Card name (unique names are the script key, §6.1). */
   name?: string;
+  /** 143.1 / 185.2.c tag (catalog subtype, e.g. "Mech"); checked against the catalog by the registry integrity test. */
   tag?: string;
-  keyword?: string;
+  keyword?: KeywordName;
   minMight?: Amount;
   might?: Comparison;
   maxCount?: Amount;
@@ -105,7 +106,7 @@ export interface TokenSpec {
   exhausted?: boolean;
   might?: number;
   type?: string;
-  keywords?: string[];
+  keywords?: KeywordName[];
   zone?: ZoneSelector;
 }
 
@@ -123,7 +124,7 @@ export type Condition =
   | { kind: "exists"; selector: Selector }
   | { kind: "count"; selector: Selector; comparison: Comparison }
   | { kind: "compare"; left: Amount; op: ComparisonOp; right: Amount }
-  | { kind: "has-keyword"; selector: Selector; keyword: string }
+  | { kind: "has-keyword"; selector: Selector; keyword: KeywordName }
   | { kind: "is-turn-player"; player?: PlayerSelector }
   | { kind: "is-phase"; phase: RulesPhase }
   | { kind: "is-state"; state: TurnState }
@@ -133,10 +134,10 @@ export type Condition =
   | { kind: "custom"; id: string; params?: Record<string, unknown> };
 
 export interface EventMatcher {
-  type: string | string[];
+  type: EventType | EventType[];
   sourceObjectId?: string;
   controller?: PlayerSelector;
-  cardType?: string;
+  cardType?: CardTypeName;
   zone?: ZoneSelector;
   condition?: Condition;
   data?: Record<string, unknown>;
@@ -150,39 +151,223 @@ export interface Limit {
   scope?: "object" | "player" | "game";
 }
 
-export type KeywordName =
-  | "Action"
-  | "Reaction"
-  | "Hidden"
-  | "Accelerate"
-  | "Assault"
-  | "Shield"
-  | "Tank"
-  | "Deflect"
-  | "Ganking"
-  | "Legion"
-  | "Vision"
-  | "Temporary"
-  | "Deathknell"
-  | "Add"
-  | "Empower"
-  | "Empowered"
-  | "Ambush"
-  | "Weaponmaster"
-  | "Deploy"
-  | "Repeat"
-  | "Buff"
-  | "Level"
-  | "Flow"
-  | "Mighty"
-  | "Disarm"
-  | "Hunt"
-  | "Predict"
-  | "Burn"
-  | "Quick-Draw"
-  | "Show Off"
-  | "Equip"
-  | (string & {});
+/**
+ * Closed keyword vocabulary (F7/G7): the rules 805–832 keyword glossary plus the bracketed game
+ * terms printed like keywords (`[Add]`, `[Buff]`, `[Burn]`, `[Mighty]`, `[Predict]`). A keyword's
+ * value ("[Assault 2]") is never part of the name: use the separate `value` field.
+ *
+ * Adding a keyword (new set): add it here, then follow docs/rules/CARD-AUTHORING.md §"New
+ * keyword or mechanic".
+ */
+export const KEYWORD_NAMES = [
+  "Accelerate",
+  "Action",
+  "Ambush",
+  "Assault",
+  "Backline",
+  "Deathknell",
+  "Deflect",
+  "Deploy",
+  "Disarm",
+  "Empower",
+  "Empowered",
+  "Equip",
+  "Flow",
+  "Ganking",
+  "Hidden",
+  "Hunt",
+  "Legion",
+  "Level",
+  "Quick-Draw",
+  "Reaction",
+  "Repeat",
+  "Shield",
+  "Show Off",
+  "Tank",
+  "Temporary",
+  "Unique",
+  "Vision",
+  "Weaponmaster",
+  /* bracketed game terms */
+  "Add",
+  "Buff",
+  "Burn",
+  "Mighty",
+  "Predict",
+] as const;
+
+export type KeywordName = (typeof KEYWORD_NAMES)[number];
+
+/**
+ * Card-type filters for `Selector.cardType`, `EventMatcher.cardType` and cost modifiers (G7).
+ * `permanent` = unit or gear; `card` = anything but runes, legends, battlefields and abilities.
+ */
+export const CARD_TYPE_NAMES = ["unit", "gear", "spell", "rune", "battlefield", "legend", "permanent", "card"] as const;
+
+export type CardTypeName = (typeof CARD_TYPE_NAMES)[number];
+
+/**
+ * Restriction kinds ("can't …", 054–056, 756–758) a `restriction` modifier may impose (G7),
+ * optionally qualified: `be-targeted:enemy` (757.1 "can't be chosen by enemy spells and
+ * abilities"), `be-targeted:spells` / `be-targeted:abilities`, `move:to-base`.
+ */
+export const RESTRICTION_KINDS = [
+  "play",
+  "activate",
+  "move",
+  "be-targeted",
+  "be-dealt-damage",
+  "attack",
+  "defend",
+  "ready",
+  "score",
+] as const;
+
+export type RestrictionKind = (typeof RESTRICTION_KINDS)[number];
+
+export const RESTRICTION_QUALIFIED = [
+  "be-targeted:enemy",
+  "be-targeted:spells",
+  "be-targeted:abilities",
+  "move:to-base",
+] as const;
+
+export type RestrictionName = RestrictionKind | (typeof RESTRICTION_QUALIFIED)[number];
+
+/**
+ * Event types a trigger / replacement matcher may name (G7): every `GameEvent.type` the rules
+ * engine emits, plus the matcher aliases (`die` → `kill`; `played` → the three resolution
+ * events, 420.4.a). The registry integrity test checks each entry is emitted by the engine.
+ */
+export const RULES_EVENT_TYPES = [
+  "ability_activated",
+  "add_resolved",
+  "add_resources",
+  "attach",
+  "attack",
+  "banish",
+  "battlefield_replaced",
+  "become_mighty",
+  "buff",
+  "burn",
+  "burn_out",
+  "card_played",
+  "chain_append",
+  "channel",
+  "combat_begin",
+  "combat_damage",
+  "combat_end",
+  "combat_result",
+  "concede",
+  "conquer",
+  "conquer_result",
+  "contested",
+  "contested_reapplied",
+  "continuous_created",
+  "cost_paid",
+  "counter",
+  "counter_added",
+  "counter_spent",
+  "create_token",
+  "damage",
+  "damage_assigned",
+  "defend",
+  "delayed_created",
+  "detach",
+  "discard",
+  "disempower",
+  "draw",
+  "empower",
+  "ending_step",
+  "end_turn",
+  "enters_ready",
+  "establish_control",
+  "exhaust",
+  "expiration_pass",
+  "expiration_paused",
+  "expiration_repeat",
+  "finalize",
+  "focus_passes",
+  "gain_control",
+  "gain_points",
+  "gain_xp",
+  "game_over",
+  "gear_played",
+  "grant_keyword",
+  "group_subset",
+  "heal",
+  "hidden_card_to_trash",
+  "hide",
+  "hold",
+  "hold_scoring",
+  "kill",
+  "look",
+  "loop_guard",
+  "lose_control",
+  "lose_game",
+  "lose_points",
+  "manual_done",
+  "manual_window",
+  "might",
+  "mill",
+  "mistarget",
+  "move",
+  "pass_focus",
+  "pass_priority",
+  "pay_points",
+  "place_in_deck",
+  "play_cancelled",
+  "player_removed",
+  "pools_empty",
+  "predict",
+  "prevent",
+  "prevented",
+  "prompt",
+  "prompt_answered",
+  "put_in_hand",
+  "put_on_deck",
+  "ready",
+  "ready_all",
+  "recall",
+  "recycle",
+  "remove_keyword",
+  "replaced",
+  "replacement_created",
+  "replacement_held",
+  "return_to_hand",
+  "reveal",
+  "score",
+  "score_draw_instead",
+  "search",
+  "showdown_begin",
+  "showdown_end",
+  "shuffle",
+  "skip",
+  "skip_created",
+  "spell_resolved",
+  "spend_buff",
+  "spend_xp",
+  "stun",
+  "swap",
+  "trigger",
+  "turn_end",
+  "turn_start",
+  "unit_played",
+  "zone_move",
+] as const;
+
+/**
+ * Matcher-only aliases (`triggers/match.ts`): `die` = `kill`; `played` = a card finished
+ * resolving (420.4.a); `deal_damage` = the damage game action as replacement abilities name it
+ * (the proposal type of `actions/damage.ts`, matched against `damage` events).
+ */
+export const EVENT_TYPE_ALIASES = {
+  die: ["kill"],
+  played: ["spell_resolved", "unit_played", "gear_played"],
+  deal_damage: ["damage"],
+} as const satisfies Record<string, readonly (typeof RULES_EVENT_TYPES)[number][]>;
+
+export type EventType = (typeof RULES_EVENT_TYPES)[number] | keyof typeof EVENT_TYPE_ALIASES;
 
 /** Core Effect ops (§6.2). R2 agents add ops to their `domains/*` file, never here. */
 export type CoreEffect =
@@ -257,7 +442,8 @@ export type CoreEffect =
     }
   | { op: "shuffle"; player?: PlayerSelector; zone?: "deck" | "runeDeck" }
   | { op: "temporary_might"; amount: Amount; target: Selector; duration?: EffectDuration }
-  | { op: "grant_keyword"; keyword: KeywordName; target: Selector; duration?: EffectDuration }
+  /** `value` = the keyword's value ("[Assault 2]" → `{ keyword: "Assault", value: 2 }`). */
+  | { op: "grant_keyword"; keyword: KeywordName; value?: Amount; target: Selector; duration?: EffectDuration }
   | { op: "return_to_hand"; target: Selector }
   /** Escape hatch for genuinely unique text (§6.2); always registered and tested. */
   | { op: "custom"; id: string; params?: Record<string, unknown> };
@@ -277,7 +463,7 @@ export type Trigger =
 
 export type Modifier =
   | { kind: "might"; amount: Amount; target: Selector }
-  | { kind: "keyword"; keyword: KeywordName; target: Selector }
-  | { kind: "cost"; amount: Amount; target: Selector; cardType?: string }
-  | { kind: "restriction"; restriction: string; target: Selector }
+  | { kind: "keyword"; keyword: KeywordName; value?: number; target: Selector }
+  | { kind: "cost"; amount: Amount; target: Selector; cardType?: CardTypeName }
+  | { kind: "restriction"; restriction: RestrictionName; target: Selector }
   | { kind: "custom"; id: string; params?: Record<string, unknown> };

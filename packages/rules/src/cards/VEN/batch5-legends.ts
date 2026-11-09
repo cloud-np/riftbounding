@@ -71,7 +71,7 @@ registerCardScript({
             { op: "disempower", target: SELF },
             {
               op: "grant_keyword",
-              keyword: "Assault 2",
+              keyword: "Assault", value: 2,
               target: aUnit({ targetRef: "target:0" }),
               duration: "this-turn",
             },

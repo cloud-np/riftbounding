@@ -10,6 +10,8 @@ import type {
   GameEvent,
   Modifier,
   Selector,
+  KeywordName,
+  Trigger,
   ZoneSelector,
 } from "@rift/protocol";
 import { registerCustomCondition } from "../../effects/evaluate";
@@ -34,6 +36,7 @@ import { unitsPresentAt } from "../../state/presence";
 import { teamOf } from "../../scoring/teams";
 import { pushEvent } from "../../types";
 import { custom, token } from "../dsl";
+export { WHEN_I_ATTACK, WHEN_I_ATTACK_OR_DEFEND, WHEN_I_CONQUER, WHEN_I_DEFEND, WHEN_I_HOLD, WHEN_YOU_CONQUER } from "../lib/triggers";
 
 /* ---------------------------------------------------------------- builders */
 
@@ -81,17 +84,15 @@ export function mightBonus(amount: number): { kind: "passive"; modifier: Modifie
 }
 
 /** Effect text keyword of an attached card (718.3): appended to the top-most card. */
-export function hostKeyword(keyword: string): { kind: "passive"; modifier: Modifier } {
-  return { kind: "passive", modifier: { kind: "keyword", keyword, target: HOST } };
+export function hostKeyword(keyword: KeywordName, value?: number): { kind: "passive"; modifier: Modifier } {
+  return { kind: "passive", modifier: { kind: "keyword", keyword, ...(value !== undefined ? { value } : {}), target: HOST } };
 }
 
 /**
  * The catalog keyword list includes keywords that the card only grants (or only has in effect
- * text / reminder text). `value: 0` marks them as not intrinsic (727.1.b, layers `withoutSuppressed`).
+ * text / reminder text): `...notIntrinsic(keyword)` marks them as not intrinsic (727.1.b).
  */
-export function notIntrinsic(keyword: string): { kind: "keyword"; keyword: string; value: number } {
-  return { kind: "keyword", keyword, value: 0 };
-}
+export { notIntrinsic } from "../lib/keywords";
 
 /** A conditional passive (364.3.a): the inner modifier applies only while `condition` holds. */
 export function whilePassive(
@@ -125,8 +126,8 @@ export function enterReady(condition?: Condition): { kind: "passive"; modifier: 
 }
 
 /** "When I move to a battlefield" (421, 447). */
-export const WHEN_I_MOVE_TO_BATTLEFIELD = {
-  kind: "event" as const,
+export const WHEN_I_MOVE_TO_BATTLEFIELD: Trigger = {
+  kind: "event",
   event: {
     type: "move",
     subject: { targetRef: "self" },
@@ -135,8 +136,8 @@ export const WHEN_I_MOVE_TO_BATTLEFIELD = {
 };
 
 /** "When I move from a battlefield". */
-export const WHEN_I_MOVE_FROM_BATTLEFIELD = {
-  kind: "event" as const,
+export const WHEN_I_MOVE_FROM_BATTLEFIELD: Trigger = {
+  kind: "event",
   event: {
     type: "move",
     subject: { targetRef: "self" },
@@ -144,46 +145,16 @@ export const WHEN_I_MOVE_FROM_BATTLEFIELD = {
   },
 };
 
-/** "When I conquer" (383.4.c.2.a) / "When I hold" (383.4.d.2.a). */
-export const WHEN_I_CONQUER = {
-  kind: "event" as const,
-  event: { type: "conquer", subject: { targetRef: "self" } },
-};
-export const WHEN_I_HOLD = {
-  kind: "event" as const,
-  event: { type: "hold", subject: { targetRef: "self" } },
-};
-
-/** "When I attack" / "When I defend" (383.4.e / 383.4.f). */
-export const WHEN_I_ATTACK = {
-  kind: "event" as const,
-  event: { type: "attack", subject: { targetRef: "self" } },
-};
-export const WHEN_I_DEFEND = {
-  kind: "event" as const,
-  event: { type: "defend", subject: { targetRef: "self" } },
-};
-export const WHEN_I_ATTACK_OR_DEFEND = {
-  kind: "event" as const,
-  event: { type: ["attack", "defend"], subject: { targetRef: "self" } },
-};
-
 /** "When I win a combat" (468.3): the combat result names me as a winning unit. */
-export const WHEN_I_WIN_A_COMBAT = {
-  kind: "event" as const,
+export const WHEN_I_WIN_A_COMBAT: Trigger = {
+  kind: "event",
   event: { type: "combat_result", condition: custom("sfd:self-won-combat") },
 };
 
 /** "When you win a combat" (468.3). */
-export const WHEN_YOU_WIN_A_COMBAT = {
-  kind: "event" as const,
+export const WHEN_YOU_WIN_A_COMBAT: Trigger = {
+  kind: "event",
   event: { type: "combat_result", condition: custom("sfd:you-won-combat") },
-};
-
-/** "When you conquer" (any battlefield, 383.4.c.2). */
-export const WHEN_YOU_CONQUER = {
-  kind: "event" as const,
-  event: { type: "conquer", player: "self" as const },
 };
 
 /* ---------------------------------------------------------------- custom conditions */

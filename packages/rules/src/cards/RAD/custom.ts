@@ -109,13 +109,6 @@ registerCustomCondition("rad:face-up", (ctx) => {
   return !!it && locate(ctx.room, ctx.host, it)?.card.hidden !== true;
 });
 
-/** `it` (a unit) stands at a location with at least `n` face-up units (any controller). */
-registerCustomCondition("rad:units-at-it-gte", (ctx, params) => {
-  const zone = itZone(ctx);
-  const n = typeof params.n === "number" ? params.n : 1;
-  return !!zone && unitsPresentAt(ctx.room, ctx.host, zone).length >= n;
-});
-
 /** The zone bound to `ref` (or `it`) is a battlefield (355.4 destination "to a battlefield"). */
 registerCustomCondition("rad:zone-is-battlefield", (ctx, params) => {
   const zone = typeof params.ref === "string" ? zoneOfRef(ctx, params.ref) : itZone(ctx);
@@ -202,16 +195,6 @@ registerCustomCondition("rad:other-cards-in-hand-gte", (ctx, params) => {
   const n = typeof params.n === "number" ? params.n : 0;
   const drawn = typeof event.amount === "number" ? event.amount : 0;
   return ctx.host.zoneCards(ctx.room, event.playerId, "hand").length - drawn >= n;
-});
-
-/**
- * 383.1.b (a "the second time … each turn" trigger): the source's ability `ref` (a once-per-turn
- * "the first time" trigger) has already triggered this turn.
- */
-registerCustomCondition("rad:ability-triggered-this-turn", (ctx, params) => {
-  const source = ctx.env.sourceObjectId;
-  if (!source || typeof params.ref !== "string") return false;
-  return (ctx.room.rules?.history.effects?.limits?.[`${source}|${params.ref}`] ?? 0) > 0;
 });
 
 /** Per-player "first time each turn": no marker `key` for the event's player yet. */

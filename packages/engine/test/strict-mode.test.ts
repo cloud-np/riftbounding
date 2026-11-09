@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import type { DeckSections, Room } from "@rift/protocol";
-import { getCardScript, registerCardScript } from "@rift/rules";
+import { overrideCardScript } from "@rift/rules/testing";
 import { applyGameAction, createInitialGameState } from "../src";
 
 const ROOT = path.resolve(__dirname, "../../..");
@@ -147,8 +147,7 @@ describe.skipIf(!decks)("strict-mode engine hook", () => {
     // R4: catalog cards are scripted by later waves (Rebuke got a target requirement in R3).
     // Force a test-local manual script so this keeps proving the §6.4 manual window instead of
     // depending on whichever fixture-deck cards happen to be unscripted.
-    const original = getCardScript("Rebuke");
-    registerCardScript({
+    const restore = overrideCardScript({
       name: "Rebuke",
       text: "test manual spell",
       status: "manual",
@@ -176,7 +175,7 @@ describe.skipIf(!decks)("strict-mode engine hook", () => {
       expect(room.rules?.chain).toEqual([]);
       expect(room.rules?.priority).toBe("p1");
     } finally {
-      if (original) registerCardScript(original);
+      restore();
     }
   });
 });

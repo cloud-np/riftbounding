@@ -11,7 +11,7 @@ import { splitKeyword } from "../../layers";
 import { RESOLVED } from "../execute";
 import { registerEffectOp } from "../registry";
 import { recordOutcome, targets } from "../targets";
-import { ctxOf, hostOf, isOnBoard } from "./util";
+import { amountOf, ctxOf, hostOf, isOnBoard } from "./util";
 
 registerEffectOp("grant_keyword", (effect, context) => {
   if (effect.op !== "grant_keyword") return { status: "manual", reason: "effect_not_implemented:grant_keyword" };
@@ -19,7 +19,11 @@ registerEffectOp("grant_keyword", (effect, context) => {
   if (!found.ok) return found.result;
   const host = hostOf(context);
   const ctx = ctxOf(context);
-  const { name, value } = splitKeyword(String(effect.keyword));
+  // G7: the value is its own field (`{ keyword: "Assault", value: 2 }`), evaluated on resolution.
+  const split = splitKeyword(String(effect.keyword));
+  const name = split.name;
+  const evaluated = effect.value === undefined ? undefined : amountOf(context, effect.value);
+  const value = evaluated === undefined || evaluated === null ? split.value : evaluated;
   const duration = effect.duration ?? "permanent";
   const done: string[] = [];
   for (const id of found.ids) {

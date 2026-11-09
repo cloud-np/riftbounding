@@ -18,6 +18,7 @@ import type { CardInfo, RulesHost } from "../host";
 import { effectiveKeywordValues } from "../layers";
 import { parseAdditionalCosts, parseRepeatCosts } from "./cost-text";
 import { hasKeyword, keywordValue } from "./keywords";
+import { keyedRegistry, orderedRegistry } from "../registry-table";
 
 export interface AdditionalCostSpec {
   id: string;
@@ -44,29 +45,27 @@ export interface AdditionalCostQuery {
 
 export type AdditionalCostProvider = (room: Room, host: RulesHost, query: AdditionalCostQuery) => AdditionalCostSpec[];
 
-const BY_CARD = new Map<string, AdditionalCostSpec[]>();
-const PROVIDERS: AdditionalCostProvider[] = [];
+/** G1: a card's own additional costs, keyed by card name; duplicates throw (tests: `src/testing.ts`). */
+export const ADDITIONAL_COSTS_BY_CARD = keyedRegistry<AdditionalCostSpec[]>("additional costs");
+const PROVIDER_REGISTRY = orderedRegistry<AdditionalCostProvider>("additional cost provider");
+const PROVIDERS = PROVIDER_REGISTRY.list;
 
 /** Static registration for a card's own additional costs (replaces text parsing for it). */
 export function registerAdditionalCosts(cardName: string, specs: AdditionalCostSpec[]): () => void {
-  BY_CARD.set(cardName, specs);
+  ADDITIONAL_COSTS_BY_CARD.register(cardName, specs);
   return () => {
-    if (BY_CARD.get(cardName) === specs) BY_CARD.delete(cardName);
+    if (ADDITIONAL_COSTS_BY_CARD.get(cardName) === specs) ADDITIONAL_COSTS_BY_CARD.unregister(cardName);
   };
 }
 
 /** Costs imposed by other cards/effects (356.2.a.1). Returns an unsubscribe function. */
 export function registerAdditionalCostProvider(provider: AdditionalCostProvider): () => void {
-  PROVIDERS.push(provider);
-  return () => {
-    const index = PROVIDERS.indexOf(provider);
-    if (index >= 0) PROVIDERS.splice(index, 1);
-  };
+  return PROVIDER_REGISTRY.register(provider);
 }
 
 function cardOwnCosts(query: AdditionalCostQuery): AdditionalCostSpec[] {
   const name = query.info?.name;
-  const registered = name ? BY_CARD.get(name) : undefined;
+  const registered = ADDITIONAL_COSTS_BY_CARD.get(name);
   if (registered) return registered.map((spec) => ({ ...spec }));
   const out: AdditionalCostSpec[] = [];
   if (query.kind !== "card") return out;

@@ -17,22 +17,13 @@
  *
  * Signature is a cross-agent contract: keep it stable.
  */
-import type { Modifier, Room, RuleRef } from "@rift/protocol";
+import type { Modifier, RestrictionKind, Room, RuleRef } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import { getCardScript } from "../cards/registry";
 import { activeModifiers, evaluateLayerCondition } from "./passives";
 import { modifierTargets } from "./index";
 
-export type RestrictionKind =
-  | "play"
-  | "activate"
-  | "move"
-  | "be-targeted"
-  | "be-dealt-damage"
-  | "attack"
-  | "defend"
-  | "ready"
-  | "score";
+export type { RestrictionKind } from "@rift/protocol";
 
 export interface RestrictionQuery {
   kind: RestrictionKind;

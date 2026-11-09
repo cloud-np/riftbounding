@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import type { CardScript } from "@rift/protocol";
-import { clearCardScripts, previewDamage, preventValue, registerCardScript } from "../../../src";
+import { previewDamage, preventValue } from "../../../src";
+import { clearCardScripts, registerTestCardScript } from "../../../src/testing";
 import { scenario } from "../../scenarios/dsl";
 import { boardOf, eventTypes, place, run, spell, zoneOf } from "./helpers";
 
@@ -30,7 +31,7 @@ const ZHONYA: CardScript = {
 
 describe("replacement effects [R367–R375]", () => {
   it("[R369.1][R370.1.b][EX:369.1] Zhonya's Hourglass replaces a friendly unit's death", () => {
-    registerCardScript(ZHONYA);
+    registerTestCardScript(ZHONYA);
     const s = scenario();
     const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     const zhonya = place(s, "p1", "Blade of the Exile", "base");
@@ -45,7 +46,7 @@ describe("replacement effects [R367–R375]", () => {
   });
 
   it("[R370.2][EX:370.2] a replacement applies at most once to an event and to what replaces it", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Blade of the Exile",
       text: "test: If a friendly unit would die, kill it instead (self-replacing).",
       status: "implemented",
@@ -67,7 +68,7 @@ describe("replacement effects [R367–R375]", () => {
   });
 
   it("[R371.1] a \"once each turn\" replacement applies to one event per turn", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Blade of the Exile",
       text: "test: Once each turn, if a friendly unit would die, recall it instead.",
       status: "implemented",
@@ -91,7 +92,7 @@ describe("replacement effects [R367–R375]", () => {
   });
 
   it("[R374] the controller of a replacement effect controls its instructions", () => {
-    registerCardScript(ZHONYA);
+    registerTestCardScript(ZHONYA);
     const s = scenario();
     const enemyUnit = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
     place(s, "p1", "Blade of the Exile", "base");
@@ -127,13 +128,13 @@ describe("prevention [R438]", () => {
   });
 
   it("[R438.4][R418.1.e.1][EX:418.1.e.1] fully prevented damage is not dealt: \"when I take damage\" does not trigger", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Caitlyn, Patrolling",
       text: "test: when I take damage, gain 1 XP",
       status: "implemented",
       abilities: [{ kind: "triggered", trigger: { kind: "event", event: { type: "damage", subject: { targetRef: "self" } } }, effect: { op: "gain_xp", amount: 1 } }],
     });
-    registerCardScript(spell("Rebuke", { op: "deal", amount: 3, target: { chosen: true, cardType: "unit" } }));
+    registerTestCardScript(spell("Rebuke", { op: "deal", amount: 3, target: { chosen: true, cardType: "unit" } }));
     const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
     const unit = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
     run(s, { op: "prevent", amount: 3, target: { targetRef: "obj:" + unit.id } }, { controller: "p2" });
@@ -144,7 +145,7 @@ describe("prevention [R438]", () => {
   });
 
   it("[R715.4.a][EX:715.4.a] prevention includes Bonus Damage in the amount it reduces", () => {
-    registerCardScript(spell("Rebuke", { op: "deal", amount: 3, target: { chosen: true, cardType: "unit" } }));
+    registerTestCardScript(spell("Rebuke", { op: "deal", amount: 3, target: { chosen: true, cardType: "unit" } }));
     const s = scenario({ p1: { hand: ["Rebuke"], energy: 2 } });
     const unit = place(s, "p2", "Whiteflame Protector", "battlefieldA");
     s.room.rules!.effects.push({ id: "fx-b", controller: "p1", duration: "permanent", modifier: { kind: "custom", id: "bonus-damage", params: { amount: 1 } } });
@@ -164,7 +165,7 @@ describe("prevention [R438]", () => {
   });
 
   it("[R467.2.c.10] previewDamage is 0 for a unit that can't be dealt damage", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Treasure Hunter",
       text: "test: I can't be dealt damage.",
       status: "implemented",
@@ -178,7 +179,7 @@ describe("prevention [R438]", () => {
   });
 
   it("[R438.1.a][R369.2] a { prevent } replacement ability reduces matching damage (and the preview)", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Treasure Hunter",
       text: "test: Prevent 1 damage that would be dealt to me.",
       status: "implemented",

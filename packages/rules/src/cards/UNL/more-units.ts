@@ -32,6 +32,7 @@ import {
   registerAdditionalCostProvider,
   registerAdditionalCosts,
 } from "../../play/additional-costs";
+import { WHEN_I_ATTACK, WHEN_I_HOLD } from "../lib/triggers";
 
 function whenever(condition: Condition, modifier: Modifier) {
   return {
@@ -40,8 +41,6 @@ function whenever(condition: Condition, modifier: Modifier) {
   };
 }
 
-const WHEN_I_HOLD = { kind: "event", event: { type: "hold", subject: SELF } } as const;
-const WHEN_I_ATTACK = { kind: "event", event: { type: "attack", subject: SELF } } as const;
 const ENEMY_HERE = aUnit({ controller: "opponent", zone: HERE });
 const ENTER_READY: Modifier = { kind: "custom", id: "enter-ready", params: { target: SELF } };
 const PETS = ["Bird", "Cat", "Dog", "Poro"];
@@ -92,7 +91,7 @@ registerCardScript({
   notes:
     "'Your hold effects for holding here trigger an additional time' is not automated: the trigger detector has no way to make triggers fire an additional time (383.1.b, 383.4.d); only my own delayed Add is.",
   abilities: [
-    { kind: "keyword", keyword: "Add", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Add" },
     {
       kind: "triggered",
       trigger: WHEN_I_HOLD,
@@ -513,7 +512,7 @@ registerCardScript({
   status: "partial",
   notes:
     "'Your [Temporary] effects at battlefields don't trigger' is not automated: the engine has no way to stop a keyword trigger (Temporary, 816) from triggering (383.2, 054.1). The catalog's [Temporary] on this card is reminder text (suppressed).",
-  abilities: [{ kind: "keyword", keyword: "Temporary", value: 0 }],
+  abilities: [{ kind: "suppress-printed-keyword", keyword: "Temporary" }],
 });
 
 registerCardScript({
@@ -562,8 +561,8 @@ registerCardScript({
   notes:
     "Not automated: excess damage assigned in combat is not recorded (467.2.c.4), so the conquer trigger's condition cannot be checked; it opens the manual window on every conquer. The catalog's [Reaction]/[Add] are the Gold token's reminder text (suppressed).",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
-    { kind: "keyword", keyword: "Add", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
+    { kind: "suppress-printed-keyword", keyword: "Add" },
     {
       kind: "triggered",
       trigger: { kind: "event", event: { type: "conquer", subject: SELF } },
@@ -578,5 +577,5 @@ registerCardScript({
   status: "manual",
   notes:
     "Not automated: whether you gained XP this turn is not tracked (728–733); the +1 Might and [Ganking] are never applied. The catalog's [Ganking] is conditional text (suppressed), so the card is a vanilla 4 Might unit.",
-  abilities: [{ kind: "keyword", keyword: "Ganking", value: 0 }],
+  abilities: [{ kind: "suppress-printed-keyword", keyword: "Ganking" }],
 });

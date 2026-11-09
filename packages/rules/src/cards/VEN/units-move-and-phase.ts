@@ -2,14 +2,15 @@
  * Vendetta units with move triggers (421), "becomes ready" triggers (416) and Beginning Phase
  * triggers (315.2).
  */
+import type { Trigger } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import { SELF, WHEN_I_MOVE, custom, not } from "../dsl";
 import { conditional, notIntrinsic, runesControlled } from "./shared";
 
 /** "When I move to a battlefield" (the move event's destination is a battlefield zone). */
-const WHEN_I_MOVE_TO_A_BATTLEFIELD = {
-  kind: "event" as const,
-  event: { type: "move", subject: SELF, zone: "battlefield" as const },
+const WHEN_I_MOVE_TO_A_BATTLEFIELD: Trigger = {
+  kind: "event",
+  event: { type: "move", subject: SELF, zone: "battlefield" },
 };
 
 const FEWER_RUNES = custom("ven:fewer-runes-than-an-opponent");
@@ -108,7 +109,7 @@ registerCardScript({
   text: "If you control fewer runes than an opponent at the start of your Beginning Phase, give me +2 [Might] and [Ganking] this turn. (I can move from battlefield to battlefield.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Ganking"),
+    ...notIntrinsic("Ganking"),
     {
       kind: "triggered",
       trigger: { kind: "phase", phase: "beginning" },

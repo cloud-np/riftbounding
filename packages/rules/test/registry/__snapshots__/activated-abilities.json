@@ -1,0 +1,650 @@
+{
+ "Akali, Deadly Weapon": [
+  "[Empower][2][Fury]"
+ ],
+ "Akali, Rogue Assassin": [
+  "[Empower][3][Rune]",
+  "[Action] [Tap]: If it's your turn, move a friendly unit in a showdown to base and if I'm [Empowered] ready it."
+ ],
+ "Alpha Strike": [
+  "Then for each unit this kills, do this: Gain 1 XP."
+ ],
+ "Ambessa, Matriarch of War": [
+  "Disempower me, [Rune], [Tap]: Ready a unit."
+ ],
+ "Ambessa, Respected and Feared": [
+  "[Empower][1][Order][Order]"
+ ],
+ "Ambessa, The Wolf": [
+  "[Empower][3][Body]"
+ ],
+ "Ancient Henge": [
+  "[Tap]: [Reaction] — Pay any amount of Energy to [Add] that much [Rune]."
+ ],
+ "Angler Wyrm": [
+  "[Tap]: Choose an opponent. They must move a unit they control to my battlefield."
+ ],
+ "Annie, Dark Child": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Applied Researchers": [
+  "[Empower][3]"
+ ],
+ "Apprentice Mage": [
+  "[Empower][2]"
+ ],
+ "Arena Bar": [
+  "[Tap]: Buff an exhausted friendly unit."
+ ],
+ "Arena Kingpin": [
+  "[Tap]: Give a unit +3 [Might] this turn."
+ ],
+ "Assembly Rig": [
+  "[1][Fury], Recycle a unit from your trash, [Tap]: Play a 3  Mech unit token to your base."
+ ],
+ "Aurok General": [
+  "[empower][3][order]"
+ ],
+ "Ava Achiever": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Azir, Ascendant": [
+  "[Calm]: [Action] — Choose a unit you control. Move me to its location and it to my original location. If it's equipped, you may attach one of its Equipment to me. Use only once per turn."
+ ],
+ "Azir, Emperor of the Sands": [
+  "[1], [Tap]: Play a 2 [Might] Sand Soldier unit token to your base. Use only if you've played an Equipment this turn."
+ ],
+ "B.F. Sword": [
+  "[EQUIP] [ORDER]"
+ ],
+ "Baccai Witherclaw": [
+  "[Empower] [1] [rune] [rune]"
+ ],
+ "Baited Hook": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:",
+  "[1] [order], [tap]: Kill a friendly unit. Look at the top 5 cards of"
+ ],
+ "Black Market": [
+  "[Rune] [Rune]: Draw 1. Each player may use this ability once on their turn ."
+ ],
+ "Blade of the Exile": [
+  "[Equip] — [Rune] or exhaust a friendly unit"
+ ],
+ "Blade of the Ruined King": [
+  "[Equip] — [Order], Kill a friendly unit"
+ ],
+ "Blighted Battleaxe": [
+  "[Equip][1][Fury]"
+ ],
+ "Blind Fury": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Blood Rose": [
+  "Spend 3 XP, [tap] : Ready a unit."
+ ],
+ "Boneshiver": [
+  "[EQUIP][1][Body]"
+ ],
+ "Boots of Swiftness": [
+  "[Equip][Chaos]"
+ ],
+ "Brutal Hunter": [
+  "[Empower] [3]"
+ ],
+ "Brutalizer": [
+  "[Equip][Calm]"
+ ],
+ "Caitlyn, Patrolling": [
+  "[Tap]: Deal damage equal to my Might to a unit at a battlefield. Use this ability only while I'm at a battlefield."
+ ],
+ "Clockwork Keeper": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Cloth Armor": [
+  "[Equip][Mind]"
+ ],
+ "Convergent Mutation": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Covert Informant": [
+  "[empower][3]"
+ ],
+ "Crowd Favorite": [
+  "Spend 2 XP: [Buff] me."
+ ],
+ "Cull": [
+  "[Equip][Chaos]"
+ ],
+ "Cursed Sarcophagus": [
+  "[Tap]: Play a unit banished with this."
+ ],
+ "Dame the Despoiler": [
+  "[Empower][5][Body]"
+ ],
+ "Dazzling Aurora": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Death from Below": [
+  "Kill a unit at a battlefield. Then, if it had 3 [Might] or less, do this: You may play this from your trash for [Rune]."
+ ],
+ "Diana, Scorn of the Moon": [
+  "[reaction] [tap]: [add] [1] . Spend this Energy only during showdowns."
+ ],
+ "Disintegrate": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Divining Shells": [
+  "[Action] Kill this, [tap] : Give a unit +2 [might] this turn."
+ ],
+ "Dominus": [
+  "This turn, double a unit's Might and give it \"[Rune][Rune]: Ready me.\""
+ ],
+ "Doran's Blade": [
+  "[Equip] [Body]"
+ ],
+ "Doran's Ring": [
+  "[Equip] [Chaos] -."
+ ],
+ "Doran's Shield": [
+  "[Equip][Calm]"
+ ],
+ "Dragon's Rage": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:",
+  "Move an enemy unit. Then do this: Choose another enemy"
+ ],
+ "Dragonsoul Sage": [
+  "[Reaction] [Tap]: [Add] [1]."
+ ],
+ "Dune Drake": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Edge of Night": [
+  "[Equip] [Chaos]"
+ ],
+ "Ekko, Boy Who Shattered Time": [
+  "[Empower] — [1], [Tap]",
+  "Disempower me, [Tap]: Reduce the cost of the next unit you play this turn by [2] [Rune] and give it \"Kill me at end of turn.\""
+ ],
+ "Ekko, Revolutionary": [
+  "[Action] Discard 1, [1] [Fury]: Banish me, then play me to your base, ignoring my cost."
+ ],
+ "Energy Conduit": [
+  "[Tap]: [Reaction] - [Add] [1]."
+ ],
+ "Enthralling Protector": [
+  "Spend 2 XP: [Buff] me."
+ ],
+ "Escaped Grayback": [
+  "[Empower] - Kill a friendly unit"
+ ],
+ "Experimental Hexplate": [
+  "[EQUIP][Mind]"
+ ],
+ "Eye of the Herald": [
+  "[Equip][Order]"
+ ],
+ "Ezreal, Dashing": [
+  "[Mind]: [ACTION] — Move me to your base."
+ ],
+ "Ezreal, Prodigal Explorer": [
+  "[Tap]: [REACTION] — Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities."
+ ],
+ "Forge of the Future": [
+  "Kill this: Recycle up to 4 cards from trashes."
+ ],
+ "Forgefire Cape": [
+  "[Equip][Rune]"
+ ],
+ "Forgotten Signpost": [
+  "[Action]  Exhaust a unit you control, [tap] : Move a different unit you control to the location of the unit you exhausted to pay for this ability."
+ ],
+ "Frostcoat Mother": [
+  "[Empower] [12] . This ability costs [1] less for each rune you control."
+ ],
+ "Gangplank, Naval": [
+  "[Empower][Body][Body]"
+ ],
+ "Garbage Grabber": [
+  "Recycle 3 from your trash, [1], [Tap]: Draw 1."
+ ],
+ "Gardens of Becoming": [
+  "Units here have \"[Tap]: Gain 1 XP.\""
+ ],
+ "Glowstone": [
+  "[Empower][Rune][Rune]",
+  "Disempower this, [Tap]: Choose a player. They gain control of this and recall it."
+ ],
+ "Grumpy Rockbear": [
+  "[Empower] [12] . this ability costs [1] less for each rune you control."
+ ],
+ "Guardian Angel": [
+  "[Equip][Calm]"
+ ],
+ "Guards!": [
+  "Play a 2 [Might] Sand Soldier unit token. Then do this: You may pay [Order] to ready it."
+ ],
+ "Gutter Palace": [
+  "Discard 1, [tap] : Play a 1 [might] Bird unit Token with [deflect] ."
+ ],
+ "Hand Hammer": [
+  "[Equip][Calm]"
+ ],
+ "Heart of Dark Ice": [
+  "[Tap]: Give a unit +3 [Might] this turn."
+ ],
+ "Heartening Soul": [
+  "Friendly legends have \"[tap] : Give a unit +3 [might] this turn.\""
+ ],
+ "Helm of Suppression": [
+  "[empower][4][calm]"
+ ],
+ "Hexdrinker": [
+  "[Equip][Body]"
+ ],
+ "Hextech Anomaly": [
+  "[Tap]: [Reaction] — Pay any amount of [Rune] to [Add] that much Energy."
+ ],
+ "Hextech Disc": [
+  "[Empower] - [Tap]",
+  "Disempower this, [1], [Tap]: Play a 3 [Might] Mech unit token to your base."
+ ],
+ "Hextech Formula": [
+  "[Tap]: Empower another gear."
+ ],
+ "Hextech Gauntlets": [
+  "[Equip][3][Rune]. This ability's Energy cost is reduced by the Might of the unit you choose."
+ ],
+ "Highlander": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Honeyfruit": [
+  "[Reaction] [Tap]: [Add] [Rune].",
+  "[Level 6] [Reaction] [Tap]: [Add] [1][Rune]."
+ ],
+ "Hungry Wolf": [
+  "[Calm]: Ready me and give me +1 [Might] this turn. Use only if you've chosen an enemy unit this turn and only once each turn."
+ ],
+ "Hunter's Machete": [
+  "[Equip][Body]"
+ ],
+ "Invigorating Bloom": [
+  "Exhaust a friendly [Mighty] unit, [Tap]: Draw 1."
+ ],
+ "Iridescent Avian": [
+  "[Tap]: [Buff] a unit. If it's already buffed, give it +2[Might] this turn instead."
+ ],
+ "Iron Ballista": [
+  "[TAP]: Deal 2 to a unit at a battlefield."
+ ],
+ "Jax, Grandmaster at Arms": [
+  "[1], [Tap]: Attach a detached Equipment you control to a unit you control.",
+  "[Tap]: Attach an attached Equipment you control to a unit you control."
+ ],
+ "Jayce, Defender of Tomorrow": [
+  "[Empower][2][Rune][Rune]",
+  "[1], [Tap]: Ready a gear.",
+  "[Empowered] [1], [Tap]: Ready 2 gear."
+ ],
+ "K'Sante, Pride of Nazumah": [
+  "[1], [Tap]: Give a friendly unit \"I have [Assault] equal to my [Shield]\" this turn."
+ ],
+ "Kai'Sa, Daughter of the Void": [
+  "[Tap]: [REACTION] - [ADD] [Rune]. Use only to play spells."
+ ],
+ "Karma, Channeler": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Kayle, Justified": [
+  "[Empower] [3]"
+ ],
+ "Kennen, Heart of the Tempest": [
+  "[Action] Disempower me, [Tap]: Give a unit [Assault 2] this turn."
+ ],
+ "Kha'Zix, Voidreaver": [
+  "Spend 1 XP, [tap]: [Buff] a unit.",
+  "Spend 2 XP, [tap]: Move and exhausted friendly unit from a battlefield to its base."
+ ],
+ "Kharox": [
+  "[Empower][6][Chaos][Chaos]"
+ ],
+ "Kinkou Lifeblade": [
+  "[Empower][2]"
+ ],
+ "Kinkou Monk": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Last Rites": [
+  "[Equip] — [Chaos], Recycle 2 cards from your trash"
+ ],
+ "Lee Sin, Ascetic": [
+  "[Tap]: Buff me."
+ ],
+ "Lee Sin, Blind Monk": [
+  "[1], [Tap]: Buff a friendly unit."
+ ],
+ "Legion Marauder": [
+  "[empower] — [1] or [body]"
+ ],
+ "Lillia, Bashful Bloom": [
+  "[4], [tap]: Play a ready 3[might] Sprite unit Token with [temporary] . This ability costs [1] less for each friendly unit with [temporary] ."
+ ],
+ "Long Sword": [
+  "[Equip][Fury]"
+ ],
+ "Lux, Crownguard": [
+  "[Tap]: [REACTION] - [ADD] [2] Use only to play spells."
+ ],
+ "Maduli the Gatekeeper": [
+  "[chaos] : Move me to an occupied enemy battlefield if my Might is greater than the total Might of enemy units there."
+ ],
+ "Malzahar, Fanatic": [
+  "Kill a friendly unit or gear, [tap] : [action] - [add] [rune] [rune]."
+ ],
+ "Megatusk": [
+  "Spend 3 XP: Give your units here [ganking] this turn."
+ ],
+ "Mel, Defiant Soul": [
+  "[Empower] - Discard a spell"
+ ],
+ "Mel, Newly Awakened": [
+  "[Empower][3]"
+ ],
+ "Mel, Soul's Reflection": [
+  "Disempower me, [Tap]: Give a unit at a battlefield -2 [Might] this turn."
+ ],
+ "Mirror Image": [
+  "Choose a unit. Play a ready Reflection unit token to your base. Then do this: It becomes a copy of that unit. Give it [Temporary]."
+ ],
+ "Miss Fortune, Bounty Hunter": [
+  "[Tap]: Give a unit [GANKING] this turn."
+ ],
+ "Mordekaiser, Iron Revenant": [
+  "[Reaction] Banish a unit or gear from your trash, [Tap]: [Add][Rune]. Spend this Power only to play units or gear."
+ ],
+ "Nasus, Ascended": [
+  "[Empower][8]"
+ ],
+ "Nazuman Ntofo": [
+  "[Equip][1]"
+ ],
+ "Nocturne, Horrifying": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Noxian Emissary": [
+  "[Empower][1][Order]"
+ ],
+ "Orb of Regret": [
+  "[Tap]: Give a unit -1 [Might] this turn, to a minimum of 1 [Might]."
+ ],
+ "Ornn, Fire Below the Mountain": [
+  "[Tap]: [REACTION] — [ADD] [Rune]. Use only to play gear or use gear abilities."
+ ],
+ "Pack of Wonders": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:",
+  "[Tap]: Return another friendly gear, unit, or facedown card to"
+ ],
+ "Pendulum Blade": [
+  "[Equip][Fury]"
+ ],
+ "Pitiless Stalker": [
+  "[Tap]: [Stun] an enemy unit."
+ ],
+ "Platewyrm Egg": [
+  "[Empower] - [1] , [tap]",
+  "[Reaction] [tap] : [add] [1] .  If this is [Empowered] , [add] [2] instead."
+ ],
+ "Poppy, Keeper of the Hammer": [
+  "Spend 3 XP, [Tap]: Draw 1."
+ ],
+ "Poro Snax": [
+  "[1][Calm], [Tap], Kill this: Draw 1."
+ ],
+ "Portal Rescue": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Promising Future": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Protector's Shield": [
+  "[Equip] [1]"
+ ],
+ "Punching Poro": [
+  "[Empower] - Discard 1"
+ ],
+ "Pyke, Bloodharbor Ripper": [
+  "[1], [Tap]: Return a friendly unit at a battlefield to its owner's hand. Play a Gold gear token exhausted."
+ ],
+ "Questionable Tome": [
+  "[Empower] - [Tap]",
+  "Disempower this, [1], [Tap]: Draw 1."
+ ],
+ "Rabadon's Deathcrown": [
+  "[Equip] [Power]"
+ ],
+ "Rage Amplifier": [
+  "[Empower][6][Fury]"
+ ],
+ "Ravenborn Tome": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:",
+  "[TAP]: The next spell you play this turn deals 1 Bonus Damage."
+ ],
+ "Recurve Bow": [
+  "[Equip][Fury]"
+ ],
+ "Renata Glasc, Mastermind": [
+  "[1][Mind]: Draw 1.",
+  "[4][Mind][Mind][Mind][Mind], [Tap]: Score 1 point."
+ ],
+ "Renekton, Brute": [
+  "[1]: Give me +1 [Might] this turn.",
+  "[Empower] I have [Deflect] and [Ganking]."
+ ],
+ "Renekton, Butcher of the Sands": [
+  "[Reaction] [Rune][Rune], [Tap]: [Add] [2]. Spend this Energy only to play units or activated abilities of units."
+ ],
+ "Resplendent Rostrum": [
+  "[Tap]: Draw 1 and channel 1 rune exhausted."
+ ],
+ "Risen Altar": [
+  "[Empower] costs of your units here cost [1] or [Rune] less."
+ ],
+ "Riven, Deserter": [
+  "Exhaust a friendly unit: Ready a unit. Use this ability only once each turn."
+ ],
+ "Runeblade Anvil": [
+  "[2] [Fury], [Tap]: Kill this."
+ ],
+ "Sacred Shears": [
+  "[Equip][Order]"
+ ],
+ "Salvage": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Scrutinizing Scope": [
+  "[1], [Tap]: Choose an opponent. They guess a card type. Reveal the top card of your Main Deck. If it has that type, recycle it. Otherwise, draw it."
+ ],
+ "Scryer's Bloom": [
+  "Kill this,[1] , [tap] : [Predict 2], then draw 1. Gain 1 XP."
+ ],
+ "Seal of Discord": [
+  "[Tap]: [REACTION] - [ADD] [Chaos]."
+ ],
+ "Seal of Focus": [
+  "[Tap]: [REACTION] - [ADD] [Calm]."
+ ],
+ "Seal of Insight": [
+  "[Tap]: [REACTION] - [ADD] [Mind]."
+ ],
+ "Seal of Rage": [
+  "[Tap]: [REACTION] - [ADD] [Fury]."
+ ],
+ "Seal of Strength": [
+  "[Tap]: [REACTION] - [ADD] [Body]."
+ ],
+ "Seal of Unity": [
+  "[Tap]: [REACTION] - [ADD] [Order]."
+ ],
+ "Serene Ascetic": [
+  "[empower][3]"
+ ],
+ "Serrated Dirk": [
+  "[Equip][Fury]"
+ ],
+ "Sett, Brawler": [
+  "Spend my buff: Give me +4 [Might] this turn."
+ ],
+ "Sett, The Boss": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Shadow": [
+  "[Action] [1][Rune], [Tap]: [Stun] an enemy unit attacking here."
+ ],
+ "Shadow Fiend": [
+  "[empower][2][fury]"
+ ],
+ "Shady Spectacles": [
+  "[Equip][1][Order]"
+ ],
+ "Shen, Eye of Twilight": [
+  "[Action] [Tap]: Give a friendly unit [Tank] this turn."
+ ],
+ "Shepherd's Heirloom": [
+  "[Equip] — Spend 1 XP"
+ ],
+ "Shurelya's Requiem": [
+  "[Equip][Rune]"
+ ],
+ "Sigil of the Storm": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Sky Cruiser": [
+  "Discard a gear, [1], [Tap]: Deal 4 to a unit at a battlefield."
+ ],
+ "Skyfall of Areion": [
+  "[Equip][1][Fury]"
+ ],
+ "Sona, Harmonious": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Soul Sword": [
+  "[Equip] [calm]"
+ ],
+ "Spinning Axe": [
+  "[Equip] [Rune]"
+ ],
+ "Steel Paws": [
+  "[Empower][7]"
+ ],
+ "Sterak's Gage": [
+  "[Equip][Calm]"
+ ],
+ "Sun Disc": [
+  "[TAP]: [LEGION] - The next unit you play this turn enters ready."
+ ],
+ "Svellsongur": [
+  "[Equip][1][Calm]"
+ ],
+ "Tail-Cloaked Matriarch": [
+  "[Empower][2][Chaos]"
+ ],
+ "Targon's Peak": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Teemo, Strategist": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Teemo, Swift Scout": [
+  "[1], [Tap]: Put a Teemo unit you own into your hand from your Champion Zone or the board."
+ ],
+ "Temporal Portal": [
+  "[Rune], [Tap]: Give the next spell you play this turn [Repeat] equal to its cost."
+ ],
+ "The Dreaming Tree": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "The List": [
+  "[Tap]: Give a unit with the named tag -2 [Might] this turn."
+ ],
+ "The Syren": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:",
+  "[1], [TAP]: Move a friendly unit at a battlefield to its base."
+ ],
+ "The Zero Drive": [
+  "[Equip][1][Mind]",
+  "[3][Mind], Banish this: Play all units banished with this, ignoring their costs."
+ ],
+ "Tideturner": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Tools of Empire": [
+  "[Empower][2]",
+  "[Tap]: Give a unit +2 [Might] this turn. If this is [Empowered], give that unit +4 [Might] this turn instead."
+ ],
+ "Transpositionist": [
+  "[Chaos], [Tap]: Return a friendly unit to its owner's hand. You may play a unit with less Might than that unit had, ignoring its cost."
+ ],
+ "Treasure Trove": [
+  "[Chaos],[Tap]: Kill this."
+ ],
+ "Trinity Force": [
+  "[Equip][Body]"
+ ],
+ "Udyr, Wildman": [
+  "Spend my buff: Choose one you've not chosen turn --"
+ ],
+ "Ultrasoft Poro": [
+  "[Tap]: Play two 1[Might] Bird unit tokens with [deflect]."
+ ],
+ "Unlicensed Armory": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:",
+  "Discard 1, [Tap]: Choose a friendly unit. The next time it would"
+ ],
+ "Vanguard Armory": [
+  "[Tap]: Play three 1 [Might] Recruit unit tokens."
+ ],
+ "Vi, Destructive": [
+  "Recycle 1 from your trash: Give me +1 [Might] this turn."
+ ],
+ "Vi, Hotheaded": [
+  "[2][Fury]: Double my Might this turn."
+ ],
+ "Viktor, Herald of the Arcane": [
+  "[1], [Tap]: Play a 1 [Might] Recruit unit token."
+ ],
+ "Void Gate": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Warmog's Armor": [
+  "[EQUIP] [Body]"
+ ],
+ "Whirling Twirligig": [
+  "[Tap]: Play a Gold gear token exhausted.",
+  "Kill a friendly gear, [Tap]: Play a 1 [Might] Recruit unit token.",
+  "Kill a friendly unit, [Tap]: Play a 3 [Might] Mech unit token."
+ ],
+ "World Atlas": [
+  "[EQUIP] [Mind]"
+ ],
+ "Xerath, Freed": [
+  "[Fury], [Tap]: Deal 3 to a unit. Use this ability only while I'm at a battlefield."
+ ],
+ "Yasuo, Unforgiven": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:",
+  "[2], [Tap]: Move a friendly unit to or from its base."
+ ],
+ "Zed, Master of Shadows": [
+  "[Action] Disempower me, [Tap]: Discard 1, then draw 1."
+ ],
+ "Zed, Without a Sound": [
+  "[Action] [1][Chaos]: Move me and a Shadow Clone you control to each other's locations."
+ ],
+ "Zhonya's Hourglass": [
+  "𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮 𝗧𝗲𝘅𝘁 - 𝗙𝗿𝗼𝗺 𝗢𝗿𝗶𝗴𝗶𝗻𝘀 𝗖𝗮𝗿𝗱 𝗘𝗿𝗿𝗮𝘁𝗮:"
+ ],
+ "Ziggs, Explosive": [
+  "[1], [Tap]: Play a Bomb gear token to a battlefield."
+ ],
+ "Ziggs, Hexplosives Expert": [
+  "[1][Rune], [Tap]: Play a Bomb gear token to a battlefield."
+ ]
+}

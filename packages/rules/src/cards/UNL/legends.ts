@@ -44,8 +44,8 @@ registerCardScript({
   text: '[1], [Tap]: Return a friendly unit at a battlefield to its owner\'s hand. Play a Gold gear token exhausted. (It has "[Reaction] Kill this, [Tap]: [Add] [Rune].")',
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
-    { kind: "keyword", keyword: "Add", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
+    { kind: "suppress-printed-keyword", keyword: "Add" },
     {
       kind: "activated",
       cost: { energy: 1, exhaust: SELF },

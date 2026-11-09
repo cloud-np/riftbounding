@@ -1,11 +1,10 @@
 import { afterEach, describe, expect, it } from "vitest";
 import {
-  clearCardScripts,
   executeAbility,
   listActivatedAbilities,
   parseActivatedAbilityTexts,
-  registerCardScript,
 } from "../../../src";
+import { clearCardScripts, registerTestCardScript } from "../../../src/testing";
 import { scenario } from "../../scenarios/dsl";
 import { stepFor } from "./helpers";
 
@@ -45,12 +44,12 @@ describe("activated abilities of unscripted cards [R377.1][§6.4]", () => {
   });
 
   it("[§6.4] a status:\"manual\" script is treated as unscripted (text parsed from the script)", () => {
-    registerCardScript({ name: "Probe Manual", text: "[1]: Ready me.", status: "manual", abilities: [] });
+    registerTestCardScript({ name: "Probe Manual", text: "[1]: Ready me.", status: "manual", abilities: [] });
     expect(listActivatedAbilities("Probe Manual").map((entry) => entry.ref)).toEqual(["manual:0"]);
   });
 
   it("[R376][F7] scripted cards list activated:<index> into the full abilities array", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Probe Scripted",
       text: "test",
       status: "implemented",

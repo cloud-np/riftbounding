@@ -40,7 +40,7 @@ registerCardScript({
   text: "[Hunt 2] (When I conquer or hold, gain 2 XP.)\n[Level 3] I have +1[Might] and [Deflect]. (While you have 3+ XP, get the effect. Opponents must pay [Rune] to choose a [Deflect] unit with a spell or ability.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Deflect", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Deflect" },
     atLevel(3, { kind: "might", amount: 1, target: SELF }),
     atLevel(3, { kind: "keyword", keyword: "Deflect", target: SELF }),
   ],
@@ -51,8 +51,8 @@ registerCardScript({
   text: "[Hunt 2] (When I conquer or hold, gain 2 XP.)\n[Level 6] I have [Deflect] and [Ganking]. (While you have 6+ XP, opponents must pay [Rune] to choose me with a spell or ability and I can move from battlefield to battlefield.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Deflect", value: 0 },
-    { kind: "keyword", keyword: "Ganking", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Deflect" },
+    { kind: "suppress-printed-keyword", keyword: "Ganking" },
     atLevel(6, { kind: "keyword", keyword: "Deflect", target: SELF }),
     atLevel(6, { kind: "keyword", keyword: "Ganking", target: SELF }),
   ],

@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { CardScript } from "@rift/protocol";
-import { clearCardScripts, explainIllegal, legalIntents, registerCardScripts } from "../../src";
+import { explainIllegal, legalIntents } from "../../src";
+import { clearCardScripts, registerTestCardScripts } from "../../src/testing";
 import { scenario } from "../scenarios/dsl";
 
 function noopSpell(name: string, text: string): CardScript {
@@ -20,7 +21,7 @@ const mixedAbilities: CardScript = {
   abilities: [
     {
       kind: "triggered",
-      trigger: { kind: "event", event: { type: "probe" } },
+      trigger: { kind: "event", event: { type: "probe" as never } },
       effect: { op: "seq", effects: [] },
     },
     { kind: "activated", cost: {}, effect: { op: "seq", effects: [] } },
@@ -51,7 +52,7 @@ const addUnimplemented: CardScript = {
 };
 
 beforeAll(() => {
-  registerCardScripts([
+  registerTestCardScripts([
     noopSpell("Rebuke", "[ACTION] test no-op"),
     noopSpell("Defy", "[REACTION] test no-op"),
     mixedAbilities,

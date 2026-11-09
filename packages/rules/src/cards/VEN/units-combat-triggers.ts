@@ -118,7 +118,7 @@ registerCardScript({
   status: "implemented",
   abilities: [
     // The catalog's Assault is only granted by the trigger (727.1.b).
-    notIntrinsic("Assault"),
+    ...notIntrinsic("Assault"),
     {
       kind: "triggered",
       trigger: WHEN_I_ATTACK,
@@ -127,7 +127,7 @@ registerCardScript({
         op: "cost_then",
         optional: true,
         cost: { power: { Fury: 1 } },
-        effect: { op: "grant_keyword", keyword: "Assault 2", target: SELF, duration: "this-turn" },
+        effect: { op: "grant_keyword", keyword: "Assault", value: 2, target: SELF, duration: "this-turn" },
       },
     },
   ],

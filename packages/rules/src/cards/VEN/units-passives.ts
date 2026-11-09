@@ -30,10 +30,10 @@ registerCardScript({
   text: "[Hidden] (Hide now for [Rune] to react with later for [0].)\nI have [Shield 3] while I'm at a battlefield with exactly one other unit you control. (+3 [Might] while I'm a defender.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Shield"),
+    ...notIntrinsic("Shield"),
     conditional(custom("ven:exactly-one-other-friendly-here", { battlefield: true }), {
       kind: "keyword",
-      keyword: "Shield 3",
+      keyword: "Shield", value: 3,
       target: SELF,
     }),
   ],
@@ -45,7 +45,7 @@ registerCardScript({
   status: "implemented",
   abilities: [
     // 807.2: instances add up; one instance per gear you control (bounded at 20 gear).
-    notIntrinsic("Assault"),
+    ...notIntrinsic("Assault"),
     ...perCount({ cardType: "gear", controller: "self" }, 20, () => ({
       kind: "keyword",
       keyword: "Assault",

@@ -10,10 +10,10 @@ registerCardScript({
   text: "[ACTION] (Play on your turn or in showdowns.)\n\nGive a unit [ASSAULT 3] this turn. (+3 [Might] while it's an attacker.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Assault", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Assault" },
     {
       kind: "spell",
-      effect: { op: "grant_keyword", keyword: "Assault 3", target: aUnit(), duration: "this-turn" },
+      effect: { op: "grant_keyword", keyword: "Assault", value: 3, target: aUnit(), duration: "this-turn" },
     },
   ],
 });

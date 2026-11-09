@@ -60,9 +60,9 @@ registerCardScript({
   notes:
     "The 'when I become ready' trigger fires for effect-driven readies (416), but the Beginning Phase 'ready all' emits one ready_all event and no per-object ready events (315.1), so it does not trigger there.",
   abilities: [
-    notIntrinsic("Assault"),
-    notIntrinsic("Deflect"),
-    notIntrinsic("Ganking"),
+    ...notIntrinsic("Assault"),
+    ...notIntrinsic("Deflect"),
+    ...notIntrinsic("Ganking"),
     {
       kind: "triggered",
       trigger: { kind: "event", event: { type: "ready", subject: SELF } },
@@ -72,12 +72,12 @@ registerCardScript({
           {
             id: "assault",
             label: "[Assault 2]",
-            effect: { op: "grant_keyword", keyword: "Assault 2", target: SELF, duration: "this-turn" },
+            effect: { op: "grant_keyword", keyword: "Assault", value: 2, target: SELF, duration: "this-turn" },
           },
           {
             id: "deflect",
             label: "[Deflect 2]",
-            effect: { op: "grant_keyword", keyword: "Deflect 2", target: SELF, duration: "this-turn" },
+            effect: { op: "grant_keyword", keyword: "Deflect", value: 2, target: SELF, duration: "this-turn" },
           },
           {
             id: "ganking",

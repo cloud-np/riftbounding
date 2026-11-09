@@ -11,6 +11,7 @@ import type { Room } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import { effectiveMight } from "../layers";
 import { designationMightBonus, printedLines } from "../layers/combat-keywords";
+import { orderedRegistry } from "../registry-table";
 
 export { combatKeywordProfile, type CombatKeywordProfile } from "../layers/combat-keywords";
 
@@ -43,14 +44,11 @@ export function combatMight(room: Room, objectId: string, host: RulesHost): numb
  */
 export type CombatContributionFilter = (room: Room, unitId: string, host: RulesHost) => boolean;
 
-const CONTRIBUTION_FILTERS: CombatContributionFilter[] = [];
+const FILTER_REGISTRY = orderedRegistry<CombatContributionFilter>("combat contribution filter");
+const CONTRIBUTION_FILTERS = FILTER_REGISTRY.list;
 
 export function registerCombatContributionFilter(filter: CombatContributionFilter): () => void {
-  CONTRIBUTION_FILTERS.push(filter);
-  return () => {
-    const index = CONTRIBUTION_FILTERS.indexOf(filter);
-    if (index >= 0) CONTRIBUTION_FILTERS.splice(index, 1);
-  };
+  return FILTER_REGISTRY.register(filter);
 }
 
 /**

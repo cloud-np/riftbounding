@@ -10,7 +10,7 @@ registerCardScript({
   text: "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen I win a combat, draw 1. (I win if I remain after combat.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
     {
       kind: "triggered",
       trigger: {

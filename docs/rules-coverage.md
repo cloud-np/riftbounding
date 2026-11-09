@@ -16,7 +16,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | `[R…]` tags | 2454 |
 | `[EX:…]` tags | 116 |
 | Range tags (not expanded) | 25 unique / 29 refs |
-| Test/helper files scanned | 195 |
+| Test/helper files scanned | 198 |
 | Unknown rule ids referenced | 0 |
 
 ## Per-section coverage
@@ -1662,29 +1662,29 @@ Range tags such as `[R341–R348]` label a section; they are not expanded into p
 | --- | ---: | --- |
 | `[R179–187]` | 1 | packages/rules/test/rules/effects/actions.test.ts:223 |
 | `[R193–196]` | 1 | packages/rules/test/rules/combat/scoring.test.ts:88 |
-| `[R307–310]` | 1 | packages/rules/test/rules/turn-states.test.ts:33 |
+| `[R307–310]` | 1 | packages/rules/test/rules/turn-states.test.ts:31 |
 | `[R307–313]` | 1 | packages/rules/test/property/timing.test.ts:13 |
 | `[R318–324]` | 2 | packages/rules/test/rules/cleanup-actions.test.ts:29 |
 | `[R341–348]` | 1 | packages/rules/test/rules/showdown.test.ts:7 |
-| `[R355.3–355.13]` | 1 | packages/rules/test/rules/play/process.test.ts:191 |
+| `[R355.3–355.13]` | 1 | packages/rules/test/rules/play/process.test.ts:192 |
 | `[R367–375]` | 3 | packages/rules/test/rules/hooks.test.ts:26 |
-| `[R376–381]` | 1 | packages/rules/test/rules/activation.test.ts:64 |
-| `[R382–386]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:28 |
-| `[R387–393]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:255 |
-| `[R402–407]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:28 |
+| `[R376–381]` | 1 | packages/rules/test/rules/activation.test.ts:65 |
+| `[R382–386]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:27 |
+| `[R387–393]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:254 |
+| `[R402–407]` | 1 | packages/rules/test/rules/effects/triggers.test.ts:27 |
 | `[R412–448]` | 1 | packages/rules/test/rules/cleanup-actions.test.ts:29 |
 | `[R414–417]` | 1 | packages/rules/test/rules/effects/actions.test.ts:6 |
 | `[R430–441]` | 1 | packages/rules/test/rules/effects/actions.test.ts:223 |
-| `[R447–455]` | 1 | packages/rules/test/rules/play/move.test.ts:26 |
+| `[R447–455]` | 1 | packages/rules/test/rules/play/move.test.ts:27 |
 | `[R456–460]` | 1 | packages/rules/test/rules/effects/actions.test.ts:156 |
 | `[R467.2.c.6–467.2.c.9]` | 1 | packages/rules/test/rules/combat/assignment-examples.test.ts:142 |
 | `[R475–479]` | 2 | packages/rules/test/rules/layers.test.ts:5 |
-| `[R475–482]` | 1 | packages/rules/test/rules/effects/layers.test.ts:40 |
+| `[R475–482]` | 1 | packages/rules/test/rules/effects/layers.test.ts:39 |
 | `[R649–652]` | 1 | packages/rules/test/rules/combat/scoring.test.ts:141 |
 | `[R712–715]` | 1 | packages/rules/test/rules/effects/actions.test.ts:54 |
-| `[R716–719]` | 1 | packages/rules/test/rules/effects/layers.test.ts:40 |
+| `[R716–719]` | 1 | packages/rules/test/rules/effects/layers.test.ts:39 |
 | `[R728–733]` | 1 | packages/rules/test/rules/effects/actions.test.ts:223 |
-| `[R764–767]` | 1 | packages/rules/test/rules/effects/costs-ignore.test.ts:99 |
+| `[R764–767]` | 1 | packages/rules/test/rules/effects/costs-ignore.test.ts:100 |
 
 ## Unknown rule ids in tags
 

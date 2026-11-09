@@ -13,7 +13,7 @@ registerCardScript({
   text: "[HIDDEN] (Hide now for [Rune] to react with later for [0].)\n[ACTION] (Play on your turn or in showdowns.)\nPlay a ready 3 [Might] Sprite unit token with [TEMPORARY]. (Kill it at the start of its controller's Beginning Phase, before scoring.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Temporary", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Temporary" },
     {
       kind: "spell",
       effect: {

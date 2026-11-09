@@ -8,13 +8,13 @@ import {
   type RulesStepContext,
 } from "../../src";
 import { scenario } from "../scenarios/dsl";
-import { registerCardScript } from "../../src";
+import { registerTestCardScript } from "../../src/testing";
 
 // R2-effects: Treasure Hunter's printed "When I move, play a Gold gear token exhausted" now
 // triggers (383 / 402.1) and keeps the state Closed until it resolves. This suite uses it as a
 // vanilla unit for timing/showdown mechanics, so it overrides the production script (the trigger
 // itself is covered by test/cards/fixture-deck.test.ts).
-beforeAll(() => registerCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
+beforeAll(() => registerTestCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
 
 function step(s: ReturnType<typeof scenario>): RulesStepContext {
   return { ctx: s.ctx, host: s.host, events: [] };

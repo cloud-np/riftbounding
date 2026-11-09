@@ -56,6 +56,7 @@ import {
   typeOf,
 } from "./objects";
 import { hasUnitPresentAt, unitsPresentAt } from "../state/presence";
+import { keyedRegistry } from "../registry-table";
 
 /* ---------------------------------------------------------------- players */
 
@@ -528,11 +529,16 @@ export function shownOffInfo(ctx: EvalContext): ShowOffInfo | null {
 
 export type CustomCondition = (ctx: EvalContext, params: Record<string, unknown>) => boolean;
 
-const CUSTOM_CONDITIONS = new Map<string, CustomCondition>();
+/** G1: one implementation per custom condition id; duplicates throw (tests: `src/testing.ts`). */
+export const CUSTOM_CONDITIONS = keyedRegistry<CustomCondition>("custom condition");
 
 /** Register a `{ kind: "custom", id }` condition (import-time table; no game state). */
 export function registerCustomCondition(id: string, fn: CustomCondition): void {
-  CUSTOM_CONDITIONS.set(id, fn);
+  CUSTOM_CONDITIONS.register(id, fn);
+}
+
+export function customConditionIds(): string[] {
+  return CUSTOM_CONDITIONS.keys();
 }
 
 export function evaluateCondition(ctx: EvalContext, condition: Condition | undefined): boolean {

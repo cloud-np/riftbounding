@@ -18,7 +18,7 @@ import { aUnit, custom, token } from "../dsl";
 import type { Effect } from "@rift/protocol";
 import { registerAdditionalCosts } from "../../play/additional-costs";
 
-const REFLECTION = { exhausted: false, play: true, keywords: ["Temporary"] };
+const REFLECTION = { exhausted: false, play: true, keywords: ["Temporary" as const] };
 
 registerCardScript({
   name: "Alpha Strike",
@@ -163,7 +163,7 @@ registerCardScript({
   notes:
     "The chosen unit and the ready Reflection token are automated. 'It becomes a copy of that unit' is missing: copy effects (446) are not implemented.",
   abilities: [
-    { kind: "keyword", keyword: "Temporary", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Temporary" },
     {
       kind: "spell",
       effect: {

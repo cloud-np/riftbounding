@@ -86,7 +86,7 @@ registerCardScript({
   text: "If you play me to a battlefield, I enter ready.\n[Action] [1][Rune], [Tap]: [Stun] an enemy unit attacking here. (It doesn't deal combat damage this turn.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Action", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Action" },
     whenever(SELF_AT_BATTLEFIELD, { kind: "custom", id: "enter-ready", params: { target: SELF } }),
     {
       kind: "activated",

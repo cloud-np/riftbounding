@@ -22,8 +22,8 @@ registerCardScript({
   text: "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen you play me, give your other units here [Assault] this turn. (+1 [Might] while they're attackers.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
-    { kind: "keyword", keyword: "Assault", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
+    { kind: "suppress-printed-keyword", keyword: "Assault" },
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,
@@ -42,8 +42,8 @@ registerCardScript({
   text: "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen you play me, give your other units here [Shield] this turn. (+1 [Might] while they're defenders.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
-    { kind: "keyword", keyword: "Shield", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
+    { kind: "suppress-printed-keyword", keyword: "Shield" },
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,
@@ -62,7 +62,7 @@ registerCardScript({
   text: "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen you play me, you may return a friendly unit at a battlefield to its owner's hand.",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Reaction", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,

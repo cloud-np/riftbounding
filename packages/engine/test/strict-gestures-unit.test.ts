@@ -8,7 +8,8 @@
 import { describe, expect, it } from "vitest";
 
 import type { Room } from "@rift/protocol";
-import { getCardScript, legalIntents, registerCardScript } from "@rift/rules";
+import { legalIntents } from "@rift/rules";
+import { overrideCardScript } from "@rift/rules/testing";
 
 import { createEngineRulesHost } from "../src/strict/host";
 import { translateGesture } from "../src/strict/gestures";
@@ -547,8 +548,7 @@ describe("translateGesture: targeting gestures [R355.7][R355.9][R355.4]", () => 
   });
 
   it("a spell dropped on a battlefield binds a choose-battlefield spec by zone", () => {
-    const original = getCardScript("Gust");
-    registerCardScript({
+    const restore = overrideCardScript({
       name: "Gust",
       text: "test battlefield-choice spell",
       status: "implemented",
@@ -578,13 +578,12 @@ describe("translateGesture: targeting gestures [R355.7][R355.9][R355.4]", () => 
         intent: { type: "rules_play", cardId: gust.id, choices: { zone: ["battlefieldA"] } },
       });
     } finally {
-      if (original) registerCardScript(original);
+      restore();
     }
   });
 
   it("multiple target specs bind only the first spec that accepts the object", () => {
-    const original = getCardScript("Defy");
-    registerCardScript({
+    const restore = overrideCardScript({
       name: "Defy",
       text: "test two-target spell",
       status: "implemented",
@@ -645,7 +644,7 @@ describe("translateGesture: targeting gestures [R355.7][R355.9][R355.4]", () => 
         intent: { type: "rules_play", cardId: defy.id, choices: { "target:1": [fixture.ids.enemyHunter] } },
       });
     } finally {
-      if (original) registerCardScript(original);
+      restore();
     }
   });
 });

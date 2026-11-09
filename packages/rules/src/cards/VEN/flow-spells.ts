@@ -110,7 +110,7 @@ registerCardScript({
           { op: "ready", target: aUnit({ targetRef: "target:0" }) },
           {
             op: "grant_keyword",
-            keyword: "Assault 3",
+            keyword: "Assault", value: 3,
             target: { targetRef: "target:0" },
             duration: "this-turn",
           },

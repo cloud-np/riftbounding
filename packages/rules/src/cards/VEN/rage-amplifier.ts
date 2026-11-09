@@ -6,7 +6,7 @@ import { registerCardScript } from "../registry";
 import { not } from "../dsl";
 import { SELF_EMPOWERED, conditional, empower } from "./shared";
 
-const YOUR_UNITS = { cardType: "unit", controller: "self" as const };
+const YOUR_UNITS = { cardType: "unit" as const, controller: "self" as const };
 
 registerCardScript({
   name: "Rage Amplifier",

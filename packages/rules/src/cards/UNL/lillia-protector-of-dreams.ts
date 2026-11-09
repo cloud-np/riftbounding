@@ -11,7 +11,7 @@ registerCardScript({
   text: "When you play a token unit, give me +1[Might] this turn.\nYour token units have [Tank]",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Tank", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Tank" },
     {
       kind: "triggered",
       trigger: {

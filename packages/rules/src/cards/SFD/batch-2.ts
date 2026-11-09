@@ -119,28 +119,28 @@ registerCardScript({
   name: "Doran's Shield",
   text: "[Equip][Calm]  ([Calm]: Attach this to a unit you control.)\n\n[Tank], +1 [Might]",
   status: "implemented",
-  abilities: [notIntrinsic("Tank"), hostKeyword("Tank"), mightBonus(1)],
+  abilities: [...notIntrinsic("Tank"), hostKeyword("Tank"), mightBonus(1)],
 });
 
 registerCardScript({
   name: "Boots of Swiftness",
   text: "[Equip][Chaos] ([Chaos]: Attach this to a unit you control.)\n\n[GANKING] (I can move from battlefield to battlefield.)\n+2 [Might]",
   status: "implemented",
-  abilities: [notIntrinsic("Ganking"), hostKeyword("Ganking"), mightBonus(2)],
+  abilities: [...notIntrinsic("Ganking"), hostKeyword("Ganking"), mightBonus(2)],
 });
 
 registerCardScript({
   name: "Hexdrinker",
   text: "[Equip][Body] ([Body]: Attach this to a unit you control.)\n\n[Deflect] (Opponents must pay [Rune] to choose me with a spell or ability.)\n+1 [Might]",
   status: "implemented",
-  abilities: [notIntrinsic("Deflect"), hostKeyword("Deflect"), mightBonus(1)],
+  abilities: [...notIntrinsic("Deflect"), hostKeyword("Deflect"), mightBonus(1)],
 });
 
 registerCardScript({
   name: "Serrated Dirk",
   text: "[Equip][Fury] ([Fury]: Attach this to a unit you control.)\n\n[ASSAULT 2] (+2 [Might] while I'm an attacker.\n+0 [Might]",
   status: "implemented",
-  abilities: [notIntrinsic("Assault"), hostKeyword("Assault 2")],
+  abilities: [...notIntrinsic("Assault"), hostKeyword("Assault", 2)],
 });
 
 registerCardScript({
@@ -168,7 +168,7 @@ registerCardScript({
   name: "Cloth Armor",
   text: "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip][Mind] ([Mind]: Attach this to a unit you control.)\n\n[Shield 2] (+2 [Might] while I'm a defender.)\n+0 [Might]",
   status: "implemented",
-  abilities: [notIntrinsic("Shield"), hostKeyword("Shield 2")],
+  abilities: [...notIntrinsic("Shield"), hostKeyword("Shield", 2)],
 });
 
 registerCardScript({
@@ -176,7 +176,7 @@ registerCardScript({
   text: "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] [Rune] ([Rune]: Attach this to a unit you control.)\n[Temporary] (If this is unattached, kill it at the start of its controller's Beginning Phase, before scoring.)\n\n+3 [Might]",
   status: "implemented",
   abilities: [
-    notIntrinsic("Temporary"),
+    ...notIntrinsic("Temporary"),
     {
       kind: "triggered",
       trigger: { kind: "phase", phase: "beginning" },
@@ -394,7 +394,7 @@ registerCardScript({
   text: "[Unique] (Your deck can have only 1 card with this name.)\n\n[Equip][Rune] ([Rune]: Attach this to a unit you control.) \nWhen you play this, ready your units.\n\n\nYour units here have [Ganking] (We can move from battlefield to battlefield.)\n+2 [Might]",
   status: "implemented",
   abilities: [
-    notIntrinsic("Ganking"),
+    ...notIntrinsic("Ganking"),
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,
@@ -439,7 +439,7 @@ registerCardScript({
   text: "[Equip][1][Mind] ([1][Mind]: Attach this to a unit you control.)\n[3][Mind], Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)\n\n[Deathknell] — Banish me. (When I die, get the effect.)\n+2 [Might]",
   status: "partial",
   notes: `Deathknell "[Deathknell] — Banish me" is not scripted; "[3][Mind], Banish this: Play all units banished with this" needs cards banished with a specific object tracked and a payable "Banish this" cost (357.2).`,
-  abilities: [notIntrinsic("Deathknell"), mightBonus(2)],
+  abilities: [...notIntrinsic("Deathknell"), mightBonus(2)],
 });
 
 registerCardScript({
@@ -457,7 +457,7 @@ registerCardScript({
   text: "[Temporary] (Kill this at the start of its controller's Beginning Phase, before scoring.)\nFriendly units have [Deflect]. (Opponents must pay [Rune] to choose them with a spell or ability.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Deflect"),
+    ...notIntrinsic("Deflect"),
     {
       kind: "passive",
       modifier: {
@@ -474,8 +474,8 @@ registerCardScript({
   text: "Your Mechs have [Deflect] and [Ganking]. (Opponents must pay [Rune] to choose us with a spell or ability. We can move from battlefield to battlefield.)\nI enter ready if you control another Mech.",
   status: "implemented",
   abilities: [
-    notIntrinsic("Deflect"),
-    notIntrinsic("Ganking"),
+    ...notIntrinsic("Deflect"),
+    ...notIntrinsic("Ganking"),
     { kind: "passive", modifier: { kind: "keyword", keyword: "Deflect", target: MECHS } },
     { kind: "passive", modifier: { kind: "keyword", keyword: "Ganking", target: MECHS } },
     enterReady({ kind: "exists", selector: { ...MECHS, excludeSource: true } }),
@@ -487,7 +487,7 @@ registerCardScript({
   text: "Your Mechs have [Vision]. (When you play us, look at the top card of your Main Deck. You may recycle it.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Vision"),
+    ...notIntrinsic("Vision"),
     { kind: "passive", modifier: { kind: "keyword", keyword: "Vision", target: MECHS } },
   ],
 });
@@ -497,7 +497,7 @@ registerCardScript({
   text: "Your Mechs have [SHIELD]. (+1 [Might] while they're defenders.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Shield"),
+    ...notIntrinsic("Shield"),
     { kind: "passive", modifier: { kind: "keyword", keyword: "Shield", target: MECHS } },
   ],
 });
@@ -627,12 +627,12 @@ registerCardScript({
   text: "[Action] (Play on your turn or in showdowns.)\n[Repeat] [1] (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 2] this turn. (+2 [Might] while it's an attacker.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Assault"),
+    ...notIntrinsic("Assault"),
     {
       kind: "spell",
       effect: {
         op: "grant_keyword",
-        keyword: "Assault 2",
+        keyword: "Assault", value: 2,
         target: target(),
         duration: "this-turn",
       },

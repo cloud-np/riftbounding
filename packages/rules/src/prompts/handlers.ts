@@ -18,6 +18,7 @@ import type { Prompt, PromptAnswer, PromptOption, Room } from "@rift/protocol";
 import type { RulesFailure, RulesStepContext } from "../types";
 import { fail } from "../types";
 import { PROMPT_REASONS } from "./reasons";
+import { keyedRegistry } from "../registry-table";
 
 export { PROMPT_REASONS } from "./reasons";
 export type { PromptReason } from "./reasons";
@@ -33,18 +34,19 @@ export interface PromptHandlerContext {
 export type PromptHandlerResult = { ok: true } | RulesFailure;
 export type PromptHandler = (context: PromptHandlerContext) => PromptHandlerResult;
 
-const HANDLERS = new Map<string, PromptHandler>();
+/** G1: one handler per prompt reason; a second registration throws (tests: `src/testing.ts`). */
+export const PROMPT_HANDLERS = keyedRegistry<PromptHandler>("prompt handler");
 
 export function registerPromptHandler(reason: string, handler: PromptHandler): void {
-  HANDLERS.set(reason, handler);
+  PROMPT_HANDLERS.register(reason, handler);
 }
 
 export function getPromptHandler(reason: string | undefined): PromptHandler | undefined {
-  return reason ? HANDLERS.get(reason) : undefined;
+  return PROMPT_HANDLERS.get(reason);
 }
 
 export function promptHandlerReasons(): string[] {
-  return [...HANDLERS.keys()].sort((a, b) => a.localeCompare(b));
+  return PROMPT_HANDLERS.keys();
 }
 
 /** R1 prompts stored `data.reason`; anything else is a legacy/kind-only prompt. */

@@ -14,8 +14,8 @@ registerCardScript({
   text: "[ASSAULT] (+2 [Might] while I'm an attacker.)\nWhen you play me, discard 1.",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Assault", value: 0 },
-    { kind: "passive", modifier: { kind: "keyword", keyword: "Assault 2", target: SELF } },
+    { kind: "suppress-printed-keyword", keyword: "Assault" },
+    { kind: "passive", modifier: { kind: "keyword", keyword: "Assault", value: 2, target: SELF } },
     { kind: "triggered", trigger: WHEN_PLAYED, effect: { op: "discard", amount: 1 } },
   ],
 });

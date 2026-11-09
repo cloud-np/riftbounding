@@ -42,7 +42,7 @@ registerCardScript({
   abilities: [],
 });
 
-const REFLECTION_READY = { exhausted: false, play: true, keywords: ["Temporary"] };
+const REFLECTION_READY = { exhausted: false, play: true, keywords: ["Temporary" as const] };
 
 registerCardScript({
   name: "Keeper of Masks",
@@ -71,7 +71,7 @@ registerCardScript({
     "The optional discard/exhaust cost and the ready Reflection token are automated (383.3.b, 440). 'It becomes a copy of another unit there' is missing: copy effects (446) are not implemented.",
   abilities: [
     // The catalog's [Temporary] is the granted token keyword (reminder), not this legend's.
-    { kind: "keyword", keyword: "Temporary", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Temporary" },
     {
       kind: "triggered",
       trigger: { kind: "event", event: { type: ["conquer", "hold"], player: "self" } },
@@ -122,7 +122,7 @@ registerCardScript({
   status: "partial",
   notes:
     "The widened [Ambush] location (822.1) cannot be registered by a card script: [Ambush] is still limited to battlefields where you have units.",
-  abilities: [{ kind: "keyword", keyword: "Reaction", value: 0 }],
+  abilities: [{ kind: "suppress-printed-keyword", keyword: "Reaction" }],
 });
 
 registerCustomCondition("unl:enemy-at-other-location", (ctx) => {
@@ -169,7 +169,7 @@ registerCardScript({
   status: "partial",
   notes:
     "The optional 3 XP additional cost and the cost reduction cannot be combined: a cost modifier cannot read the optional-cost choice (356.2.b.1, 366), and the catalog text is missing the reduction amount. [Ambush] and [Tank] are printed keywords.",
-  abilities: [{ kind: "keyword", keyword: "Reaction", value: 0 }],
+  abilities: [{ kind: "suppress-printed-keyword", keyword: "Reaction" }],
 });
 
 registerCardScript({
@@ -178,5 +178,5 @@ registerCardScript({
   status: "partial",
   notes:
     "The mandatory additional cost 'kill a Bird, Cat, Dog, or Poro' cannot be expressed by the cost selector (one tag only, 357.2) and the widened [Ambush] location cannot be registered; the printed [Ambush] works.",
-  abilities: [{ kind: "keyword", keyword: "Reaction", value: 0 }],
+  abilities: [{ kind: "suppress-printed-keyword", keyword: "Reaction" }],
 });

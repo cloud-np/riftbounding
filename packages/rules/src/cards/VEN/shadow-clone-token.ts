@@ -16,7 +16,7 @@ registerCardScript({
   text: "When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn. (+4 [Might] while I'm an attacker.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Assault"),
+    ...notIntrinsic("Assault"),
     {
       kind: "triggered",
       trigger: WHEN_I_ATTACK,
@@ -38,7 +38,7 @@ registerCardScript({
             condition: { kind: "custom", id: "did" },
             then: {
               op: "grant_keyword",
-              keyword: "Assault 4",
+              keyword: "Assault", value: 4,
               target: SELF,
               duration: "this-turn",
             },

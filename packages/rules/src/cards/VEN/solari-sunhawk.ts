@@ -13,9 +13,9 @@ registerCardScript({
   text: "[Empower 2] ( [2] : Empower me. Use only if not Empowered.)\n[Empowered] I have + 1 [might] and [deflect 2] . (Opponents must pay [rune] [rune] to choose me with a spell or ability.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Deflect"),
+    ...notIntrinsic("Deflect"),
     empower({ energy: 2 }),
     whileEmpowered({ kind: "might", amount: 1, target: SELF }),
-    whileEmpowered({ kind: "keyword", keyword: "Deflect 2", target: SELF }),
+    whileEmpowered({ kind: "keyword", keyword: "Deflect", value: 2, target: SELF }),
   ],
 });

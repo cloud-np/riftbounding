@@ -9,6 +9,7 @@ import { RESOLVED } from "../../effects/execute";
 import { registerCustomEffect } from "../../effects/ops/control";
 import { evalContextOf, recordOutcome } from "../../effects/targets";
 import { SELF_EMPOWERED, WHEN_I_CONQUER, conditional, empower } from "./shared";
+import { notIntrinsic } from "../lib/keywords";
 
 /* ---------------------------------------------------------------- custom conditions */
 
@@ -192,6 +193,7 @@ registerCardScript({
         property: "zone",
       },
     },
+    ...notIntrinsic("Assault"),
   ],
 });
 
@@ -212,6 +214,7 @@ registerCardScript({
         ],
       },
     },
+    ...notIntrinsic("Assault"),
   ],
 });
 

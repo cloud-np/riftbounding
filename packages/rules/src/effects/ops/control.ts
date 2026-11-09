@@ -12,6 +12,7 @@ import { evaluateCondition } from "../evaluate";
 import { registerEffectOp } from "../registry";
 import { targets } from "../targets";
 import { amountOf, ctxOf } from "./util";
+import { keyedRegistry } from "../../registry-table";
 
 const MANUAL = (op: string): EffectExecutionResult => ({ status: "manual", reason: `effect_not_implemented:${op}` });
 
@@ -148,15 +149,16 @@ export type CustomEffectHandler = (
   context: EffectExecutionContext,
 ) => EffectExecutionResult;
 
-const CUSTOM_EFFECTS = new Map<string, CustomEffectHandler>();
+/** G1: one handler per custom effect id; duplicates throw (tests: `src/testing.ts`). */
+export const CUSTOM_EFFECTS = keyedRegistry<CustomEffectHandler>("custom effect");
 
 /** Register genuinely unique card text (import-time table; always tested). */
 export function registerCustomEffect(id: string, handler: CustomEffectHandler): void {
-  CUSTOM_EFFECTS.set(id, handler);
+  CUSTOM_EFFECTS.register(id, handler);
 }
 
 export function customEffectIds(): string[] {
-  return [...CUSTOM_EFFECTS.keys()].sort((a, b) => a.localeCompare(b));
+  return CUSTOM_EFFECTS.keys();
 }
 
 registerEffectOp("custom", (effect, context) => {

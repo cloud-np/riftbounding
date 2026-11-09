@@ -1,15 +1,14 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { CardScript } from "@rift/protocol";
 import {
-  clearCardScripts,
   explainIllegal,
   kill,
   legalIntents,
-  registerCardScripts,
   turnState,
   whoMayAct,
   type RulesStepContext,
 } from "../../src";
+import { clearCardScripts, registerTestCardScripts } from "../../src/testing";
 import { scenario } from "./dsl";
 
 function noop(name: string, text: string): CardScript {
@@ -22,7 +21,7 @@ function noop(name: string, text: string): CardScript {
 }
 
 beforeAll(() => {
-  registerCardScripts([
+  registerTestCardScripts([
     noop("Rebuke", "[ACTION] test no-op"),
     noop("Defy", "[REACTION] test no-op"),
   ]);

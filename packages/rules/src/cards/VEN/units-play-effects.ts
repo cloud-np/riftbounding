@@ -4,6 +4,7 @@
  */
 import { registerCardScript } from "../registry";
 import { SELF, WHEN_PLAYED, aUnit, token } from "../dsl";
+import { notIntrinsic } from "../lib/keywords";
 
 registerCardScript({
   name: "Cloud Drake",
@@ -80,6 +81,7 @@ registerCardScript({
         target: aUnit({ targetRef: "target:0" }),
       },
     },
+    ...notIntrinsic("Reaction"),
   ],
 });
 
@@ -121,5 +123,5 @@ registerCardScript({
   name: "Soulspinner",
   text: "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)",
   status: "implemented",
-  abilities: [],
+  abilities: [...notIntrinsic("Reaction")],
 });

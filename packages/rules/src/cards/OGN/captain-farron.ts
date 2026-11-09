@@ -10,7 +10,7 @@ registerCardScript({
   text: "Other friendly units here have [ASSAULT] (+1 [Might] while they're attackers.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Assault", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Assault" },
     {
       kind: "passive",
       modifier: {

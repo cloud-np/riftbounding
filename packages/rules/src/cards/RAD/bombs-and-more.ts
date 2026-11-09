@@ -10,10 +10,10 @@ import { registerCardScript } from "../registry";
 import { registerAdditionalCosts } from "../../play/additional-costs";
 import { PAID_ADDITIONAL, SELF, WHEN_PLAYED, aUnit, custom, token } from "../dsl";
 import { CHOOSE_OPPONENT, X_NUMBER, letX, zoneRef } from "./dsl";
+import { WHEN_I_HOLD } from "../lib/triggers";
 
 const BOMB_NOTE =
   "The Bomb token's own [Deathknell] (deal 2, kill your other Bombs there) needs a token script (src/cards/tokens, 187).";
-const WHEN_I_HOLD = { kind: "event" as const, event: { type: "hold", subject: SELF } };
 
 function playBombs(count: number, ref = "bomb"): Effect {
   return {

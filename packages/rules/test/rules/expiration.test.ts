@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ChainItem } from "@rift/protocol";
-import { clearCardScripts, registerCardScript } from "../../src";
+import { clearCardScripts, registerTestCardScript } from "../../src/testing";
 import type { CleanupCustomInsertStep } from "../../src/cleanup/cleanup";
 import { appendChainItem, finalizeChainItem } from "../../src/timing/fepr";
 import { MAX_EXPIRATION_PASSES, runExpirationStep } from "../../src/timing/tasks";
@@ -78,7 +78,7 @@ describe("Expiration Step repeat [R317.2.f]", () => {
   });
 
   it("[R317.2.f] FEPR detection survives an intent boundary (synthetic item needs an opponent pass)", () => {
-    registerCardScript({
+    registerTestCardScript({
       name: "Expiration Probe Spell",
       text: "Synthetic no-op spell for the 317.2.f cross-intent probe.",
       status: "implemented",

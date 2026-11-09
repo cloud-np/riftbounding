@@ -40,7 +40,7 @@ registerCardScript({
       kind: "spell",
       effect: {
         op: "grant_keyword",
-        keyword: "Assault 4",
+        keyword: "Assault", value: 4,
         target: aUnit(),
         duration: "this-turn",
       },
@@ -105,8 +105,8 @@ registerCardScript({
   status: "implemented",
   abilities: [
     // The catalog's [Reaction]/[Add] are the Gold token's reminder text (135.2.d.3), not the spell's.
-    { kind: "keyword", keyword: "Reaction", value: 0 },
-    { kind: "keyword", keyword: "Add", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Reaction" },
+    { kind: "suppress-printed-keyword", keyword: "Add" },
     {
       kind: "spell",
       effect: {

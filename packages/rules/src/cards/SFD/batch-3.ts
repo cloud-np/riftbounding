@@ -3,7 +3,7 @@
  * triggers, play effects (optional additional costs, 356.4.f.1), battlefields and delayed
  * effects.
  */
-import type { Condition, Effect, Selector } from "@rift/protocol";
+import type { CardTypeName, Condition, Effect, Selector } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import {
   EVENT_SUBJECT,
@@ -39,7 +39,7 @@ const IN_LOOKED: Condition = custom("in-ref", { ref: "looked" });
 const LOOKED: Selector = { zone: "deck", where: IN_LOOKED };
 
 /** Reveal the top card of your Main Deck; if it matches `type`, `then` it; otherwise recycle it. */
-function revealTop(type: string, then: Effect): Effect {
+function revealTop(type: CardTypeName, then: Effect): Effect {
   return {
     op: "look",
     amount: 1,
@@ -708,7 +708,7 @@ registerCardScript({
   text: "When you play me, give a unit [GANKING] this turn. It can move from battlefield to battlefield.)",
   status: "implemented",
   abilities: [
-    notIntrinsic("Ganking"),
+    ...notIntrinsic("Ganking"),
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,
@@ -855,7 +855,7 @@ registerCardScript({
   notes:
     '"As I\'m revealed from your deck, [Add] [2]": abilities of cards in the Main Deck that act as they are revealed (385, 425) are not supported.',
   abilities: [
-    notIntrinsic("Add"),
+    ...notIntrinsic("Add"),
     {
       kind: "triggered",
       trigger: WHEN_PLAYED,

@@ -3,7 +3,7 @@
  * `equip:<n>` ability) and [Quick-Draw] (819) are engine keywords; an Equipment's effect text
  * ("[Shield 2]", "+1 [Might]") is written as passives targeting the host (718.3 / 718.4).
  */
-import type { Effect } from "@rift/protocol";
+import type { Effect, Selector } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import {
   HERE,
@@ -21,7 +21,7 @@ import {
 import { UNIT_OR_GEAR, notIntrinsic } from "./dsl";
 
 const HOST = { targetRef: "host" } as const;
-const FRIENDLY_UNITS_HERE = { cardType: "unit", controller: "self" as const, zone: HERE };
+const FRIENDLY_UNITS_HERE: Selector = { cardType: "unit", controller: "self", zone: HERE };
 
 /** Banner of Conquest (RAD-002) — "[Deploy] Friendly units here have [Assault]." (807, 801.3) */
 registerCardScript({
@@ -139,7 +139,7 @@ registerCardScript({
     },
     {
       kind: "passive",
-      modifier: { kind: "keyword", keyword: "Shield 2", target: FRIENDLY_UNITS_HERE },
+      modifier: { kind: "keyword", keyword: "Shield", value: 2, target: FRIENDLY_UNITS_HERE },
     },
   ],
 });
@@ -171,7 +171,7 @@ registerCardScript({
   status: "implemented",
   abilities: [
     ...notIntrinsic("Shield"),
-    { kind: "passive", modifier: { kind: "keyword", keyword: "Shield 2", target: HOST } },
+    { kind: "passive", modifier: { kind: "keyword", keyword: "Shield", value: 2, target: HOST } },
   ],
 });
 

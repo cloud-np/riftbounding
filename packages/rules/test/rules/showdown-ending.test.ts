@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { CardScript } from "@rift/protocol";
-import { clearCardScripts, explainIllegal, registerCardScripts, turnState } from "../../src";
+import { explainIllegal, turnState } from "../../src";
+import { clearCardScripts, registerTestCardScripts } from "../../src/testing";
 import { scenario } from "../scenarios/dsl";
 
 function noop(name: string, text: string): CardScript {
@@ -12,7 +13,7 @@ function noop(name: string, text: string): CardScript {
   };
 }
 
-beforeAll(() => registerCardScripts([noop("Defy", "[REACTION] test")]));
+beforeAll(() => registerTestCardScripts([noop("Defy", "[REACTION] test")]));
 afterAll(() => clearCardScripts());
 
 describe("Showdowns are not Main-Phase-only [R344][R806.1.b][R813.1.c.1]", () => {

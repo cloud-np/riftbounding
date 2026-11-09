@@ -81,7 +81,7 @@ function applyPhrase(cost: Cost, phrase: string): void {
     return;
   }
   if ((match = new RegExp(`^(exhaust|kill) ${FRIENDLY} (unit|gear)( you control)?$`, "i").exec(text))) {
-    const selector = { cardType: match[2]!.toLowerCase(), controller: "self" as const };
+    const selector = { cardType: match[2]!.toLowerCase() as "unit" | "gear", controller: "self" as const };
     if (match[1]!.toLowerCase() === "exhaust") cost.exhaust = selector;
     else cost.kill = selector;
     return;

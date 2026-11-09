@@ -7,6 +7,7 @@ import type { Selector } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import { SELF, WHEN_PLAYED, aUnit, custom } from "../dsl";
 import { HERE_ZONE, WHEN_I_ATTACK, WHEN_YOU_CONQUER, whilePassive } from "./common";
+import { notIntrinsic } from "../lib/keywords";
 
 const EQUIPMENT: Selector = { cardType: "gear", tag: "Equipment" };
 
@@ -380,6 +381,7 @@ registerCardScript({
         target: { ...EQUIPMENT, controller: "self" },
       },
     },
+    ...notIntrinsic("Reaction"),
   ],
 });
 

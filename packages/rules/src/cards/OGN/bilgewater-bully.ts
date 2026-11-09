@@ -10,7 +10,7 @@ registerCardScript({
   text: "While I'm buffed, I have [GANKING]. (I can move from battlefield to battlefield.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Ganking", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Ganking" },
     {
       kind: "passive",
       modifier: {

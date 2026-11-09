@@ -14,9 +14,9 @@ registerCardScript({
   text: "[Empower][1][Order][Order] ([1][Order][Order]: Empower me. Use only if not Empowered.)\n[Empowered] I have [Assault 2]. (+2 [Might] while I'm an attacker.)\n[Empowered] When I attack, kill an enemy unit here with less Might than me.",
   status: "implemented",
   abilities: [
-    notIntrinsic("Assault"),
+    ...notIntrinsic("Assault"),
     empower({ energy: 1, power: { Order: 2 } }),
-    whileEmpowered({ kind: "keyword", keyword: "Assault 2", target: SELF }),
+    whileEmpowered({ kind: "keyword", keyword: "Assault", value: 2, target: SELF }),
     {
       kind: "triggered",
       trigger: WHEN_I_ATTACK,

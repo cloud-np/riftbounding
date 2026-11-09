@@ -1,7 +1,7 @@
 /**
  * Radiance (RAD) units with triggered, activated or conditional abilities (wave R3).
  */
-import type { Effect, Room } from "@rift/protocol";
+import type { Condition, Effect, Room } from "@rift/protocol";
 import type { RulesHost } from "../../host";
 import { registerCardScript } from "../registry";
 import {
@@ -29,14 +29,8 @@ import {
   notIntrinsic,
   zoneRef,
 } from "./dsl";
+import { WHEN_I_ATTACK, WHEN_I_ATTACK_OR_DEFEND, WHEN_I_CONQUER, WHEN_I_HOLD } from "../lib/triggers";
 
-const WHEN_I_HOLD = { kind: "event" as const, event: { type: "hold", subject: SELF } };
-const WHEN_I_CONQUER = { kind: "event" as const, event: { type: "conquer", subject: SELF } };
-const WHEN_I_ATTACK = { kind: "event" as const, event: { type: "attack", subject: SELF } };
-const WHEN_I_ATTACK_OR_DEFEND = {
-  kind: "event" as const,
-  event: { type: ["attack", "defend"], subject: SELF },
-};
 const PLAY_OP_NOTE =
   "units played by the play op go to their controller's base (no location choice, 355.2 / 420.3.b)";
 
@@ -376,9 +370,9 @@ registerCardScript({
  * Jarvan IV, Martial Paragon (RAD-091) — "Your gear with [Deploy] have [Action]. When I conquer, if
  * there is a friendly gear with [Deploy] here, channel 1 rune exhausted."
  */
-const DEPLOY_GEAR_HERE = {
-  kind: "exists" as const,
-  selector: { cardType: "gear", controller: "self" as const, keyword: "Deploy", zone: HERE },
+const DEPLOY_GEAR_HERE: Condition = {
+  kind: "exists",
+  selector: { cardType: "gear", controller: "self", keyword: "Deploy", zone: HERE },
 };
 registerCardScript({
   name: "Jarvan IV, Martial Paragon",
@@ -445,7 +439,7 @@ registerCardScript({
             { keywordValue: "Shield", of: { targetRef: "it" } },
             {
               op: "grant_keyword",
-              keyword: "Shield {X}",
+              keyword: "Shield", value: { kind: "x" },
               target: { targetRef: "it" },
               duration: "this-turn",
             },

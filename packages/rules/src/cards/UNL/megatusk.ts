@@ -11,7 +11,7 @@ registerCardScript({
   text: "Spend 3 XP: Give your units here [ganking] this turn. (We can move from battlefield to battlefield.)",
   status: "implemented",
   abilities: [
-    { kind: "keyword", keyword: "Ganking", value: 0 },
+    { kind: "suppress-printed-keyword", keyword: "Ganking" },
     {
       kind: "activated",
       cost: { spendXp: 3 },

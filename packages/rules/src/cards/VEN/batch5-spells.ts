@@ -62,7 +62,7 @@ registerCardScript({
 
 const REBUTTAL_SPELL = {
   chosen: true as const,
-  cardType: "spell",
+  cardType: "spell" as const,
   targetRef: "target:0",
   energyCost: { op: "lte" as const, value: 4 },
 };

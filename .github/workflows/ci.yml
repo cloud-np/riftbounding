@@ -1,0 +1,82 @@
+# CI — maintainability review G11. Keeps the strict rules engine and the card pool green on every
+# push and pull request: typecheck, every package's tests (including the registry integrity and
+# duplicate-registration suites), the coverage checks, and a nightly catalog self-play sweep.
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 3 * * *" # nightly self-play sweep
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # version from package.json "packageManager"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26 # >= 22.18: the coverage scripts load the TypeScript sources natively
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Typecheck (all packages)
+        run: pnpm typecheck
+
+      - name: Rules engine tests (strict suite, registry integrity, host smoke)
+        run: pnpm --filter @rift/rules test
+
+      - name: Card coverage is registry-based and up to date
+        run: node packages/rules/scripts/card-coverage.mjs --check
+
+      - name: Rules coverage tags reference known rule ids
+        run: node packages/rules/scripts/rules-coverage.mjs --check
+
+      - name: Card catalog tests (catalog keyword audit)
+        run: pnpm --filter @rift/cards test
+
+      - name: i18n tests (every rules.prompt.* key in all locales)
+        run: pnpm --filter @rift/i18n test
+
+      - name: Sync tests
+        run: pnpm --filter @rift/sync test
+
+      - name: Realtime tests
+        run: pnpm --filter realtime test
+
+      - name: Play app tests
+        run: pnpm --filter play test
+
+      - name: Engine tests
+        # Several engine suites read the local-only `.recon/oracle` fixtures (not committed).
+        run: |
+          if [ -d .recon/oracle ]; then
+            cd packages/engine && npx vitest run
+          else
+            echo "Skipping @rift/engine tests: .recon/oracle fixtures are not in the repository."
+          fi
+
+  selfplay:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Fixture-deck self-play (200 seeds)
+        run: SELFPLAY_GAMES=200 pnpm --filter @rift/rules selfplay
+      - name: Catalog-deck self-play (400 seeds)
+        run: SELFPLAY_GAMES=400 SELFPLAY_DECK=catalog SELFPLAY_SEED_START=1 pnpm --filter @rift/rules selfplay

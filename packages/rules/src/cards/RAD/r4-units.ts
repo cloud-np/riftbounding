@@ -308,7 +308,7 @@ registerCardScript({
           { keywordValue: "Shield", of: { targetRef: "it" } },
           {
             op: "grant_keyword",
-            keyword: "Assault {X}",
+            keyword: "Assault", value: { kind: "x" },
             target: { targetRef: "it" },
             duration: "this-turn",
           },
