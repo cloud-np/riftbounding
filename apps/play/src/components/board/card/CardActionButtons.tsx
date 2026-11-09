@@ -113,12 +113,13 @@ export function CardActionButtons({ card, zone, owner, faceDown }: CardActionBut
   const interaction = useBoardInteractionOptional();
   const state = interaction?.slotProps.state;
   const canAct = !!interaction?.canAct && owner === "self";
+  const strictLocked = !!interaction?.strictView && !interaction?.strictManual;
   const autoPay = useMemo(() => {
-    if (!state || !interaction || zone !== "hand" || !canAct) return null;
+    if (!state || !interaction || zone !== "hand" || !canAct || strictLocked) return null;
     const index = state.players.findIndex((player) => player.id === interaction.viewerId);
     if (index < 0) return null;
     return buildAutoPayPaymentBatch(state, index, { purpose: "play", zone: "hand", cardId: card.id });
-  }, [state, interaction, zone, canAct, card.id]);
+  }, [state, interaction, zone, canAct, card.id, strictLocked]);
 
   if (!interaction || !canAct) return null;
 
@@ -127,7 +128,13 @@ export function CardActionButtons({ card, zone, owner, faceDown }: CardActionBut
     interaction.sendIntent(intent);
   };
 
-  const canReveal = zone === "hand" || (zone !== "runeArea" && zone !== "legend" && !faceDown && (!!card.hidden || !!card.revealedToOpponent));
+  const canReveal =
+    !strictLocked &&
+    (zone === "hand" ||
+      (zone !== "runeArea" &&
+        zone !== "legend" &&
+        !faceDown &&
+        (!!card.hidden || !!card.revealedToOpponent)));
   const revealed = !!card.revealedToOpponent;
 
   return (
@@ -151,7 +158,7 @@ export function CardActionButtons({ card, zone, owner, faceDown }: CardActionBut
           <EyeIcon off={revealed} />
         </ActionButton>
       ) : null}
-      {(zone === "hand" || zone === "champion") && !faceDown ? (
+      {(zone === "hand" || zone === "champion") && !faceDown && !strictLocked ? (
         <ActionButton
           label={card.hidden ? t("sim.reveal") ?? "Reveal" : t("sim.hide") ?? "Hide"}
           onClick={() =>
@@ -186,12 +193,14 @@ export function CardActionButtons({ card, zone, owner, faceDown }: CardActionBut
           >
             <TagIcon />
           </ActionButton>
-          <ActionButton
-            label={t("sim.tablet.counter") ?? "Counters"}
-            onClick={() => interaction.openCounterEditor({ zone, card, owner: "self" })}
-          >
-            <CounterIcon />
-          </ActionButton>
+          {!strictLocked ? (
+            <ActionButton
+              label={t("sim.tablet.counter") ?? "Counters"}
+              onClick={() => interaction.openCounterEditor({ zone, card, owner: "self" })}
+            >
+              <CounterIcon />
+            </ActionButton>
+          ) : null}
         </>
       ) : null}
       <ActionButton

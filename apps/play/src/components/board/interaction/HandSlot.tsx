@@ -79,7 +79,9 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
       !!opponent?.board?.handRevealedToPlayerIds?.includes(viewerId));
   const handRevealed =
     (owner === "self" ? !!player?.board?.handRevealToOpponent : viewerRevealed) || allCardsRevealed;
-  const revealDisabled = owner === "opponent" || !interaction?.canAct || state.phase !== "in_game";
+  const strictLocked = !!interaction?.strictView && !interaction?.strictManual;
+  const revealDisabled =
+    owner === "opponent" || !interaction?.canAct || state.phase !== "in_game" || strictLocked;
 
   useEffect(() => {
     const rail = railRef.current;
@@ -197,6 +199,7 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                     draggable={!!interaction?.canAct && owner === "self"}
                     selected={interaction?.selectedCardIds.has(card.id)}
                     targetable={interaction?.targetableCardIds.has(card.id)}
+                    playable={!!interaction?.strictView?.playableById.has(card.id)}
                   />
                 </div>
               </div>

@@ -28,6 +28,8 @@ export interface GameCardProps {
   previewRotationDeg?: 0 | 45 | 90;
   selected?: boolean;
   targetable?: boolean;
+  /** Strict-rules `legalIntents.playableCardIds` (R4-strict-ui highlight). */
+  playable?: boolean;
   dimmed?: boolean;
   labels?: string[];
   attachedCards?: CardInstance[];
@@ -56,6 +58,7 @@ export function GameCard({
   previewRotationDeg,
   selected = false,
   targetable = false,
+  playable,
   dimmed = false,
   labels,
   attachedCards = [],
@@ -77,6 +80,9 @@ export function GameCard({
   const resolvedMightBuff = mightBuff || Math.max(0, Math.trunc(card.temporaryMightBuff ?? 0));
   const attached = attachedCards.length;
   const interaction = useBoardInteractionOptional();
+  const strictLocked = !!interaction?.strictView && !interaction?.strictManual;
+  const resolvedPlayable =
+    playable ?? !!interaction?.strictView?.playableCardIds.has(card.id);
   const effectiveHandler = onCardEvent ?? interaction?.handleCardEvent;
   const interactive = !!effectiveHandler;
   const canDrag = draggable || (!!interaction?.canAct && owner === "self");
@@ -186,6 +192,7 @@ export function GameCard({
               data-visual-dragging="false"
               data-exhausted={exhausted}
               data-face-down={faceDown}
+              data-strict-playable={resolvedPlayable ? "true" : undefined}
               data-pose-preview={previewRotationDeg === 45 ? "exhaust" : "none"}
               data-pose-animation="none"
               data-preview-landscape="false"
@@ -267,7 +274,7 @@ export function GameCard({
                 onClick={(event) => {
                   event.preventDefault();
                   event.stopPropagation();
-                  if (!interaction?.canAct || owner !== "self") return;
+                  if (!interaction?.canAct || owner !== "self" || strictLocked) return;
                   interaction.sendIntent({
                     type: "adjust_card_counter",
                     zone,
@@ -277,7 +284,7 @@ export function GameCard({
                   } as GameActionIntent);
                 }}
                 onContextMenu={(event) => {
-                  if (!interaction?.canAct || owner !== "self") return;
+                  if (!interaction?.canAct || owner !== "self" || strictLocked) return;
                   event.preventDefault();
                   event.stopPropagation();
                   interaction.sendIntent({
@@ -289,7 +296,7 @@ export function GameCard({
                   } as GameActionIntent);
                 }}
                 onWheel={(event) => {
-                  if (!interaction?.canAct || owner !== "self") return;
+                  if (!interaction?.canAct || owner !== "self" || strictLocked) return;
                   event.preventDefault();
                   event.stopPropagation();
                   const delta = event.deltaY < 0 ? 1 : -1;

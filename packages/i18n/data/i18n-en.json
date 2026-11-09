@@ -8289,7 +8289,17 @@
      ]
     ],
     "damageCannotBeDealt": "Can't be dealt damage",
-    "useSuggestion": "Use suggestion"
+    "useSuggestion": "Use suggestion",
+    "playWithOptions": "Play with options…",
+    "cost": "Cost",
+    "optionalCosts": "Additional costs",
+    "paymentPlan": "Payment",
+    "paymentAuto": "Auto-pay",
+    "paymentManual": "Choose runes",
+    "floatingEnergy": "Use floating Energy",
+    "exhaustRune": "Exhaust",
+    "recycleRune": "Recycle",
+    "noReadyRunes": "No ready runes."
    }
   }
  },

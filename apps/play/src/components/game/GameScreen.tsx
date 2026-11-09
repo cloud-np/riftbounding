@@ -13,6 +13,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { GameplayAction, Room, RoomPlayer, RoomSessionDoc } from "@rift/protocol";
+import { strictLegalIntents, strictWhoMayAct } from "@rift/engine";
 import { createTranslator, rulesReasonText } from "@rift/i18n";
 
 import { ChainSlot } from "@/components/board/chain";
@@ -25,7 +26,7 @@ import type {
   GameActionIntent,
 } from "@/components/board/slot-types";
 import { SidebarSlot } from "@/components/board/sidebar";
-import { strictIntentFor } from "@/components/board/strict/strict-model";
+import { strictActorFor, strictIntentFor } from "@/components/board/strict/strict-model";
 import type { BattlefieldInfo } from "@/components/board/layout/BattlefieldLayer";
 import type { GameBoardLayoutHints } from "@/components/board/layout/GameBoardView";
 import { GameBoardView } from "@/components/board/layout/GameBoardView";
@@ -573,11 +574,25 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
     const viewerPlayer =
       room.players.find((player) => player.id === effectiveViewerId) ?? room.players[0];
     const opponent = room.players.find((player) => player.id !== viewerPlayer?.id);
+    // Strict rooms: the board's turn button follows `legalIntents.canEndTurn` (312/316).
+    const strict =
+      room.rulesMode === "strict" && room.phase === "in_game" && !!room.rules;
+    const strictLegal =
+      strict && viewerPlayer
+        ? strictLegalIntents(
+            room,
+            strictActorFor(
+              strictWhoMayAct(room),
+              viewerPlayer.id,
+              controlledPlayerIds.length > 0 ? controlledPlayerIds : [viewerPlayer.id],
+            ),
+          )
+        : null;
     return {
       boardLines: "default",
       showScoreTrack: true,
       showTurnControls: room.phase === "in_game",
-      canEndTurn: room.phase === "in_game",
+      canEndTurn: room.phase === "in_game" && (!strict || !!strictLegal?.canEndTurn),
       canSwitchSeat: controlledPlayerIds.length > 1,
       clocksByPlayerId,
       phase: room.activeTurnStep === "beginning" ? "beginning" : "main",
@@ -587,7 +602,7 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
         opponent: battlefieldHint(opponent, "battlefieldB"),
       },
     };
-  }, [room, effectiveViewerId, controlledPlayerIds.length, clocksByPlayerId]);
+  }, [room, effectiveViewerId, controlledPlayerIds, clocksByPlayerId]);
 
   // BO3 results are rendered by `GameOverOverlay`; the original keeps a BO1 game on the
   // board and surfaces the departure banner (the overlay only opens from BO3 NEXT / reports).

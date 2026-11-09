@@ -18,7 +18,8 @@ strings. Privacy rules: 128 (Secret / Private / Public), 107.3.f (facedown cards
 | `packages/rules/src/intents/concede.ts`, `legality/concede.ts`, `legality/wire/concede.ts` | 649–652 | `rules_concede` handler, verdict (651.3) and wire validator |
 | `packages/i18n/src/rules-text.ts`, `data/i18n-en.json` (`ui.rules`) | §5, 411.2 | reason / prompt / UI strings and the `rulesReasonText` / `promptReasonText` / `promptTitle` helpers |
 | `packages/engine/src/strict/view.ts` | 312, §5 | client read side bound to the engine host: `strictLegalIntents`, `strictWhoMayAct`, `strictTurnState`, `strictExplainIllegal` |
-| `apps/play/src/components/board/strict/*` | 411.2, 467.2.c, §6.4, 650 | `StrictRulesPanel`, `StrictPromptDialog`, pure `strict-model.ts` |
+| `apps/play/src/components/board/strict/*` | 411.2, 467.2.c, §6.4, 650 | `StrictRulesPanel`, `StrictPromptDialog`, `StrictPlayDialog`, pure `strict-model.ts` / `strict-interaction.ts` |
+| `apps/play/src/components/board/interaction/BoardInteractionProvider.tsx`, `drag/*`, `menus/*`, `card/GameCard.tsx` | 355.2, 449, 811.1.b | strict hand drag/drop, playable highlight, activation/move/Hide menus, rejection toast |
 | `apps/play/src/components/room/RoomShell.tsx` (`RulesModeFieldset`), `lobby/integration/roomMapping.ts`, `lobby/LobbyContainer.tsx` | §3 | host-only lobby toggle |
 | `apps/play/src/runtime/matchRuntime.ts`, `components/game/GameScreen.tsx` | §5 | `RulesRejectionError` (code/rule/detail) shown through `rulesReasonText`; the turn button sends `rules_end_turn` in strict rooms |
 
@@ -27,7 +28,8 @@ Tests: `packages/sync/src/redact-rules.test.ts` (every case below, spectators, s
 (error frame fields), `apps/realtime/tests/match-room.test.ts` (`MatchRoomCore strict rooms`),
 `packages/rules/test/rules/int/concede-intent.test.ts`,
 `packages/i18n/src/rules-text.test.ts`, `packages/engine/test/strict-int.test.ts` (read view),
-`apps/play/src/components/board/strict/__tests__/*`, `apps/play/src/runtime/__tests__/rules-rejection.test.mts`.
+`apps/play/src/components/board/strict/__tests__/*` (including `strict-interaction.test.ts` and
+`strict-play-dialog.test.tsx`), `apps/play/src/runtime/__tests__/rules-rejection.test.mts`.
 
 ## Redaction (sync)
 
@@ -130,24 +132,39 @@ sandbox rooms render and behave exactly as before; no existing class or visual c
 - **Board** (`StrictRulesPanel`, prompts slot, the `ShowdownPrompt` shell look): status line
   from `whoMayAct` ("You have priority", "Bob has focus", "Waiting for Bob: …", manual window),
   one button per legal play (per location), activation ("Activate (manual)" for unscripted
-  `manual:<n>` abilities), move, plus Pass / End turn (kept visible when illegal with the
-  `explainIllegal` reason as tooltip), Done in the §6.4 window and Concede with confirmation.
-  `legalIntents` runs client-side on the viewer's redacted room through the engine host; a test
-  proves it equals the server's for each viewer. In solo modes the panel acts as the seat that may
-  act when this client controls it.
+  `manual:<n>` abilities), move, Hide (`legalIntents.hideable`), plus Pass / End turn (kept
+  visible when illegal with the `explainIllegal` reason as tooltip), Done in the §6.4 window and
+  Concede with confirmation. `legalIntents` runs client-side on the viewer's redacted room through
+  the engine host; a test proves it equals the server's for each viewer. In solo modes the panel
+  acts as the seat that may act when this client controls it.
+- **Board interactions** (`BoardInteractionProvider` + `strict-interaction.ts`): in strict rooms
+  the hand fan's drag/drop sends `rules_play` directly (the drop's Location when the card is a
+  permanent; spells omit it), playable cards are outlined from
+  `legalIntents.playableCardIds`, legal drop targets use the strict view instead of the sandbox
+  dry-run, and illegal drops show the engine's `code` + `rule` through `rulesReasonText` instead
+  of failing silently. Double-click and the hand context menu open the play-options dialog (whose
+  Play button sends the `rules_play` below). Board-card context menus offer `rules_activate` for
+  every legal ability (including `manual:<n>`, labelled "Activate (manual)"), `rules_move` per
+  legal Standard Move destination, and `rules_play { hide: true }` for Hide. The turn button sends
+  `rules_end_turn` (and is disabled from `legalIntents.canEndTurn`); Pass stays on the panel.
+  While the §6.4 manual window is open for the acting seat the original sandbox board actions
+  remain available (the engine's `gate` explicitly allows them), so manual card resolution still
+  works.
+- **Play options** (`StrictPlayDialog`): payment plan choice (`PaymentPlanWire`, auto or explicit
+  ready-rune exhaust/recycle + floating Energy), optional additional costs (355.1.a), Location
+  (355.2) and Hide (811.1.b) all build one `rules_play`; the dialog preflights it with
+  `explainIllegal` and shows the rejection text while Play is disabled.
 - **Prompts** (`StrictPromptDialog`, prompted seat only): one-click single choice and yes-no,
   multi-choice with `min`..`max`, ordering (answers `optionIds` + `orderedIds`), and the 467.2.c
   damage assignment on the `CombatDamageAssignmentData` contract (suggestion prefill, remaining
   counter, lethal / "can't be dealt damage" per target; the engine's verdict decides legality).
 - **Rejections**: strict error frames become `RulesRejectionError` (code, rule, detail) and the
   game screen's existing error toast shows `rulesReasonText` ("You don't have priority. (rule
-  312)"). The board's turn button sends `rules_end_turn` in strict rooms.
+  312)"). Client-side illegal board drops/actions also show the same reason as a board toast.
 
-Not done (UI): the hand fan / drag / context menus still send sandbox actions in strict rooms
-(the server answers `strict_mode_action`, shown with its reason) instead of being driven by
-`legalIntents`; no playable-card highlighting; no explicit payment plan, optional-cost or Hide
-(`hideable`) controls; free-form prompts without options (legacy) only show their title; not
-checked in a browser.
+Remaining (UI): free-form prompts without options (legacy) only show their title; no explicit
+multi-unit drag (the board has no multi-select; the strict panel can still move the grouped
+`legalIntents.moves` entry); not checked in a browser yet.
 
 ## Open questions / findings
 
