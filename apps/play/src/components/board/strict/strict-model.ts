@@ -22,6 +22,16 @@ export function isStrictRoom(room: GameState | null | undefined): boolean {
   return !!room && room.rulesMode === "strict" && room.phase === "in_game" && !!room.rules;
 }
 
+/**
+ * The left strict-rules panel is developer-only (owner: "not relevant for PROD"). Reuse the
+ * app's existing Next `NODE_ENV` convention: `next dev` / tests enable it, a production build
+ * (`next build`/`next start`) hides it. Everything the panel offered in production has a board
+ * control elsewhere (chain A/S, End turn, leave/concede, prompt dialog, ambiguity chooser).
+ */
+export function strictRulesPanelEnabled(): boolean {
+  return process.env.NODE_ENV !== "production";
+}
+
 /** Find a visible card by id anywhere on the (redacted) board or the chain display. */
 export function findCard(room: GameState, cardId: string): CardInstance | null {
   for (const player of room.players) {

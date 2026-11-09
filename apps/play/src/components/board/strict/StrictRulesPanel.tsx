@@ -6,17 +6,16 @@ import { strictExplainIllegal, strictLegalIntents, strictWhoMayAct } from "@rift
 import { createTranslator, promptTitle, rulesReasonText } from "@rift/i18n";
 import type { WireAction } from "@rift/protocol";
 
-import { smallBlueButton, smallNeutralButton } from "@/components/ui/buttonStyles";
+import { smallNeutralButton } from "@/components/ui/buttonStyles";
 
 import type { BoardSlotProps } from "../slot-types";
-import { STRICT_SHELL_CLASS, StrictPromptDialog } from "./StrictPromptDialog";
+import { STRICT_SHELL_CLASS } from "./StrictPromptDialog";
 import {
   isStrictRoom,
-  promptForClient,
   strictActorFor,
+  strictRulesPanelEnabled,
   strictStatus,
 } from "./strict-model";
-import { promptHasBoardTargets } from "./strict-interaction";
 
 const t = createTranslator("en");
 
@@ -63,7 +62,7 @@ export function StrictRulesPanel({
   }, [room, actor, legal]);
   const [confirmConcede, setConfirmConcede] = useState(false);
 
-  if (!isStrictRoom(room)) return null;
+  if (!strictRulesPanelEnabled() || !isStrictRoom(room)) return null;
 
   const send = (intent: WireAction, as: string = actor) => {
     if (as !== viewerId && dispatchAs) dispatchAs(as, intent);
@@ -71,11 +70,7 @@ export function StrictRulesPanel({
   };
 
   const pending = room.rules?.prompt ?? null;
-  const prompt = promptForClient(room, controlled);
-  const promptOnBoard = !!prompt && promptHasBoardTargets(room, prompt);
   const status = strictStatus(room, who, controlled, t, pending ? promptTitle(t, pending) : null);
-  const manual = room.rules?.manual ?? null;
-  const manualMine = !!manual && controlled.includes(manual.player);
 
   return (
     <>
@@ -98,16 +93,6 @@ export function StrictRulesPanel({
             </p>
           ) : null}
           <div className="mt-[0.3rem] flex flex-wrap gap-[0.24rem]">
-            {manualMine ? (
-              <button
-                type="button"
-                className={smallBlueButton}
-                data-testid="strict-manual-done"
-                onClick={() => send({ type: "rules_manual_done" }, manual.player)}
-              >
-                {t("rules.ui.done") ?? "Done"}
-              </button>
-            ) : null}
             <button
               type="button"
               className={smallNeutralButton}
@@ -151,15 +136,6 @@ export function StrictRulesPanel({
           </div>
         </div>
       </div>
-      {prompt && !promptOnBoard ? (
-        <StrictPromptDialog
-          key={prompt.id}
-          room={room}
-          prompt={prompt}
-          t={t}
-          onAnswer={(intent) => send(intent, prompt.playerId)}
-        />
-      ) : null}
     </>
   );
 }

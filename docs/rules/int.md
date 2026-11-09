@@ -18,7 +18,7 @@ strings. Privacy rules: 128 (Secret / Private / Public), 107.3.f (facedown cards
 | `packages/rules/src/intents/concede.ts`, `legality/concede.ts`, `legality/wire/concede.ts` | 649–652 | `rules_concede` handler, verdict (651.3) and wire validator |
 | `packages/i18n/src/rules-text.ts`, `data/i18n-en.json` (`ui.rules`) | §5, 411.2 | reason / prompt / UI strings and the `rulesReasonText` / `promptReasonText` / `promptTitle` helpers |
 | `packages/engine/src/strict/view.ts` | 312, §5 | client read side bound to the engine host: `strictLegalIntents`, `strictWhoMayAct`, `strictTurnState`, `strictExplainIllegal` |
-| `apps/play/src/components/board/strict/*` | 411.2, 467.2.c, §6.4, 650 | `StrictRulesPanel`, `StrictPromptDialog`, pure `strict-model.ts` / `strict-interaction.ts` |
+| `apps/play/src/components/board/strict/*` | 411.2, 467.2.c, §6.4, 650 | `StrictRulesPanel` (dev-only), `StrictPromptHost`, `StrictPromptDialog`, pure `strict-model.ts` / `strict-interaction.ts` |
 | `apps/play/src/components/board/interaction/BoardInteractionProvider.tsx`, `drag/*`, `card/GameCard.tsx` | 355.2, 355.9, 449, 811.1.b | gesture-only strict board: drag/use/drop gestures, prompt clicks, targeting highlight, rejection toast |
 | `apps/play/src/components/room/RoomShell.tsx` (`RulesModeFieldset`), `lobby/integration/roomMapping.ts`, `lobby/LobbyContainer.tsx` | §3 | host-only lobby toggle |
 | `apps/play/src/runtime/matchRuntime.ts`, `components/game/GameScreen.tsx` | §5 | `RulesRejectionError` (code/rule/detail) shown through `rulesReasonText`; the turn button sends `rules_end_turn` in strict rooms |
@@ -129,11 +129,25 @@ sandbox rooms render and behave exactly as before; no existing class or visual c
 - **Lobby**: the host's room setup panel gains a "Rules: Sandbox / Strict" fieldset
   (`RulesModeFieldset`, the existing segmented-button recipe) that sends `set_lobby_rules_mode`;
   the active mode comes from `RoomSessionDoc.rulesMode` (`RoomState.rulesMode`, strict only).
-- **Board** (`StrictRulesPanel`, prompts slot): status line from `whoMayAct` ("You have
-  priority", "Bob has focus", "Waiting for Bob: …", manual window), Pass / End turn (kept visible
-  when illegal with the `explainIllegal` reason as tooltip), Done in the §6.4 window and Concede
-  with confirmation. There is no play/activate/move button list: strict rooms are gesture-only
-  (owner directive: "we shouldn't have to pick an action to play from the list").
+- **Dev-only panel**: the left `StrictRulesPanel` ("Strict rules — You have priority", Pass /
+  End turn / Concede) is developer-only. It reuses the app's Next `NODE_ENV` convention:
+  `strictRulesPanelEnabled()` is `process.env.NODE_ENV !== "production"`, so `pnpm --filter play
+  dev` (and the test run) show it while `next build` / `next start` do not render it at all.
+  `StrictPromptHost` (prompt dialog + §6.4 Done) is separate and always rendered.
+- **Production board controls** (everything the dev panel offered): pass priority/focus with the
+  chain **Approve (A)** / **Resolve (S)** buttons and the showdown pass controls (strict rooms
+  send `rules_pass` from `chainControlIntent`; sandbox rooms keep their original vote/resolve
+  actions); end turn with the board End turn button (`legalIntents.canEndTurn`); concede from the
+  Leave dialog's Concede entry (`rules_concede`); prompts by clicking highlighted board objects
+  or the prompt dialog for non-board prompts; ambiguous abilities from the chooser. Sandbox-only
+  controls with no strict meaning are hidden in strict rooms (NEXT / rewind / forward while the
+  game is in progress, chain Repeat/Flow/Extra-turn toggles, payment tray, hand-reveal toggle,
+  reveal/auto-pay/counter card actions).
+- **Board** (`StrictRulesPanel`, prompts slot, developer builds only): status line from `whoMayAct`
+  ("You have priority", "Bob has focus", "Waiting for Bob: …", manual window), Pass / End turn
+  (kept visible when illegal with the `explainIllegal` reason as tooltip), Done in the §6.4 window
+  and Concede with confirmation. There is no play/activate/move button list: strict rooms are
+  gesture-only (owner directive: "we shouldn't have to pick an action to play from the list").
   `legalIntents` runs client-side on the viewer's redacted room through the engine host; a test
   proves it equals the server's for each viewer. In solo modes the panel acts as the seat that may
   act when this client controls it.
@@ -166,7 +180,10 @@ sandbox rooms render and behave exactly as before; no existing class or visual c
   gesture with `ability:"<ref>"`. This is the only action list in strict rooms.
 - **Rejections**: strict error frames become `RulesRejectionError` (code, rule, detail) and the
   game screen's existing error toast shows `rulesReasonText` ("You don't have priority. (rule
-  312)"). Client-side illegal gestures also show the same reason as a board toast.
+  312)"). Client-side illegal gestures also show the same reason as a board toast. `reject_invalid`
+  / `reject_retryable` server errors never populate `lastError`, so they are dismissible action
+  toasts, never the blocking Retry / Return-to-lobby connection banner (that stays for transport,
+  bootstrap and server failures).
 
 Remaining (UI): legacy free-form prompts without options only show their title; `ambiguous_gesture`
 mode choices (355.3) are sent as an explicit `rules_play {choices:{mode}}` from the chooser because

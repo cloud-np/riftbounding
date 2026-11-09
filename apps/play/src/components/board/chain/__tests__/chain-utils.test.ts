@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { ChainEntry, Room, RoomPlayer } from "@rift/protocol";
 
 import {
+  chainControlIntent,
   chainPriority,
   chainResolveDestination,
   hasFlowKeyword,
@@ -104,6 +105,23 @@ describe("chain utils", () => {
     expect(isTimeWarpCard(value)).toBe(true);
     expect(chainResolveDestination(value)).toBe("trash");
     expect(chainResolveDestination({ ...value, flowEnabled: true })).toBe("banished");
+  });
+
+  it("strict chain controls pass priority; sandbox keeps vote/resolve actions", () => {
+    const sandbox = room([entry()]);
+    const resolve = {
+      type: "chain_resolve" as const,
+      entryId: "chain_1",
+      to: "trash" as const,
+    };
+    const vote = { type: "chain_set_resolve_vote" as const, entryId: "chain_1", approved: true };
+    const passFocus = { type: "battlefield_conquer_pass_focus" as const, zone: "battlefieldA" as const };
+    expect(chainControlIntent(sandbox, resolve)).toBe(resolve);
+    expect(chainControlIntent(sandbox, vote)).toBe(vote);
+    const strict = { ...sandbox, rulesMode: "strict" as const, rules: {} as Room["rules"] };
+    expect(chainControlIntent(strict, resolve)).toEqual({ type: "rules_pass" });
+    expect(chainControlIntent(strict, vote)).toEqual({ type: "rules_pass" });
+    expect(chainControlIntent(strict, passFocus)).toEqual({ type: "rules_pass" });
   });
 
   it("round-trips the custom drag MIME", () => {

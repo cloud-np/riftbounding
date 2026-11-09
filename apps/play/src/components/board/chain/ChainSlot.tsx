@@ -10,6 +10,7 @@ import type { ChainEntry } from "@rift/protocol";
 import type { BoardSlotProps } from "../slot-types";
 import { ChainEntryCard } from "./ChainEntryCard";
 import {
+  chainControlIntent,
   chainPriority,
   chainResolveDestination,
   prioritySummary,
@@ -56,6 +57,7 @@ export function ChainSlot({
   const queuedExtraTurns = new Set(
     (state.pendingExtraTurns ?? []).map((item) => item.sourceEntryId),
   );
+  const strictRoom = state.rulesMode === "strict" && state.phase === "in_game" && !!state.rules;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -88,30 +90,32 @@ export function ChainSlot({
   const resolve = useCallback(
     (entry: ChainEntry) => {
       if (!canResolve) return;
-      const intent = {
+      const intent = chainControlIntent(state, {
         type: "chain_resolve" as const,
         entryId: entry.id,
         to: chainResolveDestination(entry),
-      };
+      });
       if (entry.byPlayerId !== viewerId && canResolveAsOwner && dispatchAs) {
         dispatchAs(entry.byPlayerId, intent);
       } else {
         dispatch(intent);
       }
     },
-    [canResolve, canResolveAsOwner, dispatch, dispatchAs, viewerId],
+    [canResolve, canResolveAsOwner, dispatch, dispatchAs, viewerId, state],
   );
 
   const approve = useCallback(
     (entry: ChainEntry) => {
       if (!priority.viewerIsParticipant) return;
-      dispatch({
-        type: "chain_set_resolve_vote",
-        entryId: entry.id,
-        approved: !priority.viewerApproved,
-      });
+      dispatch(
+        chainControlIntent(state, {
+          type: "chain_set_resolve_vote",
+          entryId: entry.id,
+          approved: !priority.viewerApproved,
+        }),
+      );
     },
-    [dispatch, priority.viewerApproved, priority.viewerIsParticipant],
+    [dispatch, priority.viewerApproved, priority.viewerIsParticipant, state],
   );
 
   const toggleRepeat = useCallback(
@@ -380,9 +384,9 @@ export function ChainSlot({
                     queuedExtraTurn={queuedExtraTurns.has(entry.id)}
                     {...(canResolve ? { onResolve: resolve } : {})}
                     {...(priority.viewerIsParticipant ? { onApprove: approve } : {})}
-                    onToggleRepeat={toggleRepeat}
-                    onToggleFlow={toggleFlow}
-                    onToggleExtraTurn={toggleExtraTurn}
+                    {...(strictRoom
+                      ? {}
+                      : { onToggleRepeat: toggleRepeat, onToggleFlow: toggleFlow, onToggleExtraTurn: toggleExtraTurn })}
                   />
                 );
               })}

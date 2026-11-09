@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { createTranslator } from "@rift/i18n";
 
 import type { BoardSlotProps } from "../../slot-types";
+import { chainControlIntent } from "../../chain/chain-utils";
 import { deriveConquerPrompt, type ConquerPromptModel } from "./prompt-state";
 
 const t = createTranslator("en");
@@ -120,9 +121,16 @@ export function ShowdownPrompt({
     if (!prompt.viewerIsActor) return;
     run(() => {
       if (prompt.primaryAction === "pass_focus") {
-        sendAsActor({ type: "battlefield_conquer_pass_focus", zone: prompt.zone });
+        sendAsActor(
+          chainControlIntent(room, { type: "battlefield_conquer_pass_focus", zone: prompt.zone }),
+        );
       } else if (prompt.primaryAction === "pass_response") {
-        sendAsActor({ type: "battlefield_conquer_pass_response", zone: prompt.zone });
+        sendAsActor(
+          chainControlIntent(room, {
+            type: "battlefield_conquer_pass_response",
+            zone: prompt.zone,
+          }),
+        );
       } else {
         sendAsActor({ type: "battlefield_conquer_confirm", zone: prompt.zone });
       }
@@ -131,7 +139,11 @@ export function ShowdownPrompt({
 
   const runSecondary = () => {
     if (!prompt.viewerIsActor || prompt.secondaryAction !== "pass_focus") return;
-    run(() => sendAsActor({ type: "battlefield_conquer_pass_focus", zone: prompt.zone }));
+    run(() =>
+      sendAsActor(
+        chainControlIntent(room, { type: "battlefield_conquer_pass_focus", zone: prompt.zone }),
+      ),
+    );
   };
 
   const primaryTone = !prompt.viewerIsActor ? "waiting" : prompt.tone;

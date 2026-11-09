@@ -3,9 +3,22 @@
  * keywords and the custom drag MIME (`application/x-riftbound-chain-entry`).
  */
 
-import type { ChainEntry, Room, RoomPlayer, Zone } from "@rift/protocol";
+import type { ChainEntry, Room, RoomPlayer, WireAction, Zone } from "@rift/protocol";
 
 export const CHAIN_ENTRY_MIME = "application/x-riftbound-chain-entry";
+
+/**
+ * R4 gestures: in a strict room the sandbox chain/priority controls (Approve A, Resolve S,
+ * showdown pass focus/response) mean "pass priority/focus", so send `rules_pass` directly.
+ * Sandbox rooms keep their original vote/resolve actions. (The engine also maps these actions,
+ * but sending the rules intent keeps the client independent of the server mapping.)
+ */
+export function chainControlIntent(room: Room, action: WireAction): WireAction {
+  if (room.rulesMode === "strict" && room.phase === "in_game" && room.rules) {
+    return { type: "rules_pass" };
+  }
+  return action;
+}
 
 export interface ChainEntryDragPayload {
   entryId: string;

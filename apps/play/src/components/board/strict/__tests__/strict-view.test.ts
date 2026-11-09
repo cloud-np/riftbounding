@@ -6,7 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
   applyGameAction,
@@ -20,6 +20,7 @@ import { redactRoomForViewer } from "@rift/sync";
 
 import { RulesModeFieldset } from "@/components/room/RoomShell";
 import { StrictPromptDialog } from "../StrictPromptDialog";
+import { StrictPromptHost } from "../StrictPromptHost";
 import { StrictRulesPanel } from "../StrictRulesPanel";
 
 const DECKS = path.resolve(
@@ -77,6 +78,21 @@ function panel(room: Room, viewerId: string): string {
   );
 }
 
+function promptHost(room: Room, viewerId: string): string {
+  return renderToStaticMarkup(
+    createElement(StrictPromptHost, {
+      state: room,
+      viewerId,
+      controlledPlayerIds: [viewerId],
+      dispatch: noop,
+    }),
+  );
+}
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
+
 describe("strict UI on a real strict room (R2-int)", () => {
   it("[R128.4][R312] legal intents computed on each viewer's redacted room match the server's", () => {
     const room = inGame("strict");
@@ -100,6 +116,15 @@ describe("strict UI on a real strict room (R2-int)", () => {
     expect(html).not.toMatch(/>(Play|Activate|Move) /u);
   });
 
+  it("[NODE_ENV] the strict panel is developer-only: hidden from production builds", () => {
+    const strictRoom = inGame("strict");
+    const view = redactRoomForViewer(strictRoom, { playerId: "p1", viewerRole: "player" });
+    vi.stubEnv("NODE_ENV", "production");
+    expect(panel(view, "p1")).toBe("");
+    vi.stubEnv("NODE_ENV", "development");
+    expect(panel(view, "p1")).toContain('data-testid="strict-rules-panel"');
+  });
+
   it("[R411.2] object prompts are answered on the board (no dialog); other prompts keep the dialog", () => {
     const room = inGame("strict");
     const card = room.players[0]!.board!.hand[0]!;
@@ -114,12 +139,11 @@ describe("strict UI on a real strict room (R2-int)", () => {
         max: 1,
       },
     };
-    const boardPrompt = panel(
+    const boardPrompt = promptHost(
       redactRoomForViewer(room, { playerId: "p1", viewerRole: "player" }),
       "p1",
     );
     expect(boardPrompt).not.toContain('data-testid="strict-prompt"');
-    expect(boardPrompt).toContain('data-testid="strict-status"');
 
     room.rules = {
       ...room.rules!,
@@ -133,7 +157,7 @@ describe("strict UI on a real strict room (R2-int)", () => {
         max: 1,
       },
     };
-    const dialogPrompt = panel(
+    const dialogPrompt = promptHost(
       redactRoomForViewer(room, { playerId: "p1", viewerRole: "player" }),
       "p1",
     );
@@ -167,13 +191,21 @@ describe("strict UI on a real strict room (R2-int)", () => {
       },
     };
     room.rules = { ...room.rules!, prompt };
-    const own = panel(redactRoomForViewer(room, { playerId: "p1", viewerRole: "player" }), "p1");
+    const own = promptHost(
+      redactRoomForViewer(room, { playerId: "p1", viewerRole: "player" }),
+      "p1",
+    );
     expect(own).toContain('data-testid="strict-prompt"');
     expect(own).toContain("Assign 2 damage");
     expect(own).toContain(`data-strict-target="${unit.id}"`);
-    const other = panel(redactRoomForViewer(room, { playerId: "p2", viewerRole: "player" }), "p2");
+    const other = promptHost(
+      redactRoomForViewer(room, { playerId: "p2", viewerRole: "player" }),
+      "p2",
+    );
     expect(other).not.toContain('data-testid="strict-prompt"');
-    expect(other).toContain("Waiting for Alice: Assign combat damage");
+    expect(panel(redactRoomForViewer(room, { playerId: "p2", viewerRole: "player" }), "p2")).toContain(
+      "Waiting for Alice: Assign combat damage",
+    );
   });
 
   it("[R411.2] renders option prompts with a Confirm gate", () => {

@@ -66,6 +66,27 @@ export function canStartNextGame(input: NextGameControlInput): boolean {
   return nextGameControlState(input) === "available";
 }
 
+/**
+ * R4 gestures: during a live strict game the room-shell NEXT action (`create_next_game`) has no
+ * rules meaning (server: game_result_required), and rewind/forward are sandbox-only. Hide them
+ * while the strict game is in progress; keep them once the game has a result/termination.
+ */
+export function roomActionVisibility(
+  room: Room,
+  showNext = true,
+): { strictInProgress: boolean; showNext: boolean; showRewind: boolean } {
+  const strictInProgress =
+    room.rulesMode === "strict" &&
+    room.phase === "in_game" &&
+    !room.gameOutcome &&
+    !room.matchTermination;
+  return {
+    strictInProgress,
+    showNext: showNext && !strictInProgress,
+    showRewind: !strictInProgress,
+  };
+}
+
 export type NextGameAction =
   "create_next_game" | "open_result_dialog" | "request_result_confirmation";
 

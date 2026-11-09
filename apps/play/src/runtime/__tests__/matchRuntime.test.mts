@@ -322,6 +322,35 @@ describe("decideServerErrorOutcome (1w8d…:3141)", () => {
     expect(outcome.nextSessionPhase).toBe("resyncing");
   });
 
+  it("keeps rejected actions out of the blocking banner (toast only)", () => {
+    for (const mutationClass of ["reject_invalid", "reject_retryable"]) {
+      const outcome = decideServerErrorOutcome({
+        code: "strict_mode_action",
+        message: "That action isn't allowed under strict rules.",
+        mutationClass,
+        clientActionId: "act-1",
+        roomPhase: "in_game",
+        hasAuthoritativeSnapshot: true,
+        canRetryStartupRecovery: false,
+      });
+      expect(outcome.userMessage).toBeNull();
+      expect(outcome.shouldRequestResync).toBe(false);
+      expect(outcome.nextSessionPhase).toBe("live");
+    }
+  });
+
+  it("still surfaces transport/server failures in the banner", () => {
+    const outcome = decideServerErrorOutcome({
+      code: "internal_error",
+      message: "Server exploded",
+      clientActionId: "act-1",
+      roomPhase: "in_game",
+      hasAuthoritativeSnapshot: true,
+      canRetryStartupRecovery: false,
+    });
+    expect(outcome.userMessage).toBe("Server exploded");
+  });
+
   it("retries the bootstrap during startup", () => {
     const outcome = decideServerErrorOutcome({
       code: "bootstrap_failed",

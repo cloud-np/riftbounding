@@ -3180,6 +3180,14 @@ export function decideServerErrorOutcome(input: {
         : message;
   } else if (code === "forward_unavailable") {
     userMessage = null;
+  } else if (
+    input.mutationClass === "reject_invalid" ||
+    input.mutationClass === "reject_retryable"
+  ) {
+    // Rejected gameplay (strict rules, illegal action, stale-ish retryable rejection) is normal
+    // game feedback: the pending action promise carries the message to the dismissible toast.
+    // Never promote it to `lastError`, which drives the blocking Retry/Return banner.
+    userMessage = null;
   } else {
     userMessage = message;
   }

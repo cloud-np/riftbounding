@@ -50,6 +50,8 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
   };
 
   if (room.phase !== "in_game") return null;
+  // Strict rooms auto-plan payment; the sandbox payment tray would only be rejected.
+  if (room.rulesMode === "strict") return null;
 
   return (
     <div className="pointer-events-none absolute left-[0.42rem] bottom-[9.6rem] z-[156]" data-testid="payment-tray">

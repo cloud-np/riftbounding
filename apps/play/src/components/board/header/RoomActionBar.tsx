@@ -7,6 +7,7 @@ import type { GameState } from "@rift/protocol";
 import { useBoardTranslator } from "../sidebar/i18n";
 import type { Dispatch } from "../slot-types";
 import { canForwardState, canRewindState } from "./clock";
+import { roomActionVisibility } from "./room-actions";
 import { ForwardIcon, LeaveIcon, NextIcon, RewindIcon } from "./icons";
 
 const ACTION_BUTTON =
@@ -55,10 +56,14 @@ export function RoomActionBar({
 }: RoomActionBarProps) {
   const t = useBoardTranslator(locale);
   const [confirmLeave, setConfirmLeave] = useState(false);
-  const rewindAvailable = canRewindState(state, viewerId);
-  const forwardAvailable = canForwardState(state, viewerId, now);
+  const visibility = roomActionVisibility(state, showNext);
+  const strictInProgress = visibility.strictInProgress;
+  const showRewind = visibility.showRewind;
+  const nextVisible = visibility.showNext;
+  const rewindAvailable = showRewind && canRewindState(state, viewerId);
+  const forwardAvailable = showRewind && canForwardState(state, viewerId, now);
   const forwardUntil = state.forwardAvailableUntil ?? null;
-  const showForward = forwardUntil !== null && forwardUntil > now;
+  const showForward = showRewind && forwardUntil !== null && forwardUntil > now;
   const controllablePlayers = state.players.filter((player) =>
     controlledPlayerIds.includes(player.id),
   );
@@ -92,9 +97,9 @@ export function RoomActionBar({
   }, [onReturnToLobby]);
 
   const gridColumns = [
-    "2.44rem",
+    showRewind ? "2.44rem" : null,
     showForward ? "2.44rem" : null,
-    "minmax(2.04rem,1fr)",
+    nextVisible ? "minmax(2.04rem,1fr)" : null,
     showLeave ? "max-content" : null,
   ]
     .filter(Boolean)
@@ -136,26 +141,28 @@ export function RoomActionBar({
         style={{ gridTemplateColumns: gridColumns }}
         data-room-actions-override="desktop"
       >
-        <div className="relative h-full min-w-0" data-help-anchor="rewind">
-          <button
-            type="button"
-            data-testid="rewind-last-action"
-            aria-label={t("sim.rewindLastAction") ?? "Rewind the last action"}
-            title={t("sim.rewindLastAction") ?? "Rewind the last action"}
-            disabled={!rewindAvailable}
-            onClick={() => dispatch({ type: "rewind_last_action" })}
-            className={`${ACTION_BUTTON} ${NEUTRAL_BUTTON} !px-0`}
-          >
-            <RewindIcon className="h-[1.04rem] w-[1.04rem]" />
-            <span
-              aria-hidden="true"
-              data-rewind-shortcut="R"
-              className="absolute bottom-[0.12rem] right-[0.12rem] inline-flex h-[0.82rem] min-w-[0.96rem] items-center justify-center rounded-[0.1rem] border border-[rgba(219,231,249,0.26)] bg-[rgba(8,15,28,0.38)] px-[0.12rem] text-[0.48rem] font-black leading-none tracking-[0.06em] text-[#f5f9ff]"
+        {showRewind ? (
+          <div className="relative h-full min-w-0" data-help-anchor="rewind">
+            <button
+              type="button"
+              data-testid="rewind-last-action"
+              aria-label={t("sim.rewindLastAction") ?? "Rewind the last action"}
+              title={t("sim.rewindLastAction") ?? "Rewind the last action"}
+              disabled={!rewindAvailable}
+              onClick={() => dispatch({ type: "rewind_last_action" })}
+              className={`${ACTION_BUTTON} ${NEUTRAL_BUTTON} !px-0`}
             >
-              R
-            </span>
-          </button>
-        </div>
+              <RewindIcon className="h-[1.04rem] w-[1.04rem]" />
+              <span
+                aria-hidden="true"
+                data-rewind-shortcut="R"
+                className="absolute bottom-[0.12rem] right-[0.12rem] inline-flex h-[0.82rem] min-w-[0.96rem] items-center justify-center rounded-[0.1rem] border border-[rgba(219,231,249,0.26)] bg-[rgba(8,15,28,0.38)] px-[0.12rem] text-[0.48rem] font-black leading-none tracking-[0.06em] text-[#f5f9ff]"
+              >
+                R
+              </span>
+            </button>
+          </div>
+        ) : null}
 
         {showForward ? (
           <div className="relative h-full min-w-0" data-forward-control="true">
@@ -172,7 +179,7 @@ export function RoomActionBar({
           </div>
         ) : null}
 
-        {showNext ? (
+        {nextVisible ? (
           <div className="relative min-w-0" data-rail-keep-label="true">
             <button
               type="button"
@@ -203,6 +210,19 @@ export function RoomActionBar({
                   {t("sim.leaveRoomQuestion") ?? "Leave room?"}
                 </strong>
                 <div className="mt-[0.36rem] grid gap-[0.18rem]">
+                  {strictInProgress ? (
+                    <button
+                      type="button"
+                      data-testid="room-action-concede"
+                      onClick={() => {
+                        setConfirmLeave(false);
+                        dispatch({ type: "rules_concede" });
+                      }}
+                      className="inline-flex min-h-8 items-center justify-center rounded-[0.2rem] border border-[rgba(226,171,124,0.36)] bg-[rgba(66,43,29,0.92)] px-[0.34rem] text-[0.6rem] font-semibold text-[#f5d6b8] hover:bg-[rgba(84,55,36,0.96)]"
+                    >
+                      {t("rules.ui.concede") ?? "Concede"}
+                    </button>
+                  ) : null}
                   {canReturnToLobby ? (
                     <button
                       type="button"
