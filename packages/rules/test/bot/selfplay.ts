@@ -17,7 +17,7 @@
  *                    observable progress;
  *   - "crash"      — an engine exception, or an intent the picker believed legal was rejected.
  */
-import type { DeckSections, GameEvent, Room, RulesIntent } from "@rift/protocol";
+import type { AutoPassPrefs, DeckSections, GameEvent, Room, RulesIntent } from "@rift/protocol";
 import { bestPrintCards } from "@rift/cards";
 import { createInitialGameState } from "../../../engine/src/index";
 import { createEngineRulesHost } from "../../../engine/src/strict/host";
@@ -51,6 +51,24 @@ export interface SelfplayOptions {
    * Calm/Chaos main deck from the real card catalog for each seed, exercising many more cards.
    */
   deckMode?: "fixture" | "catalog";
+  /**
+   * Auto-pass preferences seeded for both seats (`docs/rules/auto-pass.md`). Omitted: none, so
+   * every decision is the bot's (the pre-auto-pass behaviour and per-seed outcomes).
+   */
+  autoPass?: AutoPassPrefs;
+  /** Called for every decision the bot makes, before its intent is applied (measurements). */
+  onDecision?: (decision: SelfplayDecision) => void;
+  /** Called after every applied intent with its events (measurements). */
+  onApplied?: (applied: { room: Room; actor: string; intent: RulesIntent; events: GameEvent[] }) => void;
+}
+
+export interface SelfplayDecision {
+  /** Authoritative room before the decision. */
+  room: Room;
+  actor: string;
+  who: ReturnType<typeof whoMayAct>;
+  intent: RulesIntent;
+  host: ReturnType<typeof createEngineRulesHost>;
 }
 
 export interface SelfplayReport {
@@ -217,7 +235,12 @@ export function selfplay(seed: number, options: SelfplayOptions = {}): SelfplayR
   const host = createEngineRulesHost(ctx);
   let room: Room;
   try {
-    room = initializeStrictRules(buildRoom(seed, ctx, deckMode), ctx, host);
+    room = initializeStrictRules(
+      buildRoom(seed, ctx, deckMode),
+      ctx,
+      host,
+      options.autoPass ? { autoPass: options.autoPass } : {},
+    );
   } catch (error) {
     return {
       seed,
@@ -342,6 +365,7 @@ export function selfplay(seed: number, options: SelfplayOptions = {}): SelfplayR
       };
     }
 
+    options.onDecision?.({ room, actor, who, intent, host });
     let result: ReturnType<typeof applyRulesIntent>;
     try {
       result = applyRulesIntent(room, actor, intent, ctx, host);
@@ -380,6 +404,7 @@ export function selfplay(seed: number, options: SelfplayOptions = {}): SelfplayR
     room = result.room;
     ctx.now += 1;
     step += 1;
+    options.onApplied?.({ room, actor, intent, events: result.events });
     lastEvents.push(...result.events);
     if (lastEvents.length > MAX_REPORT_EVENTS * 4) lastEvents.splice(0, lastEvents.length - MAX_REPORT_EVENTS * 4);
 

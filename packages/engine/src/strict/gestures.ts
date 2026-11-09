@@ -802,8 +802,29 @@ function translateToggle(
  * The caller applies an `intent` through `applyRulesIntent`, turns `reject` into the normal
  * action error (code/rule/detail) and lets `passthrough` continue to `gate()` + the sandbox
  * handler (cosmetic actions and the §6.4 manual window).
+ *
+ * Auto-pass "hold priority" hotkey (docs/rules/auto-pass.md): a gesture sent with `hold: true`
+ * that becomes a play or an activation carries `hold: true` (337.4: the actor keeps Priority
+ * instead of the owner-decision-3 pass, and no automatic pass is taken for them).
  */
 export function translateGesture(
+  room: Room,
+  actorId: string,
+  action: GestureAction,
+  host: RulesHost,
+): GestureTranslation {
+  const translated = translateGestureCore(room, actorId, action, host);
+  if (
+    action.hold === true &&
+    translated.kind === "intent" &&
+    (translated.intent.type === "rules_play" || translated.intent.type === "rules_activate")
+  ) {
+    return { kind: "intent", intent: { ...translated.intent, hold: true } };
+  }
+  return translated;
+}
+
+function translateGestureCore(
   room: Room,
   actorId: string,
   action: GestureAction,

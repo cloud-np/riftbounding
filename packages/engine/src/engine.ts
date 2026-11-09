@@ -35,7 +35,7 @@ import { createStrictRandom, type StrictRandom } from "./strict/rng";
 import { appendLog } from "./log/entries";
 import { ENGINE_ERRORS, ERROR_CODES } from "./errors";
 import type { RulesIntent, Verdict } from "@rift/protocol";
-import { applyRulesIntent, gate, initializeStrictRules } from "@rift/rules";
+import { applyRulesIntent, DEFAULT_AUTO_PASS, gate, initializeStrictRules } from "@rift/rules";
 import { createEngineRulesHost } from "./strict/host";
 import { translateGesture } from "./strict/gestures";
 import { boardSettingsFor } from "./state/selectors";
@@ -423,7 +423,10 @@ export function applyGameAction<A extends { type: string }>(
     restoreSandboxFirstTurn(draft, forcedFirstTurn);
   }
   if (draft.rulesMode === "strict" && draft.phase === "in_game" && !draft.rules) {
-    draft = initializeStrictRules(draft, actionCtx, createEngineRulesHost(actionCtx));
+    // Auto-pass (docs/rules/auto-pass.md): every seat starts with the information-safe defaults.
+    draft = initializeStrictRules(draft, actionCtx, createEngineRulesHost(actionCtx), {
+      autoPass: DEFAULT_AUTO_PASS,
+    });
   }
   // Human-vs-human strict rooms keep no history at all; practice/solo strict rooms record every
   // changed action once strict rules are live (incidental ones too) so repro replay is exact.

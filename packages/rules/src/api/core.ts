@@ -93,6 +93,25 @@ export { gate, isCosmeticAction, isManualBoardAction } from "../gate";
 
 export { pickRandomAction, pickPromptAnswer, mulberry32 } from "../bot/random";
 
+// Auto-pass / auto-resolve (docs/rules/auto-pass.md).
+export type { StrictInitOptions } from "../intents";
+export {
+  applyAutoPassUpdate,
+  autoPassPrefs,
+  DEFAULT_AUTO_PASS,
+  defaultAutoPassPrefs,
+  fullControl,
+  MANUAL_AUTO_PASS,
+  passUntilActive,
+} from "../auto/prefs";
+export { forcedPromptAnswer } from "../auto/forced";
+export type { ForcedAnswer } from "../auto/forced";
+export { holdsHiddenCards, hasLegalResponse, provablyNoResponse, responseCheck } from "../auto/respond";
+export type { ResponseCheck } from "../auto/respond";
+export { promptSignature, standingEligible } from "../auto/signature";
+export { AUTO_ACTION_CAP, advanceWithAuto } from "../auto/run";
+export type { AutoAction, AutoActionKind, AutoTrigger } from "../auto/run";
+
 export { validateRulesIntent, WIRE_VALIDATORS } from "../legality/intent";
 export {
   abilityTimingVerdict,

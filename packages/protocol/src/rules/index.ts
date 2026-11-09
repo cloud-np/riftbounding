@@ -18,6 +18,7 @@ export * from "./effects";
 export * from "./ability";
 export * from "./cost";
 export * from "./intents";
+export * from "./auto-pass";
 export * from "./domains/play";
 export * from "./domains/combat";
 export * from "./domains/effects";
