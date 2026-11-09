@@ -192,3 +192,21 @@ carry a redacted `Room.rules` (another seat's prompt is a shell, private card id
 `docs/rules/int.md`), and another seat's `mulliganPlaybackByPlayerId` card ids are placeholders.
 No existing field, action or message was renamed or removed; `OPTIMISTIC_ACTIONS` is unchanged.
 
+
+## R3-engine — strict rules engine gaps (additive)
+
+Every addition is optional or a new union member in `src/rules/domains/effects.ts`; no existing
+name, field meaning or prompt contract changed. Event `type` strings and `Prompt.data.reason`
+values are open strings.
+
+| change | why |
+| --- | --- |
+| `EffectsEffectOp` += `deal_split` (`{ amount, target, source? }`) | 355.14 / 418 / 715.3 damage split among targets |
+| `SelectorGroupRequirement` (`sameLocation?`, `sameController?`, `totalMight?: Comparison`); optional `Selector.group`, `Selector.anyNumber` | 355.11 group targeting requirements; 355.13 "any number of" |
+
+Prompts: a split division is an `effects.resume` prompt of kind `damage-assignment` with
+`data.ask = { answer: "split", total, targets, minEach }`, answered with the existing
+`PromptAnswer.assignments`; 355.11.b / 355.14.h subset prompts are `choose-target` with
+`data.ask.subsets` / `data.ask.exact`. A `play.choice` prompt carries `data.spec.group` /
+`data.spec.split` / `data.spec.total` when the choice has them. New event: `group_subset`
+(`{ key, dropped, rule: "355.11.b" }`, `targetIds` = kept).

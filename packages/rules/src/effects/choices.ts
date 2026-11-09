@@ -31,6 +31,7 @@ import type {
   Room,
   RuleRef,
   Selector,
+  SelectorGroupRequirement,
   Verdict,
   ZoneSelector,
 } from "@rift/protocol";
@@ -38,7 +39,16 @@ import type { RulesHost } from "../host";
 import { fail } from "../types";
 import type { EvalContext } from "./env";
 import { idsOf, makeEnv } from "./env";
-import { evaluateCondition, isReservedRef, opponentsOf, playersInTurnOrder } from "./evaluate";
+import {
+  evaluateAmount,
+  evaluateCondition,
+  isReservedRef,
+  opponentsOf,
+  playersInTurnOrder,
+  resolveSelector,
+} from "./evaluate";
+import { groupSatisfied } from "./group";
+import { bonusDamage } from "../layers/bonus";
 import { choiceBounds, choiceOptions, optionFor } from "./targets";
 
 export interface ChoiceSpec {
@@ -96,6 +106,8 @@ interface Collector {
   includeBound: boolean;
   ctx: EvalContext;
   requires: Array<{ condition: Extract<Effect, { op: "requires" }>["condition"]; rule?: string }>;
+  /** 355.11: group requirements by choice key. */
+  groups: Map<string, SelectorGroupRequirement>;
 }
 
 function bound(collector: Collector, key: string): boolean {
@@ -103,14 +115,20 @@ function bound(collector: Collector, key: string): boolean {
   return value !== undefined && value !== null;
 }
 
-function addSelector(collector: Collector, selector: Selector | undefined): void {
+function addSelector(
+  collector: Collector,
+  selector: Selector | undefined,
+  override?: { min: number; max: number; rule?: RuleRef; data?: Record<string, unknown> },
+): void {
   if (!selector || !selector.chosen) return;
   const key = selector.targetRef ?? "target:0";
   if (isReservedRef(key) || collector.seen.has(key)) return;
   collector.seen.add(key);
   if (!collector.includeBound && bound(collector, key)) return;
   const options = choiceOptions(collector.ctx, selector);
-  const bounds = choiceBounds(collector.ctx, selector);
+  const bounds = override ?? choiceBounds(collector.ctx, selector);
+  // 355.11: a group requirement is met by the chosen objects as a whole (UI + validation).
+  const data = { ...(override?.data ?? {}), ...(selector.group ? { group: selector.group } : {}) };
   collector.specs.push({
     key,
     kind: selector.pick ? "choose-card" : "choose-target",
@@ -118,8 +136,32 @@ function addSelector(collector: Collector, selector: Selector | undefined): void
     max: bounds.max,
     targeted: !selector.pick,
     options: options.map((id) => optionFor(collector.ctx, id)),
-    rule: "355.7",
+    rule: override?.rule ?? "355.7",
     ...(selector.label ? { label: selector.label } : {}),
+    ...(Object.keys(data).length > 0 ? { data } : {}),
+  });
+  if (selector.group) collector.groups.set(key, selector.group);
+}
+
+/**
+ * 355.14.b/c / 715.3: split-damage targets are chosen on play, up to the damage available then
+ * (Bonus Damage included). An amount that depends on a choice not made yet is deferred until
+ * that choice is bound (`bindChoices` re-queries after each binding).
+ */
+function addSplitTargets(collector: Collector, effect: Extract<Effect, { op: "deal_split" }>): void {
+  addSelector(collector, effect.source);
+  addAmount(collector, effect.amount);
+  const total = splitTotal(collector.ctx, effect);
+  if (total === null) return;
+  const selector = effect.target;
+  const upTo = !!selector.anyNumber || selector.maxCount !== undefined;
+  const cap = selector.maxCount !== undefined ? Math.max(0, evaluateAmount(collector.ctx, selector.maxCount) ?? 0) : total;
+  const max = Math.max(0, Math.min(total, cap));
+  addSelector(collector, selector, {
+    min: upTo ? 0 : Math.min(1, max),
+    max,
+    rule: "355.14",
+    data: { split: true, total },
   });
 }
 
@@ -265,6 +307,9 @@ function walk(collector: Collector, effect: Effect | undefined): void {
       collector.requires.push({ condition: effect.condition, ...(effect.rule ? { rule: effect.rule } : {}) });
       walk(collector, effect.effect);
       return;
+    case "deal_split":
+      addSplitTargets(collector, effect);
+      return;
     case "cost_then":
       // 355.10.c / 355.10.c.1: costs within instructions do not target.
       walk(collector, effect.effect);
@@ -293,6 +338,7 @@ function collect(room: Room, host: RulesHost, ability: Ability, ctx: ChoiceConte
     includeBound,
     ctx: evalContext(room, host, ctx),
     requires: [],
+    groups: new Map(),
   };
   const effect = abilityEffect(ability);
   if (effect) walk(collector, effect);
@@ -352,6 +398,40 @@ export function validateChoices(
     for (const id of ids) {
       if (!offered.has(id)) return fail(spec.targeted ? "illegal_target" : "invalid_choice", spec.targeted ? "355.9" : spec.rule, `${spec.key}:${id}`);
     }
+    // 355.14.c / 355.11: a split/group choice names each object once.
+    const group = collector.groups.get(spec.key);
+    if ((group || spec.data?.split) && new Set(ids).size !== ids.length) {
+      return fail("invalid_choice", spec.rule, `${spec.key}: duplicate`);
+    }
+    // 355.11.a: the chosen group must collectively fulfill its requirement.
+    if (group && !groupSatisfied(collector.ctx, group, ids)) return fail("illegal_target", "355.11.a", spec.key);
   }
   return { ok: true };
+}
+
+/** 355.14.c / 715.3: the damage a `deal_split` distributes (Bonus Damage included), or null. */
+export function splitTotal(ctx: EvalContext, effect: Extract<Effect, { op: "deal_split" }>): number | null {
+  const amount = evaluateAmount(ctx, effect.amount);
+  if (amount === null) return null;
+  const base = Math.trunc(amount);
+  if (base < 1) return base;
+  const sources = effect.source ? resolveSelector(ctx, effect.source) : [];
+  const sourceId = sources[0] ?? ctx.env.sourceObjectId;
+  return (
+    base +
+    bonusDamage(ctx.room, ctx.host, {
+      controller: ctx.env.controller,
+      ...(sourceId ? { sourceObjectId: sourceId } : {}),
+      kind: ctx.env.kind ?? inferAbilityKind(ctx),
+    })
+  );
+}
+
+/** The kind of the item being played/resolved (spell vs ability) for Bonus Damage (713). */
+function inferAbilityKind(ctx: EvalContext): string {
+  const item = ctx.env.itemId ? ctx.room.rules?.chain.find((entry) => entry.id === ctx.env.itemId) : undefined;
+  if (item) return item.kind === "activated" ? "activated" : item.kind === "triggered" ? "triggered" : "spell";
+  const source = ctx.env.sourceObjectId;
+  const type = source ? (ctx.host.cardInfo(ctx.room, source)?.type ?? "").toLowerCase() : "";
+  return type.includes("spell") ? "spell" : "activated";
 }

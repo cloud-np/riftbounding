@@ -10,7 +10,8 @@ import { pushEvent } from "../../types";
 import { runMachine, type Continuation } from "../../effects/machine";
 import { finishResolution } from "../../timing/fepr/resolve";
 import { registerPromptHandler } from "../handlers";
-import { booleanOf, selectedObjectIds, selectedOptionIds } from "./answers";
+import { booleanOf, resumeAnswerVerdict, selectedObjectIds, selectedOptionIds } from "./answers";
+import { splitShares } from "../../effects/split";
 import { EFFECTS_PROMPT_REASONS } from "./reasons";
 
 registerPromptHandler(EFFECTS_PROMPT_REASONS.resume, ({ room, prompt, answer, step }) => {
@@ -20,9 +21,15 @@ registerPromptHandler(EFFECTS_PROMPT_REASONS.resume, ({ room, prompt, answer, st
   const continuation = data.continuation as Continuation | undefined;
   if (!continuation || !Array.isArray(continuation.stack) || !continuation.env) return { ok: true };
   const ask = (data.ask ?? {}) as { answer?: string; key?: string };
+  // 411.2: an answer that breaks the decision's rules is rejected; the prompt stays pending.
+  const verdict = resumeAnswerVerdict(room, step.host, prompt, answer);
+  if (!verdict.ok) return verdict;
   const selected = selectedOptionIds(prompt, answer);
   let value: unknown;
   switch (ask.answer) {
+    case "split":
+      value = splitShares(answer);
+      break;
     case "boolean":
       value = booleanOf(answer, selected);
       break;

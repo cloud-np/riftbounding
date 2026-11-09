@@ -20,6 +20,7 @@ import "./counter";
 import "./counters";
 import "./create";
 import "./deal";
+import "./deal-split";
 import "./delayed";
 import "./discard";
 import "./double";

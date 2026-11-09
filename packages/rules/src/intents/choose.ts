@@ -35,7 +35,7 @@ export function applyPromptAnswer(
   answer: PromptAnswer,
   step: RulesStepContext,
 ): IntentResult {
-  const verdict = chooseVerdict(room, actorId, promptId, answer);
+  const verdict = chooseVerdict(room, actorId, promptId, answer, step.host);
   if (!verdict.ok) return verdict;
   const rules = room.rules;
   if (!rules) return fail("rules_require_strict", "contract:§1");

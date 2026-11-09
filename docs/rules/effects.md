@@ -17,6 +17,69 @@ Owner: **R2-effects** — Effect DSL interpreter 412–448, triggers 382–398, 
   in `combatMight`. The RULES-QUESTION(479.4.c) below is resolved.
 - Candidate spells/abilities exclude Pending chain items (355.9.a.2).
 
+## R3-engine additions (how a card script uses them)
+
+Wave R3 closes engine gaps for the card agents. Everything is additive: no existing op,
+selector field, condition id, cost convention or prompt contract changed meaning. Tests live in
+`packages/rules/test/rules/effects/*.test.ts` (one file per capability, titles cite `[R…]`,
+`[EX:…]`, `[C:…]`).
+
+### Group targeting (355.11) and "any number of" (355.13)
+
+`Selector.group` is a requirement the chosen objects meet **as a whole**; `Selector.anyNumber`
+means zero or more (no upper count). On play, `requiredChoices` puts the group on
+`spec.data.group` and `validateChoices` rejects a group that does not qualify
+(`illegal_target` / 355.11.a); a `play.choice` prompt answer that breaks it is rejected and the
+prompt stays pending. On resolution, when the remaining legal targets no longer qualify, the
+controller picks a **maximal** legal subset of the original targets (355.11.b / 355.11.b.1 —
+the official examples accept subsets of different sizes, so "maximum … for that subset" is read
+as maximal by inclusion). One maximal subset is kept automatically; otherwise an
+`effects.resume` `choose-target` prompt (`rule: "355.11.b"`, `data.ask.subsets`) is opened and
+any other answer is rejected. Dropped targets are no longer affected by later references to
+the same key (`group_subset` event).
+
+```ts
+// Fox-Fire: "Kill any number of units at a battlefield with total Might 4 or less."
+{ op: "kill", target: { chosen: true, cardType: "unit", zone: "battlefield", anyNumber: true,
+  group: { sameLocation: true, totalMight: { op: "lte", value: 4 } } } }
+// Bellows Breath: "Deal 1 to up to three units at the same location."
+{ op: "deal", amount: 1, target: { chosen: true, cardType: "unit", maxCount: 3, group: { sameLocation: true } } }
+// Tricksy Tentacles: "… enemy units with the same controller and a total Might of 8 or less …"
+group: { sameController: true, totalMight: { op: "lte", value: 8 } }
+```
+
+"Each of up to N units" was already `maxCount: N` (Singularity).
+
+### Damage split (355.14, 418, 715.3) — `deal_split`
+
+`{ op: "deal_split", amount, target, source? }`. Each chosen unit is a Target (355.14.a), chosen
+on play up to the damage available then, Bonus Damage included (355.14.c / 715.3;
+`target.maxCount` can only lower that cap). At least one target unless `target.anyNumber` or
+`target.maxCount` is set. An amount that depends on another choice (Alpha Strike's "its Might")
+is asked after that choice is bound. On resolution: illegal targets are dropped (359.3.e) and a
+group is re-checked (355.11.b); with more targets than damage the controller keeps exactly one
+target per point (`choose-target`, `rule: "355.14.h"`, 355.14.h.1); the division is asked with a
+`damage-assignment` `effects.resume` prompt (`data.ask = { answer: "split", total, targets,
+minEach: 1 }`), answered with `{ assignments: [{ targetId, amount }] }` (every target ≥ 1, sum =
+total; otherwise `invalid_choice` and the prompt stays pending). One target takes everything and
+N targets for N damage take 1 each without a prompt. The damage is dealt from `source`
+(418.6.b.3) or the effect's source.
+
+```ts
+// Scorched Earth: "Deal 5 damage split among units at a single battlefield."
+{ op: "deal_split", amount: 5, target: { chosen: true, cardType: "unit", zone: "battlefield", group: { sameLocation: true } } }
+// Volibear, Furious: "When I attack, deal 5 damage split among any number of enemy units here."
+{ op: "deal_split", amount: 5, target: { chosen: true, cardType: "unit", controller: "opponent",
+  zone: { kind: "chosen", ref: "here" }, anyNumber: true } }
+// Alpha Strike: use explicit refs so the amount can read the chosen unit.
+{ op: "deal_split", amount: { kind: "might", selector: { targetRef: "friend" } },
+  source: { chosen: true, targetRef: "friend", cardType: "unit", controller: "self" },
+  target: { chosen: true, targetRef: "foes", cardType: "unit", controller: "opponent", zone: "battlefield" } }
+```
+
+UI note (R2-int lane): apps/play renders `damage-assignment` only for
+`combat.damage_assignment`; a split prompt carries its total/targets on `prompt.data.ask`.
+
 ## Files
 
 | Path | Contents |

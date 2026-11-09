@@ -83,7 +83,32 @@ export type EffectsEffectOp =
       duration?: EffectDuration;
       min?: number;
     }
-  | { op: "mark"; key: string; value?: ChoiceValue };
+  | { op: "mark"; key: string; value?: ChoiceValue }
+  /**
+   * R3 — 355.14 / 418 / 715.3: "deal N damage split among …". `target` is a chosen selector
+   * (each chosen unit is a Target, 355.14.a/.d); at most the damage available when played may be
+   * chosen (355.14.c, Bonus Damage included, 715.3) — `target.maxCount` can only lower that cap.
+   * At least one target unless `target.anyNumber` / `target.maxCount` ("any number of", 355.13).
+   * On resolution the controller drops targets beyond the damage (355.14.h / h.1) and divides
+   * the damage, ≥ 1 each (355.14.e–g), through a `damage-assignment` `effects.resume` prompt
+   * answered with `assignments`.
+   */
+  | { op: "deal_split"; amount: Amount; target: Selector; source?: Selector };
+
+/**
+ * R3 — 355.11: a targeting requirement the chosen group must meet as a whole ("units at the same
+ * location", "with total Might 4 or less", "with the same controller"). Checked on play
+ * (355.11.a); on resolution a group that no longer qualifies is reduced to a maximal legal subset
+ * of the original targets chosen by the controller (355.11.b / 355.11.b.1).
+ */
+export interface SelectorGroupRequirement {
+  /** All chosen objects share one location ("at the same location", "at a single battlefield"). */
+  sameLocation?: boolean;
+  /** All chosen objects have the same controller. */
+  sameController?: boolean;
+  /** The chosen objects' total Might (each negative Might counts as 0, 143.2.c). */
+  totalMight?: Comparison;
+}
 
 /**
  * Optional selector extensions (R2-effects; interface merging keeps the frozen `Selector` shape
@@ -111,6 +136,10 @@ declare module "../effects" {
     sameLocationAs?: string;
     /** Free-form UI label for prompts. */
     label?: string;
+    /** R3 — 355.11: a requirement the chosen objects must meet as a group. */
+    group?: SelectorGroupRequirement;
+    /** R3 — 355.13: "any number of" — zero or more of the legal choices (no upper count). */
+    anyNumber?: boolean;
   }
 
   interface EventMatcher {
