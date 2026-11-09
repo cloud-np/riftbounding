@@ -216,7 +216,7 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
           ) : null}
         </div>
 
-        {owner === "self" ? (
+        {owner === "self" && !strictLocked ? (
           <button
             type="button"
             disabled={revealDisabled}

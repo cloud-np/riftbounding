@@ -8,6 +8,7 @@ import {
   nextGameControlState,
   nextGameDescriptionKey,
   nextGameLabelKey,
+  roomActionVisibility,
 } from "../room-actions";
 
 function room(overrides: Partial<Room> = {}): Room {
@@ -32,6 +33,30 @@ function room(overrides: Partial<Room> = {}): Room {
 }
 
 const duel = room();
+
+describe("strict in-progress room actions", () => {
+  it("hides NEXT and rewind while a strict game is live, keeps them in sandbox/after result", () => {
+    expect(roomActionVisibility(room({ rulesMode: "strict", rules: {} as Room["rules"] }))).toEqual({
+      strictInProgress: true,
+      showNext: false,
+      showRewind: false,
+    });
+    expect(roomActionVisibility(room({}))).toEqual({
+      strictInProgress: false,
+      showNext: true,
+      showRewind: true,
+    });
+    expect(
+      roomActionVisibility(
+        room({
+          rulesMode: "strict",
+          rules: {} as Room["rules"],
+          gameOutcome: { winnerPlayerIds: ["me"], reason: "score", decidedAtTurnNumber: 3 },
+        }),
+      ),
+    ).toEqual({ strictInProgress: false, showNext: true, showRewind: true });
+  });
+});
 
 describe("next game control", () => {
   it("is available in a BO1 game so the room can start a fresh board", () => {
