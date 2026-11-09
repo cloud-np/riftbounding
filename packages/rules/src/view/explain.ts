@@ -10,6 +10,7 @@ import { fail } from "../types";
 import { validateRulesIntent } from "../legality/intent";
 import { activateIntentVerdict } from "../legality/activate";
 import { chooseVerdict } from "../legality/choose";
+import { concedeVerdict } from "../legality/concede";
 import { endTurnVerdict } from "../legality/end-turn";
 import { manualDoneVerdict } from "../legality/manual";
 import { moveTimingVerdict } from "../legality/move";
@@ -44,6 +45,7 @@ const EXPLAIN_VERDICTS: Record<RulesIntent["type"], ExplainFn> = {
       ? chooseVerdict(room, playerId, intent.promptId, intent.answer)
       : fail("unknown_intent", "contract:§5"),
   rules_manual_done: (room, playerId) => manualDoneVerdict(room, playerId),
+  rules_concede: (room, playerId, _intent, host) => concedeVerdict(room, playerId, host),
 };
 
 /** §5: why an intent would be rejected, for tooltips/toasts. Mirrors the write path. */

@@ -58,6 +58,14 @@ export interface RulesManualDoneIntent {
   type: "rules_manual_done";
 }
 
+/**
+ * 649–652 (R2-int): concede the game. A player may concede at any time (650); they lose and are
+ * removed (651 / 652; in 2v2 with their team, 491.6.a). No payload.
+ */
+export interface RulesConcedeIntent {
+  type: "rules_concede";
+}
+
 export type RulesIntent =
   | RulesPlayIntent
   | RulesActivateIntent
@@ -65,7 +73,8 @@ export type RulesIntent =
   | RulesPassIntent
   | RulesEndTurnIntent
   | RulesChooseIntent
-  | RulesManualDoneIntent;
+  | RulesManualDoneIntent
+  | RulesConcedeIntent;
 
 /** Lobby toggle (host only, lobby phase). */
 export interface SetLobbyRulesModeAction {
@@ -83,4 +92,5 @@ export type RulesWireAction =
   | RulesPassIntent
   | RulesEndTurnIntent
   | RulesChooseIntent
-  | RulesManualDoneIntent;
+  | RulesManualDoneIntent
+  | RulesConcedeIntent;

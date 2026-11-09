@@ -24,6 +24,7 @@ import { handlePass } from "./pass";
 import { handleEndTurn } from "./end-turn";
 import { handleChoose } from "./choose";
 import { handleManualDone } from "./manual-done";
+import { handleConcede } from "./concede";
 
 export type { IntentContext, IntentHandler, IntentResult } from "./context";
 
@@ -47,6 +48,7 @@ export const INTENT_HANDLERS: Record<RulesIntent["type"], IntentHandler> = {
   rules_end_turn: handleEndTurn,
   rules_choose: handleChoose,
   rules_manual_done: handleManualDone,
+  rules_concede: handleConcede,
 };
 
 /* ---------------------------------------------------------------- helpers */

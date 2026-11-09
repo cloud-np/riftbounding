@@ -6,6 +6,7 @@ describe("per-intent wire validators [R349][R399][R144][R411.2]", () => {
     expect(Object.keys(WIRE_VALIDATORS).sort()).toEqual([
       "rules_activate",
       "rules_choose",
+      "rules_concede",
       "rules_end_turn",
       "rules_manual_done",
       "rules_move",

@@ -1,8 +1,8 @@
 /**
  * Conceding and Removal of a Player — rules 649–652; 195, 196, 491.6.a.
  *
- * Draft-only (N2): mutates the room it is given. Not wired to an intent yet — the lead decides
- * whether `rules_concede` (or the engine's leave flow) calls it.
+ * Draft-only (N2): mutates the room it is given. Wired to the `rules_concede` intent
+ * (`intents/concede.ts`, R2-int).
  */
 import type { BattlefieldZone, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../types";

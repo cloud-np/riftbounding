@@ -10,13 +10,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | --- | ---: |
 | Numbered rule entries in corpus | 2494 |
 | Rule bodies (entries minus section headings) | 2321 |
-| Rules with at least one test | 501 |
-| Rules coverage | 21.6% |
-| Tagged test titles | 506 |
-| `[R…]` tags | 879 |
+| Rules with at least one test | 503 |
+| Rules coverage | 21.7% |
+| Tagged test titles | 512 |
+| `[R…]` tags | 893 |
 | `[EX:…]` tags | 111 |
 | Range tags (not expanded) | 25 unique / 29 refs |
-| Test/helper files scanned | 76 |
+| Test/helper files scanned | 77 |
 | Unknown rule ids referenced | 0 |
 
 ## Per-section coverage
@@ -58,7 +58,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Tokens | 39 | 6 | 15.4% | 7 | 0 |
 | Control | 1 | 0 | 0.0% | 0 | 0 |
 | Everything Else | 21 | 0 | 0.0% | 0 | 0 |
-| Winning | 17 | 10 | 58.8% | 12 | 0 |
+| Winning | 17 | 10 | 58.8% | 13 | 0 |
 | Locations | 6 | 0 | 0.0% | 0 | 0 |
 | Costs | 22 | 7 | 31.8% | 12 | 2 |
 | The Turn | 8 | 2 | 25.0% | 8 | 0 |
@@ -138,8 +138,8 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 1v1 (Match) | 12 | 0 | 0.0% | 0 | 0 |
 | FFA3 (Skirmish) | 8 | 1 | 12.5% | 1 | 0 |
 | FFA4 (War) | 9 | 1 | 11.1% | 1 | 0 |
-| 2v2 (Magma Chamber) | 37 | 4 | 10.8% | 4 | 0 |
-| Conceding | 23 | 6 | 26.1% | 6 | 0 |
+| 2v2 (Magma Chamber) | 37 | 4 | 10.8% | 5 | 0 |
+| Conceding | 23 | 8 | 34.8% | 17 | 0 |
 | Buffs | 14 | 4 | 28.6% | 4 | 0 |
 | Mighty | 5 | 4 | 80.0% | 3 | 3 |
 | Bonus Damage | 10 | 4 | 40.0% | 4 | 4 |
@@ -182,7 +182,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Deploy | 8 | 1 | 12.5% | 2 | 0 |
 | Disarm | 11 | 2 | 18.2% | 2 | 1 |
 | Show Off | 14 | 0 | 0.0% | 0 | 0 |
-| **Total** | **2321** | **501** | **21.6%** | **879** | **111** |
+| **Total** | **2321** | **503** | **21.7%** | **893** | **111** |
 
 ## Per-rule coverage — Sections 300–479
 
@@ -1690,5 +1690,5 @@ Range tags such as `[R341–R348]` label a section; they are not expanded into p
 
 None.
 
-Run with `--check` to fail on unknown rule ids.
+`--check` mode: exits non-zero if any tag references an unknown rule id.
 
