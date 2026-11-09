@@ -9,8 +9,9 @@
  * restored room, …) degrades to `null` instead of breaking the caller.
  */
 import type { Room, RulesIntent } from "@rift/protocol";
-import { pickRandomAction, type RulesContext } from "@rift/rules";
+import { mulberry32, pickRandomAction, type RulesContext } from "@rift/rules";
 import { createEngineRulesHost } from "./host";
+import { botPickerSeed } from "./rng";
 
 function readContext(room: Room): RulesContext {
   return {
@@ -37,4 +38,17 @@ export function pickStrictBotAction(
   } catch {
     return null;
   }
+}
+
+/**
+ * The live bot picker's deterministic stream: state-derived game seed + accepted-action index.
+ * Rewinding restores both, so repeating the same human action offers the bot the same choices.
+ * `fallback` keeps older/unseeded rooms working with the server clock RNG.
+ */
+export function createBotPickerRandom(
+  room: Room,
+  fallback?: () => number,
+): () => number {
+  if (typeof room.rngSeed === "number") return mulberry32(botPickerSeed(room));
+  return fallback ?? (() => 0);
 }

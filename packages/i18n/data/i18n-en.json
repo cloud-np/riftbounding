@@ -8191,6 +8191,32 @@
     "modeStrict": "Strict",
     "rulesModeHint": "Strict rules enforce timing, priority, costs and choices.",
     "strictBadge": "Strict rules",
+    "exportRepro": "Export repro",
+    "reproExported": "Repro exported",
+    "reproExportFailed": "Could not export the repro.",
+    "loadRepro": "Load repro",
+    "reproStep": "Step",
+    "reproSignIn": "Sign in to export or load a repro.",
+    "rewoundTo": [
+     "Rewound to turn ",
+     [
+      "turn"
+     ],
+     ", step ",
+     [
+      "step"
+     ]
+    ],
+    "forwardedTo": [
+     "Forwarded to turn ",
+     [
+      "turn"
+     ],
+     ", step ",
+     [
+      "step"
+     ]
+    ],
     "legalActions": "Legal actions",
     "noLegalActions": "No legal actions",
     "play": "Play",

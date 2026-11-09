@@ -1761,6 +1761,34 @@
    "rules.ui.modeStrict": "严格",
    "rules.ui.rulesModeHint": "严格规则会强制执行时机、优先权、费用和选择。",
    "rules.ui.strictBadge": "严格规则",
+   "rules.ui.exportRepro": "导出复现文件",
+   "rules.ui.reproExported": "复现文件已导出",
+   "rules.ui.reproExportFailed": "无法导出复现文件。",
+   "rules.ui.loadRepro": "加载复现文件",
+   "rules.ui.reproStep": "步骤",
+   "rules.ui.reproSignIn": "登录后才能导出或加载复现文件。",
+   "rules.ui.rewoundTo": [
+    "已回退到第 ",
+    [
+     "turn"
+    ],
+    " 回合，第 ",
+    [
+     "step"
+    ],
+    " 步"
+   ],
+   "rules.ui.forwardedTo": [
+    "已前进到第 ",
+    [
+     "turn"
+    ],
+    " 回合，第 ",
+    [
+     "step"
+    ],
+    " 步"
+   ],
    "rules.ui.legalActions": "合法操作",
    "rules.ui.noLegalActions": "没有合法操作",
    "rules.ui.play": "打出",

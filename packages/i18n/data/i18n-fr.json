@@ -1785,6 +1785,32 @@
    "rules.ui.modeStrict": "Strict",
    "rules.ui.rulesModeHint": "Les règles strictes imposent le timing, la priorité, les coûts et les choix.",
    "rules.ui.strictBadge": "Règles strictes",
+   "rules.ui.exportRepro": "Exporter le repro",
+   "rules.ui.reproExported": "Repro exporté",
+   "rules.ui.reproExportFailed": "Impossible d'exporter le repro.",
+   "rules.ui.loadRepro": "Charger le repro",
+   "rules.ui.reproStep": "Étape",
+   "rules.ui.reproSignIn": "Connectez-vous pour exporter ou charger un repro.",
+   "rules.ui.rewoundTo": [
+    "Rembobiné au tour ",
+    [
+     "turn"
+    ],
+    ", étape ",
+    [
+     "step"
+    ]
+   ],
+   "rules.ui.forwardedTo": [
+    "Avancé au tour ",
+    [
+     "turn"
+    ],
+    ", étape ",
+    [
+     "step"
+    ]
+   ],
    "rules.ui.legalActions": "Actions légales",
    "rules.ui.noLegalActions": "Aucune action légale",
    "rules.ui.play": "Jouer",

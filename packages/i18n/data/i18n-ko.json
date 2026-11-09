@@ -1745,6 +1745,34 @@
    "rules.ui.modeStrict": "엄격",
    "rules.ui.rulesModeHint": "엄격 규칙은 타이밍, 우선권, 비용, 선택을 강제합니다.",
    "rules.ui.strictBadge": "엄격 규칙",
+   "rules.ui.exportRepro": "리프로 내보내기",
+   "rules.ui.reproExported": "리프로를 내보냈습니다",
+   "rules.ui.reproExportFailed": "리프로를 내보낼 수 없습니다.",
+   "rules.ui.loadRepro": "리프로 불러오기",
+   "rules.ui.reproStep": "단계",
+   "rules.ui.reproSignIn": "리프로를 내보내거나 불러오려면 로그인하세요.",
+   "rules.ui.rewoundTo": [
+    "턴 ",
+    [
+     "turn"
+    ],
+    ", 단계 ",
+    [
+     "step"
+    ],
+    "(으)로 되감음"
+   ],
+   "rules.ui.forwardedTo": [
+    "턴 ",
+    [
+     "turn"
+    ],
+    ", 단계 ",
+    [
+     "step"
+    ],
+    "(으)로 앞으로 이동"
+   ],
    "rules.ui.legalActions": "가능한 행동",
    "rules.ui.noLegalActions": "가능한 행동 없음",
    "rules.ui.play": "사용",

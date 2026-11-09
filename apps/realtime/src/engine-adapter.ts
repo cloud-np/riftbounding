@@ -137,6 +137,7 @@ function toEngineConfig(config: EngineSetupConfig): EngineSetupConfigLike {
     ...(config.phase ? { phase: config.phase } : {}),
     ...(config.log ? { log: config.log } : {}),
     ...(config.bo3CompletedGames ? { bo3CompletedGames: config.bo3CompletedGames } : {}),
+    ...(typeof config.rngSeed === "number" ? { rngSeed: config.rngSeed } : {}),
   };
 }
 

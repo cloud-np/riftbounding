@@ -109,6 +109,11 @@ export interface GameSetupConfig {
    */
   shuffleDecks?: boolean;
   rng?: () => number;
+  /**
+   * Strict bot/solo determinism: a stored game seed. When present, deck/rune shuffles use it
+   * instead of `rng` and the room keeps `rngSeed`/`rngCursor` for exact rewind snapshots.
+   */
+  rngSeed?: number;
 }
 
 export type ActionKind = NonNullable<Room["log"][number]["actionKind"]>;

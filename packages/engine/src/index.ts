@@ -41,8 +41,27 @@ export type { GameLogEntry } from "./log/entries";
 export {
   createInitialTimeline,
   FORWARD_WINDOW_MS,
+  MAX_REWIND_ENTRIES,
+  MAX_STRICT_REWIND_ENTRIES,
   REWIND_PROTOCOL_VERSION,
+  rewindAllowedForRoom,
 } from "./rules/rewind";
+export {
+  botPickerSeed,
+  createStrictRandom,
+  deriveStrictSeed,
+  hashSeed,
+  seededValue,
+} from "./strict/rng";
+export {
+  canonicalRoomForRepro,
+  createStrictRepro,
+  hashCanonicalRoom,
+  hashRoomState,
+  replayStrictRepro,
+  reproTimelineForStep,
+  stableStringify,
+} from "./strict/repro";
 export {
   strictExplainIllegal,
   strictHiddenCards,
@@ -50,5 +69,5 @@ export {
   strictTurnState,
   strictWhoMayAct,
 } from "./strict/view";
-export { pickStrictBotAction } from "./strict/bot";
+export { pickStrictBotAction, createBotPickerRandom } from "./strict/bot";
 export { translateGesture } from "./strict/gestures";

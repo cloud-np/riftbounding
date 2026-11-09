@@ -22,6 +22,7 @@ import type { DeckData, GameSetupConfig, GameSetupPlayer } from "../types";
 import { variantForPlayerCount } from "../state/variant";
 import { firstSetupPhase } from "./phases";
 import { shuffleIds } from "./board";
+import { createStrictRandom } from "../strict/rng";
 
 function resolveSections(player: GameSetupPlayer): DeckSections | null {
   const submitted = player.submittedDeck?.sections;
@@ -232,6 +233,9 @@ export function createInitialGameState(config: GameSetupConfig): Room {
     rewindProtocolVersion: 5,
     rewindablePlayerIds: [],
     forwardablePlayerIds: [],
+    ...(typeof config.rngSeed === "number"
+      ? { rngSeed: config.rngSeed, rngCursor: 0, actionCount: 0 }
+      : {}),
   };
 
   if (phase === "sideboarding") {
@@ -242,16 +246,23 @@ export function createInitialGameState(config: GameSetupConfig): Room {
   }
 
   if (config.shuffleDecks !== false) {
+    const seeded = typeof config.rngSeed === "number"
+      ? createStrictRandom(config.rngSeed, 0)
+      : null;
     for (const player of room.players) {
       const board = player.board;
       if (!board) continue;
-      const shuffleOptions = config.rng
-        ? { random: config.rng }
-        : { seedKey: `${room.roomCode}|${player.id}|mainDeck` };
+      const shuffleOptions = seeded
+        ? { random: seeded.rng }
+        : config.rng
+          ? { random: config.rng }
+          : { seedKey: `${room.roomCode}|${player.id}|mainDeck` };
       board.deck = shuffleIds(board.deck, shuffleOptions);
-      const runeOptions = config.rng
-        ? { random: config.rng }
-        : { seedKey: `${room.roomCode}|${player.id}|runeDeck` };
+      const runeOptions = seeded
+        ? { random: seeded.rng }
+        : config.rng
+          ? { random: config.rng }
+          : { seedKey: `${room.roomCode}|${player.id}|runeDeck` };
       board.runeDeck = shuffleIds(board.runeDeck, runeOptions);
     }
   }

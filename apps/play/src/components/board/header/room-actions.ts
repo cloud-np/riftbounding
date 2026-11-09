@@ -1,4 +1,5 @@
 import type { Room } from "@rift/protocol";
+import { rewindAllowedForRoom } from "@rift/engine";
 
 export type NextGameControlState =
   | "available"
@@ -83,8 +84,17 @@ export function roomActionVisibility(
   return {
     strictInProgress,
     showNext: showNext && !strictInProgress,
-    showRewind: !strictInProgress,
+    showRewind: !strictInProgress || rewindAllowedForRoom(room),
   };
+}
+
+/** Repro export is a strict bot/solo debugging tool; human-vs-human strict rooms never show it. */
+export function strictReproAvailable(room: Room): boolean {
+  return (
+    room.rulesMode === "strict" &&
+    room.phase === "in_game" &&
+    rewindAllowedForRoom(room)
+  );
 }
 
 export type NextGameAction =

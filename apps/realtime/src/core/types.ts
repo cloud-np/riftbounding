@@ -70,6 +70,9 @@ export interface MatchRoomSeed {
   teamIdByPlayerId?: Record<string, string>;
   testMode?: boolean;
   operationId?: string;
+  /** Dev-only repro import: replay this file into the new room before it opens. */
+  repro?: import("@rift/protocol").StrictReproFile;
+  reproStep?: number;
 }
 
 export interface CreateRoomSeedRequest extends Omit<MatchRoomSeed, "roomCode" | "createdAt"> {

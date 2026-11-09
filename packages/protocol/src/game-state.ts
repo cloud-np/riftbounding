@@ -466,6 +466,25 @@ export interface Room {
   rewindablePlayerIds?: string[];
   forwardablePlayerIds?: string[];
   forwardAvailableUntil?: number;
+  /**
+   * Additive (strict rewind): 1-based action step restored by the last rewind. The client shows
+   * it in the "Rewound to turn N, step M" toast; a later meaningful action clears it.
+   */
+  rewindStep?: number;
+  /**
+   * Additive (strict bot/solo determinism): the room's game seed and the next position in its
+   * seeded RNG. Both live on the Room so every rewind snapshot carries them. Strict rooms
+   * without a seed (human-vs-human multiplayer) keep using the server clock RNG.
+   */
+  rngSeed?: number;
+  rngCursor?: number;
+  /** Additive: number of accepted actions in this room (the bot picker's action index). */
+  actionCount?: number;
+  /**
+   * Additive: a rewind restored a human decision in a bot room, so the server holds the bot
+   * until the human submits the next action. Never set in human-vs-human rooms.
+   */
+  botPause?: boolean;
   /* broadcast */
   broadcastDecksByPlayerId?: Record<string, unknown>;
   /* lobby / series mirrors used by the engine's local room shell (additive) */
@@ -609,6 +628,11 @@ export interface EngineTimelineEntry {
   actorId: string;
   /** Complete room snapshot immediately before the action (the rewind target). */
   before: Room;
+  /**
+   * Additive: the exact accepted wire payload. Sandbox entries also store it; strict repro
+   * export needs actor + payload to replay through `applyGameAction`.
+   */
+  action?: Record<string, unknown>;
   /** `c9` classification: only meaningful actions are rewind targets. */
   meaningful: boolean;
   at: number;
