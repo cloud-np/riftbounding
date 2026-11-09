@@ -12,9 +12,12 @@ import type { Room } from "@rift/protocol";
 import { overrideCardScript } from "@rift/rules/testing";
 
 import { applyGameAction, strictLegalIntents } from "../src";
+import { redactRoomForViewer } from "../../sync/src/redact";
 import {
+  addSyntheticCard,
   apply,
   deepCopy,
+  EVELYNN_ENTRANCING,
   inGame,
   makeContext,
   sandboxInGame,
@@ -499,6 +502,180 @@ describe("chain/priority controls in strict rooms [R338.1.b][R347.2]", () => {
     const entryId = room.chainEntries[0]!.id;
     room = apply(room, "p2", { type: "chain_set_resolve_vote", entryId, approved: true }, ctx);
     expect(room.chainResolveVotes).toContain("p2");
+  });
+});
+
+describe("Hidden cards: hide and play from facedown [R811]", () => {
+  function hiddenFixture() {
+    const fixture = strictGestureRoom();
+    addSyntheticCard(fixture.room, "p1", EVELYNN_ENTRANCING, "hand");
+    return fixture;
+  }
+
+  function hideCard(fixture: ReturnType<typeof hiddenFixture>, cardId: string) {
+    return apply(
+      fixture.room,
+      "p1",
+      { type: "move_card", from: "hand", to: "battlefieldA", cardId, asHidden: true },
+      fixture.ctx,
+    );
+  }
+
+  function advanceToNextOwnTurn(room: Room, fixture: ReturnType<typeof hiddenFixture>) {
+    let next = apply(room, "p1", { type: "end_turn" }, fixture.ctx);
+    next = apply(next, "p2", { type: "end_turn" }, fixture.ctx);
+    return next;
+  }
+
+  it("a Hide drop equals rules_play hide: cost paid, facedown at the battlefield, no chain", () => {
+    const fixture = hiddenFixture();
+    const card = fixture.room.players[0]!.board!.hand.find(
+      (entry) => entry.id === EVELYNN_ENTRANCING.id,
+    )!;
+    const runesBefore = fixture.room.players[0]!.board!.runeArea.length;
+    const chainBefore = fixture.room.rules?.chain.length ?? 0;
+    const next = expectSameState(
+      fixture.room,
+      { type: "move_card", from: "hand", to: "battlefieldA", cardId: card.id, asHidden: true },
+      { type: "rules_play", cardId: card.id, hide: true, location: "battlefieldA" },
+    );
+    const placed = next.players[0]?.board?.battlefieldA.find((entry) => entry.id === card.id);
+    expect(placed?.hidden).toBe(true);
+    expect(next.rules?.objects[card.id]?.hiddenTurn).toBe(next.rules?.turn.number);
+    expect(next.rules?.objects[card.id]?.hiddenBy).toBe("p1");
+    expect(next.players[0]?.board?.runeArea.length).toBe(runesBefore - 1);
+    expect(next.rules?.chain.length).toBe(chainBefore);
+    expect(next.rules?.priority).toBe("p1");
+  });
+
+  it("the opponent view of a hidden card is only a card back", () => {
+    const fixture = hiddenFixture();
+    const card = fixture.room.players[0]!.board!.hand.find(
+      (entry) => entry.id === EVELYNN_ENTRANCING.id,
+    )!;
+    const hidden = hideCard(fixture, card.id);
+    const opponent = redactRoomForViewer(hidden, { playerId: "p2", viewerRole: "player" });
+    const zone = opponent.players[0]?.board?.battlefieldA ?? [];
+    expect(zone.some((entry) => entry.isPlaceholder === true)).toBe(true);
+    expect(zone.filter((entry) => entry.isPlaceholder === true).every((entry) => entry.name === "")).toBe(
+      true,
+    );
+    expect(JSON.stringify(opponent)).not.toContain("Evelynn");
+    expect(JSON.stringify(opponent)).not.toContain(card.id);
+  });
+
+  it("illegal Hide attempts are rejected with the rules and leave the room unchanged", () => {
+    const fixture = hiddenFixture();
+    const card = fixture.room.players[0]!.board!.hand.find(
+      (entry) => entry.id === EVELYNN_ENTRANCING.id,
+    )!;
+    expectRejected(
+      fixture.room,
+      "p1",
+      { type: "move_card", from: "hand", to: "battlefieldA", cardId: fixture.ids.keeperHand, asHidden: true },
+      "illegal_action",
+      "811.1",
+    );
+    expectRejected(
+      fixture.room,
+      "p1",
+      { type: "move_card", from: "hand", to: "battlefieldB", cardId: card.id, asHidden: true },
+      "invalid_location",
+      "422.1",
+    );
+
+    const hidden = hideCard(fixture, card.id);
+    addSyntheticCard(hidden, "p1", { ...EVELYNN_ENTRANCING, id: "synthetic-hidden-2" }, "hand");
+    expectRejected(
+      hidden,
+      "p1",
+      {
+        type: "move_card",
+        from: "hand",
+        to: "battlefieldA",
+        cardId: "synthetic-hidden-2",
+        asHidden: true,
+      },
+      "invalid_location",
+      "107.3.b",
+    );
+  });
+
+  it("a facedown click next turn plays the card and fires the from-facedown trigger", () => {
+    const fixture = hiddenFixture();
+    const card = fixture.room.players[0]!.board!.hand.find(
+      (entry) => entry.id === EVELYNN_ENTRANCING.id,
+    )!;
+    const hidden = hideCard(fixture, card.id);
+    const room = advanceToNextOwnTurn(hidden, fixture);
+    const next = expectSameState(
+      room,
+      { type: "toggle_exhausted", zone: "battlefieldA", cardId: card.id, expectedExhausted: false },
+      { type: "rules_play", cardId: card.id, location: "battlefieldA" },
+    );
+    const placed = next.players[0]?.board?.battlefieldA.find((entry) => entry.id === card.id);
+    expect(placed?.hidden).not.toBe(true);
+    expect(next.rules?.objects[card.id]?.hiddenTurn).toBeUndefined();
+    // 811.6 / Evelynn: the from-facedown play trigger is on the chain with its play event.
+    const trigger = next.rules?.chain.find((item) => item.sourceObjectId === card.id);
+    expect(trigger?.abilityRef).toBe("triggered:0");
+    expect(trigger?.triggerEvent?.data?.playedFromFacedown).toBe(true);
+    // Resolve it: the "may" question opens, and answering yes moves the enemy unit here.
+    let resolved = next;
+    let may: string | null = null;
+    for (let step = 0; step < 8; step += 1) {
+      const prompt = resolved.rules?.prompt;
+      if (prompt) {
+        may ??= prompt.promptKey ?? null;
+        resolved = apply(
+          resolved,
+          prompt.playerId,
+          { type: "rules_choose", promptId: prompt.id, answer: { optionIds: ["yes"] } },
+          fixture.ctx,
+        );
+        continue;
+      }
+      if (!resolved.rules?.chain.length) break;
+      const actor = resolved.rules?.priority;
+      if (!actor) break;
+      resolved = apply(resolved, actor, { type: "rules_pass" }, fixture.ctx);
+    }
+    expect(may).toBe("rules.prompt.may");
+    expect(
+      resolved.players[1]?.board?.battlefieldA.some((entry) => entry.id === fixture.ids.enemyHunter),
+    ).toBe(true);
+    expect(resolved.players[1]?.board?.battlefieldB.some((entry) => entry.id === fixture.ids.enemyHunter)).toBe(
+      false,
+    );
+  });
+
+  it("playing it on the turn it was hidden is rejected with 420.1.a", () => {
+    const fixture = hiddenFixture();
+    const card = fixture.room.players[0]!.board!.hand.find(
+      (entry) => entry.id === EVELYNN_ENTRANCING.id,
+    )!;
+    const hidden = hideCard(fixture, card.id);
+    expectRejected(
+      hidden,
+      "p1",
+      { type: "toggle_exhausted", zone: "battlefieldA", cardId: card.id, expectedExhausted: false },
+      "not_in_hand",
+      "420.1.a",
+    );
+  });
+
+  it("sandbox rooms keep the sandbox hide handler", () => {
+    const ctx = makeContext();
+    let room = sandboxInGame(ctx);
+    const card = addSyntheticCard(room, "p1", EVELYNN_ENTRANCING, "hand");
+    room = apply(
+      room,
+      "p1",
+      { type: "move_card", from: "hand", to: "battlefieldA", cardId: card.id, asHidden: true },
+      ctx,
+    );
+    expect(room.rules).toBeUndefined();
+    expect(room.players[0]?.board?.battlefieldA.find((entry) => entry.id === card.id)?.hidden).toBe(true);
   });
 });
 

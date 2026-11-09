@@ -129,6 +129,61 @@ export function strictGestureRoom(): StrictGestureFixture {
   };
 }
 
+/** A card that is not in the fixture deck (e.g. a Hidden card for the 811 tests). */
+export interface SyntheticCardSpec {
+  id: string;
+  name: string;
+  type: string;
+  text: string;
+  keywords?: string[];
+  domains?: string[];
+  energyCost?: number;
+  powerCost?: number;
+  might?: number;
+  cardCode?: string;
+}
+
+export function addSyntheticCard(
+  room: Room,
+  playerId: string,
+  spec: SyntheticCardSpec,
+  zone: keyof Board = "hand",
+): CardInstance {
+  const player = room.players.find((candidate) => candidate.id === playerId);
+  if (!player?.board) throw new Error(`fixture has no board for ${playerId}`);
+  const card: CardInstance = {
+    id: spec.id,
+    name: spec.name,
+    source: "mainDeck",
+    exhausted: false,
+    createdAt: 1,
+    ownerPlayerId: playerId,
+    ...(spec.cardCode ? { cardCode: spec.cardCode } : {}),
+    type: spec.type,
+    text: spec.text,
+    ...(spec.keywords ? { keywords: [...spec.keywords] } : {}),
+    ...(spec.domains ? { domains: [...spec.domains] } : {}),
+    ...(typeof spec.energyCost === "number" ? { energyCost: spec.energyCost } : {}),
+    ...(typeof spec.powerCost === "number" ? { powerCost: spec.powerCost } : {}),
+    ...(typeof spec.might === "number" ? { might: spec.might } : {}),
+  };
+  (player.board[zone] as CardInstance[]).push(card);
+  return card;
+}
+
+export const EVELYNN_ENTRANCING: SyntheticCardSpec = {
+  id: "synthetic-hidden-1",
+  name: "Evelynn, Entrancing",
+  cardCode: "UNL-141",
+  type: "Unit",
+  text: "[Hidden] (Hide now for [rune] to react with later for [0].)\n[Backline]\nWhen you play me from facedown on your turn, you may move an enemy unit at a different location to my battlefield.",
+  keywords: ["Hidden"],
+  domains: ["Chaos"],
+  energyCost: 2,
+  powerCost: 0,
+  might: 2,
+};
+
 /** Sandbox in-game room (no `rulesMode`, no `Room.rules`). */
 export function sandboxInGame(ctx: FixtureContext): Room {
   return inGame("sandbox", ctx);

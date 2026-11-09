@@ -37,7 +37,8 @@ The translation is pure and deterministic: it reads the room through the rules v
 | chosen champion played | `move_card { from:"champion", to:"base", cardId }` | `rules_play { cardId, location:"base" }` |
 | card played from trash/banishment (effect permission, Flow) | `move_card { from:"trash"\|"banished", to:"base"\|bf, cardId }` | `rules_play { cardId, location }` |
 | spell dragged out to play / dropped on the chain | `chain_add { from, cardId }` | `rules_play { cardId }` |
-| Hide (facedown) drop | `move_card { …, asHidden:true }` | `rules_play { cardId, hide:true, location }` |
+| Hide (facedown) drop | `move_card { …, asHidden:true }` | `rules_play { cardId, hide:true, location:<battlefield> }` (811.1.b; no chain) |
+| play a facedown Hidden card | click/use `toggle_exhausted {zone:<its battlefield>, cardId, expectedExhausted:false}`, or `move_card` from that zone, or `chain_add` from it | `rules_play { cardId, location:<its battlefield> }` (811.1.b/811.6: base cost ignored, Reaction from the next turn) |
 | **hand card dropped on a board object** whose play has a target spec that accepts it | `move_card`/`chain_add { …, cardId, targetCardId }` | `rules_play { cardId, choices:{ <spec.key>:[targetId] } }` (no location for spells) |
 | hand permanent (unit/gear) dropped on a card at a battlefield, no target spec | `move_card { …, cardId, targetCardId }` | `rules_play { cardId, location:<target's battlefield> }` |
 | **board object dropped on another object** with one legal ability whose target spec accepts it | `move_card`/`toggle_exhausted`/`equip_card` { …, cardId/equipmentCardId, targetCardId/unitCardId } | `rules_activate { objectId, ability, choices:{ <spec.key>:[targetId] } }` |
@@ -86,6 +87,9 @@ bound single option is validated by the rules layer and rejected if the spec nee
 | advance step when nothing can be passed | `nothing_to_pass` (338.1.b) |
 | free-form manipulation (draws, runes, counters, might, score/XP, shuffles, control transfers, arbitrary zone moves, `create_token`, payments, reorder) | `strict_mode_action` (`contract:§4`) with a detail naming the action |
 | a non-Quick-Draw gear dropped from hand on a unit | `strict_mode_action`, rule 819.1.d (there is no attach-on-play; use Equip) |
+| hide a card without Hidden | `illegal_action` (811.1) |
+| hide at an uncontrolled battlefield / a battlefield that already has a facedown card | `invalid_location` (422.1 / 107.3.b) |
+| play a facedown card on the turn it was hidden (or otherwise before the facedown permission) | `not_in_hand` (420.1.a) — the rules layer's verdict for "no play permission yet" |
 
 Reason strings: `rules.reason.<code>` in `packages/i18n/data/i18n-{en,fr,ko,zh-CN}.json`.
 `ambiguous_gesture` is the only new reason code (added to `IntReasonCode` in
@@ -99,6 +103,34 @@ While `Room.rules.manual` is open, its player keeps the existing sandbox board a
 deck peeks, … all pass through untouched. Other players do not get the exception. When the window
 closes (`rules_manual_done`) the same gestures become strict intents/rejections again.
 
+## Hidden (rules 811)
+
+Rule quotes that drive the two flows:
+
+- **811.1.b** — "While this card is in your hand or in your Champion Zone on your turn during an
+  Open State, you may pay [A] to hide this facedown at a battlefield you control that doesn't
+  already have a facedown card hidden there for as long as you control that battlefield.
+  Beginning on the next turn, this gains [Reaction] and you may play this, ignoring its base
+  cost."
+- **811.1.c.2/3** — "Hiding a card does not open a chain." / "Playing a card from facedown (or
+  'from Hidden') does open a chain."
+- **811.1.d.1** — "A hidden permanent must be played to that battlefield." (also hidden gear;
+  overrides gear's Base-only rule).
+- **811.1.d.2** — a hidden spell's targets must be chosen from options at the battlefield it was
+  played from (unless the text makes that impossible).
+- **811.3** — instead of hiding, the card may be played normally for its cost and timing.
+- **811.6** — "A card that is Hidden gains Reaction the turn after it is hidden while facedown or
+  played from facedown"; the property is not publicly known.
+
+The engine reads the existing implementation: `legalIntents.hideable` lists `{cardId, locations}`
+for `[Hidden]` cards in hand/champion that can be hidden now (cost fixed by 811.1.b: `[A]` = one
+power of any domain, `HIDE_COST`); `legalIntents.playable` lists a facedown card once 811.1.b
+allows playing it, with `fromFacedown: true`, `locations: [<its battlefield>]` and the cost after
+ignoring the base cost. A same-turn hidden card is absent from `playable`. The additive engine
+helper `strictHiddenCards(room, playerId)` returns the viewer's own facedown cards with
+`{cardId, zone, hiddenTurn, availableOnTurn, playableNow}` for the "playable next turn" highlight
+(export it from `packages/engine/src/index.ts` — one line, outside this lane).
+
 ## Client contract (apps/play board; apps are not owned by this lane)
 
 The board already sends the right payloads for most gestures through
@@ -109,6 +141,22 @@ need a "pick an action" list.
   `move_card { from:"hand", to, cardId }`; dragging a spell out (or dropping it on anything that
   plays it) stays `chain_add { from, cardId }` (the `clientEntryId` is ignored by the strict
   intent). Do not send a separate "play" button action.
+- **Hide (811.1.b)**: drag a `[Hidden]` card from hand/champion onto a battlefield you control
+  with `move_card { from:"hand"|"champion", to:<battlefield>, cardId, asHidden:true }`. Highlight
+  the legal pockets from `legalIntents.hideable` (per card: `locations`); the hide cost is one
+  power of any domain and is paid automatically. Hiding does not open the chain. Do not bind a
+  target for the hide (the engine ignores `targetCardId` for `asHidden`).
+- **Play from facedown (811.1.b/811.6)**: click the card back with
+  `toggle_exhausted { zone:<its battlefield>, cardId, expectedExhausted:false }`, or drag it with
+  `move_card { from:<its battlefield>, to:<same>, cardId }`. Highlight cards in
+  `legalIntents.playable` with `fromFacedown:true` (or `strictHiddenCards(...).playableNow`); the
+  play goes to its hidden battlefield, ignores its base cost, and opens the chain. Use
+  `strictHiddenCards(...).availableOnTurn` for "playable next turn" cards. After the play the
+  engine opens the card's own from-facedown trigger prompts (e.g. Evelynn, Entrancing's "may").
+- **Privacy**: hide/play payloads contain only the owner's own card id; the realtime error frame
+  is sender-only and the opponent snapshot replaces the facedown card with the
+  `__hidden_zone__:…` card back (name empty, `isPlaceholder: true`). Rejection details for these
+  gestures never include the card name.
 - **Targeting**: when the pointer is over a board card, add `targetCardId:<dropped-onto id>` to the
   same gesture: `move_card { from:"hand", to:<target's zone>, cardId, targetCardId }` for plays,
   `chain_add { from, cardId, targetCardId }` for spells, and
@@ -177,17 +225,21 @@ need a "pick an action" list.
    `toggle_exhausted` / `equip_card`) to the matching interfaces in
    `packages/protocol/src/actions.ts`, and note it in `packages/protocol/CHANGES.md` together with
    `ambiguous_gesture`. Not edited by this lane because that file is outside its ownership.
-2. **Native choose-ability prompt.** The rules layer has no public API to open a prompt from the
+2. **Engine index export.** Add
+   `export { strictHiddenCards } from "./strict/view";` (and its type if desired) to
+   `packages/engine/src/index.ts` so the client can use the additive Hidden helper. That file is
+   outside this lane's ownership.
+3. **Native choose-ability prompt.** The rules layer has no public API to open a prompt from the
    engine side, so several targetable abilities produce `ambiguous_gesture` instead of a prompt.
    A rules-side change would add a `PromptKind` (e.g. `"choose-ability"`), a prompt reason/handler
    that executes the chosen `rules_activate`, and a way for the strict play/activate flow to open
    it.
-3. **Quick-Draw pre-binding.** `rules_play` choices only feed the card's spell ability; a keyword
+4. **Quick-Draw pre-binding.** `rules_play` choices only feed the card's spell ability; a keyword
    trigger's choices are made when the trigger is placed (403.2). The drop therefore plays the
    gear and lets the normal `quick-draw` prompt choose the unit. Carrying the dropped unit into
    the trigger would need a rules-side "trigger choice pre-binding" change.
-4. **Legend gesture** (apps/play): send the tap gesture for `zone === "legend"` (see above).
-5. **Chain slot / main-deck drops** (apps/play): dropping a card on the chain now means "play it",
+5. **Legend gesture** (apps/play): send the tap gesture for `zone === "legend"` (see above).
+6. **Chain slot / main-deck drops** (apps/play): dropping a card on the chain now means "play it",
    and dropping on the main deck stays rejected (`strict_mode_action`). Hide those drop targets in
    strict rooms if the visual affordance is confusing; behaviour is already correct.
 
