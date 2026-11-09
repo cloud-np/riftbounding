@@ -210,3 +210,9 @@ Prompts: a split division is an `effects.resume` prompt of kind `damage-assignme
 `data.ask.subsets` / `data.ask.exact`. A `play.choice` prompt carries `data.spec.group` /
 `data.spec.split` / `data.spec.total` when the choice has them. New event: `group_subset`
 (`{ key, dropped, rule: "355.11.b" }`, `targetIds` = kept).
+
+Replacement decisions (no type change): new prompt reason `effects.replacement` (`data.queue`:
+held events `{ proposal, candidates, declined, stage, chosen? }`), kinds `choose-mode`
+(372 order; option `$none` = apply none) and `yes-no` (371.2.a). New event `replacement_held`
+(`{ action, candidates, rule }`). The `kill` action proposal now carries `data.source` when the
+kill is attributed (429.5).

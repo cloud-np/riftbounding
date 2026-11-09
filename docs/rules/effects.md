@@ -80,6 +80,38 @@ N targets for N damage take 1 each without a prompt. The damage is dealt from `s
 UI note (R2-int lane): apps/play renders `damage-assignment` only for
 `combat.damage_assignment`; a split prompt carries its total/targets on `prompt.data.ask`.
 
+### Replacement decisions (371.2, 372, 373, 374)
+
+Optional replacements are written with a top-level `may` (or an optional cost) as `replace`;
+nothing else changes for mandatory ones:
+
+```ts
+// "… you may recall it instead."
+{ kind: "replacement", matches, replace: { op: "may", effect: { op: "recall", target: EVENT_SUBJECT } } }
+// Unlicensed Armory (delayed, via the `replace` op): "… you may pay [Fury] to heal it, exhaust it,
+// and recall it instead." — an unpayable cost is not offered (the unit just dies).
+{ op: "replace", matches: { type: "kill", subject: { targetRef: "target:0" } },
+  replace: { op: "cost_then", optional: true, cost: { power: { Fury: 1 } }, effect: { op: "seq", effects: [heal, exhaust, recall] } } }
+```
+
+When one optional or several replacements apply to a `kill`, `deal_damage` or `recall`, the
+event is **held** (370.1.c — it has not happened) and a player decides: several → the
+controller of the affected object picks the one applied first (`choose-mode`, `rule: "372"`;
+372.1/372.2 for players/uncontrolled battlefields; `$none` is offered when they control only
+optional ones); an optional one → its controller answers `yes-no` (`rule: "371.2.a"`). A
+declined optional replacement has not been applied (371.2.b: its "once each turn" use is kept)
+and the original action then happens. Inside a resolution the decision is an `effects.resume`
+prompt asked right after the instruction that caused the event; outside one (cleanup deaths,
+combat damage) it is an `effects.replacement` prompt (`data.queue`, simultaneous events one at a
+time, 373) and the waiting cleanup runs afterwards (321). Events: `replacement_held`, then
+`replaced` or the original action's event.
+
+Limits (documented, not guessed): other actions and actions caused while a replacement is being
+applied use the deterministic fallback (mandatory ones in timestamp order, optional ones not
+applied); 373's "which simultaneous event first" uses the instruction/cleanup order (the cleanup
+does not expose its batch of simultaneous deaths); a held event settles after the rest of its
+instruction, so "kill two units" with one held death is not simultaneous (370.1.a.2).
+
 ## Files
 
 | Path | Contents |

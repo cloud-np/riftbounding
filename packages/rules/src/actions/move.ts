@@ -30,7 +30,9 @@ export function kill(
 ): boolean {
   const located = step.host.findCard(room, cardId);
   if (!located) return false;
-  if (!interceptAction(room, step, { type: "kill", cardId, playerId: located.playerId })) return false;
+  if (!interceptAction(room, step, { type: "kill", cardId, playerId: located.playerId, ...(source ? { data: { source } } : {}) })) {
+    return false;
+  }
   const might = step.host.cardInfo(room, cardId)?.type.toLowerCase().includes("unit")
     ? effectiveMight(room, cardId, step.host)
     : undefined;
