@@ -39,16 +39,20 @@ Effects: `rad:mark-event-player`, `rad:let-x`, `rad:draw-card`, `rad:reveal-top-
 
 ## Capability gaps
 
-| Capability                                                                          | Rule ids       | Cards blocked                        | Count |
-| ----------------------------------------------------------------------------------- | -------------- | ------------------------------------ | ----: |
-| Show Off keyword (reveal/pick as you play; "if you showed off")                     | 832            | Battle Preparations, Rousing Display |     2 |
-| Triggered abilities of cards in the trash (play-from-trash triggers)                | 385            | Forbidden Technique                  |     1 |
-| Per-turn history of where units/gear were played (conditional cost reduction)       | 356.4          | Hold 'Em                             |     1 |
-| Triggered abilities that Add resources finalize and resolve immediately             | 430.2, 430.2.a | Sneaky Zeebles                       |     1 |
-| A cost that exhausts two objects (`Cost.exhaust` is one selector)                   | 357.2, 415.4   | Invigorating Bloom                   |     1 |
-| Applied costs on moves ("opponents must pay [1][Rune] to move units here")          | 204.4, 449     | Gravity Field                        |     1 |
-| Trigger-count modification ("[Deathknell] effects here trigger an additional time") | 808, 383       | Detonation Amplifier                 |     1 |
-| Location choice for units/gear played by an effect (`play` op always uses the base) | 355.2, 420.3.b | Dockside Lock-Up                     |     1 |
+| Capability                                                                          | Rule ids       | Cards blocked                                             | Count |
+| ----------------------------------------------------------------------------------- | -------------- | --------------------------------------------------------- | ----: |
+| Location choice for units/gear played by an effect (`play` op always uses the base) | 355.2, 420.3.b | Dockside Lock-Up, Transpositionist, Drakehound Packmaster |     3 |
+| Show Off keyword (reveal/pick as you play; "if you showed off")                     | 832            | Battle Preparations, Rousing Display                      |     2 |
+| Triggered abilities of cards in the trash (play-from-trash triggers)                | 385            | Forbidden Technique                                       |     1 |
+| Per-turn history of where units/gear were played (conditional cost reduction)       | 356.4          | Hold 'Em                                                  |     1 |
+| Triggered abilities that Add resources finalize and resolve immediately             | 430.2, 430.2.a | Sneaky Zeebles                                            |     1 |
+| A cost that exhausts two objects (`Cost.exhaust` is one selector)                   | 357.2, 415.4   | Invigorating Bloom                                        |     1 |
+| Applied costs on moves ("opponents must pay [1][Rune] to move units here")          | 204.4, 449     | Gravity Field                                             |     1 |
+| Trigger-count modification ("[Deathknell] effects here trigger an additional time") | 808, 383       | Detonation Amplifier                                      |     1 |
+| `play` op ignoring only the Energy cost (it ignores all or none)                    | 356.1.b, 420.3 | Clocktower Guardian                                       |     1 |
+| Granting an activated ability to other objects ("Friendly legends have '[Tap]: …'") | 365, 801.3     | Heartening Soul                                           |     1 |
+| Passives granting keywords to cards in hand (layers' array form ignores passives)   | 801.3, 806.1   | Jarvan IV, Martial Paragon                                |     1 |
+| Facedown-play provenance for units/gear (not on `unit_played`/`card_played`)        | 811.6, 422.4   | Elnuk Herd                                                |     1 |
 
 ## Engine keyword gaps and bugs (reproduced in `test/cards/rad/bugs.test.ts`, skipped)
 
@@ -67,172 +71,179 @@ Keywords are the engine's (cards are marked by their own lines), but at `8933035
   earlier turn can be played from face down. The same keep-list drops `keywordGrants`,
   `mightMods`, `prevent`, `empowered` and `paidAdditionalCost` (effects.md asked to keep them).
 
+Other engine behaviour worth knowing when testing (not bugs of this lane):
+
+- Unattached non-Deploy gear at a battlefield is recalled to the base by the host's
+  `settleVictory` in every cleanup (RULES-ENGINE.md, known limitations), so "a gear at a
+  battlefield" only stays there with Deploy.
+- `movedThisTurn` is only recorded on units that already have a rules object (played units do).
+
 ## Card status
 
-Counts: implemented: 62, partial: 9, remaining: 92
+Counts: implemented: 87, partial: 15, remaining: 61
 
-| Card                              | Status      | Not automated (rule)                                                                                                                          |
-| --------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| Ahri, Confident                   | remaining   |                                                                                                                                               |
-| Akali, Brash                      | remaining   |                                                                                                                                               |
-| Amateur Demolitionist             | remaining   |                                                                                                                                               |
-| An Offer You Can't Refuse         | implemented |                                                                                                                                               |
-| Angler Wyrm                       | remaining   |                                                                                                                                               |
-| Antagonistic Apparatus            | implemented |                                                                                                                                               |
-| Armored Tusker                    | remaining   |                                                                                                                                               |
-| Avalanche                         | implemented |                                                                                                                                               |
-| Bandle Scouts' Academy            | remaining   |                                                                                                                                               |
-| Banner of Conquest                | implemented |                                                                                                                                               |
-| Battle Preparations               | partial     | [Show Off] (832) is not implemented, so "if you showed off, ready up to 2 runes" never applies.                                               |
-| Battlefield Armorer               | remaining   |                                                                                                                                               |
-| Bedeviling Stranger               | remaining   |                                                                                                                                               |
-| Bilgewater Tracker                | implemented |                                                                                                                                               |
-| Black Market                      | remaining   |                                                                                                                                               |
-| Black Rose Sanctum                | remaining   |                                                                                                                                               |
-| Bloodscent Swarm                  | remaining   |                                                                                                                                               |
-| Blossoming Dreamroot              | implemented |                                                                                                                                               |
-| Brawl                             | implemented |                                                                                                                                               |
-| Burn Away                         | implemented |                                                                                                                                               |
-| Bushwhack Trap                    | remaining   |                                                                                                                                               |
-| Cataclysm                         | implemented |                                                                                                                                               |
-| Chronobreak                       | remaining   |                                                                                                                                               |
-| Clocktower Guardian               | remaining   |                                                                                                                                               |
-| Coalesced Energy                  | remaining   |                                                                                                                                               |
-| Command: Attack                   | implemented |                                                                                                                                               |
-| Concert Poster                    | implemented |                                                                                                                                               |
-| Consult the Heavens               | implemented |                                                                                                                                               |
-| Cosmic Vista                      | remaining   |                                                                                                                                               |
-| Demacian Illuminators             | remaining   |                                                                                                                                               |
-| Demacian Standard                 | implemented |                                                                                                                                               |
-| Demon Shade                       | implemented |                                                                                                                                               |
-| Detonation Amplifier              | partial     | "Friendly [Deathknell] effects here trigger an additional time" needs trigger-count modification (808, 383).                                  |
-| Disposal Expert                   | implemented |                                                                                                                                               |
-| Dockside Lock-Up                  | partial     | The banished card is played by the play op, which puts a unit at its controller's base (no location choice, 355.2 / 420.3.b).                 |
-| Drakehound Packmaster             | remaining   |                                                                                                                                               |
-| Dune Devourer                     | remaining   |                                                                                                                                               |
-| Durand Memorial                   | remaining   |                                                                                                                                               |
-| Ekko, Boy Who Shattered Time      | remaining   |                                                                                                                                               |
-| Ekko, Ingenious                   | remaining   |                                                                                                                                               |
-| Ekko, Revolutionary               | remaining   |                                                                                                                                               |
-| Elnuk Herd                        | remaining   |                                                                                                                                               |
-| Encore                            | remaining   |                                                                                                                                               |
-| Entrenched Boar                   | remaining   |                                                                                                                                               |
-| Ephemeral Ward                    | implemented |                                                                                                                                               |
-| Evelynn in Control                | remaining   |                                                                                                                                               |
-| Evelynn, Agony's Embrace          | remaining   |                                                                                                                                               |
-| Evelynn, Consuming                | remaining   |                                                                                                                                               |
-| Evelynn, in Control               | remaining   |                                                                                                                                               |
-| Explosimian                       | remaining   |                                                                                                                                               |
-| Fanfare                           | remaining   |                                                                                                                                               |
-| Firebrand Raider                  | remaining   |                                                                                                                                               |
-| Firelights' Hideout               | remaining   |                                                                                                                                               |
-| For Demacia!                      | implemented |                                                                                                                                               |
-| Forbidden Technique               | partial     | The trash trigger (play this from your trash for [1][Fury][Fury], then banish it) needs triggered abilities of cards outside the board (385). |
-| Graves, Blasting Through          | remaining   |                                                                                                                                               |
-| Gravity Field                     | partial     | The move tax (opponents pay [1][Rune] to move units here) needs applied costs on moves (204.4, 449).                                          |
-| Gutter Guardian                   | remaining   |                                                                                                                                               |
-| Heartening Soul                   | remaining   |                                                                                                                                               |
-| Heimerdinger, Academy Instructor  | remaining   |                                                                                                                                               |
-| Herald of the Emperor             | remaining   |                                                                                                                                               |
-| Hexplosive Minefield              | remaining   |                                                                                                                                               |
-| High Note                         | implemented |                                                                                                                                               |
-| Hold 'Em                          | partial     | The [2] discount needs a per-turn record of where units/gear were played (356.4; no play-location history).                                   |
-| Hunker Down                       | implemented |                                                                                                                                               |
-| Hunters' Circle                   | remaining   |                                                                                                                                               |
-| Hunting Blind                     | implemented |                                                                                                                                               |
-| Hunting Dog                       | implemented |                                                                                                                                               |
-| Hush                              | implemented |                                                                                                                                               |
-| Improvised Projectile             | implemented |                                                                                                                                               |
-| Incorrigible Construct            | remaining   |                                                                                                                                               |
-| Industrious Mechsmith             | implemented |                                                                                                                                               |
-| Invigorating Bloom                | partial     | The activated ability's cost exhausts two objects (a friendly Mighty unit and this); `Cost.exhaust` holds one selector (357.2).               |
-| Iridescent Avian                  | remaining   |                                                                                                                                               |
-| Jarvan IV, Exemplar of Demacia    | remaining   |                                                                                                                                               |
-| Jarvan IV, Martial Paragon        | remaining   |                                                                                                                                               |
-| Jarvan IV, Royal Heir             | remaining   |                                                                                                                                               |
-| K'Sante, Courageous               | implemented |                                                                                                                                               |
-| K'Sante, Dauntless                | remaining   |                                                                                                                                               |
-| K'Sante, Pride of Nazumah         | remaining   |                                                                                                                                               |
-| Kai'Sa, Rebel                     | remaining   |                                                                                                                                               |
-| Ki Burst                          | implemented |                                                                                                                                               |
-| Last Caress                       | remaining   |                                                                                                                                               |
-| Life from Stone                   | implemented |                                                                                                                                               |
-| Lingering Animus                  | remaining   |                                                                                                                                               |
-| Lost to the Sands                 | implemented |                                                                                                                                               |
-| Lulu, Whimsical                   | remaining   |                                                                                                                                               |
-| Mechanical Bandit                 | implemented |                                                                                                                                               |
-| Meticulous Restorationist         | remaining   |                                                                                                                                               |
-| Momentary Companion               | remaining   |                                                                                                                                               |
-| Mordekaiser, Dominating           | remaining   |                                                                                                                                               |
-| Mordekaiser, Iron Revenant        | remaining   |                                                                                                                                               |
-| Mordekaiser, Twice Slain          | remaining   |                                                                                                                                               |
-| Mournful Spirit                   | remaining   |                                                                                                                                               |
-| Mysterious Chronomancer           | implemented |                                                                                                                                               |
-| Nazuman Ntofo                     | implemented |                                                                                                                                               |
-| Neeko, Blending In                | remaining   |                                                                                                                                               |
-| Ntofo Strikes                     | implemented |                                                                                                                                               |
-| One-Two Punch                     | implemented |                                                                                                                                               |
-| Orianna, Exquisite                | remaining   |                                                                                                                                               |
-| Orianna, Lady of Clockwork        | remaining   |                                                                                                                                               |
-| Orianna, Mechanical Marvel        | remaining   |                                                                                                                                               |
-| Overloaded Traveler               | remaining   |                                                                                                                                               |
-| Packed Amphitheater               | remaining   |                                                                                                                                               |
-| Parallel Convergence              | remaining   |                                                                                                                                               |
-| Party Crasher                     | remaining   |                                                                                                                                               |
-| Pillaged Armory                   | implemented |                                                                                                                                               |
-| Piltovan Guidebot                 | remaining   |                                                                                                                                               |
-| Pitiless Stalker                  | implemented |                                                                                                                                               |
-| Portable Portal                   | implemented |                                                                                                                                               |
-| Primordial Roar                   | remaining   |                                                                                                                                               |
-| Protector's Shield                | implemented |                                                                                                                                               |
-| Rakelstake                        | remaining   |                                                                                                                                               |
-| Rally for War                     | implemented |                                                                                                                                               |
-| Raucous Anthem                    | implemented |                                                                                                                                               |
-| Raving Witness                    | remaining   |                                                                                                                                               |
-| Realm of Death                    | implemented |                                                                                                                                               |
-| Remember the Fallen               | remaining   |                                                                                                                                               |
-| Resource Extractor                | implemented |                                                                                                                                               |
-| Resplendent Rostrum               | implemented |                                                                                                                                               |
-| Riptide Mage                      | implemented |                                                                                                                                               |
-| Riven, Deserter                   | remaining   |                                                                                                                                               |
-| Rousing Display                   | partial     | [Show Off] (832) is not implemented, so the four-Recruit branch never applies.                                                                |
-| Ruined Monastery                  | remaining   |                                                                                                                                               |
-| Runeblade Anvil                   | implemented |                                                                                                                                               |
-| Sanctum Conservator               | remaining   |                                                                                                                                               |
-| Satchel Charge                    | remaining   |                                                                                                                                               |
-| Scorched Earth                    | remaining   |                                                                                                                                               |
-| Scrutinizing Scope                | remaining   |                                                                                                                                               |
-| Seraphic Wyvern                   | remaining   |                                                                                                                                               |
-| Seraphine, Inspiring              | remaining   |                                                                                                                                               |
-| Seraphine, Not Alone              | implemented |                                                                                                                                               |
-| Seraphine, Starry-Eyed Songstress | remaining   |                                                                                                                                               |
-| Shimmering Swimmer                | remaining   |                                                                                                                                               |
-| Siren of the Shallows             | implemented |                                                                                                                                               |
-| Siren's Song                      | implemented |                                                                                                                                               |
-| Skystrike Squadron                | remaining   |                                                                                                                                               |
-| Sneaky Zeebles                    | partial     | 430.2: a triggered Add ability goes on the chain instead of resolving immediately.                                                            |
-| Spirit of the Forge               | remaining   |                                                                                                                                               |
-| Stalwart Goatherd                 | implemented |                                                                                                                                               |
-| Staunch Survivor                  | implemented |                                                                                                                                               |
-| Steadfast Outrider                | remaining   |                                                                                                                                               |
-| Stoic Ferryman                    | remaining   |                                                                                                                                               |
-| Storm Raptor                      | remaining   |                                                                                                                                               |
-| Strigian Oracle                   | implemented |                                                                                                                                               |
-| Suave Negotiator                  | implemented |                                                                                                                                               |
-| Supernova                         | implemented |                                                                                                                                               |
-| The Ball                          | implemented |                                                                                                                                               |
-| The Empyrean                      | remaining   |                                                                                                                                               |
-| The Good Stuff                    | implemented |                                                                                                                                               |
-| The Waters' Wage                  | implemented |                                                                                                                                               |
-| Titanic Shrine                    | implemented |                                                                                                                                               |
-| Transpositionist                  | remaining   |                                                                                                                                               |
-| Trifarian Captain                 | remaining   |                                                                                                                                               |
-| Trinket Peddler                   | implemented |                                                                                                                                               |
-| War Scout                         | implemented |                                                                                                                                               |
-| Watchful Curator                  | implemented |                                                                                                                                               |
-| Whirling Twirligig                | implemented |                                                                                                                                               |
-| Wrath of the Freljord             | implemented |                                                                                                                                               |
-| Zero Point Inflection             | implemented |                                                                                                                                               |
-| Ziggs, Explosive                  | remaining   |                                                                                                                                               |
-| Ziggs, Hexplosives Expert         | remaining   |                                                                                                                                               |
-| Ziggs, Short-Fused                | remaining   |                                                                                                                                               |
+| Card                              | Status      | Not automated (rule)                                                                                                                                        |
+| --------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ahri, Confident                   | implemented |                                                                                                                                                             |
+| Akali, Brash                      | remaining   |                                                                                                                                                             |
+| Amateur Demolitionist             | remaining   |                                                                                                                                                             |
+| An Offer You Can't Refuse         | implemented |                                                                                                                                                             |
+| Angler Wyrm                       | implemented |                                                                                                                                                             |
+| Antagonistic Apparatus            | implemented |                                                                                                                                                             |
+| Armored Tusker                    | implemented |                                                                                                                                                             |
+| Avalanche                         | implemented |                                                                                                                                                             |
+| Bandle Scouts' Academy            | remaining   |                                                                                                                                                             |
+| Banner of Conquest                | implemented |                                                                                                                                                             |
+| Battle Preparations               | partial     | [Show Off] (832) is not implemented, so "if you showed off, ready up to 2 runes" never applies.                                                             |
+| Battlefield Armorer               | implemented |                                                                                                                                                             |
+| Bedeviling Stranger               | implemented |                                                                                                                                                             |
+| Bilgewater Tracker                | implemented |                                                                                                                                                             |
+| Black Market                      | remaining   |                                                                                                                                                             |
+| Black Rose Sanctum                | remaining   |                                                                                                                                                             |
+| Bloodscent Swarm                  | remaining   |                                                                                                                                                             |
+| Blossoming Dreamroot              | implemented |                                                                                                                                                             |
+| Brawl                             | implemented |                                                                                                                                                             |
+| Burn Away                         | implemented |                                                                                                                                                             |
+| Bushwhack Trap                    | remaining   |                                                                                                                                                             |
+| Cataclysm                         | implemented |                                                                                                                                                             |
+| Chronobreak                       | remaining   |                                                                                                                                                             |
+| Clocktower Guardian               | partial     | Deathknell: the top card is banished, but playing it ignoring only its Energy cost (356.1.b) opens the manual window (the play op ignores all or no costs). |
+| Coalesced Energy                  | implemented |                                                                                                                                                             |
+| Command: Attack                   | implemented |                                                                                                                                                             |
+| Concert Poster                    | implemented |                                                                                                                                                             |
+| Consult the Heavens               | implemented |                                                                                                                                                             |
+| Cosmic Vista                      | remaining   |                                                                                                                                                             |
+| Demacian Illuminators             | remaining   |                                                                                                                                                             |
+| Demacian Standard                 | implemented |                                                                                                                                                             |
+| Demon Shade                       | implemented |                                                                                                                                                             |
+| Detonation Amplifier              | partial     | "Friendly [Deathknell] effects here trigger an additional time" needs trigger-count modification (808, 383).                                                |
+| Disposal Expert                   | implemented |                                                                                                                                                             |
+| Dockside Lock-Up                  | partial     | The banished card is played by the play op, which puts a unit at its controller's base (no location choice, 355.2 / 420.3.b).                               |
+| Drakehound Packmaster             | partial     |                                                                                                                                                             |
+| Dune Devourer                     | remaining   |                                                                                                                                                             |
+| Durand Memorial                   | remaining   |                                                                                                                                                             |
+| Ekko, Boy Who Shattered Time      | remaining   |                                                                                                                                                             |
+| Ekko, Ingenious                   | remaining   |                                                                                                                                                             |
+| Ekko, Revolutionary               | implemented |                                                                                                                                                             |
+| Elnuk Herd                        | partial     | "Recycle me if I was played from face down": a unit's play effect cannot tell a facedown play (811.6; not recorded on unit_played).                         |
+| Encore                            | remaining   |                                                                                                                                                             |
+| Entrenched Boar                   | remaining   |                                                                                                                                                             |
+| Ephemeral Ward                    | implemented |                                                                                                                                                             |
+| Evelynn in Control                | implemented |                                                                                                                                                             |
+| Evelynn, Agony's Embrace          | remaining   |                                                                                                                                                             |
+| Evelynn, Consuming                | remaining   |                                                                                                                                                             |
+| Evelynn, in Control               | implemented |                                                                                                                                                             |
+| Explosimian                       | remaining   |                                                                                                                                                             |
+| Fanfare                           | remaining   |                                                                                                                                                             |
+| Firebrand Raider                  | remaining   |                                                                                                                                                             |
+| Firelights' Hideout               | remaining   |                                                                                                                                                             |
+| For Demacia!                      | implemented |                                                                                                                                                             |
+| Forbidden Technique               | partial     | The trash trigger (play this from your trash for [1][Fury][Fury], then banish it) needs triggered abilities of cards outside the board (385).               |
+| Graves, Blasting Through          | implemented |                                                                                                                                                             |
+| Gravity Field                     | partial     | The move tax (opponents pay [1][Rune] to move units here) needs applied costs on moves (204.4, 449).                                                        |
+| Gutter Guardian                   | remaining   |                                                                                                                                                             |
+| Heartening Soul                   | partial     | Granting an activated ability to friendly legends needs granted abilities (365, 801.3 for abilities).                                                       |
+| Heimerdinger, Academy Instructor  | remaining   |                                                                                                                                                             |
+| Herald of the Emperor             | remaining   |                                                                                                                                                             |
+| Hexplosive Minefield              | remaining   |                                                                                                                                                             |
+| High Note                         | implemented |                                                                                                                                                             |
+| Hold 'Em                          | partial     | The [2] discount needs a per-turn record of where units/gear were played (356.4; no play-location history).                                                 |
+| Hunker Down                       | implemented |                                                                                                                                                             |
+| Hunters' Circle                   | remaining   |                                                                                                                                                             |
+| Hunting Blind                     | implemented |                                                                                                                                                             |
+| Hunting Dog                       | implemented |                                                                                                                                                             |
+| Hush                              | implemented |                                                                                                                                                             |
+| Improvised Projectile             | implemented |                                                                                                                                                             |
+| Incorrigible Construct            | remaining   |                                                                                                                                                             |
+| Industrious Mechsmith             | implemented |                                                                                                                                                             |
+| Invigorating Bloom                | partial     | The activated ability's cost exhausts two objects (a friendly Mighty unit and this); `Cost.exhaust` holds one selector (357.2).                             |
+| Iridescent Avian                  | implemented |                                                                                                                                                             |
+| Jarvan IV, Exemplar of Demacia    | implemented |                                                                                                                                                             |
+| Jarvan IV, Martial Paragon        | partial     | "Your gear with [Deploy] have [Action]" grants a keyword to cards in hand; the play layer's keyword array form does not see passives (801.3, 806).          |
+| Jarvan IV, Royal Heir             | implemented |                                                                                                                                                             |
+| K'Sante, Courageous               | implemented |                                                                                                                                                             |
+| K'Sante, Dauntless                | implemented |                                                                                                                                                             |
+| K'Sante, Pride of Nazumah         | remaining   |                                                                                                                                                             |
+| Kai'Sa, Rebel                     | remaining   |                                                                                                                                                             |
+| Ki Burst                          | implemented |                                                                                                                                                             |
+| Last Caress                       | remaining   |                                                                                                                                                             |
+| Life from Stone                   | implemented |                                                                                                                                                             |
+| Lingering Animus                  | remaining   |                                                                                                                                                             |
+| Lost to the Sands                 | implemented |                                                                                                                                                             |
+| Lulu, Whimsical                   | remaining   |                                                                                                                                                             |
+| Mechanical Bandit                 | implemented |                                                                                                                                                             |
+| Meticulous Restorationist         | remaining   |                                                                                                                                                             |
+| Momentary Companion               | implemented |                                                                                                                                                             |
+| Mordekaiser, Dominating           | implemented |                                                                                                                                                             |
+| Mordekaiser, Iron Revenant        | remaining   |                                                                                                                                                             |
+| Mordekaiser, Twice Slain          | remaining   |                                                                                                                                                             |
+| Mournful Spirit                   | remaining   |                                                                                                                                                             |
+| Mysterious Chronomancer           | implemented |                                                                                                                                                             |
+| Nazuman Ntofo                     | implemented |                                                                                                                                                             |
+| Neeko, Blending In                | remaining   |                                                                                                                                                             |
+| Ntofo Strikes                     | implemented |                                                                                                                                                             |
+| One-Two Punch                     | implemented |                                                                                                                                                             |
+| Orianna, Exquisite                | implemented |                                                                                                                                                             |
+| Orianna, Lady of Clockwork        | remaining   |                                                                                                                                                             |
+| Orianna, Mechanical Marvel        | remaining   |                                                                                                                                                             |
+| Overloaded Traveler               | implemented |                                                                                                                                                             |
+| Packed Amphitheater               | remaining   |                                                                                                                                                             |
+| Parallel Convergence              | remaining   |                                                                                                                                                             |
+| Party Crasher                     | implemented |                                                                                                                                                             |
+| Pillaged Armory                   | implemented |                                                                                                                                                             |
+| Piltovan Guidebot                 | remaining   |                                                                                                                                                             |
+| Pitiless Stalker                  | implemented |                                                                                                                                                             |
+| Portable Portal                   | implemented |                                                                                                                                                             |
+| Primordial Roar                   | remaining   |                                                                                                                                                             |
+| Protector's Shield                | implemented |                                                                                                                                                             |
+| Rakelstake                        | remaining   |                                                                                                                                                             |
+| Rally for War                     | implemented |                                                                                                                                                             |
+| Raucous Anthem                    | implemented |                                                                                                                                                             |
+| Raving Witness                    | implemented |                                                                                                                                                             |
+| Realm of Death                    | implemented |                                                                                                                                                             |
+| Remember the Fallen               | remaining   |                                                                                                                                                             |
+| Resource Extractor                | implemented |                                                                                                                                                             |
+| Resplendent Rostrum               | implemented |                                                                                                                                                             |
+| Riptide Mage                      | implemented |                                                                                                                                                             |
+| Riven, Deserter                   | implemented |                                                                                                                                                             |
+| Rousing Display                   | partial     | [Show Off] (832) is not implemented, so the four-Recruit branch never applies.                                                                              |
+| Ruined Monastery                  | remaining   |                                                                                                                                                             |
+| Runeblade Anvil                   | implemented |                                                                                                                                                             |
+| Sanctum Conservator               | implemented |                                                                                                                                                             |
+| Satchel Charge                    | remaining   |                                                                                                                                                             |
+| Scorched Earth                    | remaining   |                                                                                                                                                             |
+| Scrutinizing Scope                | remaining   |                                                                                                                                                             |
+| Seraphic Wyvern                   | remaining   |                                                                                                                                                             |
+| Seraphine, Inspiring              | remaining   |                                                                                                                                                             |
+| Seraphine, Not Alone              | implemented |                                                                                                                                                             |
+| Seraphine, Starry-Eyed Songstress | remaining   |                                                                                                                                                             |
+| Shimmering Swimmer                | remaining   |                                                                                                                                                             |
+| Siren of the Shallows             | implemented |                                                                                                                                                             |
+| Siren's Song                      | implemented |                                                                                                                                                             |
+| Skystrike Squadron                | remaining   |                                                                                                                                                             |
+| Sneaky Zeebles                    | partial     | 430.2: a triggered Add ability goes on the chain instead of resolving immediately.                                                                          |
+| Spirit of the Forge               | remaining   |                                                                                                                                                             |
+| Stalwart Goatherd                 | implemented |                                                                                                                                                             |
+| Staunch Survivor                  | implemented |                                                                                                                                                             |
+| Steadfast Outrider                | implemented |                                                                                                                                                             |
+| Stoic Ferryman                    | implemented |                                                                                                                                                             |
+| Storm Raptor                      | remaining   |                                                                                                                                                             |
+| Strigian Oracle                   | implemented |                                                                                                                                                             |
+| Suave Negotiator                  | implemented |                                                                                                                                                             |
+| Supernova                         | implemented |                                                                                                                                                             |
+| The Ball                          | implemented |                                                                                                                                                             |
+| The Empyrean                      | remaining   |                                                                                                                                                             |
+| The Good Stuff                    | implemented |                                                                                                                                                             |
+| The Waters' Wage                  | implemented |                                                                                                                                                             |
+| Titanic Shrine                    | implemented |                                                                                                                                                             |
+| Transpositionist                  | partial     |                                                                                                                                                             |
+| Trifarian Captain                 | implemented |                                                                                                                                                             |
+| Trinket Peddler                   | implemented |                                                                                                                                                             |
+| War Scout                         | implemented |                                                                                                                                                             |
+| Watchful Curator                  | implemented |                                                                                                                                                             |
+| Whirling Twirligig                | implemented |                                                                                                                                                             |
+| Wrath of the Freljord             | implemented |                                                                                                                                                             |
+| Zero Point Inflection             | implemented |                                                                                                                                                             |
+| Ziggs, Explosive                  | remaining   |                                                                                                                                                             |
+| Ziggs, Hexplosives Expert         | remaining   |                                                                                                                                                             |
+| Ziggs, Short-Fused                | remaining   |                                                                                                                                                             |

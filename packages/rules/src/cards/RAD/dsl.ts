@@ -55,6 +55,18 @@ export function letX(amount: RadAmount, effect: Effect): Effect {
   return { op: "custom", id: "rad:let-x", params: { amount, effect } };
 }
 
+/**
+ * "Choose an opponent" (355.7: a player target, chosen when the ability is played) for abilities
+ * whose later instructions read `{ kind: "chosen", ref: "opponent" }` from a field the choice scan
+ * does not cover (`choose.chooser`, a selector's controller). The zero-amount draw only binds the
+ * choice; drawing 0 does nothing (414.4).
+ */
+export const CHOOSE_OPPONENT: Effect = {
+  op: "draw",
+  amount: 0,
+  player: { kind: "chosen", ref: "opponent" },
+};
+
 /** The value placeholder for numeric fields that only accept numbers (e.g. `TokenSpec.count`). */
 export const X_NUMBER = "$X" as unknown as number;
 
