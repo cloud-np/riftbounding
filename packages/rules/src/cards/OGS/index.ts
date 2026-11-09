@@ -25,5 +25,7 @@ import "./master-yi-wuju-bladesman";
 import "./recruit-the-vanguard";
 import "./tibbers";
 import "./vanguard-attendant";
+// Wave R4 (ven-ogs lane)
+import "./lux-crownguard";
 
 export {};

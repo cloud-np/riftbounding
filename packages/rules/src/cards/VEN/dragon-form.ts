@@ -6,13 +6,14 @@
  */
 import { registerCardScript } from "../registry";
 import { aUnit } from "../dsl";
-import { FLOW_GAP } from "./shared";
+
 
 registerCardScript({
   name: "Dragon Form",
   text: "Choose a unit. Its base Might becomes 5 this turn.\n[Flow][3] (You may play this from your trash for its Flow cost. Then banish it.)",
   status: "partial",
-  notes: `"Base Might becomes 5" is applied as a this-turn change of (5 − base Might): effects that read base Might, or change it later this turn, do not see the trait-altering value (479 layers, no "becomes" effects). ${FLOW_GAP}`,
+  notes:
+    '"Base Might becomes 5" is applied as a this-turn change of (5 − base Might): effects that read base Might, or change it later this turn, do not see the trait-altering value (479 layers, no "becomes" effects).',
   abilities: [
     {
       kind: "spell",

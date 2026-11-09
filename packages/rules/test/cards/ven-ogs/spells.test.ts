@@ -227,7 +227,7 @@ describe("Vendetta spells", () => {
     s.as("p2").pass().expectOk();
     expect(might(s, unit.id)).toBe(9);
     for (const name of ["Brittle Steel", "Dredge Up", "Onslaught"])
-      expect(getCardScript(name)?.status).toBe("partial");
+      expect(getCardScript(name)?.status).toBe("implemented");
   });
 
   it("[C:Iterative Design][C:Up from the Deep][R440.2.c] play a 3 Might Mech; play two 1 Might Tentacles", () => {
