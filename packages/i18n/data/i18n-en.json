@@ -8065,6 +8065,213 @@
      "sides"
     ]
    ]
+  },
+  "rules": {
+   "reason": {
+    "not_your_priority": "You don't have priority.",
+    "closed_state_requires_reaction": "The state is closed: only Reaction cards and abilities can be played.",
+    "showdown_requires_action": "During a showdown, only Action or Reaction cards and abilities can be played.",
+    "not_your_turn": "It isn't your turn.",
+    "not_main_phase": "That can only be done during your Main Phase.",
+    "chain_not_empty": "The chain must be empty.",
+    "prompt_pending": "A choice is pending. Answer it first.",
+    "game_over": "The game is over.",
+    "not_in_game": "The game hasn't started.",
+    "strict_mode_action": "That action isn't allowed under strict rules.",
+    "rules_require_strict": "This needs a strict-rules room.",
+    "loop_guard": "The game stopped an endless loop.",
+    "nothing_to_pass": "There is nothing to pass.",
+    "no_pending_prompt": "There is no pending choice.",
+    "unknown_card": "Unknown card.",
+    "unknown_intent": "Unknown action.",
+    "illegal_action": "That action isn't legal right now.",
+    "insufficient_resources": "You can't pay the cost.",
+    "illegal_target": "That isn't a legal target.",
+    "no_legal_targets": "There are no legal targets.",
+    "invalid_location": "That isn't a valid location.",
+    "unit_exhausted": "That unit is exhausted.",
+    "unit_not_found": "Unit not found.",
+    "card_not_found": "Card not found.",
+    "not_in_hand": "That card isn't in your hand.",
+    "invalid_payment": "That payment doesn't pay the cost exactly.",
+    "restricted": "An effect prevents that.",
+    "showdown_active": "Not while a showdown is in progress.",
+    "combat_active": "Not while a combat is in progress.",
+    "invalid_choice": "That choice isn't allowed.",
+    "manual_window_pending": "Finish the manual resolution first, then press Done.",
+    "no_manual_window": "There is no manual resolution to finish.",
+    "not_implemented": "This card isn't scripted yet.",
+    "unknown": "That isn't allowed right now."
+   },
+   "promptReason": {
+    "burn_out": "Burn Out: choose an opponent to gain 1 point",
+    "stage_showdown": "Choose which showdown happens first",
+    "stage_combat": "Choose which combat happens first",
+    "combat": {
+     "damage_assignment": "Assign combat damage"
+    },
+    "play": {
+     "choice": "Make a choice for the card being played",
+     "cost": "Choose what pays the cost",
+     "trigger": "Decide on a triggered ability"
+    },
+    "effects": {
+     "resume": "Make a choice while the effect resolves",
+     "order_triggers": "Order your triggered abilities"
+    }
+   },
+   "promptKind": {
+    "choose-opponent": "Choose an opponent",
+    "choose-player": "Choose a player",
+    "choose-card": "Choose cards",
+    "choose-target": "Choose targets",
+    "choose-mode": "Choose a mode",
+    "choose-battlefield": "Choose a battlefield",
+    "choose-number": "Choose a number",
+    "yes-no": "Yes or no",
+    "order": "Choose the order",
+    "manual": "Resolve manually",
+    "choose-cost": "Choose what pays the cost",
+    "damage-assignment": "Assign damage"
+   },
+   "prompt": {
+    "burnOutOpponent": "Burn Out: choose an opponent to gain 1 point",
+    "chooseShowdownBattlefield": "Choose the battlefield for the next showdown",
+    "chooseCombatBattlefield": "Choose the battlefield for the next combat",
+    "combatDamageAssignment": "Assign combat damage",
+    "chooseDestination": "Choose a destination",
+    "chooseDiscard": "Choose cards to discard",
+    "chooseRecycle": "Choose cards to recycle",
+    "chooseSearch": "Choose a card you found",
+    "predictRecycle": "Predict: choose cards to recycle",
+    "orderTriggers": "Order your triggered abilities",
+    "payCost": "Pay the cost?",
+    "may": "Do you want to do this?",
+    "choose": "Choose",
+    "chooseMode": "Choose a mode",
+    "chooseTarget": "Choose a target",
+    "equipTarget": "Choose a unit you control to equip",
+    "mayTrigger": "Use this triggered ability?",
+    "payTriggerCost": "Pay this triggered ability's cost?",
+    "cost": {
+     "exhaust": "Choose what to exhaust to pay the cost",
+     "kill": "Choose what to kill to pay the cost",
+     "discard": "Choose cards to discard to pay the cost"
+    }
+   },
+   "ui": {
+    "rulesMode": "Rules",
+    "modeSandbox": "Sandbox",
+    "modeStrict": "Strict",
+    "rulesModeHint": "Strict rules enforce timing, priority, costs and choices.",
+    "strictBadge": "Strict rules",
+    "legalActions": "Legal actions",
+    "noLegalActions": "No legal actions",
+    "play": "Play",
+    "hide": "Hide",
+    "activate": "Activate",
+    "activateManual": "Activate (manual)",
+    "moveTo": [
+     "Move to ",
+     [
+      "zone"
+     ]
+    ],
+    "pass": "Pass",
+    "endTurn": "End turn",
+    "concede": "Concede",
+    "concedeConfirm": "Concede the game?",
+    "done": "Done",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "selectRange": [
+     "Choose ",
+     [
+      "min"
+     ],
+     " to ",
+     [
+      "max"
+     ]
+    ],
+    "yourPriority": "You have priority",
+    "priorityOf": [
+     [
+      "player"
+     ],
+     " has priority"
+    ],
+    "focusOf": [
+     [
+      "player"
+     ],
+     " has focus"
+    ],
+    "waitingForChoice": [
+     "Waiting for ",
+     [
+      "player"
+     ],
+     ": ",
+     [
+      "reason"
+     ]
+    ],
+    "manualWindow": [
+     "Resolve ",
+     [
+      "card"
+     ],
+     " manually, then press Done."
+    ],
+    "manualWindowOther": [
+     "Waiting for ",
+     [
+      "player"
+     ],
+     " to resolve ",
+     [
+      "card"
+     ],
+     " manually"
+    ],
+    "illegal": "Not allowed",
+    "reasonWithRule": [
+     [
+      "reason"
+     ],
+     " (rule ",
+     [
+      "rule"
+     ],
+     ")"
+    ],
+    "damageTotal": [
+     "Assign ",
+     [
+      "total"
+     ],
+     " damage"
+    ],
+    "damageRemaining": [
+     [
+      "remaining"
+     ],
+     " left to assign"
+    ],
+    "damageLethal": [
+     "Lethal: ",
+     [
+      "lethal"
+     ]
+    ],
+    "damageCannotBeDealt": "Can't be dealt damage",
+    "useSuggestion": "Use suggestion"
+   }
   }
  },
  "sentences": {
