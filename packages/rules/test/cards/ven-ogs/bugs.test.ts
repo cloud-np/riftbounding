@@ -66,6 +66,20 @@ describe("[BUG] engine reproductions (ven-ogs)", () => {
       .expectError("insufficient_resources");
   });
 
+  // triggers/finalize.ts `notePaidAdditionalCost` marks `paidAdditionalCost` when
+  // `item.paid.additional` is non-empty, but `paidCostRecord` also records exhausted/recycled
+  // runes and the Power total there. A permanent paid with runes is treated as if its optional
+  // additional cost was paid, so "When you play me, if you paid the additional cost" fires
+  // although the player declined it (356.4.f.1 / 355.1.a).
+  it.skip("[BUG][C:Clockwork Keeper][R356.4.f.1][R355.1.a] paying with runes is not paying the optional additional cost", () => {
+    const s = withCards(["Clockwork Keeper"]);
+    const hand = s.room.players.find((player) => player.id === "p1")!.board!.hand.length;
+    // Two ready runes pay [2]; the optional [Calm] is declined (no optionalCosts).
+    s.as("p1").play("Clockwork Keeper").expectOk();
+    settle(s);
+    expect(s.room.players.find((player) => player.id === "p1")!.board!.hand.length).toBe(hand - 1);
+  });
+
   // effects/ops/delayed.ts `replace` stores the creator's choices (359.3.f.3.a) and passes them to
   // the replacing instructions, but replacements/interceptor.ts `matchesProposal` evaluates the
   // `matches` matcher without them: a delayed replacement whose matcher names a chosen object

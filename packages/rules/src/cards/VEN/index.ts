@@ -40,5 +40,36 @@ import "./noxian-emissary";
 import "./kayle-justified";
 import "./mel-newly-awakened";
 import "./renekton-brute";
+// Spells
+import "./clairvoyance";
+import "./consuming-curse";
+import "./decree-of-rage";
+import "./decree-of-unity";
+import "./decree-of-insight";
+import "./decree-of-strength";
+import "./mesmerize";
+import "./ki-barrier";
+import "./wind-and-ghosts";
+import "./shadows-of-the-past";
+import "./siphoning-strike";
+import "./flow-spells";
+import "./ruthless-strike";
+import "./rampage";
+import "./resonating-strike";
+import "./shadow-dash";
+import "./dominus";
+import "./crumbling-sands";
+import "./cataclysmic-duel";
+import "./dragon-form";
+// Units, gear, legends, battlefields
+import "./units-play-effects";
+import "./units-combat-triggers";
+import "./units-move-and-phase";
+import "./units-passives";
+import "./battlefields";
+import "./gear-and-legends";
+import "./optional-cost-units";
+import "./shadow-clone-token";
+import "./swain-and-riven";
 
 export {};
