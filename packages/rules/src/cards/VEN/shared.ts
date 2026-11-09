@@ -1,0 +1,280 @@
+/**
+ * Shared builders and card-specific conditions for the Vendetta (VEN) and Proving Grounds (OGS)
+ * scripts (wave R3). Pure data helpers plus import-time registrations of `ven:*` conditions.
+ *
+ * - `empower(cost)` — 827.1.c.1: "[Empower] [Cost]" is short for "[Cost]: Empower this. Use only
+ *   if not Empowered." (the 377.2.b precondition is enforced by `validateChoices`).
+ * - `whileEmpowered(modifier)` — 828.1.b/c: an "[Empowered] …" passive is a Dependent Ability,
+ *   active only while the source has the Empowered status (`conditional` modifier, 727.1.b).
+ * - `notIntrinsic(keyword)` — 727.1.b / 135.2.d.3: the catalog lists keywords that only appear
+ *   in reminder text or in a dependent/conditional ability; the marker removes the printed
+ *   instance so only the ability that grants it applies.
+ */
+import type {
+  Ability,
+  Condition,
+  Cost,
+  GameEvent,
+  Modifier,
+  Selector,
+  Trigger,
+} from "@rift/protocol";
+import type { EvalContext } from "../../effects/env";
+import { registerCustomCondition } from "../../effects/evaluate";
+import { RESOLVED } from "../../effects/execute";
+import { registerCustomEffect } from "../../effects/ops/control";
+import { recordOutcome } from "../../effects/targets";
+import { pushEvent } from "../../types";
+import {
+  boardZoneList,
+  controllerOf,
+  findChainItem,
+  isBattlefieldZone,
+  isBoardZone,
+  locate,
+  locationOf,
+} from "../../effects/objects";
+import { SELF, custom, not } from "../dsl";
+
+/** "When I become [Empowered]" (442.2.a / 828.1.d). */
+export const WHEN_I_BECOME_EMPOWERED: Trigger = {
+  kind: "event",
+  event: { type: "empower", subject: SELF },
+};
+
+/** "When I attack" (383.4.e, R2-combat's unit `attack` event). */
+export const WHEN_I_ATTACK: Trigger = { kind: "event", event: { type: "attack", subject: SELF } };
+
+/** "When I defend" (383.4.f). */
+export const WHEN_I_DEFEND: Trigger = { kind: "event", event: { type: "defend", subject: SELF } };
+
+/** "When I conquer" (383.4.c.2.a: I was present at the conquered battlefield). */
+export const WHEN_I_CONQUER: Trigger = { kind: "event", event: { type: "conquer", subject: SELF } };
+
+/** "When I hold" (383.4.d.2.a). */
+export const WHEN_I_HOLD: Trigger = { kind: "event", event: { type: "hold", subject: SELF } };
+
+export const SELF_EMPOWERED: Condition = custom("self-empowered");
+
+/** The source is on the board (see `ven:self-on-board`). */
+export const ON_BOARD: Condition = custom("ven:self-on-board");
+
+/** Status note for [Flow] spells (829 is not implemented by the play layer). */
+export const FLOW_GAP =
+  "[Flow] (829: play from the trash for the Flow cost, then banish it) is not implemented by R2-play; the spell's effect is automated.";
+
+/** Status note for gear that "enters exhausted" (149.1 default is ready; no entry replacement for gear). */
+export const ENTERS_EXHAUSTED_GAP =
+  '"This enters exhausted" is not automated: gear enter ready (149.1) and the entry layer only has an enter-ready replacement (369.3).';
+
+/** Status note shared by the cards whose Deflect comes from a passive (see ven-ogs.md gaps). */
+export const DEFLECT_GAP =
+  "Deflect from the Empowered passive is granted (effectiveKeywords), but R2-play's Deflect cost reads printed and object-granted keywords only, so it is not charged (809.1.c).";
+
+/** 827.1.c.1: "[Cost]: Empower this. Use only if not Empowered." */
+export function empower(cost: Cost): Ability {
+  return {
+    kind: "activated",
+    cost,
+    effect: {
+      op: "requires",
+      condition: not(SELF_EMPOWERED),
+      rule: "827.1.c.1",
+      effect: { op: "empower", target: SELF },
+    },
+  };
+}
+
+/** 828.1.c: a Dependent passive that applies only while the source is Empowered. */
+export function whileEmpowered(modifier: Modifier): Ability {
+  return conditional(SELF_EMPOWERED, modifier);
+}
+
+/** 364.3.a: a conditional passive. */
+export function conditional(condition: Condition, modifier: Modifier): Ability {
+  return {
+    kind: "passive",
+    modifier: { kind: "custom", id: "conditional", params: { condition, modifier } },
+  };
+}
+
+/** 727.1.b: the printed (catalog) keyword is not intrinsic; an ability grants it. */
+export function notIntrinsic(keyword: string): Ability {
+  return { kind: "keyword", keyword, value: 0 };
+}
+
+/** "you control N or more / fewer runes" (runes are in the Rune Area, 107). */
+export function runesControlled(op: "lte" | "gte", value: number): Condition {
+  return {
+    kind: "count",
+    selector: { cardType: "rune", controller: "self" },
+    comparison: { op, value },
+  };
+}
+
+/**
+ * Per-step cost reductions ("costs [1] less for each rune you control"): the cost layer only
+ * sums fixed amounts (356.4), so one conditional -1 entry is registered per threshold.
+ * `extra` conditions (e.g. "while on the board") are and-ed in.
+ */
+export function perCountCostReduction(
+  selector: Selector,
+  steps: number,
+  target: Selector,
+  extra: Condition[] = [],
+): Ability[] {
+  return Array.from({ length: steps }, (_, index) =>
+    conditional(
+      {
+        kind: "and",
+        conditions: [
+          ...extra,
+          { kind: "count", selector, comparison: { op: "gte", value: index + 1 } },
+        ],
+      },
+      { kind: "cost", amount: -1, target },
+    ),
+  );
+}
+
+/* ---------------------------------------------------------------- custom conditions */
+
+/**
+ * The source is on the board (107): used to keep "this ability costs … less" from also applying
+ * to the card's own play cost while it is in hand (366.2.a reads cost passives in hand).
+ */
+registerCustomCondition("ven:self-on-board", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  if (!source) return false;
+  return isBoardZone(ctx.room, ctx.host, locate(ctx.room, ctx.host, source)?.zone);
+});
+
+/** 740.2.c: "I'm in combat" — at the battlefield where combat is ongoing, with a designation. */
+registerCustomCondition("ven:self-in-combat", (ctx, params) => {
+  const ref = typeof params.ref === "string" ? params.ref : null;
+  const id = ref === "it" ? ctx.env.it : ctx.env.sourceObjectId;
+  const combat = ctx.room.rules?.combat;
+  if (!id || !combat) return false;
+  if (locationOf(ctx.room, ctx.host, id) !== combat.battlefield) return false;
+  return !!ctx.room.rules?.objects[id]?.designation;
+});
+
+/** "If you control fewer runes than an opponent" (315.2 Beginning Phase checks). */
+registerCustomCondition("ven:fewer-runes-than-an-opponent", (ctx) => {
+  const me = ctx.env.controller;
+  const count = (playerId: string) => ctx.host.zoneCards(ctx.room, playerId, "runeArea").length;
+  const mine = count(me);
+  return ctx.host.activePlayerIds(ctx.room).some((id) => id !== me && count(id) > mine);
+});
+
+/**
+ * "while I'm at a battlefield with exactly one other unit you control" / "if there is exactly one
+ * other unit you control here": counts the source's (or, with `host: true`, the equipped unit's)
+ * controller's other units at its location.
+ */
+registerCustomCondition("ven:exactly-one-other-friendly-here", (ctx, params) => {
+  let id = ctx.env.sourceObjectId;
+  if (!id) return false;
+  if (params.host === true) {
+    const located = ctx.host.findCard(ctx.room, id);
+    id = located?.card.attachedToCardId ?? undefined;
+    if (!id) return false;
+  }
+  const zone = locationOf(ctx.room, ctx.host, id);
+  const controller = controllerOf(ctx.room, ctx.host, id);
+  if (!zone || !controller) return false;
+  if (params.battlefield === true && zone === "base") return false;
+  const others = ctx.host
+    .zoneCards(ctx.room, controller, zone)
+    .filter((card) => card.id !== id && !card.hidden && isUnitCard(ctx, card.id));
+  return others.length === 1;
+});
+
+function isUnitCard(ctx: EvalContext, id: string): boolean {
+  return (ctx.host.cardInfo(ctx.room, id)?.type ?? "").toLowerCase().includes("unit");
+}
+
+/**
+ * The event of the ability being chosen for / resolved: the bound trigger event, else the
+ * triggering event of the chain item being finalized (403.2 choices are made before
+ * resolution, when only the item carries the event).
+ */
+export function eventOf(ctx: EvalContext): GameEvent | undefined {
+  if (ctx.env.event) return ctx.env.event;
+  const item = ctx.env.itemId ? findChainItem(ctx.room, ctx.env.itemId) : null;
+  return item?.triggerEvent;
+}
+
+/**
+ * The candidate (`it`) is at a battlefield the trigger's moving object moved to or from (421:
+ * a move event carries its destination in `zone` and its origin in `data.from`).
+ */
+registerCustomCondition("ven:at-move-endpoint-battlefield", (ctx) => {
+  const id = ctx.env.it;
+  const event = eventOf(ctx);
+  if (!id || !event) return false;
+  const zone = locationOf(ctx.room, ctx.host, id);
+  if (!zone || !isBattlefieldZone(ctx.room, ctx.host, zone)) return false;
+  const from = typeof event.data?.from === "string" ? event.data.from : null;
+  return zone === event.zone || zone === from;
+});
+
+/** "if you control something that's [Empowered]": any board object you control (442.2). */
+registerCustomCondition("ven:control-empowered", (ctx) => {
+  const objects = ctx.room.rules?.objects ?? {};
+  const zones = boardZoneList(ctx.room, ctx.host);
+  return Object.entries(objects).some(([id, object]) => {
+    if ((object.empowered ?? 0) <= 0) return false;
+    const located = locate(ctx.room, ctx.host, id);
+    return !!located && zones.includes(located.zone) && located.playerId === ctx.env.controller;
+  });
+});
+
+/**
+ * 442.1.c.1: "I can be [Empowered] up to N times" — empower the source, stacking up to `max`
+ * statuses (the core `empower` op is binary, 442.1.b). Emits the 442.2.a event.
+ */
+registerCustomEffect("ven:empower-stacking", (params, context) => {
+  const source = context.machine?.env.sourceObjectId ?? context.sourceObjectId;
+  const max = typeof params.max === "number" ? params.max : 1;
+  const rules = context.room.rules;
+  const done: string[] = [];
+  if (
+    rules &&
+    source &&
+    isBoardZone(
+      context.room,
+      context.step.host,
+      locate(context.room, context.step.host, source)?.zone,
+    )
+  ) {
+    const object = (rules.objects[source] ??= {});
+    if ((object.empowered ?? 0) < max) {
+      object.empowered = (object.empowered ?? 0) + 1;
+      done.push(source);
+      pushEvent(context.step.events, {
+        type: "empower",
+        cardId: source,
+        playerId: context.controller,
+      });
+    }
+  }
+  recordOutcome(context, done, done.length > 0);
+  return RESOLVED;
+});
+
+/** 442.1.c.1: a stacking Empowered status of at least `n` on the source. */
+registerCustomCondition("ven:self-empowered-at-least", (ctx, params) => {
+  const source = ctx.env.sourceObjectId;
+  const n = typeof params.n === "number" ? params.n : 1;
+  return !!source && (ctx.room.rules?.objects[source]?.empowered ?? 0) >= n;
+});
+
+/** The candidate (`it`) has the given Domain (131: Fury, Calm, Mind, Body, Chaos, Order). */
+registerCustomCondition("ven:has-domain", (ctx, params) => {
+  const id = ctx.env.it;
+  const domain = typeof params.domain === "string" ? params.domain.toLowerCase() : "";
+  if (!id || !domain) return false;
+  const domains = ctx.host.cardInfo(ctx.room, id)?.domains ?? [];
+  return domains.some((entry) => String(entry).toLowerCase() === domain);
+});
