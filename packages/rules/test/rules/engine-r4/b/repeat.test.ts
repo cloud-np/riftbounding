@@ -115,13 +115,14 @@ describe("Repeat [R820]", () => {
       .expectError("illegal_target");
   });
 
-  it("[R820.1.d] a script that executes Repeat itself is not executed again by the engine", () => {
-    expect(getCardScript("Downstage Dramatics")?.repeatHandled).toBe(true);
-    expect(getCardScript("Upstage Comedy")?.repeatHandled).toBe(true);
-    expect(getCardScript("Double Trouble")?.repeatHandled).toBe(true);
-    expect(getCardScript("Square Up")?.repeatHandled).toBe(true);
-    expect(getCardScript("Existential Dread")?.repeatHandled).toBe(true);
-    expect(repeatRunCount(itemFor("Downstage Dramatics", ["repeat"]))).toBe(1);
+  it("[R820.1.d] the engine executes every paid Repeat for scripts that do not self-handle it", () => {
+    // R4-cards removed the R3 `repeatHandled` workaround from the Unleashed scripts.
+    expect(getCardScript("Downstage Dramatics")?.repeatHandled).toBeUndefined();
+    expect(getCardScript("Upstage Comedy")?.repeatHandled).toBeUndefined();
+    expect(getCardScript("Double Trouble")?.repeatHandled).toBeUndefined();
+    expect(getCardScript("Square Up")?.repeatHandled).toBeUndefined();
+    expect(getCardScript("Existential Dread")?.repeatHandled).toBeUndefined();
+    expect(repeatRunCount(itemFor("Downstage Dramatics", ["repeat"]))).toBe(2);
     expect(repeatRunCount(itemFor("Feral Strength", ["repeat"]))).toBe(2);
   });
 });

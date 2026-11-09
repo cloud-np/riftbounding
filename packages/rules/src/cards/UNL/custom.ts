@@ -2,7 +2,7 @@
  * Unleashed (UNL) card-specific conditions and effects (`unl:` prefix). Import-time registry
  * entries only (no game state); each reads the room through the shared evaluator helpers.
  */
-import type { Effect, Room } from "@rift/protocol";
+import type { Room } from "@rift/protocol";
 import type { RulesHost } from "../../host";
 import { pushEvent } from "../../types";
 import { registerCustomCondition, refIds, mightOf } from "../../effects/evaluate";
@@ -84,16 +84,6 @@ registerCustomCondition("unl:opponent-within", (ctx, params) => {
     .activePlayerIds(ctx.room)
     .filter((id) => id !== ctx.env.controller)
     .some((id) => target - ctx.host.score(ctx.room, id) <= points);
-});
-
-/**
- * An optional additional cost (by its R2-play id: "repeat", "repeat:1", "optional:0", …) was paid
- * for this chain item (355.1.a; R2-play records it as `choices["cost:<id>"]`). Used for Repeat
- * (820.1.d: "execute the instructions … one additional time").
- */
-registerCustomCondition("unl:paid-cost", (ctx, params) => {
-  const id = typeof params.id === "string" ? params.id : "repeat";
-  return ctx.env.choices[`cost:${id}`] === true;
 });
 
 /**
@@ -298,36 +288,66 @@ registerCustomCondition("unl:enemy-battlefield-weaker", (ctx) => {
 /* ---------------------------------------------------------------- effects */
 
 /**
- * "The next time it would die this turn, <replace> instead" (367–370 delayed replacement, 391.3;
- * Smite, Tactical Retreat). Created for `it` (the chosen unit, validated by the enclosing
- * `for_each`) with the object bound literally, because a delayed replacement's matcher does not
- * see the creating ability's choices; `replace` refers to the unit as `{ targetRef: "event" }`.
+ * Curtain Call — "Choose one you haven't already chosen" (355.3, 820.2). The engine binds one
+ * mode per execution (`mode`, then `repeat:<run>:mode`); a repeated execution whose mode was
+ * already chosen re-asks with only the unused modes (and drops the old mode's bound target, so
+ * the new mode's target is chosen at resolution). The answer is written back to the chain item
+ * so later executions see the mode actually used.
  */
-registerCustomEffect("unl:replace-next-death", (params, context) => {
+registerCustomEffect("unl:curtain-call-mode", (params, context) => {
   const ctx = evalContextOf(context);
-  const id = ctx.env.it;
-  const replace = params.replace as Effect | undefined;
-  if (!id || !replace) return RESOLVED;
-  addContinuousEffect(context.room, ctx.host, {
-    controller: ctx.env.controller,
-    duration: "this-turn",
-    modifier: {
-      kind: "custom",
-      id: "replacement",
-      params: {
-        matches: { type: "kill", subject: { targetRef: `obj:${id}` } },
-        replace,
-        once: true,
-      },
-    },
-    ...(ctx.env.sourceObjectId ? { sourceObjectId: ctx.env.sourceObjectId } : {}),
-  });
-  pushEvent(context.step.events, {
-    type: "replacement_created",
-    playerId: ctx.env.controller,
-    cardId: id,
-  });
-  recordOutcome(context, [id], true);
+  const machine = context.machine;
+  const item = ctx.env.itemId
+    ? context.room.rules?.chain.find((entry) => entry.id === ctx.env.itemId)
+    : undefined;
+  const modes = Array.isArray(params.modes)
+    ? params.modes.filter((mode): mode is string => typeof mode === "string")
+    : [];
+  if (!machine || !item || modes.length === 0) return RESOLVED;
+
+  const run = item.repeatExecutionsDone ?? 0;
+  const key = run === 0 ? "mode" : `repeat:${run}:mode`;
+  const used = new Set<string>();
+  for (let earlier = 0; earlier < run; earlier += 1) {
+    const chosen = idsOf(item.choices?.[earlier === 0 ? "mode" : `repeat:${earlier}:mode`])[0];
+    if (chosen) used.add(chosen);
+  }
+  const legal = modes.filter((mode) => !used.has(mode));
+  const bound = idsOf(ctx.env.choices.mode)[0];
+  let next = bound;
+  const answer = machine.frame.answer;
+  if (answer !== undefined) {
+    machine.frame.answer = undefined;
+    const picked = idsOf(answer)[0];
+    if (picked) next = picked;
+  }
+  if (!next || used.has(next) || !legal.includes(next)) {
+    if (legal.length === 0) return RESOLVED;
+    if (legal.length === 1) {
+      next = legal[0];
+    } else {
+      return machine.ask({
+        kind: "choose-mode",
+        playerId: ctx.env.controller,
+        options: legal.map((mode) => ({ id: mode })),
+        min: 1,
+        max: 1,
+        rule: "355.3",
+        promptKey: "rules.prompt.chooseMode",
+        data: { answer: "options" },
+      });
+    }
+  }
+  if (!next) return RESOLVED;
+  if (next !== bound) {
+    // The play-time mode was a duplicate: use the new mode and drop targets bound for the old one
+    // (each mode's unkeyed selector was normalized to its own target:<n>).
+    ctx.env.choices.mode = next;
+    for (const choiceKey of Object.keys(ctx.env.choices)) {
+      if (/^target:\d+$/.test(choiceKey)) delete ctx.env.choices[choiceKey];
+    }
+    item.choices[key] = next;
+  }
   return RESOLVED;
 });
 

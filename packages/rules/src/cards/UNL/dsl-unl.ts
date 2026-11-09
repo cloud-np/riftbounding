@@ -2,12 +2,6 @@
  * Small Unleashed-lane builders (pure data, no registration).
  */
 import type { Effect, Selector } from "@rift/protocol";
-import { custom } from "../dsl";
-
-/** "If you paid the Repeat cost" (820.1.d; R2-play's optional cost id, default "repeat"). */
-export function ifRepeat(effect: Effect, id = "repeat"): Effect {
-  return { op: "if", condition: custom("unl:paid-cost", { id }), then: effect };
-}
 
 /** `where` filter: one of the cards bound to `ref` (e.g. the looked-at cards). */
 export function inRef(ref: string): Selector["where"] {

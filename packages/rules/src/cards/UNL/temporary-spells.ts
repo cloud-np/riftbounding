@@ -10,8 +10,6 @@ registerCardScript({
   name: "Shadow's Call",
   text: "Choose a friendly unit without [temporary] .\nGive it [temporary] . Draw 2. (Kill it at the start of its controller's Beginning Phase, before scoring.)",
   status: "implemented",
-  notes:
-    "The granted [Temporary] is lost at the end of the turn by an engine bug (3d cleanup drops keywordGrants; see docs/rules/cards/unl.md).",
   abilities: [
     {
       kind: "spell",
@@ -43,8 +41,6 @@ registerCardScript({
   name: "Turn to Dust",
   text: "Give a gear [Temporary] . (Kill it at the start of its controller's Beginning Phase, before scoring.)",
   status: "implemented",
-  notes:
-    "The granted [Temporary] is lost at the end of the turn by an engine bug (3d cleanup drops keywordGrants; see docs/rules/cards/unl.md).",
   abilities: [
     {
       kind: "spell",

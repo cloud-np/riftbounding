@@ -17,15 +17,9 @@
  */
 import { registerCardScript } from "../registry";
 import { aUnit, custom, token } from "../dsl";
-import { ifRepeat } from "./dsl-unl";
 import type { Effect } from "@rift/protocol";
 import { registerAdditionalCosts } from "../../play/additional-costs";
 
-// The catalog text "[Repeat] - Discard 1" has a dash the Repeat cost parser (cost-text.ts) does not
-// accept, which would make the Repeat cost unpayable; register the cost it spells out (820.1.c).
-registerAdditionalCosts("Square Up", [
-  { id: "repeat", optional: true, cost: { discard: 1 }, rule: "820.1.c", label: "Repeat" },
-]);
 // "kill a friendly [Mighty] unit" is not understood by the text parser (356.2.a.1).
 registerAdditionalCosts("Sacrifice", [
   {
@@ -37,80 +31,41 @@ registerAdditionalCosts("Sacrifice", [
   },
 ]);
 
-const REPEAT_NOTE =
-  "The repeated execution's target (`target:1`) is offered as 'up to one': the choice walker cannot make a choice required only when the optional Repeat cost is paid (820.2, 355.7), so a player who paid Repeat may skip the second target.";
-
 registerCardScript({
   name: "Square Up",
   text: "[Repeat] - Discard 1 (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 4] this turn (+4[Might] while it's an attacker.)",
-  status: "partial",
-  repeatHandled: true,
-  notes: REPEAT_NOTE,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",
       effect: {
-        op: "seq",
-        effects: [
-          {
-            op: "grant_keyword",
-            keyword: "Assault 4",
-            target: aUnit({ targetRef: "target:0" }),
-            duration: "this-turn",
-          },
-          ifRepeat({
-            op: "grant_keyword",
-            keyword: "Assault 4",
-            target: aUnit({ targetRef: "target:1", maxCount: 1 }),
-            duration: "this-turn",
-          }),
-        ],
+        op: "grant_keyword",
+        keyword: "Assault 4",
+        target: aUnit(),
+        duration: "this-turn",
       },
     },
   ],
 });
 
 /** "[Stun] an attacking unit. If it's already stunned, return it to its owner's hand instead." */
-function dread(key: string): Effect {
-  const attacker = aUnit({
-    targetRef: key,
-    where: custom("unl:is-attacking"),
-    ...(key === "target:0" ? {} : { maxCount: 1 }),
-  });
+function dread(key = "target:0"): Effect {
   return {
     op: "if",
     condition: { kind: "exists", selector: { targetRef: key, stunned: true } },
     then: { op: "return_to_hand", target: { targetRef: key } },
-    else: { op: "stun", target: attacker },
+    else: {
+      op: "stun",
+      target: aUnit({ targetRef: key, where: custom("unl:is-attacking") }),
+    },
   };
 }
 
 registerCardScript({
   name: "Existential Dread",
   text: "[Action] (Play on your turn or in showdowns.)\n[Repeat][2] (You may pay the additional cost to repeat this spell's effect.)\n[Stun] an attacking unit. If it's already stunned, return it to its owner's hand instead. (A stunned unit doesn't deal combat damage this turn.)",
-  status: "partial",
-  repeatHandled: true,
-  notes: REPEAT_NOTE,
-  abilities: [
-    {
-      kind: "spell",
-      effect: {
-        op: "seq",
-        effects: [
-          {
-            op: "if",
-            condition: { kind: "exists", selector: { targetRef: "target:0", stunned: true } },
-            then: { op: "return_to_hand", target: { targetRef: "target:0" } },
-            else: {
-              op: "stun",
-              target: aUnit({ targetRef: "target:0", where: custom("unl:is-attacking") }),
-            },
-          },
-          ifRepeat(dread("target:1")),
-        ],
-      },
-    },
-  ],
+  status: "implemented",
+  abilities: [{ kind: "spell", effect: dread() }],
 });
 
 registerCardScript({
@@ -200,9 +155,7 @@ registerCardScript({
 registerCardScript({
   name: "Thrill of the Hunt",
   text: "[Reaction] (Play any time, even before spells and abilities resolve.)\n\nBanish a friendly unit, then its owner plays it to any battlefield, ignoring the cost.",
-  status: "partial",
-  notes:
-    "The limited play (420.3) can only enter a battlefield where its controller still has units: the play op does not mark the location as validated, so otherwise the unit is put at its owner's base instead of 'any battlefield' (355.2.b, 359.2.c; see the [BUG] reproduction).",
+  status: "implemented",
   abilities: [
     {
       kind: "spell",

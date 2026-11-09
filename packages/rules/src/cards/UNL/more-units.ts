@@ -28,6 +28,10 @@ import type { Condition, Modifier } from "@rift/protocol";
 import { registerCardScript } from "../registry";
 import { HERE, PAID_ADDITIONAL, SELF, WHEN_PLAYED, aUnit, custom, not } from "../dsl";
 import { lookRevealDraw } from "./dsl-unl";
+import {
+  registerAdditionalCostProvider,
+  registerAdditionalCosts,
+} from "../../play/additional-costs";
 
 function whenever(condition: Condition, modifier: Modifier) {
   return {
@@ -178,9 +182,7 @@ registerCardScript({
 registerCardScript({
   name: "Safety Inspector",
   text: "You may spend 3 XP as an additional cost to play me.\nWhen you play me, each player must kill one of their units. If you paid my additional cost, you don't kill a unit this way.",
-  status: "partial",
-  notes:
-    "'If you paid my additional cost' reads the engine's paid-additional-cost flag, which is also set by paying the ordinary cost with runes (356.4.f.1, [BUG] in bugs list): with rune payment you would never kill a unit.",
+  status: "implemented",
   abilities: [
     {
       kind: "triggered",
@@ -221,12 +223,32 @@ registerCardScript({
   ],
 });
 
+// 356.2.b.1: the optional [Chaos] cost exists only "if you've played a spell this turn", and an
+// optional cost cannot carry a condition. Suppress the text-parsed cost and offer it from a
+// provider that reads the played-card history (`history.effects.played`).
+registerAdditionalCosts("Crescent Guardian", []);
+registerAdditionalCostProvider((room, host, query) => {
+  if (query.kind !== "card" || query.info?.name !== "Crescent Guardian") return [];
+  const played = room.rules?.history.effects?.played?.[query.playerId] ?? [];
+  const spellPlayed = played.some((id) =>
+    (host.cardInfo(room, id)?.type ?? "").toLowerCase().includes("spell"),
+  );
+  if (!spellPlayed) return [];
+  return [
+    {
+      id: "optional:0",
+      optional: true,
+      cost: { power: { Chaos: 1 } },
+      rule: "356.2.b.1",
+      label: "pay [Chaos]",
+    },
+  ];
+});
+
 registerCardScript({
   name: "Crescent Guardian",
   text: "If you've played a spell this turn, you may pay [Chaos] as an additional cost to play me. If you do, I enter ready.",
-  status: "partial",
-  notes:
-    "The additional cost [Chaos] is offered whether or not you have played a spell this turn (the 'if you've played a spell' gate on an optional cost is not expressible, 356.2.b.1), and 'if you do' reads the engine's paid-additional-cost flag, which is also set by rune payment (356.4.f.1, [BUG] in bugs list).",
+  status: "implemented",
   abilities: [whenever(PAID_ADDITIONAL, ENTER_READY)],
 });
 
