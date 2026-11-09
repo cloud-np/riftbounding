@@ -4,6 +4,7 @@
  */
 import { describe, expect, it } from "vitest";
 import {
+  combatMight,
   costAdjustments,
   effectiveKeywordValues,
   effectiveKeywords,
@@ -170,6 +171,31 @@ describe("cards from the official examples", () => {
     // P1's Beginning Phase: the Temporary trigger kills it before scoring.
     passBoth(s);
     expect(zoneOf(s, unit.id)).toBe("trash");
+  });
+
+  it("[C:Last Stand][C:Eclipse][EX:258][R479.4.c][R143.2.c.1] doubling a -2 Might unit increases it by 0: it stays -2", () => {
+    const s = withCards(["Last Stand"], ["Eclipse"]);
+    const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
+    s.room.rules!.objects[unit.id] = { baseMight: 2 };
+    fund(s, "p1", "Last Stand");
+    s.as("p1").play("Last Stand", { choices: { "target:0": unit.id } }).expectOk();
+    // In reaction, the opponent's Eclipse gives it -4 this turn (then Predict, answered below).
+    fund(s, "p2", "Eclipse");
+    s.as("p2").play("Eclipse", { choices: { "target:0": unit.id } }).expectOk();
+    s.as("p1").pass().expectOk();
+    // Eclipse resolved: 2 - 4 = -2 (then its Predict prompt).
+    expect(effectiveMight(s.room, unit.id, s.host)).toBe(-2);
+    for (let guard = 0; guard < 6 && s.room.rules!.chain.length > 0; guard += 1) {
+      const prompt = s.room.rules!.prompt;
+      if (prompt) s.as(prompt.playerId).choose({ optionIds: [] }).expectOk();
+      else s.as(s.room.rules!.priority!).pass().expectOk();
+    }
+    expect(s.room.rules!.chain).toHaveLength(0);
+    // Last Stand resolved: "double" increases by the current Might, -2 → by 0 (479.4.c).
+    expect(effectiveMight(s.room, unit.id, s.host)).toBe(-2);
+    expect(effectiveKeywords(s.room, unit.id, s.host)).toContain("Temporary");
+    // 143.2.c: referenced or summed for combat damage it counts as 0.
+    expect(combatMight(s.room, unit.id, s.host)).toBe(0);
   });
 
   it("[C:Discipline][C:Feral Strength][C:Frigid Touch] +2 and draw / +2 / -2 Might this turn", () => {

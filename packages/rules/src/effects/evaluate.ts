@@ -234,13 +234,18 @@ function zoneOfObject(ctx: EvalContext, id: string): string | null {
   return locate(room, host, id)?.zone ?? null;
 }
 
-/** Might used for comparisons: effective on the board, printed elsewhere (710/711). */
+/**
+ * Might as spells and abilities reference it: effective on the board, printed elsewhere
+ * (710/711), last-known after leaving. 143.2.c: a negative Might is treated as 0 when referenced
+ * (the characteristic itself keeps its actual value, 143.2.c.1).
+ */
 export function mightOf(ctx: EvalContext, id: string, lki?: LastKnown): number | null {
   const { room, host } = ctx;
   const located = locate(room, host, id);
   if (located && isBoardZone(room, host, located.zone)) return Math.max(0, rawMight(room, id, host, ctx.depth ?? 0));
   if (located) return host.cardInfo(room, id)?.might ?? null;
-  return lki?.might ?? lkiOf(ctx.env, id)?.might ?? null;
+  const known = lki?.might ?? lkiOf(ctx.env, id)?.might ?? null;
+  return known === null ? null : Math.max(0, known);
 }
 
 export function compare(left: number, op: ComparisonOp, right: number): boolean {

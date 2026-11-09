@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { effectiveKeywords, effectiveMight, explainIllegal } from "../../src";
+import { combatMight, effectiveKeywords, effectiveMight, explainIllegal } from "../../src";
 import { scenario } from "../scenarios/dsl";
 
 describe("layers — effective characteristics [R143.2][R475–R479]", () => {
-  it("[R143.2] effectiveMight = base + temporary Might + buff counters, floored at 0", () => {
+  it("[R143.2][R143.2.c][R143.2.c.1] effectiveMight = base + temporary Might + buff counters; negative stays negative, uses clamp", () => {
     const s = scenario({ p1: { hand: ["Treasure Hunter"], energy: 2 } });
     s.as("p1").play("Treasure Hunter").expectOk();
     const unit = s.findBoardCard("Treasure Hunter")!;
@@ -20,7 +20,9 @@ describe("layers — effective characteristics [R143.2][R475–R479]", () => {
     expect(effectiveMight(s.room, unit.id, s.host)).toBe(base + 3);
 
     rules.objects[unit.id]!.temporaryMight = -100;
-    expect(effectiveMight(s.room, unit.id, s.host)).toBe(0);
+    // 143.2.c.1: the Might is not 0 — only combat damage and references treat it as 0.
+    expect(effectiveMight(s.room, unit.id, s.host)).toBe(base + 1 - 100);
+    expect(combatMight(s.room, unit.id, s.host)).toBe(0);
   });
 
   it("[R475–R479] effectiveKeywords = printed keywords + grantedKeywords, deduped case-insensitively", () => {

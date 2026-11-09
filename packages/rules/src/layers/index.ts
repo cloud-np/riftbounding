@@ -18,9 +18,12 @@
  * Every consumer goes through these helpers, so a granted keyword or Might change is visible to
  * timing, combat and cleanups alike. Pure: no mutation, no Date/rng; the room is only read.
  *
- * RULES-QUESTION(479.4.c / EX[258] / EX[287]): Might can be negative per the official examples;
- * `effectiveMight` keeps R1's floor at 0 for its consumers (lethal damage needs ≥ 1 damage anyway,
- * 142.4.b); `rawMight` exposes the unfloored value for Double (479.4.c) and comparisons.
+ * Negative Might (143.2.c / 479.4.c / EX:258 / EX:287): the characteristic itself is never
+ * floored — `effectiveMight` (= `rawMight`) can be below 0, and effects that calculate increases
+ * and decreases use that actual value (143.2.c.1; Double increases by 0, 479.4.c). Only its *uses*
+ * clamp: a reference by a spell or ability treats it as 0 (`effects/evaluate.ts` `mightOf`), and
+ * so does summing combat damage (`combat/keywords.ts` `combatMight`, 143.2.c / 467); lethal
+ * damage is still non-zero (142.4.b / 143.2.b).
  */
 import type { Modifier, Room, Selector } from "@rift/protocol";
 import type { RulesHost } from "../host";
@@ -132,9 +135,9 @@ export function rawMight(room: Room, cardId: string, host: RulesHost, depth = 0)
   return base + increases + decreases;
 }
 
-/** 143.2: effective Might, floored at 0 for consumers (see RULES-QUESTION above). */
+/** 143.2.a: Effective Might — the arithmetic-layer value, negative when decreases exceed it. */
 export function effectiveMight(room: Room, cardId: string, host: RulesHost): number {
-  return Math.max(0, rawMight(room, cardId, host));
+  return rawMight(room, cardId, host);
 }
 
 /* ---------------------------------------------------------------- keywords */

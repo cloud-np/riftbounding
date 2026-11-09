@@ -6,6 +6,8 @@ import {
   effectiveKeywords,
   effectiveKeywordValues,
   effectiveMight,
+  evaluateAmount,
+  makeEnv,
   registerCardScript,
   restrictionFor,
 } from "../../../src";
@@ -270,5 +272,19 @@ describe("restrictions, costs, entry [R054][R356][R369.3]", () => {
     expect(eventTypes(s.events())).not.toContain("ready");
     s.as("p1").play("Stellacorn Herder").expectOk();
     expect(s.findBoardCard("Stellacorn Herder")!.exhausted).toBe(true);
+  });
+});
+
+describe("negative Might [R143.2.c][R479.4.c]", () => {
+  it("[R143.2.c][R143.2.c.1][EX:287] the Might stays negative but an ability referencing it reads 0", () => {
+    const s = scenario();
+    const unit = place(s, "p2", "Caitlyn, Patrolling", "battlefieldA");
+    s.room.rules!.objects[unit.id] = { baseMight: 3, temporaryMight: -5 };
+    expect(effectiveMight(s.room, unit.id, s.host)).toBe(-2);
+    const ctx = { room: s.room, host: s.host, env: makeEnv({ controller: "p1" }) };
+    expect(evaluateAmount(ctx, { kind: "might", selector: { targetRef: "obj:" + unit.id } })).toBe(0);
+    const { events } = run(s, { op: "kill", target: { targetRef: "obj:" + unit.id } });
+    // The kill event's last-known information keeps the actual value (143.2.c.1).
+    expect(events.find((event) => event.type === "kill")?.data?.might).toBe(-2);
   });
 });
