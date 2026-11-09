@@ -8267,6 +8267,41 @@
     ],
     "answerPromptFirst": "Answer the pending choice first",
     "skip": "Skip",
+    "showdownAt": [
+     "Showdown at ",
+     [
+      "battlefield"
+     ]
+    ],
+    "combatAt": [
+     "Combat at ",
+     [
+      "battlefield"
+     ]
+    ],
+    "respondTo": [
+     "Respond to ",
+     [
+      "card"
+     ]
+    ],
+    "focusInstruction": "You have focus: play an Action or Reaction, or Pass",
+    "priorityInstruction": "You have priority: play an Action or Reaction, or Pass",
+    "noPlayableResponses": "No playable responses right now",
+    "waitingForFocus": [
+     "Waiting for ",
+     [
+      "player"
+     ],
+     " (focus)"
+    ],
+    "waitingForPriority": [
+     "Waiting for ",
+     [
+      "player"
+     ],
+     " (priority)"
+    ],
     "manualWindow": [
      "Resolve ",
      [

@@ -201,6 +201,13 @@ the wire gesture has no mode field; not checked in a browser yet.
   and Skip/Cancel/Confirm where applicable. Every option card is highlighted (attached cards
   included) and chip hover applies a stronger highlight; clicking a card or chip sends the same
   `rules_choose`.
+- **Response windows (312/313/338.1.b/347.2).** The focus/priority holder gets a production
+  respond banner: "Showdown at <battlefield>" / "Combat at <battlefield>" / "Respond to <chain
+  item>", the translated instruction, and Pass (W → `rules_pass`). Playable cards and activatable
+  abilities are highlighted from the holder's local `legalIntents`. The banner is identical when
+  no legal response exists; only the holder sees the small local "No playable responses right
+  now" hint. The opponent never receives the banner or that hint and sees a neutral chain line
+  "Waiting for <name> (focus|priority)". A choose prompt suppresses the response banner.
 - **Chain status.** Strict rooms derive the status line from `whoMayAct` instead of the sandbox
   vote counter: "<player> must choose: <instruction>" while a prompt is pending, else priority /
   focus. Resolve/Approve are disabled and explain the prompt while it is pending.

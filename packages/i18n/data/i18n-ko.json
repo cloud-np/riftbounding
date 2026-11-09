@@ -1799,6 +1799,41 @@
    ],
    "rules.ui.answerPromptFirst": "먼저 대기 중인 선택에 답하세요",
    "rules.ui.skip": "건너뛰기",
+   "rules.ui.showdownAt": [
+    "결전: ",
+    [
+     "battlefield"
+    ]
+   ],
+   "rules.ui.combatAt": [
+    "전투: ",
+    [
+     "battlefield"
+    ]
+   ],
+   "rules.ui.respondTo": [
+    "응답 대상: ",
+    [
+     "card"
+    ]
+   ],
+   "rules.ui.focusInstruction": "집중을 보유합니다: 행동 또는 반응 카드를 사용하거나 패스하세요",
+   "rules.ui.priorityInstruction": "우선권을 보유합니다: 행동 또는 반응 카드를 사용하거나 패스하세요",
+   "rules.ui.noPlayableResponses": "지금 사용 가능한 응답이 없습니다",
+   "rules.ui.waitingForFocus": [
+    "대기 중: ",
+    [
+     "player"
+    ],
+    " (집중)"
+   ],
+   "rules.ui.waitingForPriority": [
+    "대기 중: ",
+    [
+     "player"
+    ],
+    " (우선권)"
+   ],
    "rules.ui.priorityOf": [
     [
      "player"
