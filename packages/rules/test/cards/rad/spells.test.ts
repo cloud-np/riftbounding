@@ -311,7 +311,6 @@ describe("RAD spells", () => {
   it.each([
     ["Forbidden Technique", "ready"],
     ["Hold 'Em", 3],
-    ["Battle Preparations", 2],
   ] as const)("[C:%s] partial: its main effect resolves", (name, effect) => {
     const s = withCards([name]);
     const unit = put(s, "p1", "Caitlyn, Patrolling", "battlefieldA", true);
@@ -325,13 +324,13 @@ describe("RAD spells", () => {
     expect(getCardScript(name)?.status).toBe("partial");
   });
 
-  it("[C:Rousing Display][R440.2.c] plays two 1 Might Recruits to your base (Show Off is not implemented)", () => {
+  it("[C:Rousing Display][R440.2.c] plays two 1 Might Recruits to your base without Show Off", () => {
     const s = withCards(["Rousing Display"]);
     fund(s, "p1", "Rousing Display");
     s.as("p1").play("Rousing Display").expectOk();
     s.as("p2").pass().expectOk();
     expect(namesIn(s, "p1", "base").filter((name) => name === "Recruit")).toHaveLength(2);
-    expect(getCardScript("Rousing Display")?.status).toBe("partial");
+    expect(getCardScript("Rousing Display")?.status).toBe("implemented");
   });
 
   it("[C:Cataclysm][R054.1][R355.4] opponents can't play spells this turn; move a friendly unit to an occupied enemy battlefield", () => {

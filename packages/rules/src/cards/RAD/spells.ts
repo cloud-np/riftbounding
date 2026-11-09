@@ -5,7 +5,7 @@
  */
 import type { Condition } from "@rift/protocol";
 import { registerCardScript } from "../registry";
-import { aUnit, custom, token } from "../dsl";
+import { SHOWED_OFF, aUnit, custom, showOff, token } from "../dsl";
 import { aBattlefield, drawCard, letX, opponentsCantPlay, zoneRef } from "./dsl";
 
 const FACE_UP = custom("rad:face-up");
@@ -473,29 +473,52 @@ registerCardScript({
   abilities: [{ kind: "spell", effect: { op: "temporary_might", amount: 3, target: aUnit() } }],
 });
 
-/** Battle Preparations (RAD-032) — "[Show Off] a gear. Give a unit +2 [Might] this turn. If you showed off, ready up to 2 runes." */
+/** Battle Preparations (RAD-032) — "[Show Off] a gear. Give a unit +2 [Might] this turn. If you showed off, ready up to 2 runes." (832) */
 registerCardScript({
   name: "Battle Preparations",
   text: "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Show Off] a gear. (As you play this, you may reveal a gear from your hand or pick a friendly gear.)\nGive a unit +2 [Might] this turn. If you showed off, ready up to 2 runes.",
-  status: "partial",
-  notes:
-    '[Show Off] (832) is not implemented, so "if you showed off, ready up to 2 runes" never applies.',
-  abilities: [{ kind: "spell", effect: { op: "temporary_might", amount: 2, target: aUnit() } }],
-});
-
-/** Rousing Display (RAD-127) — "[Show Off] … Play two 1 [Might] Recruit unit tokens to your base. If you showed off, play four instead." */
-registerCardScript({
-  name: "Rousing Display",
-  text: "[Show Off] a card with Energy cost [7] or more. (As you play this, you may reveal such a card from your hand or pick a friendly one.)\nPlay two 1 [Might] Recruit unit tokens to your base. If you showed off, play four to your base instead.",
-  status: "partial",
-  notes: "[Show Off] (832) is not implemented, so the four-Recruit branch never applies.",
+  status: "implemented",
   abilities: [
+    showOff({ cardType: "gear" }),
     {
       kind: "spell",
       effect: {
-        op: "create",
-        token: token("Recruit", { count: 2, might: 1, play: true }),
-        zone: "base",
+        op: "seq",
+        effects: [
+          { op: "temporary_might", amount: 2, target: aUnit() },
+          {
+            op: "if",
+            condition: SHOWED_OFF,
+            then: { op: "ready", target: { cardType: "rune", controller: "self", maxCount: 2 } },
+          },
+        ],
+      },
+    },
+  ],
+});
+
+/** Rousing Display (RAD-127) — "[Show Off] … two Recruits, four if you showed off." (832) */
+registerCardScript({
+  name: "Rousing Display",
+  text: "[Show Off] a card with Energy cost [7] or more. (As you play this, you may reveal such a card from your hand or pick a friendly one.)\nPlay two 1 [Might] Recruit unit tokens to your base. If you showed off, play four to your base instead.",
+  status: "implemented",
+  abilities: [
+    showOff({ energyCost: { op: "gte", value: 7 } }),
+    {
+      kind: "spell",
+      effect: {
+        op: "if",
+        condition: SHOWED_OFF,
+        then: {
+          op: "create",
+          token: token("Recruit", { count: 4, might: 1, play: true }),
+          zone: "base",
+        },
+        else: {
+          op: "create",
+          token: token("Recruit", { count: 2, might: 1, play: true }),
+          zone: "base",
+        },
       },
     },
   ],

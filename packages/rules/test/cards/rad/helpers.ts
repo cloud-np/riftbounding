@@ -57,6 +57,27 @@ export function settle(s: S, guard = 12): void {
   }
 }
 
+/**
+ * Pass priority/focus while work is outstanding, including Pending triggers that the chain
+ * helpers do not flush (e.g. delayed "next unit" triggers). Stops at a prompt.
+ */
+export function flushWork(s: S, guard = 24): void {
+  for (let index = 0; index < guard; index += 1) {
+    const rules = s.room.rules!;
+    if (rules.prompt) return;
+    if (
+      rules.chain.length === 0 &&
+      rules.triggers.length === 0 &&
+      !rules.showdown &&
+      !rules.combat
+    )
+      return;
+    const holder = rules.priority ?? rules.focus;
+    if (!holder) return;
+    s.as(holder).pass().expectOk();
+  }
+}
+
 /** Pass through chains and showdowns (no prompts answered) until the state is Neutral Open. */
 export function resolveAll(s: S, guard = 20): void {
   for (let index = 0; index < guard; index += 1) {

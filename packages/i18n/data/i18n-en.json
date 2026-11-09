@@ -8150,6 +8150,7 @@
     "may": "Do you want to do this?",
     "choose": "Choose",
     "chooseMode": "Choose a mode",
+    "chooseModes": "Choose two modes",
     "chooseTarget": "Choose a target",
     "equipTarget": "Choose a unit you control to equip",
     "mayTrigger": "Use this triggered ability?",
