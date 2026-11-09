@@ -187,8 +187,10 @@ source left (Mournful Spirit).
   card is unattached and is dropped while attached. `targetRef:"host"` resolves to the Top-Most
   card.
 - The keyword triggers `Quick-Draw` (`gear_played` attach, 819.1.d / 819.2), `Weaponmaster`
-  (`unit_played` optional reduced-cost Equip, 821.1.b/c) and `Deploy` (`hold` by an opponent kills
-  the gear, 830.1.b) are detected through the same source list.
+  (`unit_played` optional reduced-cost Equip, 821.1.b/c, for tokens played by effects too) and
+  `Deploy` (`hold` by an opponent kills the gear, 830.1.b) are detected through the same source
+  list. A Weaponmaster cost also applies 821.1.c.2.b reductions that read the chosen unit
+  (Hextech Gauntlets).
 
 ### Play provenance (811.6) and damage-kill attribution (429.5.c)
 
