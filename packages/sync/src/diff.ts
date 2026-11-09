@@ -16,6 +16,7 @@ import type {
   RuntimePatchOperation,
 } from "@rift/protocol";
 import { BOARD_ZONES, type RuntimePatchState } from "./patch";
+import { redactRuntimeStateForViewer, type SnapshotViewer } from "./redact";
 
 export interface DiffInput {
   room: Room;
@@ -405,6 +406,30 @@ export function diffRuntimeState(previous: DiffInput, next: DiffInput): RuntimeP
   }
 
   return { operations };
+}
+
+/**
+ * Redaction-safe diff for one viewer: both sides are redacted with `redactRuntimeStateForViewer`
+ * *before* diffing, so a patch can never carry a field (or a `Room.rules` value) that this
+ * viewer's snapshot hides (128.4 / 107.3.f). Never diff authoritative rooms directly for clients.
+ */
+export function diffRuntimeStateForViewer(
+  previous: DiffInput,
+  next: DiffInput,
+  viewer: SnapshotViewer,
+): RuntimePatch {
+  const redact = (input: DiffInput): DiffInput => ({
+    ...redactRuntimeStateForViewer(
+      {
+        room: input.room,
+        gameplayLogEntries: input.gameplayLogEntries ?? [],
+        ...(input.actionClock ? { actionClock: input.actionClock } : {}),
+      },
+      viewer,
+    ),
+    ...(input.session !== undefined ? { session: input.session } : {}),
+  });
+  return diffRuntimeState(redact(previous), redact(next));
 }
 
 /** Alias used by callers that keep the full runtime state. */
