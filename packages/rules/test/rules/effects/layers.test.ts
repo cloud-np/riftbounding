@@ -23,8 +23,17 @@ const BLADE: CardScript = {
   abilities: [
     { kind: "passive", modifier: { kind: "keyword", keyword: "Ganking", target: { targetRef: "host" } } },
     { kind: "passive", modifier: { kind: "might", amount: 3, target: { targetRef: "host" } } },
-    // Rules text (inactive while attached, 718.2): friendly units get +1 Might.
-    { kind: "passive", modifier: { kind: "might", amount: 1, target: { cardType: "unit", controller: "self" } } },
+    // Rules text (inactive while attached, 718.2): friendly units get +1 Might. Scripts mark
+    // printed Rules Text passives with the `rules-text` wrapper so attached Effect Text (718.3)
+    // can use ordinary passives for other objects too.
+    {
+      kind: "passive",
+      modifier: {
+        kind: "custom",
+        id: "rules-text",
+        params: { modifier: { kind: "might", amount: 1, target: { cardType: "unit", controller: "self" } } },
+      },
+    },
   ],
 };
 

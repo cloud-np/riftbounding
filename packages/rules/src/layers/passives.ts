@@ -70,13 +70,31 @@ function unwrap(
     if (condition && !evaluateLayerCondition(room, host, condition, scope)) return null;
     return unwrap(room, host, inner, scope);
   }
+  // 718.2: scripts mark a passive that models printed Rules Text (Inactive while attached) with
+  // `{ kind: "custom", id: "rules-text", params: { modifier } }`; ordinary passives are Effect
+  // Text (718.3). The wrapper itself is transparent while the card is unattached.
+  if (modifier.kind === "custom" && modifier.id === "rules-text") {
+    const inner = modifier.params?.modifier as Modifier | undefined;
+    return inner ? unwrap(room, host, inner, scope) : null;
+  }
   return modifier;
+}
+
+/** 718.2: is this passive printed Rules Text (Inactive while the card is attached)? */
+function isRulesText(modifier: Modifier): boolean {
+  if (modifier.kind !== "custom") return false;
+  if (modifier.id === "rules-text") return true;
+  if (modifier.id === "conditional") {
+    const inner = modifier.params?.modifier as Modifier | undefined;
+    return inner ? isRulesText(inner) : false;
+  }
+  return false;
 }
 
 function isHostTargeted(modifier: Modifier): boolean {
   const target = (modifier as { target?: { targetRef?: string } }).target;
   if (target?.targetRef === "host") return true;
-  if (modifier.kind === "custom" && modifier.id === "conditional") {
+  if (modifier.kind === "custom" && (modifier.id === "conditional" || modifier.id === "rules-text")) {
     const inner = modifier.params?.modifier as Modifier | undefined;
     return inner ? isHostTargeted(inner) : false;
   }
@@ -105,9 +123,12 @@ export function activeModifiers(room: Room, host: RulesHost, depth = 0): ActiveM
     const attached = !!card.attachedToCardId;
     for (const ability of script.abilities) {
       if (ability.kind !== "passive") continue;
+      const rulesText = isRulesText(ability.modifier);
       const hostTargeted = isHostTargeted(ability.modifier);
-      // 718.2 / 724: attached → only effect text; unattached → only rules text.
-      if (attached !== hostTargeted) continue;
+      // 718.2: while attached, the card's printed Rules Text is Inactive and its Effect Text
+      // (every ordinary passive) is appended to the Top-Most card (718.3 / 724). While
+      // unattached, its host-targeted Effect Text has no Top-Most card and is inactive.
+      if (attached ? rulesText : hostTargeted) continue;
       const scope = { controller, sourceObjectId: card.id, depth: depth + 1 };
       const modifier = unwrap(room, host, ability.modifier, scope);
       if (!modifier) continue;

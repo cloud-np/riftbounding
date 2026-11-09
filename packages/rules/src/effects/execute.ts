@@ -138,6 +138,20 @@ export function executeCardScript(
     if (result.status === "await") return { status: "await" };
     return { status: "resolved" };
   }
+  // 818.1.c.2: "Equip is functionally short for '[Cost]: Attach this gear to a unit you
+  // control.'" The play layer lists `equip:<n>` as a built-in activated ability and binds its
+  // target (818.1.b.1); the resolution is the standard attach op (435, 818.2).
+  if (item?.abilityRef?.startsWith("equip:") && item.sourceObjectId) {
+    const attach: Effect = {
+      op: "attach",
+      gear: { targetRef: "self" },
+      to: { targetRef: "target:0" },
+    };
+    const result = startMachine(context.room, context.step, attach, envFromItem(item, context));
+    if (result.status === "manual") return { status: "manual", reason: result.reason };
+    if (result.status === "await") return { status: "await" };
+    return { status: "resolved" };
+  }
   const lookup = lookupAbility(name, abilityRef);
   if (!lookup || lookup.script.status === "manual") {
     return { status: "manual", reason: "no_script" };
