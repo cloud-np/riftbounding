@@ -8,7 +8,7 @@ import { registerCustomCondition, refIds } from "../../effects/evaluate";
 import { RESOLVED } from "../../effects/execute";
 import { registerCustomEffect } from "../../effects/ops/control";
 import { evalContextOf, recordOutcome } from "../../effects/targets";
-import { FLOW_GAP, SELF_EMPOWERED, WHEN_I_CONQUER, conditional, empower } from "./shared";
+import { SELF_EMPOWERED, WHEN_I_CONQUER, conditional, empower } from "./shared";
 
 /* ---------------------------------------------------------------- custom conditions */
 
@@ -118,10 +118,26 @@ registerCardScript({
 registerCardScript({
   name: "Kennen, Storm of Shuriken",
   text: "When you play me, [Burn 2]. (Put the top 2 cards of your Main Deck into your trash.)\nWhen I conquer, give a spell in your trash [Flow] equal to its cost this turn. (You may play it from your trash for its Flow cost. Then banish it.)",
-  status: "partial",
-  notes: `${FLOW_GAP} 'Give a spell in your trash [Flow] equal to its cost' is therefore not automated; the Burn 2 is.`,
+  status: "implemented",
   abilities: [
     { kind: "triggered", trigger: WHEN_PLAYED, effect: { op: "burn", amount: 2, target: {} } },
+    {
+      kind: "triggered",
+      trigger: WHEN_I_CONQUER,
+      effect: {
+        op: "grant_keyword",
+        // 829.2: [Flow] equal to the spell's printed cost, usable from the trash this turn.
+        keyword: "Flow",
+        target: {
+          chosen: true,
+          cardType: "spell",
+          zone: "trash",
+          controller: "self",
+          targetRef: "target:0",
+        },
+        duration: "this-turn",
+      },
+    },
   ],
 });
 
@@ -163,8 +179,7 @@ registerCardScript({
 registerCardScript({
   name: "Death Mark",
   text: '[Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)\nPlay a 0 [Might] Shadow Clone unit token. (It has "When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.")\n[Flow][1][Rune][Rune] (You may play this from your trash for its Flow cost. Then banish it.)',
-  status: "partial",
-  notes: FLOW_GAP,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",
@@ -182,8 +197,7 @@ registerCardScript({
 registerCardScript({
   name: "Lightning Rush",
   text: "Look at the top 3 cards of your Main Deck. You may choose a card from among them and draw it. Put the rest into your trash.\n[Flow][2][Rune] (You may play this from your trash for its Flow cost. Then banish it.)",
-  status: "partial",
-  notes: FLOW_GAP,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",

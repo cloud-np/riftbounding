@@ -241,7 +241,7 @@ describe("Vendetta: Empower triggers and checks", () => {
       .expectOk();
     s.as("p2").pass().expectOk();
     expect(zoneOf(s, paws.id)).toBe("trash");
-    expect(getCardScript("Lacerate")?.status).toBe("partial");
+    expect(getCardScript("Lacerate")?.status).toBe("implemented");
   });
 
   it("[C:Tomb-Raider Barbara][R383.2.a.1] with 7+ runes: disempower an Empowered enemy gear, otherwise kill it", () => {

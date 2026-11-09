@@ -7,15 +7,14 @@
  */
 import { registerCardScript } from "../registry";
 import { aUnit, custom } from "../dsl";
-import { FLOW_GAP } from "./shared";
+
 
 const THERE = { kind: "chosen" as const, ref: "target:0" };
 
 registerCardScript({
   name: "Shadow Dash",
   text: "Move an enemy unit to a battlefield where you have units. If you have exactly two units there, they each get +1[Might] this turn.\n[Flow][5][Rune][Rune] (You may play this from your trash for its Flow cost. Then banish it.)",
-  status: "partial",
-  notes: FLOW_GAP,
+  status: "implemented",
   abilities: [
     {
       kind: "spell",

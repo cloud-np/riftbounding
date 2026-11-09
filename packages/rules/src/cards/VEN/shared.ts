@@ -25,9 +25,14 @@ import { idsOf } from "../../effects/env";
 import { playersInTurnOrder, refIds, registerCustomCondition } from "../../effects/evaluate";
 import { RESOLVED } from "../../effects/execute";
 import { registerCustomEffect } from "../../effects/ops/control";
-import { evalContextOf, recordOutcome } from "../../effects/targets";
+import { evalContextOf, optionFor, recordOutcome } from "../../effects/targets";
+import { canPayCost, payCost } from "../../play/payment";
+import { appendChainItem } from "../../timing/fepr/chain";
 import { pushEvent } from "../../types";
+import { channelRunes, drawCards } from "../../actions/primitives";
 import { hasUnitPresentAt, unitsPresentAt } from "../../state/presence";
+import { forgetObject } from "../../effects/ops/util";
+import { effectiveMight } from "../../layers";
 import {
   battlefieldController,
   boardZoneList,
@@ -507,4 +512,504 @@ registerCustomCondition("ven:has-domain", (ctx, params) => {
   if (!id || !domain) return false;
   const domains = ctx.host.cardInfo(ctx.room, id)?.domains ?? [];
   return domains.some((entry) => String(entry).toLowerCase() === domain);
+});
+
+/* ---------------------------------------------------- wave R4 shared conditions */
+
+/** 143.1: the candidate (`it`) is a unit or a gear. */
+registerCustomCondition("ven:is-unit-or-gear", (ctx) => {
+  const id = ctx.env.it;
+  if (!id) return false;
+  const type = (ctx.host.cardInfo(ctx.room, id)?.type ?? "").toLowerCase();
+  return type.includes("unit") || type.includes("gear");
+});
+
+/** `it` is at the battlefield where a showdown (combat or non-combat) is in progress. */
+registerCustomCondition("ven:at-showdown", (ctx) => {
+  const id = ctx.env.it;
+  const rules = ctx.room.rules;
+  const zone = rules?.showdown?.battlefield ?? rules?.combat?.battlefield;
+  if (!id || !zone) return false;
+  return locationOf(ctx.room, ctx.host, id) === zone;
+});
+
+/**
+ * "a friendly unit that's in combat with an enemy Fury unit": `it` holds a combat designation at
+ * the combat battlefield and the opposing side has a unit of `params.domain` there (383.4.e/f,
+ * 466.2).
+ */
+registerCustomCondition("ven:in-combat-with-enemy-domain", (ctx, params) => {
+  const id = ctx.env.it;
+  const rules = ctx.room.rules;
+  const combat = rules?.combat;
+  const domain = typeof params.domain === "string" ? params.domain.toLowerCase() : "";
+  if (!id || !combat || !domain) return false;
+  if (locationOf(ctx.room, ctx.host, id) !== combat.battlefield) return false;
+  const designation = rules?.objects[id]?.designation;
+  if (!designation) return false;
+  const mine = controllerOf(ctx.room, ctx.host, id);
+  return unitsPresentAt(ctx.room, ctx.host, combat.battlefield).some((card) => {
+    if (controllerOf(ctx.room, ctx.host, card.id) === mine) return false;
+    if (!rules?.objects[card.id]?.designation) return false;
+    const domains = ctx.host.cardInfo(ctx.room, card.id)?.domains ?? [];
+    return domains.some((entry) => String(entry).toLowerCase() === domain);
+  });
+});
+
+/** Every id bound anywhere in a chain item's choices (targets, modes, chosen cards/players). */
+function choiceIds(choices: Record<string, unknown> | undefined): string[] {
+  if (!choices) return [];
+  const out: string[] = [];
+  const visit = (value: unknown): void => {
+    if (typeof value === "string") out.push(value);
+    else if (Array.isArray(value)) for (const entry of value) visit(entry);
+    else if (value && typeof value === "object") for (const entry of Object.values(value)) visit(entry);
+  };
+  for (const value of Object.values(choices)) visit(value);
+  return out;
+}
+
+/** "that's being chosen by an enemy Fury spell": a Fury spell on the chain has `it` as a choice. */
+registerCustomCondition("ven:chosen-by-enemy-domain-spell", (ctx, params) => {
+  const id = ctx.env.it;
+  const domain = typeof params.domain === "string" ? params.domain.toLowerCase() : "";
+  if (!id || !domain) return false;
+  return (ctx.room.rules?.chain ?? []).some((item) => {
+    if (item.kind !== "card" || item.controller === ctx.env.controller) return false;
+    if (!choiceIds(item.choices).includes(id)) return false;
+    const info = ctx.host.cardInfo(ctx.room, item.cardSnapshot?.id ?? item.id);
+    const domains = info?.domains ?? item.cardSnapshot?.domains ?? [];
+    return (domains as string[]).some((entry) => String(entry).toLowerCase() === domain);
+  });
+});
+
+/** Decree of Focus: in combat with an enemy Fury unit, or chosen by an enemy Fury spell. */
+registerCustomCondition("ven:decree-focus-eligible", (ctx) => {
+  const id = ctx.env.it;
+  const rules = ctx.room.rules;
+  if (!id || !rules) return false;
+  const inCombat =
+    !!rules.combat &&
+    locationOf(ctx.room, ctx.host, id) === rules.combat.battlefield &&
+    !!rules.objects[id]?.designation &&
+    unitsPresentAt(ctx.room, ctx.host, rules.combat.battlefield).some((card) => {
+      if (controllerOf(ctx.room, ctx.host, card.id) === controllerOf(ctx.room, ctx.host, id)) return false;
+      if (!rules.objects[card.id]?.designation) return false;
+      return (ctx.host.cardInfo(ctx.room, card.id)?.domains ?? []).some(
+        (entry) => String(entry).toLowerCase() === "fury",
+      );
+    });
+  if (inCombat) return true;
+  return (rules.chain ?? []).some((item) => {
+    if (item.kind !== "card" || item.controller === ctx.env.controller) return false;
+    if (!choiceIds(item.choices).includes(id)) return false;
+    const info = ctx.host.cardInfo(ctx.room, item.cardSnapshot?.id ?? item.id);
+    const domains = info?.domains ?? item.cardSnapshot?.domains ?? [];
+    return (domains as string[]).some((entry) => String(entry).toLowerCase() === "fury");
+  });
+});
+
+/** 420.4.a: the played-card event came from a zone other than its controller's hand. */
+registerCustomCondition("ven:played-from-not-hand", (ctx) => {
+  const event = ctx.env.event;
+  const from = event?.data?.from;
+  if (typeof from === "string") return from !== "hand";
+  // `card_played` carries the chain item; its `fromZone` is the play origin (350.1).
+  const itemId = event?.data?.itemId;
+  if (typeof itemId !== "string") return false;
+  const item = ctx.room.rules?.chain.find((entry) => entry.id === itemId);
+  return !!item?.fromZone && item.fromZone !== "hand";
+});
+
+/** "during their first and second turn": the event player's turn ordinal within the game. */
+registerCustomCondition("ven:first-or-second-turn", (ctx) => {
+  const rules = ctx.room.rules;
+  if (!rules) return false;
+  const players = ctx.host.activePlayerIds(ctx.room).length || 1;
+  const ordinal = Math.ceil(rules.turn.number / players);
+  return ordinal <= 2;
+});
+
+/* ---------------------------------------------------- wave R4 shared effects */
+
+/** 473.1.b style "they draw 1 instead" for a replaced Scoring action: the event's player draws. */
+registerCustomEffect("ven:draw-instead-of-score", (_params, context) => {
+  const playerId = context.machine?.env.event?.playerId;
+  if (!playerId) return RESOLVED;
+  drawCards(context.room, playerId, 1, context.step);
+  return RESOLVED;
+});
+
+/** 315.3.b.1: the event player channels exactly one rune (Sandstone Chimera's replacement). */
+registerCustomEffect("ven:channel-one", (_params, context) => {
+  const playerId = context.machine?.env.event?.playerId;
+  if (!playerId) return RESOLVED;
+  channelRunes(context.room, playerId, 1, context.step);
+  return RESOLVED;
+});
+
+/** "Banish your hand and trash": every card in the controller's hand and trash is banished. */
+registerCustomEffect("ven:banish-hand-and-trash", (_params, context) => {
+  const host = context.step.host;
+  const player = context.controller;
+  const cards = [...host.zoneCards(context.room, player, "hand"), ...host.zoneCards(context.room, player, "trash")];
+  const done: string[] = [];
+  for (const card of cards) {
+    const located = locate(context.room, host, card.id);
+    if (!located) continue;
+    if (!host.moveCardToOwnerZone(context.room, card.id, "banished")) continue;
+    forgetObject(context.room, host, card.id);
+    done.push(card.id);
+    pushEvent(context.step.events, {
+      type: "banish",
+      cardId: card.id,
+      playerId: located.playerId,
+      cardName: card.name,
+      data: { from: located.zone },
+    });
+  }
+  recordOutcome(context, done, done.length > 0);
+  return RESOLVED;
+});
+
+/**
+ * "When you burn a unit this way, give a friendly unit +[Might] equal to the burned card's
+ * Might": reads the burn event this resolution just emitted (441), then asks for the friendly
+ * unit at resolution (355.18) and applies the noted Might.
+ */
+registerCustomEffect("ven:give-burned-might", (_params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const events = context.step.events;
+  const burn = [...events].reverse().find((event) => event.type === "burn" && event.playerId === context.controller);
+  const burnedId = (burn?.data?.cardIds as string[] | undefined)?.[0];
+  if (!burnedId) return RESOLVED;
+  const host = context.step.host;
+  const located = host.findCard(context.room, burnedId);
+  const info = host.cardInfo(context.room, burnedId);
+  if (!located || !info || !(info.type ?? "").toLowerCase().includes("unit")) return RESOLVED;
+  const might = typeof info.might === "number" ? info.might : 0;
+  machine.env.vars.burnedMight = might as never;
+  machine.push(
+    {
+      effect: {
+        op: "choose",
+        key: "unit",
+        selector: { cardType: "unit", controller: "self" },
+        min: 1,
+        max: 1,
+        label: "Choose a friendly unit",
+      },
+    },
+    { effect: { op: "custom", id: "ven:give-might-equal-burned" } },
+  );
+  return RESOLVED;
+});
+
+registerCustomEffect("ven:give-might-equal-burned", (_params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const amount = typeof machine.env.vars.burnedMight === "number" ? machine.env.vars.burnedMight : 0;
+  const ids = refIds(evalContextOf(context), "unit");
+  machine.push(
+    ...ids.map((id) => ({
+      effect: { op: "temporary_might" as const, amount, target: { targetRef: `obj:${id}` } },
+    })),
+  );
+  return RESOLVED;
+});
+
+/**
+ * Temporal Breach: "Banish a unit, then its owner plays it to the same location, ignoring its
+ * cost." The owner is the new chain item's controller (420.3), and the recorded location is
+ * forced through `totalCost` (359.2.c/d).
+ */
+registerCustomEffect("ven:banish-then-replay", (params, context) => {
+  const host = context.step.host;
+  const rules = context.room.rules;
+  const ctx = evalContextOf(context);
+  const ref = typeof params.ref === "string" ? params.ref : "target:0";
+  const ids = refIds(ctx, ref);
+  for (const id of ids) {
+    if (!rules) break;
+    const located = locate(context.room, host, id);
+    if (!located) continue;
+    const zone = located.zone;
+    if (!host.moveCardToOwnerZone(context.room, id, "banished")) continue;
+    forgetObject(context.room, host, id);
+    pushEvent(context.step.events, {
+      type: "banish",
+      cardId: id,
+      playerId: located.playerId,
+      cardName: located.card.name,
+      data: { from: zone },
+    });
+    const owner = located.card.ownerPlayerId ?? located.playerId;
+    const info = host.cardInfo(context.room, id);
+    const snapshot = host.takeCard(context.room, owner, "banished", id);
+    if (!snapshot) continue;
+    const type = (info?.type ?? snapshot.type ?? "").toLowerCase();
+    const location = type.includes("unit") && zone !== "base" ? zone : "base";
+    const item = {
+      id: host.nextId("chain"),
+      kind: "card" as const,
+      status: "pending" as const,
+      controller: owner,
+      cardName: info?.name ?? snapshot.name,
+      ...(snapshot.cardCode ? { cardCode: snapshot.cardCode } : {}),
+      choices: { location },
+      origin: "play" as const,
+      fromZone: "banished",
+      cardSnapshot: snapshot,
+      totalCost: { energy: 0, power: 0 },
+      addedAt: host.now(),
+    };
+    appendChainItem(context.room, item, context.step);
+    rules.history.cardsPlayedThisTurn[owner] = (rules.history.cardsPlayedThisTurn[owner] ?? 0) + 1;
+    pushEvent(context.step.events, {
+      type: "card_played",
+      cardId: id,
+      playerId: owner,
+      cardName: item.cardName,
+      data: { itemId: item.id, limited: true, cost: "ignored", from: "banished" },
+    });
+  }
+  return RESOLVED;
+});
+
+/** The controller of a unit/gear or rune controlled by `playerId` is ready-able. */
+function readyCandidates(room: EvaluatorRoom, host: EvaluatorHost, playerId: string): string[] {
+  const zones = ["base", ...host.battlefieldZones(room)];
+  const out: string[] = [];
+  for (const zone of zones) {
+    for (const card of host.zoneCards(room, playerId, zone)) {
+      const type = (host.cardInfo(room, card.id)?.type ?? "").toLowerCase();
+      if (type.includes("unit") || type.includes("gear")) out.push(card.id);
+    }
+  }
+  for (const card of host.zoneCards(room, playerId, "runeArea")) out.push(card.id);
+  return out;
+}
+
+type EvaluatorRoom = Parameters<typeof channelRunes>[0];
+type EvaluatorHost = Parameters<typeof hasUnitPresentAt>[1];
+
+/** "Ready up to N units, gear and/or runes" (355.13: zero or more, up to N). */
+registerCustomEffect("ven:ready-up-to", (params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const host = context.step.host;
+  const ctx = evalContextOf(context);
+  const max = typeof params.count === "number" ? Math.max(0, params.count) : 4;
+  const pool = readyCandidates(context.room, host, ctx.env.controller).filter((id) =>
+    host.isExhausted(context.room, id),
+  );
+  if (pool.length === 0) return RESOLVED;
+  if (machine.frame.answer === undefined) {
+    return machine.ask({
+      kind: "choose-card",
+      playerId: ctx.env.controller,
+      options: pool.map((id) => optionFor(ctx, id)),
+      min: 0,
+      max: Math.min(max, pool.length),
+      rule: "355.13",
+      promptKey: "rules.prompt.choose",
+      data: { answer: "objects" },
+    });
+  }
+  const answer = machine.frame.answer;
+  machine.frame.answer = undefined;
+  const ids = (Array.isArray(answer) ? answer : [answer]).filter(
+    (id): id is string => typeof id === "string" && pool.includes(id),
+  );
+  machine.push(...ids.map((id) => ({ effect: { op: "ready" as const, target: { targetRef: `obj:${id}` } } })));
+  return RESOLVED;
+});
+
+/**
+ * Wild Claw: "You may banish a unit or gear from among them and play it, reducing its Energy
+ * cost by [5]. Recycle the rest." (`chosen` holds the looked-at card picked at resolution.)
+ */
+registerCustomEffect("ven:wild-claw-play", (_params, context) => {
+  const machine = context.machine;
+  const host = context.step.host;
+  const rules = context.room.rules;
+  if (!machine || !rules) return RESOLVED;
+  const ctx = evalContextOf(context);
+  const controller = ctx.env.controller;
+  const chosen = refIds(ctx, "chosen");
+  const played: string[] = [];
+  for (const id of chosen) {
+    const located = locate(context.room, host, id);
+    if (!located) continue;
+    const owner = located.card.ownerPlayerId ?? located.playerId;
+    const info = host.cardInfo(context.room, id);
+    const domains = (info?.domains ?? []) as string[];
+    const power = info?.powerCost ?? 0;
+    const energy = Math.max(0, (info?.energyCost ?? 0) - 5);
+    const cost = {
+      ...(energy > 0 ? { energy } : {}),
+      ...(power > 0 ? { power: { [domains.length === 1 ? domains[0]! : "any"]: power } } : {}),
+    };
+    if (!canPayCost(context.room, host, controller, cost)) continue;
+    if (!host.moveCardToOwnerZone(context.room, id, "banished")) continue;
+    forgetObject(context.room, host, id);
+    pushEvent(context.step.events, {
+      type: "banish",
+      cardId: id,
+      playerId: located.playerId,
+      cardName: located.card.name,
+      data: { from: located.zone },
+    });
+    if (!payCost(context.room, context.step, controller, cost).ok) continue;
+    const snapshot = host.takeCard(context.room, owner, "banished", id);
+    if (!snapshot) continue;
+    const item = {
+      id: host.nextId("chain"),
+      kind: "card" as const,
+      status: "pending" as const,
+      controller,
+      cardName: info?.name ?? snapshot.name,
+      ...(snapshot.cardCode ? { cardCode: snapshot.cardCode } : {}),
+      choices: { location: "base" },
+      origin: "play" as const,
+      fromZone: "banished",
+      cardSnapshot: snapshot,
+      totalCost: { energy, power },
+      addedAt: host.now(),
+    };
+    appendChainItem(context.room, item, context.step);
+    rules.history.cardsPlayedThisTurn[controller] = (rules.history.cardsPlayedThisTurn[controller] ?? 0) + 1;
+    played.push(id);
+    pushEvent(context.step.events, {
+      type: "card_played",
+      cardId: id,
+      playerId: controller,
+      cardName: item.cardName,
+      data: { itemId: item.id, limited: true, cost: "reduced", from: "banished" },
+    });
+  }
+  const rest = refIds(ctx, "looked").filter((id) => !chosen.includes(id));
+  for (const id of rest) {
+    const located = locate(context.room, host, id);
+    if (!located || located.zone !== "deck") continue;
+    if (!host.moveCardToOwnerZone(context.room, id, "deck", "bottom")) continue;
+    pushEvent(context.step.events, {
+      type: "recycle",
+      cardId: id,
+      playerId: located.card.ownerPlayerId ?? located.playerId,
+      zone: "deck",
+      data: { from: "deck" },
+    });
+  }
+  // "Then you may do this: Empower it." The played card finalizes after this resolution, so the
+  // optional empowerment waits for its play event (391.2 / 420.3).
+  if (played.length > 0) {
+    machine.push({
+      effect: {
+        op: "delayed",
+        trigger: {
+          kind: "event",
+          event: { type: ["unit_played", "gear_played"], subject: { targetRef: "chosen" } },
+        },
+        effect: { op: "empower", target: { targetRef: "chosen" } },
+        duration: "this-turn",
+        optional: true,
+      },
+    });
+  }
+  return RESOLVED;
+});
+
+/**
+ * Rebuttal — "You may pay [Rune]. If you do, gain control of it and you may make new choices for
+ * it. Otherwise, counter it." The spell stays pending below Rebuttal; changing the item's
+ * controller and clearing its choices lets its own resolution choose anew (355.18).
+ */
+registerCustomEffect("ven:rebuttal", (params, context) => {
+  const machine = context.machine;
+  const ctx = evalContextOf(context);
+  if (!machine) return RESOLVED;
+  const ref = typeof params.ref === "string" ? params.ref : "target:0";
+  const id = refIds(ctx, ref)[0];
+  const item = id ? ctx.room.rules?.chain.find((entry) => entry.id === id) : undefined;
+  if (!id || !item) return RESOLVED;
+  const pay = { power: { any: 1 } };
+  const payable = canPayCost(context.room, context.step.host, ctx.env.controller, pay);
+  const answer = machine.frame.answer;
+  if (payable && answer === undefined) {
+    return machine.ask({
+      kind: "yes-no",
+      playerId: ctx.env.controller,
+      options: [
+        { id: "yes", label: "Pay [Rune]" },
+        { id: "no", label: "Counter it" },
+      ],
+      min: 1,
+      max: 1,
+      rule: "445.2",
+      promptKey: "rules.prompt.payCost",
+      data: { answer: "boolean" },
+    });
+  }
+  machine.frame.answer = undefined;
+  const yes = answer === true || answer === "yes" || (Array.isArray(answer) && answer.includes("yes"));
+  if (payable && yes && payCost(context.room, context.step, ctx.env.controller, pay).ok) {
+    item.controller = ctx.env.controller;
+    item.choices = {};
+    pushEvent(context.step.events, {
+      type: "establish_control",
+      playerId: ctx.env.controller,
+      data: { itemId: item.id, rule: "435" },
+    });
+    return RESOLVED;
+  }
+  machine.push({ effect: { op: "counter", target: { targetRef: `obj:${item.id}` } } });
+  return RESOLVED;
+});
+
+/** Choose a player: they gain control of this and recall it (Glowstone). */
+registerCustomEffect("ven:control-and-recall", (params, context) => {
+  const host = context.step.host;
+  const ctx = evalContextOf(context);
+  const sourceRef = typeof params.source === "string" ? params.source : "self";
+  const source = refIds(ctx, sourceRef)[0];
+  const player = refIds(ctx, typeof params.playerRef === "string" ? params.playerRef : "player")[0];
+  if (!source || !player) return RESOLVED;
+  if (!host.setController(context.room, source, player)) return RESOLVED;
+  pushEvent(context.step.events, {
+    type: "establish_control",
+    cardId: source,
+    playerId: player,
+    data: { rule: "190" },
+  });
+  const located = locate(context.room, host, source);
+  if (located && located.zone !== "base") {
+    host.moveCard(context.room, located.playerId, located.zone, "base", source);
+    pushEvent(context.step.events, { type: "recall", cardId: source, playerId: player });
+  }
+  return RESOLVED;
+});
+
+/** Dame the Despoiler: increase my Might to the chosen unit's Might, then give me +1. */
+registerCustomEffect("ven:increase-might-to-chosen", (_params, context) => {
+  const machine = context.machine;
+  if (!machine) return RESOLVED;
+  const ctx = evalContextOf(context);
+  const source = ctx.env.sourceObjectId;
+  const chosen = refIds(ctx, "unit")[0];
+  if (!source || !chosen) return RESOLVED;
+  const mine = effectiveMight(context.room, source, context.step.host);
+  const theirs = effectiveMight(context.room, chosen, context.step.host);
+  const amount = Math.max(0, theirs - mine);
+  machine.push({
+    effect: {
+      op: "seq",
+      effects: [
+        { op: "temporary_might", amount, target: { targetRef: `obj:${source}` } },
+        { op: "temporary_might", amount: 1, target: { targetRef: `obj:${source}` } },
+      ],
+    },
+  });
+  return RESOLVED;
 });

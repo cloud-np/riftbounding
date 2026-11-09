@@ -76,3 +76,10 @@ export {};
 import "./batch4-units";
 import "./batch4-more";
 import "./batch4-legends";
+// Wave R4 (ven-ogs lane)
+import "./batch5-units";
+import "./batch5-empower-units";
+import "./batch5-gear";
+import "./batch5-spells";
+import "./batch5-legends";
+import "./batch5-battlefields";
