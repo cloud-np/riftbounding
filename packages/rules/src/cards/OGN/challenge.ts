@@ -13,7 +13,10 @@ registerCardScript({
         effects: [
           {
             op: "deal",
-            amount: { kind: "might", selector: aUnit({ controller: "self", targetRef: "target:0" }) },
+            amount: {
+              kind: "might",
+              selector: aUnit({ controller: "self", targetRef: "target:0" }),
+            },
             target: aUnit({ controller: "opponent", targetRef: "target:1" }),
             source: { targetRef: "target:0" },
           },

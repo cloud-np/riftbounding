@@ -7,8 +7,16 @@
  * trigger is put on the chain (403.2) and "you may" is decided then (403.1). "If I'm Empowered"
  * is checked on resolution (359.3.f.2).
  */
-import { SELF_EMPOWERED, empower, whileEmpowered } from "./shared";
-import { aUnit, custom, registerCardScript, SELF, WHEN_I_MOVE } from "../sdk";
+import {
+  aUnit,
+  custom,
+  empower,
+  registerCardScript,
+  SELF,
+  SELF_EMPOWERED,
+  WHEN_I_MOVE,
+  whileEmpowered,
+} from "../sdk";
 
 const TARGET = aUnit({ targetRef: "target:0", where: custom("ven:at-move-endpoint-battlefield") });
 

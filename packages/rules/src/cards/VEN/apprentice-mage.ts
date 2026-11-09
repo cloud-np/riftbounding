@@ -4,8 +4,7 @@
  *
  * 442.2.a: becoming Empowered is an event; 437 Predict; 828.1.c the Dependent Might bonus.
  */
-import { WHEN_I_BECOME_EMPOWERED, empower, whileEmpowered } from "./shared";
-import { registerCardScript, SELF } from "../sdk";
+import { empower, registerCardScript, SELF, WHEN_I_BECOME_EMPOWERED, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Apprentice Mage",

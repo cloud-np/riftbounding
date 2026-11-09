@@ -16,7 +16,13 @@ registerCardScript({
     {
       kind: "triggered",
       trigger: WHEN_YOU_DEFEND_HERE,
-      effect: { op: "grant_keyword", keyword: "Shield", value: 2, target: aUnit(), duration: "this-combat" },
+      effect: {
+        op: "grant_keyword",
+        keyword: "Shield",
+        value: 2,
+        target: aUnit(),
+        duration: "this-combat",
+      },
     },
   ],
 });

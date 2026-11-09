@@ -3,18 +3,11 @@
  * way, draw 1." (431.2.a, 431.3: as many as possible; the channel op records how many.)
  */
 import type { Condition } from "@rift/protocol";
-import { registerCardScript, registerCustomCondition } from "../sdk";
-
-/** The preceding channel instruction channelled fewer than `n` runes (431.3). */
-registerCustomCondition("ogn-an:channelled-fewer-than", (ctx, params) => {
-  const n = typeof params.n === "number" ? params.n : 1;
-  const channelled = typeof ctx.env.vars.$channelled === "number" ? ctx.env.vars.$channelled : 0;
-  return channelled < n;
-});
+import { registerCardScript } from "../sdk";
 
 export const CHANNELLED_FEWER_THAN_2: Condition = {
   kind: "custom",
-  id: "ogn-an:channelled-fewer-than",
+  id: "ogn:channelled-fewer-than",
   params: { n: 2 },
 };
 

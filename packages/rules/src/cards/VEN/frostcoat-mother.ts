@@ -5,8 +5,8 @@
  * 827.1.c.3: one -1 cost entry per rune controlled, applied to this object's activation while it
  * is on the board (not to its play cost from hand, 366.2.a). Empower is its only activated ability.
  */
-import { ON_BOARD, empower, perCountCostReduction, whileEmpowered } from "./shared";
-import { registerCardScript, SELF } from "../sdk";
+import { empower, registerCardScript, SELF, whileEmpowered } from "../sdk";
+import { ON_BOARD, perCountCostReduction } from "./custom";
 
 registerCardScript({
   name: "Frostcoat Mother",

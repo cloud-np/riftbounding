@@ -5,7 +5,6 @@
 import type { Trigger } from "@rift/protocol";
 import { HERE, SELF } from "./selectors";
 
-
 /** "When I move" (421, 447–455). */
 export const WHEN_I_MOVE: Trigger = { kind: "event", event: { type: "move", subject: SELF } };
 
@@ -25,10 +24,16 @@ export const WHEN_I_DIE_EMPOWERED: Trigger = {
 };
 
 /** "When I become exhausted" (415). */
-export const WHEN_I_BECOME_EXHAUSTED: Trigger = { kind: "event", event: { type: "exhaust", subject: SELF } };
+export const WHEN_I_BECOME_EXHAUSTED: Trigger = {
+  kind: "event",
+  event: { type: "exhaust", subject: SELF },
+};
 
 /** "When I become [Empowered]" (827.1.d). */
-export const WHEN_I_BECOME_EMPOWERED: Trigger = { kind: "event", event: { type: "empower", subject: SELF } };
+export const WHEN_I_BECOME_EMPOWERED: Trigger = {
+  kind: "event",
+  event: { type: "empower", subject: SELF },
+};
 
 /** "When I attack" (383.4.e). */
 export const WHEN_I_ATTACK: Trigger = { kind: "event", event: { type: "attack", subject: SELF } };
@@ -49,13 +54,22 @@ export const WHEN_I_CONQUER: Trigger = { kind: "event", event: { type: "conquer"
 export const WHEN_I_HOLD: Trigger = { kind: "event", event: { type: "hold", subject: SELF } };
 
 /** "When you conquer" (any battlefield, 383.4.c.2). */
-export const WHEN_YOU_CONQUER: Trigger = { kind: "event", event: { type: "conquer", player: "self" } };
+export const WHEN_YOU_CONQUER: Trigger = {
+  kind: "event",
+  event: { type: "conquer", player: "self" },
+};
 
 /** "When you hold here" (battlefield, 383.4.d.2.b). */
-export const WHEN_YOU_HOLD_HERE: Trigger = { kind: "event", event: { type: "hold", zone: HERE, player: "self" } };
+export const WHEN_YOU_HOLD_HERE: Trigger = {
+  kind: "event",
+  event: { type: "hold", zone: HERE, player: "self" },
+};
 
 /** "When you conquer here" (battlefield, 383.4.c.2.b). */
-export const WHEN_YOU_CONQUER_HERE: Trigger = { kind: "event", event: { type: "conquer", zone: HERE, player: "self" } };
+export const WHEN_YOU_CONQUER_HERE: Trigger = {
+  kind: "event",
+  event: { type: "conquer", zone: HERE, player: "self" },
+};
 
 /**
  * "When you defend here" (battlefield, 383.4.f): the player gains the Defender designation

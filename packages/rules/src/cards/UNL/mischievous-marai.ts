@@ -2,7 +2,7 @@
  * Mischievous Marai (UNL-003) — [Hidden] (811, engine keyword). "When you play me at a
  * battlefield" is part of the trigger condition (383.2.a.1); "here" is my battlefield (359.3.f).
  */
-import { aUnit, custom, HERE, registerCardScript, WHEN_PLAYED } from "../sdk";
+import { aUnit, HERE, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Mischievous Marai",

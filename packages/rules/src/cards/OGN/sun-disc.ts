@@ -6,8 +6,7 @@
  * this turn enters ready" needs an enter-ready replacement (369.3) used up by the next unit played
  * (420.5); `enter-ready` modifiers are never consumed, so the effect resolves in the manual window.
  */
-import { LEGION } from "./trifarian-gloryseeker";
-import { registerCardScript, SELF } from "../sdk";
+import { LEGION, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Sun Disc",

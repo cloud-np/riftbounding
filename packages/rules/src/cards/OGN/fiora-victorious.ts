@@ -4,14 +4,18 @@
  * ones (and the "Mighty" description, 707), so they are not intrinsic.
  */
 import type { Ability, KeywordName } from "@rift/protocol";
-import { custom, registerCardScript, SELF, SELF_MIGHTY } from "../sdk";
+import { registerCardScript, SELF, SELF_MIGHTY } from "../sdk";
 
 const MIGHTY = SELF_MIGHTY;
 
 function whileMighty(keyword: KeywordName): Ability {
   return {
     kind: "passive",
-    modifier: { kind: "while", condition: MIGHTY, modifier: { kind: "keyword", keyword, target: SELF } },
+    modifier: {
+      kind: "while",
+      condition: MIGHTY,
+      modifier: { kind: "keyword", keyword, target: SELF },
+    },
   };
 }
 

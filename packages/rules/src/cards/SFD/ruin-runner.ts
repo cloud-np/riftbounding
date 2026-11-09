@@ -5,5 +5,10 @@ registerCardScript({
   name: "Ruin Runner",
   text: "I can't be chosen by enemy spells and abilities.",
   status: "implemented",
-  abilities: [{ kind: "passive", modifier: { kind: "restriction", restriction: "be-targeted:enemy", target: SELF } }],
+  abilities: [
+    {
+      kind: "passive",
+      modifier: { kind: "restriction", restriction: "be-targeted:enemy", target: SELF },
+    },
+  ],
 });

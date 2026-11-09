@@ -4,8 +4,7 @@
  * 828.1.c: the Dependent triggered ability is active only while I'm Empowered (checked when the
  * move happens, 727.1.c.1).
  */
-import { SELF_EMPOWERED, empower } from "./shared";
-import { registerCardScript, WHEN_I_MOVE } from "../sdk";
+import { empower, registerCardScript, SELF_EMPOWERED, WHEN_I_MOVE } from "../sdk";
 
 registerCardScript({
   name: "Covert Informant",

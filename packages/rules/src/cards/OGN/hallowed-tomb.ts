@@ -4,34 +4,7 @@
  * The Chosen Champion is the card set aside as such (`source: "champion"`, 103.2); the "if it is
  * empty" check is made on resolution.
  */
-import { pushEvent, recordOutcome, registerCardScript, registerCustomEffect, RESOLVED, WHEN_YOU_HOLD_HERE } from "../sdk";
-
-/** Move the controller's Chosen Champion from their trash to their empty Champion Zone. */
-registerCustomEffect("ogn-an:return-chosen-champion", (_params, context) => {
-  const host = context.step.host;
-  const player = context.machine?.env.controller ?? context.controller;
-  if (host.zoneCards(context.room, player, "champion").length > 0) {
-    recordOutcome(context, [], false);
-    return RESOLVED;
-  }
-  const champion = host
-    .zoneCards(context.room, player, "trash")
-    .find((card) => card.source === "champion" && (card.ownerPlayerId ?? player) === player);
-  if (!champion || !host.moveCardTo(context.room, player, "trash", "champion", champion.id)) {
-    recordOutcome(context, [], false);
-    return RESOLVED;
-  }
-  pushEvent(context.step.events, {
-    type: "zone_move",
-    cardId: champion.id,
-    playerId: player,
-    cardName: champion.name,
-    zone: "champion",
-    data: { from: "trash" },
-  });
-  recordOutcome(context, [champion.id], true);
-  return RESOLVED;
-});
+import { registerCardScript, WHEN_YOU_HOLD_HERE } from "../sdk";
 
 registerCardScript({
   name: "Hallowed Tomb",
@@ -42,7 +15,7 @@ registerCardScript({
       kind: "triggered",
       trigger: WHEN_YOU_HOLD_HERE,
       optional: true,
-      effect: { op: "custom", id: "ogn-an:return-chosen-champion" },
+      effect: { op: "custom", id: "ogn:return-chosen-champion" },
     },
   ],
 });

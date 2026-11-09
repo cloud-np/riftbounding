@@ -5,7 +5,7 @@ Lane `ogn-oz`. Scripts live in `packages/rules/src/cards/OGN/<slug>.ts` and are 
 `packages/rules/test/cards/ogn-o-z/` (one test per card, titled `[C:Card Name]` plus rule ids).
 Card text is the current text from `packages/cards/data/cards.json` (errata applied).
 
-Custom conditions/effects registered by this lane use the `ogn-oz:` prefix and are registered in
+Custom conditions/effects registered by this lane use the `ogn:` prefix and are registered in
 the script file of the card that needs them (cards sharing one import that file).
 
 ## Capability gaps

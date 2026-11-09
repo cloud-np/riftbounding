@@ -5,10 +5,7 @@
  * 827.1.c.1 Empower. The Empowered Deathknell ("when I die while Empowered", 808 / 828.1.c)
  * reads the kill event's last-known Empowered status (383.2.c.3.b / 424).
  */
-import type { Trigger } from "@rift/protocol";
-import { empower } from "./shared";
-import { registerCardScript, SELF, token, WHEN_I_DIE_EMPOWERED } from "../sdk";
-
+import { empower, registerCardScript, token, WHEN_I_DIE_EMPOWERED } from "../sdk";
 
 registerCardScript({
   name: "Noxian Emissary",

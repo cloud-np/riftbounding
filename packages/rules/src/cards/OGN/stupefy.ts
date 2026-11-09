@@ -8,7 +8,13 @@ registerCardScript({
   abilities: [
     {
       kind: "spell",
-      effect: { op: "seq", effects: [{ op: "give_might", amount: -1, min: 1, target: aUnit() }, { op: "draw", amount: 1 }] },
+      effect: {
+        op: "seq",
+        effects: [
+          { op: "give_might", amount: -1, min: 1, target: aUnit() },
+          { op: "draw", amount: 1 },
+        ],
+      },
     },
   ],
 });

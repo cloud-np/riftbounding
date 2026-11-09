@@ -6,14 +6,15 @@
  * its play cost from hand, 366.2.a); Empower is its only activated ability.
  */
 import {
-  ON_BOARD,
-  conditional,
+  whilePassive as conditional,
   empower,
   notIntrinsic,
+  registerCardScript,
   runesControlled,
+  SELF,
   whileEmpowered,
-} from "./shared";
-import { registerCardScript, SELF } from "../sdk";
+} from "../sdk";
+import { ON_BOARD } from "./custom";
 
 registerCardScript({
   name: "Baccai Sandspinner",

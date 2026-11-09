@@ -2,8 +2,7 @@
  * Aurok General (VEN-130) — "[Empower][3][Order] [Empowered] Your units that are [Empowered]
  * have +2 [Might] (including me)." (827.1.c.1, 828.1.c)
  */
-import { empower, whileEmpowered } from "./shared";
-import { registerCardScript } from "../sdk";
+import { empower, registerCardScript, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Aurok General",

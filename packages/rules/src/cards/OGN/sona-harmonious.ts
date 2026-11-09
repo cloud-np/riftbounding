@@ -10,7 +10,10 @@ registerCardScript({
       kind: "triggered",
       trigger: { kind: "turn-end" },
       condition: SELF_AT_BATTLEFIELD,
-      effect: { op: "ready", target: { chosen: true, cardType: "rune", controller: "self", maxCount: 4 } },
+      effect: {
+        op: "ready",
+        target: { chosen: true, cardType: "rune", controller: "self", maxCount: 4 },
+      },
     },
   ],
 });

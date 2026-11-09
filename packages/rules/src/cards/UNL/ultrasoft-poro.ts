@@ -12,7 +12,10 @@ registerCardScript({
       effect: {
         op: "requires",
         condition: SELF_AT_BATTLEFIELD,
-        effect: { op: "create", token: token("Bird", { count: 2, might: 1, keywords: ["Deflect"], play: true }) },
+        effect: {
+          op: "create",
+          token: token("Bird", { count: 2, might: 1, keywords: ["Deflect"], play: true }),
+        },
       },
     },
   ],

@@ -1,15 +1,128 @@
 /**
- * Unleashed (UNL) card-specific conditions and effects (`unl:` prefix). Import-time registry
- * entries only (no game state); each reads the room through the shared evaluator helpers.
+ * UNL set module: the set's custom conditions/effects (`unl:` ids) and the builders its
+ * cards share. Imported first by the set barrel.
  */
-import type { Room } from "@rift/protocol";
+import type { Ability, Condition, Cost, Effect, Room, Selector, Trigger } from "@rift/protocol";
 import type { EvalContext, RulesHost } from "../sdk";
-import { addContinuousEffect, battlefieldController, battlefieldZoneOf, evalContextOf, forgetObject, idsOf, isBattlefieldZone, locate, locationOf, mightOf, movePrimitive, ownerOf, pushEvent, recordOutcome, refIds, registerCustomCondition, registerCustomEffect, removeChainItem, RESOLVED, restrictionFor, tagsOf, teamOf, unitsPresentAt } from "../sdk";
+import {
+  addContinuousEffect,
+  aUnit,
+  battlefieldController,
+  battlefieldZoneOf,
+  controllerOf,
+  effectiveMight,
+  ENTER_READY_MODIFIER,
+  evalContextOf,
+  forgetObject,
+  HERE,
+  idsOf,
+  isBattlefieldZone,
+  isUnit,
+  locate,
+  locationOf,
+  mightOf,
+  movePrimitive,
+  ownerOf,
+  pushEvent,
+  recordOutcome,
+  refIds,
+  registerCustomCondition,
+  registerCustomEffect,
+  removeChainItem,
+  RESOLVED,
+  restrictionFor,
+  SELF,
+  setXp,
+  tagsOf,
+  teamOf,
+  token,
+  unitsPresentAt,
+  xpOf,
+} from "../sdk";
 
-/* ---------------------------------------------------------------- shared helpers */
+export const OTHER_FRIENDLY_HERE = {
+  cardType: "unit",
+  controller: "self",
+  zone: HERE,
+  excludeSource: true,
+  all: true,
+} as const;
+
+export const ENEMY_HERE = aUnit({ controller: "opponent", zone: HERE });
+
+export const A_SPELL = { chosen: true, cardType: "spell" } as const;
+
+/**
+ * Altar of Blood — "If a unit here would die during combat": a Combat is in progress (461–468).
+ * Used as the matcher condition of the battlefield replacement, evaluated while the kill is
+ * still being proposed (the unit is on the board).
+ */
+registerCustomCondition("unl:in-combat", (ctx) => !!ctx.room.rules?.combat);
+
+/**
+ * Repulse — the chosen enemy spell or ability "chooses it and no other friendly unit".
+ *
+ * The candidate Chain Item is the selector's `it`; `ref` names the chosen friendly unit
+ * (`target:0`). Every object id among the item's bound choices is inspected: the chosen unit must
+ * be one of them and no other friendly unit may be.
+ */
+registerCustomCondition("unl:item-chooses-only", (ctx, params) => {
+  const itemId = ctx.env.it;
+  const item = itemId ? ctx.room.rules?.chain.find((entry) => entry.id === itemId) : undefined;
+  if (!item || item.kind === "token") return false;
+  if (item.kind === "card") {
+    const type = (item.cardSnapshot?.type ?? "").toLowerCase();
+    if (!type.includes("spell")) return false;
+  }
+  const ref = typeof params.ref === "string" ? params.ref : "target:0";
+  const wanted = refIds(ctx, ref);
+  if (wanted.length === 0) return false;
+  const targets: string[] = [];
+  for (const value of Object.values(item.choices ?? {})) targets.push(...idsOf(value));
+  if (!wanted.some((id) => targets.includes(id))) return false;
+  for (const id of targets) {
+    if (wanted.includes(id)) continue;
+    if (
+      isUnit(ctx.room, ctx.host, id) &&
+      controllerOf(ctx.room, ctx.host, id) === ctx.env.controller
+    ) {
+      return false;
+    }
+  }
+  return true;
+});
+
+/** "For each unit this kills, gain 1 XP" (730.1) after a `deal_split` instruction. */
+registerCustomEffect("unl:xp-per-kill", (_params, context) => {
+  const ctx = evalContextOf(context);
+  let kills = 0;
+  for (const id of idsOf(ctx.env.vars.$affected)) {
+    const object = ctx.room.rules?.objects[id];
+    const damage = object?.damage ?? 0;
+    if (damage <= 0) continue;
+    const located = locate(ctx.room, ctx.host, id);
+    if (!located) continue;
+    const might = mightOf(ctx, id);
+    if (might !== null && damage >= might) kills += 1;
+  }
+  if (kills <= 0) {
+    recordOutcome(context, [], false);
+    return RESOLVED;
+  }
+  const player = ctx.env.controller;
+  setXp(context.room, player, xpOf(context.room, player) + kills);
+  pushEvent(context.step.events, {
+    type: "gain_xp",
+    playerId: player,
+    amount: kills,
+    data: { xp: xpOf(context.room, player), rule: "730.1" },
+  });
+  recordOutcome(context, [], true);
+  return RESOLVED;
+});
 
 /** The first object bound to a choice key, even if it is now an illegal target (359.3.e). */
-function chosenId(ctx: EvalContext, ref: string): string | undefined {
+export function chosenId(ctx: EvalContext, ref: string): string | undefined {
   const value = ref in ctx.env.vars ? ctx.env.vars[ref] : ctx.env.choices[ref];
   return idsOf(value)[0];
 }
@@ -18,25 +131,28 @@ function chosenId(ctx: EvalContext, ref: string): string | undefined {
  * The location a chosen object was at when the chain item finalized (359.3.e snapshot), else its
  * current location. "There" / "that battlefield" refer to it even if the object left (359.3.f).
  */
-function chosenLocation(ctx: EvalContext, ref: string): string | null {
+export function chosenLocation(ctx: EvalContext, ref: string): string | null {
   const id = chosenId(ctx, ref);
   if (!id) return null;
   return ctx.env.snapshot?.[id]?.zone ?? locationOf(ctx.room, ctx.host, id);
 }
 
 /** 740.1 "you or allies": the controller's team (2v2, 491) or just the controller. */
-function teamPlayers(room: Room, playerId: string): string[] {
+export function teamPlayers(room: Room, playerId: string): string[] {
   const team = teamOf(room, playerId);
   return team.length > 0 ? team : [playerId];
 }
 
 /** A player controls a battlefield (190.2, stored control with the presence fallback). */
-function controlsZone(room: Room, host: RulesHost, players: string[], zone: string): boolean {
+export function controlsZone(
+  room: Room,
+  host: RulesHost,
+  players: string[],
+  zone: string,
+): boolean {
   const controller = battlefieldController(room, zone, host);
   return !!controller && players.includes(controller);
 }
-
-/* ---------------------------------------------------------------- conditions */
 
 /**
  * Loyal Poro — "If I didn't die alone" (740.2.a: alone = no other friendly units at its
@@ -250,8 +366,6 @@ registerCustomCondition("unl:enemy-battlefield-weaker", (ctx) => {
   const total = enemies.reduce((sum, card) => sum + (mightOf(ctx, card.id) ?? 0), 0);
   return mine > total;
 });
-
-/* ---------------------------------------------------------------- effects */
 
 /**
  * Curtain Call — "Choose one you haven't already chosen" (355.3, 820.2). The engine binds one
@@ -538,5 +652,100 @@ registerCustomEffect("unl:gain-tag", (params, context) => {
 /** Crescent Guardian — "If you've played a spell this turn" (the controller's played cards, 420.4). */
 registerCustomCondition("unl:played-spell-this-turn", (ctx) => {
   const played = ctx.room.rules?.history.effects?.played?.[ctx.env.controller] ?? [];
-  return played.some((id) => (ctx.host.cardInfo(ctx.room, id)?.type ?? "").toLowerCase().includes("spell"));
+  return played.some((id) =>
+    (ctx.host.cardInfo(ctx.room, id)?.type ?? "").toLowerCase().includes("spell"),
+  );
 });
+
+export const ANOTHER_FRIENDLY_UNIT_DIES: Trigger = {
+  kind: "event",
+  event: { type: "die", subject: { cardType: "unit", controller: "self", excludeSource: true } },
+};
+
+/** `where` filter: one of the cards bound to `ref` (e.g. the looked-at cards). */
+export function inRef(ref: string): Selector["where"] {
+  return { kind: "in-ref", ref };
+}
+
+/**
+ * "Look at the top N cards of your Main Deck. You may reveal a <filter> from among them and draw
+ * it. Recycle the rest." (425 look, 425 reveal, 414 draw, 417 recycle; 417.5 random order.)
+ * `key` must be unique per execution (Repeat runs it twice).
+ */
+export function lookRevealDraw(amount: number, filter: Selector, key = "kept"): Effect {
+  return {
+    op: "look",
+    amount,
+    then: {
+      op: "seq",
+      effects: [
+        {
+          op: "choose",
+          key,
+          min: 0,
+          max: 1,
+          selector: { ...filter, zone: "deck", controller: "self", where: inRef("looked") },
+          label: "rules.prompt.revealAndDraw",
+        },
+        { op: "reveal", target: { targetRef: key } },
+        { op: "custom", id: "core:draw-ref", params: { ref: key } },
+        { op: "recycle", target: { zone: "deck", controller: "self", where: inRef("looked") } },
+      ],
+    },
+  };
+}
+
+/** 818.1.c.2: "Equip [Cost]" = "[Cost]: Attach this gear to a unit you control." */
+export function equip(cost: Cost): Ability {
+  return {
+    kind: "activated",
+    cost,
+    keywords: ["Equip"],
+    name: "Equip",
+    effect: { op: "attach", gear: SELF, to: aUnit({ controller: "self" }) },
+  };
+}
+
+export const enterReady = ENTER_READY_MODIFIER;
+
+export const PETS = ["Bird", "Cat", "Dog", "Poro"];
+
+export const ENTERS_EXHAUSTED_NOTE =
+  "'This enters exhausted' is a play trigger that exhausts it, not a replacement while it enters (369, 149.1): in the window before it resolves it could still be used.";
+
+export const ENTER_READY = ENTER_READY_MODIFIER;
+
+export const MOVED_TO_BATTLEFIELD: Condition = { kind: "event-zone-is", battlefield: true };
+
+export const REFLECTION_READY = { exhausted: false, play: true, keywords: ["Temporary" as const] };
+
+registerCustomCondition("unl:enemy-at-other-location", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  const from = source ? locationOf(ctx.room, ctx.host, source) : null;
+  return !!from && !!ctx.env.it && locationOf(ctx.room, ctx.host, ctx.env.it) !== from;
+});
+
+export const READY_SPRITE_TO_BASE: Effect = {
+  op: "create",
+  token: token("Sprite", { might: 3, exhausted: false, play: true }),
+  zone: "base",
+};
+
+/** `it` is an enemy unit at my location (I'm present there) with less Might than me. */
+registerCustomCondition("unl:weaker-enemy-here", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  const it = ctx.env.it;
+  if (!source || !it || source === it) return false;
+  const located = ctx.host.findCard(ctx.room, it);
+  if (!located) return false;
+  if (!unitsPresentAt(ctx.room, ctx.host, located.zone).some((card) => card.id === source))
+    return false;
+  if (ctx.host.findCard(ctx.room, source)?.playerId === located.playerId) return false;
+  return effectiveMight(ctx.room, source, ctx.host) > effectiveMight(ctx.room, it, ctx.host);
+});
+
+export const SPEND_2_BUFF_ME: Ability = {
+  kind: "activated",
+  cost: { spendXp: 2 },
+  effect: { op: "buff", target: SELF },
+};

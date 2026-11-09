@@ -2,7 +2,7 @@
  * Mask of Foresight (OGN-060) — "When a friendly unit attacks or defends alone, give it +1 [Might]
  * this turn." "Alone" (740.2.a) is part of the trigger condition (383.2.a.1).
  */
-import { custom, EVENT_SUBJECT, registerCardScript } from "../sdk";
+import { EVENT_SUBJECT, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Mask of Foresight",

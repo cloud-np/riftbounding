@@ -12,7 +12,12 @@ registerCardScript({
         op: "seq",
         effects: [
           { op: "return_to_hand", target: aUnit({ controller: "self", targetRef: "target:0" }) },
-          { op: "channel", amount: 1, exhausted: true, player: { kind: "owner", of: { targetRef: "target:0" } } },
+          {
+            op: "channel",
+            amount: 1,
+            exhausted: true,
+            player: { kind: "owner", of: { targetRef: "target:0" } },
+          },
         ],
       },
     },

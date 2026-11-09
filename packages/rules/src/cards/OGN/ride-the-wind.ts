@@ -11,7 +11,11 @@ registerCardScript({
       effect: {
         op: "seq",
         effects: [
-          { op: "move", target: aUnit({ controller: "self", targetRef: "target:0" }), to: { kind: "chosen", ref: "destination" } },
+          {
+            op: "move",
+            target: aUnit({ controller: "self", targetRef: "target:0" }),
+            to: { kind: "chosen", ref: "destination" },
+          },
           { op: "ready", target: { targetRef: "target:0" } },
         ],
       },

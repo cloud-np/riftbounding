@@ -4,13 +4,13 @@
  * cards."
  *
  * Look (425) → pick up to one unit among them (355.18; zero is the "may") → banish it (428) → pay
- * its printed cost minus [5] Energy, Power unchanged (`ogn-oz:pay-printed-cost`, see The Harrowing)
+ * its printed cost minus [5] Energy, Power unchanged (`ogn:pay-printed-cost`, see The Harrowing)
  * and play it (420.3) → recycle the rest (417). Partial: the "[5] less" is applied to the printed
  * Energy cost only; other cost modifiers of the played unit (356.3/356.4 passives, optional
  * additional costs such as Accelerate) are not part of that total cost.
  */
-import { playPickedUnit } from "./the-harrowing";
-import { custom, not, registerCardScript } from "../sdk";
+import { not, registerCardScript } from "../sdk";
+import { playPickedUnit } from "./custom";
 
 registerCardScript({
   name: "Reinforce",

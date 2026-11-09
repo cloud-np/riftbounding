@@ -1,5 +1,5 @@
 /** Gustwalker (UNL-075 — EX[281] (727.1.b.2): [Hunt 2] (823) and [Level 3] (824).) */
-import { custom, registerCardScript, SELF, xpAtLeast } from "../sdk";
+import { registerCardScript, SELF, xpAtLeast } from "../sdk";
 
 const LEVEL_3 = xpAtLeast(3);
 
@@ -12,11 +12,19 @@ registerCardScript({
     { kind: "suppress-printed-keyword", keyword: "Ganking" },
     {
       kind: "passive",
-      modifier: { kind: "while", condition: LEVEL_3, modifier: { kind: "might", amount: 1, target: SELF } },
+      modifier: {
+        kind: "while",
+        condition: LEVEL_3,
+        modifier: { kind: "might", amount: 1, target: SELF },
+      },
     },
     {
       kind: "passive",
-      modifier: { kind: "while", condition: LEVEL_3, modifier: { kind: "keyword", keyword: "Ganking", target: SELF } },
+      modifier: {
+        kind: "while",
+        condition: LEVEL_3,
+        modifier: { kind: "keyword", keyword: "Ganking", target: SELF },
+      },
     },
   ],
 });

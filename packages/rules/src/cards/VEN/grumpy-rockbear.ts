@@ -6,14 +6,8 @@
  * reduction is one -1 entry per rune controlled, applied to this object's activation while it is
  * on the board (not to its play cost from hand, 366.2.a). Empower is its only activated ability.
  */
-import {
-  ON_BOARD,
-  empower,
-  notIntrinsic,
-  perCountCostReduction,
-  whileEmpowered,
-} from "./shared";
-import { registerCardScript, SELF } from "../sdk";
+import { empower, notIntrinsic, registerCardScript, SELF, whileEmpowered } from "../sdk";
+import { ON_BOARD, perCountCostReduction } from "./custom";
 
 registerCardScript({
   name: "Grumpy Rockbear",

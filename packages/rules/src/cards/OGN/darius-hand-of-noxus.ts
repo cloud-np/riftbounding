@@ -4,8 +4,7 @@
  * An Add ability (430.2, 430.5) that exists only while Legion is satisfied (812.1.c: you have
  * Finalized a card this turn; a legend is never that card) — modelled as a 377.2.b precondition.
  */
-import { LEGION } from "./darius-executioner";
-import { registerCardScript, SELF } from "../sdk";
+import { LEGION, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Darius, Hand of Noxus",

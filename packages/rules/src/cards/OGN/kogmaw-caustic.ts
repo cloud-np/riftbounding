@@ -3,7 +3,7 @@
  * 808.1.c: "When I die, …"; 808.1.d.3: the location noted when it died is the kill event's zone.
  * Dying at a base deals nothing (it was not at a battlefield).
  */
-import { custom, registerCardScript, WHEN_I_DIE } from "../sdk";
+import { registerCardScript, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Kog'Maw, Caustic",

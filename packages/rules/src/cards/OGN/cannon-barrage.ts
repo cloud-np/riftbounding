@@ -4,7 +4,7 @@
  * combat designation.
  */
 import type { Condition } from "@rift/protocol";
-import { locationOf, registerCardScript, registerCustomCondition } from "../sdk";
+import { registerCardScript } from "../sdk";
 
 export const IN_COMBAT: Condition = { kind: "custom", id: "core:in-combat", params: { ref: "it" } };
 

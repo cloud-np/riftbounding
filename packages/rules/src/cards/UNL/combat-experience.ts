@@ -2,7 +2,7 @@
  * Combat Experience (UNL-031) — [Reaction] (813). Give a unit +1 [Might] this turn; [Level 6]
  * (824) +3 instead — the dependent ability is checked as the spell resolves (727.1.b).
  */
-import { aUnit, custom, registerCardScript } from "../sdk";
+import { aUnit, registerCardScript } from "../sdk";
 
 const TARGET = aUnit({ targetRef: "target:0" });
 

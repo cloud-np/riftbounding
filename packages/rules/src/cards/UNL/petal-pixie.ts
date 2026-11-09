@@ -13,14 +13,18 @@ registerCardScript({
     { kind: "suppress-printed-keyword", keyword: "Temporary" },
     {
       kind: "passive",
-      modifier: { kind: "while", condition: SELF_AT_BATTLEFIELD, modifier: {
-            kind: "might",
-            amount: {
-              kind: "count",
-              selector: { cardType: "unit", controller: "self", keyword: "Temporary", zone: HERE },
-            },
-            target: SELF,
-          } },
+      modifier: {
+        kind: "while",
+        condition: SELF_AT_BATTLEFIELD,
+        modifier: {
+          kind: "might",
+          amount: {
+            kind: "count",
+            selector: { cardType: "unit", controller: "self", keyword: "Temporary", zone: HERE },
+          },
+          target: SELF,
+        },
+      },
     },
   ],
 });

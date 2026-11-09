@@ -3,16 +3,22 @@
  * of card text that two or more cards (in any set) need and that is not an engine DSL member
  * (F5/G9). Set-specific ids live in `src/cards/<SET>/custom.ts`.
  *
- * Merged lane ids (maintainability pass): `ogn-oz:self-in-combat`, `sfd:self-in-combat`,
- * `ven:self-in-combat`, `ogn-an:in-combat` → `core:in-combat`; `sfd:attacking`,
- * `unl:is-attacking` → `core:attacking`; `ogn-an:legion`, `ogn-oz:legion` → `core:legion`;
- * `ogn-oz:take-control`, `sfd:take-control` → `core:take-control`; `unl:you-have-units-at-it`,
- * `ven:you-have-units-at-it` → `core:you-have-units-at-it`; `sfd:draw-ref`, `unl:draw-ref`,
- * `rad:draw-card` → `core:draw-ref`; `rad:base-might-becomes`, `ven:base-might-becomes` →
+ * Merged lane ids (maintainability pass; the OGN lanes were later renamed to `ogn:`):
+ * `ogn-oz:self-in-combat`, `sfd:self-in-combat`, `ven:self-in-combat`, `ogn-an:in-combat` →
+ * `core:in-combat`; `sfd:attacking`, `unl:is-attacking` → `core:attacking`; `ogn-an:legion`,
+ * `ogn-oz:legion` → `core:legion`; `ogn-oz:take-control`, `sfd:take-control` →
+ * `core:take-control`; `unl:you-have-units-at-it`, `ven:you-have-units-at-it` →
+ * `core:you-have-units-at-it`; `sfd:draw-ref`, `unl:draw-ref`, `rad:draw-card` →
+ * `core:draw-ref`; `rad:base-might-becomes`, `ven:base-might-becomes` →
  * `core:base-might-becomes`.
  */
 import type { Amount, Condition, Selector } from "@rift/protocol";
-import { evaluateAmount, refIds, registerCustomCondition, resolveSelector } from "../../effects/evaluate";
+import {
+  evaluateAmount,
+  refIds,
+  registerCustomCondition,
+  resolveSelector,
+} from "../../effects/evaluate";
 import { RESOLVED } from "../../effects/execute";
 import { registerCustomEffect } from "../../effects/ops/control";
 import { costsOf, controllerOf, locate, locationOf } from "../../effects/objects";
@@ -60,7 +66,9 @@ registerCustomCondition("core:attacking", (ctx, params) => {
 });
 
 /** [Legion] (812.1.c): the controller has Finalized another card than the source this turn. */
-registerCustomCondition("core:legion", (ctx) => legionActive(ctx.room, ctx.env.controller, ctx.env.sourceObjectId));
+registerCustomCondition("core:legion", (ctx) =>
+  legionActive(ctx.room, ctx.env.controller, ctx.env.sourceObjectId),
+);
 
 /** 812: "[Legion] — …" condition. */
 export const LEGION: Condition = custom("core:legion");
@@ -135,7 +143,11 @@ registerCustomEffect("core:base-might-becomes", (params, context) => {
   const machine = context.machine;
   if (!machine) return RESOLVED;
   const ctx = ctxOf(context);
-  const ids = params.selector ? resolveSelector(ctx, params.selector as Selector) : machine.env.it ? [machine.env.it] : [];
+  const ids = params.selector
+    ? resolveSelector(ctx, params.selector as Selector)
+    : machine.env.it
+      ? [machine.env.it]
+      : [];
   let value: number | null = typeof params.value === "number" ? Math.trunc(params.value) : null;
   if (value === null && params.value && typeof params.value === "object") {
     value = evaluateAmount(ctx, params.value as Amount);
@@ -148,8 +160,15 @@ registerCustomEffect("core:base-might-becomes", (params, context) => {
   if (value === null) return RESOLVED;
   machine.push(
     ...ids.map((id) => {
-      const base = ctx.room.rules?.objects[id]?.baseMight ?? ctx.host.cardInfo(ctx.room, id)?.might ?? 0;
-      return { effect: { op: "temporary_might" as const, amount: value! - base, target: { targetRef: `obj:${id}` } } };
+      const base =
+        ctx.room.rules?.objects[id]?.baseMight ?? ctx.host.cardInfo(ctx.room, id)?.might ?? 0;
+      return {
+        effect: {
+          op: "temporary_might" as const,
+          amount: value! - base,
+          target: { targetRef: `obj:${id}` },
+        },
+      };
     }),
   );
   return RESOLVED;

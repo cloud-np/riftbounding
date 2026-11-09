@@ -3,11 +3,11 @@
  * cost."
  *
  * 403.1: the leading "you may" is decided when the trigger finalizes. The unit is picked on
- * resolution (355.18); its Power cost is still paid (`ogn-oz:pay-printed-cost`, see The Harrowing),
+ * resolution (355.18); its Power cost is still paid (`ogn:pay-printed-cost`, see The Harrowing),
  * then it is played (420.3).
  */
-import { playPickedUnit } from "./the-harrowing";
 import { registerCardScript, WHEN_PLAYED } from "../sdk";
+import { playPickedUnit } from "./custom";
 
 registerCardScript({
   name: "Soulgorger",

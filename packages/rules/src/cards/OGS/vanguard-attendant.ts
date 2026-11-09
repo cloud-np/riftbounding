@@ -5,7 +5,5 @@ registerCardScript({
   name: "Vanguard Attendant",
   text: "I enter ready.",
   status: "implemented",
-  abilities: [
-    { kind: "passive", modifier: { kind: "enter-ready", target: SELF } },
-  ],
+  abilities: [{ kind: "passive", modifier: { kind: "enter-ready", target: SELF } }],
 });

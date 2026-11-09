@@ -6,8 +6,7 @@
  * only applied to spells whose printed Energy cost is 2 or more, which keeps the Energy cost at a
  * minimum of [1] when no other cost modification applies.
  */
-import { empower, whileEmpowered } from "./shared";
-import { registerCardScript } from "../sdk";
+import { empower, registerCardScript, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Applied Researchers",
@@ -17,7 +16,15 @@ registerCardScript({
     "The per-discount minimum of [1] is approximated by the printed Energy cost (>= 2): the cost layer has no per-discount minimum, so other increases/discounts are not taken into account (356.4.c RULES-QUESTION).",
   abilities: [
     empower({ energy: 3 }),
-    whileEmpowered({ kind: "cost-adjust", power: { any: -1 }, target: { cardType: "spell", controller: "self" } }),
-    whileEmpowered({ kind: "cost-adjust", energy: -1, target: { cardType: "spell", controller: "self", energyCost: { op: "gte", value: 2 } } }),
+    whileEmpowered({
+      kind: "cost-adjust",
+      power: { any: -1 },
+      target: { cardType: "spell", controller: "self" },
+    }),
+    whileEmpowered({
+      kind: "cost-adjust",
+      energy: -1,
+      target: { cardType: "spell", controller: "self", energyCost: { op: "gte", value: 2 } },
+    }),
   ],
 });

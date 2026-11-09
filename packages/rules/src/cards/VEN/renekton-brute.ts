@@ -5,8 +5,7 @@
  * The last line is printed with the [Empower] icon but has no cost; it is read as the
  * [Empowered] Dependent ability (828.1.b/c), the only reading with a game function.
  */
-import { notIntrinsic, whileEmpowered } from "./shared";
-import { registerCardScript, SELF } from "../sdk";
+import { notIntrinsic, registerCardScript, SELF, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Renekton, Brute",

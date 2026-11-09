@@ -11,17 +11,21 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: { kind: "while", condition: SELF_AT_BATTLEFIELD, modifier: {
-            kind: "might",
-            amount: 2,
-            target: {
-              cardType: "unit",
-              controller: "self",
-              excludeSource: true,
-              buffed: true,
-              zone: HERE,
-            },
-          } },
+      modifier: {
+        kind: "while",
+        condition: SELF_AT_BATTLEFIELD,
+        modifier: {
+          kind: "might",
+          amount: 2,
+          target: {
+            cardType: "unit",
+            controller: "self",
+            excludeSource: true,
+            buffed: true,
+            zone: HERE,
+          },
+        },
+      },
     },
   ],
 });

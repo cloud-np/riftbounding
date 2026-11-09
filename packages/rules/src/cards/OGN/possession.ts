@@ -2,13 +2,12 @@
  * Possession (OGN-203) — "[ACTION] Choose an enemy unit at a battlefield. Take control of it and
  * recall it."
  *
- * Registers `ogn-oz:take-control`: the ability's controller gains control of the referenced units
+ * Uses `core:take-control` (cards/lib): the ability's controller gains control of the referenced units
  * (no duration: it lasts while the object stays on the board). The target is chosen when playing
  * (355.7, checked again on resolution, 359.3.e); after the control change it is recalled to its new
  * controller's base (456–460: not a move).
  */
-import type { Selector } from "@rift/protocol";
-import { aUnit, controllerOf, pushEvent, recordOutcome, registerCardScript, registerCustomEffect, RESOLVED, targets } from "../sdk";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Possession",

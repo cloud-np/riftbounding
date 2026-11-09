@@ -10,7 +10,13 @@ registerCardScript({
       kind: "triggered",
       trigger: WHEN_I_DIE,
       keywords: ["Deathknell"],
-      effect: { op: "seq", effects: [{ op: "discard", amount: 2 }, { op: "draw", amount: 2 }] },
+      effect: {
+        op: "seq",
+        effects: [
+          { op: "discard", amount: 2 },
+          { op: "draw", amount: 2 },
+        ],
+      },
     },
   ],
 });

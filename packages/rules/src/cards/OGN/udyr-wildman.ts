@@ -10,7 +10,7 @@
 import type { Effect } from "@rift/protocol";
 import { aUnit, marked, not, registerCardScript, SELF } from "../sdk";
 
-const KEY = "ogn-oz:udyr-wildman:{self}";
+const KEY = "ogn:udyr-wildman:{self}";
 
 function mode(id: string, label: string, effect: Effect) {
   return {

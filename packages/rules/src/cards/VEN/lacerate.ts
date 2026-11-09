@@ -6,7 +6,6 @@
  */
 import { aUnit, registerCardScript } from "../sdk";
 
-
 registerCardScript({
   name: "Lacerate",
   text: "Choose a unit. If it's [Empowered], disempower it. Then kill it if it has 3 [Might] or less.\n[Flow][4][Order][Order] (You may play this from your trash for its Flow cost. Then banish it.)",

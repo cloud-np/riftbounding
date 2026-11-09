@@ -5,5 +5,10 @@ registerCardScript({
   name: "Annie, Fiery",
   text: "Your spells and abilities deal 1 Bonus Damage. (Each instance of damage they deal is increased by 1.)",
   status: "implemented",
-  abilities: [{ kind: "passive", modifier: { kind: "bonus-damage", amount: 1, from: "spells-and-abilities" } }],
+  abilities: [
+    {
+      kind: "passive",
+      modifier: { kind: "bonus-damage", amount: 1, from: "spells-and-abilities" },
+    },
+  ],
 });

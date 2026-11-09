@@ -8,7 +8,13 @@ registerCardScript({
   abilities: [
     {
       kind: "triggered",
-      trigger: { kind: "event", event: { type: "die", subject: { cardType: "unit", controller: "self", excludeSource: true } } },
+      trigger: {
+        kind: "event",
+        event: {
+          type: "die",
+          subject: { cardType: "unit", controller: "self", excludeSource: true },
+        },
+      },
       limit: { kind: "once-per-turn" },
       effect: { op: "draw", amount: 1 },
     },

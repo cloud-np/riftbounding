@@ -12,7 +12,13 @@ registerCardScript({
     { kind: "suppress-printed-keyword", keyword: "Assault" },
     {
       kind: "spell",
-      effect: { op: "grant_keyword", keyword: "Assault", value: 3, target: aUnit(), duration: "this-turn" },
+      effect: {
+        op: "grant_keyword",
+        keyword: "Assault",
+        value: 3,
+        target: aUnit(),
+        duration: "this-turn",
+      },
     },
   ],
 });

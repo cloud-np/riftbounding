@@ -16,7 +16,9 @@ import { keyedRegistry } from "../registry-table";
 export const CARD_SCRIPTS = keyedRegistry<CardScript>("card script");
 
 function isSelector(value: unknown): value is Selector {
-  return !!value && typeof value === "object" && !Array.isArray(value) && !("op" in (value as object));
+  return (
+    !!value && typeof value === "object" && !Array.isArray(value) && !("op" in (value as object))
+  );
 }
 
 /**

@@ -6,7 +6,6 @@
  */
 import { aUnit, registerCardScript } from "../sdk";
 
-
 registerCardScript({
   name: "Dragon Form",
   text: "Choose a unit. Its base Might becomes 5 this turn.\n[Flow][3] (You may play this from your trash for its Flow cost. Then banish it.)",

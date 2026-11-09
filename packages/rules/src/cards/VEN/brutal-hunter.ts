@@ -1,6 +1,5 @@
 /** Brutal Hunter (VEN-070) — "[Empower][3] [Empowered] I have +2 [Might] and [Ganking]." (827.1.c.1, 828.1.c) */
-import { empower, notIntrinsic, whileEmpowered } from "./shared";
-import { registerCardScript, SELF } from "../sdk";
+import { empower, notIntrinsic, registerCardScript, SELF, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Brutal Hunter",

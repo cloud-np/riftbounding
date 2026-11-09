@@ -5,12 +5,11 @@
  * [Legion] is read on resolution as "you've played another card this turn" (cards played ≥ 2,
  * this one included); Legion's own timing/permission is R2-play's keyword.
  */
-import { aUnit, custom, registerCardScript } from "../sdk";
+import { aUnit, registerCardScript } from "../sdk";
 
 registerCardScript({
   name: "Noxian Guillotine",
-  text:
-    "[ACTION] (Play on your turn or in showdowns.)\nChoose a unit. Kill it the next time it takes damage this turn.\n[LEGION] - Kill it now instead. (Get the effect if you've played another card this turn.)",
+  text: "[ACTION] (Play on your turn or in showdowns.)\nChoose a unit. Kill it the next time it takes damage this turn.\n[LEGION] - Kill it now instead. (Get the effect if you've played another card this turn.)",
   status: "implemented",
   abilities: [
     {
@@ -26,7 +25,10 @@ registerCardScript({
           selector: aUnit({ targetRef: "target:0" }),
           effect: {
             op: "delayed",
-            trigger: { kind: "event", event: { type: "damage", subject: { targetRef: "target:0" } } },
+            trigger: {
+              kind: "event",
+              event: { type: "damage", subject: { targetRef: "target:0" } },
+            },
             effect: { op: "kill", target: { targetRef: "target:0" } },
             once: true,
           },

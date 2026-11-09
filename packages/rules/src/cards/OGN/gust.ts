@@ -8,7 +8,10 @@ registerCardScript({
   abilities: [
     {
       kind: "spell",
-      effect: { op: "return_to_hand", target: aUnit({ zone: "battlefield", might: { op: "lte", value: 3 } }) },
+      effect: {
+        op: "return_to_hand",
+        target: aUnit({ zone: "battlefield", might: { op: "lte", value: 3 } }),
+      },
     },
   ],
 });

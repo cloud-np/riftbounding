@@ -7,7 +7,7 @@
  * decision is the trigger's "may" (403.1) and the recycle is done on resolution; the runes are
  * readied only if Ekko was recycled.
  */
-import { custom, registerCardScript, SELF, WHEN_I_DIE } from "../sdk";
+import { registerCardScript, SELF, WHEN_I_DIE } from "../sdk";
 
 registerCardScript({
   name: "Ekko, Recurrent",

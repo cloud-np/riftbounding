@@ -8,8 +8,21 @@ registerCardScript({
   abilities: [
     {
       kind: "triggered",
-      trigger: { kind: "event", event: { type: "stun", player: "self", subject: { cardType: "unit", controller: "opponent" } } },
-      effect: { op: "seq", effects: [{ op: "ready", target: SELF }, { op: "temporary_might", amount: 1, target: SELF }] },
+      trigger: {
+        kind: "event",
+        event: {
+          type: "stun",
+          player: "self",
+          subject: { cardType: "unit", controller: "opponent" },
+        },
+      },
+      effect: {
+        op: "seq",
+        effects: [
+          { op: "ready", target: SELF },
+          { op: "temporary_might", amount: 1, target: SELF },
+        ],
+      },
     },
   ],
 });

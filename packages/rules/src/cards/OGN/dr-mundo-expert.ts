@@ -6,7 +6,10 @@ registerCardScript({
   text: "My Might is increased by the number of cards on your trash.\nAt the start of your Beginning Phase, recycle 3 from your trash.",
   status: "implemented",
   abilities: [
-    { kind: "passive", modifier: { kind: "might", amount: { kind: "cards-in-zone", zone: "trash" }, target: SELF } },
+    {
+      kind: "passive",
+      modifier: { kind: "might", amount: { kind: "cards-in-zone", zone: "trash" }, target: SELF },
+    },
     {
       kind: "triggered",
       trigger: { kind: "phase", phase: "beginning" },

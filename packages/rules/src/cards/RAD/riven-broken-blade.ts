@@ -7,7 +7,7 @@
  * instruction (740.4.a / 355.10.c.1): without a buff to spend (702.2.b.1) nothing happens.
  */
 import type { Effect } from "@rift/protocol";
-import { aUnit, custom, marked, not, registerCardScript, SELF, WHEN_I_BECOME_EXHAUSTED } from "../sdk";
+import { aUnit, marked, not, registerCardScript, SELF, WHEN_I_BECOME_EXHAUSTED } from "../sdk";
 
 const KEY = "riven-broken-blade:{self}";
 

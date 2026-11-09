@@ -15,14 +15,18 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: { kind: "while", condition: SELF_AT_BATTLEFIELD, modifier: {
-            kind: "might",
-            amount: {
-              kind: "count",
-              selector: { cardType: "unit", controller: "self", zone: HERE, buffed: true },
-            },
-            target: SELF,
-          } },
+      modifier: {
+        kind: "while",
+        condition: SELF_AT_BATTLEFIELD,
+        modifier: {
+          kind: "might",
+          amount: {
+            kind: "count",
+            selector: { cardType: "unit", controller: "self", zone: HERE, buffed: true },
+          },
+          target: SELF,
+        },
+      },
     },
   ],
 });

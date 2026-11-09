@@ -8,7 +8,13 @@ registerCardScript({
   abilities: [
     {
       kind: "spell",
-      effect: { op: "seq", effects: [{ op: "deal", amount: 3, target: aUnit() }, { op: "deal", amount: 3, target: aUnit() }] },
+      effect: {
+        op: "seq",
+        effects: [
+          { op: "deal", amount: 3, target: aUnit() },
+          { op: "deal", amount: 3, target: aUnit() },
+        ],
+      },
     },
   ],
 });

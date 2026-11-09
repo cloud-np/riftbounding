@@ -99,7 +99,7 @@ const ENGINE_FILES = walkTs(SRC_DIR).filter((file) => !file.startsWith(CARDS_DIR
 
 /** Lower-case set dir → custom-id prefixes it may register. */
 const SET_PREFIXES: Record<string, string[]> = {
-  OGN: ["ogn", "ogn-an", "ogn-oz"],
+  OGN: ["ogn"],
   SFD: ["sfd"],
   UNL: ["unl"],
   VEN: ["ven"],
@@ -211,6 +211,8 @@ describe("registry integrity [G2]", () => {
     const wrong: string[] = [];
     for (const entry of fromCards) {
       if (entry.files.length > 1) wrong.push(`${entry.id}: registered in ${entry.files.join(", ")}`);
+      // One place per set: `<SET>/custom.ts` (or `lib/custom.ts` for `core:`).
+      if (!entry.files[0]!.endsWith("/custom.ts")) wrong.push(`${entry.id}: registered outside a custom.ts (${entry.files[0]})`);
       const dir = entry.files[0]!.split("/")[4]!;
       const prefix = entry.id.includes(":") ? entry.id.split(":")[0]! : "";
       if (!(SET_PREFIXES[dir] ?? []).includes(prefix)) wrong.push(`${entry.id}: prefix "${prefix}" registered in ${entry.files[0]}`);
@@ -327,6 +329,50 @@ describe("registry integrity [G2]", () => {
   });
 });
 
+describe("card file layout [F8][G12]", () => {
+  const SET_DIRS = fs
+    .readdirSync(CARDS_DIR)
+    .filter((entry) => /^[A-Z]{3}$/.test(entry) || entry === "tokens")
+    .sort();
+
+  it("one card per file: <SET>/<slug>.ts in the set that first printed it (tokens/ for token-only names)", () => {
+    const wrong: string[] = [];
+    for (const [name, files] of SCAN.names) {
+      const file = files[0]!;
+      const [dir, base] = file.split("/").slice(4) as [string, string];
+      const printings = PRINTINGS.get(name) ?? [];
+      const first = printings.find((card) => !card._isAltArt) ?? printings[0];
+      const expectedDir = first?._isToken ? "tokens" : owningSet(name);
+      const plain = slugOf(name);
+      const expectedBase = [`${plain}.ts`, `${plain}-${(first?.id ?? "").toLowerCase()}.ts`];
+      if (dir !== expectedDir || !expectedBase.includes(base)) wrong.push(`${name}: ${file} (expected ${expectedDir}/${expectedBase[0]})`);
+    }
+    expect(wrong).toEqual([]);
+    const multi = SCAN.files.filter((file) => (fs.readFileSync(path.join(REPO_ROOT, file), "utf8").match(/registerCardScript\(\{/g) ?? []).length > 1);
+    expect(multi).toEqual([]);
+  });
+
+  it("each set barrel imports its custom.ts first, then every card file in alphabetical order", () => {
+    const wrong: string[] = [];
+    for (const dir of SET_DIRS) {
+      const files = fs
+        .readdirSync(path.join(CARDS_DIR, dir))
+        .filter((file) => file.endsWith(".ts") && file !== "index.ts" && file !== "custom.ts")
+        .map((file) => `./${file.slice(0, -3)}`)
+        .sort();
+      const hasCustom = fs.existsSync(path.join(CARDS_DIR, dir, "custom.ts"));
+      const barrel = fs.readFileSync(path.join(CARDS_DIR, dir, "index.ts"), "utf8");
+      const imports = [...barrel.matchAll(/^import "([^"]+)";$/gm)].map((match) => match[1]!);
+      const expected = [...(hasCustom ? ["./custom"] : []), ...files];
+      if (JSON.stringify(imports) !== JSON.stringify(expected)) wrong.push(dir);
+    }
+    expect(wrong).toEqual([]);
+    const root = fs.readFileSync(path.join(CARDS_DIR, "index.ts"), "utf8");
+    const missing = SET_DIRS.filter((dir) => !root.includes(`import "./${dir}";`));
+    expect(missing).toEqual([]);
+  });
+});
+
 describe("card sources [G3][F6]", () => {
   it("[G4] card files import only the card SDK, their own set modules and @rift/protocol types", () => {
     const violations: string[] = [];
@@ -400,8 +446,17 @@ describe("manual activated abilities [F11]", () => {
 /** Unprefixed custom ids the engine registers: none — engine concepts are typed DSL members (F2/G8). */
 const GENERIC_ENGINE_IDS = new Set<string>();
 
-/** Reprints whose script still lives outside the set that first printed them. */
-const KNOWN_MISPLACED_REPRINTS: string[] = ["Lux, Crownguard: packages/rules/src/cards/OGS/lux-crownguard.ts (first printed in VEN)"];
+/** Reprints whose script still lives outside the set that first printed them: none. */
+const KNOWN_MISPLACED_REPRINTS: string[] = [];
+
+/** The card-file slug: lower case, apostrophes dropped, other non-alphanumerics → "-". */
+function slugOf(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[\u2019']/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
 
 function normalizeText(text: string | undefined): string {
   return (text ?? "")

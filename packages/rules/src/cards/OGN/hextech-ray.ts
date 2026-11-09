@@ -5,5 +5,7 @@ registerCardScript({
   name: "Hextech Ray",
   text: "[ACTION] (Play on your turn or in showdowns.)\nDeal 3 damage to a unit at a battlefield.",
   status: "implemented",
-  abilities: [{ kind: "spell", effect: { op: "deal", amount: 3, target: aUnit({ zone: "battlefield" }) } }],
+  abilities: [
+    { kind: "spell", effect: { op: "deal", amount: 3, target: aUnit({ zone: "battlefield" }) } },
+  ],
 });

@@ -5,5 +5,7 @@ registerCardScript({
   name: "Rebuke",
   text: "[ACTION] Return a unit at a battlefield to its owner's hand.",
   status: "implemented",
-  abilities: [{ kind: "spell", effect: { op: "return_to_hand", target: aUnit({ zone: "battlefield" }) } }],
+  abilities: [
+    { kind: "spell", effect: { op: "return_to_hand", target: aUnit({ zone: "battlefield" }) } },
+  ],
 });

@@ -17,11 +17,15 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: { kind: "while", condition: SELF_AT_BATTLEFIELD, modifier: {
-            kind: "restriction",
-            restriction: "ready",
-            target: { cardType: "permanent", controller: "opponent" },
-          } },
+      modifier: {
+        kind: "while",
+        condition: SELF_AT_BATTLEFIELD,
+        modifier: {
+          kind: "restriction",
+          restriction: "ready",
+          target: { cardType: "permanent", controller: "opponent" },
+        },
+      },
     },
   ],
 });

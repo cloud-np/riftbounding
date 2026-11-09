@@ -1,6 +1,5 @@
 /** Dangerous Duo (OGN-016) — "[LEGION] - When you play me, give a unit +2 [Might] this turn." (812.1.c) */
-import { LEGION } from "./darius-executioner";
-import { aUnit, registerCardScript, WHEN_PLAYED } from "../sdk";
+import { aUnit, LEGION, registerCardScript, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Dangerous Duo",

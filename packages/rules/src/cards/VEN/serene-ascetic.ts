@@ -3,8 +3,7 @@
  *
  * 827.1.c.1 Empower [3]; 828.1.c the Dependent keywords (727.1.b: not intrinsic).
  */
-import { empower, notIntrinsic, whileEmpowered } from "./shared";
-import { registerCardScript, SELF } from "../sdk";
+import { empower, notIntrinsic, registerCardScript, SELF, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Serene Ascetic",

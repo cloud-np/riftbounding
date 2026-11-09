@@ -3,7 +3,7 @@
  * enemy unit to here. When I hold, return me to my owner's hand."
  * "to a battlefield" is part of the trigger condition (383.2.a.1); 383.3.a "you may" (403.1).
  */
-import { aUnit, custom, HERE, registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
+import { aUnit, HERE, registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Blitzcrank, Impassive",

@@ -6,7 +6,7 @@
  * 702.2.b.2) is picked on resolution without targeting (355.18); without a buff to spend
  * (702.2.b.1) nothing else happens.
  */
-import { custom, registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
+import { registerCardScript, SELF, WHEN_PLAYED } from "../sdk";
 
 registerCardScript({
   name: "Wildclaw Shaman",

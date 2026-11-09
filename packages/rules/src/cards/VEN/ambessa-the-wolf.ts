@@ -5,8 +5,16 @@
  * 828.1.c Dependent abilities; 740.2.c "in combat"; the restriction is read by `deal` and by
  * combat damage assignment (467.2.c.10).
  */
-import { SELF_EMPOWERED, conditional, empower, whileEmpowered } from "./shared";
-import { custom, not, registerCardScript, SELF } from "../sdk";
+import {
+  whilePassive as conditional,
+  custom,
+  empower,
+  not,
+  registerCardScript,
+  SELF,
+  SELF_EMPOWERED,
+  whileEmpowered,
+} from "../sdk";
 
 registerCardScript({
   name: "Ambessa, The Wolf",

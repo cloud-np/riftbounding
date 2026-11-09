@@ -16,12 +16,16 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: { kind: "while", condition: SELF_AT_BATTLEFIELD, modifier: {
-            kind: "cost",
-            amount: -1,
-            cardType: "spell",
-            target: { controller: "self", energyCost: { op: "gte", value: 2 } },
-          } },
+      modifier: {
+        kind: "while",
+        condition: SELF_AT_BATTLEFIELD,
+        modifier: {
+          kind: "cost",
+          amount: -1,
+          cardType: "spell",
+          target: { controller: "self", energyCost: { op: "gte", value: 2 } },
+        },
+      },
     },
   ],
 });

@@ -7,7 +7,6 @@
  */
 import { aUnit, custom, registerCardScript } from "../sdk";
 
-
 const THERE = { kind: "chosen" as const, ref: "target:0" };
 
 registerCardScript({

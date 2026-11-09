@@ -5,8 +5,7 @@
  * 383.2.a.1: the "if" right after the trigger condition is part of it (checked when played);
  * the Empowered check is made on resolution (359.3.f.2).
  */
-import { runesControlled } from "./shared";
-import { registerCardScript, WHEN_PLAYED } from "../sdk";
+import { registerCardScript, runesControlled, WHEN_PLAYED } from "../sdk";
 
 const GEAR = {
   chosen: true,

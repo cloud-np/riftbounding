@@ -19,7 +19,8 @@ registerCardScript({
         effects: [
           {
             op: "grant_keyword",
-            keyword: "Shield", value: 3,
+            keyword: "Shield",
+            value: 3,
             target: aUnit({ targetRef: "target:0" }),
             duration: "this-turn",
           },

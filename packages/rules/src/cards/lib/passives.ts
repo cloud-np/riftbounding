@@ -41,9 +41,19 @@ export function enterReady(condition?: Condition): Ability {
  * (356.4, 479.4), so the i-th instance applies while at least i objects match. `extra` conditions
  * (e.g. "while I'm on the board") are and-ed in.
  */
-export function perCount(selector: Selector, steps: number, build: (index: number) => Modifier, extra: Condition[] = []): Ability[] {
+export function perCount(
+  selector: Selector,
+  steps: number,
+  build: (index: number) => Modifier,
+  extra: Condition[] = [],
+): Ability[] {
   return Array.from({ length: steps }, (_, index) =>
-    whilePassive(extra.length > 0 ? { kind: "and", conditions: [...extra, countAtLeast(selector, index + 1)] } : countAtLeast(selector, index + 1), build(index)),
+    whilePassive(
+      extra.length > 0
+        ? { kind: "and", conditions: [...extra, countAtLeast(selector, index + 1)] }
+        : countAtLeast(selector, index + 1),
+      build(index),
+    ),
   );
 }
 

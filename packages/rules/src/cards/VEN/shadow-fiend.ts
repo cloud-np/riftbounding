@@ -1,6 +1,5 @@
 /** Shadow Fiend (VEN-014) — "[Empower][2][Fury] [Empowered] I have [Assault 3]." (827.1.c.1, 828.1.c) */
-import { empower, notIntrinsic, whileEmpowered } from "./shared";
-import { registerCardScript, SELF } from "../sdk";
+import { empower, notIntrinsic, registerCardScript, SELF, whileEmpowered } from "../sdk";
 
 registerCardScript({
   name: "Shadow Fiend",

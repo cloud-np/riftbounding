@@ -2,7 +2,7 @@
  * Concentrate (UNL-091) — Draw 2. [Level 6] this costs [2] less; [Level 11] [4] less instead.
  * Cost passives of the card apply from the hand (366.2.a); "instead" = only one applies (356.4).
  */
-import { custom, not, registerCardScript, SELF } from "../sdk";
+import { not, registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Concentrate",
@@ -12,14 +12,25 @@ registerCardScript({
     { kind: "spell", effect: { op: "draw", amount: 2 } },
     {
       kind: "passive",
-      modifier: { kind: "while", condition: {
-            kind: "and",
-            conditions: [{ kind: "xp-at-least", amount: 6 }, not({ kind: "xp-at-least", amount: 11 })],
-          }, modifier: { kind: "cost", amount: -2, target: SELF } },
+      modifier: {
+        kind: "while",
+        condition: {
+          kind: "and",
+          conditions: [
+            { kind: "xp-at-least", amount: 6 },
+            not({ kind: "xp-at-least", amount: 11 }),
+          ],
+        },
+        modifier: { kind: "cost", amount: -2, target: SELF },
+      },
     },
     {
       kind: "passive",
-      modifier: { kind: "while", condition: { kind: "xp-at-least", amount: 11 }, modifier: { kind: "cost", amount: -4, target: SELF } },
+      modifier: {
+        kind: "while",
+        condition: { kind: "xp-at-least", amount: 11 },
+        modifier: { kind: "cost", amount: -4, target: SELF },
+      },
     },
   ],
 });

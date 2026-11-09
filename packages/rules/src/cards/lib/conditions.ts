@@ -64,5 +64,9 @@ export function custom(id: CustomId, params?: Record<string, unknown>): Conditio
 
 /** 107: "you control N or more / fewer runes" (runes are in the Rune Area). */
 export function runesControlled(op: "lte" | "gte", value: number): Condition {
-  return { kind: "count", selector: { cardType: "rune", controller: "self" }, comparison: { op, value } };
+  return {
+    kind: "count",
+    selector: { cardType: "rune", controller: "self" },
+    comparison: { op, value },
+  };
 }

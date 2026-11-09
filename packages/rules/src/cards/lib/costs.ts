@@ -29,6 +29,16 @@ export function whileEmpowered(modifier: Parameters<typeof whilePassive>[1]): Ab
  * "I cost [per] less for each <selector>" (356.4): one −`per` Energy cost passive per threshold,
  * up to `max` steps. `target` is the discounted card (default: me); `extra` conditions are and-ed.
  */
-export function costLessForEach(selector: Selector, per: number, max: number, options: { target?: Selector; extra?: Condition[] } = {}): Ability[] {
-  return perCount(selector, max, () => ({ kind: "cost", amount: -per, target: options.target ?? SELF }), options.extra);
+export function costLessForEach(
+  selector: Selector,
+  per: number,
+  max: number,
+  options: { target?: Selector; extra?: Condition[] } = {},
+): Ability[] {
+  return perCount(
+    selector,
+    max,
+    () => ({ kind: "cost", amount: -per, target: options.target ?? SELF }),
+    options.extra,
+  );
 }

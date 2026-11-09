@@ -15,7 +15,11 @@ registerCardScript({
   abilities: [
     {
       kind: "passive",
-      modifier: { kind: "while", condition: { kind: "controls", player: "opponent" }, modifier: { kind: "enter-ready", target: SELF } },
+      modifier: {
+        kind: "while",
+        condition: { kind: "controls", player: "opponent" },
+        modifier: { kind: "enter-ready", target: SELF },
+      },
     },
     {
       kind: "triggered",

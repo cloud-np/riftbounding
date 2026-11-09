@@ -2,7 +2,7 @@
  * Garbage Grabber (OGN) — "Recycle 3 from your trash, [1], [Tap]: Draw 1."
  * 417.1: recycled cards go to the bottom of their owners' Main Decks.
  */
-import { custom, registerCardScript, SELF } from "../sdk";
+import { registerCardScript, SELF } from "../sdk";
 
 registerCardScript({
   name: "Garbage Grabber",

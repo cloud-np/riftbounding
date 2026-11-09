@@ -16,7 +16,10 @@ registerCardScript({
             cardType: "unit",
             controller: "self",
             excludeSource: true,
-            where: { kind: "not", condition: { kind: "exists", selector: { targetRef: "it", tag: "Recruit" } } },
+            where: {
+              kind: "not",
+              condition: { kind: "exists", selector: { targetRef: "it", tag: "Recruit" } },
+            },
           },
         },
       },

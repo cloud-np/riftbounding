@@ -15,6 +15,11 @@ registerCardScript({
   status: "partial",
   notes: "The optional additional cost [Calm] is offered and paid by R2-play (355.1.a/357).",
   abilities: [
-    { kind: "triggered", trigger: WHEN_PLAYED, condition: PAID_ADDITIONAL, effect: { op: "draw", amount: 1 } },
+    {
+      kind: "triggered",
+      trigger: WHEN_PLAYED,
+      condition: PAID_ADDITIONAL,
+      effect: { op: "draw", amount: 1 },
+    },
   ],
 });

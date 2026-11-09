@@ -59,5 +59,5 @@ Registered scripts for a token, rune, marker, or otherwise excluded card. They d
 | --- | --- | --- |
 | Bomb | implemented | `packages/rules/src/cards/tokens/bomb.ts` |
 | Gold | implemented | `packages/rules/src/cards/tokens/gold.ts` |
-| Shadow Clone | implemented | `packages/rules/src/cards/VEN/shadow-clone-token.ts` |
+| Shadow Clone | implemented | `packages/rules/src/cards/tokens/shadow-clone.ts` |
 
