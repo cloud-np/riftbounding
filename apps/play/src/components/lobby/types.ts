@@ -4,6 +4,8 @@ export type PlayMode = "constructed" | "sealed";
 export type GameVariant = "duel" | "free_for_all_3" | "free_for_all_4" | "teams_2v2";
 export type MatchFormat = "bo1" | "bo3";
 export type DeckRulesMode = "standard" | "unrestricted";
+/** Strict-rules toggle (R2-int, `set_lobby_rules_mode`). */
+export type RulesMode = "sandbox" | "strict";
 export type LobbyTable = "duel" | "ffa3" | "ffa4" | "teams";
 export type CardPool = "standard" | "radiance";
 
@@ -115,6 +117,8 @@ export interface RoomState {
   playMode: PlayMode;
   format: MatchFormat;
   deckRules: DeckRulesMode;
+  /** Present (and `"strict"`) only when the host enabled strict rules (R2-int). */
+  rulesMode?: RulesMode;
   seats: (RoomSeat | null)[];
   chat: RoomChatEntry[];
   spectators: RoomSpectator[];

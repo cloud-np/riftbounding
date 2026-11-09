@@ -1,0 +1,317 @@
+/**
+ * Strict-rules board model (R2-int) — pure helpers behind the strict panel and prompt dialogs.
+ *
+ * Everything here reads the (per-viewer redacted) `Room` and the `@rift/rules` read side through
+ * `@rift/engine`'s strict view; nothing here applies an action. Sandbox rooms never reach these
+ * helpers (`isStrictRoom` is false), so the original board is untouched.
+ */
+import type {
+  CardInstance,
+  CombatDamageAssignmentData,
+  CombatDamageTarget,
+  GameState,
+  LegalIntents,
+  Prompt,
+  PromptAnswer,
+  PromptOption,
+  WhoMayAct,
+  WireAction,
+  ZoneSelector,
+} from "@rift/protocol";
+import type { Translator } from "@rift/i18n";
+
+export function isStrictRoom(room: GameState | null | undefined): boolean {
+  return !!room && room.rulesMode === "strict" && room.phase === "in_game" && !!room.rules;
+}
+
+/** Find a visible card by id anywhere on the (redacted) board or the chain display. */
+export function findCard(room: GameState, cardId: string): CardInstance | null {
+  for (const player of room.players) {
+    const board = player.board as unknown as Record<string, unknown> | undefined;
+    if (!board) continue;
+    for (const value of Object.values(board)) {
+      if (!Array.isArray(value)) continue;
+      const card = (value as CardInstance[]).find((entry) => entry?.id === cardId);
+      if (card) return card;
+    }
+  }
+  return room.chainEntries.find((entry) => entry.card.id === cardId)?.card ?? null;
+}
+
+export function cardName(room: GameState, cardId: string): string {
+  const card = findCard(room, cardId);
+  return card?.name || cardId;
+}
+
+export function playerName(room: GameState, playerId: string): string {
+  return room.players.find((player) => player.id === playerId)?.name || playerId;
+}
+
+const ZONE_KEYS: Record<string, string> = {
+  base: "sim.base",
+  battlefieldA: "sim.tablet.battlefieldA",
+  battlefieldB: "sim.tablet.battlefieldB",
+  battlefieldC: "sim.tablet.battlefieldC",
+};
+
+export function zoneLabel(t: Translator, zone: string): string {
+  const key = ZONE_KEYS[zone];
+  return (key ? t(key) : null) ?? zone;
+}
+
+/**
+ * The seat this client acts as in a strict room: the seat that may act now when this client
+ * controls it (solo lab / practice control both seats), otherwise the viewer's own seat.
+ */
+export function strictActorFor(
+  who: WhoMayAct | null,
+  viewerId: string,
+  controlledPlayerIds: readonly string[],
+): string {
+  if (who && who.kind !== "none" && controlledPlayerIds.includes(who.player)) return who.player;
+  return viewerId;
+}
+
+/** The sandbox turn button in a strict room sends the strict intent (316: end the turn). */
+export function strictIntentFor(
+  intent: WireAction,
+  room: GameState | null | undefined,
+): WireAction {
+  if (!isStrictRoom(room)) return intent;
+  if (intent.type === "end_turn") return { type: "rules_end_turn" };
+  return intent;
+}
+
+/* ------------------------------------------------------------------ legal actions */
+
+export interface StrictActionButton {
+  key: string;
+  label: string;
+  intent: WireAction;
+  tone: "primary" | "neutral";
+}
+
+/** One button per legal play / activation / move / pass / end turn (`legalIntents`). */
+export function strictActionButtons(
+  room: GameState,
+  legal: LegalIntents | null,
+  t: Translator,
+): StrictActionButton[] {
+  if (!legal) return [];
+  const buttons: StrictActionButton[] = [];
+  const details = legal.playable ?? [];
+  legal.playableCardIds.forEach((cardId, index) => {
+    const detail = details[index]?.cardId === cardId ? details[index] : undefined;
+    const name = cardName(room, cardId);
+    const play = t("rules.ui.play") ?? "Play";
+    const locations = detail?.locations ?? [];
+    if (locations.length > 1) {
+      for (const location of locations) {
+        buttons.push({
+          key: `play:${cardId}:${location}`,
+          label: `${play} ${name} → ${zoneLabel(t, location)}`,
+          intent: { type: "rules_play", cardId, location: location as ZoneSelector },
+          tone: "primary",
+        });
+      }
+    } else {
+      buttons.push({
+        key: `play:${cardId}`,
+        label: `${play} ${name}`,
+        intent: {
+          type: "rules_play",
+          cardId,
+          ...(locations[0] ? { location: locations[0] as ZoneSelector } : {}),
+        },
+        tone: "primary",
+      });
+    }
+  });
+  for (const entry of legal.activatable) {
+    const manual = entry.ability.startsWith("manual:");
+    const verb = manual
+      ? (t("rules.ui.activateManual") ?? "Activate (manual)")
+      : (t("rules.ui.activate") ?? "Activate");
+    buttons.push({
+      key: `activate:${entry.objectId}:${entry.ability}`,
+      label: `${verb}: ${cardName(room, entry.objectId)}`,
+      intent: { type: "rules_activate", objectId: entry.objectId, ability: entry.ability },
+      tone: "neutral",
+    });
+  }
+  for (const move of legal.moves) {
+    const names = move.unitIds.map((id) => cardName(room, id)).join(", ");
+    buttons.push({
+      key: `move:${move.unitIds.join("+")}:${move.to}`,
+      label: `${names} — ${t("rules.ui.moveTo", { zone: zoneLabel(t, move.to) }) ?? move.to}`,
+      intent: { type: "rules_move", unitIds: [...move.unitIds], to: move.to },
+      tone: "neutral",
+    });
+  }
+  if (legal.canPass) {
+    buttons.push({
+      key: "pass",
+      label: t("rules.ui.pass") ?? "Pass",
+      intent: { type: "rules_pass" },
+      tone: "neutral",
+    });
+  }
+  if (legal.canEndTurn) {
+    buttons.push({
+      key: "end-turn",
+      label: t("rules.ui.endTurn") ?? "End turn",
+      intent: { type: "rules_end_turn" },
+      tone: "neutral",
+    });
+  }
+  return buttons;
+}
+
+/* ------------------------------------------------------------------ status line */
+
+/** "You have priority" / "Bob has focus" / "Waiting for Bob: <prompt title>". */
+export function strictStatus(
+  room: GameState,
+  who: WhoMayAct | null,
+  controlledPlayerIds: readonly string[],
+  t: Translator,
+  promptTitleText: string | null,
+): string | null {
+  if (!who || who.kind === "none") return null;
+  const name = playerName(room, who.player);
+  const mine = controlledPlayerIds.includes(who.player);
+  if (who.kind === "prompt") {
+    if (mine) return promptTitleText;
+    return t("rules.ui.waitingForChoice", { player: name, reason: promptTitleText ?? "" }) ?? name;
+  }
+  if (who.kind === "manual") {
+    const card = room.rules?.manual?.cardName ?? "";
+    return mine
+      ? (t("rules.ui.manualWindow", { card }) ?? card)
+      : (t("rules.ui.manualWindowOther", { player: name, card }) ?? card);
+  }
+  if (who.kind === "focus") return t("rules.ui.focusOf", { player: name }) ?? name;
+  return mine
+    ? (t("rules.ui.yourPriority") ?? "")
+    : (t("rules.ui.priorityOf", { player: name }) ?? name);
+}
+
+/* ------------------------------------------------------------------ prompts (411.2) */
+
+/** The pending prompt when one of this client's seats must answer it, else null. */
+export function promptForClient(
+  room: GameState,
+  controlledPlayerIds: readonly string[],
+): Prompt | null {
+  const prompt = room.rules?.prompt ?? null;
+  if (!prompt || !controlledPlayerIds.includes(prompt.playerId)) return null;
+  return prompt;
+}
+
+export function optionLabel(room: GameState, t: Translator, option: PromptOption): string {
+  if (option.label) return option.label;
+  if (option.cardId) return cardName(room, option.cardId);
+  if (option.objectId) return cardName(room, option.objectId);
+  if (option.playerId) return playerName(room, option.playerId);
+  if (option.zone) return zoneLabel(t, option.zone);
+  if (option.value !== undefined) return String(option.value);
+  return option.id;
+}
+
+export function selectionBounds(prompt: Prompt): { min: number; max: number } {
+  const count = (prompt.options ?? []).filter((option) => !option.disabled).length;
+  const min = prompt.min ?? 1;
+  const max = prompt.max ?? count;
+  return { min: Math.max(0, min), max: Math.max(0, max) };
+}
+
+/** 411.2: an option answer is legal when the number selected is within `min`..`max`. */
+export function canSubmitSelection(prompt: Prompt, selected: readonly string[]): boolean {
+  const { min, max } = selectionBounds(prompt);
+  const offered = new Set((prompt.options ?? []).filter((o) => !o.disabled).map((o) => o.id));
+  if (!selected.every((id) => offered.has(id))) return false;
+  if (prompt.kind === "order") return selected.length === offered.size;
+  return selected.length >= min && selected.length <= max;
+}
+
+/** `rules_choose` answer for an option prompt; ordering prompts send the order too (383.3.d). */
+export function selectionAnswer(prompt: Prompt, selected: readonly string[]): PromptAnswer {
+  const optionIds = [...selected];
+  return prompt.kind === "order" ? { optionIds, orderedIds: optionIds } : { optionIds };
+}
+
+export function chooseIntent(prompt: Prompt, answer: PromptAnswer): WireAction {
+  return { type: "rules_choose", promptId: prompt.id, answer };
+}
+
+/** Toggle an option in a selection; a single-choice prompt replaces the selection. */
+export function toggleSelection(prompt: Prompt, selected: readonly string[], id: string): string[] {
+  if (selected.includes(id)) return selected.filter((entry) => entry !== id);
+  const { max } = selectionBounds(prompt);
+  if (prompt.kind !== "order" && max === 1) return [id];
+  if (prompt.kind !== "order" && selected.length >= max) return [...selected];
+  return [...selected, id];
+}
+
+/* ------------------------------------------------------------------ 467.2.c damage assignment */
+
+export function damageAssignmentData(prompt: Prompt): CombatDamageAssignmentData | null {
+  const data = prompt.data as Partial<CombatDamageAssignmentData> | undefined;
+  if (prompt.kind !== "damage-assignment" || !data || data.reason !== "combat.damage_assignment") {
+    return null;
+  }
+  if (typeof data.total !== "number" || !Array.isArray(data.targets)) return null;
+  return data as CombatDamageAssignmentData;
+}
+
+export type AssignmentDraft = Record<string, number>;
+
+/** Pre-fill with the engine's suggestion (467.2.c.3 greedy order), else zeros. */
+export function initialAssignment(data: CombatDamageAssignmentData): AssignmentDraft {
+  const draft: AssignmentDraft = {};
+  for (const target of data.targets) draft[target.objectId] = 0;
+  for (const entry of data.suggested ?? []) {
+    if (entry.targetId in draft) draft[entry.targetId] = Math.max(0, entry.amount);
+  }
+  return draft;
+}
+
+export function assignedTotal(draft: AssignmentDraft): number {
+  return Object.values(draft).reduce((sum, value) => sum + value, 0);
+}
+
+export function remainingDamage(data: CombatDamageAssignmentData, draft: AssignmentDraft): number {
+  return data.total - assignedTotal(draft);
+}
+
+/** Step one target by `delta`, never below 0 or past the total. */
+export function stepAssignment(
+  data: CombatDamageAssignmentData,
+  draft: AssignmentDraft,
+  target: CombatDamageTarget,
+  delta: number,
+): AssignmentDraft {
+  const current = draft[target.objectId] ?? 0;
+  const room = remainingDamage(data, draft);
+  const next = Math.max(0, Math.min(current + delta, current + room));
+  return { ...draft, [target.objectId]: next };
+}
+
+/**
+ * Client-side gate only (the engine's `damageAssignmentVerdict` decides 467.2.c legality and
+ * explains a rejection): every point is assigned.
+ */
+export function canSubmitAssignment(
+  data: CombatDamageAssignmentData,
+  draft: AssignmentDraft,
+): boolean {
+  return remainingDamage(data, draft) === 0;
+}
+
+export function assignmentAnswer(draft: AssignmentDraft): PromptAnswer {
+  return {
+    assignments: Object.entries(draft)
+      .filter(([, amount]) => amount > 0)
+      .map(([targetId, amount]) => ({ targetId, amount })),
+  };
+}

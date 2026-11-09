@@ -13,6 +13,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { GameplayAction, Room, RoomPlayer, RoomSessionDoc } from "@rift/protocol";
+import { createTranslator, rulesReasonText } from "@rift/i18n";
 
 import { ChainSlot } from "@/components/board/chain";
 import { BoardInteractionProvider, HandSlot } from "@/components/board/interaction";
@@ -24,6 +25,7 @@ import type {
   GameActionIntent,
 } from "@/components/board/slot-types";
 import { SidebarSlot } from "@/components/board/sidebar";
+import { strictIntentFor } from "@/components/board/strict/strict-model";
 import type { BattlefieldInfo } from "@/components/board/layout/BattlefieldLayer";
 import type { GameBoardLayoutHints } from "@/components/board/layout/GameBoardView";
 import { GameBoardView } from "@/components/board/layout/GameBoardView";
@@ -42,6 +44,7 @@ import {
   deriveTurnStartSound,
   getAuthToken,
   isRoomApiError,
+  isRulesRejectionError,
   leaveRoom as leaveRoomApi,
   resolveRoomMembership,
   returnToLobby as returnToLobbyApi,
@@ -95,7 +98,11 @@ declare global {
   }
 }
 
+const rulesText = createTranslator("en");
+
 function errorText(error: unknown): string {
+  // Strict rooms (§5): the server's ReasonCode + rule, through the i18n reason strings.
+  if (isRulesRejectionError(error)) return rulesReasonText(rulesText, error.code, error.rule);
   if (error instanceof Error && error.message.trim()) return error.message;
   return "The action could not be completed.";
 }
@@ -369,8 +376,10 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
   /* ---------------------------------------------------------------- dispatch */
 
   const sendIntent = useCallback(
-    (intent: GameActionIntent, actorOverride?: string) => {
+    (requested: GameActionIntent, actorOverride?: string) => {
       if (!runtime || !room || !session || session.viewerRole === "spectator") return;
+      // Strict rooms route the board's turn button to `rules_end_turn`; sandbox is unchanged.
+      const intent = strictIntentFor(requested, room);
       const actor =
         actorOverride ??
         chooseIntentActor(intent, room, effectiveViewerId ?? session.playerId, controlledPlayerIds);

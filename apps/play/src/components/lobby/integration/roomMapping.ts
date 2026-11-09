@@ -93,6 +93,7 @@ export function roomStateFromSessionDoc(input: RoomMappingInput): RoomState {
     playMode: (sessionDoc.playMode ?? "constructed") as PlayMode,
     format: (sessionDoc.matchFormat ?? "bo1") as MatchFormat,
     deckRules: (sessionDoc.deckRulesMode ?? "standard") as DeckRulesMode,
+    ...(sessionDoc.rulesMode === "strict" ? { rulesMode: "strict" as const } : {}),
     seats,
     chat,
     spectators: (input.spectators ?? []).map((spectator) => ({

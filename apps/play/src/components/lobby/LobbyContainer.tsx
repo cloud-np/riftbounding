@@ -67,6 +67,7 @@ import type {
   ParsedDeck,
   PlayMode,
   RoomState,
+  RulesMode,
   SavedDeck,
 } from "./types";
 import { RoomShell } from "@/components/room/RoomShell";
@@ -1142,12 +1143,14 @@ export function LobbyContainer() {
     playMode?: PlayMode;
     format?: MatchFormat;
     deckRules?: DeckRulesMode;
+    rulesMode?: RulesMode;
   }) => {
     if (patch.variant)
       runShellAction({ type: "set_lobby_game_variant", gameVariant: patch.variant });
     if (patch.playMode) runShellAction({ type: "set_lobby_play_mode", playMode: patch.playMode });
     if (patch.format) runShellAction({ type: "set_lobby_match_format", matchFormat: patch.format });
     if (patch.deckRules) runShellAction({ type: "set_lobby_deck_rules", mode: patch.deckRules });
+    if (patch.rulesMode) runShellAction({ type: "set_lobby_rules_mode", mode: patch.rulesMode });
   };
 
   const handleStartMatch = () => {
