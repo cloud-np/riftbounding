@@ -34,7 +34,9 @@ export type Amount =
   | { kind: "x" }
   | { kind: "sum"; amounts: Amount[] }
   | { kind: "min"; amounts: Amount[]; cap?: Amount }
-  | { kind: "max"; amounts: Amount[] };
+  | { kind: "max"; amounts: Amount[] }
+  /** R3 — 832.1.d / 832.1.d.1: information about the shown-off object, noted when shown off. */
+  | { kind: "shown-off"; property?: "might" | "energy-cost" | "power-cost" | "count" };
 
 export type ComparisonOp = "lt" | "lte" | "eq" | "gte" | "gt" | "neq";
 

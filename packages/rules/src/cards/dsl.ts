@@ -1,7 +1,7 @@
 /**
  * Small builders for card scripts (§6.1/§6.2). Pure data helpers — no registration here.
  */
-import type { Condition, Selector, TokenSpec, Trigger, ZoneSelector } from "@rift/protocol";
+import type { Ability, Condition, Selector, TokenSpec, Trigger, ZoneSelector } from "@rift/protocol";
 
 export const SELF: Selector = { targetRef: "self" };
 export const EVENT_SUBJECT: Selector = { targetRef: "event" };
@@ -48,6 +48,21 @@ export function custom(id: string, params?: Record<string, unknown>): Condition 
 }
 
 export const PAID_ADDITIONAL: Condition = custom("paid-additional");
+
+/** R3 — 832.1.c.1: "if you showed off" (linked to the card's [Show Off]). */
+export const SHOWED_OFF: Condition = custom("showed-off");
+
+/**
+ * R3 — "[Show Off] [Object]" (832): a passive the play layer turns into the `showOff` play-time
+ * choice. `selector` filters the hand/board candidates (zone and controller are set for you);
+ * `count` > 1 for sets ("five units …").
+ */
+export function showOff(selector: Selector, count?: number): Extract<Ability, { kind: "passive" }> {
+  return {
+    kind: "passive",
+    modifier: { kind: "custom", id: "show-off", params: { selector: selector as never, ...(count ? { count } : {}) } },
+  };
+}
 export const SELF_AT_BATTLEFIELD: Condition = custom("self-at-battlefield");
 
 export function marked(key: string, value: string): Condition {

@@ -199,6 +199,18 @@ export function parseRepeatCosts(text: string | undefined): Cost[] {
   return out;
 }
 
+/** 829.1.c: each Flow instance's cost ("[Flow][4][Fury]", "[Flow][2]"), anywhere on a line. */
+export function parseFlowCosts(text: string | undefined): Cost[] {
+  const out: Cost[] = [];
+  for (const line of rulesTextLines(text)) {
+    const stripped = stripReminderText(line).trim();
+    const match = /\[flow\]((?:\s*\[[^\]]+\])+)/i.exec(stripped);
+    if (!match) continue;
+    out.push(parseCostText(match[1]!));
+  }
+  return out;
+}
+
 export interface TextAdditionalCost {
   optional: boolean;
   cost: Cost;

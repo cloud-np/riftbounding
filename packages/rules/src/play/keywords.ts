@@ -18,7 +18,7 @@
  */
 import type { Room } from "@rift/protocol";
 import type { CardInfo, RulesHost } from "../host";
-import { effectiveKeywords } from "../layers";
+import { keywordsWithPrinted } from "../layers";
 
 export function stripReminderText(line: string): string {
   let out = "";
@@ -120,8 +120,12 @@ export function keywordValue(keywords: readonly string[], name: string): number 
   return total;
 }
 
-/** Printed card keywords plus granted ones (475–479) for a card in any zone. */
+/**
+ * Printed card keywords plus granted ones (475–479) for a card in any zone — object grants and
+ * keyword passives / continuous effects (810.3 / 144.4.c.1: a unit granted Ganking by a passive
+ * may move battlefield to battlefield).
+ */
 export function cardKeywords(room: Room, host: RulesHost, cardId: string, info?: CardInfo | null): string[] {
   const resolved = info === undefined ? host.cardInfo(room, cardId) : info;
-  return effectiveKeywords(room, cardId, printedCardKeywords(resolved));
+  return keywordsWithPrinted(room, cardId, printedCardKeywords(resolved), host);
 }

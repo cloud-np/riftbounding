@@ -5,6 +5,9 @@ import { fail } from "../types";
 import { promptAnswerVerdict } from "../prompts/handlers";
 import { COMBAT_PROMPT_REASONS } from "../prompts/combat/reasons";
 import { damageAssignmentVerdict } from "../prompts/combat/damage-assignment";
+import { EFFECTS_PROMPT_REASONS } from "../prompts/effects/reasons";
+import { resumeAnswerVerdict } from "../prompts/effects/answers";
+import type { RulesHost } from "../host";
 
 export type ChooseVerdict = { ok: true; prompt: Prompt } | RulesFailure;
 
@@ -14,6 +17,7 @@ export function chooseVerdict(
   playerId: string,
   promptId: string,
   answer: PromptAnswer,
+  host?: RulesHost,
 ): ChooseVerdict {
   const rules = room.rules;
   if (!rules) return fail("rules_require_strict", "contract:§1");
@@ -28,6 +32,11 @@ export function chooseVerdict(
   if (prompt.data?.reason === COMBAT_PROMPT_REASONS.damageAssignment) {
     const assignment = damageAssignmentVerdict(room, prompt, answer);
     if (!assignment.ok) return assignment;
+  }
+  // R3: 355.11 / 355.14 resolution decisions are checked here too (explainIllegal agreement).
+  if (prompt.data?.reason === EFFECTS_PROMPT_REASONS.resume && host) {
+    const resume = resumeAnswerVerdict(room, host, prompt, answer);
+    if (!resume.ok) return resume;
   }
   return { ok: true, prompt };
 }

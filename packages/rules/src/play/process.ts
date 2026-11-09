@@ -21,7 +21,7 @@ import { fail, pushEvent } from "../types";
 import type { IntentResult } from "../intents/context";
 import { lookupAbility } from "../cards/registry";
 import { restrictionFor } from "../layers/restrictions";
-import { effectiveKeywords } from "../layers";
+import { keywordsWithPrinted } from "../layers";
 import { baseActionVerdict, keywordTimingVerdict } from "../legality/timing";
 import { appendChainItem, finalizeChainItem, passPriority, removeChainItem, runCleanupOrQueue } from "../timing/fepr";
 import { grantPriority } from "../state";
@@ -159,7 +159,7 @@ export function planPendingCard(room: Room, host: RulesHost, item: ChainItem): C
   const permission: PlayPermission = process.permission
     ? { ...process.permission }
     : { id: "hand", rule: "420.1.a" };
-  const keywords = withPermissionKeywords(effectiveKeywords(room, snapshot.id, printedCardKeywords(info)), permission);
+  const keywords = withPermissionKeywords(keywordsWithPrinted(room, snapshot.id, printedCardKeywords(info), host), permission);
   const ability = spellAbility(info);
   return planCore(room, host, {
     playerId: item.controller,
@@ -274,6 +274,9 @@ export function executeCardPlay(
     addedAt: step.ctx.now,
     ...(request.optionalCosts.length ? { optionalCosts: [...request.optionalCosts] } : {}),
     ...(plan.permission.facedownAt ? { playedFromFacedown: plan.permission.facedownAt } : {}),
+    // R3 — 829.1.b.1: a spell played for its Flow cost is banished instead of leaving the chain
+    // (a 358.5 undo returns it to the trash; that is not leaving the chain as a finalized item).
+    ...(plan.permission.id === "flow" ? { leaveChainTo: "banished" as const } : {}),
   };
   // 355.2: only permanents carry a location.
   if (unit || gear) item.choices.location = plan.location;

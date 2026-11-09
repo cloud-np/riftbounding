@@ -18,6 +18,7 @@ import type { EffectExecutionContext, EffectExecutionResult } from "./execute";
 import type { EvalContext } from "./env";
 import { idsOf, setLki } from "./env";
 import { evaluateAmount, matchesSelector, matchingIds, mightOf, resolveSelector } from "./evaluate";
+import { maximalGroupSubsets } from "./group";
 import {
   controllerOf,
   findChainItem,
@@ -42,8 +43,18 @@ export function evalContextOf(context: EffectExecutionContext): EvalContext {
   return { room: context.room, host: context.step.host, env };
 }
 
-/** 355.13 / selector counts: `count` = exactly N (default 1), `maxCount` = up to N. */
+/** "Any number of" (355.13): no upper count beyond the legal choices (kept JSON-safe). */
+export const ANY_NUMBER_MAX = 999;
+
+/**
+ * 355.13 / selector counts: `count` = exactly N (default 1), `maxCount` = up to N, `anyNumber`
+ * = zero or more.
+ */
 export function choiceBounds(ctx: EvalContext, selector: Selector): { min: number; max: number } {
+  if (selector.anyNumber) {
+    const cap = selector.maxCount !== undefined ? Math.max(0, evaluateAmount(ctx, selector.maxCount) ?? 0) : ANY_NUMBER_MAX;
+    return { min: 0, max: cap };
+  }
   if (selector.maxCount !== undefined) {
     const max = Math.max(0, evaluateAmount(ctx, selector.maxCount) ?? 0);
     return { min: 0, max };
@@ -168,9 +179,21 @@ export function targets(
         max,
         rule: selector.pick ? "355.18" : "355.7",
         promptKey: options.promptKey ?? selector.label ?? "rules.prompt.chooseTarget",
-        data: { answer: "objects", key },
+        data: { answer: "objects", key, ...(selector.group ? { group: selector.group } : {}) },
       }),
     };
+  }
+
+  // 355.11.b: the controller is choosing a legal subset of a group that no longer qualifies.
+  const pendingGroup = env.vars[`$group:${key}`] as { legal: string[]; subsets: string[][] } | undefined;
+  if (pendingGroup) {
+    const answer = context.machine?.frame.answer;
+    if (context.machine && answer !== undefined) {
+      context.machine.frame.answer = undefined;
+      delete env.vars[`$group:${key}`];
+      return { ok: true, ids: keepGroupSubset(context, key, pendingGroup.legal, idsOf(answer)) };
+    }
+    return askGroupSubset(context, key, pendingGroup.legal, pendingGroup.subsets);
   }
 
   const ids = idsOf(bound);
@@ -190,7 +213,58 @@ export function targets(
       data: { key, rule: "359.3.e.5", ...(env.itemId ? { itemId: env.itemId } : {}) },
     });
   }
+  if (selector.group && legal.length > 0) {
+    // 355.11.b / 355.11.b.1: a group that no longer qualifies is reduced to a maximal legal
+    // subset of the original (still legal) targets, chosen by the controller.
+    const subsets = maximalGroupSubsets(ctx, selector.group, legal);
+    if (subsets.length === 1) return { ok: true, ids: keepGroupSubset(context, key, legal, subsets[0]!) };
+    if (!context.machine) return { ok: true, ids: keepGroupSubset(context, key, legal, subsets[0]!) };
+    delete env.vars[`$legal:${key}`];
+    env.vars[`$group:${key}`] = { legal, subsets };
+    return askGroupSubset(context, key, legal, subsets);
+  }
   return { ok: true, ids: legal };
+}
+
+/** Bind the kept subset; the other original targets are no longer affected (355.11.b). */
+function keepGroupSubset(context: EffectExecutionContext, key: string, legal: readonly string[], kept: readonly string[]): string[] {
+  const env = evalContextOf(context).env;
+  const keep = legal.filter((id) => kept.includes(id));
+  const dropped = legal.filter((id) => !keep.includes(id));
+  env.vars[`$legal:${key}`] = keep;
+  if (dropped.length > 0) {
+    env.vars[`$illegal:${key}`] = [...idsOf(env.vars[`$illegal:${key}`]), ...dropped];
+    pushEvent(context.step.events, {
+      type: "group_subset",
+      playerId: env.controller,
+      targetIds: keep,
+      data: { key, dropped, rule: "355.11.b", ...(env.itemId ? { itemId: env.itemId } : {}) },
+    });
+  }
+  return keep;
+}
+
+function askGroupSubset(
+  context: EffectExecutionContext,
+  key: string,
+  legal: readonly string[],
+  subsets: readonly string[][],
+): TargetResult {
+  const ctx = evalContextOf(context);
+  const sizes = subsets.map((subset) => subset.length);
+  return {
+    ok: false,
+    result: context.machine!.ask({
+      kind: "choose-target",
+      playerId: ctx.env.controller,
+      options: legal.map((id) => optionFor(ctx, id)),
+      min: Math.min(...sizes),
+      max: Math.max(...sizes),
+      rule: "355.11.b",
+      promptKey: "rules.prompt.chooseGroupSubset",
+      data: { answer: "objects", subsets: subsets.map((subset) => [...subset]) },
+    }),
+  };
 }
 
 /** Record the outcome of a leaf instruction (linked "if you do", 359.3.e.14.b). */

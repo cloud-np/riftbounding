@@ -30,6 +30,24 @@ Assault/Shield are Might passives applied once in the layers (807.1.c / 814.1.c,
 negative and only its uses clamp (143.2.c / 479.4.c); a resolution waiting on a prompt keeps its
 item on the chain (340 / 359).
 
+## Status (Wave R3)
+
+Wave R3 added card scripts in six parallel lanes plus one engine lane (R3-engine). Each card lane
+owns `src/cards/<SET>/**`, `test/cards/<lane>/**` and a report in `docs/rules/cards/<lane>.md`
+(capability gaps, `[BUG]` reproductions, custom ids, per-card status): Origins A–N, Origins O–Z,
+Spiritforged, Unleashed, Vendetta + Proving Grounds, Radiance. Totals are in
+[`cards-coverage.md`](cards-coverage.md); the merged status and gap ranking live in
+[`/progress.md`](../progress.md).
+
+R3-engine capabilities (protocol additions in `packages/protocol/CHANGES.md`, `## R3-engine`):
+
+- Damage split among targets and group targeting (355.11 / 355.14 / 715.3; `deal_split`,
+  `Selector.group`, `Selector.anyNumber`).
+- Optional replacements (371.2) and replacement ordering (372 / 373): decisions outside a
+  resolution use the `effects.replacement` prompt reason; `replacement_held` event.
+- Show Off (832) and Flow (829, a played-for-Flow spell is banished via `leaveChainTo`).
+- Ganking granted by keyword passives now counts for Standard Move legality (810.3 / 144.4.c.1).
+
 ## Toggle & safety
 
 | State | Behaviour |
@@ -570,12 +588,13 @@ Remaining:
   unattached non-Deploy gear from battlefields to the base before step 5, so that recall emits no
   `recall` event; `host.unitsAt`/`hasUnitAt` count facedown cards (the rules layer never calls
   them directly any more — use `state/presence.ts`).
-- **Effects coverage.** 372/373 replacement ordering prompts and optional replacements (371.2),
-  355.11/355.14 group targeting and damage splitting, player-level restrictions in
-  `restrictionFor`, Show Off (832), Flow (829), copy (446), hide as an effect (422), 439 Replace,
+- **Effects coverage.** (R3-engine fixed 371.2 / 372 / 373, 355.11 / 355.14, Show Off 832 and
+  Flow 829.) Still open: player-level restrictions in
+  `restrictionFor`, copy (446), hide as an effect (422), 439 Replace,
   433.1.b damage doubling, "the Nth time" triggers, triggers of cards outside the board (385),
-  layer dependency ordering (480–481) and trait-altering "becomes" effects are open; most cards
-  are still unscripted (manual window). See `docs/cards-coverage.md`.
+  layer dependency ordering (480–481) and trait-altering "becomes" effects are open; some cards
+  are still unscripted (manual window) and many scripts are `partial`/`manual` because of these
+  gaps. See `docs/cards-coverage.md` and `progress.md`.
 - **Play coverage.** 806.4/813.4 conditional Action/Reaction, Reaction Add abilities paying
   applied costs (430.3/204.4.b.1), effect-driven plays placed during a resolution (420.3),
   abilities other players may activate (378/381), card-type-filtered discard costs; mixed-symbol

@@ -8117,7 +8117,8 @@
     },
     "effects": {
      "resume": "Make a choice while the effect resolves",
-     "order_triggers": "Order your triggered abilities"
+     "order_triggers": "Order your triggered abilities",
+     "replacement": "Decide how replacement effects apply"
     }
    },
    "promptKind": {
@@ -8153,6 +8154,20 @@
     "equipTarget": "Choose a unit you control to equip",
     "mayTrigger": "Use this triggered ability?",
     "payTriggerCost": "Pay this triggered ability's cost?",
+    "applyReplacement": "Apply this replacement effect?",
+    "orderReplacements": "Choose the order to apply replacement effects",
+    "chooseGroupSubset": "Choose which of the group to affect",
+    "splitDamage": "Split the damage among the targets",
+    "splitKeepTargets": "Choose which targets to keep",
+    "showOff": "Show Off: play a card from your hand?",
+    "cardsOrRunes": "Choose cards or runes",
+    "chooseOpponent": "Choose an opponent",
+    "guessCardType": "Guess a card type",
+    "mayReturnUnit": "Return a unit to its owner's hand?",
+    "revealAndDraw": "Reveal a card and draw?",
+    "spendBuffToReady": "Spend a buff to ready?",
+    "topOrBottom": "Put it on top or on the bottom of your deck?",
+    "unlessDraw": "Draw a card to avoid this?",
     "cost": {
      "exhaust": "Choose what to exhaust to pay the cost",
      "kill": "Choose what to kill to pay the cost",

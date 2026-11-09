@@ -19,6 +19,8 @@ import { pushEvent } from "../types";
 import type { EffectEnv } from "./env";
 import { getEffectOp } from "./registry";
 import { EFFECTS_PROMPT_REASONS } from "../prompts/effects/reasons";
+import { enterMachine, leaveMachine, takeHeld, decisionAsk, type HeldReplacement } from "../replacements/decisions";
+import { answerHeld, decisionSources, resettleHeld } from "../replacements/interceptor";
 
 export interface Frame {
   effect: Effect;
@@ -74,6 +76,11 @@ export function runMachine(room: Room, step: RulesStepContext, continuation: Con
   for (let guard = 0; guard < MAX_MACHINE_STEPS; guard += 1) {
     const frame = stack.pop();
     if (!frame) return { status: "done" };
+    // R3 — 371.2 / 372: a replacement decision held by the previous instruction settles now.
+    if (frame.data?.[HELD_KEY]) {
+      if (runHeldFrame(room, step, { stack, env }, frame) === "await") return { status: "await" };
+      continue;
+    }
     const handler = getEffectOp(frame.effect.op);
     if (!handler) return { status: "manual", reason: `effect_not_implemented:${frame.effect.op}` };
     let asked = false;
@@ -98,15 +105,24 @@ export function runMachine(room: Room, step: RulesStepContext, continuation: Con
     };
     const previousIt = env.it;
     if (frame.it !== undefined) env.it = frame.it;
-    const result = handler(frame.effect, {
-      room,
-      step,
-      itemId: env.itemId,
-      controller: env.controller,
-      choices: env.choices,
-      machine: handle,
-    });
+    enterMachine(step);
+    let result: ReturnType<typeof handler>;
+    try {
+      result = handler(frame.effect, {
+        room,
+        step,
+        itemId: env.itemId,
+        controller: env.controller,
+        choices: env.choices,
+        machine: handle,
+      });
+    } finally {
+      leaveMachine(step);
+    }
     env.it = previousIt;
+    // Events held by this instruction for a replacement decision settle before the next one
+    // (above any frames the instruction pushed: the held events belong to the instruction).
+    pushHeldFrames(step, stack, asked);
     if (result.status === "manual") return { status: "manual", reason: result.reason ?? "manual" };
     if (result.status === "await" || asked) return { status: "await" };
   }
@@ -155,4 +171,40 @@ export function startMachine(
   env: EffectEnv,
 ): MachineResult {
   return runMachine(room, step, { stack: [{ effect }], env });
+}
+
+/* ---------------------------------------------------------------- held replacement decisions */
+
+const HELD_KEY = "$replacement";
+
+function pushHeldFrames(step: RulesStepContext, stack: Frame[], asked: boolean): void {
+  const held = takeHeld(step);
+  if (held.length === 0) return;
+  // An instruction that also asked keeps its own frame on top; the decisions follow it.
+  const top = asked ? stack.pop() : undefined;
+  for (let index = held.length - 1; index >= 0; index -= 1) {
+    stack.push({ effect: { op: "seq", effects: [] }, data: { [HELD_KEY]: held[index] } });
+  }
+  if (top) stack.push(top);
+}
+
+/** Settle (or ask) one held replacement decision; `await` when a prompt was opened. */
+function runHeldFrame(room: Room, step: RulesStepContext, continuation: Continuation, frame: Frame): "done" | "await" {
+  const held = frame.data![HELD_KEY] as HeldReplacement;
+  let next: HeldReplacement | null;
+  enterMachine(step);
+  try {
+    if (frame.answer === undefined) next = resettleHeld(room, step, held);
+    else next = answerHeld(room, step, held, frame.answer);
+  } finally {
+    leaveMachine(step);
+  }
+  frame.answer = undefined;
+  pushHeldFrames(step, continuation.stack, false);
+  if (!next) return "done";
+  frame.data = { [HELD_KEY]: next };
+  continuation.stack.push(frame);
+  const ask = decisionAsk(room, step.host, next, decisionSources(room, step, next));
+  openResumePrompt(room, step, continuation, { ...ask, data: { answer: "options" } });
+  return "await";
 }

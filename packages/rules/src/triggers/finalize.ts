@@ -15,13 +15,14 @@ import type { ChainItem, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../types";
 import { idsOf } from "../effects/env";
 import { findChainItem, isBoardZone, locate } from "../effects/objects";
+import { noteShowOff, SHOW_OFF_KEY } from "../play/show-off";
 
 /** 359.3.e: note where each chosen object is when the item finalizes. */
 export function snapshotTargets(room: Room, item: ChainItem, step: RulesStepContext): void {
   const snapshot: NonNullable<ChainItem["targetSnapshot"]> = { ...(item.targetSnapshot ?? {}) };
   let any = false;
   for (const [key, value] of Object.entries(item.choices ?? {})) {
-    if (key === "location" || key.startsWith("$")) continue;
+    if (key === "location" || key === SHOW_OFF_KEY || key.startsWith("$")) continue;
     for (const id of idsOf(value)) {
       if (snapshot[id]) continue;
       const located = locate(room, step.host, id);
@@ -51,6 +52,8 @@ export function onItemFinalized(room: Room, item: ChainItem, step: RulesStepCont
     // loop grants the newest item's controller.
     if (room.rules) room.rules.priority = null;
   }
+  // 832.1.d.1: shown-off information is noted before the targets (it is not a target).
+  noteShowOff(room, item, step);
   snapshotTargets(room, item, step);
   notePaidAdditionalCost(room, item);
 }
