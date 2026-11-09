@@ -194,14 +194,19 @@ describe("fixture deck card scripts", () => {
     expect(boardOf(s, "p1").base.find((card) => card.name === "Gold")?.exhausted).toBe(true);
   });
 
-  it("[C:Reckless Innovator] \"Pay [Chaos] to draw 1\" needs R2-play's payment (stub: not paid, no draw)", () => {
+  it("[C:Reckless Innovator][R740.4.a][R445.2] \"Pay [Chaos] to draw 1\" is paid on resolution through R2-play's payment", () => {
     const s = scenario();
     place(s, "p1", "Reckless Innovator", "base");
     const before = hand(s, "p1").length;
     s.as("p1").move("Reckless Innovator", "battlefieldA").expectOk();
     s.as("p1").choose({ optionIds: ["draw"] }).expectOk();
     passBoth(s);
-    expect(hand(s, "p1").length).toBe(before);
+    s.expectPrompt("yes-no", "p1");
+    expect(s.room.rules!.prompt!.rule).toBe("445.2");
+    s.as("p1").choose({ optionIds: ["yes"] }).expectOk();
+    expect(hand(s, "p1").length).toBe(before + 1);
+    // The [Chaos] came from recycling one of P1's two Chaos Runes (164.2.b).
+    expect(boardOf(s, "p1").runeArea).toHaveLength(1);
   });
 
   it("[C:En Garde][R740.2.a] +1 Might this turn, +1 more if it is the only unit you control there", () => {
