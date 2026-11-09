@@ -1,5 +1,8 @@
 /**
- * Unleashed (UNL) card scripts — empty until wave R2-effects.
- * Add `./<slug>` imports here; each script calls `registerCardScript`.
+ * Unleashed (UNL) card scripts. Each module calls `registerCardScript`.
  */
+import "./eclipse";
+import "./ultrasoft-poro";
+import "./gustwalker";
+
 export {};

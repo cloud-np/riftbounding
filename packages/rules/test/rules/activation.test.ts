@@ -141,17 +141,20 @@ describe("activated abilities [R376–R381][R403.3]", () => {
     expect(s.events().some((event) => event.type === "add_resolved")).toBe(true);
   });
 
-  it("[R430.2][R430.2.a] an unimplemented Add effect leaves the pool untouched (TODO R2-effects)", () => {
-    // 357: Whiteflame Protector costs [8][C][C] (Calm).
+  it("[R430.2][R430.5] a scripted Add effect adds its resources as it resolves immediately", () => {
+    // R2-effects implements the `add` op: the R1 placeholder ("leaves the pool untouched") is
+    // replaced by the 430.2/430.5 behaviour — the ability finalizes, resolves at once and adds [1].
+    // 357: Whiteflame Protector costs [8][C][C] (Calm), so the play is funded exactly.
     const s = scenario({ p1: { hand: ["Whiteflame Protector"], energy: 8, power: { Calm: 2 } } });
     s.as("p1").play("Whiteflame Protector").expectOk();
     const unit = s.findBoardCard("Whiteflame Protector")!;
     const before = { ...s.room.rules!.pools.p1! };
 
     s.as("p1").activate("Whiteflame Protector", "activated:0").expectOk();
-    expect(s.room.rules?.pools.p1).toEqual(before);
+    expect(s.room.rules?.pools.p1).toEqual({ ...before, energy: before.energy + 1 });
     expect(s.room.rules?.chain.length).toBe(0);
-    expect(s.events().some((event) => event.type === "add_unimplemented")).toBe(true);
+    expect(s.room.rules?.priority).toBe("p1");
+    expect(s.events().some((event) => event.type === "add_resolved")).toBe(true);
     expect(unit.id).toBeTruthy();
   });
 

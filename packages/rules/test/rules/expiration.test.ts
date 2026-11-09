@@ -43,7 +43,10 @@ describe("Expiration Step repeat [R317.2.f]", () => {
 
     // The queued trigger/chain work resolves, then the Expiration Step restarts (317.2.f). The
     // restart owed by the FEPR work is consumed by this pass; the next clean pass hands over.
+    // 382/402.1 (R2-effects): the trigger engine places the pending trigger on the chain during
+    // the cleanup, so "resolving" it clears both the queue and the chain.
     s.room.rules!.triggers = [];
+    s.room.rules!.chain = [];
     const second = runExpirationStep(s.room, step);
     expect(second.repeated).toBe(true);
     expect(s.room.rules?.turn.player).toBe("p1");

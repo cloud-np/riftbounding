@@ -1,6 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { conquer, type RulesStepContext } from "../../src";
 import { scenario } from "../scenarios/dsl";
+import { registerCardScript } from "../../src";
+
+// R2-effects: Treasure Hunter's printed "When I move, play a Gold gear token exhausted" now
+// triggers (383 / 402.1) and keeps the state Closed until it resolves. This suite uses it as a
+// vanilla unit for timing/showdown mechanics, so it overrides the production script (the trigger
+// itself is covered by test/cards/fixture-deck.test.ts).
+beforeAll(() => registerCardScript({ name: "Treasure Hunter", text: "vanilla (test)", status: "implemented", abilities: [] }));
 
 describe("game event accounting [R348.2.a][R468.5.d]", () => {
   it("[R348.2.a][R468.5.d] a Showdown Conquer emits establish_control exactly once", () => {

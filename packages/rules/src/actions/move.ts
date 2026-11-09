@@ -1,7 +1,7 @@
 /** Recall / Kill / Move — rules 456–457, 429, 449–455. */
 import type { BattlefieldZone, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../types";
-import { pushEvent } from "../types";
+import { effectiveMight, pushEvent } from "../types";
 import { interceptAction } from "../timing/hooks";
 
 export function recall(room: Room, cardId: string, step: RulesStepContext): boolean {
@@ -14,22 +14,58 @@ export function recall(room: Room, cardId: string, step: RulesStepContext): bool
   return moved;
 }
 
-/** 429: Kill → the object leaves the board and goes to its owner's Trash. */
-export function kill(room: Room, cardId: string, step: RulesStepContext): boolean {
+/**
+ * 429: Kill → the object leaves the board and goes to its owner's Trash.
+ *
+ * R2-effects (additive): `source` attributes the kill (429.5) and the event carries last-known
+ * information (808.1.d.3 / 383.2.c.3.b: Might, owner) for leave-the-board triggers. 719.5:
+ * cards attached to a killed top-most card detach and stay where they are.
+ */
+export function kill(
+  room: Room,
+  cardId: string,
+  step: RulesStepContext,
+  source?: { objectId?: string; playerId?: string },
+): boolean {
   const located = step.host.findCard(room, cardId);
   if (!located) return false;
   if (!interceptAction(room, step, { type: "kill", cardId, playerId: located.playerId })) return false;
+  const might = step.host.cardInfo(room, cardId)?.type.toLowerCase().includes("unit")
+    ? effectiveMight(room, cardId, step.host)
+    : undefined;
+  const attached = attachedCardIds(room, cardId, step);
   const moved = step.host.moveCard(room, located.playerId, located.zone, "trash", cardId);
   if (!moved) return false;
   delete room.rules?.objects[cardId];
+  for (const gearId of attached) step.host.detach(room, gearId);
   pushEvent(step.events, {
     type: "kill",
     cardId,
     playerId: located.playerId,
     zone: located.zone,
     cardName: located.card.name,
+    ...(source?.objectId ? { sourceObjectId: source.objectId } : {}),
+    data: {
+      owner: located.card.ownerPlayerId ?? located.playerId,
+      ...(might !== undefined ? { might } : {}),
+      ...(located.card.source === "token" ? { token: true } : {}),
+      ...(source?.playerId ? { responsible: source.playerId } : {}),
+    },
   });
   return true;
+}
+
+/** Cards attached to `cardId` (719.5), across every player's location zones. */
+function attachedCardIds(room: Room, cardId: string, step: RulesStepContext): string[] {
+  const out: string[] = [];
+  for (const playerId of step.host.playerIds(room)) {
+    for (const zone of ["base", ...step.host.battlefieldZones(room)]) {
+      for (const card of step.host.zoneCards(room, playerId, zone)) {
+        if (card.attachedToCardId === cardId) out.push(card.id);
+      }
+    }
+  }
+  return out;
 }
 
 /**
