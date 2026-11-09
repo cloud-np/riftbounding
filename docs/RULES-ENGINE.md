@@ -135,7 +135,8 @@ ReasonCode as `code` plus `rule`/`detail`. Snapshots and patches carry a per-vie
 In strict rooms every non-`rules_*` gameplay action goes through `gate()`:
 cosmetic/meta actions (dice, arrows/pings, board settings, card labels) are allowed; the §6.4
 manual window additionally allows its player's board actions; everything else is
-`strict_mode_action`. Rewind is rejected outside solo modes. Sandbox rooms never call the gate.
+`strict_mode_action`. Rewind is allowed in strict solo_lab and Practice-vs-Bot rooms and rejected
+in human-vs-human strict rooms. Sandbox rooms never call the gate.
 
 ## State shape (protocol)
 
@@ -719,8 +720,10 @@ Remaining:
   Power costs are processed as [C] (RULES-QUESTION 131.3.a).
 - **Effect-driven moves** do not apply 449.2.a/464.1 or the 449.2.c recall fallback (only
   Standard Moves and Unit plays consult `combatBarsDestination`).
-- `rules_*` intents do not participate in the engine's rewind history; strict multiplayer
-  rewind is rejected.
+- `rules_*` intents participate in the rewind history in strict `solo_lab` and Practice-vs-Bot
+  rooms (full `Room` snapshots, including `Room.rules`); human-vs-human strict rewind is rejected.
+  Determinism, memory bounds, repro export/import and the behaviour contract are in
+  [`rules/rewind.md`](rules/rewind.md).
 - Burn Out repetition is bounded per `drawCards` call (100 iterations) but a 3+ player room with
   an empty deck and empty trash prompts for every point; 432.3.a repeats until victory.
 

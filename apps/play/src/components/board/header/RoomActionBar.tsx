@@ -4,11 +4,14 @@ import { useCallback, useState } from "react";
 
 import type { GameState } from "@rift/protocol";
 
+import { getAuthToken } from "@/runtime/auth";
+import { exportRepro } from "@/runtime/roomApi";
+
 import { useBoardTranslator } from "../sidebar/i18n";
 import type { Dispatch } from "../slot-types";
 import { canForwardState, canRewindState } from "./clock";
-import { roomActionVisibility } from "./room-actions";
-import { ForwardIcon, LeaveIcon, NextIcon, RewindIcon } from "./icons";
+import { roomActionVisibility, strictReproAvailable } from "./room-actions";
+import { DownloadIcon, ForwardIcon, LeaveIcon, NextIcon, RewindIcon } from "./icons";
 
 const ACTION_BUTTON =
   "relative inline-flex h-full min-h-[2.04rem] w-full items-center justify-center gap-[0.26rem] whitespace-nowrap rounded-[0.16rem] border px-[0.28rem] text-[0.6rem] font-bold uppercase tracking-[0.06em] transition-[border-color,background-color,box-shadow,color] duration-150 disabled:cursor-default disabled:opacity-[0.45] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[rgba(201,226,255,0.6)]";
@@ -56,10 +59,13 @@ export function RoomActionBar({
 }: RoomActionBarProps) {
   const t = useBoardTranslator(locale);
   const [confirmLeave, setConfirmLeave] = useState(false);
+  const [reproStatus, setReproStatus] = useState<string | null>(null);
+  const [reproBusy, setReproBusy] = useState(false);
   const visibility = roomActionVisibility(state, showNext);
   const strictInProgress = visibility.strictInProgress;
   const showRewind = visibility.showRewind;
   const nextVisible = visibility.showNext;
+  const showRepro = strictReproAvailable(state);
   const rewindAvailable = showRewind && canRewindState(state, viewerId);
   const forwardAvailable = showRewind && canForwardState(state, viewerId, now);
   const forwardUntil = state.forwardAvailableUntil ?? null;
@@ -67,6 +73,37 @@ export function RoomActionBar({
   const controllablePlayers = state.players.filter((player) =>
     controlledPlayerIds.includes(player.id),
   );
+
+  const exportReproFile = useCallback(async () => {
+    if (reproBusy) return;
+    setReproBusy(true);
+    setReproStatus(null);
+    try {
+      const authToken = await getAuthToken();
+      if (!authToken) throw new Error(t("rules.ui.reproSignIn") ?? "Sign in to export a repro.");
+      const result = await exportRepro({ roomCode: state.roomCode, authToken });
+      const json = JSON.stringify(result.repro, null, 2);
+      const blob = new Blob([json], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download =
+        typeof result.filename === "string" && result.filename.trim()
+          ? result.filename
+          : `rift-repro-${state.roomCode}.json`;
+      anchor.click();
+      URL.revokeObjectURL(url);
+      setReproStatus(t("rules.ui.reproExported") ?? "Repro exported");
+    } catch (error) {
+      setReproStatus(
+        `${t("rules.ui.reproExportFailed") ?? "Could not export the repro."} ${
+          error instanceof Error ? error.message : ""
+        }`.trim(),
+      );
+    } finally {
+      setReproBusy(false);
+    }
+  }, [reproBusy, state.roomCode, t]);
 
   const switchSeat = useCallback(
     (playerId: string) => {
@@ -97,6 +134,7 @@ export function RoomActionBar({
   }, [onReturnToLobby]);
 
   const gridColumns = [
+    showRepro ? "2.44rem" : null,
     showRewind ? "2.44rem" : null,
     showForward ? "2.44rem" : null,
     nextVisible ? "minmax(2.04rem,1fr)" : null,
@@ -107,6 +145,15 @@ export function RoomActionBar({
 
   return (
     <div className="relative z-80 grid gap-[0.14rem] overflow-visible">
+      {reproStatus ? (
+        <div
+          role="status"
+          data-testid="repro-status"
+          className="absolute right-0 top-[calc(100%+0.24rem)] z-140 max-w-[16rem] rounded-[0.2rem] border border-[rgba(174,199,227,0.34)] bg-[rgba(12,23,43,0.97)] px-[0.34rem] py-[0.2rem] text-[0.58rem] text-[#dbe8f8] shadow-[0_10px_26px_rgba(3,8,20,0.4)]"
+        >
+          {reproStatus}
+        </div>
+      ) : null}
       {controllablePlayers.length > 1 ? (
         <div
           role="group"
@@ -141,6 +188,22 @@ export function RoomActionBar({
         style={{ gridTemplateColumns: gridColumns }}
         data-room-actions-override="desktop"
       >
+        {showRepro ? (
+          <div className="relative h-full min-w-0" data-help-anchor="export-repro">
+            <button
+              type="button"
+              data-testid="export-repro"
+              aria-label={t("rules.ui.exportRepro") ?? "Export repro"}
+              title={t("rules.ui.exportRepro") ?? "Export repro"}
+              disabled={reproBusy}
+              onClick={() => void exportReproFile()}
+              className={`${ACTION_BUTTON} ${NEUTRAL_BUTTON} !px-0`}
+            >
+              <DownloadIcon className="h-[1.04rem] w-[1.04rem]" />
+            </button>
+          </div>
+        ) : null}
+
         {showRewind ? (
           <div className="relative h-full min-w-0" data-help-anchor="rewind">
             <button

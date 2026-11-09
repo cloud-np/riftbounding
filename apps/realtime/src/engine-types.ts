@@ -36,6 +36,8 @@ export interface EngineSetupConfig {
   /** Alias kept for engines that prefer `seats`. */
   seats?: EngineSeatConfig[];
   rng?: () => number;
+  /** Strict bot/solo determinism: stored game seed for shuffles and action RNG. */
+  rngSeed?: number;
   hostPlayerId?: string;
   teamIdByPlayerId?: Record<string, string>;
   seriesStartedAt?: number;

@@ -225,9 +225,9 @@ the wire gesture has no mode field; not checked in a browser yet.
   must be checked against the redaction map; `redact-rules.ts` rewrites ids anywhere in
   `Room.rules`, but other `Room` fields are redacted field by field (the mulligan playback leak
   was one). A server-side opaque id scheme would remove the whole class.
-- **Rewind in `single_player` strict rooms** is rejected: the engine treats only `solo_lab` as a
-  solo mode for the strict rewind gate. Left unchanged (engine behaviour); RULES-QUESTION for the
-  lead whether practice-vs-bot rooms should allow it.
+- **Rewind in `single_player` strict rooms** is allowed in Practice vs Bot and `solo_lab`, and
+  rejected in human-vs-human strict rooms (owner decision, R5). The client shows rewind/forward
+  and **Export repro** only in those practice rooms; see [`rewind.md`](rewind.md).
 - **The prompted player sees options naming another seat's cards** (for example a look at an
   opponent's hand): those option ids are kept because the engine offered them to that player;
   every other private id in the continuation is rewritten. Whether the board should also reveal

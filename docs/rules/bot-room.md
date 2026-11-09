@@ -104,5 +104,6 @@ pnpm --filter play dev       # Next.js on http://localhost:3000
 - The bot is intentionally dumb: `pickRandomAction` picks uniformly among the legal progress
   actions (prompt → manual done → play/activate/move → end turn → pass), not a heuristic.
 - Setup is automatic in bot rooms: there is no battlefield/mulligan choice.
-- Rewind in `single_player` strict rooms remains rejected (see `progress.md`), including practice
-  vs bot.
+- Rewind/forward are **allowed** in Practice vs Bot (and solo_lab), rejected in human-vs-human
+  strict rooms. A rewind restores the exact snapshot and holds the bot (`Room.botPause`) until the
+  human acts again; export/import/repro commands are in [`rewind.md`](rewind.md).

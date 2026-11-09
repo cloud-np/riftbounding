@@ -27,6 +27,19 @@ because it is an engine input type, not a wire type.
 
 No message name, action or existing field changed. Sandbox rooms simply never set the field.
 
+## Strict rewind, determinism and repro (additive)
+
+| file | change | why |
+| --- | --- | --- |
+| `src/game-state.ts` | `Room.rewindStep?: number` | Strict-only UI marker: the 1-based action step restored by the last rewind. Sandbox rooms never set it. |
+| `src/game-state.ts` | `Room.rngSeed?: number`, `Room.rngCursor?: number`, `Room.actionCount?: number` | Strict bot/solo determinism: the state-derived game seed, the next seeded RNG position and the accepted-action index. They live on the `Room` so every rewind snapshot restores them exactly. Strict human-vs-human rooms do not set `rngSeed` and keep the server clock RNG. |
+| `src/game-state.ts` | `Room.botPause?: boolean` | Practice-vs-Bot rewind holds the bot until the human submits the next action. Part of the snapshot; never set in human-vs-human rooms. |
+| `src/game-state.ts` | `EngineTimelineEntry.action?: Record<string, unknown>` | The exact accepted wire payload, needed to replay a strict repro through `applyGameAction`. Server-only timeline data (never sent to clients). |
+| `src/repro.ts` | `StrictReproFile`, `StrictReproAction`, `STRICT_REPRO_FORMAT`, `STRICT_REPRO_VERSION` | Versioned JSON repro: initial room snapshot, decklists, ordered actions (human and bot), per-step hashes and final hash. |
+| `src/index.ts` | re-export `./repro` | Public type surface for the engine harness and the client API. |
+
+No message name, action, or existing field was renamed or removed. Repro export/import use additive room HTTP actions (`export_repro`, `load_repro`) documented in `docs/rules/rewind.md`.
+
 ## B20 server additions (no wire-name changes)
 
 - **Rewind protocol v5:** the server now answers `rewind_last_action`, `forward_last_rewind` and an
