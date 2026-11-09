@@ -401,14 +401,15 @@ describe("RAD units with abilities", () => {
     expect(combatContribution(s.room, orianna.id, s.host)).toBe(4);
   });
 
-  it("[C:Elnuk Herd] partial: When you play me, give a friendly unit +3 Might this turn", () => {
+  it("[C:Elnuk Herd] When you play me (from hand), give a friendly unit +3 Might this turn and stay", () => {
     const s = withCards(["Elnuk Herd"]);
     const friend = unit(s, "p1", "Caitlyn, Patrolling", "base", 3);
     fund(s, "p1", "Elnuk Herd");
     s.as("p1").play("Elnuk Herd").expectOk();
     drive(s, () => effectiveMight(s.room, friend.id, s.host) === 6);
     expect(effectiveMight(s.room, friend.id, s.host)).toBe(6);
-    expect(getCardScript("Elnuk Herd")?.status).toBe("partial");
+    expect(s.findBoardCardAnywhere("Elnuk Herd")).toBeTruthy();
+    expect(getCardScript("Elnuk Herd")?.status).toBe("implemented");
   });
 
   it("[C:Clocktower Guardian][R437.1][R808] partial: Predict 3 on play; Deathknell banishes the top card", () => {

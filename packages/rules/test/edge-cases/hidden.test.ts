@@ -3,7 +3,7 @@
  */
 import { describe, expect, it } from "vitest";
 import type { BattlefieldZone } from "@rift/protocol";
-import { explainIllegal, legalIntents } from "../../src";
+import { effectiveMight, explainIllegal, legalIntents } from "../../src";
 import { boardOf, drive, duel, placeUnit, setControl, toHand, type S } from "./helpers";
 
 function hide(s: S, name: string, location: BattlefieldZone) {
@@ -81,5 +81,24 @@ describe("choices restricted to the hiding battlefield [R811.1.d]", () => {
     s.as("p1").play("Sprite Call").expectOk();
     drive(s);
     expect(boardOf(s, "p1").base.some((card) => card.name === "Sprite")).toBe(true);
+  });
+
+  it("[R811.6][R417][C:Elnuk Herd] played from face down it gives +3 Might, then recycles itself", () => {
+    const s = duel({ p1: ["Elnuk Herd"] });
+    const friend = placeUnit(s, "p1", "Caitlyn, Patrolling", "battlefieldA", "friend");
+    setControl(s.room, "battlefieldA", "p1");
+    const herd = toHand(s, "p1", "Elnuk Herd");
+    s.room.rules!.pools.p1 = { energy: 0, power: { any: 1 } };
+    s.as("p1").apply({ type: "rules_play", cardId: herd.id, hide: true, location: "battlefieldA" }).expectOk();
+    s.as("p1").endTurn().expectOk();
+    drive(s);
+    s.as("p2").endTurn().expectOk();
+    drive(s);
+    s.as("p1").apply({ type: "rules_play", cardId: herd.id }).expectOk();
+    drive(s, { answer: (prompt) => (prompt.kind === "choose-target" ? [friend.id] : null) });
+    expect(effectiveMight(s.room, friend.id, s.host)).toBe(6);
+    expect(s.findBoardCardAnywhere("Elnuk Herd")).toBeFalsy();
+    const deck = boardOf(s, "p1").deck;
+    expect(deck[0]?.id).toBe(herd.id);
   });
 });
