@@ -163,6 +163,47 @@ registerCustomCondition("unl:you-have-units-at-it", (ctx) => {
   return !!zone && unitsPresentAt(ctx.room, ctx.host, zone, ctx.env.controller).length > 0;
 });
 
+/**
+ * Kha'Zix, Mutating Horror — "if an enemy unit is alone here" (740.2.a): some opponent has
+ * exactly one unit at my location.
+ */
+registerCustomCondition("unl:enemy-alone-here", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  const zone = source ? locationOf(ctx.room, ctx.host, source) : null;
+  if (!zone) return false;
+  return ctx.host
+    .activePlayerIds(ctx.room)
+    .filter((id) => id !== ctx.env.controller)
+    .some((id) => unitsPresentAt(ctx.room, ctx.host, zone, id).length === 1);
+});
+
+/** "When you or an ally …": the trigger event's player is the controller or a teammate (491). */
+registerCustomCondition("unl:event-player-in-team", (ctx) => {
+  const player = ctx.env.event?.playerId;
+  return !!player && teamPlayers(ctx.room, ctx.env.controller).includes(player);
+});
+
+/** `it` is an attacking unit (466.2.c.3 Attacker designation). */
+registerCustomCondition("unl:is-attacking", (ctx) => {
+  const id = ctx.env.it;
+  return !!id && ctx.room.rules?.objects[id]?.designation === "attacker";
+});
+
+/**
+ * Crimson Pigeons — "while I'm attacking with another unit": I am an Attacker and another unit at
+ * my battlefield is an Attacker too (466.2.c.3).
+ */
+registerCustomCondition("unl:attacking-with-another", (ctx) => {
+  const source = ctx.env.sourceObjectId;
+  const objects = ctx.room.rules?.objects ?? {};
+  if (!source || objects[source]?.designation !== "attacker") return false;
+  const zone = locationOf(ctx.room, ctx.host, source);
+  if (!zone) return false;
+  return unitsPresentAt(ctx.room, ctx.host, zone).some(
+    (card) => card.id !== source && objects[card.id]?.designation === "attacker",
+  );
+});
+
 /* ---------------------------------------------------------------- effects */
 
 /**

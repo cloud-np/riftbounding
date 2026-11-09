@@ -68,6 +68,49 @@ export function cardsNamed(s: S, player: string, zone: string, name: string): Ca
   return (board[zone] ?? []).filter((card) => card.name === name);
 }
 
+/**
+ * Drive a showdown/combat and the chain to completion: the Priority/Focus holder passes; prompts
+ * are answered by `onPrompt` (return the option ids) or, by default, with the first `min`
+ * options. Stops when nothing is pending (no chain, showdown, combat or prompt) or `until` holds.
+ */
+export function settle(
+  s: S,
+  options: {
+    onPrompt?: (
+      prompt: NonNullable<NonNullable<S["room"]["rules"]>["prompt"]>,
+    ) => string[] | undefined;
+    until?: () => boolean;
+    guard?: number;
+  } = {},
+): void {
+  for (let step = 0; step < (options.guard ?? 40); step += 1) {
+    if (options.until?.()) return;
+    const rules = s.room.rules!;
+    const prompt = rules.prompt;
+    if (prompt) {
+      const ids =
+        options.onPrompt?.(prompt) ??
+        prompt.options?.slice(0, prompt.min).map((option) => option.id) ??
+        [];
+      s.as(prompt.playerId).choose({ optionIds: ids }).expectOk();
+      continue;
+    }
+    if (rules.chain.length === 0 && !rules.showdown && !rules.combat) return;
+    const actor = rules.priority ?? rules.focus;
+    if (!actor) return;
+    s.as(actor).pass().expectOk();
+  }
+}
+
+/** End the current turn and the opponent's, reaching the first player's next Main Phase. */
+export function nextOwnTurn(s: S, first = "p1"): void {
+  const second = first === "p1" ? "p2" : "p1";
+  s.as(first).endTurn().expectOk();
+  settle(s);
+  s.as(second).endTurn().expectOk();
+  settle(s);
+}
+
 /** Answer the pending prompt with option ids (or a yes/no). */
 export function answer(s: S, optionIds: string[]): void {
   const prompt = s.room.rules!.prompt;

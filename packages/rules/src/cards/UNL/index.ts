@@ -62,5 +62,19 @@ import "./stare-down";
 import "./temporary-spells";
 import "./upstage-comedy";
 import "./void-assault";
+// batch 4 (unit and legend triggers, passives)
+import "./ambush-play-units";
+import "./combat-trigger-units";
+import "./death-watchers";
+import "./diana-no-longer-human";
+import "./gentle-gemdragon";
+import "./jhin-murderous-artist";
+import "./khazix-voidreaver";
+import "./legends";
+import "./move-trigger-units";
+import "./nidalee-cat-form";
+import "./passive-units";
+import "./vex-gloomist";
+import "./vilemaw";
 
 export {};
