@@ -3,7 +3,7 @@ import type { BattlefieldZone, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../types";
 import { effectiveMight, pushEvent } from "../types";
 import { interceptAction } from "../timing/hooks";
-import { hasUnitPresentAt } from "../state/presence";
+import { controlsBattlefield } from "./control";
 
 export function recall(room: Room, cardId: string, step: RulesStepContext): boolean {
   const located = step.host.findCard(room, cardId);
@@ -71,7 +71,7 @@ function attachedCardIds(room: Room, cardId: string, step: RulesStepContext): st
 
 /**
  * Primitive Move. Applies Contested status when a unit arrives at an uncontested battlefield
- * its controller did not already control (452 / 190.3.a.1). Cleanup (455) starts the showdown.
+ * its controller does not control (452 / 190.3.a.1). Cleanup (455) starts the showdown.
  */
 export function movePrimitive(
   room: Room,
@@ -95,7 +95,9 @@ export function movePrimitive(
   const battlefield = step.host.battlefieldZones(room).includes(destination as BattlefieldZone)
     ? (destination as BattlefieldZone)
     : null;
-  const controlledBefore = battlefield ? hasUnitPresentAt(room, step.host, located.playerId, battlefield) : false;
+  // 190.3.a.1: a Unit moving to a battlefield applies Contested unless it is already Contested or
+  // its controller already controls the battlefield (R2-combat's stored control, 190.2).
+  const controlledBefore = battlefield ? controlsBattlefield(room, located.playerId, battlefield, step.host) : false;
   const moved = step.host.moveCard(room, located.playerId, located.zone, destination, cardId);
   if (!moved) return false;
   const info = step.host.cardInfo(room, cardId);

@@ -1,12 +1,13 @@
 /** Standard Move verdict — rules 144, 449–455. */
-import type { Room, Verdict } from "@rift/protocol";
+import type { BattlefieldZone, Room, Verdict } from "@rift/protocol";
 import type { RulesHost } from "../host";
 import { fail } from "../types";
 import { chainExists, isTurnPlayer, showdownActive } from "../state/turn";
 import { baseActionVerdict } from "./timing";
 import { restrictionFor } from "../layers/restrictions";
 import { cardKeywords, hasKeyword } from "../play/keywords";
-import { hasVisibleUnitAt, playersWithUnitsAt } from "../play/control";
+import { playersWithUnitsAt } from "../play/control";
+import { combatBarsDestination } from "../combat/begin";
 
 export interface MoveVerdictContext {
   host: RulesHost;
@@ -71,11 +72,11 @@ export function moveTimingVerdict(
     // mover (facedown cards are not Units present, 107.3).
     const others = playersWithUnitsAt(room, host, to).filter((id) => id !== playerId);
     if (others.length >= 2) return fail("invalid_location", "449.2");
-    // 449.2.a: with 3+ players, a battlefield with a staged Combat is invalid for a player with
-    // no Units there (an ongoing Combat already forbids Standard Moves, 144.1.c).
-    if (host.activePlayerIds(room).length > 2) {
-      const staged = rules.staged.combats.includes(to as (typeof rules.staged.combats)[number]);
-      if (staged && !hasVisibleUnitAt(room, host, playerId, to)) return fail("invalid_location", "449.2.a");
+    // 449.2.a / 464.1: with 3+ players, a battlefield with a Staged Combat (an ongoing Combat
+    // already forbids Standard Moves, 144.1.c) is invalid for a player not involved in it or
+    // without Units there. R2-combat's helper owns who is involved (466.2.c).
+    if (combatBarsDestination(room, playerId, to as BattlefieldZone, "move", host)) {
+      return fail("invalid_location", "449.2.a");
     }
   }
   return { ok: true };

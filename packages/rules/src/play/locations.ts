@@ -15,11 +15,12 @@
  * A Unit can never be played to a Battlefield that already has Units of 2 other players
  * (451.2 / 358.3), and the restriction layer may forbid a location (355.17.b, R2-effects).
  */
-import type { Room, RuleRef } from "@rift/protocol";
+import type { BattlefieldZone, Room, RuleRef } from "@rift/protocol";
 import type { CardInfo, RulesHost } from "../host";
 import type { RulesFailure } from "../types";
 import { fail } from "../types";
 import { restrictionFor } from "../layers/restrictions";
+import { combatBarsDestination } from "../combat/begin";
 import { controlsBattlefield, hasVisibleUnitAt, playersWithUnitsAt } from "./control";
 import { hasKeyword } from "./keywords";
 import { typeOf } from "./card-info";
@@ -82,6 +83,9 @@ function baseLocations(room: Room, host: RulesHost, query: LocationQuery): Locat
     if (out.some((entry) => entry.zone === option.zone)) return;
     if (restricted(room, host, query, option.zone)) return;
     if (unit && option.zone !== "base" && tooCrowded(room, host, query.playerId, option.zone)) return;
+    // 464.2: with 3+ players, a battlefield with a Staged Combat or a Combat in progress is not a
+    // valid location to play a Unit for a player not involved in it.
+    if (unit && option.zone !== "base" && combatBarsDestination(room, query.playerId, option.zone as BattlefieldZone, "play", host)) return;
     out.push(option);
   };
   if (query.facedownAt) {

@@ -24,8 +24,8 @@ function assignmentData(prompt: Prompt): CombatDamageAssignmentData | null {
 }
 
 /**
- * Verdict for a damage-assignment answer — shared by the handler and (once wired by the lead)
- * `explainIllegal`'s `rules_choose` path.
+ * Verdict for a damage-assignment answer — shared by the handler and `chooseVerdict` (the
+ * `rules_choose` write path and `explainIllegal`).
  */
 export function damageAssignmentVerdict(room: Room, prompt: Prompt, answer: PromptAnswer): Verdict {
   const data = assignmentData(prompt);

@@ -3,7 +3,7 @@
  */
 import { describe, expect, it } from "vitest";
 import type { GameVariant } from "@rift/protocol";
-import { battlefieldController, combatParticipants, runCleanup } from "../../../src";
+import { battlefieldController, combatParticipants, movePrimitive, runCleanup } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
 import { boardOf, controllerOf, eventTypes, passUntilSettled, placeUnit, setControl, stepOf, table } from "./helpers";
 
@@ -21,6 +21,26 @@ describe("control of battlefields [R190][R323.5]", () => {
       zone: "battlefieldA",
       data: { rule: "323.5" },
     });
+  });
+
+  it("[R190.3.a.1] a unit moving to a battlefield its controller controls applies no Contested, even with no units there yet", () => {
+    const s = scenario();
+    setControl(s.room, "battlefieldA", "p1");
+    placeUnit(s, "p1", "Clockwork Keeper", "base", "mover");
+    s.as("p1").move("Clockwork Keeper", "battlefieldA").expectOk();
+    expect(s.room.rules?.contested.battlefieldA).toBeUndefined();
+    expect(s.room.rules?.showdown).toBe(null);
+    expect(controllerOf(s.room, "battlefieldA")).toBe("p1");
+  });
+
+  it("[R190.3.a.1] a unit joining its controller's units at a battlefield someone else controls applies Contested", () => {
+    const s = scenario();
+    placeUnit(s, "p1", "Clockwork Keeper", "battlefieldA", "already-there");
+    setControl(s.room, "battlefieldA", "p2");
+    const step = stepOf(s);
+    placeUnit(s, "p1", "Stellacorn Herder", "base", "arriving");
+    expect(movePrimitive(s.room, "arriving", "battlefieldA", step)).toBe(true);
+    expect(s.room.rules?.contested.battlefieldA).toBe("p1");
   });
 
   it("[R323.5] control is kept while the turn is in a Closed State", () => {

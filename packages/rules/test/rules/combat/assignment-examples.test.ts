@@ -8,8 +8,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { CombatDamageTarget } from "@rift/protocol";
 import {
+  applyRulesIntent,
   damageTargets,
   enumerateAssignments,
+  explainIllegal,
   lethalAssignment,
   registerActionInterceptor,
   validateAssignment,
@@ -275,9 +277,13 @@ describe("prompt answers with exclusive choices [R467.2.c.8][R411.2]", () => {
       "tank",
       "backline",
     ]);
-    s.as("p1")
-      .choose({ assignments: [{ targetId: "keeper", amount: 2 }, { targetId: "cait", amount: 1 }], exclusiveChoices: { cait: "tank" } })
-      .expectError("invalid_choice");
+    // explainIllegal answers what the write path rejects (R2-combat's assignment verdict).
+    const bad = { assignments: [{ targetId: "keeper", amount: 2 }, { targetId: "cait", amount: 1 }], exclusiveChoices: { cait: "tank" } };
+    const intent = { type: "rules_choose", promptId: s.room.rules!.prompt!.id, answer: bad } as const;
+    const explained = explainIllegal(s.room, "p1", intent, s.host);
+    expect(explained).toMatchObject({ ok: false, code: "invalid_choice", rule: "467.2.c.6" });
+    const applied = applyRulesIntent(s.room, "p1", intent, s.ctx, s.host);
+    expect(applied).toMatchObject({ ok: false, code: "invalid_choice", rule: "467.2.c.6" });
     s.as("p1")
       .choose({ assignments: [{ targetId: "keeper", amount: 2 }, { targetId: "cait", amount: 1 }], exclusiveChoices: { cait: "backline" } })
       .expectOk();

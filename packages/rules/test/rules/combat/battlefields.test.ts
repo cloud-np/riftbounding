@@ -7,6 +7,7 @@ import {
   battlefieldAbilityController,
   battlefieldStates,
   combatBarsDestination,
+  explainIllegal,
   losePoints,
   playerLoses,
   playerWins,
@@ -75,6 +76,24 @@ describe("FFA invalid destinations [R464.1][R464.2]", () => {
     expect(combatBarsDestination(t.room, "p3", "battlefieldA", "play", t.host)).toBe(true);
     expect(combatBarsDestination(t.room, "p2", "battlefieldA", "move", t.host)).toBe(false);
     expect(combatBarsDestination(t.room, "p3", "battlefieldB", "move", t.host)).toBe(false);
+  });
+
+  it("[R449.2.a][R464.1] a Standard Move to a battlefield with a Staged Combat is invalid for a non-participant (apply = explain)", () => {
+    const t = table("free_for_all_3" as GameVariant);
+    // Only the Defender's units are there now, so 449.2's "two other players" crowding does not
+    // apply and the Staged Combat alone bars the move.
+    t.place("p2", "Clockwork Keeper", "battlefieldA", "b");
+    setControl(t.room, "battlefieldA", "p2");
+    t.room.rules!.contested.battlefieldA = "p1";
+    t.room.rules!.staged.combats = ["battlefieldA"];
+    t.room.rules!.turn.player = "p3";
+    t.room.rules!.priority = "p3";
+    t.place("p3", "Stellacorn Herder", "base", "mover");
+    const intent = { type: "rules_move", unitIds: ["mover"], to: "battlefieldA" } as const;
+    const explained = explainIllegal(t.room, "p3", intent, t.host);
+    expect(explained).toMatchObject({ ok: false, code: "invalid_location", rule: "449.2.a" });
+    expect(t.apply("p3", intent)).toMatchObject({ ok: false, code: "invalid_location", rule: "449.2.a" });
+    expect(explainIllegal(t.room, "p3", { ...intent, to: "battlefieldB" }, t.host)).toMatchObject({ ok: true });
   });
 
   it("[R464] the restriction only exists with more than two players", () => {
