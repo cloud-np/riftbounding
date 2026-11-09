@@ -5,8 +5,8 @@ starting A through N (126 cards). Scripts live in `packages/rules/src/cards/OGN/
 registered through `src/cards/OGN/batch-a-n.ts`; behaviour tests are in
 `packages/rules/test/cards/ogn-a-n/` (one `[C:Card Name]` test per card).
 
-Counts: **15 implemented**, **0 partial**, **0 manual**,
-**111 not yet scripted**.
+Counts: **30 implemented**, **0 partial**, **0 manual**,
+**96 not yet scripted**.
 
 ## Conventions used
 
@@ -45,30 +45,30 @@ Engine capabilities missing for full automation (feeds the next engine pass).
 | Anivia, Primal               | Unit        | remaining   |       |
 | Arena Bar                    | Gear        | remaining   |       |
 | Ava Achiever                 | Unit        | remaining   |       |
-| Back to Back                 | Spell       | remaining   |       |
+| Back to Back                 | Spell       | implemented |       |
 | Baited Hook                  | Gear        | remaining   |       |
 | Bilgewater Bully             | Unit        | remaining   |       |
 | Blastcone Fae                | Unit        | remaining   |       |
 | Blazing Scorcher             | Unit        | implemented |       |
 | Blind Fury                   | Spell       | remaining   |       |
 | Blitzcrank, Impassive        | Unit        | remaining   |       |
-| Block                        | Spell       | remaining   |       |
+| Block                        | Spell       | implemented |       |
 | Brazen Buccaneer             | Unit        | remaining   |       |
 | Brynhir Thundersong          | Unit        | remaining   |       |
 | Bullet Time                  | Spell       | remaining   |       |
 | Call to Glory                | Spell       | remaining   |       |
-| Cannon Barrage               | Spell       | remaining   |       |
+| Cannon Barrage               | Spell       | implemented |       |
 | Captain Farron               | Unit        | remaining   |       |
 | Carnivorous Snapvine         | Unit        | remaining   |       |
-| Catalyst of Aeons            | Spell       | remaining   |       |
+| Catalyst of Aeons            | Spell       | implemented |       |
 | Cemetery Attendant           | Unit        | implemented |       |
-| Charm                        | Spell       | remaining   |       |
+| Charm                        | Spell       | implemented |       |
 | Chemtech Enforcer            | Unit        | implemented |       |
 | Cithria of Cloudfield        | Unit        | remaining   |       |
-| Cleave                       | Spell       | remaining   |       |
+| Cleave                       | Spell       | implemented |       |
 | Commander Ledros             | Unit        | remaining   |       |
-| Confront                     | Spell       | remaining   |       |
-| Consult the Past             | Spell       | remaining   |       |
+| Confront                     | Spell       | implemented |       |
+| Consult the Past             | Spell       | implemented |       |
 | Convergent Mutation          | Spell       | remaining   |       |
 | Crackshot Corsair            | Unit        | remaining   |       |
 | Cruel Patron                 | Unit        | remaining   |       |
@@ -92,19 +92,19 @@ Engine capabilities missing for full automation (feeds the next engine pass).
 | Facebreaker                  | Spell       | remaining   |       |
 | Fading Memories              | Spell       | remaining   |       |
 | Faithful Manufactor          | Unit        | implemented |       |
-| Falling Comet                | Spell       | remaining   |       |
-| Fight or Flight              | Spell       | remaining   |       |
+| Falling Comet                | Spell       | implemented |       |
+| Fight or Flight              | Spell       | implemented |       |
 | Find Your Center             | Spell       | remaining   |       |
 | Fiora, Victorious            | Unit        | remaining   |       |
 | First Mate                   | Unit        | implemented |       |
 | Flame Chompers               | Unit        | remaining   |       |
-| Flurry of Blades             | Spell       | remaining   |       |
+| Flurry of Blades             | Spell       | implemented |       |
 | Forge of the Future          | Gear        | remaining   |       |
 | Fox-Fire                     | Spell       | remaining   |       |
 | Garbage Grabber              | Gear        | remaining   |       |
 | Gemcraft Seer                | Unit        | remaining   |       |
 | Get Excited!                 | Spell       | remaining   |       |
-| Grand Strategem              | Spell       | remaining   |       |
+| Grand Strategem              | Spell       | implemented |       |
 | Guerilla Warfare             | Spell       | remaining   |       |
 | Hallowed Tomb                | Battlefield | remaining   |       |
 | Harnessed Dragon             | Unit        | implemented |       |
@@ -130,7 +130,7 @@ Engine capabilities missing for full automation (feeds the next engine pass).
 | Kinkou Monk                  | Unit        | remaining   |       |
 | Kog'Maw, Caustic             | Unit        | remaining   |       |
 | Kraken Hunter                | Unit        | remaining   |       |
-| Last Breath                  | Spell       | remaining   |       |
+| Last Breath                  | Spell       | implemented |       |
 | Lecturing Yordle             | Unit        | implemented |       |
 | Lee Sin, Ascetic             | Unit        | remaining   |       |
 | Lee Sin, Blind Monk          | Legend      | remaining   |       |
@@ -151,9 +151,9 @@ Engine capabilities missing for full automation (feeds the next engine pass).
 | Miss Fortune, Buccaneer      | Unit        | remaining   |       |
 | Miss Fortune, Captain        | Unit        | remaining   |       |
 | Mistfall                     | Gear        | remaining   |       |
-| Mobilize                     | Spell       | remaining   |       |
+| Mobilize                     | Spell       | implemented |       |
 | Monastery of Hirana          | Battlefield | remaining   |       |
-| Morbid Return                | Spell       | remaining   |       |
+| Morbid Return                | Spell       | implemented |       |
 | Mountain Drake               | Unit        | implemented |       |
 | Mushroom Pouch               | Gear        | remaining   |       |
 | Mystic Poro                  | Unit        | implemented |       |
