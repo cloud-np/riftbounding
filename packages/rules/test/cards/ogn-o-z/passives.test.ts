@@ -99,7 +99,7 @@ describe("Origins O–Z passive abilities", () => {
   // array form of `effectiveKeywords`, which skips keyword passives/continuous effects. A unit
   // granted Ganking by a passive ("Units here have [GANKING]") is refused a battlefield-to-
   // battlefield Standard Move with invalid_location/144.4.c, contrary to 810.3 / 144.4.c.1.
-  it.skip("[BUG][C:Windswept Hillock][R810.3][R144.4.c.1] a unit granted Ganking by a passive can move battlefield to battlefield", () => {
+  it("[C:Windswept Hillock][R810.3][R144.4.c.1] a unit granted Ganking by a passive can move battlefield to battlefield", () => {
     const s = withCards([], [], { battlefields: { p1: "Windswept Hillock" } });
     const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     expect(effectiveKeywords(s.room, unit.id, s.host)).toContain("Ganking");
