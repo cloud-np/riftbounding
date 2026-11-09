@@ -16,6 +16,34 @@ keywords (805, 806, 810–813, 818–822, 830).
   (449.2.a / 464.1 / 464.2); `actions/move.ts` applies Contested from `controlsBattlefield`.
 - "Up to N" `play.choice` prompts cap `max` at the legal options (`data.choiceMax` keeps N).
 
+## R4-engine additions (part A)
+
+Wave R4-engine closed the play-side `[BUG]` reproductions (wire additions in
+`packages/protocol/CHANGES.md`, `## R4-engine`):
+
+- **Repeat (820.1–820.3).** The printed cost parser strips a leading `-`, `–` or `—` before a
+  non-symbol cost (`[Repeat] - Discard 1`). Each paid instance executes the instructions one
+  additional time at resolution; the play-time choices of execution `n` are bound as
+  `repeat:<n>:<key>` (820.2.a allows different targets) and Deflect on them is charged per
+  execution. `CardScript.repeatHandled` keeps scripts that still implement their own repeat from
+  running twice until R4-cards removes them.
+- **Deflect (809.1.c / 809.2).** The charge is
+  `max(array keyword value, effectiveKeywordValues().deflect)`, so `[Deflect 2]`, passive Deflect
+  and granted instances charge their full value for every choice of the object — including
+  targets supplied up front by the intent and targets of repeated executions.
+- **Optional additional cost vs rune payment (356.4.f.1).** `paidAdditionalCost` is set only by a
+  real `cost:<id>` decision (Accelerate and Deflect excluded) or `paid.additional.optionalCosts`;
+  the ordinary rune/Power payment recorded in `paid.additional` no longer counts as paying the
+  optional cost.
+- **054.1 self restriction.** `restrictionFor({kind:"play"})` also reads the played card's own
+  script restriction passives in any zone (Ol' Poro), not only board passives.
+- **Limited play (420.3.b / 355.2.b).** The `play` op sets the item's `totalCost` marker after it
+  chose a location, so `resolvePermanent` does not demand friendly presence there (`ignored` cost
+  uses the `{energy:0,power:0}` sentinel, otherwise the printed-cost summary).
+- **Ambush (822.1.b).** When the controlled-battlefield option and the Ambush option are the same
+  Location, the existing option is kept and marked `viaAmbush`, so 308.1.a reaction timing sees the
+  Ambush permission.
+
 ## Files
 
 | file | rules | role |
@@ -113,6 +141,10 @@ mandatory requirements, followed when possible; restrictions still win, 355.17.b
   `invalid_payment`/357.3).
 - **Atomicity**: `payCost` checkpoints the draft and restores it (and the step's events) on any
   failure.
+- **Optional additional cost paid (356.4.f.1)**: `paidAdditionalCost` on the permanent / play effect
+  reads a real `cost:<id>` choice (Accelerate and Deflect excluded) or
+  `paid.additional.optionalCosts`; the rune/Power payment recorded by `paidCostRecord` is not a
+  decision to pay an optional cost.
 - **Cost conventions** for scripts (R2-effects): `Selector.targetRef: "self"` (or `"source"`) is
   "this/me" (`[E]`, "Kill this"); `Cost.additional["power:self"]: n` is n×[C] of the source's
   Domains (135.2.e.6); `Cost.additional["recycle:self"]: true` is "Recycle this". Any other
@@ -128,7 +160,7 @@ Refs (one scheme for `legalIntents`, `explainIllegal`, `rules_activate`):
 | `activated:<i>` | card script, index into the full `abilities` array (F7, R1) |
 | `manual:<n>` | R2-effects' `listActivatedAbilities` unscripted entries — **NEW-12 fixed**: accepted, ref recorded, `rules.manual` opens on resolution (`executeCardScript` has no script for the ref) |
 | `rune:exhaust`, `rune:recycle` | Basic Rune abilities (164.2), Reaction, executed by the engine |
-| `equip:<n>` | `[Equip] <cost>` lines: "[Cost]: Attach this gear to a unit you control" (818.1.c.2), target = unit you control (818.1.b.1); resolves in the manual window until R2-effects resolves it |
+| `equip:<n>` | `[Equip] <cost>` lines: "[Cost]: Attach this gear to a unit you control" (818.1.c.2), target = unit you control (818.1.b.1); `executeCardScript` resolves it by attaching (synthetic `attach`, gear → `target:0`) |
 
 Verdict order: source found & controlled (399/378) → on the Board (380) → ref exists (403.3) →
 timing (381 + 806/813 from the ability's own keywords) → 377.2.b “Use this ability only while I'm
@@ -145,16 +177,16 @@ and plain printed `[Add] <symbols>` effects (430.5) are executed by the play lay
 |---|---|---|
 | Action / Reaction | 806, 813 | card-level from text; ability-level from the ability line; granted via layers |
 | Accelerate | 805 | optional `[1][C]` (`accelerate`), Unit enters ready (805.6, no `ready` event) |
-| Deflect | 809 | mandatory `[A]×value` per opponent target chosen (any Domain) |
+| Deflect | 809 | mandatory `[A]×effective value` per opponent target chosen (any Domain; printed + passive/granted, 809.2) |
 | Ganking | 810 | printed or granted (layers) on the Standard Move |
-| Hidden | 811, 422 | Hide (`rules_play {hide:true, location}`), facedown play next turn with Reaction, base cost ignored, location forced, spell targets restricted |
+| Hidden | 811, 422 | Hide (`rules_play {hide:true, location}`), facedown play next turn with Reaction, base cost ignored, location forced, spell targets restricted; the hidden record survives the 317.2.c expiration step |
 | Legion | 812 | `legionActive(room, player, cardId)` (finalized-card history, 420.4.b) |
-| Equip | 818 | built-in activated ability |
-| Quick-Draw | 819 | inherent Reaction (819.1.b); its attach trigger is R2-effects' |
-| Repeat | 820 | optional additional costs `repeat`, `repeat:<n>` parsed from text |
-| Weaponmaster | 821 | `weaponmasterEquipCosts` (reduced by [A] only, 821.1.c.3/.4); trigger is R2-effects' |
-| Ambush | 822 | location + Reaction there (822.1.b/c, 822.3) |
-| Deploy | 830 | battlefield-only gear location (830.1.b) |
+| Equip | 818 | built-in activated ability; `equip:<n>` attaches on resolution (818.1.c.2) |
+| Quick-Draw | 819 | inherent Reaction (819.1.b) plus the attach trigger (`gear_played`, once, 819.1.d/819.2) |
+| Repeat | 820 | optional additional costs `repeat`, `repeat:<n>` parsed from text (leading dash accepted); one extra execution and one `repeat:<n>:<key>` choice set per paid instance |
+| Weaponmaster | 821 | `weaponmasterEquipCosts`; on `unit_played` the optional trigger offers an Equipment you control and pays its Equip cost reduced by [A] (821.1.b/c) |
+| Ambush | 822 | location + Reaction there (822.1.b/c, 822.3); merged onto the same controlled battlefield option |
+| Deploy | 830 | battlefield-only gear location; `hold` by an opponent kills it (830.1.b) |
 
 ## Standard Move / Recalls (144, 447–460)
 
@@ -260,8 +292,9 @@ a real choice → `play.choice`/`play.cost` prompt (resumed by the play handlers
   cleanup step 1) silently recalls unattached gear from battlefields before step 5 runs.
 - **Engine host (frozen)**: `hasUnitAt`/`unitsAt` count facedown Unit cards as present; the play
   layer uses `control.ts` (face-up only) but R1 cleanup/combat still use the host.
-- **R2-effects**: resolve `equip:<n>` (attach to `target:0`) instead of the manual window;
-  share the selector/amount evaluators with `cost-objects.ts`/`cost-model.ts`.
+- **R4-engine**: `executeCardScript` resolves `equip:<n>` by attaching to `target:0` (818.1.c.2);
+  the Equipment/Weaponmaster/Quick-Draw/Deploy triggers and attached Effect Text live in
+  `triggers/keywords.ts`, `triggers/detect.ts` and `layers/passives.ts` (see effects.md).
 
 ## Tests
 

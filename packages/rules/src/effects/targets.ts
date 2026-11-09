@@ -97,6 +97,9 @@ export function noteLki(ctx: EvalContext, ids: readonly string[]): void {
   for (const id of ids) {
     const located = locate(ctx.room, ctx.host, id);
     if (!located) continue;
+    // 424 / 427 / 442: record the object's status before an instruction moves it, like the
+    // kill event's last-known information (383.2.c.3.b).
+    const object = ctx.room.rules?.objects[id];
     setLki(ctx.env, id, {
       controller: controllerOf(ctx.room, ctx.host, id),
       owner: ownerOf(ctx.room, ctx.host, id),
@@ -104,6 +107,9 @@ export function noteLki(ctx: EvalContext, ids: readonly string[]): void {
       might: mightOf(ctx, id),
       name: located.card.name,
       type: typeOf(ctx.room, ctx.host, id),
+      ...(object
+        ? { stunned: object.stunned === true, buffs: object.buffs ?? 0, empowered: object.empowered ?? 0 }
+        : {}),
     });
   }
 }

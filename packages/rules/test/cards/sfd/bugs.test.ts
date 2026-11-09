@@ -8,7 +8,7 @@ import { run } from "../../rules/effects/helpers";
 import { addPool, boardCard, fund, put, settle, withCards } from "./helpers";
 
 describe("SFD engine reproductions", () => {
-  it.skip("[BUG] [C:Feral Strength][R820.1.d][R820.1.d.1] a paid Repeat cost executes the spell's effect a second time", () => {
+  it("[C:Feral Strength][R820.1.d][R820.1.d.1] a paid Repeat cost executes the spell's effect a second time", () => {
     // The Repeat cost is charged (play/additional-costs.ts) and `cost:repeat` is recorded, but
     // resolution executes the instructions only once: +2 instead of +4.
     const s = withCards(["Feral Strength"]);
@@ -29,7 +29,7 @@ describe("SFD engine reproductions", () => {
     expect(effectiveMight(s.room, unit.id, s.host)).toBe(3 + 2 + 2);
   });
 
-  it.skip("[BUG] [C:Doran's Blade][R818.1.c.2] the built-in Equip ability attaches the gear on resolution", () => {
+  it("[C:Doran's Blade][R818.1.c.2] the built-in Equip ability attaches the gear on resolution", () => {
     // `equip:<n>` is activatable and paid, but `executeCardScript` finds no script ability for
     // the ref, so the item resolves in the §6.4 manual window and nothing is attached.
     const s = withCards(["Doran's Blade"]);
@@ -49,7 +49,7 @@ describe("SFD engine reproductions", () => {
     expect(boardCard(s, "p1", "Doran's Blade")!.attachedToCardId).toBe(unit.id);
   });
 
-  it.skip("[BUG] [C:Combat Chef][R821.1.b] Weaponmaster: playing the unit offers to Equip one of your Equipment for [A] less", () => {
+  it("[C:Combat Chef][R821.1.b] Weaponmaster: playing the unit offers to Equip one of your Equipment for [A] less", () => {
     // No Weaponmaster trigger is detected when the unit is played (triggers/keywords.ts has none).
     const s = withCards(["Combat Chef", "Long Sword"]);
     put(s, "p1", "Long Sword", "base");
@@ -60,7 +60,7 @@ describe("SFD engine reproductions", () => {
     ).toBe(true);
   });
 
-  it.skip("[BUG] [C:Counter Strike][R375][R359.3.f.3.a] a delayed replacement's matcher sees the creating ability's choices", () => {
+  it("[C:Counter Strike][R375][R359.3.f.3.a] a delayed replacement's matcher sees the creating ability's choices", () => {
     // `replace` stores `choices` with the replacement, but `replacements/interceptor.ts`
     // `matchesProposal` evaluates `matches` without them, so `subject: { targetRef: "target:0" }`
     // never matches (Counter Strike binds the object id instead, sfd:prevent-next-damage-to-it).
@@ -85,7 +85,7 @@ describe("SFD engine reproductions", () => {
     expect(s.room.rules!.objects[unit.id]?.damage ?? 0).toBe(0);
   });
 
-  it.skip("[BUG] [C:Long Sword][R819.1.d] Quick-Draw: when you play it, attach it to a unit you control", () => {
+  it("[C:Long Sword][R819.1.d] Quick-Draw: when you play it, attach it to a unit you control", () => {
     // The gear is played with Reaction timing (819.1.b), but no attach trigger follows.
     const s = withCards(["Long Sword"]);
     const unit = put(s, "p1", "Caitlyn, Patrolling", "base");

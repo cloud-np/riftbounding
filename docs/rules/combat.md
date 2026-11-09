@@ -118,6 +118,11 @@ together (491.8.d, 491.6.a.3) through the host's entity scores.
 `concede`, `banish`, `battlefield_replaced`, `player_removed`, `lose_game`. `contested` now carries
 `rule: "190.3.a"` for single-player arrivals (`"323.8"` when opposing units are present).
 
+R4-engine: `kill` records the object's last-known `stunned` / `buffs` / `empowered` in the event's
+`data` before `rules.objects[id]` is deleted (383.2.c.3.b / 424 / 427 / 442). Death triggers from
+combat and cleanup can therefore read the status, and Deploy gear's "when an opponent holds here,
+kill this" (830.1.b) goes through the same event.
+
 ## Protocol notes (for `packages/protocol/CHANGES.md`)
 
 All in `domains/combat.ts`, optional fields only; `CombatDamage*` contract unchanged except

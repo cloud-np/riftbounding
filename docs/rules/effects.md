@@ -145,6 +145,51 @@ when countered). `grant_keyword` "Flow" may target a spell in a trash ("give a s
 Stargazer use the usual `cost` modifiers. Limit: several printed Flow costs (829.1.c.3) use the
 first.
 
+## R4-engine additions (part A)
+
+Wave R4-engine fixed the effects-side `[BUG]` reproductions (protocol additions in
+`packages/protocol/CHANGES.md`, `## R4-engine`):
+
+### Last-known information on kill/die (383.2.c.3.b, 424, 427, 442)
+
+`kill` reads the object before dropping it: the `kill` event `data` now carries `stunned`, `buffs`
+and `empowered`. `LastKnown`, `eventLki` and `noteLki` record the same three fields, and
+`matchesSelector` falls back to the event/LKI when the rules object is gone. A die-event subject
+with `{ stunned: true }` / `buffed` / `empowered` therefore still matches (Storm Raptor), and the
+trigger reads the leaving object's old zone (383.2.c.3.b).
+
+### Delayed replacement choices (359.3.f.3.a, 375, 391.3)
+
+`matchesProposal` evaluates a replacement's `matches` with the creating ability's stored
+`choices`, so `subject: { targetRef: "target:0" }` in a delayed replacement refers to the object
+chosen when the replacement was created (Highlander, Counter Strike, Unleashed's death
+replacement). `replacementSources` also enumerates attached cards' Effect Text (718.3 / 719.1), so
+an attached card can contribute a replacement effect.
+
+### Deathknell choice environment (355.7, 808)
+
+`ChoiceContext` / `ChoiceBindContext` / `CoreInput` accept an optional `event`; the play-time
+choice scan sets `env.event` and seeds `$lki[event.cardId]` from `eventLki`, and `planTrigger`
+passes the trigger's event. A Deathknell can therefore choose a Target "here" in the zone the
+source left (Mournful Spirit).
+
+### Attached cards (718.2, 718.3, 719.1) and attachment keywords
+
+- `executeCardScript` resolves the built-in `equip:<n>` ref by running the synthetic attach
+  (818.1.c.2) instead of the manual window; all catalog Equipment use it.
+- Triggered abilities in an attached card's Effect Text are appended to its Top-Most card's source
+  with `TriggerEntry.scriptName`; the host stays `sourceObjectId` ("self/here/host") while
+  execution uses the attached script. An accepted optional trigger keys its once-per-turn limit by
+  the attached script name too (383.3.e.1).
+- Ordinary passives of an attached card are its Effect Text and apply (718.3); its printed Rules
+  Text is Inactive (718.2). Mark a passive that models printed Rules Text with
+  `{ kind: "custom", id: "rules-text", params: { modifier } }`: the wrapper stays active while the
+  card is unattached and is dropped while attached. `targetRef:"host"` resolves to the Top-Most
+  card.
+- The keyword triggers `Quick-Draw` (`gear_played` attach, 819.1.d / 819.2), `Weaponmaster`
+  (`unit_played` optional reduced-cost Equip, 821.1.b/c) and `Deploy` (`hold` by an opponent kills
+  the gear, 830.1.b) are detected through the same source list.
+
 ## Files
 
 | Path | Contents |
@@ -194,7 +239,8 @@ first.
   still targetable (758.1). Illegal targets are skipped
   and `mistarget` is emitted; later instructions referencing the same key skip them too
   (359.3.e.14.a). Missing information returns `null` and ignores the instruction (359.3.e.12).
-  "If you do" reads `$did` (359.3.e.14.b). LKI is noted before an op moves an object (359.3.e.13).
+  "If you do" reads `$did` (359.3.e.14.b). LKI is noted before an op moves an object (359.3.e.13)
+  and includes `stunned` / `buffs` / `empowered` (424 / 427 / 442), matching the `kill` event.
 - **Unbound targeted choices** are asked on resolution (fallback when a flow skipped 355
   binding; R2-play binds them through `requiredChoices`/`validateChoices`).
 - `requires` (377.2.b) expresses "use this ability only while …"; `validateChoices` rejects with
@@ -222,11 +268,14 @@ grant/remove keyword 801.3, return_to_hand (056, 186.1, 705), `cost_then` (740.4
 ## Triggers (382–398)
 
 - **Detection** turns new events (per-intent cursor on the step object) into `PendingTrigger`s:
-  printed triggered abilities of board objects (384.2) and battlefields, the leaving object's own
-  leave-the-board abilities (383.2.c.3), keyword triggers (Vision 817, Temporary 816, Hunt 823,
-  Disarm 831 — refs `keyword:<name>:<value>`), and delayed triggers (`delayed:<effectId>`, 393).
-  Trigger conditions right after "when" are checked at detection (383.2.a.1); once-per-turn
-  limits use `history.effects.limits` (383.3.e, optional ones count when accepted).
+  printed triggered abilities of board objects (384.2) and battlefields, appended Effect Text of
+  attached cards (718.3 / 719.1, executed from the attached script with the host as source), the
+  leaving object's own leave-the-board abilities (383.2.c.3), keyword triggers (Vision 817,
+  Temporary 816, Hunt 823, Disarm 831, Quick-Draw 819, Weaponmaster 821, Deploy 830 — refs
+  `keyword:<name>:<value>`), and delayed triggers (`delayed:<effectId>`, 393). Trigger conditions
+  right after "when" are checked at detection (383.2.a.1); once-per-turn limits use
+  `history.effects.limits` (383.3.e, optional ones count when accepted, keyed by the attached
+  script name when 718.3 applies).
 - **Synthesized events:** `attack`/`defend` (unit) and `attack_declared`/`defend_declared`
   (player) the first time designations appear in a combat (383.4.e/f); `become_mighty` (709).
 - **Where:** the `cleanup:afterStep3a` hook (so a trigger from a move/kill/resolution is on the
@@ -254,7 +303,9 @@ replacement abilities whose `matches` holds for the proposed action — the acti
 running `replace` (370.1.b) and its triggers never fire (383.2.c.3.a). 370.2: a replacement being
 applied is skipped for the actions it causes (tracked on the step object). 371: once-each-turn
 limits. `previewDamage` applies restrictions (467.2.c.10), shields and `{prevent}` replacements
-without consuming them; `preventValue` exposes the tracked Prevent Value (438.5).
+without consuming them; `preventValue` exposes the tracked Prevent Value (438.5). Delayed
+replacements match with the creating ability's stored `choices` (359.3.f.3.a / 375 / 391.3), and
+attached cards' Effect Text contributes replacements (718.3 / 719.1).
 
 ## Layers (475–482)
 
@@ -264,12 +315,19 @@ without consuming them; `preventValue` exposes the tracked Prevent Value (438.5)
 - `effectiveKeywords` = printed + R1 `grantedKeywords` + `keywordGrants` + keyword passives/
   continuous effects − removals (801.3.b). `effectiveKeywordValues` sums values (823.2/831.2).
   The array form (legality/timing, cards in hand) sees printed + object grants only.
-- Passives (365.1) of board objects and battlefields; 718.2/724: an attached card contributes only
-  host-targeted passives (its effect text). `conditional` modifiers implement conditional
-  passives (364.3.a) and Dependent Keywords (Level 824, Empowered 828, 727.1.b). Nested
-  evaluations run at depth ≥ 1 with base values only (478.1.c loop breaker).
+- Passives (365.1) of board objects and battlefields; 718.2/718.3/719.1: an attached card's printed
+  Rules Text is Inactive, while ordinary passives in its Effect Text apply to the Top-Most card
+  and the rest of its text (`targetRef:"host"` resolves to the Top-Most card). A passive modelling
+  printed Rules Text is wrapped in `{ kind: "custom", id: "rules-text" }` so it drops while
+  attached. `conditional` modifiers implement conditional passives (364.3.a) and Dependent
+  Keywords (Level 824, Empowered 828, 727.1.b). Nested evaluations run at depth ≥ 1 with base
+  values only (478.1.c loop breaker).
 - Durations: "this turn" entries are pruned in the Expiration Step (317.2.c); "this combat" when no
-  combat is in progress; "until your next turn" via `expiresAtTurn`.
+  combat is in progress; "until your next turn" via `expiresAtTurn`. Step 3d deletes a rules object
+  only when it carries no persistent state: buffs, base Might (including 0), counters, keyword
+  grants, Might mods, prevention, Empowered, paid-additional-cost, hidden/show-off/targeted
+  records and a controller survive (801.3.a.3 / 811.1.b / 356.4.f.1); Stunned, designations and
+  temporary Might still clear (424.1.a.2).
 - `restrictionFor` (frozen): `restriction` modifiers, qualified `be-targeted:enemy|spells|abilities`
   (757.1); "can't beats can" (054.1). `costAdjustments` (frozen): `cost` and `cost-adjust`
   modifiers (Energy/Power; `once` = "next card", consumed on `card_played`, 420.5).
@@ -323,7 +381,8 @@ All additions are optional: `EffectsEffectOp` (`spend_buff`, `cost_then`, `requi
 `EffectsObjectFields` (`empowered`, `prevent`, `keywordGrants`, `mightMods`,
 `paidAdditionalCost`, `targetedBy`); `EffectsHistoryFields.effects` (`limits`, `marks`, `replacements`,
 `played`); `EffectsChainItemFields` (`effect`, `triggerEvent`, `sourceName`, `optional`,
-`mayDecided`, `targetSnapshot`, `resolutionChoices`). New prompt reasons: `effects.resume`,
+`mayDecided`, `targetSnapshot`, `resolutionChoices`, `repeatExecutionsDone`). R4-engine also adds
+`CardScript.repeatHandled` (820.1.d / 820.3). New prompt reasons: `effects.resume`,
 `effects.order_triggers`, `effects.trigger_choice`. New events: `trigger`, `trigger_removed`,
 `trigger_declined`, `mistarget`, `replaced`, `prevented`, `skip`, `skip_created`, `attack`,
 `defend`, `attack_declared`, `defend_declared`, `become_mighty`, `might`, `stun`, `buff`,

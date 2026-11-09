@@ -55,7 +55,7 @@ describe("Vendetta batch 4b", () => {
 
   // layers/restrictions.ts `restrictionFor` only reads modifiers of objects on the board, so a
   // `play` restriction printed on a card in hand is never consulted (054.1).
-  it.skip("[BUG][C:Ol' Poro][R054.1] a play restriction on a card in hand is not applied", () => {
+  it("[C:Ol' Poro][R054.1] a play restriction on a card in hand is not applied", () => {
     const s = withCards(["Ol' Poro"]);
     fund(s, "p1", "Ol' Poro");
     s.as("p1").play("Ol' Poro").expectError("restricted");

@@ -5,7 +5,7 @@
  */
 import { describe, expect, it } from "vitest";
 import { getCardScript, registerCardScript } from "../../../src";
-import { fund, spell } from "../../rules/effects/helpers";
+import { boardOf, fund, spell } from "../../rules/effects/helpers";
 import {
   activate,
   addPool,
@@ -17,12 +17,12 @@ import {
   zoneOf,
 } from "./helpers";
 
-describe("[BUG] engine reproductions (ven-ogs)", () => {
+describe("engine reproductions (ven-ogs)", () => {
   // cleanup/cleanup.ts "expire-this-turn" (317.2.c step 3d) deletes every rules object without
   // buffs/baseMight/counters/grantedKeywords/grantedAbilities/controller. Gear, legends and units
   // with 0 base Might lose their Empowered status (and keyword grants, prevention, Might mods) at
   // the end of the turn, although Empowered lasts until the object leaves the board (442.2, 828).
-  it.skip("[BUG][C:Steel Paws][R442.2][R317.2.c] a 0-Might unit loses Empowered in the Expiration Step", () => {
+  it("[C:Steel Paws][R442.2][R317.2.c] a 0-Might unit loses Empowered in the Expiration Step", () => {
     const s = withCards(["Steel Paws"]);
     fund(s, "p1", "Steel Paws");
     s.as("p1").play("Steel Paws").expectOk();
@@ -38,7 +38,7 @@ describe("[BUG] engine reproductions (ven-ogs)", () => {
     expect(empowered(s, paws.id)).toBe(true);
   });
 
-  it.skip("[BUG][C:Tools of Empire][R442.2][R317.2.c] an Empowered gear loses Empowered in the Expiration Step", () => {
+  it("[C:Tools of Empire][R442.2][R317.2.c] an Empowered gear loses Empowered in the Expiration Step", () => {
     const s = withCards(["Tools of Empire"]);
     const tools = place(s, "p1", "Tools of Empire", "base");
     exhaustRunes(s, "p1");
@@ -55,10 +55,13 @@ describe("[BUG] engine reproductions (ven-ogs)", () => {
   // `effectiveKeywords`, which returns bare keyword names ("Deflect", not "Deflect 2"), so
   // `keywordValue` counts 1: a [Deflect 2] unit costs [Rune] instead of [Rune][Rune] (809.1.c /
   // 809.2).
-  it.skip("[BUG][C:Nasus, Ascended][R809.1.c][R809.2] choosing a [Deflect 2] unit costs [Rune][Rune] more", () => {
+  it("[C:Nasus, Ascended][R809.1.c][R809.2] choosing a [Deflect 2] unit costs [Rune][Rune] more", () => {
     const s = withCards(["Hextech Ray"], ["Nasus, Ascended"]);
     const nasus = place(s, "p2", "Nasus, Ascended", "battlefieldA");
     exhaustRunes(s, "p1");
+    // An exhausted Basic Rune can still be recycled for Power (164.2.b, no Exhaust in the cost),
+    // so remove the Rune Area to make the [Rune][Rune] Deflect surcharge decisive.
+    boardOf(s, "p1").runeArea = [];
     fund(s, "p1", "Hextech Ray");
     addPool(s, "p1", 0, { any: 1 });
     s.as("p1")
@@ -71,7 +74,7 @@ describe("[BUG] engine reproductions (ven-ogs)", () => {
   // runes and the Power total there. A permanent paid with runes is treated as if its optional
   // additional cost was paid, so "When you play me, if you paid the additional cost" fires
   // although the player declined it (356.4.f.1 / 355.1.a).
-  it.skip("[BUG][C:Clockwork Keeper][R356.4.f.1][R355.1.a] paying with runes is not paying the optional additional cost", () => {
+  it("[C:Clockwork Keeper][R356.4.f.1][R355.1.a] paying with runes is not paying the optional additional cost", () => {
     const s = withCards(["Clockwork Keeper"]);
     const hand = s.room.players.find((player) => player.id === "p1")!.board!.hand.length;
     // Two ready runes pay [2]; the optional [Calm] is declined (no optionalCosts).
@@ -85,7 +88,7 @@ describe("[BUG] engine reproductions (ven-ogs)", () => {
   // `matches` matcher without them: a delayed replacement whose matcher names a chosen object
   // ("the next time it dies this turn") never applies. Highlander works around it by freezing the
   // chosen id into the matcher (`ven:with-bound`).
-  it.skip("[BUG][C:Highlander][R359.3.f.3.a][R391.3] a delayed replacement matcher can refer to the chosen unit", () => {
+  it("[C:Highlander][R359.3.f.3.a][R391.3] a delayed replacement matcher can refer to the chosen unit", () => {
     const original = getCardScript("Highlander")!;
     registerCardScript(
       spell("Highlander", {
@@ -94,7 +97,16 @@ describe("[BUG] engine reproductions (ven-ogs)", () => {
         effect: {
           op: "replace",
           matches: { type: "kill", subject: { targetRef: "target:0" } },
-          replace: { op: "recall", target: { targetRef: "event" } },
+          // Card text: "heal it, exhaust it, and recall it instead." The heal is part of the
+          // real card; without it the recalled unit keeps lethal damage and cleanup 3a kills it.
+          replace: {
+            op: "seq",
+            effects: [
+              { op: "heal", amount: 99, target: { targetRef: "event" } },
+              { op: "exhaust", target: { targetRef: "event" } },
+              { op: "recall", target: { targetRef: "event" } },
+            ],
+          },
         },
       }),
     );

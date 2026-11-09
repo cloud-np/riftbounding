@@ -119,7 +119,7 @@ describe("Origins A–N — more spells", () => {
     expect(getCardScript("Fading Memories")?.status).toBe("partial");
   });
 
-  it.skip("[BUG][C:Fading Memories][R317.2.c][R816.1.b] a gear given Temporary keeps it past the end of turn", () => {
+  it("[C:Fading Memories][R317.2.c][R816.1.b] a gear given Temporary keeps it past the end of turn", () => {
     // 317.2.c expire step (cleanup.ts "expire-this-turn") deletes every rules object without
     // buffs/baseMight/counters/grantedKeywords/grantedAbilities/controller. Gear never have
     // baseMight, so a permanent `keywordGrants` entry (Temporary here) is lost at the end of the
