@@ -1727,6 +1727,7 @@
    "rules.prompt.may": "要这样做吗？",
    "rules.prompt.choose": "选择",
    "rules.prompt.chooseMode": "选择模式",
+   "rules.prompt.chooseModes": "选择两个模式",
    "rules.prompt.chooseTarget": "选择目标",
    "rules.prompt.equipTarget": "选择一名你控制的单位进行装配",
    "rules.prompt.mayTrigger": "使用该触发技能？",

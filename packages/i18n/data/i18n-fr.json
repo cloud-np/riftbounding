@@ -1751,6 +1751,7 @@
    "rules.prompt.may": "Voulez-vous faire cela ?",
    "rules.prompt.choose": "Choisir",
    "rules.prompt.chooseMode": "Choisissez un mode",
+   "rules.prompt.chooseModes": "Choisissez deux modes",
    "rules.prompt.chooseTarget": "Choisissez une cible",
    "rules.prompt.equipTarget": "Choisissez une unité que vous contrôlez pour l’équiper",
    "rules.prompt.mayTrigger": "Utiliser cette compétence déclenchée ?",

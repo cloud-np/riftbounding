@@ -245,7 +245,13 @@ export function answerTriggerDecision(room: Room, step: RulesStepContext, item: 
     }
     item.mayDecided = true;
     // 383.3.e.2: an optional limited trigger counts toward its limit only once accepted.
-    if (item.sourceObjectId && item.abilityRef) noteLimitUse(room, item.sourceObjectId, item.abilityRef);
+    if (item.sourceObjectId && item.abilityRef) {
+      // 718.3 / 719.1: an attached card's appended trigger keeps the host as its source object;
+      // its once-per-turn limit is keyed by the attached script's name (see detect.limitKey).
+      const hostName = step.host.cardInfo(room, item.sourceObjectId)?.name;
+      const scriptName = item.sourceName && item.sourceName !== hostName ? item.sourceName : undefined;
+      noteLimitUse(room, item.sourceObjectId, item.abilityRef, scriptName);
+    }
   } else if (stage === "cost") {
     if (!yes) {
       // 405.2 / 405.2.a: a declined trigger cost removes it (not countered).

@@ -226,3 +226,16 @@ kill is attributed (429.5).
 Show Off adds the play-time choice key `showOff` (`play.choice` prompt, `data.spec.showOff`) and
 `ChainItem.choices.$showOff` (noted information); new event `show_off` (a picked board object;
 a revealed hand card emits `reveal` with `data.showOff`). Flow plays carry permission id `flow`.
+
+## R4-engine (part A) — costs/play, replacements/LKI, attachments (additive)
+
+Both additions are optional fields; no existing name, field meaning or prompt contract changed.
+
+| file | change | why |
+| --- | --- | --- |
+| `src/rules/ability.ts` | `CardScript.repeatHandled?: boolean` | 820.1.d / 820.3: a script that still executes its own Repeat workaround (`ifRepeat`/`target:1`) tells the resolution loop not to run the instructions again. Removed by R4-cards once those scripts are rewritten. |
+| `src/rules/domains/effects.ts` | `EffectsChainItemFields.repeatExecutionsDone?: number` | 820.1.d / 820.3: how many executions of the item's instructions have completed; the resolution loop runs the script `1 + paid Repeat instances` times and an `effects.resume` prompt resumes the remaining runs from this count. |
+
+Repeat play-time choices are namespaced `repeat:<run>:<key>` in `ChainItem.choices` (820.2.a—
+each additional execution may choose different targets); they are ordinary choice records, not a
+new wire field. No new prompt reason or event was added in this wave.

@@ -1711,6 +1711,7 @@
    "rules.prompt.may": "이렇게 하시겠습니까?",
    "rules.prompt.choose": "선택",
    "rules.prompt.chooseMode": "모드를 선택하세요",
+   "rules.prompt.chooseModes": "모드 두 개를 선택하세요",
    "rules.prompt.chooseTarget": "대상을 선택하세요",
    "rules.prompt.equipTarget": "자신이 통제하는 유닛 중 장착할 대상을 선택하세요",
    "rules.prompt.mayTrigger": "이 격발 스킬을 사용하시겠습니까?",

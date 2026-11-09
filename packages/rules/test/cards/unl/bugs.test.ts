@@ -17,7 +17,7 @@ describe("engine bugs (Unleashed lane)", () => {
    * returns null (`not_in_hand` / 420.1.a). Mischievous Marai, Back Off, Evelynn, Pyke, … are
    * unplayable from facedown through the real flow.
    */
-  it.skip("[BUG][R811.1.b][R317.2.c] a card hidden last turn can be played from facedown", () => {
+  it("[R811.1.b][R317.2.c] a card hidden last turn can be played from facedown", () => {
     const s = withCards(["Mischievous Marai"]);
     place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     const marai = s.handCard("p1", "Mischievous Marai")!;
@@ -38,7 +38,7 @@ describe("engine bugs (Unleashed lane)", () => {
    * `mightMods`, `empowered`, `prevent`, `paidAdditionalCost`), so e.g. "Give a gear [Temporary]"
    * (Turn to Dust) is lost before the next Beginning Phase and never kills it.
    */
-  it.skip("[BUG][R801.3.a.3][R317.2.c] a permanent keyword grant survives the end of turn", () => {
+  it("[R801.3.a.3][R317.2.c] a permanent keyword grant survives the end of turn", () => {
     const s = withCards([]);
     const unit = place(s, "p1", "Caitlyn, Patrolling", "base");
     run(s, { op: "grant_keyword", keyword: "Temporary", target: { targetRef: `obj:${unit.id}` } });
@@ -54,7 +54,7 @@ describe("engine bugs (Unleashed lane)", () => {
    * "paid" — so a card merely paid with runes (or with any Power cost) counts as having paid its
    * optional cost (Clockwork Keeper draws, Pyke Dockside Butcher readies, Nami stuns, …).
    */
-  it.skip("[BUG][R356.4.f.1][R355.1.a] paying with runes is not paying the optional additional cost", () => {
+  it("[R356.4.f.1][R355.1.a] paying with runes is not paying the optional additional cost", () => {
     const s = withCards(["Clockwork Keeper"]);
     s.room.rules!.pools.p1 = { energy: 0, power: {} };
     for (const rune of boardOf(s, "p1").runeArea) rune.exhausted = false;
@@ -73,7 +73,7 @@ describe("engine bugs (Unleashed lane)", () => {
    * cannot Ambush into its own battlefield during the attacker's showdown (showdown_requires_action,
    * 308.1.a).
    */
-  it.skip("[BUG][R822.1.b][R308.1.a] Ambush to a battlefield you control during a showdown there", () => {
+  it("[R822.1.b][R308.1.a] Ambush to a battlefield you control during a showdown there", () => {
     const s = withCards(["Inferna"], [], { firstPlayer: "p2" });
     place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     s.room.rules!.objects.battlefieldA = { controller: "p1" };
@@ -91,7 +91,7 @@ describe("engine bugs (Unleashed lane)", () => {
    * like `{ subject: { targetRef: "target:0" } }` never matches (Lane workaround: the custom
    * `unl:replace-next-death` binds the object id literally).
    */
-  it.skip("[BUG][R391.3][R359.3.f.3.a] a delayed replacement's matcher sees the creator's choices", () => {
+  it("[R391.3][R359.3.f.3.a] a delayed replacement's matcher sees the creator's choices", () => {
     const s = withCards([]);
     const unit = place(s, "p1", "Caitlyn, Patrolling", "battlefieldA");
     run(
@@ -113,7 +113,7 @@ describe("engine bugs (Unleashed lane)", () => {
    * records `totalCost`, so `resolvePermanent` (timing/fepr/finalize.ts) treats the location as
    * unvalidated and falls back to the base unless the controller already has a unit there.
    */
-  it.skip("[BUG][R420.3.b][R355.2.b] a limited play can enter a battlefield without friendly units", () => {
+  it("[R420.3.b][R355.2.b] a limited play can enter a battlefield without friendly units", () => {
     const s = withCards(["Thrill of the Hunt"]);
     const unit = place(s, "p1", "Caitlyn, Patrolling", "base");
     fund(s, "p1", "Thrill of the Hunt");
@@ -131,7 +131,7 @@ describe("engine bugs (Unleashed lane)", () => {
    * dash, so the cost becomes `unsupported:` (unpayable, 203.3). Square Up registers its cost
    * explicitly as a workaround.
    */
-  it.skip("[BUG][R820.1.c] the Repeat cost parser accepts a dash before a non-symbol cost", () => {
+  it("[R820.1.c] the Repeat cost parser accepts a dash before a non-symbol cost", () => {
     expect(parseRepeatCosts("[Repeat] - Discard 1 (You may pay the additional cost.)")).toEqual([
       { discard: 1 },
     ]);

@@ -2,7 +2,7 @@
  * Engine bugs found while scripting RAD cards (lane discipline: reproduced here, not fixed).
  */
 import { describe, expect, it } from "vitest";
-import { boardOf, fund } from "../../rules/effects/helpers";
+import { boardOf, fund, zoneOf } from "../../rules/effects/helpers";
 import { put, resolveAll, withCards } from "./helpers";
 
 describe("RAD lane — engine bug reproductions", () => {
@@ -14,7 +14,7 @@ describe("RAD lane — engine bug reproductions", () => {
    * `facedownPermission` refuses the play (`not_in_hand`). The same keep-list also drops
    * `keywordGrants`, `mightMods`, `prevent`, `empowered` and `paidAdditionalCost`.
    */
-  it.skip("[BUG][C:The Waters' Wage][R811.1.b][R317.2.c] a card hidden last turn can be played from face down", () => {
+  it("[C:The Waters' Wage][R811.1.b][R317.2.c] a card hidden last turn can be played from face down", () => {
     const s = withCards(["The Waters' Wage"]);
     put(s, "p1", "Treasure Hunter", "battlefieldA");
     s.room.rules!.objects["battlefieldA"] = { controller: "p1" };
@@ -37,7 +37,7 @@ describe("RAD lane — engine bug reproductions", () => {
    * lists Deploy as implemented, but `triggers/keywords.ts` has no Deploy trigger (only Vision,
    * Temporary, Hunt, Disarm), so a Deploy gear survives an opponent's hold.
    */
-  it.skip("[BUG][C:Banner of Conquest][R830.1.b] a Deploy gear is killed when an opponent holds its battlefield", () => {
+  it("[C:Banner of Conquest][R830.1.b] a Deploy gear is killed when an opponent holds its battlefield", () => {
     const s = withCards(["Banner of Conquest"]);
     const banner = put(s, "p1", "Banner of Conquest", "battlefieldB");
     put(s, "p2", "Treasure Hunter", "battlefieldB");
@@ -52,7 +52,7 @@ describe("RAD lane — engine bug reproductions", () => {
    * layer lists the built-in `equip:<n>` ability, but `executeCardScript` finds no script ability for
    * that ref, so the activation resolves in the §6.4 manual window instead of attaching.
    */
-  it.skip("[BUG][C:Nazuman Ntofo][R818.1.c.2] the built-in Equip ability attaches the gear", () => {
+  it("[C:Nazuman Ntofo][R818.1.c.2] the built-in Equip ability attaches the gear", () => {
     const s = withCards(["Nazuman Ntofo"]);
     const gear = put(s, "p1", "Nazuman Ntofo", "base");
     const unit = put(s, "p1", "Caitlyn, Patrolling", "base");
@@ -77,7 +77,7 @@ describe("RAD lane — engine bug reproductions", () => {
    * `power` there — so paying a card with runes makes every "if you paid the additional cost"
    * effect apply (Clockwork Keeper, Shimmering Swimmer).
    */
-  it.skip("[BUG][C:Shimmering Swimmer][C:Clockwork Keeper][R356.4.f.1] paying with runes is not paying the optional additional cost", () => {
+  it("[C:Shimmering Swimmer][C:Clockwork Keeper][R356.4.f.1] paying with runes is not paying the optional additional cost", () => {
     const s = withCards(["Clockwork Keeper"]);
     s.room.rules!.pools.p1 = { energy: 0, power: {} };
     for (const rune of boardOf(s, "p1").runeArea) rune.exhausted = false;
@@ -92,28 +92,47 @@ describe("RAD lane — engine bug reproductions", () => {
    * leaving source's last-known location, so a chosen target "here" (or by "event-zone") of a
    * Deathknell resolves to no zone and the trigger is dropped (Mournful Spirit uses a `choose`).
    */
-  it.skip("[BUG][C:Mournful Spirit][R355.7][R383.2.c.3] a Deathknell can choose a Target 'here' when put on the chain", () => {
+  it("[C:Mournful Spirit][R355.7][R383.2.c.3] a Deathknell can choose a Target 'here' when put on the chain", () => {
     const s = withCards(["Lost to the Sands"], ["Mournful Spirit"]);
     const spirit = put(s, "p2", "Mournful Spirit", "battlefieldA");
-    put(s, "p1", "Treasure Hunter", "battlefieldA");
+    const hunter = put(s, "p1", "Treasure Hunter", "battlefieldA");
     fund(s, "p1", "Lost to the Sands");
     s.as("p1")
       .play("Lost to the Sands", { choices: { mode: "deal", "target:0": spirit.id } })
       .expectOk();
     s.as("p2").pass().expectOk();
-    // Expected: a choose-target prompt for p2 (kill target uses `{ chosen: true, zone: HERE }`).
-    expect(s.room.rules!.prompt?.kind).toBe("choose-target");
+    // The trigger is a finalized item whose event carries the leaving object's old zone; the
+    // chosen Target "here" was bound at play time. Only one legal object, so 411.2 auto-binds.
+    const item = s.room.rules!.chain.find((entry) => entry.cardName === "Mournful Spirit")!;
+    expect(item.triggerEvent).toMatchObject({ type: "kill", zone: "battlefieldA" });
+    expect(item.choices["target:0"]).toBe(hunter.id);
+    for (let step = 0; step < 12; step += 1) {
+      const rules = s.room.rules!;
+      if (rules.prompt?.kind === "yes-no") {
+        s.as(rules.prompt.playerId).choose({ optionIds: ["yes"] }).expectOk();
+        continue;
+      }
+      if (rules.chain.length === 0) break;
+      s.as(rules.priority ?? rules.focus!).pass().expectOk();
+    }
+    expect(zoneOf(s, hunter.id)).toBe("trash");
   });
 
-  /**
-   * The die event/last-known information has no stunned status (424), so "When a stunned enemy
-   * unit here dies" (Storm Raptor) can't be scripted.
-   */
-  it.skip("[BUG][C:Storm Raptor][R424][R383.2.c.3] the die event keeps the dead unit's stunned status", () => {
+  it("[C:Storm Raptor][R424][R383.2.c.3] the die event keeps the dead unit's stunned status", () => {
     const s = withCards(["Lost to the Sands"], ["Storm Raptor"]);
+    put(s, "p2", "Storm Raptor", "battlefieldA");
     const victim = put(s, "p1", "Treasure Hunter", "battlefieldA");
     s.room.rules!.objects[victim.id] = { ...s.room.rules!.objects[victim.id], stunned: true };
-    expect(s.room.rules!.objects[victim.id]?.stunned).toBe(true);
-    throw new Error("no event/LKI field carries 'stunned' after the kill (objects[id] is deleted)");
+    fund(s, "p1", "Lost to the Sands");
+    s.as("p1")
+      .play("Lost to the Sands", { choices: { mode: "deal", "target:0": victim.id } })
+      .expectOk();
+    s.as("p2").pass().expectOk();
+    const trigger = s.room.rules!.chain.find((entry) => entry.cardName === "Storm Raptor")!;
+    expect(trigger.triggerEvent).toMatchObject({
+      type: "kill",
+      zone: "battlefieldA",
+      data: { stunned: true },
+    });
   });
 });

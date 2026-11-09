@@ -48,6 +48,34 @@ R3-engine capabilities (protocol additions in `packages/protocol/CHANGES.md`, `#
 - Show Off (832) and Flow (829, a played-for-Flow spell is banished via `leaveChainTo`).
 - Ganking granted by keyword passives now counts for Standard Move legality (810.3 / 144.4.c.1).
 
+## Status (Wave R4-engine, part A)
+
+Wave R4-engine (part A) fixed the engine gaps behind the 25 `[BUG]` card reproductions; all 25 are
+now unskipped. Wire additions are in `packages/protocol/CHANGES.md`, `## R4-engine`.
+
+- **Expiration keep-list (317.2.c).** Step 3d now prunes this-turn modifiers and then deletes a
+  rules object only when it has no persistent state: `buffs`, `baseMight` (including 0), counters,
+  keyword/ability grants, `keywordGrants`, `mightMods`, `prevent`, `empowered`,
+  `paidAdditionalCost`, `hiddenTurn`/`hiddenBy`, `showOff`, `targetedBy` or a controller. Stunned,
+  designations and temporary Might still clear (424.1.a.2).
+- **Repeat (820.1–820.3).** A leading dash before a non-symbol cost is accepted; a paid instance
+  executes the instructions one additional time, and each repeated execution binds its play-time
+  choices as `repeat:<n>:<key>` (820.2.a). `CardScript.repeatHandled` and
+  `ChainItem.repeatExecutionsDone` support scripts that still implement repeat themselves and
+  prompt-resumed executions.
+- **Costs and play.** Deflect charges the effective keyword value per choice (809.2); the 054.1
+  self play restriction is read on cards in hand; a limited play marks its chosen location with
+  `totalCost` (420.3.b); an Ambush battlefield merges onto the controlled-battlefield option
+  (822.1.b); rune/Power payment no longer counts as paying an optional additional cost (356.4.f.1).
+- **Replacements and LKI.** Delayed replacement matchers see the creating ability's choices;
+  attached cards contribute replacement effects; `kill` events and `LastKnown`/`noteLki` carry
+  `stunned`/`buffs`/`empowered`; Deathknell choice scanning receives the trigger event and the old
+  zone (355.7 / 383.2.c.3.b / 808).
+- **Attachments.** Built-in `equip:<n>` attaches on resolution; Weaponmaster, Quick-Draw and
+  Deploy keyword triggers exist; attached-card triggered abilities and Effect-Text passives are
+  appended to the Top-Most card. Printed Rules Text passives use the `rules-text` wrapper
+  (718.2).
+
 ## Toggle & safety
 
 | State | Behaviour |
@@ -573,6 +601,13 @@ scoring (472 / 491.8.b per team, shared points and team victory), costs/targets/
 triggered-ability ordering/layers/replacements, NEW-12 (unscripted activated abilities are
 accepted as `manual:<n>` and resolve in the §6.4 manual window), and add abilities (scripted Add
 effects resolve, 430.2/430.5).
+
+Fixed in R4-engine (part A, removed from this list): the 317.2.c expiration keep-list, Repeat
+execution and play-time choices, effective Deflect values, 054.1 self play restrictions,
+limited-play locations, the Ambush location merge, delayed replacement choices, attached
+replacement sources, kill/die last-known information, Deathknell event choices, built-in Equip,
+the Weaponmaster/Quick-Draw/Deploy keyword triggers, and attached triggers / Effect-Text passives
+(`rules-text` wrapper for 718.2).
 
 Remaining:
 
