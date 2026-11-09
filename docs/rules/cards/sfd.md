@@ -1,8 +1,10 @@
 # Spiritforged (SFD) card scripts — wave R3
 
+> **Layout (maintainability pass):** one card per file, `packages/rules/src/cards/<SET>/<slug>.ts`, in the set that first printed the card; the set's custom ids and shared builders are in `<SET>/custom.ts`; shared builders and `core:` ids in `src/cards/lib` (through `src/cards/sdk.ts`). See [CARD-AUTHORING.md](../CARD-AUTHORING.md). File names below are the per-card files; the generated name → file → tests index is `docs/cards-index.md`.
+
 Lane: the `### Spiritforged` rows of `## Unscripted cards by set` in `docs/cards-coverage.md`
-(215 cards). Scripts live in `packages/rules/src/cards/SFD/batch-*.ts` (shared builders and
-lane-prefixed custom conditions/effects in `common.ts`); one behaviour test per card in
+(215 cards). Scripts live in `packages/rules/src/cards/SFD/<slug>.ts` (shared builders and
+lane-prefixed custom conditions/effects in `custom.ts`); one behaviour test per card in
 `packages/rules/test/cards/sfd/`.
 
 ## Summary
@@ -26,7 +28,7 @@ resolve through the §6.4 manual window. Keywords the engine implements (Acceler
 Reaction, Hidden, Deflect, Ganking, Assault, Shield, Tank, Vision, Temporary, Legion, …) come
 from the printed keywords and are not re-implemented. Catalog keywords that a card only grants
 ("Your Mechs have [Deflect]") or only has in effect text are marked not intrinsic
-(`{ kind: "keyword", keyword, value: 0 }`, 727.1.b); effect-text keywords and Might Bonuses of
+(`{ kind: "suppress-printed-keyword", keyword }` (`...notIntrinsic(…)`), 727.1.b); effect-text keywords and Might Bonuses of
 Equipment are host-targeted passives (718.3/718.4).
 
 ## Capability gaps
@@ -79,10 +81,10 @@ status row).
 
 ## Custom conditions and effects (`sfd:*`)
 
-Registered in `packages/rules/src/cards/SFD/common.ts` and `custom-effects.ts` (pure; import-time tables).
+Registered in `packages/rules/src/cards/SFD/custom.ts` (pure; import-time tables).
 
 - `sfd:attached-to-self` (condition)
-- `sfd:attacking` (condition)
+- `core:attacking` (condition)
 - `sfd:banish-this-spell` (effect)
 - `sfd:bind` (effect)
 - `sfd:card-sharp` (effect)
@@ -94,7 +96,7 @@ Registered in `packages/rules/src/cards/SFD/common.ts` and `custom-effects.ts` (
 - `sfd:deal-keyword-value` (effect)
 - `sfd:died-alone` (condition)
 - `sfd:died-in-combat` (condition)
-- `sfd:draw-ref` (effect)
+- `core:draw-ref` (effect)
 - `sfd:event-card-power-at-least` (condition)
 - `sfd:event-card-type` (condition)
 - `sfd:event-from-battlefield` (condition)
@@ -124,10 +126,10 @@ Registered in `packages/rules/src/cards/SFD/common.ts` and `custom-effects.ts` (
 - `sfd:release-control` (effect)
 - `sfd:reveal-banish-play` (effect)
 - `sfd:same-controller-as` (condition)
-- `sfd:self-in-combat` (condition)
+- `core:in-combat` (condition)
 - `sfd:self-not-in-hand` (condition)
 - `sfd:self-won-combat` (condition)
-- `sfd:take-control` (effect)
+- `core:take-control` (effect)
 - `sfd:to-hand-ref` (effect)
 - `sfd:you-won-combat` (condition)
 

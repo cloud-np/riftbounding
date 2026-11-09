@@ -1,9 +1,11 @@
 # Radiance (RAD) card scripts — waves R3–R4
 
+> **Layout (maintainability pass):** one card per file, `packages/rules/src/cards/<SET>/<slug>.ts`, in the set that first printed the card; the set's custom ids and shared builders are in `<SET>/custom.ts`; shared builders and `core:` ids in `src/cards/lib` (through `src/cards/sdk.ts`). See [CARD-AUTHORING.md](../CARD-AUTHORING.md). File names below are the per-card files; the generated name → file → tests index is `docs/cards-index.md`.
+
 Wave R4 finished the set: all 43 remaining names are scripted, and the cards freed by R3-engine
 were upgraded — Battle Preparations and Rousing Display ([Show Off] 832), Scorched Earth (damage
 split 355.14) — plus the optional-replacement card Mordekaiser, Twice Slain (371.2). R4 scripts
-live in `r4-units.ts`, `r4-spells.ts`, `r4-battlefields.ts` and `r4-manual.ts`; lane tests are
+now live one per file in `src/cards/RAD/<slug>.ts` (custom ids in `RAD/custom.ts`); lane tests are
 `test/cards/rad/r4-*.test.ts` (the `flushWork` helper drains pending delayed triggers).
 
 Lane: the `### Radiance` rows of `docs/cards-coverage.md` at `8933035` (163 unscripted names).
@@ -15,7 +17,7 @@ card, rule ids in the title).
 
 - Printed keywords are the engine's. Catalog keywords that are **not** the card's own (reminder
   text, granted text such as "Your gear have [Deflect]", a token's keyword) are marked
-  `{ kind: "keyword", keyword, value: 0 }` (`notIntrinsic`, 135.2.d.3 / 727.1.b) so the layers do
+  `{ kind: "suppress-printed-keyword", keyword }` (`...notIntrinsic(…)`) (`notIntrinsic`, 135.2.d.3 / 727.1.b) so the layers do
   not give them to the card (e.g. Watchful Curator, Hunting Dog, Momentary Companion's Temporary).
 - "Choose a battlefield" is a battlefield target (`aBattlefield`, 355.7 / 053.3) bound by a
   `for_each`; zones are then read with `{ kind: "chosen", ref }`.
@@ -40,10 +42,10 @@ Conditions: `rad:event-amount`, `rad:event-not-token`, `rad:unit-or-gear`, `rad:
 `rad:other-cards-in-hand-gte`, `rad:ability-triggered-this-turn`, `rad:event-player-unmarked`,
 `rad:paid-additional-self`, `rad:move-count-lt`, `rad:fanfare-pending`.
 
-Effects: `rad:mark-event-player`, `rad:let-x`, `rad:draw-card`, `rad:reveal-top-each`,
+Effects: `rad:mark-event-player`, `rad:let-x`, `core:draw-ref`, `rad:reveal-top-each`,
 `rad:mechanical-bandit`, `rad:scope-guess`, `rad:may-play-until-ending` (with a
 `registerPlayPermission` provider for "until your next Ending Phase, you may play that card"),
-`rad:akali-move`, `rad:base-might-becomes`, `rad:channel-plus-one`, `rad:delayed-kill-event`,
+`rad:akali-move`, `core:base-might-becomes`, `rad:channel-plus-one`, `rad:delayed-kill-event`,
 `rad:choose-modes`, `rad:fanfare-draw`.
 
 ## Capability gaps

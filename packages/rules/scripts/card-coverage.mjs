@@ -92,10 +92,30 @@ function loadPlayableCards() {
   return byName;
 }
 
+let customIdInfo = null;
+
 async function loadRegistry() {
   const rules = await import("../src/index.ts");
   const scripts = new Map();
-  for (const name of rules.cardScriptNames()) scripts.set(name, { status: rules.getCardScript(name).status });
+  const users = new Map();
+  const walk = (node, name) => {
+    if (!node || typeof node !== "object") return;
+    if (Array.isArray(node)) return node.forEach((entry) => walk(entry, name));
+    if ((node.kind === "custom" || node.op === "custom") && typeof node.id === "string") {
+      users.set(node.id, new Set([...(users.get(node.id) ?? []), name]));
+    }
+    for (const value of Object.values(node)) walk(value, name);
+  };
+  for (const name of rules.cardScriptNames()) {
+    const script = rules.getCardScript(name);
+    scripts.set(name, { status: script.status });
+    walk(script.abilities, name);
+  }
+  customIdInfo = {
+    conditions: rules.customConditionIds(),
+    effects: rules.customEffectIds(),
+    users,
+  };
   return scripts;
 }
 
@@ -346,6 +366,28 @@ function buildIndex(playable, scan) {
     const next = rows[rows.indexOf(row) + 1];
     if (!next || next.set !== current) lines.push("");
   }
+  // F10: the custom-id table, generated (it used to be hand-written per lane doc).
+  const source = scanCardSources();
+  const where = new Map([...source.customIds.values()].map((entry) => [`${entry.kind}:${entry.id}`, entry.files[0]]));
+  lines.push(
+    "## Custom ids",
+    "",
+    "Every registered custom condition / effect, where it is registered and the scripts whose JSON references it (ids pushed by custom code are marked \"code\").",
+    "",
+    "| Id | Kind | Registered in | Used by |",
+    "| --- | --- | --- | --- |",
+  );
+  const ids = [
+    ...customIdInfo.conditions.map((id) => ({ id, kind: "condition" })),
+    ...customIdInfo.effects.map((id) => ({ id, kind: "effect" })),
+  ].sort((a, b) => a.id.localeCompare(b.id) || a.kind.localeCompare(b.kind));
+  for (const { id, kind } of ids) {
+    const file = where.get(`${kind}:${id}`)?.replace("packages/rules/src/", "") ?? "engine";
+    const users = [...(customIdInfo.users.get(id) ?? [])].sort();
+    const cell = users.length === 0 ? "code" : users.length > 6 ? `${users.slice(0, 6).map(esc).join(", ")} (+${users.length - 6})` : users.map(esc).join(", ");
+    lines.push(`| \`${id}\` | ${kind} | \`${file}\` | ${cell} |`);
+  }
+  lines.push("");
   return `${lines.join("\n")}\n`;
 }
 

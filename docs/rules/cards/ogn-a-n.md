@@ -1,8 +1,10 @@
 # Origins A–N card scripts (wave R3)
 
+> **Layout (maintainability pass):** one card per file, `packages/rules/src/cards/<SET>/<slug>.ts`, in the set that first printed the card; the set's custom ids and shared builders are in `<SET>/custom.ts`; shared builders and `core:` ids in `src/cards/lib` (through `src/cards/sdk.ts`). See [CARD-AUTHORING.md](../CARD-AUTHORING.md). File names below are the per-card files; the generated name → file → tests index is `docs/cards-index.md`.
+
 Lane: the `### Origins` rows of `docs/cards-coverage.md` → "Unscripted cards by set", names
 starting A through N (126 cards). Scripts live in `packages/rules/src/cards/OGN/<slug>.ts` and are
-registered through `src/cards/OGN/batch-a-n.ts`; behaviour tests are in
+registered through `src/cards/OGN/index.ts`; behaviour tests are in
 `packages/rules/test/cards/ogn-a-n/` (one `[C:Card Name]` test per card).
 
 Counts: **87 implemented**, **26 partial**, **13 manual**,
@@ -18,8 +20,8 @@ Expiration Step (317.2.c, lane A) and is killed in its controller's next Beginni
 - Keywords the engine implements (Accelerate, Action, Reaction, Hidden, Legion, Assault, Shield, Tank,
   Deflect, Ganking, Vision, Deathknell, …) come from the printed keywords and are not re-scripted.
   Catalog keywords that are only granted/reminder text are suppressed with
-  `{ kind: "keyword", keyword, value: 0 }` (727.1.b, 831.2).
-- [Legion] dependent abilities use `ogn:legion` (812.1.c: another card was Finalized by you this
+  `{ kind: "suppress-printed-keyword", keyword }` (`...notIntrinsic(…)`) (727.1.b, 831.2).
+- [Legion] dependent abilities use `core:legion` (812.1.c: another card was Finalized by you this
   turn, via R2-play's `legionActive`).
 - Custom ids registered by this lane (all prefixed `ogn:`) are listed in the "Custom ids" section.
 
@@ -55,8 +57,8 @@ R4-engine lane A.
 | Id                                        | Kind      | Registered in             | Meaning                                                                                                                            |
 | ----------------------------------------- | --------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | `ogn:channelled-fewer-than`            | condition | `catalyst-of-aeons.ts`    | the preceding `channel` channelled fewer than `n` runes (431.3)                                                                    |
-| `ogn:in-combat`                        | condition | `cannon-barrage.ts`       | `it` is in combat (740.2.c)                                                                                                        |
-| `ogn:legion`                           | condition | `darius-executioner.ts`   | [Legion]: another card than the source was Finalized by the controller this turn (812.1.c, `legionActive`)                         |
+| `core:in-combat`                        | condition | `cannon-barrage.ts`       | `it` is in combat (740.2.c)                                                                                                        |
+| `core:legion`                           | condition | `darius-executioner.ts`   | [Legion]: another card than the source was Finalized by the controller this turn (812.1.c, `legionActive`)                         |
 | `ogn:event-battlefield-yours`          | condition | `ahri-nine-tailed-fox.ts` | the trigger event's battlefield is controlled by the ability's controller (190.2)                                                  |
 | `ogn:opponent-near-victory`            | condition | `leona-zealot.ts`         | an opponent's score is within `n` points of the host Victory Score (472)                                                           |
 | `ogn:nth-card-played`                  | condition | `darius-trifarian.ts`     | the trigger event's card is the `n`-th card its player played this turn (420.4.a)                                                  |

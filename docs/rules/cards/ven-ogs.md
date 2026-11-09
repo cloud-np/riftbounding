@@ -1,5 +1,7 @@
 # Vendetta (VEN) and Proving Grounds (OGS) card scripts — wave R3
 
+> **Layout (maintainability pass):** one card per file, `packages/rules/src/cards/<SET>/<slug>.ts`, in the set that first printed the card; the set's custom ids and shared builders are in `<SET>/custom.ts`; shared builders and `core:` ids in `src/cards/lib` (through `src/cards/sdk.ts`). See [CARD-AUTHORING.md](../CARD-AUTHORING.md). File names below are the per-card files; the generated name → file → tests index is `docs/cards-index.md`.
+
 Lane `ven-ogs`: the unscripted Vendetta and Proving Grounds names of `docs/cards-coverage.md`.
 Scripts live in `packages/rules/src/cards/VEN/*.ts` and `packages/rules/src/cards/OGS/*.ts`
 (one card per module); tests in `packages/rules/test/cards/ven-ogs/*.test.ts` (one behaviour
@@ -7,13 +9,14 @@ test per card, titled `[C:Card Name][R…]`).
 
 ## Conventions
 
-- `src/cards/VEN/shared.ts` holds the lane's builders and `ven:*` conditions/effects:
+- `src/cards/VEN/custom.ts` holds the lane's builders and `ven:*` conditions/effects (the
+  generic builders below now come from `src/cards/lib` through the SDK):
   - `empower(cost)` — 827.1.c.1 "[Cost]: Empower this. Use only if not Empowered." (the
     precondition is a `requires`, rejected by `validateChoices`, 377.2.b);
   - `whileEmpowered(modifier)` / `conditional(condition, modifier)` — Dependent (828.1.c) and
     conditional (364.3.a) passives through the `conditional` modifier;
   - `notIntrinsic(keyword)` — the catalog lists keywords that only appear in reminder text or in a
-    dependent ability (e.g. an [Empowered] keyword); the `value: 0` marker removes the printed
+    dependent ability (e.g. an [Empowered] keyword); the `suppress-printed-keyword` marker removes the printed
     instance (727.1.b) so only the granting ability applies;
   - `perCountCostReduction(...)` — "costs [1] less for each …": the cost layer sums fixed amounts,
     so one conditional -1 `cost` entry is registered per threshold. For "this ability costs …
@@ -25,7 +28,7 @@ test per card, titled `[C:Card Name][R…]`).
 - "When I become [Empowered]" triggers on the `empower` event with the source as subject
   (442.2.a, 828.1.d).
 - Choices that depend on the trigger event (e.g. "a battlefield I moved to or from") read the
-  event from the chain item being finalized (`eventOf` in `shared.ts`), since 403.2 choices are
+  event from the chain item being finalized (`eventOf` in `custom.ts`), since 403.2 choices are
   made before resolution.
 
 ## Custom ids registered
@@ -33,7 +36,7 @@ test per card, titled `[C:Card Name][R…]`).
 | Id                                    | Kind      | Meaning                                                                                                                                           |
 | ------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ven:self-on-board`                   | condition | the source is on the board (107)                                                                                                                  |
-| `ven:self-in-combat`                  | condition | 740.2.c: the source (or `it` with `ref: "it"`) is in combat                                                                                       |
+| `core:in-combat`                  | condition | 740.2.c: the source (or `it` with `ref: "it"`) is in combat                                                                                       |
 | `ven:fewer-runes-than-an-opponent`    | condition | you control fewer runes than an opponent                                                                                                          |
 | `ven:exactly-one-other-friendly-here` | condition | exactly one other unit its controller controls at its location (`host: true` for the equipped unit, `battlefield: true` to require a battlefield) |
 | `ven:has-domain`                      | condition | the candidate `it` has a Domain (131)                                                                                                             |
