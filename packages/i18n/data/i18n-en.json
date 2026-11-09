@@ -8241,6 +8241,26 @@
       "reason"
      ]
     ],
+    "mustChoose": [
+     [
+      "player"
+     ],
+     " must choose: ",
+     [
+      "reason"
+     ]
+    ],
+    "promptFromSource": [
+     [
+      "source"
+     ],
+     " — ",
+     [
+      "prompt"
+     ]
+    ],
+    "answerPromptFirst": "Answer the pending choice first",
+    "skip": "Skip",
     "manualWindow": [
      "Resolve ",
      [

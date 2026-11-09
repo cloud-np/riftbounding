@@ -135,6 +135,8 @@ export interface BoardInteractionValue {
   strictManual: boolean;
   /** 411.2 object-prompt options to highlight on the board. */
   strictPromptOptionIds: ReadonlySet<string>;
+  /** Prompt option currently hovered in the banner's chip list (stronger board highlight). */
+  strictPromptHoverId: string | null;
 
   /* hover preview */
   showCardPreview: (card: CardInstance, anchor?: PreviewAnchorInput, options?: ShowCardPreviewOptions) => void;

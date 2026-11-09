@@ -86,6 +86,8 @@ export function GameCard({
     playable ?? !!interaction?.strictView?.playableCardIds.has(card.id);
   const resolvedTargetable =
     targetable || !!interaction?.strictPromptOptionIds.has(card.id);
+  const promptOption = !!interaction?.strictPromptOptionIds.has(card.id);
+  const promptHovered = interaction?.strictPromptHoverId === card.id;
   const effectiveHandler = onCardEvent ?? interaction?.handleCardEvent;
   const interactive = !!effectiveHandler;
   const canDrag = draggable || (!!interaction?.canAct && owner === "self");
@@ -130,6 +132,35 @@ export function GameCard({
     effectiveHandler(buildEvent(type, event));
   };
 
+  /** Attached cards live behind the host; they still answer strict prompt clicks. */
+  const emitForAttached = (
+    attachedCard: CardInstance,
+    type: CardEvent["type"],
+    event: MouseEvent<HTMLElement> | ReactPointerEvent<HTMLElement>,
+  ) => {
+    if (!effectiveHandler) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    effectiveHandler({
+      type,
+      card: attachedCard,
+      zone,
+      owner,
+      exhausted: !!attachedCard.exhausted,
+      faceDown: !!attachedCard.hidden,
+      clientX: event.clientX,
+      clientY: event.clientY,
+      pointerType: "pointerType" in event ? (event as unknown as { pointerType?: string }).pointerType : undefined,
+      anchorRect: {
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        width: rect.width,
+        height: rect.height,
+      },
+    });
+  };
+
   return (
     <div
       className={"relative" + (className ? ` ${className}` : "")}
@@ -137,17 +168,60 @@ export function GameCard({
     >
       {attachedCards.slice(0, 3).map((attachedCard, index) => {
         const faceDown = attachedCard.hidden || attachedCard.isPlaceholder || !attachedCard.name;
+        const attachedPromptOption = !!interaction?.strictPromptOptionIds.has(attachedCard.id);
+        const attachedPromptHovered = interaction?.strictPromptHoverId === attachedCard.id;
         return (
           <div
             key={`attached-${attachedCard.id}`}
-            aria-hidden="true"
+            aria-hidden={attachedPromptOption ? undefined : "true"}
             data-attached-card-id={attachedCard.id}
             data-attached-card-rank={index}
-            className="pointer-events-none absolute overflow-hidden rounded-(--card-radius-main) border border-[rgba(165,184,207,0.22)] bg-[rgba(24,43,64,0.95)] shadow-[0_4px_10px_rgba(3,8,20,0.42)]"
+            data-strict-prompt-option={attachedPromptOption ? "true" : undefined}
+            data-strict-prompt-hover={attachedPromptHovered ? "true" : undefined}
+            role={attachedPromptOption ? "button" : undefined}
+            tabIndex={attachedPromptOption ? 0 : undefined}
+            className={`absolute overflow-hidden rounded-(--card-radius-main) border border-[rgba(165,184,207,0.22)] bg-[rgba(24,43,64,0.95)] shadow-[0_4px_10px_rgba(3,8,20,0.42)] ${
+              attachedPromptOption ? "pointer-events-auto cursor-pointer" : "pointer-events-none"
+            }`}
             style={{
               inset: 0,
               transform: `translate(${(index + 1) * 0.18}rem, ${-(index + 1) * 0.12}rem) scale(${0.98 - index * 0.015})`,
               transformOrigin: "92% 100%",
+            }}
+            onPointerEnter={(event) => {
+              if (attachedPromptOption) emitForAttached(attachedCard, "hover", event);
+            }}
+            onPointerLeave={(event) => {
+              if (attachedPromptOption) emitForAttached(attachedCard, "hoverEnd", event);
+            }}
+            onClick={(event) => {
+              if (!attachedPromptOption) return;
+              event.preventDefault();
+              event.stopPropagation();
+              emitForAttached(attachedCard, "select", event);
+            }}
+            onKeyDown={(event) => {
+              if (!attachedPromptOption) return;
+              if (event.key !== "Enter" && event.key !== " ") return;
+              event.preventDefault();
+              event.stopPropagation();
+              const rect = event.currentTarget.getBoundingClientRect();
+              effectiveHandler?.({
+                type: "select",
+                card: attachedCard,
+                zone,
+                owner,
+                exhausted: !!attachedCard.exhausted,
+                faceDown: !!attachedCard.hidden,
+                anchorRect: {
+                  left: rect.left,
+                  top: rect.top,
+                  right: rect.right,
+                  bottom: rect.bottom,
+                  width: rect.width,
+                  height: rect.height,
+                },
+              });
             }}
           >
             {faceDown ? (
@@ -212,6 +286,8 @@ export function GameCard({
               data-exhausted={exhausted}
               data-face-down={faceDown}
               data-strict-playable={resolvedPlayable ? "true" : undefined}
+              data-strict-prompt-option={promptOption ? "true" : undefined}
+              data-strict-prompt-hover={promptHovered ? "true" : undefined}
               data-pose-preview={previewRotationDeg === 45 ? "exhaust" : "none"}
               data-pose-animation="none"
               data-preview-landscape="false"

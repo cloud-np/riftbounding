@@ -594,6 +594,7 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
       canEndTurn: room.phase === "in_game" && (!strict || !!strictLegal?.canEndTurn),
       canSwitchSeat: controlledPlayerIds.length > 1,
       clocksByPlayerId,
+      connectedPlayerIds,
       phase: room.activeTurnStep === "beginning" ? "beginning" : "main",
       activeTurnSide: room.activeTurnPlayerId === viewerPlayer?.id ? "self" : "opponent",
       battlefields: {
@@ -601,7 +602,7 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
         opponent: battlefieldHint(opponent, "battlefieldB"),
       },
     };
-  }, [room, effectiveViewerId, controlledPlayerIds, clocksByPlayerId]);
+  }, [room, effectiveViewerId, controlledPlayerIds, clocksByPlayerId, connectedPlayerIds]);
 
   // BO3 results are rendered by `GameOverOverlay`; the original keeps a BO1 game on the
   // board and surfaces the departure banner (the overlay only opens from BO3 NEXT / reports).

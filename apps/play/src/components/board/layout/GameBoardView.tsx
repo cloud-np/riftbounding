@@ -55,6 +55,8 @@ export interface GameBoardLayoutHints {
   phase?: "beginning" | "main";
   activeTurnSide?: "self" | "opponent";
   clocksByPlayerId?: Record<string, string>;
+  /** Currently connected seats (presence); bots are always online. */
+  connectedPlayerIds?: readonly string[];
   battlefields?: {
     own?: BattlefieldInfo;
     opponent?: BattlefieldInfo;
@@ -353,6 +355,12 @@ export function GameBoardView({
   const scoreByPlayerId = (player: RoomPlayer | null) => player?.board?.score ?? 0;
   const clockFor = (player: RoomPlayer | null) =>
     player ? (layoutHints.clocksByPlayerId?.[player.id] ?? null) : null;
+  const onlineFor = (player: RoomPlayer | null) =>
+    !!player &&
+    (!!player.isBot ||
+      (layoutHints.connectedPlayerIds
+        ? layoutHints.connectedPlayerIds.includes(player.id)
+        : !player.leftAt));
 
   const handSlot = slots?.hand;
   const rootClass = showScoreTrack ? ROOT_CLASS_SCORE : ROOT_CLASS_COMPACT;
@@ -494,6 +502,7 @@ export function GameBoardView({
                 side="self"
                 clock={clockFor(viewer)}
                 active={activeTurnSide === "self"}
+                online={onlineFor(viewer)}
               />
               {!usesCompactOpponentRail && opponent ? (
                 <IdentityBadge
@@ -501,6 +510,7 @@ export function GameBoardView({
                   side="opponent"
                   clock={clockFor(opponent)}
                   active={activeTurnSide === "opponent"}
+                  online={onlineFor(opponent)}
                 />
               ) : null}
 
