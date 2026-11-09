@@ -396,10 +396,12 @@ export class ScenarioSession {
     intent: RulesIntent,
   ): { ok: true } | { ok: false; code: string; rule: string; detail?: string } {
     this.engineCalls += 1;
+    // Describe before applying: the objects may cease to exist (tokens, 429).
+    const described = describeIntent(this, intent);
     const result = applyRulesIntent(this.room, this.pid(actor), intent, this.built.ctx, this.host);
     if (!result.ok) {
       this.trace.push(
-        `     ${describeIntent(this, intent)} -> REJECTED ${result.code} (${result.rule})${result.detail ? ` ${result.detail}` : ""}`,
+        `     ${described} -> REJECTED ${result.code} (${result.rule})${result.detail ? ` ${result.detail}` : ""}`,
       );
       return {
         ok: false,
@@ -411,9 +413,7 @@ export class ScenarioSession {
     this.built.room = result.room;
     this.stepEvents.push(...result.events);
     const summary = summarizeEvents(this, result.events);
-    this.trace.push(
-      `     ${actor} ${describeIntent(this, intent)} -> ok${summary ? `: ${summary}` : ""}`,
-    );
+    this.trace.push(`     ${actor} ${described} -> ok${summary ? `: ${summary}` : ""}`);
     return { ok: true };
   }
 
@@ -535,7 +535,11 @@ const QUIET_EVENTS = new Set([
 export function summarizeEvents(session: ScenarioSession, events: readonly GameEvent[]): string {
   const out: string[] = [];
   const who = (event: GameEvent) => session.keyOf(event.playerId ?? event.controllerId) ?? "";
-  const card = (event: GameEvent) => session.nameOf(event.cardId ?? event.objectId);
+  const card = (event: GameEvent) => {
+    const id = event.cardId ?? event.objectId;
+    const name = session.nameOf(id);
+    return name === id && event.cardName ? event.cardName : name;
+  };
   const zone = (event: GameEvent) => (event.zone ? session.locationName(event.zone) : "");
   for (const event of events) {
     if (QUIET_EVENTS.has(event.type)) continue;

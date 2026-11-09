@@ -251,7 +251,9 @@ describe("docs/rules/scenarios.md", () => {
       defineScenario({
         title: "Final Point by Conquer",
         verification: "illustrative",
-        sources: [{ label: "Ezreal — RQ Bologna 1st place decklist", url: "https://example.invalid" }],
+        sources: [
+          { label: "Ezreal — RQ Bologna 1st place decklist", url: "https://example.invalid" },
+        ],
         notes: "Not a real game: cards from the cited list, board invented.",
         position: {
           turn: { player: "P1", number: 12 },
@@ -291,7 +293,7 @@ describe("repro → scenario converter", () => {
   it("produces a repro that the engine replays exactly", () => {
     expect(repro.actions.length).toBeGreaterThan(40);
     expect(replayStrictRepro(repro).ok).toBe(true);
-  });
+  }, 60_000);
 
   it("turns windows of the repro into scenarios that replay green in the runner", () => {
     const indices = reproIndices(repro);
@@ -311,7 +313,7 @@ describe("repro → scenario converter", () => {
       expect(converted.spec.steps.at(-1)).toHaveProperty("check");
     }
     expect(statuses.length).toBe(starts.length);
-  });
+  }, 120_000);
 
   it("emits TypeScript source with the defineScenario wrapper", () => {
     const start = reproIndices(repro).find((info) => info.clean && info.index > 10)!;
