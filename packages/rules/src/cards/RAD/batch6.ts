@@ -22,13 +22,17 @@ registerCardScript({
   ],
 });
 
-/** Mournful Spirit (RAD-100) — "[Deathknell] You may kill a unit or gear here." (808) */
+/**
+ * Mournful Spirit (RAD-100) — "[Deathknell] You may kill a unit or gear here." (808)
+ *
+ * 355.7 / 808.1.d.3: the unit or gear is a Target chosen when the trigger is finalized; "here"
+ * reads the leaving source's last-known location from the trigger event (383.2.c.3.b). The "you
+ * may" decision is the resolution prompt of the `may` op (383.3.a).
+ */
 registerCardScript({
   name: "Mournful Spirit",
   text: "[Deathknell] You may kill a unit or gear here. (When I die, get the effect.)",
-  status: "partial",
-  notes:
-    "The unit or gear is chosen on resolution, not as a Target when the trigger is put on the chain (355.7): the choice-scan environment of a leaving object's Deathknell has no event/last-known location (see [BUG] in bugs.test.ts), so it can't be a chosen target and Deflect/targeting restrictions don't apply.",
+  status: "implemented",
   abilities: [
     {
       kind: "triggered",
@@ -37,15 +41,8 @@ registerCardScript({
       effect: {
         op: "may",
         effect: {
-          op: "seq",
-          effects: [
-            {
-              op: "choose",
-              key: "victim",
-              selector: { zone: { kind: "chosen", ref: "event-zone" }, where: UNIT_OR_GEAR },
-            },
-            { op: "kill", target: { targetRef: "victim" } },
-          ],
+          op: "kill",
+          target: { chosen: true, targetRef: "target:0", zone: { kind: "chosen", ref: "here" }, where: UNIT_OR_GEAR },
         },
       },
     },
@@ -53,15 +50,34 @@ registerCardScript({
 });
 
 /**
- * Storm Raptor (RAD-035) — "[Deflect] When a stunned enemy unit here dies, draw 1." The die event
- * carries neither the dead unit's stunned status (424) nor its object state, so the "stunned"
- * condition can't be checked; a trigger without it would draw for every enemy death (not scripted).
+ * Storm Raptor (RAD-035) — "[Deflect] When a stunned enemy unit here dies, draw 1."
+ *
+ * 424 / 383.2.c.3.b: the die event carries the dead unit's last-known stunned status and zone, so
+ * the subject matcher can read "stunned enemy unit here". [Deflect] is the engine's.
+ *
+ * Status stays "partial" until R4-cards flips it: `test/cards/rad/batch6.test.ts` asserts the
+ * pre-fix status (lead-owned file; the trigger itself is implemented and tested in lane C).
  */
 registerCardScript({
   name: "Storm Raptor",
   text: "[Deflect] (Opponents must pay [Rune] to choose me with a spell or ability.)\nWhen a stunned enemy unit here dies, draw 1.",
   status: "partial",
-  notes:
-    '"When a stunned enemy unit here dies" is not automated: the die event has no last-known stunned status (424, 383.2.c.3); [Deflect] is the engine\'s.',
-  abilities: [],
+  abilities: [
+    {
+      kind: "triggered",
+      trigger: {
+        kind: "event",
+        event: {
+          type: "die",
+          subject: {
+            cardType: "unit",
+            controller: "opponent",
+            zone: { kind: "chosen", ref: "here" },
+            stunned: true,
+          },
+        },
+      },
+      effect: { op: "draw", amount: 1 },
+    },
+  ],
 });

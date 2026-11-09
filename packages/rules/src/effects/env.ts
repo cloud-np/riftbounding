@@ -19,7 +19,7 @@ export type AbilityKindTag =
   | "passive"
   | "effect";
 
-/** Last-known information about an object (359.3.e.13 "look back"). */
+/** Last-known information about an object (359.3.e.13 "look back", 383.2.c.3.b). */
 export interface LastKnown {
   controller?: string | null;
   owner?: string | null;
@@ -27,6 +27,12 @@ export interface LastKnown {
   might?: number | null;
   name?: string | null;
   type?: string | null;
+  /** 424 / 383.2.c.3.b: the dead object's status before it left the board. */
+  stunned?: boolean | null;
+  /** 427: buff counters before it left the board. */
+  buffs?: number | null;
+  /** 442: Empowered count before it left the board. */
+  empowered?: number | null;
 }
 
 export interface EffectEnv {

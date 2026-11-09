@@ -83,6 +83,9 @@ function planTrigger(room: Room, host: RulesHost, item: ChainItem, ability: Abil
     optionalCosts: [],
     ...(item.process?.request.plan ? { plan: item.process.request.plan } : {}),
     itemId: item.id,
+    // 383.2.c.3.b / 403.2: choices are scanned against the trigger event, so a Deathknell's
+    // "here" is the leaving object's last-known location (808.1.d.3).
+    ...(item.triggerEvent ? { event: item.triggerEvent } : {}),
   });
 }
 

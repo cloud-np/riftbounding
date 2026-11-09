@@ -48,7 +48,7 @@ function typeList(matcher: EventMatcher): string[] {
   return raw.flatMap((type) => TYPE_ALIASES[type] ?? [type]);
 }
 
-/** Last-known information an event carries about its subject. */
+/** Last-known information an event carries about its subject (383.2.c.3.b). */
 export function eventLki(event: GameEvent): LastKnown {
   const data = (event.data ?? {}) as Record<string, unknown>;
   return {
@@ -57,6 +57,9 @@ export function eventLki(event: GameEvent): LastKnown {
     zone: event.zone ?? (typeof data.from === "string" ? data.from : null),
     might: typeof data.might === "number" ? data.might : null,
     name: event.cardName ?? null,
+    ...(typeof data.stunned === "boolean" ? { stunned: data.stunned } : {}),
+    ...(typeof data.buffs === "number" ? { buffs: data.buffs } : {}),
+    ...(typeof data.empowered === "number" ? { empowered: data.empowered } : {}),
   };
 }
 
