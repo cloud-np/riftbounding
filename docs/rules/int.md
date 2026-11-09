@@ -55,6 +55,7 @@ viewer's board shows.
 | `triggers[i].event` / `chain[i].triggerEvent` about a private card | full | ids → placeholders, `cardName` dropped; a private trigger source loses `sourceName` |
 | any other string that is / contains a private card id (`history.effects.marks`, `activationsThisTurn` / `limits` keys, `tasks[].data`, `effects[].modifier`, …) | unchanged | rewritten to the placeholder id |
 | `turn`, `priority`, `focus`, `passes`, `showdown`, `combat`, `contested`, `staged`, `pools`, `scoredThisTurn`, `manual`, `effects` | public | public (ids scrubbed as above) |
+| `autoPass[seat]` (auto-pass preferences, [`auto-pass.md`](auto-pass.md)) | own seats only | dropped |
 
 The redacted value is a `RulesState` (type-checked in the tests). Sandbox rooms (no `rules`) are
 unchanged byte for byte.
@@ -230,6 +231,14 @@ the wire gesture has no mode field; not checked in a browser yet.
   no legal response exists; only the holder sees the small local "No playable responses right
   now" hint. The opponent never receives the banner or that hint and sees a neutral chain line
   "Waiting for <name> (focus|priority)". A choose prompt suppresses the response banner.
+- **Auto-pass ([`auto-pass.md`](auto-pass.md)).** `StrictAutoPassPanel` (production, strict only)
+  holds the viewer's own seat's preferences (`Room.rules.autoPass`, redacted to owned seats), the
+  one-shot "pass until end of turn / until the opponent acts" buttons and a fading notice for each
+  automatic action (`rules.auto.*` log entries). The response banner adds "Pass until end of turn"
+  (Shift+W); Ctrl/⌘-drop sends `hold: true`; the prompt dialog offers "same answer for identical
+  prompts this turn" (yes/no and order prompts) and a one-click Default order. The banner still
+  never reveals whether the holder can respond: the default auto-pass only skips a window when
+  public information already proves there is no response.
 - **Chain status.** Strict rooms derive the status line from `whoMayAct` instead of the sandbox
   vote counter: "<player> must choose: <instruction>" while a prompt is pending, else priority /
   focus. Resolve/Approve are disabled and explain the prompt while it is pending.

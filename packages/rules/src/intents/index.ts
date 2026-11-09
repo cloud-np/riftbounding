@@ -9,12 +9,13 @@
  * Dispatch is a static `Record` keyed by intent type. Each handler lives in its own file, so
  * wave R2 agents extend only their own intent and never this prologue.
  */
-import type { GameEvent, Room, RulesIntent } from "@rift/protocol";
+import type { AutoPassPrefs, GameEvent, Room, RulesIntent } from "@rift/protocol";
 import type { RulesContext, RulesHost } from "../host";
 import type { RulesFailure, RulesStepContext } from "../types";
 import { fail } from "../types";
 import { validateRulesIntent } from "../legality/intent";
-import { advance } from "../timing/advance";
+import { advanceWithAuto } from "../auto/run";
+import { noteDiscretionaryAction } from "../auto/prefs";
 import { createRulesState, projectRules, restoreRulesState, setPhase, turnPlayerForRoom } from "../state";
 import type { IntentContext, IntentHandler } from "./context";
 import { handlePlay } from "./play";
@@ -25,6 +26,7 @@ import { handleEndTurn } from "./end-turn";
 import { handleChoose } from "./choose";
 import { handleManualDone } from "./manual-done";
 import { handleConcede } from "./concede";
+import { handleSetAutoPass } from "./set-auto-pass";
 
 export type { IntentContext, IntentHandler, IntentResult } from "./context";
 
@@ -49,6 +51,7 @@ export const INTENT_HANDLERS: Record<RulesIntent["type"], IntentHandler> = {
   rules_choose: handleChoose,
   rules_manual_done: handleManualDone,
   rules_concede: handleConcede,
+  rules_set_auto_pass: handleSetAutoPass,
 };
 
 /* ---------------------------------------------------------------- helpers */
@@ -67,8 +70,21 @@ function ensureRulesState(room: Room, host: RulesHost): boolean {
   return true;
 }
 
+export interface StrictInitOptions {
+  /**
+   * Auto-pass preferences seeded for every seat when the `RulesState` is created
+   * (`docs/rules/auto-pass.md`). Omitted: no seat gets automatic actions (R1–R4 behaviour).
+   */
+  autoPass?: AutoPassPrefs;
+}
+
 /** 302/315: first strict init when a strict room enters `in_game`. */
-export function initializeStrictRules(room: Room, ctx: RulesContext, host: RulesHost): Room {
+export function initializeStrictRules(
+  room: Room,
+  ctx: RulesContext,
+  host: RulesHost,
+  options: StrictInitOptions = {},
+): Room {
   const draft = host.cloneRoom(room);
   if (draft.rulesMode !== "strict" || draft.phase !== "in_game") return draft;
   if (!draft.rules) {
@@ -77,9 +93,16 @@ export function initializeStrictRules(room: Room, ctx: RulesContext, host: Rules
     draft.rules.turn.player = turnPlayerForRoom(draft, host);
     draft.rules.turn.number = Math.max(1, draft.turnNumber ?? 1);
     setPhase(draft.rules, "awaken");
+    if (options.autoPass) {
+      // Turn-scoped entries (passUntil / standing answers) never carry over into a new game.
+      const { ownItems, responses, forcedPrompts, endTurn, hold } = options.autoPass;
+      draft.rules.autoPass = Object.fromEntries(
+        host.playerIds(draft).map((playerId) => [playerId, { ownItems, responses, forcedPrompts, endTurn, hold }]),
+      );
+    }
   }
   const step = stepContext(ctx, host);
-  advance(draft, step);
+  advanceWithAuto(draft, step);
   projectRules(draft, host);
   return draft;
 }
@@ -124,8 +147,10 @@ export function applyRulesIntent(
   if (!handler) return fail("unknown_intent", "contract:§5", wire.type);
   const handled = handler(context);
   if (!handled.ok) return handled;
+  // Auto-pass: an opponent's Discretionary Action ends "pass until the opponent acts".
+  noteDiscretionaryAction(draft, actorId, wire);
 
-  const advanced = advance(draft, step);
+  const advanced = advanceWithAuto(draft, step, { actorId, intent: wire });
   if (advanced === "loop_guard") return fail("loop_guard", step.loopGuard?.rule ?? "334");
   projectRules(draft, host);
   draft.updatedAt = ctx.now;

@@ -343,6 +343,19 @@ describe("redactRulesForViewer — rules.objects [R107.3.f][R128.4]", () => {
   });
 });
 
+describe("redactRulesForViewer — auto-pass preferences (docs/rules/auto-pass.md)", () => {
+  it("each seat sees only its own auto-pass preferences", () => {
+    const alicePrefs = { ownItems: true, responses: "safe", forcedPrompts: "safe", endTurn: "safe", hold: false } as const;
+    const bobPrefs = { ownItems: true, responses: "no_response", forcedPrompts: "all", endTurn: "no_action", hold: false } as const;
+    const room = strictRoom({ autoPass: { alice: { ...alicePrefs }, bob: { ...bobPrefs } } });
+    expect(rulesFor(room, aliceView).autoPass).toEqual({ alice: alicePrefs });
+    expect(rulesFor(room, bobView).autoPass).toEqual({ bob: bobPrefs });
+    expect(rulesFor(room, plainSpectator).autoPass).toEqual({});
+    // Rooms without preferences stay byte-for-byte as before.
+    expect(rulesFor(strictRoom(), aliceView)).not.toHaveProperty("autoPass");
+  });
+});
+
 describe("redactRulesForViewer — history, marks, triggers [R425][R437][R128.4]", () => {
   it("[R437] prompt answers of other players are removed", () => {
     const room = strictRoom({

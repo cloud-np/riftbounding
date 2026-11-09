@@ -30,6 +30,7 @@ import {
   toggleSelection,
   type AssignmentDraft,
 } from "./strict-model";
+import { promptAllowsSimilar } from "./strict-auto-pass";
 
 export const STRICT_SHELL_CLASS =
   "pointer-events-auto rounded-[0.32rem] border border-[rgba(193,210,235,0.42)] bg-[linear-gradient(160deg,rgba(31,49,75,0.97),rgba(16,28,46,0.98))] p-[0.42rem] shadow-[inset_0_1px_0_rgba(234,242,255,0.12),inset_3px_0_0_rgba(226,178,102,0.34),0_0_0_1px_rgba(5,12,25,0.46),0_8px_20px_rgba(2,8,20,0.44)]";
@@ -79,11 +80,23 @@ export function StrictPromptDialog({ room, prompt, t, onAnswer }: StrictPromptDi
   );
 }
 
+/** Auto-pass "yes to all": remember this answer for identical prompts this turn. */
+function SimilarToggle({ t, checked, onChange }: { t: Translator; checked: boolean; onChange: (value: boolean) => void }) {
+  return (
+    <label className="flex items-center gap-[0.3rem] text-[0.58rem] text-[#b8cce4]" data-testid="strict-prompt-similar">
+      <input type="checkbox" checked={checked} onChange={(event) => onChange(event.currentTarget.checked)} />
+      <span>{t("rules.ui.autoPass.applyToSimilar") ?? "Same answer for identical prompts this turn"}</span>
+    </label>
+  );
+}
+
 function OptionChoice({ room, prompt, t, onAnswer }: StrictPromptDialogProps) {
   const [selected, setSelected] = useState<string[]>([]);
+  const [similar, setSimilar] = useState(false);
   const options = prompt.options ?? [];
   const { min, max } = selectionBounds(prompt);
   const single = prompt.kind === "yes-no" || (prompt.kind !== "order" && max === 1 && min === 1);
+  const allowsSimilar = promptAllowsSimilar(prompt);
   if (options.length === 0) {
     return (
       <p className="m-0 mt-[0.3rem] text-[0.62rem] text-[#b8cce4]">
@@ -94,18 +107,23 @@ function OptionChoice({ room, prompt, t, onAnswer }: StrictPromptDialogProps) {
   if (single) {
     // One click answers (yes-no, pick one battlefield / opponent / card).
     return (
-      <div className="mt-[0.36rem] grid grid-cols-2 gap-[0.3rem]" data-strict-options="single">
-        {options.map((option) => (
-          <button
-            key={option.id}
-            type="button"
-            disabled={option.disabled}
-            className={`${segmentedButton} ${segmentedInactive}`}
-            onClick={() => onAnswer(chooseIntent(prompt, selectionAnswer(prompt, [option.id])))}
-          >
-            <span className="truncate">{optionLabel(room, t, option)}</span>
-          </button>
-        ))}
+      <div className="mt-[0.36rem] grid gap-[0.3rem]">
+        <div className="grid grid-cols-2 gap-[0.3rem]" data-strict-options="single">
+          {options.map((option) => (
+            <button
+              key={option.id}
+              type="button"
+              disabled={option.disabled}
+              className={`${segmentedButton} ${segmentedInactive}`}
+              onClick={() =>
+                onAnswer(chooseIntent(prompt, selectionAnswer(prompt, [option.id]), allowsSimilar && similar))
+              }
+            >
+              <span className="truncate">{optionLabel(room, t, option)}</span>
+            </button>
+          ))}
+        </div>
+        {allowsSimilar ? <SimilarToggle t={t} checked={similar} onChange={setSimilar} /> : null}
       </div>
     );
   }
@@ -141,12 +159,26 @@ function OptionChoice({ room, prompt, t, onAnswer }: StrictPromptDialogProps) {
           );
         })}
       </div>
-      <div className="flex justify-end">
+      {ordering && allowsSimilar ? <SimilarToggle t={t} checked={similar} onChange={setSimilar} /> : null}
+      <div className="flex justify-end gap-[0.3rem]">
+        {ordering ? (
+          // 383.3.d: listing nothing keeps the detection order — one click instead of N.
+          <button
+            type="button"
+            className={smallNeutralButton}
+            data-testid="strict-prompt-default-order"
+            onClick={() => onAnswer(chooseIntent(prompt, selectionAnswer(prompt, []), allowsSimilar && similar))}
+          >
+            {t("rules.ui.autoPass.defaultOrder") ?? "Default order"}
+          </button>
+        ) : null}
         <button
           type="button"
           className={smallBlueButton}
           disabled={!canSubmitSelection(prompt, selected)}
-          onClick={() => onAnswer(chooseIntent(prompt, selectionAnswer(prompt, selected)))}
+          onClick={() =>
+            onAnswer(chooseIntent(prompt, selectionAnswer(prompt, selected), ordering && allowsSimilar && similar))
+          }
         >
           {t("rules.ui.confirm") ?? "Confirm"}
         </button>

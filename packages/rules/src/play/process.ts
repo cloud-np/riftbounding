@@ -37,6 +37,7 @@ import { deflectCostsForTargets, type AdditionalCostSpec } from "./additional-co
 import { recordFinalizedCard } from "./keyword-helpers";
 import { openCostPrompt, openChoicePrompt, openOptionalCostPrompt } from "./prompting";
 import type { PlayRequest } from "./request";
+import { fullControl } from "../auto/prefs";
 
 export interface CardPlayPlan extends CorePlan {
   located: LocatedCard;
@@ -308,7 +309,10 @@ export function completeCardItem(
     // 337.4: after finalizing, the controller of the newest item gains Priority.
     grantPriority(rules, item.controller);
     // Owner decision 3: auto-pass unless held — never on behalf of a player without Priority (F1).
-    if (!hold && rules.priority === item.controller) passPriority(room, item.controller, step);
+    // Full control (auto-pass `hold`, docs/rules/auto-pass.md) holds every play.
+    if (!hold && !fullControl(rules, item.controller) && rules.priority === item.controller) {
+      passPriority(room, item.controller, step);
+    }
   }
   return { ok: true };
 }

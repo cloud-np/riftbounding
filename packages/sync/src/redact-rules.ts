@@ -202,12 +202,19 @@ export function redactRulesForViewer(
   const history: RulesState["history"] = { ...rules.history };
   if (promptAnswers !== undefined) history.promptAnswers = promptAnswers;
 
+  // Auto-pass preferences (docs/rules/auto-pass.md) are each seat's own settings: another
+  // player must not learn which windows a seat skips (e.g. the leaky "no response" mode).
+  const autoPass = rules.autoPass
+    ? Object.fromEntries(Object.entries(rules.autoPass).filter(([playerId]) => context.owned.has(playerId)))
+    : undefined;
+
   const { prompt, ...rest } = {
     ...rules,
     chain,
     objects,
     history,
     triggers: rules.triggers.map((trigger) => redactTrigger(trigger, context)),
+    ...(autoPass ? { autoPass } : {}),
   };
   const scrubbed = scrub(rest, replace);
   return { ...scrubbed, prompt: prompt ? redactPrompt(prompt, context) : null };

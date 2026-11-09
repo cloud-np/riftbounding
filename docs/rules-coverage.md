@@ -10,13 +10,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | --- | ---: |
 | Numbered rule entries in corpus | 2494 |
 | Rule bodies (entries minus section headings) | 2321 |
-| Rules with at least one test | 666 |
+| Rules with at least one test | 667 |
 | Rules coverage | 28.7% |
-| Tagged test titles | 1454 |
-| `[R…]` tags | 2506 |
+| Tagged test titles | 1455 |
+| `[R…]` tags | 2507 |
 | `[EX:…]` tags | 116 |
 | Range tags (not expanded) | 25 unique / 29 refs |
-| Test/helper files scanned | 203 |
+| Test/helper files scanned | 208 |
 | Unknown rule ids referenced | 0 |
 
 ## Per-section coverage
@@ -63,7 +63,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Costs | 22 | 7 | 31.8% | 16 | 2 |
 | The Turn | 8 | 2 | 25.0% | 11 | 0 |
 | States of the Turn | 14 | 12 | 85.7% | 20 | 0 |
-| Priority and Focus | 18 | 5 | 27.8% | 14 | 0 |
+| Priority and Focus | 18 | 6 | 33.3% | 15 | 0 |
 | Start of Turn | 19 | 6 | 31.6% | 14 | 0 |
 | Main Phase | 26 | 3 | 11.5% | 3 | 0 |
 | Ending Phase | 11 | 5 | 45.5% | 32 | 0 |
@@ -182,7 +182,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Deploy | 8 | 4 | 50.0% | 7 | 0 |
 | Disarm | 11 | 3 | 27.3% | 3 | 1 |
 | Show Off | 14 | 2 | 14.3% | 2 | 0 |
-| **Total** | **2321** | **666** | **28.7%** | **2506** | **116** |
+| **Total** | **2321** | **667** | **28.7%** | **2507** | **116** |
 
 ## Per-rule coverage — Sections 300–479
 
@@ -214,7 +214,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 312.1 | Priority and Focus | 1 | 1 | 0 | Priority is the singular exclusive right to take Discretionary Actions. See rule 411.1. Discretiona… |
 | 312.1.a | Priority and Focus | 0 | 0 | 0 | The player with Priority can take appropriately timed Discretionary Actions. |
 | 312.1.b | Priority and Focus | 0 | 0 | 0 | If no player has Priority, no player can take Discretionary Actions. |
-| 312.1.b.1 | Priority and Focus | 0 | 0 | 0 | Players can always take and make choices for Limited Actions when instructed, regardless of Priorit… |
+| 312.1.b.1 | Priority and Focus | 1 | 1 | 0 | Players can always take and make choices for Limited Actions when instructed, regardless of Priorit… |
 | 312.2 | Priority and Focus | 0 | 0 | 0 | A player receives Priority at the following times: |
 | 312.2.a | Priority and Focus | 4 | 4 | 0 | When the turn is in a Neutral Open State during their Main Phase. |
 | 312.2.b | Priority and Focus | 0 | 0 | 0 | When the turn is in a Showdown State and they gain Focus. |

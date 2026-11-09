@@ -12,6 +12,7 @@ describe("per-intent wire validators [R349][R399][R144][R411.2]", () => {
       "rules_move",
       "rules_pass",
       "rules_play",
+      "rules_set_auto_pass",
     ]);
   });
 

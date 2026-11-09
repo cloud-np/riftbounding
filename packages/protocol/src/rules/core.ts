@@ -18,6 +18,7 @@
 
 import type { BattlefieldZone, CardInstance } from "../game-state";
 import type { Condition, Modifier } from "./effects";
+import type { AutoPassPrefs } from "./auto-pass";
 import type {
   PlayChainItemFields,
   PlayHistoryFields,
@@ -437,6 +438,12 @@ export interface RulesState {
   scoredThisTurn: Record<string, BattlefieldZone[]>;
   history: RulesHistory;
   manual: ManualWindow | null;
+  /**
+   * Per-player auto-pass / auto-resolve preferences (`docs/rules/auto-pass.md`). Absent (or a
+   * missing seat) means no automatic action beyond owner decision 3, so hand-built states keep
+   * their exact R1–R4 behaviour. Redacted to the owning seat.
+   */
+  autoPass?: Record<string, AutoPassPrefs>;
 }
 
 /* ---------------------------------------------------------------- read-side view (§3) */

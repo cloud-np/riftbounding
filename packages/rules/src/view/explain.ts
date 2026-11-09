@@ -46,6 +46,8 @@ const EXPLAIN_VERDICTS: Record<RulesIntent["type"], ExplainFn> = {
       : fail("unknown_intent", "contract:§5"),
   rules_manual_done: (room, playerId) => manualDoneVerdict(room, playerId),
   rules_concede: (room, playerId, _intent, host) => concedeVerdict(room, playerId, host),
+  // Preferences are not a game action: legal for any player still in the game (like 650).
+  rules_set_auto_pass: (room, playerId, _intent, host) => concedeVerdict(room, playerId, host),
 };
 
 /** §5: why an intent would be rejected, for tooltips/toasts. Mirrors the write path. */

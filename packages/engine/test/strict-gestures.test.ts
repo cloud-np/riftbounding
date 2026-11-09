@@ -228,6 +228,8 @@ describe("§6.4 manual window keeps free board actions", () => {
     try {
       const ctx = makeContext();
       let room = inGame("strict", ctx);
+      // P2 holds nothing hidden here, so the default auto-pass would pass for them; keep the stop.
+      room = apply(room, "p2", { type: "rules_set_auto_pass", prefs: { responses: "stop" } }, ctx);
       const board = room.players[0]!.board!;
       const rebuke = takeFromDeck(board, "Rebuke", "hand");
       room = apply(room, "p1", { type: "rules_play", cardId: rebuke.id }, ctx);

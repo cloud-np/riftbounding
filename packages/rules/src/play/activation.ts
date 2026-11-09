@@ -29,6 +29,7 @@ import { cardDomains, costSummary, resolveCost } from "./cost-model";
 import { applyPayment, paidCostRecord } from "./payment";
 import { openChoicePrompt, openCostPrompt, openOptionalCostPrompt } from "./prompting";
 import type { PlayRequest } from "./request";
+import { fullControl } from "../auto/prefs";
 
 export interface ActivationPlan extends CorePlan {
   located: LocatedCard;
@@ -244,7 +245,10 @@ export function completeActivationItem(
   runCleanupOrQueue(room, step);
   if (rules.chain.some((entry2) => entry2.id === item.id)) {
     grantPriority(rules, item.controller);
-    if (!hold && rules.priority === item.controller) passPriority(room, item.controller, step);
+    // Owner decision 3 (auto-pass unless held); full control holds every activation too.
+    if (!hold && !fullControl(rules, item.controller) && rules.priority === item.controller) {
+      passPriority(room, item.controller, step);
+    }
   }
   return { ok: true };
 }
