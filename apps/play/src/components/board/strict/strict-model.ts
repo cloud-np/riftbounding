@@ -131,6 +131,21 @@ export function promptSourceName(room: GameState, prompt: Prompt): string | null
   return item?.cardName ?? item?.sourceName ?? null;
 }
 
+/** Where the aiming arrow starts: the chain item's card/entry or a source board object. */
+export function promptSourceAnchor(
+  room: GameState,
+  prompt: Prompt,
+): { id: string; anchor: "board" | "chain" } | null {
+  const item = prompt.sourceItemId
+    ? room.rules?.chain.find((entry) => entry.id === prompt.sourceItemId)
+    : undefined;
+  if (item) return { id: item.id, anchor: "chain" };
+  const source = prompt.data?.sourceObjectId;
+  return typeof source === "string" && source.length > 0
+    ? { id: source, anchor: "board" }
+    : null;
+}
+
 /**
  * Strict chain-lane status. Unlike the sandbox vote counter this never claims a player has
  * priority while the rules engine is waiting for a prompt: that player must choose first.

@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 import { applyGameAction, buildAutoPayPaymentBatch, strictLegalIntents, strictWhoMayAct } from "@rift/engine";
 import { getCard, getCardByName } from "@rift/cards";
 import { createTranslator, promptTitle, rulesReasonText } from "@rift/i18n";
-import type { CardInstance, Room, RoomPlayer, Zone } from "@rift/protocol";
+import type { CardInstance, PromptOption, Room, RoomPlayer, Zone } from "@rift/protocol";
 
 import type { CardEvent } from "../card/types";
 import {
@@ -62,11 +62,16 @@ import { useLocalGameSettings } from "../settings/settings-values";
 import { playBoardSound } from "./sfx";
 import {
   canConfirmPromptSelection,
+  nextPromptOptionAnchor,
   parseAmbiguousDetail,
+  promptAutoConfirms,
   promptChooseIntent,
   promptHasBoardTargets,
+  promptIsObjectPrompt,
   promptNeedsAccumulation,
+  promptOptionAnchor,
   promptOptionForAction,
+  promptOptionForPlayer,
   promptOptionMatchIds,
   promptSelectionBounds,
   strictManualWindowFor,
@@ -76,7 +81,12 @@ import {
   withGestureAbility,
   type StrictBoardView,
 } from "../strict/strict-interaction";
-import { isStrictRoom, optionLabel, promptForClient, promptInstruction, promptSourceName, strictActorFor } from "../strict/strict-model";
+import { isStrictRoom, promptForClient, promptInstruction, promptSourceAnchor, promptSourceName, strictActorFor } from "../strict/strict-model";
+import {
+  cachedStrictDragLegality,
+  strictDropAllowed,
+  type StrictDragLegality,
+} from "../strict/strict-drop-legality";
 import type {
   ArmedAction,
   BoardInteractionValue,
@@ -330,6 +340,7 @@ export function BoardInteractionProvider({
   const previewTimerRef = useRef<number | null>(null);
   const pointerRef = useRef({ x: 0, y: 0 });
   const dragSessionRef = useRef<DragSession | null>(null);
+  const strictDragLegalityRef = useRef<StrictDragLegality | null>(null);
   const dragOriginRef = useRef(createDragOriginSession());
   const dragTargetElementRef = useRef<HTMLElement | null>(null);
   const dragCardTargetElementRef = useRef<HTMLElement | null>(null);
@@ -396,7 +407,13 @@ export function BoardInteractionProvider({
     [strictPrompt, state],
   );
   const strictPromptInstruction = useMemo(
-    () => (strictPrompt ? promptInstruction(t, strictPrompt) : null),
+    () =>
+      strictPrompt
+        ? promptIsObjectPrompt(strictPrompt)
+          ? (t("rules.ui.targetAimInstruction") ??
+            "Choose a target: drag the arrow to a highlighted unit")
+          : promptInstruction(t, strictPrompt)
+        : null,
     [strictPrompt],
   );
   const strictPromptTitle = useMemo(() => {
@@ -471,6 +488,39 @@ export function BoardInteractionProvider({
     return null;
   }, [controlled, opponent, state, strictPrompt, strictView, strictWho, viewer, viewerIndex]);
 
+  const strictAim = useMemo(() => {
+    if (!strictPrompt || !strictPromptOnBoard || !promptIsObjectPrompt(strictPrompt)) return null;
+    const source = promptSourceAnchor(state, strictPrompt);
+    if (!source) return null;
+    return {
+      active: true,
+      sourceId: source.id,
+      sourceAnchor: source.anchor,
+      optionIds: strictPromptOptionIds,
+      pinned: strictPromptSelection.map((id, index) => {
+        const option = (strictPrompt.options ?? []).find((entry) => entry.id === id);
+        return { targetId: option ? promptOptionAnchor(option) : id, index };
+      }),
+    };
+  }, [state, strictPrompt, strictPromptOnBoard, strictPromptOptionIds, strictPromptSelection]);
+
+  const strictDragAim = useMemo(() => {
+    if (!strictActive || !drag.active || !drag.sourceCardId) return null;
+    const legality = strictDragLegalityRef.current;
+    if (!legality) return null;
+    const optionIds = new Set<string>([...legality.targetIds, ...legality.targetZones]);
+    if (optionIds.size === 0) return null;
+    return {
+      active: true,
+      sourceId: drag.sourceCardId,
+      sourceAnchor: "board" as const,
+      optionIds,
+      pinned: [],
+    };
+  }, [drag.active, drag.sourceCardId, state, strictActive]);
+
+  const strictAimArrow = strictAim ?? strictDragAim;
+
   const showStrictNotice = useCallback((code: string, rule: string | undefined, text?: string) => {
     if (strictNoticeTimerRef.current !== null) window.clearTimeout(strictNoticeTimerRef.current);
     setStrictNotice({
@@ -516,6 +566,47 @@ export function BoardInteractionProvider({
     playBoardSound("ui_click");
     sendAsActor({ type: "rules_pass" }, strictResponse.player);
   }, [sendAsActor, strictResponse]);
+
+  const chooseStrictPromptOption = useCallback(
+    (option: PromptOption) => {
+      if (!strictPrompt) return;
+      if (strictPromptMulti) {
+        setStrictPromptSelection((current) =>
+          togglePromptSelection(strictPrompt, current, option.id),
+        );
+        return;
+      }
+      playBoardSound("card_click");
+      sendAsActor(promptChooseIntent(strictPrompt, [option.id]), strictPrompt.playerId);
+    },
+    [sendAsActor, strictPrompt, strictPromptMulti],
+  );
+
+  /** Esc / right-click: clear a multi selection, or Skip an optional prompt. */
+  const cancelStrictAim = useCallback(() => {
+    if (!strictPrompt) return;
+    setStrictPromptHoverId(null);
+    if (strictPromptMulti && strictPromptSelection.length > 0) {
+      setStrictPromptSelection([]);
+      return;
+    }
+    if (promptSelectionBounds(strictPrompt).min === 0) {
+      setStrictPromptSelection([]);
+      sendAsActor(promptChooseIntent(strictPrompt, []), strictPrompt.playerId);
+    }
+  }, [sendAsActor, strictPrompt, strictPromptMulti, strictPromptSelection]);
+
+  /** Tab / arrow keys cycle the highlighted target; Enter locks it. */
+  const cycleStrictTarget = useCallback(
+    (delta: number) => {
+      if (!strictPrompt || !strictPromptOnBoard) return;
+      const next = nextPromptOptionAnchor(strictPrompt, strictPromptHoverId, delta);
+      if (next === null) return;
+      setStrictPromptHoverId(next);
+      playBoardSound("ui_click");
+    },
+    [strictPrompt, strictPromptHoverId, strictPromptOnBoard],
+  );
 
   const sendStrictGesture = useCallback(
     (action: GameActionIntent, owner: "self" | "opponent" = "self") => {
@@ -1504,14 +1595,15 @@ export function BoardInteractionProvider({
           if (isSelf && interactive) scheduleCardPreview(card, event, 0);
           return;
         }
-        // 411.2: an object prompt is answered by clicking its board option.
+        // 411.2: an object prompt is answered by clicking its board option. Anything else is not
+        // a legal target; the aim arrow shows the not-allowed state and sends nothing.
         if (strictPrompt && strictPromptOnBoard) {
           const gesture = strictUseGesture(zone, card.id);
           if (promptOptionForAction(strictPrompt, gesture)) {
             playBoardSound("card_click");
             sendIntent(gesture, owner);
-            return;
           }
+          return;
         }
         // Multi-unit Standard Move selection (Shift-click), then drag any selected Unit.
         if (event.shiftKey && isUnit(card) && (zone === "base" || zone.startsWith("battlefield"))) {
@@ -1657,6 +1749,10 @@ export function BoardInteractionProvider({
       }
       if (event.type === "context") {
         if (event.shiftKey) return;
+        if (strictPrompt && strictPromptOnBoard) {
+          cancelStrictAim();
+          return;
+        }
         if ((event.ctrlKey || event.metaKey) && event.owner === "self" && interactive) {
           if (
             event.zone === "hand" ||
@@ -1699,6 +1795,9 @@ export function BoardInteractionProvider({
       handleCardClick,
       interactive,
       sendIntent,
+      cancelStrictAim,
+      strictPrompt,
+      strictPromptOnBoard,
     ],
   );
 
@@ -1782,6 +1881,16 @@ export function BoardInteractionProvider({
         startY: input.event.clientY,
         startTimestamp: input.event.timeStamp,
       };
+      // Strict rooms: one legality snapshot per drag source. Hover never calls the engine.
+      strictDragLegalityRef.current = null;
+      const payload = input.payload as { zone?: string; cardId?: string };
+      if (strictActive && input.card && payload.cardId && payload.zone) {
+        const actorId = input.owner === "self" ? viewerId : (opponent?.id ?? viewerId);
+        strictDragLegalityRef.current = cachedStrictDragLegality(state, actorId, {
+          cardId: payload.cardId,
+          zone: payload.zone,
+        });
+      }
       dragSessionRef.current = session;
       if (input.event.dataTransfer) {
         writeDragPayload(input.event.dataTransfer, input.kind, input.payload);
@@ -1810,7 +1919,7 @@ export function BoardInteractionProvider({
         playBoardSound("ui_click");
       });
     },
-    [],
+    [opponent, state, strictActive, viewerId],
   );
 
   const endDragSession = useCallback(() => {
@@ -1822,6 +1931,7 @@ export function BoardInteractionProvider({
       }
     }
     dragSessionRef.current = null;
+    strictDragLegalityRef.current = null;
     setDragSession(null);
     setDrag({
       active: false,
@@ -2040,23 +2150,45 @@ export function BoardInteractionProvider({
           toIndex = 0;
         }
       }
-      const intent = dropIntentForSession(
-        session,
-        zone,
-        owner,
-        event.clientX,
-        event.clientY,
-        event.shiftKey,
-        toIndex,
-        strictActive && event.altKey,
-      );
-      const legal = intent
-        ? engineCanDrop(state, owner === "self" ? viewerId : (opponent?.id ?? viewerId), intent)
-        : false;
+      let legal: boolean;
+      let hoverCard: CardInstance | null = null;
+      if (strictActive) {
+        const payload = session.payload as { zone?: string; cardId?: string };
+        const actorId = owner === "self" ? viewerId : (opponent?.id ?? viewerId);
+        const legality =
+          strictDragLegalityRef.current ??
+          (payload.cardId && payload.zone
+            ? cachedStrictDragLegality(state, actorId, {
+                cardId: payload.cardId,
+                zone: payload.zone,
+              })
+            : null);
+        if (legality && payload.cardId && payload.zone) strictDragLegalityRef.current = legality;
+        hoverCard = cardUnderPointer(event.clientX, event.clientY);
+        legal =
+          !!legality &&
+          strictDropAllowed(legality, {
+            zone,
+            targetId: hoverCard?.id ?? null,
+            hide: event.altKey,
+          });
+      } else {
+        const intent = dropIntentForSession(
+          session,
+          zone,
+          owner,
+          event.clientX,
+          event.clientY,
+          event.shiftKey,
+          toIndex,
+        );
+        legal = intent
+          ? engineCanDrop(state, owner === "self" ? viewerId : (opponent?.id ?? viewerId), intent)
+          : false;
+      }
       if (legal) setDropTargetElement(target);
       else clearDropTarget();
       if (strictActive && legal) {
-        const hoverCard = cardUnderPointer(event.clientX, event.clientY);
         const sourceId = "cardId" in session.payload ? session.payload.cardId : null;
         const element =
           hoverCard && hoverCard.id !== sourceId && typeof document !== "undefined"
@@ -2068,19 +2200,30 @@ export function BoardInteractionProvider({
       } else {
         setCardDropTarget(null);
       }
-      if (!legal && session.kind === "boardCard") {
-        // Keep the ghost alive but do not highlight an illegal destination.
-      }
-      setDrag({
-        active: true,
-        kind: session.kind,
-        sourceZone: "zone" in session.payload ? (session.payload.zone as string) : null,
-        sourceOwner: session.owner,
-        sourceCardId: "cardId" in session.payload ? (session.payload.cardId ?? null) : null,
-        overZone: intent ? zone : null,
-        overOwner: intent ? owner : null,
-        toIndex: intent ? toIndex : null,
-      });
+      const nextOverZone = legal ? zone : null;
+      const nextOverOwner = legal ? owner : null;
+      const nextToIndex = legal ? toIndex : null;
+      setDrag((previous) =>
+        previous.active === true &&
+        previous.kind === session.kind &&
+        previous.sourceZone === ("zone" in session.payload ? (session.payload.zone as string) : null) &&
+        previous.sourceOwner === session.owner &&
+        previous.sourceCardId === ("cardId" in session.payload ? (session.payload.cardId ?? null) : null) &&
+        previous.overZone === nextOverZone &&
+        previous.overOwner === nextOverOwner &&
+        previous.toIndex === nextToIndex
+          ? previous
+          : {
+              active: true,
+              kind: session.kind,
+              sourceZone: "zone" in session.payload ? (session.payload.zone as string) : null,
+              sourceOwner: session.owner,
+              sourceCardId: "cardId" in session.payload ? (session.payload.cardId ?? null) : null,
+              overZone: nextOverZone,
+              overOwner: nextOverOwner,
+              toIndex: nextToIndex,
+            },
+      );
     },
     [
       orderedRects,
@@ -2093,6 +2236,7 @@ export function BoardInteractionProvider({
       state,
       cardUnderPointer,
       dropIntentForSession,
+      strictActive,
     ],
   );
 
@@ -2204,12 +2348,16 @@ export function BoardInteractionProvider({
         event.preventDefault();
         event.stopPropagation();
         if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
-        setDrag((previous) => ({
-          ...previous,
-          overZone: zone,
-          overOwner: owner,
-          toIndex: null,
-        }));
+        setDrag((previous) =>
+          previous.overZone === zone && previous.overOwner === owner && previous.toIndex === null
+            ? previous
+            : {
+                ...previous,
+                overZone: zone,
+                overOwner: owner,
+                toIndex: null,
+              },
+        );
       },
       onDragLeave: (event) => {
         const current = event.currentTarget;
@@ -2472,6 +2620,10 @@ export function BoardInteractionProvider({
     (zone: Zone, owner: "self" | "opponent", event: React.MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
+      if (strictActive && strictPrompt && strictPromptOnBoard && event.type === "contextmenu") {
+        cancelStrictAim();
+        return;
+      }
       if (armedAction.kind === "target") {
         completeTarget(
           {
@@ -2495,8 +2647,8 @@ export function BoardInteractionProvider({
         if (promptOptionForAction(strictPrompt, gesture)) {
           playBoardSound("card_click");
           sendIntent(gesture, owner);
-          return;
         }
+        return;
       }
       if (event.shiftKey && interactive) {
         sendIntent(
@@ -2553,7 +2705,7 @@ export function BoardInteractionProvider({
         selected ?? t("sim.battlefield") ?? "Battlefield",
       );
     },
-    [interactive, sendIntent, viewerId, state.players, openMenu, armedAction, completeTarget, triggerPing, strictActive, strictPrompt, strictPromptOnBoard],
+    [interactive, sendIntent, viewerId, state.players, openMenu, armedAction, completeTarget, triggerPing, strictActive, strictPrompt, strictPromptOnBoard, cancelStrictAim],
   );
 
   const handleBoardContextMenu = useCallback(
@@ -2562,9 +2714,13 @@ export function BoardInteractionProvider({
       if (target instanceof Element && target.closest('[data-chat-panel-root="true"]')) return;
       if (event.shiftKey) return;
       event.preventDefault();
+      if (strictPrompt && strictPromptOnBoard) {
+        cancelStrictAim();
+        return;
+      }
       closeTransientUi();
     },
-    [closeTransientUi],
+    [cancelStrictAim, closeTransientUi, strictPrompt, strictPromptOnBoard],
   );
 
   const handleBoardPointerDown = useCallback((event: React.PointerEvent) => {
@@ -2765,6 +2921,37 @@ export function BoardInteractionProvider({
       const key = event.key;
       const lower = key.toLowerCase();
       const command = platformModifierPressed(event);
+
+      if (strictPrompt && strictPromptOnBoard) {
+        if (key === "Escape" || key === "Esc") {
+          event.preventDefault();
+          cancelStrictAim();
+          return;
+        }
+        if (key === "Tab" || key.startsWith("Arrow")) {
+          event.preventDefault();
+          const delta =
+            key === "Tab"
+              ? event.shiftKey
+                ? -1
+                : 1
+              : key === "ArrowLeft" || key === "ArrowUp"
+                ? -1
+                : 1;
+          cycleStrictTarget(delta);
+          return;
+        }
+        if (key === "Enter") {
+          const option = (strictPrompt.options ?? []).find(
+            (entry) => !entry.disabled && promptOptionAnchor(entry) === strictPromptHoverId,
+          );
+          if (option) {
+            event.preventDefault();
+            chooseStrictPromptOption(option);
+            return;
+          }
+        }
+      }
 
       if (key === "Escape" || key === "Esc") {
         event.preventDefault();
@@ -2976,6 +3163,12 @@ export function BoardInteractionProvider({
     playBoardSound,
     strictResponse,
     passStrictResponse,
+    strictPrompt,
+    strictPromptOnBoard,
+    strictPromptHoverId,
+    cancelStrictAim,
+    cycleStrictTarget,
+    chooseStrictPromptOption,
   ]);
 
   /* --------------------------------------------------------------- derived */
@@ -3051,24 +3244,18 @@ export function BoardInteractionProvider({
     );
   };
 
-  const confirmStrictPromptSelection = () => {
+  const confirmStrictPromptSelection = useCallback(() => {
     if (!strictPrompt || !canConfirmPromptSelection(strictPrompt, strictPromptSelection)) return;
     const actorId = strictPrompt.playerId;
     setStrictPromptSelection([]);
     sendAsActor(promptChooseIntent(strictPrompt, strictPromptSelection), actorId);
-  };
+  }, [sendAsActor, strictPrompt, strictPromptSelection]);
 
-  const chooseStrictPromptOption = (optionId: string) => {
-    if (!strictPrompt) return;
-    if (strictPromptMulti) {
-      setStrictPromptSelection((current) =>
-        togglePromptSelection(strictPrompt, current, optionId),
-      );
-      return;
-    }
-    setStrictPromptHoverId(null);
-    sendAsActor(promptChooseIntent(strictPrompt, [optionId]), strictPrompt.playerId);
-  };
+  // max reached → the pinned selection is complete and confirms without another click.
+  useEffect(() => {
+    if (!strictPrompt || !strictPromptMulti) return;
+    if (promptAutoConfirms(strictPrompt, strictPromptSelection)) confirmStrictPromptSelection();
+  }, [confirmStrictPromptSelection, strictPrompt, strictPromptMulti, strictPromptSelection]);
 
   const skipStrictPrompt = () => {
     if (!strictPrompt) return;
@@ -3078,6 +3265,23 @@ export function BoardInteractionProvider({
     setStrictPromptHoverId(null);
     sendAsActor(promptChooseIntent(strictPrompt, []), strictPrompt.playerId);
   };
+
+  const handlePlayerTargetClick = useCallback(
+    (playerId: string) => {
+      if (!strictPrompt || !strictPromptOnBoard) return;
+      const option = promptOptionForPlayer(strictPrompt, playerId);
+      if (!option) return;
+      if (strictPromptMulti) {
+        setStrictPromptSelection((current) =>
+          togglePromptSelection(strictPrompt, current, option.id),
+        );
+        return;
+      }
+      playBoardSound("card_click");
+      sendAsActor(promptChooseIntent(strictPrompt, [option.id]), strictPrompt.playerId);
+    },
+    [sendAsActor, strictPrompt, strictPromptMulti, strictPromptOnBoard],
+  );
 
   const value: BoardInteractionValue = {
     slotProps: {
@@ -3116,6 +3320,7 @@ export function BoardInteractionProvider({
     pingCard,
     getDropZoneHandlers,
     getHideDropZoneHandlers,
+    handlePlayerTargetClick,
     handleZoneContextMenu,
     handlePilePress,
     handlePileContextMenu,
@@ -3212,43 +3417,20 @@ export function BoardInteractionProvider({
               {strictPromptTitle}
             </p>
             {strictPromptMulti ? (
-              <span className="shrink-0 tabular-nums text-[#9fdff2]">
+              <span
+                className="shrink-0 tabular-nums text-[#9fdff2]"
+                data-testid="strict-prompt-pinned-count"
+              >
                 {strictPromptSelection.length}/{promptSelectionBounds(strictPrompt).max}
               </span>
             ) : null}
           </div>
-          <div className="mt-[0.3rem] flex flex-wrap items-center gap-[0.24rem]" data-testid="strict-prompt-chips">
-            {(strictPrompt.options ?? [])
-              .filter((option) => !option.disabled)
-              .map((option) => {
-                const selected = strictPromptSelection.includes(option.id);
-                return (
-                  <button
-                    key={option.id}
-                    type="button"
-                    className={
-                      "inline-flex min-h-[1.55rem] max-w-[12rem] items-center truncate rounded-[0.2rem] border px-[0.36rem] text-[0.62rem] font-semibold " +
-                      (selected
-                        ? "border-[rgba(139,222,189,0.8)] bg-[rgba(31,86,70,0.92)] text-[#dffbef]"
-                        : "border-[rgba(166,185,209,0.34)] bg-[rgba(18,32,52,0.9)] text-[#d8e7f8] hover:border-[rgba(201,226,255,0.62)]")
-                    }
-                    data-testid="strict-prompt-chip"
-                    data-strict-prompt-option-id={option.id}
-                    data-selected={selected ? "true" : undefined}
-                    onPointerEnter={() => setStrictPromptHoverId(option.id)}
-                    onPointerLeave={() => setStrictPromptHoverId(null)}
-                    onFocus={() => setStrictPromptHoverId(option.id)}
-                    onBlur={() => setStrictPromptHoverId(null)}
-                    onClick={() => chooseStrictPromptOption(option.id)}
-                  >
-                    {optionLabel(state, t, option)}
-                  </button>
-                );
-              })}
+          <div className="mt-[0.3rem] flex flex-wrap items-center gap-[0.24rem]" data-testid="strict-prompt-actions">
             {strictPromptMulti ? (
               <button
                 type="button"
                 className={smallNeutralButton}
+                data-testid="strict-prompt-clear"
                 onClick={() => setStrictPromptSelection([])}
               >
                 {t("rules.ui.cancel") ?? "Cancel"}
@@ -3264,12 +3446,13 @@ export function BoardInteractionProvider({
                 {t("rules.ui.skip") ?? "Skip"}
               </button>
             ) : null}
-            {strictPromptMulti ? (
+            {strictPromptMulti &&
+            strictPromptSelection.length >= promptSelectionBounds(strictPrompt).min &&
+            strictPromptSelection.length < promptSelectionBounds(strictPrompt).max ? (
               <button
                 type="button"
                 className={smallBlueButton}
                 data-testid="strict-prompt-confirm"
-                disabled={!canConfirmPromptSelection(strictPrompt, strictPromptSelection)}
                 onClick={confirmStrictPromptSelection}
               >
                 {t("rules.ui.confirm") ?? "Confirm"}
@@ -3332,7 +3515,7 @@ export function BoardInteractionProvider({
         session={dragSession}
         deckPositionActive={drag.overZone === "mainDeck" || drag.overZone === "runeDeck"}
       />
-      <TargetArrowOverlay state={state} viewerId={viewerId} live={drag.active} />
+      <TargetArrowOverlay state={state} viewerId={viewerId} live={drag.active} aim={strictAimArrow} />
       {armedAction.kind === "target" ? (
         <div
           data-target-selection-overlay="true"

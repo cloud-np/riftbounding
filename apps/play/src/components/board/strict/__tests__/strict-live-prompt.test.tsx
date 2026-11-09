@@ -13,6 +13,8 @@ import { redactRoomForViewer } from "@rift/sync";
 import { BoardInteractionProvider } from "@/components/board/interaction";
 import { ChainSlot } from "@/components/board/chain";
 import { GameBoardView } from "@/components/board/layout/GameBoardView";
+import { aimTargetForIds } from "@/components/board/hover/TargetArrowOverlay";
+import { promptOptionMatchIds } from "../strict-interaction";
 
 import { settle } from "../../../../../../../packages/rules/test/cards/sfd/helpers";
 import { addPool, put } from "../../../../../../../packages/rules/test/rules/engine-r4/d/helpers";
@@ -137,7 +139,7 @@ function renderBoard(room: Room): string {
 }
 
 describe("live strict board prompt (Azir Sand Soldier Weaponmaster)", () => {
-  it("shows the production banner, chips and board highlights for the real prompt", () => {
+  it("shows the production banner and board highlights for the real prompt", () => {
     const fixture = livePromptRoom();
     const view = humanView(fixture.room);
     const html = renderBoard(view);
@@ -146,10 +148,17 @@ describe("live strict board prompt (Azir Sand Soldier Weaponmaster)", () => {
     expect(html).toContain('data-testid="strict-prompt-banner"');
     expect(html).toContain("Sand Soldier");
     expect(html).toContain("Choose a target");
-    expect(html).toContain('data-testid="strict-prompt-chip"');
-    expect(html).toContain("Spinning Axe");
-    expect(html).toContain("Guardian Angel");
+    expect(html).toContain("drag the arrow");
+    expect(html).not.toContain('data-testid="strict-prompt-chip"');
+    expect(html).not.toContain('data-testid="strict-prompt-chips"');
     expect(html).toContain(`data-attached-card-id="${fixture.axeId}"`);
+    expect(html).toContain('data-strict-attachment-fan="true"');
+    const optionIds = promptOptionMatchIds(fixture.prompt);
+    expect(aimTargetForIds([fixture.axeId], optionIds)).toEqual({
+      targetId: fixture.axeId,
+      status: "valid",
+    });
+    expect(aimTargetForIds(["not-an-option"], optionIds).status).toBe("invalid");
     expect(html).toMatch(/(?<!\[)data-strict-prompt-option="true"/u);
     expect(((html.match(/(?<!\[)data-strict-prompt-option="true"/gu) ?? []).length)).toBeGreaterThanOrEqual(
       fixture.prompt.options?.length ?? 0,

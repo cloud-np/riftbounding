@@ -47,6 +47,7 @@ export {
   strictExplainIllegal,
   strictHiddenCards,
   strictLegalIntents,
+  strictTargetOptions,
   strictTurnState,
   strictWhoMayAct,
 } from "./strict/view";

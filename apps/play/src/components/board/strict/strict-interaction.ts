@@ -29,6 +29,7 @@ export const OBJECT_PROMPT_KINDS: ReadonlySet<string> = new Set([
   "choose-target",
   "choose-card",
   "choose-battlefield",
+  "choose-player",
 ]);
 
 const BOARD_ZONES: ReadonlySet<string> = new Set([
@@ -143,18 +144,19 @@ export function promptOptionMatchIds(prompt: Prompt): Set<string> {
   const ids = new Set<string>();
   for (const option of prompt.options ?? []) {
     if (option.disabled) continue;
-    for (const id of [option.id, option.cardId, option.objectId, option.zone]) {
+    for (const id of [option.id, option.cardId, option.objectId, option.zone, option.playerId]) {
       if (typeof id === "string" && id.length > 0) ids.add(id);
     }
   }
   return ids;
 }
 
-/** True when at least one option is a visible board card or a board zone. */
+/** True when at least one option is a visible board card, board zone or player seat. */
 export function promptHasBoardTargets(room: Room, prompt: Prompt): boolean {
   if (!promptIsObjectPrompt(prompt)) return false;
   for (const option of prompt.options ?? []) {
     if (option.disabled) continue;
+    if (option.playerId) return true;
     if (option.zone && BOARD_ZONES.has(option.zone)) return true;
     for (const id of [option.cardId, option.objectId, option.id]) {
       if (typeof id === "string" && id.length > 0) {
@@ -226,6 +228,39 @@ export function hideDropZones(
   return new Set(entry?.locations ?? []);
 }
 
+/** The board anchor id for a prompt option (card, attached gear, battlefield or player seat). */
+export function promptOptionAnchor(option: PromptOption): string {
+  return option.cardId ?? option.objectId ?? option.zone ?? option.playerId ?? option.id;
+}
+
+/** Tab/arrow keyboard cycling over the prompt's board options. */
+export function nextPromptOptionAnchor(
+  prompt: Prompt,
+  currentAnchorId: string | null,
+  delta: number,
+): string | null {
+  const options = (prompt.options ?? []).filter((option) => !option.disabled);
+  if (options.length === 0) return null;
+  const anchors = options.map(promptOptionAnchor);
+  const current = currentAnchorId ? anchors.indexOf(currentAnchorId) : -1;
+  const next =
+    current < 0
+      ? delta >= 0
+        ? 0
+        : options.length - 1
+      : (current + delta + options.length) % options.length;
+  return anchors[next] ?? null;
+}
+
+/** The prompt option naming a player seat, or null. */
+export function promptOptionForPlayer(prompt: Prompt, playerId: string): PromptOption | null {
+  return (
+    (prompt.options ?? []).find(
+      (option) => !option.disabled && (option.playerId === playerId || option.id === playerId),
+    ) ?? null
+  );
+}
+
 /** `min`/`max` > one selection: clicks accumulate locally and one `rules_choose` is sent. */
 export function promptNeedsAccumulation(prompt: Prompt): boolean {
   const count = (prompt.options ?? []).filter((option) => !option.disabled).length;
@@ -259,6 +294,14 @@ export function canConfirmPromptSelection(prompt: Prompt, selected: readonly str
     selected.length >= min &&
     selected.length <= max &&
     selected.every((id) => offered.has(id))
+  );
+}
+
+/** Multi-target: the maximum selection locks itself (no extra Confirm click). */
+export function promptAutoConfirms(prompt: Prompt, selected: readonly string[]): boolean {
+  return (
+    promptNeedsAccumulation(prompt) &&
+    selected.length >= promptSelectionBounds(prompt).max
   );
 }
 

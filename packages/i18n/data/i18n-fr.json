@@ -1842,6 +1842,7 @@
    "rules.ui.hidePocket": "Cacher (face cachée)",
    "rules.ui.hideCost": "Coût : [A]",
    "rules.ui.hideDropHint": "Déposez ici pour cacher ; ou maintenez Alt en déposant sur le champ de bataille",
+   "rules.ui.targetAimInstruction": "Choisissez une cible : faites glisser la flèche vers une unité surlignée",
    "rules.ui.showdownAt": [
     "Confrontation à ",
     [

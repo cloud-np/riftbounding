@@ -8270,6 +8270,7 @@
     "hidePocket": "Hide (facedown)",
     "hideCost": "Cost: [A]",
     "hideDropHint": "Drop here to hide; or hold Alt while dropping on the battlefield",
+    "targetAimInstruction": "Choose a target: drag the arrow to a highlighted unit",
     "showdownAt": [
      "Showdown at ",
      [

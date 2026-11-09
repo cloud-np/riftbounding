@@ -177,7 +177,10 @@ export function GameCard({
             key={`attached-${attachedCard.id}`}
             aria-hidden={attachedPromptOption ? undefined : "true"}
             data-attached-card-id={attachedCard.id}
+            data-card-id={attachedPromptOption ? attachedCard.id : undefined}
+            data-drop-zone={attachedPromptOption ? zone : undefined}
             data-attached-card-rank={index}
+            data-strict-attachment-fan={attachedPromptOption ? "true" : undefined}
             data-strict-prompt-option={attachedPromptOption ? "true" : undefined}
             data-strict-prompt-hover={attachedPromptHovered ? "true" : undefined}
             role={attachedPromptOption ? "button" : undefined}
@@ -187,7 +190,9 @@ export function GameCard({
             }`}
             style={{
               inset: 0,
-              transform: `translate(${(index + 1) * 0.18}rem, ${-(index + 1) * 0.12}rem) scale(${0.98 - index * 0.015})`,
+              transform: attachedPromptOption
+                ? `translate(${(index + 1) * 0.95}rem, ${-(index + 1) * 0.62}rem) scale(${0.96 - index * 0.02})`
+                : `translate(${(index + 1) * 0.18}rem, ${-(index + 1) * 0.12}rem) scale(${0.98 - index * 0.015})`,
               transformOrigin: "92% 100%",
             }}
             onPointerEnter={(event) => {

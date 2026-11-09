@@ -9,8 +9,18 @@
  * context is fixed. Any throw (for example a redacted placeholder the layer does not expect)
  * degrades to `null` / a generic Verdict instead of breaking the board.
  */
-import type { LegalIntents, Room, Verdict, WhoMayAct } from "@rift/protocol";
-import { explainIllegal, legalIntents, turnState, whoMayAct, type RulesContext } from "@rift/rules";
+import type { Ability, LegalIntents, Room, Verdict, WhoMayAct } from "@rift/protocol";
+import {
+  activatedAbilitiesOf,
+  explainIllegal,
+  findActivatedAbility,
+  legalIntents,
+  lookupAbility,
+  requiredChoices,
+  turnState,
+  whoMayAct,
+  type RulesContext,
+} from "@rift/rules";
 import { createEngineRulesHost } from "./host";
 
 function readContext(room: Room): RulesContext {
@@ -86,9 +96,76 @@ export function strictHiddenCards(
   }
 }
 
+/** Legal object/zone targets of a card's play or activated abilities, for drag highlighting. */
+export interface StrictTargetOptions {
+  targetIds: string[];
+  targetZones: string[];
+}
+
+/**
+ * Enumerate the legal targets of `cardId` with one `requiredChoices` pass per ability, never one
+ * per hovered object. The client caches this at drag start; drop-time legality still belongs to
+ * the intent translators and the server.
+ */
+export function strictTargetOptions(
+  room: Room | null | undefined,
+  playerId: string,
+  cardId: string,
+): StrictTargetOptions {
+  if (!isStrictInGame(room)) return { targetIds: [], targetZones: [] };
+  try {
+    const host = createEngineRulesHost(readContext(room));
+    const located = host.findCard(room, cardId);
+    if (!located) return { targetIds: [], targetZones: [] };
+    const info = host.cardInfo(room, cardId);
+    const abilities: Ability[] = [];
+    const targetIds = new Set<string>();
+    const targetZones = new Set<string>();
+    if (["hand", "champion", "trash", "banished"].includes(located.zone)) {
+      const spell = lookupAbility(info?.name ?? located.card.name, "spell")?.ability;
+      if (spell) abilities.push(spell);
+    } else {
+      for (const entry of activatedAbilitiesOf(room, host, located)) {
+        if (entry.builtin === "equip") {
+          const zones = ["base", ...(host.battlefieldZones(room) as string[])];
+          for (const zone of zones) {
+            for (const card of host.zoneCards(room, playerId, zone)) {
+              const target = host.cardInfo(room, card.id);
+              if (card.id !== cardId && !card.hidden && target?.type.toLowerCase().includes("unit")) {
+                targetIds.add(card.id);
+              }
+            }
+          }
+          continue;
+        }
+        if (entry.builtin || entry.manual) continue;
+        abilities.push(entry.ability);
+      }
+    }
+    for (const ability of abilities) {
+      const specs = requiredChoices(room, host, ability, {
+        controller: playerId,
+        sourceObjectId: cardId,
+        choices: {},
+      });
+      for (const spec of specs) {
+        if (!spec.targeted) continue;
+        for (const option of spec.options) {
+          for (const id of [option.id, option.objectId, option.cardId, option.zone]) {
+            if (typeof id === "string" && id.length > 0) targetIds.add(id);
+          }
+          if (option.zone) targetZones.add(option.zone);
+        }
+      }
+    }
+    return { targetIds: [...targetIds], targetZones: [...targetZones] };
+  } catch {
+    return { targetIds: [], targetZones: [] };
+  }
+}
+
 /** `whoMayAct`, or null outside a strict in-game room. */
-export function strictWhoMayAct(room: Room | null | undefined): WhoMayAct | null {
-  if (!isStrictInGame(room)) return null;
+export function strictWhoMayAct(room: Room | null | undefined): WhoMayAct | null {  if (!isStrictInGame(room)) return null;
   try {
     return whoMayAct(room);
   } catch {
