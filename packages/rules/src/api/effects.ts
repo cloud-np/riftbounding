@@ -65,6 +65,8 @@ export type { ActiveModifier } from "../layers/passives";
 export { bonusDamage } from "../layers/bonus";
 export { victoryScoreAdjustment } from "../layers/victory";
 export { enterReadyApplies } from "../layers/entry";
+export { ignoredKeywords } from "../layers/ignore";
+export type { IgnoreQuery } from "../layers/ignore";
 export { addContinuousEffect, addKeywordGrant, addMight, addPreventShield } from "../layers/mods";
 export { previewDamage } from "../replacements/preview";
 export { preventValue, replacementSources } from "../replacements/interceptor";

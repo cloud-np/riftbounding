@@ -11,15 +11,18 @@
  * - every item: the zones of its chosen targets are recorded (`targetSnapshot`) so resolution
  *   can tell a target that moved to or from a non-board zone (359.3.e.2 / 359.3.e.4).
  *
- * TODO(R2-effects): 383.3.b costs at the start of a trigger's effect are paid on finalization;
- * they are currently paid on resolution (`cost_then`).
+ * - 383.3.b / 404.1.b.1 / 405.2: a cost within instructions at the start of the effect (a leading
+ *   `cost_then`) is the trigger's base cost: its controller pays it now or declines, and an unpaid
+ *   trigger is removed (it never becomes a Finalized Chain Item, 383.3.b.1).
  */
-import type { Ability, ChainItem, ChoiceValue, Room } from "@rift/protocol";
+import type { Ability, ChainItem, ChoiceValue, Effect, Room } from "@rift/protocol";
 import type { RulesStepContext } from "../types";
 import { pushEvent } from "../types";
 import { lookupAbility } from "../cards/registry";
 import { removeChainItem } from "../timing/fepr/chain";
 import { requiredChoices } from "../effects/choices";
+import type { EffectExecutionContext } from "../effects/execute";
+import { costPayable, payInstructionCost } from "../effects/ops/cost-then";
 import { idsOf } from "../effects/env";
 import { findChainItem, locate } from "../effects/objects";
 import { EFFECTS_PROMPT_REASONS } from "../prompts/effects/reasons";
@@ -137,7 +140,54 @@ export function continueTriggerFinalization(room: Room, item: ChainItem, step: R
     pushEvent(step.events, { type: "prompt", playerId: item.controller, data: { kind: spec.kind, reason: EFFECTS_PROMPT_REASONS.triggerChoice } });
     return;
   }
+  const cost = leadingCost(ability);
+  if (cost && item.choices.$costPaid !== true) {
+    const context = costContext(room, item, step);
+    if (!costPayable(context, item.controller, cost.cost)) {
+      // 383.3.b.1: the cost must be paid to finalize the trigger.
+      removeTrigger(room, item, step, "trigger_removed", "383.3.b.1");
+      return;
+    }
+    rules.prompt = {
+      id: step.host.nextId("prompt"),
+      kind: "yes-no",
+      playerId: item.controller,
+      promptKey: "rules.prompt.payTriggerCost",
+      rule: "405.2",
+      sourceItemId: item.id,
+      options: [
+        { id: "yes", label: "Pay" },
+        { id: "no", label: "Decline" },
+      ],
+      min: 1,
+      max: 1,
+      data: { reason: EFFECTS_PROMPT_REASONS.triggerChoice, itemId: item.id, stage: "cost" },
+    };
+    pushEvent(step.events, { type: "prompt", playerId: item.controller, data: { kind: "yes-no", reason: EFFECTS_PROMPT_REASONS.triggerChoice } });
+    return;
+  }
   snapshotTargets(room, item, step);
+}
+
+/** 383.3.b: the cost within instructions at the start of a trigger's effect. */
+export function leadingCost(ability: Ability): Extract<Effect, { op: "cost_then" }> | null {
+  if (ability.kind !== "triggered") return null;
+  const effect = ability.effect;
+  if (effect.op === "cost_then") return effect;
+  if (effect.op === "seq" && effect.effects[0]?.op === "cost_then") return effect.effects[0];
+  return null;
+}
+
+function costContext(room: Room, item: ChainItem, step: RulesStepContext): EffectExecutionContext {
+  return {
+    room,
+    step,
+    controller: item.controller,
+    itemId: item.id,
+    choices: item.choices,
+    ...(item.sourceObjectId ? { sourceObjectId: item.sourceObjectId } : {}),
+    ...(item.triggerEvent ? { event: item.triggerEvent } : {}),
+  };
 }
 
 /** 337.1 afterFinalize hook body. */
@@ -182,7 +232,17 @@ export function answerTriggerChoice(
   const itemId = typeof data.itemId === "string" ? data.itemId : "";
   const item = findChainItem(room, itemId);
   if (!item) return;
-  if (data.stage === "may") {
+  if (data.stage === "cost") {
+    const ability = abilityForItem(item);
+    const cost = ability ? leadingCost(ability) : null;
+    const yes = booleanAnswer ?? selected.includes("yes");
+    if (!yes || !cost || !payInstructionCost(costContext(room, item, step), item.controller, cost.cost)) {
+      // 405.2 / 405.2.a: a declined trigger cost removes it (not countered).
+      removeTrigger(room, item, step, "trigger_declined", "405.2");
+      return;
+    }
+    item.choices.$costPaid = true;
+  } else if (data.stage === "may") {
     const yes = booleanAnswer ?? selected.includes("yes");
     if (!yes) {
       // 383.3.a.2 / 386.2.b: declined → removed, considered not to have triggered.

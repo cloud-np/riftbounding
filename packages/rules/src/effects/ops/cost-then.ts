@@ -100,6 +100,13 @@ registerEffectOp("cost_then", (effect, context) => {
   const machine = context.machine;
   if (!machine) return RESOLVED;
   const player = playersOf(context, effect.player)[0] ?? context.controller;
+  // 383.3.b: a triggered ability's leading cost was paid when it finalized.
+  if (machine.env.choices.$costPaid === true && machine.env.vars.$leadingCostUsed !== true) {
+    machine.env.vars.$leadingCostUsed = true;
+    recordOutcome(context, [], true);
+    machine.push({ effect: effect.effect });
+    return RESOLVED;
+  }
   if (!costPayable(context, player, effect.cost)) {
     recordOutcome(context, [], false);
     return RESOLVED;

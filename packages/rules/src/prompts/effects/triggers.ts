@@ -32,12 +32,13 @@ registerPromptHandler(EFFECTS_PROMPT_REASONS.triggerChoice, ({ room, prompt, ans
   const selected = selectedOptionIds(prompt, answer);
   const data = (prompt.data ?? {}) as Record<string, unknown>;
   if (rules.prompt?.id === prompt.id) rules.prompt = null;
+  const yesNo = data.stage === "may" || data.stage === "cost";
   answerTriggerChoice(
     room,
     step,
     data,
-    data.stage === "may" ? selected : selectedObjectIds(prompt, selected),
-    data.stage === "may" ? booleanOf(answer, selected) : undefined,
+    yesNo ? selected : selectedObjectIds(prompt, selected),
+    yesNo ? booleanOf(answer, selected) : undefined,
   );
   return { ok: true };
 });

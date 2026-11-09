@@ -35,6 +35,9 @@ export function evalContextOf(context: EffectExecutionContext): EvalContext {
     controller: context.controller,
     choices: { ...(context.choices ?? {}) },
     vars: {},
+    ...(context.sourceObjectId ? { sourceObjectId: context.sourceObjectId } : {}),
+    ...(context.itemId ? { itemId: context.itemId } : {}),
+    ...(context.event ? { event: context.event } : {}),
   };
   return { room: context.room, host: context.step.host, env };
 }
