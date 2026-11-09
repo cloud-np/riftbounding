@@ -717,8 +717,9 @@ Remaining:
   applied costs (430.3/204.4.b.1), effect-driven plays placed during a resolution (420.3),
   abilities other players may activate (378/381), card-type-filtered discard costs; mixed-symbol
   Power costs are processed as [C] (RULES-QUESTION 131.3.a).
-- **Effect-driven moves** do not apply 449.2.a/464.1 or the 449.2.c recall fallback (only
-  Standard Moves and Unit plays consult `combatBarsDestination`).
+- Follow-up fix: effect-driven moves now apply 449.2.a/464.1 and the 449.2.c recall fallback
+  for a Unit that cannot become present at its destination (451.2 included); Standard Move
+  restrictions (144.1/144.2/144.4) still never apply to effect moves.
 - `rules_*` intents do not participate in the engine's rewind history; strict multiplayer
   rewind is rejected.
 - Burn Out repetition is bounded per `drawCards` call (100 iterations) but a 3+ player room with

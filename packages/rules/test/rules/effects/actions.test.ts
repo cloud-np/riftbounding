@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { effectiveMight, xpOf } from "../../../src";
+import { effectiveMight, executeEffect, xpOf } from "../../../src";
 import { scenario } from "../../scenarios/dsl";
+import { table } from "../combat/helpers";
 import { boardOf, eventTypes, place, registerAll, run, spell, zoneNames, zoneOf } from "./helpers";
 
 describe("game actions — draw/exhaust/ready/recycle [R414–R417]", () => {
@@ -167,6 +168,46 @@ describe("game actions — move/recall/stun/buff/counter [R421][R424][R426][R427
     const s = scenario();
     const unit = place(s, "p1", "Treasure Hunter", "battlefieldA");
     expect(eventTypes(run(s, { op: "move", target: { targetRef: "obj:" + unit.id }, to: "battlefieldA" }).events)).not.toContain("move");
+  });
+
+  it("[R421.2][R144.2][R144.4.c] an effect Move ignores Standard Move readiness, exhaustion, Ganking and Main-Phase/closed-state gates", () => {
+    const s = scenario();
+    const unit = place(s, "p1", "Treasure Hunter", "battlefieldB", { exhausted: true });
+    const { events } = run(s, { op: "move", target: { targetRef: "obj:" + unit.id }, to: "battlefieldA" });
+    // No 144.4.c Ganking needed (battlefield → battlefield) and no 144.2 exhaust cost was paid.
+    expect(zoneOf(s, unit.id)).toBe("battlefieldA");
+    expect(eventTypes(events)).toContain("move");
+    expect(s.host.findCard(s.room, unit.id)?.card.exhausted).toBe(true);
+  });
+
+  it("[R449.2.c][R451.2] an impossible effect Move to a battlefield with units of two other players Recalls instead", () => {
+    const t = table("free_for_all_3");
+    const mover = t.place("p1", "Clockwork Keeper", "battlefieldB", "mover");
+    t.place("p2", "Clockwork Keeper", "battlefieldA", "crowd-2");
+    t.place("p3", "Clockwork Keeper", "battlefieldA", "crowd-3");
+    const step = t.step();
+    executeEffect(
+      { op: "move", target: { targetRef: `obj:${mover.id}` }, to: "battlefieldA" },
+      { room: t.room, step, controller: "p1" },
+    );
+    expect(t.host.findCard(t.room, mover.id)?.zone).toBe("base");
+    expect(step.events.filter((event) => event.type === "move")).toHaveLength(0);
+    expect(step.events.find((event) => event.type === "recall")).toMatchObject({ cardId: mover.id });
+  });
+
+  it("[R449.2.a][R449.2.c][R464.1] an effect Move into a Staged Combat (non-participant) Recalls instead", () => {
+    const t = table("free_for_all_3");
+    const mover = t.place("p1", "Clockwork Keeper", "battlefieldB", "mover");
+    t.place("p2", "Clockwork Keeper", "battlefieldA", "staged-2");
+    t.room.rules!.staged.combats = ["battlefieldA"];
+    const step = t.step();
+    executeEffect(
+      { op: "move", target: { targetRef: `obj:${mover.id}` }, to: "battlefieldA" },
+      { room: t.room, step, controller: "p1" },
+    );
+    expect(t.host.findCard(t.room, mover.id)?.zone).toBe("base");
+    expect(step.events.filter((event) => event.type === "move")).toHaveLength(0);
+    expect(step.events.find((event) => event.type === "recall")).toMatchObject({ cardId: mover.id });
   });
 
   it("[R457][R458.1][R460.1] a Recall is not a Move and keeps damage/statuses", () => {

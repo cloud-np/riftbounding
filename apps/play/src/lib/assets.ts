@@ -11,7 +11,9 @@
 import {
   buildCardImageUrl,
   configureAssetBases,
+  resolveCard,
   slotToSize,
+  tokenArtOf,
 } from "@rift/cards";
 import type { ImageSlot } from "@rift/cards";
 
@@ -89,6 +91,56 @@ export function cardBackUrl(slot: CardBackSlot = "deck"): string {
 export function tokenImageUrl(name: string, thumb = false): string {
   const file = name.trim().replace(/[^A-Za-z0-9]+/gu, "");
   return thumb ? staticAsset(`tokens/thumbs/${file}.webp`) : staticAsset(`tokens/${file}.webp`);
+}
+
+/**
+ * Token art through the catalog's single token-art resolver (`tokenArtOf`, 143307/582436).
+ * The catalog path (`/tokens/SandSoldier.webp`, or `/cards/RAD-T02.webp` for Bomb) is served
+ * from the same local static tree as the board token presets.
+ */
+export function tokenArtUrl(name: string, thumb = false): string {
+  const catalog = tokenArtOf(name);
+  if (!catalog) return tokenImageUrl(name, thumb);
+  const path = catalog.replace(/^\/+/u, "");
+  if (thumb && path.startsWith("tokens/")) {
+    return staticAsset(path.replace(/^tokens\//u, "tokens/thumbs/"));
+  }
+  return staticAsset(path);
+}
+
+/** The card fields the art resolver reads (a `CardInstance` is assignable). */
+export interface CardArtInput {
+  name?: string;
+  source?: string;
+  cardCode?: string | null;
+  imageUrl?: string | null;
+}
+
+/**
+ * Card art for a board/chain/pile/hover card: token cards use token art, every other card
+ * uses the catalog image (resolving a name-only strict chain snapshot first). This is the one
+ * resolver shared by `CardArt`, the hover preview and the pile viewer, so token art cannot
+ * diverge between them.
+ */
+export function cardArtUrl(
+  card: CardArtInput,
+  profile: CardImageProfile = "board",
+  options: { tokenArt?: string; tokenThumb?: boolean } = {},
+): string {
+  if (card.source === "token") {
+    return options.tokenArt ?? tokenArtUrl(card.name ?? "", options.tokenThumb ?? profile === "thumb");
+  }
+  const needCatalog = (!card.cardCode || !card.imageUrl) && (card.name ?? "").trim().length > 0;
+  const resolved = needCatalog ? resolveCard(card.cardCode, card.name) : undefined;
+  return cardImageUrl(
+    resolved
+      ? {
+          cardCode: card.cardCode ?? resolved.id,
+          imageUrl: card.imageUrl ?? resolved.imageUrl,
+        }
+      : card,
+    profile,
+  );
 }
 
 /** Manifest icon path (`icons/<name>.svg|webp`). */

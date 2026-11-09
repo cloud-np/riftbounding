@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { createTranslator } from "@rift/i18n";
 import type { CardInstance } from "@rift/protocol";
 
-import { cardImageUrl } from "@/lib/assets";
+import { cardArtUrl } from "@/lib/assets";
 
 const t = createTranslator("en");
 
@@ -105,7 +105,7 @@ export function PileViewer({
                   <div className="relative aspect-[63/88] w-full overflow-hidden bg-[#0a1422]">
                     {/* eslint-disable-next-line @next/next/no-img-element -- card art comes from the CDN */}
                     <img
-                      src={cardImageUrl(card, "thumb")}
+                      src={cardArtUrl(card, "thumb")}
                       alt={card.name}
                       loading="lazy"
                       decoding="async"
