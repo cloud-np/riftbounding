@@ -9,6 +9,7 @@
 import { useLocalGameSettings } from "../settings/settings-values";
 import { useAnimationLevel } from "../theme/motion";
 import { useBoardCustomization, type RuntimeCustomization } from "./customization";
+import { SafeImg } from "../card/SafeImg";
 
 /** Engraved lattice: dark groove + light lip offset by 1px, with rune studs on the crossings. */
 const ENGRAVING =
@@ -60,8 +61,7 @@ function PlaymatHalf({
       }
     >
       {playmat ? (
-        // eslint-disable-next-line @next/next/no-img-element -- cosmetic playmat from the same-origin asset tree
-        <img
+        <SafeImg
           src={playmat.src}
           alt=""
           draggable={false}

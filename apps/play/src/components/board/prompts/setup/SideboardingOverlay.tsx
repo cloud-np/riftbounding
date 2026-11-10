@@ -27,6 +27,7 @@ import {
   resolveSideboardSkipControlState,
   sideboardSkipRows,
 } from "./sideboard-skip";
+import { SafeImg } from "../../card/SafeImg";
 
 const t = createTranslator("en");
 
@@ -191,8 +192,7 @@ function entryArt(entry: DecklistEntry) {
   if (!card) return null;
   const instance = cardToInstance(card, "sideboard");
   return (
-    // eslint-disable-next-line @next/next/no-img-element -- catalog card art
-    <img
+    <SafeImg
       src={card.imageUrl}
       alt={entry.name}
       loading="lazy"

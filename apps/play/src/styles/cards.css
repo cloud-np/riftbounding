@@ -1094,3 +1094,10 @@ img[data-rift-image-kind="card-back"][data-art-state="loaded"] {
     opacity: 1;
   }
 }
+
+/* Never show alt text / broken-image glyph while art is loading (procedural face sits beneath). */
+img[data-art-state="loading"],
+img[data-img-state="loading"],
+img[data-img-state="failed"] {
+  visibility: hidden;
+}

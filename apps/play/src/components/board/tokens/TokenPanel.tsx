@@ -9,6 +9,7 @@ import type { Zone } from "@rift/protocol";
 import { useBoardInteractionOptional } from "../interaction/context";
 import { playBoardSound } from "../interaction/sfx";
 import { filterTokenPresets, tokenPresetsForZone } from "./token-presets";
+import { SafeImg } from "../card/SafeImg";
 
 const t = createTranslator("en");
 
@@ -119,8 +120,7 @@ export function TokenPanel({ zone, owner = "self", className }: TokenPanelProps)
               setOpen(false);
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element -- local token art */}
-            <img src={preset.panelImageUrl} alt="" className="h-full w-full object-cover" />
+            <SafeImg src={preset.panelImageUrl} alt="" className="h-full w-full object-cover" />
             <span className="pointer-events-none absolute left-1/2 bottom-[calc(100%+0.16rem)] z-20 inline-flex -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-[0.1rem] border border-[rgba(171,191,238,0.34)] bg-[rgba(17,30,50,0.96)] px-[0.3rem] py-[0.13rem] text-[0.5rem] font-semibold leading-none tracking-[0.035em] text-[#dbe7ff] opacity-0 shadow-[0_8px_18px_rgba(3,8,20,0.4)] transition-opacity duration-120 group-hover/token-option:opacity-100">
               {preset.name}
             </span>

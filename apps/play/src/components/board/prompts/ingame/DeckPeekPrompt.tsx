@@ -25,6 +25,7 @@ import {
   type DeckPeekZone,
 } from "./deck-peek-state";
 import type { GameActionIntent } from "../../slot-types";
+import { SafeImg } from "../../card/SafeImg";
 
 const t = createTranslator("en");
 
@@ -714,8 +715,7 @@ export function DeckPeekPrompt({
                     </button>
                   )}
                   <div className="relative aspect-[63/88] w-full overflow-hidden bg-[#0a1422]">
-                    {/* eslint-disable-next-line @next/next/no-img-element -- card art from the CDN */}
-                    <img
+                    <SafeImg
                       src={cardImageUrl(card, "preview")}
                       alt={card.name}
                       loading="eager"
