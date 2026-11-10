@@ -119,16 +119,16 @@ findings, scratch probes), then merged into `r4-engine` and finally integrated h
 
 | Package | Files | Passed | Skipped / failed | Notes |
 | --- | ---: | ---: | --- | --- |
-| `@rift/rules` (default) | 177 | 2001 | 0 / 0 | no `[BUG]` skip remains; includes `test/registry/` (integrity, duplicates, legacy state) |
+| `@rift/rules` (default) | 190 | 2093 | 6 / 0 | 1 skipped file holds the six `[BUG]` repros (section 5); includes `test/edge-cases/`, auto-discovered `test/scenarios/tournament/` (10 scenarios, all passing) and `test/registry/` |
 | `@rift/rules` (host config) | 1 | 1 | 0 / 0 | |
-| `@rift/engine` | 23 | 174 | 0 / 0 | `.recon/oracle` present; includes strict rewind/repro |
-| `@rift/sync` | 6 | 58 | 0 / 0 | |
+| `@rift/engine` | 24 | 137 | 40 / 0 | 14 oracle files skip without the local-only `.recon/oracle`; strict host/gestures/rewind/repro run (and now run in CI) |
+| `@rift/sync` | 6 | 59 | 0 / 0 | includes per-seat auto-pass redaction |
 | `@rift/i18n` | 5 | 171 | 0 / 0 | includes the strict locale suite |
 | `@rift/cards` | 8 | 104 | 0 / 0 | includes the catalog keyword audit |
-| `realtime` | 8 | 76 | 0 / 0 | includes Practice-vs-Bot rewind/repro |
-| `play` | 52 | 354 | 0 / 0 | includes gesture/board strict tests and rewind visibility |
+| `realtime` | 8 | 77 | 0 / 0 | includes Practice-vs-Bot rewind/repro and auto-pass coverage |
+| `play` | 54 | 369 | 0 / 0 | includes auto-pass controls and the prompt soft-lock tests |
 
-Typecheck: `pnpm --filter @rift/rules typecheck` and root `pnpm typecheck` are clean (0 errors).
+Typecheck: root `pnpm typecheck` is clean in all 10 packages on a clean clone (without `.recon/oracle`).
 
 ### Rules coverage (`docs/rules-coverage.md`)
 
