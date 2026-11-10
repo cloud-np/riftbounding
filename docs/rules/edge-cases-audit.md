@@ -20,8 +20,8 @@ Base: `41ec263` (R4 play-test fixes). Rules coverage after this pass: 691 / 2321
 | `known-gaps.test.ts` | `it.skip("[BUG] …")` reproductions of the gaps left open |
 
 `progress.md` section 5 says no engine bugs are open. This audit found five rule divergences
-(fixed here), two UI soft-locks (outside this lane, not fixed), and three engine gaps that now
-have skipped reproductions.
+(fixed here), two UI soft-locks (outside this lane; both fixed at integration in `8085843`,
+see S1/S2), and three engine gaps that now have skipped reproductions.
 
 ## Ranked edge cases
 
@@ -31,9 +31,9 @@ reaches it today.
 
 | # | Edge case | Rule (quoted) | Status | Player impact | Test |
 | ---: | --- | --- | --- | --- | --- |
-| 1 | In a multiplayer room (PvP and Practice vs Bot), clicking an **opponent's** unit does not answer a target prompt | 312.1.b.1 "Players can always take and make choices for Limited Actions when instructed, regardless of Priority." | **soft-lock, UI (not fixed, lane)** | every game: any trigger or click-played spell that targets an enemy unit (Gust played by click, "When you play me, deal 2 to an enemy unit", …) | `softlock-prompts.test.ts` (engine input) |
+| 1 | In a multiplayer room (PvP and Practice vs Bot), clicking an **opponent's** unit does not answer a target prompt | 312.1.b.1 "Players can always take and make choices for Limited Actions when instructed, regardless of Priority." | **fixed at integration** (`8085843`: the prompt branch runs before the ownership check; `strict-prompt-softlocks.test.ts`) | every game: any trigger or click-played spell that targets an enemy unit (Gust played by click, "When you play me, deal 2 to an enemy unit", …) | `softlock-prompts.test.ts` (engine input) |
 | 2 | The Awaken Phase readied everything in one bulk call: "can't be readied" was ignored and "when I become ready" / "when you ready" never triggered there | 416.3.a "A player Readies all non-spell Game Objects they Control during the Awakening Phase on their turn." 054.1 "Cards that forbid actions or effects … supersede cards that allow or permit that same action or effect." | **fixed** | every turn, for the decks that run them: Maduli the Gatekeeper (scripted `implemented`, readied every turn), Fretful Feline (2 starter kits), Jayce, Hammer in Hand (kit champion), Irelia, Fervent, Pirate's Haven | `awaken.test.ts` |
-| 3 | A prompt whose every option is in the player's own **Main Deck or Trash** opens in board-click mode, where those cards cannot be clicked | 312.1.b.1 (above); 355.18 "If a spell or ability requires one or more players to make choices … they are made on resolution." | **soft-lock, UI (not fixed, lane)** | common: hard lock for Stacked Deck, Called Shot (deck, min 1); trash picks (Morbid Return, Cemetery Attendant, Soulgorger, Spectral Matron, The Harrowing) only via the Trash viewer's buttons; every Vision/Predict card (23) can only Skip, never recycle | `softlock-prompts.test.ts` |
+| 3 | A prompt whose every option is in the player's own **Main Deck or Trash** opens in board-click mode, where those cards cannot be clicked | 312.1.b.1 (above); 355.18 "If a spell or ability requires one or more players to make choices … they are made on resolution." | **fixed at integration** (`8085843`: pile options use the prompt dialog; `strict-prompt-softlocks.test.ts`) | common: hard lock for Stacked Deck, Called Shot (deck, min 1); trash picks (Morbid Return, Cemetery Attendant, Soulgorger, Spectral Matron, The Harrowing) only via the Trash viewer's buttons; every Vision/Predict card (23) can only Skip, never recycle | `softlock-prompts.test.ts` |
 | 4 | A hidden spell that plays a unit put it in base | 811.1.d.5 "If a hidden spell or a play effect of a hidden permanent causes you to play a unit, you must choose to play that unit at that battlefield." | **fixed** | common in Hidden decks: Sprite Call's 3 Might blocker now arrives at the contested battlefield | `hidden.test.ts` |
 | 5 | Bandle Tree's extra facedown card was refused | 107.3.b.1 "The maximum occupancy of a Facedown Zone can increase or decrease." | **fixed** | common: any game on Bandle Tree (a fixture-deck battlefield) with Hidden cards; also Bushwhack Trap's slot | `hidden.test.ts` |
 | 6 | Several attackers moved together; Backline ("I must be assigned combat damage last") in a live assignment; excess damage after lethal | 144.3 "Players may perform multiple Units' standard move simultaneously."; 826.3 "…assigned lethal damage after any other unit with the same controller…"; 467.2.c.6 "A player must obey all requirements and restrictions on damage assignment if able." | verified correct; Caitlyn, Patrolling and Soraka, Wanderer statuses corrected to `implemented` | every game with 2+ units in a fight; Caitlyn is in the fixture/preset decks | `combat.test.ts` |
@@ -57,10 +57,12 @@ reaches it today.
 
 A prompt the player cannot answer stops the game for both players. The engine side of both cases
 is sound: every prompt has options and a plain `rules_choose` with an option id answers it
-(`softlock-prompts.test.ts`). The defects are in the strict board's routing (`apps/play`, owned by
-another lane), so they are described here with the fix rather than changed.
+(`softlock-prompts.test.ts`). The defects were in the strict board's routing (`apps/play`, owned by
+another lane), so the audit described them with the fix; both were fixed at integration in
+`8085843` (`apps/play/.../strict/__tests__/strict-prompt-softlocks.test.ts`). The analysis below is
+kept for the record.
 
-### S1 — options only in the player's own Main Deck or Trash (hard lock for deck picks)
+### S1 — options only in the player's own Main Deck or Trash (hard lock for deck picks) — fixed
 
 - `StrictPromptHost.tsx:43` hides the dialog when `promptHasBoardTargets` is true.
 - `strict-interaction.ts:163` treats an option as a board target when `findCard(room, id)` finds
@@ -84,7 +86,7 @@ another lane), so they are described here with the fix rather than changed.
   `StrictPromptDialog`, which already lists card options by name and answers them.
   Keyboard Tab/Enter cycling (`BoardInteractionProvider.tsx:2939`) is the only current workaround.
 
-### S2 — the opponent's cards cannot be clicked to answer a prompt in multiplayer rooms
+### S2 — the opponent's cards cannot be clicked to answer a prompt in multiplayer rooms — fixed
 
 - `BoardInteractionProvider.tsx:1469`: `canActAsOwner = interactive && (isSelf || (mode !==
   "multiplayer" && !!dispatchAs))`. In strict rooms the click handler returns at `:1597` when

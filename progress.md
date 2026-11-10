@@ -1,8 +1,8 @@
 # Riftbounding strict rules engine: progress
 
-Living status file for humans and future agents. Numbers come from the final run of wave R4
-integration (branch `r4-integ2`, based on the fully merged `r4-engine`); regenerate the coverage
-docs rather than editing the tables below by hand.
+Living status file for humans and future agents. Numbers come from the final run of the R5
+player-experience wave (branch `claude/eloquent-faraday-gd595x`, on top of the R4 play-test fixes);
+regenerate the coverage docs rather than editing the tables below by hand.
 
 ## 1. Goal and process
 
@@ -83,6 +83,36 @@ findings, scratch probes), then merged into `r4-engine` and finally integrated h
   the strict rules panel is dev-only. Reports: `.orchestrator/reports/r4-fix-*`, `r4-gestures-*`,
   `r4-rewind.final.txt`.
 
+- **R5 player-experience wave (branch `claude/eloquent-faraday-gd595x`).** Four parallel lanes
+  (one git worktree each), merged and integrated by the orchestrator:
+  - **Auto-pass** ([`docs/rules/auto-pass.md`](docs/rules/auto-pass.md)): per-seat preferences
+    (`ownItems`, `responses`, `forcedPrompts`, `endTurn`, `hold`, one-shot "pass until end of turn"
+    / "until the opponent acts", "yes to all" for identical prompts) run inside the recorded intent
+    with the same verdicts as a manual pass/choose/end turn, so rewind/repro stay exact; defaults
+    are information-safe and the leaky modes are explicit opt-in (⚠). Preferences are redacted per
+    seat. Strict board panel, Shift+W, notices, `rules_set_auto_pass`. Decisions per fixture game:
+    203 → 191 (safe defaults) → 126 (everything on).
+  - **Edge-case audit** ([`docs/rules/edge-cases-audit.md`](docs/rules/edge-cases-audit.md)): fixed
+    Awaken readying each object (416.3.a, 054.1: "can't be readied", ready triggers), hidden spells
+    playing units at their battlefield (811.1.d.5), Bandle Tree's extra facedown slot (107.3.b.1),
+    no-op ready/exhaust events (416.1.c / 415.1.c); scripted Evelynn, Agony's Embrace and Elnuk
+    Herd; corrected stale statuses; `[BUG]` repros for the gaps left open (section 5).
+  - **Tournament scenarios** ([`docs/rules/scenarios.md`](docs/rules/scenarios.md)): a declarative
+    `*.scenario.ts` / `.json` format (position + readable steps + checkpoints, catalog names with
+    did-you-mean), a runner with readable step diffs and `expectFailure` (XFAIL/XPASS), vitest
+    auto-discovery of `tournament/` and `regressions/`, `pnpm --filter @rift/rules scenario`
+    (`run`, `convert` a strict repro window into a scenario, `make-repro`), and 10 illustrative
+    scenarios from Regional Qualifier top-cut decklists. They found two engine bugs, fixed at
+    integration: a Conquer ability triggered twice at the Final Point (473.2.c) and an "up to"
+    target answered with zero on play was asked again on resolution (355.5 / 355.13).
+  - **Architecture review**
+    ([`docs/reviews/architecture-extensibility-review.md`](docs/reviews/architecture-extensibility-review.md)):
+    15-dimension scorecard, top 10 extensibility issues and a refactor roadmap.
+  - **Integration** fixed: scenario positions/converter carry auto-pass preferences and the new
+    intents; the two UI soft-locks from the audit (enemy cards could not answer target prompts in
+    multiplayer rooms; prompts with deck/trash options were stuck in board-click mode); CI
+    (typecheck now passes on a clean clone without `.recon/oracle`, engine tests run in CI).
+
 ## 3. Current state
 
 ### Tests per package (final run of this branch)
@@ -102,27 +132,27 @@ Typecheck: `pnpm --filter @rift/rules typecheck` and root `pnpm typecheck` are c
 
 ### Rules coverage (`docs/rules-coverage.md`)
 
-666 / 2321 rule ids tested (28.7%); 1454 tagged test titles; 0 unknown ids
+692 / 2321 rule ids tested (29.8%); 1503 tagged test titles; 0 unknown ids
 (`node packages/rules/scripts/rules-coverage.mjs --check`).
 
 ### Card scripts (`docs/cards-coverage.md`)
 
-1090 playable names; **1090 scripted (100%)**, 1005 automated (92.2%), 0 unscripted.
+1090 playable names; **1090 scripted (100%)**, 1007 automated (92.4%), 0 unscripted.
 
 | Status | Cards | % |
 | --- | ---: | ---: |
-| implemented | 805 | 73.9% |
-| partial | 200 | 18.3% |
-| manual | 85 | 7.8% |
+| implemented | 816 | 74.9% |
+| partial | 191 | 17.5% |
+| manual | 83 | 7.6% |
 | unscripted | 0 | 0.0% |
 
 | Set | Total | Implemented | Partial | Manual | Unscripted |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Origins | 292 | 217 | 49 | 26 | 0 |
-| Spiritforged | 221 | 167 | 33 | 21 | 0 |
+| Origins | 292 | 222 | 45 | 25 | 0 |
+| Spiritforged | 221 | 168 | 32 | 21 | 0 |
 | Unleashed | 219 | 157 | 38 | 24 | 0 |
-| Vendetta | 167 | 121 | 46 | 0 | 0 |
-| Radiance | 168 | 121 | 33 | 14 | 0 |
+| Vendetta | 167 | 123 | 44 | 0 | 0 |
+| Radiance | 168 | 124 | 31 | 13 | 0 |
 | Proving Grounds | 23 | 22 | 1 | 0 | 0 |
 
 ### Self-play (final sweeps, default caps 80 turns / 4000 actions)
@@ -136,6 +166,10 @@ Typecheck: `pnpm --filter @rift/rules typecheck` and root `pnpm typecheck` are c
 maintainability pass: per-seed outcomes of the pass are identical to `r4-engine` `b1eb4f9`.)
 Latest sweep (after the play-test fixes): the bot can now pay optional costs such as Accelerate, which
 shifts a few catalog games (392 wins / 8 legal turn caps); still 0 stuck and 0 crashes.
+
+R5 (after every merge and integration fix, auto-pass off as before, seeds 1–50): `fixture` 50/50
+wins, avg 31.82 turns; `catalog` 49 wins + 1 legal turn cap, avg 40.14; 0 stuck, 0 crashes in both.
+The auto-pass sweeps (`SELFPLAY_AUTOPASS=default|all`) are in `docs/rules/auto-pass.md`.
 
 The six catalog turn caps (seeds 62, 143, 157, 268, 323, 338) are long but legal games; raise
 `SELFPLAY_MAX_TURNS` to finish them. The default 50-game fixture run is 50/50 wins, avg 30.88.
@@ -172,10 +206,20 @@ by R4-engine A-E are removed. Detail and card names are in the lane docs: `ogn-a
 
 ## 5. Known engine bugs
 
-**None open.** All 25 R3 `[BUG]` reproductions and all 17 R4 self-play seeds are unskipped and
-green; `packages/rules/test` contains no `it.skip`/`test.skip`. Every R4 lane's reproductions are
-kept as regression tests. The only remaining defects are design/interpretation questions (next
-section). The card-coverage report prints four warnings for token/marker scripts (`Bomb` twice,
+Six `[BUG]` reproductions are skipped (`packages/rules/test/edge-cases/known-gaps.test.ts`, from the
+R5 edge-case audit; each fails when unskipped):
+
+- 107.3.b.2: when a Facedown Zone's occupancy drops (Bushwhack Trap leaves), the excess facedown
+  card stays.
+- 437.1.a: Predict 2+ puts the kept cards back in their old order instead of any order.
+- 423.1.a: a discard cost inside a spell's instructions discards the newest card instead of asking
+  (latent: no printed card reaches this path today).
+- Per-turn history (section 4, gap 1) blocks Hunters' Circle, Lingering Animus and Hold 'Em, each
+  in 3 of the 24 starter kits (three repros).
+
+Also open, without a repro: manual-status cards (the §6.4 window) cannot act on the opponent's
+objects in PvP, so a manual card that affects an enemy can only be finished with Done (audit row
+14). All earlier R3/R4 reproductions remain unskipped regression tests. The card-coverage report prints four warnings for token/marker scripts (`Bomb` twice,
 `Equip`, `Shadow Clone`); they are not playable deck cards and do not affect coverage.
 
 ## 6. Data issues
@@ -224,10 +268,24 @@ section). The card-coverage report prints four warnings for token/marker scripts
 - 822.3: finalization does not re-check unit presence for a validated play.
 - 131.3.a: Power costs are stored as a count; mixed-symbol costs are processed as [C].
 - 103.4: which battlefield card sits in which zone is not stored (n-th zone = n-th seated player).
-- 479.4.c / EX[258] / EX[287]: official examples show negative Might; `effectiveMight` floors at 0.
 - 811.1.d.2: "explicitly restricts targeting" is signalled via `hiddenUnrestricted`.
+- 467.2.c.4: "excess damage" is not defined in the corpus and is not recorded (Vi, Piltover
+  Enforcer; Trapping Grounds; Yeti Brawler — audit row 15).
+- 811.1.b vs 411.1.a / 422.2: Hide is allowed in a Showdown Open State (the engine follows 811.1.b).
+- Auto-pass defaults (`docs/rules/auto-pass.md`): should `responses` / `endTurn` default to the
+  leaky "no legal response" modes as MTG Arena and LoR do? Should `ownItems` stay on by default?
+  Preferences are per game (not remembered across games) and auto-action log lines are English.
 
 ## 8. Next waves
+
+- **R5-infra (from the architecture review roadmap).** Delete the realtime fallback engine and
+  duplicate deck parsers, then a typed prompt-definition registry shared by rules, engine
+  gestures, bot and UI (the engine and UI `OBJECT_PROMPT_KINDS` sets already disagree), effect-op
+  definitions with stable ability ids, and a per-turn ledger; later separate strict from the
+  sandbox host. See `docs/reviews/architecture-extensibility-review.md`.
+- **R5-scenarios.** Replace the illustrative tournament scenarios with sourced ones once coverage
+  sites are reachable (this environment could not fetch them); route every play-tested bug through
+  `scenario convert` into `test/scenarios/regressions/`.
 
 - **R5-engine.** Top gaps from section 4: a per-turn history primitive (resources, deaths, XP,
   draws, conquests, excess damage, chosen objects, play locations), non-standard `Cost` parts
@@ -236,9 +294,10 @@ section). The card-coverage report prints four warnings for token/marker scripts
   components / minimums, effect-driven `play` (location, player, full/partial cost), copy (446),
   control change (435/190), 429.5.d multi-source attribution, and the Pendulum Blade move-trigger
   sequencing once the Riven test is updated.
-- **R5-cards.** Upgrade the remaining 200 partial / 85 manual scripts as capabilities land. Cards
+- **R5-cards.** Upgrade the remaining 191 partial / 83 manual scripts as capabilities land. Cards
   already unlocked by R4-engine E but not re-scripted: Katarina, Reckless; Bone Skewer; Edge of
-  Night; Elnuk Herd; Evelynn, Consuming / Agony's Embrace; Tornado Warrior; Ember Monk. Then the
+  Night; Evelynn, Consuming; Tornado Warrior; Ember Monk (Elnuk Herd and Evelynn, Agony's Embrace
+  are done). Then the
   older gaps (copy 446, base-Might "becomes", hand keyword grants, return-to-hand costs).
 - **R5-bot.** The bot can only be as good as legal-move coverage: every legal-intent hole is a
   card self-play can never exercise. Improve policy only after coverage (prefer progress over
@@ -255,6 +314,7 @@ section). The card-coverage report prints four warnings for token/marker scripts
   (layout, ids, helpers, reprints, statuses, tests, i18n, new keywords and sets).
 - Docs: `docs/RULES-ENGINE.md` (architecture, per-wave status, known limitations),
   `docs/rules/{play,combat,effects,int}.md` (per-domain), `docs/rules/{bot,bot-room,gestures,rewind}.md`,
+  `docs/rules/{auto-pass,scenarios,edge-cases-audit}.md` (R5), `docs/reviews/` (architecture review),
   `docs/rules/cards/*.md` (per-lane card reports: gaps, bugs, custom ids, status),
   `docs/rules-coverage.md`, `docs/cards-coverage.md`, `docs/cards-index.md` (generated name →
   status → script file → tests, plus every custom id), `packages/protocol/CHANGES.md` (wire changes
@@ -262,7 +322,11 @@ section). The card-coverage report prints four warnings for token/marker scripts
 - Commands:
   - `pnpm --filter @rift/rules test` (default + host)
   - `pnpm --filter @rift/rules typecheck`, `pnpm typecheck`
-  - `cd packages/engine && npx vitest run`
+  - `pnpm --filter @rift/engine test` (oracle suites skip without `.recon/oracle`;
+    `pnpm --filter @rift/engine typecheck:oracle` typechecks them where it exists)
+  - `pnpm --filter @rift/rules scenario run test/scenarios/tournament` (step-by-step trace),
+    `... scenario convert <repro.json> --at list|<i>`, `pnpm --filter @rift/rules interactions`
+    (auto-pass decision counts)
   - `pnpm --filter @rift/{sync,i18n} test`, `pnpm --filter realtime test`, `pnpm --filter play test`
   - `node packages/rules/scripts/rules-coverage.mjs --check`
   - `pnpm --filter @rift/rules coverage:rules` / `coverage:cards` / `coverage:check` (CI: stale
@@ -299,6 +363,7 @@ section). The card-coverage report prints four warnings for token/marker scripts
   `packages/i18n/data/i18n-*.json` catalogs (the strict locale suite derives `rules.*` from
   English). Late UI keys such as `sim.botBadge` live in `ui.patterns` with the full dotted key.
   `test/registry/` is the guardrail suite; `.github/workflows/ci.yml` runs everything.
+- Declarative scenarios (tournament positions, converted repros): `docs/rules/scenarios.md`.
 - Scenario DSL: `packages/rules/test/scenarios/dsl.ts`. The `extraCards` scenario option registers
   card objects for a test, e.g. `scenario({ extraCards: { p1: [...], p2: [...] } })`; see
   `test/cards/helpers.ts` (shared) and `test/cards/<lane>/helpers.ts` (lane-specific wrappers).
