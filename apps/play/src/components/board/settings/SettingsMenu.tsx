@@ -17,6 +17,8 @@ import {
   PREVIEW_SIZE_MIN,
   PREVIEW_SIZE_STEP,
   setLocalGameSettings,
+  type AnimationLevel,
+  type BoardCardStyle,
   useLocalGameSettings,
   type LocalGameSettings,
 } from "./settings-values";
@@ -91,6 +93,73 @@ function SettingsSlider({
     </label>
   );
 }
+
+interface SegmentedOption<T extends string> {
+  value: T;
+  label: string;
+}
+
+function SettingsSegmented<T extends string>({
+  id,
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  value: T;
+  options: readonly SegmentedOption<T>[];
+  onChange: (value: T) => void;
+}) {
+  return (
+    <div className="grid gap-[0.22rem]" role="group" aria-labelledby={`${id}-label`}>
+      <span
+        id={`${id}-label`}
+        className="text-[0.62rem] font-semibold text-[#dbe7ff]"
+      >
+        {label}
+      </span>
+      <div
+        data-settings-segmented={id}
+        className="grid gap-[0.2rem] rounded-[0.36rem] border border-[rgba(181,207,241,0.16)] bg-[rgba(6,13,26,0.6)] p-[0.16rem]"
+        style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}
+      >
+        {options.map((option) => {
+          const active = option.value === value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              aria-pressed={active}
+              data-settings-option={option.value}
+              onClick={() => onChange(option.value)}
+              className={
+                "rounded-[0.26rem] px-[0.3rem] py-[0.22rem] text-[0.56rem] font-bold uppercase tracking-[0.06em] transition-colors " +
+                (active
+                  ? "bg-[linear-gradient(180deg,rgba(125,195,255,0.4),rgba(70,120,190,0.36))] text-[#f3f8ff] shadow-[inset_0_0_0_1px_rgba(170,215,255,0.5)]"
+                  : "text-[#8fa6c8] hover:bg-[rgba(40,64,104,0.5)] hover:text-[#dbe7ff]")
+              }
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+const ANIMATION_OPTIONS: readonly SegmentedOption<AnimationLevel>[] = [
+  { value: "full", label: "Full" },
+  { value: "reduced", label: "Reduced" },
+  { value: "off", label: "Off" },
+];
+
+const BOARD_CARD_OPTIONS: readonly SegmentedOption<BoardCardStyle>[] = [
+  { value: "art", label: "Art" },
+  { value: "full", label: "Full card" },
+];
 
 /**
  * Game settings popover (`u9` in the original board chunk):
@@ -277,6 +346,33 @@ export function SettingsMenu({
                 `${values.previewSizePercent}%`
               }
               onChange={(value) => update({ previewSizePercent: value })}
+            />
+          </section>
+
+          <section
+            aria-labelledby="game-settings-presentation"
+            data-game-settings-presentation
+            className="grid gap-[0.45rem] border-t border-[rgba(181,207,241,0.14)] pt-2"
+          >
+            <h3
+              id="game-settings-presentation"
+              className="m-0 text-[0.56rem] font-bold uppercase tracking-[0.1em] text-[#7991b5]"
+            >
+              Presentation
+            </h3>
+            <SettingsSegmented
+              id="game-settings-board-cards"
+              label="Cards in play"
+              value={local.boardCardStyle}
+              options={BOARD_CARD_OPTIONS}
+              onChange={(boardCardStyle) => setLocalGameSettings({ boardCardStyle })}
+            />
+            <SettingsSegmented
+              id="game-settings-animations"
+              label="Animations & effects"
+              value={local.animationLevel}
+              options={ANIMATION_OPTIONS}
+              onChange={(animationLevel) => setLocalGameSettings({ animationLevel })}
             />
           </section>
 
