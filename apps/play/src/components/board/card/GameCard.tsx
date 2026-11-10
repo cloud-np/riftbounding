@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties, MouseEvent, PointerEvent as ReactPointerEvent, DragEvent as ReactDragEvent } from "react";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 
 import type { CardInstance, Zone } from "@rift/protocol";
 
@@ -13,12 +13,28 @@ import { AttachedCardFan } from "./AttachedCardFan";
 import { attachedFanWidth } from "./attachments";
 import { CardActionButtons } from "./CardActionButtons";
 import { CardBack } from "./CardBack";
+import { CardLabelStack } from "./CardLabelStack";
 import { GameCardFace } from "./GameCardFace";
+import { CardTokenFace } from "./CardTokenFace";
+import { cardMeta, currentMight } from "./card-meta";
+import { domainStyleVars } from "./ProceduralCardFace";
+import { useLocalGameSettings } from "../settings/settings-values";
+import { useAnimationLevel } from "../theme/motion";
 import { PingOverlay } from "../overlays/PingOverlay";
 import type { CardEvent, CardEventHandler, CardSide } from "./types";
 
 const CARD_BUTTON_CLASS =
-  "relative z-3 overflow-hidden w-(--card-width) min-w-(--card-width) h-(--card-height) rounded-(--card-radius-main) border border-transparent bg-transparent text-(--text-main) text-left p-[0.18rem] grid content-between gap-[0.12rem] shadow-none [transition:left_320ms_cubic-bezier(0.18,0.74,0.2,1),margin-left_320ms_cubic-bezier(0.18,0.74,0.2,1),transform_260ms_cubic-bezier(0.2,0.7,0.2,1),box-shadow_180ms_ease,opacity_160ms_ease] animate-[cardMaterialize_180ms_cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:animate-none origin-center focus:outline-none focus-visible:outline-none [&_small]:text-(--text-dim) [&_small]:text-(length:--card-body-size) [&_strong]:text-(length:--card-title-size) [&_strong]:leading-[1.18] group gb-local-board-hover-tone";
+  "gc-button relative z-3 w-(--gc-w,var(--card-width)) min-w-(--gc-w,var(--card-width)) h-(--gc-h,var(--card-height)) rounded-(--card-radius-main) border border-transparent bg-transparent text-(--text-main) text-left p-[0.18rem] grid content-between gap-[0.12rem] shadow-none [transition:left_320ms_cubic-bezier(0.18,0.74,0.2,1),margin-left_320ms_cubic-bezier(0.18,0.74,0.2,1),transform_260ms_cubic-bezier(0.2,0.7,0.2,1),box-shadow_180ms_ease,opacity_160ms_ease] animate-[cardMaterialize_180ms_cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:animate-none origin-center focus:outline-none focus-visible:outline-none [&_small]:text-(--text-dim) [&_small]:text-(length:--card-body-size) [&_strong]:text-(length:--card-title-size) [&_strong]:leading-[1.18] group gb-local-board-hover-tone";
+
+/** Zones whose cards render as art-crop tokens when `boardCardStyle` is "art". */
+function isTokenZone(zone: Zone): boolean {
+  return zone === "base" || zone === "runeArea" || /^battlefield/.test(zone);
+}
+
+/** Opponent zones inside the rotated player layer need a counter-rotation to read upright. */
+function needsUprightFlip(owner: CardSide, zone: Zone): boolean {
+  return owner === "opponent" && !/^battlefield/.test(zone);
+}
 
 export interface GameCardProps {
   card: CardInstance;
@@ -75,6 +91,9 @@ export function GameCard({
   className,
 }: GameCardProps) {
   const rotation = previewRotationDeg ?? (exhausted ? 90 : 0);
+  const { boardCardStyle } = useLocalGameSettings();
+  const animationLevel = useAnimationLevel();
+  const meta = useMemo(() => cardMeta(card), [card]);
   const mirrored = owner === "opponent";
   const resolvedLabels = labels ?? card.customLabels ?? [];
   const whiteCounter = typeof card.whiteCounter === "number" ? Math.trunc(card.whiteCounter) : 0;
@@ -82,6 +101,17 @@ export function GameCard({
   const resolvedMightBuff = mightBuff || Math.max(0, Math.trunc(card.temporaryMightBuff ?? 0));
   const attached = attachedCards.length;
   const interaction = useBoardInteractionOptional();
+  const tokenMode =
+    boardCardStyle === "art" &&
+    !faceDown &&
+    isTokenZone(zone) &&
+    (meta.kind === "unit" || meta.kind === "gear" || meta.kind === "rune");
+  const rulesObject = interaction?.slotProps?.state?.rules?.objects?.[card.id];
+  const resolvedDamage = damage || Math.max(0, Math.trunc(rulesObject?.damage ?? 0));
+  const resolvedMight = might ?? currentMight(meta.might, card, rulesObject);
+  const tokenHeight =
+    meta.kind === "rune" ? "calc(var(--card-width) * 0.9)" : "calc(var(--card-width) * 1.14)";
+  const tokenWidth = meta.kind === "rune" ? "calc(var(--card-width) * 0.82)" : undefined;
   const strictLocked = !!interaction?.strictView && !interaction?.strictManual;
   const resolvedPlayable =
     playable ??
@@ -137,15 +167,24 @@ export function GameCard({
 
   return (
     <div
-      className={"relative" + (className ? ` ${className}` : "")}
-      style={{ width: attachedFanWidth(attached), height: "var(--card-height)", ...style }}
+      className={"gc-root relative" + (className ? ` ${className}` : "")}
+      data-gc-style={tokenMode ? "token" : "full"}
+      data-anim={animationLevel}
+      style={{
+        width: attachedFanWidth(attached),
+        height: tokenMode ? tokenHeight : "var(--card-height)",
+        ...(tokenMode ? { ["--gc-h" as string]: tokenHeight } : null),
+        ...(tokenWidth ? { ["--gc-w" as string]: tokenWidth } : null),
+        ...domainStyleVars(meta),
+        ...style,
+      }}
     >
       <div
         data-card-rotation={rotation}
         className="card-pose-rotation relative motion-reduce:transition-none!"
         style={{
           width: "var(--card-width)",
-          height: "var(--card-height)",
+          height: tokenMode ? tokenHeight : "var(--card-height)",
           transitionDuration: "0.32s",
           transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
           ["--card-pose-rotation" as string]: rotation,
@@ -154,7 +193,7 @@ export function GameCard({
           opacity: dimmed ? 0.45 : undefined,
         }}
       >
-        <AttachedCardFan cards={attachedCards} zone={zone} owner={owner} onCardEvent={onCardEvent} />
+        <AttachedCardFan cards={attachedCards} zone={zone} owner={owner} onCardEvent={onCardEvent} token={tokenMode} />
         <div
           className="gb-card-action-hover-scope group relative w-full h-full pointer-events-auto"
           style={{ zIndex: attached + 1 }}
@@ -184,7 +223,8 @@ export function GameCard({
               type="button"
               disabled={readOnly && !interactive}
               draggable={canDrag}
-              className={CARD_BUTTON_CLASS}
+              className={CARD_BUTTON_CLASS + (tokenMode ? " overflow-visible" : " overflow-hidden")}
+              style={tokenWidth ? { marginInline: "auto" } : undefined}
               data-drop-zone={zone}
               data-card-id={card.id}
               data-board-card-visual="true"
@@ -193,6 +233,9 @@ export function GameCard({
               data-visual-dragging="false"
               data-exhausted={exhausted}
               data-face-down={faceDown}
+              data-gc-token={tokenMode ? "true" : undefined}
+              data-gc-selected={selected ? "true" : undefined}
+              data-gc-targetable={resolvedTargetable && !selected ? "true" : undefined}
               data-strict-playable={resolvedPlayable ? "true" : undefined}
               data-strict-prompt-option={promptOption ? "true" : undefined}
               data-strict-prompt-hover={promptHovered ? "true" : undefined}
@@ -215,6 +258,23 @@ export function GameCard({
                 <div className="absolute inset-0 overflow-hidden rounded-(--card-radius-main)">
                   <CardBack slot={backSlot} insetPx={0} side={owner} />
                 </div>
+              ) : tokenMode ? (
+                <>
+                  <CardTokenFace
+                    card={card}
+                    side={owner}
+                    profile={profile}
+                    exhausted={exhausted}
+                    might={resolvedMight}
+                    damage={resolvedDamage}
+                    flip={needsUprightFlip(owner, zone)}
+                  />
+                  {resolvedLabels.length > 0 ? (
+                    <div className="pointer-events-none absolute inset-0 overflow-visible">
+                      <CardLabelStack labels={resolvedLabels} insetPx={0} className="z-3" />
+                    </div>
+                  ) : null}
+                </>
               ) : (
                 <GameCardFace
                   card={card}
@@ -222,6 +282,7 @@ export function GameCard({
                   labels={resolvedLabels}
                   mirrored={mirrored}
                   side={owner}
+                  exhausted={exhausted}
                 />
               )}
             </button>
@@ -248,21 +309,20 @@ export function GameCard({
               </span>
             ) : null}
 
-            {selected ? (
+            {!tokenMode && resolvedPlayable && !selected ? (
+              <div aria-hidden="true" className="gc-ring gc-ring-playable pointer-events-none absolute -inset-[2px] z-4" />
+            ) : null}
+            {!tokenMode && selected ? (
               <div
                 aria-hidden="true"
-                className="game-selection-target-focus pointer-events-none absolute -inset-[2px] z-6 rounded-[calc(var(--card-radius-main)+2px)] border"
+                className="gc-ring gc-ring-selected pointer-events-none absolute -inset-[2px] z-6"
               />
             ) : null}
-            {resolvedTargetable && !selected ? (
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -inset-[2px] z-5 rounded-[calc(var(--card-radius-main)+2px)] border border-[var(--game-selection-focus-border)]"
-                style={{ boxShadow: "0 0 16px var(--game-selection-focus-glow)" }}
-              />
+            {!tokenMode && resolvedTargetable && !selected ? (
+              <div aria-hidden="true" className="gc-ring gc-ring-target pointer-events-none absolute -inset-[2px] z-5" />
             ) : null}
 
-            {resolvedMightBuff > 0 ? (
+            {!tokenMode && resolvedMightBuff > 0 ? (
               <span className="pointer-events-none absolute bottom-[0.12rem] left-[0.12rem] z-20 inline-flex items-center gap-[0.1rem] rounded-[0.16rem] border border-[rgba(139,222,189,0.6)] bg-[rgba(19,55,46,0.92)] px-[0.2rem] py-[0.06rem] text-(length:--card-label-chip-font-size) font-bold uppercase tracking-[0.04em] text-[#c8f6e3] shadow-[0_4px_10px_rgba(3,20,16,0.45)]">
                 Buff {resolvedMightBuff}
               </span>
@@ -323,16 +383,16 @@ export function GameCard({
               </span>
             ) : null}
 
-            {typeof might === "number" && might !== card.might ? (
+            {!tokenMode && typeof might === "number" && might !== card.might ? (
               <span className="pointer-events-none absolute right-[0.1rem] top-[0.1rem] z-20 inline-flex items-center gap-[0.06rem] rounded-[0.16rem] border border-[rgba(143,190,255,0.58)] bg-[rgba(15,35,62,0.94)] px-[0.2rem] py-[0.05rem] text-(length:--card-label-chip-font-size) font-black leading-none text-[#dcecff] shadow-[0_3px_8px_rgba(3,8,20,0.48)]">
                 <span aria-hidden="true" className="text-[#8fc6ff]">⚔</span>
                 {might}
               </span>
             ) : null}
 
-            {damage > 0 ? (
+            {!tokenMode && resolvedDamage > 0 ? (
               <span className="pointer-events-none absolute bottom-[0.1rem] right-[0.1rem] z-20 inline-flex items-center justify-center rounded-[0.16rem] border border-[rgba(255,154,154,0.7)] bg-[rgba(74,18,24,0.94)] px-[0.22rem] py-[0.05rem] text-(length:--card-label-chip-font-size) font-black leading-none text-[#ffdada] shadow-[0_3px_8px_rgba(20,3,6,0.55)]">
-                −{damage}
+                −{resolvedDamage}
               </span>
             ) : null}
           </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { CardInstance, Room, RoomPlayer } from "@rift/protocol";
 import { createTranslator } from "@rift/i18n";
 
@@ -10,6 +11,9 @@ import { useBoardInteractionOptional } from "../interaction/context";
 import { hideDropZones } from "../strict/strict-interaction";
 import { TokenPanel } from "../tokens/TokenPanel";
 import { cardImageUrl } from "@/lib/assets";
+import { useAnimationLevel } from "../theme/motion";
+import { battlefieldState, type BattlefieldControlState } from "./battlefield-state";
+import { BattlefieldCorners } from "./BattlefieldFrame";
 
 const t = createTranslator("en");
 
@@ -64,6 +68,46 @@ export function computeBattlefieldLayout(options: {
         : "minmax(0,1fr) minmax(0,0fr) minmax(0,1fr)"),
     columnGapRem: 0.24,
   };
+}
+
+/**
+ * Battlefield marker art. The CDN image is optional: when it is missing, errors, or the card has
+ * no code, a procedural gradient + sigil + name plate stands in so the marker never looks broken.
+ */
+function MarkerArt({ info, card }: { info: BattlefieldInfo; card: CardInstance }) {
+  const [failed, setFailed] = useState(false);
+  const showImage = !!info.cardCode && !failed;
+  return (
+    <>
+      <div data-marker-fallback={showImage ? undefined : "true"} className="bf-marker-art absolute inset-0">
+        <svg viewBox="0 0 100 72" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden="true">
+          <g fill="none" stroke="currentColor" strokeWidth="0.6" opacity="0.55">
+            <circle cx="50" cy="32" r="22" />
+            <circle cx="50" cy="32" r="15" strokeDasharray="1.6 2.2" />
+            <path d="M50 8 L56 32 L50 56 L44 32 Z" />
+            <path d="M26 32 L50 26 L74 32 L50 38 Z" />
+          </g>
+        </svg>
+        <div className="absolute inset-x-0 bottom-[0.22rem] px-[0.3rem] text-center">
+          <strong className="bf-marker-name block truncate text-(length:--card-battlefield-title-size) leading-[1.15]">
+            {info.name}
+          </strong>
+        </div>
+      </div>
+      {showImage ? (
+        // eslint-disable-next-line @next/next/no-img-element -- battlefield art comes from the card CDN
+        <img
+          alt={info.name}
+          src={cardImageUrl(card, "preview")}
+          loading="eager"
+          decoding="async"
+          draggable={false}
+          onError={() => setFailed(true)}
+          className="absolute inset-0 h-full w-full select-none object-cover"
+        />
+      ) : null}
+    </>
+  );
 }
 
 function BattlefieldMarker({
@@ -134,30 +178,9 @@ function BattlefieldMarker({
           <div className="absolute inset-0 rounded-[0.48rem] overflow-hidden bg-[linear-gradient(160deg,#1a2b48,#0b1424)]">
             <div className="absolute rounded-[inherit] overflow-hidden pointer-events-none" style={{ inset: "1px" }}>
               <div className="absolute inset-0">
-                {info.cardCode ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- battlefield art comes from the card CDN
-                  <img
-                    alt={info.name}
-                    src={cardImageUrl(card, "preview")}
-                    loading="eager"
-                    decoding="async"
-                    draggable={false}
-                    className="h-full w-full select-none object-cover"
-                  />
-                ) : (
-                  <div className="grid h-full w-full place-items-center bg-[rgba(9,20,38,0.6)] text-[#a9c0e0] text-[0.62rem] uppercase tracking-[0.08em]">
-                    {info.name}
-                  </div>
-                )}
+                <MarkerArt info={info} card={card} />
               </div>
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.76)_0%,rgba(0,0,0,0.58)_14%,rgba(0,0,0,0)_25%,rgba(0,0,0,0)_75%,rgba(0,0,0,0.58)_86%,rgba(0,0,0,0.76)_100%)]" />
-              {!info.cardCode ? (
-                <div className="absolute inset-x-0 bottom-[0.24rem] px-[0.3rem]">
-                  <strong className="block truncate text-[#dbe7ff] text-(length:--card-battlefield-title-size) leading-[1.15] text-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                    {info.name}
-                  </strong>
-                </div>
-              ) : null}
             </div>
           </div>
         </div>
@@ -174,7 +197,9 @@ function BattlefieldPanel({
   onCardEvent,
   selectedCardIds,
   targetableCardIds,
+  state,
 }: {
+  state: BattlefieldControlState;
   info: BattlefieldInfo;
   owner: CardSide;
   ownCards: CardInstance[];
@@ -184,6 +209,7 @@ function BattlefieldPanel({
   targetableCardIds?: Set<string>;
 }) {
   const total = ownCards.length + opponentCards.length;
+  const animationLevel = useAnimationLevel();
   const interaction = useBoardInteractionOptional();
   const ownDrop = interaction?.getDropZoneHandlers(info.zone, "self");
   const opponentDrop = interaction?.getDropZoneHandlers(info.zone, "opponent");
@@ -197,16 +223,24 @@ function BattlefieldPanel({
   const showHidePocket = hideLocations.has(info.zone);
   return (
     <section
+      data-bf-state={state}
+      data-bf-zone={info.zone}
+      data-bf-motion={animationLevel}
       data-might-border="true"
       data-board-drag-active="false"
       data-ghost-zone="false"
       data-buff-action-armed="false"
       data-play-hidden-selecting={showHidePocket ? "true" : "false"}
-      className="gb-board-layer min-h-0 h-full relative rounded-[0.12rem] border border-dashed border-[rgba(129,163,236,0.34)] bg-transparent p-[0.16rem] after:content-[''] after:absolute after:inset-[0.12rem] after:pointer-events-none after:opacity-[0.58] after:gb-ornament-field"
+      className="gb-board-layer bf-panel min-h-0 h-full relative rounded-[0.5rem] bg-transparent p-[0.16rem]"
     >
       <span aria-hidden="true" className="battlefield-border-line" />
+      <BattlefieldCorners />
+      <span className="bf-nameplate" data-bf-nameplate="true">
+        <span className="bf-nameplate-gem" aria-hidden="true" />
+        <span className="bf-nameplate-text">{info.name}</span>
+      </span>
       <BattlefieldMarker info={info} onCardEvent={onCardEvent} side={owner} />
-      <span className="absolute right-[0.34rem] top-[0.34rem] text-[#d8e5ff] text-[0.5rem] opacity-[0.78] p-0 z-6">
+      <span className="bf-count absolute right-[0.34rem] top-[0.34rem] z-6">
         {total}
       </span>
       {showHidePocket && interaction ? (
@@ -230,7 +264,7 @@ function BattlefieldPanel({
       <button
         type="button"
         aria-label={`Add a card to ${info.name}`}
-        className="absolute left-[-0.72rem] top-1/2 z-20 grid h-[1.1rem] w-[1.1rem] -translate-y-1/2 place-items-center rounded-[0.2rem] border border-[rgba(181,205,234,0.26)] bg-[rgba(18,31,51,0.72)] text-[#cfe2f7] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_5px_12px_rgba(3,8,18,0.18)] backdrop-blur-md"
+        className="bf-add-button absolute left-[-0.72rem] top-1/2 z-20 grid h-[1.1rem] w-[1.1rem] -translate-y-1/2 place-items-center"
       >
         +
       </button>
@@ -241,7 +275,7 @@ function BattlefieldPanel({
         <div
           data-drop-zone-root={info.zone}
           data-zone-owner="opponent"
-          className="min-h-0 relative rounded-[0.08rem] bg-transparent py-[0.16rem] px-[0.2rem] flex items-start overflow-visible shadow-none justify-center before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:border-none before:bg-transparent before:z-0 before:pointer-events-none after:content-[''] after:absolute after:inset-[0.08rem] after:rounded-[0.13rem] after:z-1 after:opacity-[0.62] after:pointer-events-none after:gb-ornament-corner-bottom-right"
+          className="min-h-0 relative rounded-[0.08rem] bg-transparent py-[0.16rem] px-[0.2rem] flex items-start overflow-visible shadow-none justify-center before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:border-none before:bg-transparent before:z-0 before:pointer-events-none"
           {...opponentDrop}
         >
           {opponentGroups.topLevel.map((card) => (
@@ -265,7 +299,7 @@ function BattlefieldPanel({
         <div
           data-drop-zone-root={info.zone}
           data-zone-owner="self"
-          className="min-h-0 relative rounded-[0.08rem] bg-transparent py-[0.16rem] px-[0.2rem] flex items-end overflow-visible shadow-none justify-center before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:border-none before:bg-transparent before:z-0 before:pointer-events-none after:content-[''] after:absolute after:inset-[0.08rem] after:rounded-[0.13rem] after:z-1 after:opacity-[0.62] after:pointer-events-none after:gb-ornament-corner-top-left"
+          className="min-h-0 relative rounded-[0.08rem] bg-transparent py-[0.16rem] px-[0.2rem] flex items-end overflow-visible shadow-none justify-center before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:border-none before:bg-transparent before:z-0 before:pointer-events-none"
           {...ownDrop}
         >
           <div className="absolute right-[0.16rem] bottom-[0.12rem] z-40">
@@ -376,6 +410,7 @@ export function BattlefieldLayer({
             {visible && info ? (
               <div className="min-h-0 min-w-0 h-full" style={{ opacity: 1, transform: "none" }}>
                 <BattlefieldPanel
+                  state={battlefieldState({ room, viewer, zone, ownCards, opponentCards: oppCards })}
                   info={info}
                   owner={kind === "opponent" ? "opponent" : "self"}
                   ownCards={ownCards}

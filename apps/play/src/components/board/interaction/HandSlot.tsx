@@ -10,6 +10,7 @@ import type { CardSide } from "../card/types";
 import { computeHandFan } from "../layout/board-metrics";
 import { CARD_ASPECT } from "../layout/board-metrics";
 import { useLocalGameSettings } from "../settings/settings-values";
+import { useAnimationLevel } from "../theme/motion";
 import { useBoardInteractionOptional } from "./context";
 import type { GameActionIntent, BoardSlotProps } from "../slot-types";
 import { playBoardSound } from "./sfx";
@@ -39,6 +40,7 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
   const [layoutCardWidthRem, setLayoutCardWidthRem] = useState(5.2);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const { cardSizePercent } = useLocalGameSettings();
+  const animationLevel = useAnimationLevel();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -117,6 +119,16 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
     remoteHoveredCardId: handDragActive ? null : hoveredCardId,
   });
 
+  const activeHoverId = handDragActive ? null : hoveredCardId;
+  const hoveredIndex = activeHoverId ? fan.slots.findIndex((slot) => slot.card.id === activeHoverId) : -1;
+  /** Neighbours of the hovered card part to make room for its enlarged, raised copy. */
+  const spreadFor = (index: number): string | undefined => {
+    if (hoveredIndex < 0 || index === hoveredIndex) return undefined;
+    const distance = Math.abs(index - hoveredIndex);
+    const amount = Math.max(0, 0.46 - 0.14 * (distance - 1)) * fan.cardWidthRem;
+    return `${(index > hoveredIndex ? 1 : -1) * amount}rem`;
+  };
+
   const dropHandlers = interaction?.getDropZoneHandlers("hand", owner);
   const revealedForCard = (card: CardInstance): boolean => {
     if (owner === "self") return handRevealed || !!card.revealedToOpponent;
@@ -139,6 +151,7 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
         data-hand-drag-active={handDragActive ? "true" : "false"}
         data-zone-owner={owner}
         data-hand-fan-presentation="standard"
+        data-anim={animationLevel}
         data-hand-presentation-rail-width-rem={railWidthRem ?? undefined}
         style={fan.railStyle}
         onContextMenu={(event) => {
@@ -148,8 +161,9 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
         }}
       >
         <div className="pointer-events-none absolute inset-0 z-40 overflow-visible">
-          {fan.slots.map((slot) => {
+          {fan.slots.map((slot, slotIndex) => {
             const card = slot.card as CardInstance;
+            const hovered = hoveredIndex === slotIndex;
             const faceDown = owner === "opponent" && !revealedForCard(card);
             return (
               <div
@@ -161,11 +175,16 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                 }
                 style={{
                   ...slot.style,
-                  ["--fan-hover-raise" as string]:
-                    !handDragActive && hoveredCardId === card.id
-                      ? "-12px"
-                      : slot.style["--fan-hover-raise"],
+                  ...(hovered
+                    ? {
+                        zIndex: 90,
+                        ["--fan-hover-raise" as string]: "calc(var(--card-height) * -0.42 - 8px)",
+                        ["--fan-rotate" as string]: "0deg",
+                        ["--hand-scale" as string]: owner === "self" ? 1.35 : 1.12,
+                      }
+                    : { ["--hand-spread" as string]: spreadFor(slotIndex) }),
                 }}
+                data-hand-hovered={hovered ? "true" : undefined}
                 data-card-id={card.id}
                 onPointerEnter={(event) => {
                   if (event.pointerType !== "mouse" && event.pointerType) return;

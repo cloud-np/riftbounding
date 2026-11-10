@@ -7,6 +7,7 @@ import type { CardInstance, Room, Zone } from "@rift/protocol";
 import { cardBackUrl, cardImageUrl } from "@/lib/assets";
 
 import { playBoardSound } from "../interaction/sfx";
+import { isUnitLikeCard } from "../fx/derive-fx-events";
 import type { BoardSlotProps } from "../slot-types";
 
 export type FlightKind = "draw" | "banish" | "trash" | "reveal";
@@ -399,6 +400,7 @@ export function CardFlightLayer({ state, viewerId }: Pick<BoardSlotProps, "state
         "battlefieldToken",
       ]);
       if (!fromZone) continue;
+      if (fromZone !== "hand" && isUnitLikeCard(card)) continue; // FxDirector death dissolve
       next.push({
         id: `banish-${card.id}-${now}`,
         card,
@@ -422,6 +424,7 @@ export function CardFlightLayer({ state, viewerId }: Pick<BoardSlotProps, "state
         "battlefieldToken",
       ]);
       if (!fromZone) continue;
+      if (fromZone !== "hand" && isUnitLikeCard(card)) continue; // FxDirector death dissolve
       next.push({
         id: `trash-${card.id}-${now}`,
         card,

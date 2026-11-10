@@ -55,10 +55,12 @@ function ScoreRailConnectors({
   placements,
   rowCount,
   side,
+  score,
 }: {
   placements: NodePlacement[];
   rowCount: number;
   side: CardSide;
+  score: number;
 }) {
   const ordered = [...placements].sort((a, b) => {
     return a.row - b.row || b.col - a.col;
@@ -68,9 +70,15 @@ function ScoreRailConnectors({
     const y = (node.row - 0.5) * 100;
     return `${x},${y}`;
   });
+  const litPoints = ordered
+    .map((node, index) => ({ node, point: points[index] }))
+    .filter(({ node }) => node.value <= score)
+    .map(({ point }) => point);
+  const litColor = side === "self" ? "rgba(126,232,191,0.95)" : "rgba(255,196,110,0.95)";
   return (
     <svg
       aria-hidden="true"
+      data-score-rail={side}
       className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
       viewBox={`0 0 100 ${rowCount * 100}`}
       preserveAspectRatio="none"
@@ -95,6 +103,29 @@ function ScoreRailConnectors({
         opacity="0.78"
         vectorEffect="non-scaling-stroke"
       />
+      {litPoints.length > 1 ? (
+        <>
+          <polyline
+            points={litPoints.join(" ")}
+            fill="none"
+            stroke={litColor}
+            strokeWidth="7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            opacity="0.22"
+            vectorEffect="non-scaling-stroke"
+          />
+          <polyline
+            points={litPoints.join(" ")}
+            fill="none"
+            stroke={litColor}
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        </>
+      ) : null}
     </svg>
   );
 }
@@ -127,7 +158,7 @@ export function ScoreTrack({
       role="group"
       aria-label={side === "self" ? "Your score track" : "Opponent score track"}
     >
-      <ScoreRailConnectors placements={placements} rowCount={rowCount} side={side} />
+      <ScoreRailConnectors placements={placements} rowCount={rowCount} side={side} score={score} />
       {placements.map((node) => {
         const reached = score >= node.value;
         const active = score === node.value;
@@ -152,7 +183,7 @@ export function ScoreTrack({
               data-winning={winning}
               data-terminal={winning}
               className={
-                "scoreTrackNodeConstellation z-1" + (winning ? " scoreTrackNodeWinning" : "")
+                "scoreTrackNodeConstellation st-gem z-1" + (winning ? " scoreTrackNodeWinning" : "")
               }
               style={{
                 ["--track-node-accent" as string]: accent,

@@ -1,1 +1,113 @@
 /* fx.css — visual revamp layer (owned by the fx builder). Imported from app/globals.css. */
+
+/* ---------------------------------------------------------------- FX layer (fx/FxDirector) */
+.fx-root { position: fixed; inset: 0; z-index: 2147483300; pointer-events: none; overflow: hidden; }
+.fx-stage, .fx-top { position: absolute; inset: 0; pointer-events: none; }
+.fx-particle-canvas { position: absolute; inset: 0; pointer-events: none; }
+.fx-svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.fx-ghost { position: absolute; pointer-events: none; will-change: translate, opacity; }
+.fx-ghost-inner { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: scale, filter, transform; }
+.fx-ghost-card {
+  position: relative !important; width: 100% !important; height: 100% !important; min-width: 0 !important;
+  margin: 0 !important; left: 0 !important; top: 0 !important; transform: none !important; translate: none !important;
+  scale: none !important; visibility: visible !important; opacity: 1 !important; animation: none !important;
+  transition: none !important; pointer-events: none !important;
+}
+.fx-placeholder-card {
+  width: 100%; height: 100%; border-radius: 10px; display: grid; place-items: end center; padding: 10px;
+  border: 2px solid rgba(var(--fx-rgb), 0.9);
+  background: radial-gradient(circle at 50% 35%, rgba(var(--fx-rgb), 0.55), var(--fx-dark) 75%);
+  color: #fff; font: 800 15px/1.1 system-ui, sans-serif; text-align: center; text-shadow: 0 2px 6px #000;
+}
+.fx-crack { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; animation: fx-crack 260ms ease-out forwards; }
+.fx-crack path { fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; filter: drop-shadow(0 0 3px #fff); }
+@keyframes fx-crack { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+.fx-number {
+  position: absolute; transform: translate(-50%, -50%); font: 900 38px/1 "Trebuchet MS", system-ui, sans-serif;
+  letter-spacing: -0.02em; pointer-events: none; white-space: nowrap; -webkit-text-stroke: 2px rgba(20, 4, 4, 0.9);
+  paint-order: stroke fill; text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+}
+.fx-number--damage { color: #ff4d3d; text-shadow: 0 0 14px rgba(255, 60, 40, 0.9), 0 3px 8px #000; }
+.fx-number--buff { color: #6dff9c; -webkit-text-stroke-color: rgba(2, 30, 12, 0.9); text-shadow: 0 0 14px rgba(80, 255, 140, 0.9); }
+.fx-number--score { color: #ffd65a; font-size: 34px; -webkit-text-stroke-color: rgba(40, 24, 0, 0.9); text-shadow: 0 0 16px rgba(255, 210, 80, 0.95); }
+
+.fx-orb {
+  position: absolute; left: 0; top: 0; width: 22px; height: 22px; border-radius: 50%; pointer-events: none; will-change: transform;
+  background: radial-gradient(circle, #fff 0 25%, rgba(var(--fx-rgb), 0.95) 45%, rgba(var(--fx-rgb), 0) 72%);
+  box-shadow: 0 0 22px 8px rgba(var(--fx-rgb), 0.7);
+}
+
+.fx-dim {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0; animation: fx-dim 1400ms ease-in-out forwards;
+  background: radial-gradient(circle at var(--fx-x) var(--fx-y), rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) var(--fx-r), rgba(2, 4, 12, 0.5) calc(var(--fx-r) * 2.2));
+}
+@keyframes fx-dim { 0% { opacity: 0; } 18% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+.fx-bf-pulse {
+  position: absolute; pointer-events: none; border-radius: 14px; opacity: 0;
+  animation: fx-bf-pulse 1400ms ease-out forwards;
+}
+@keyframes fx-bf-pulse {
+  0% { opacity: 0; box-shadow: 0 0 0 0 rgba(255, 207, 90, 0), inset 0 0 0 2px rgba(255, 207, 90, 0.9); }
+  20% { opacity: 1; box-shadow: 0 0 36px 8px rgba(255, 207, 90, 0.8), inset 0 0 40px 2px rgba(255, 207, 90, 0.5), inset 0 0 0 3px rgba(255, 230, 140, 1); }
+  60% { opacity: 0.8; box-shadow: 0 0 26px 4px rgba(255, 207, 90, 0.5), inset 0 0 24px rgba(255, 207, 90, 0.3), inset 0 0 0 2px rgba(255, 207, 90, 0.8); }
+  100% { opacity: 0; box-shadow: 0 0 0 0 rgba(255, 207, 90, 0), inset 0 0 0 2px rgba(255, 207, 90, 0); }
+}
+
+.fx-banner { position: absolute; transform: translate(-50%, -50%); pointer-events: none; display: grid; justify-items: center; gap: 4px; }
+.fx-banner-title {
+  font: 900 54px/1 "Trebuchet MS", system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;
+  text-shadow: 0 0 22px var(--fx-glow, rgba(255, 207, 90, 0.9)), 0 4px 0 rgba(0, 0, 0, 0.55), 0 6px 18px rgba(0, 0, 0, 0.8);
+  -webkit-text-stroke: 1.5px rgba(20, 10, 0, 0.6);
+}
+.fx-banner--showdown { --fx-glow: rgba(255, 207, 90, 0.95); animation: fx-banner-slam 1250ms cubic-bezier(0.2, 1.3, 0.35, 1) forwards; }
+.fx-banner--showdown .fx-banner-title { background: linear-gradient(180deg, #fff6c8, #ffc94d 55%, #c98a16); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 14px rgba(255, 207, 90, 0.8)); }
+.fx-blades { width: 92px; height: 92px; color: #ffd978; filter: drop-shadow(0 0 14px rgba(255, 207, 90, 0.95)); }
+.fx-banner--showdown.is-reduced, .fx-banner--turn.is-reduced { animation: fx-banner-fade 800ms ease-out forwards; }
+@keyframes fx-banner-slam {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(2.2); }
+  18% { opacity: 1; transform: translate(-50%, -50%) scale(0.95); }
+  28% { transform: translate(-50%, -50%) scale(1.04); }
+  36% { transform: translate(-50%, -50%) scale(1); }
+  82% { opacity: 1; transform: translate(-50%, -52%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -58%) scale(1.06); }
+}
+@keyframes fx-banner-fade { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+.fx-banner--conquer .fx-banner-title { font-size: 26px; letter-spacing: 0.22em; }
+.fx-banner--conquer.is-self { --fx-glow: rgba(79, 179, 255, 0.95); }
+.fx-banner--conquer.is-opponent { --fx-glow: rgba(255, 90, 106, 0.95); }
+.fx-banner--conquer { animation: fx-banner-rise 1150ms cubic-bezier(0.2, 0.9, 0.3, 1) forwards; }
+@keyframes fx-banner-rise {
+  0% { opacity: 0; transform: translate(-50%, -30%) scale(0.7); }
+  20% { opacity: 1; transform: translate(-50%, -60%) scale(1.08); }
+  80% { opacity: 1; transform: translate(-50%, -80%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -100%) scale(1); }
+}
+
+.fx-banner--turn { overflow: hidden; padding: 14px 64px; animation: fx-turn 1350ms cubic-bezier(0.2, 0.9, 0.3, 1) forwards; }
+.fx-banner--turn::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, transparent, rgba(8, 10, 24, 0.78) 22%, rgba(8, 10, 24, 0.78) 78%, transparent);
+}
+.fx-banner--turn.is-self { --fx-glow: rgba(255, 207, 90, 0.95); }
+.fx-banner--turn.is-self .fx-banner-title { background: linear-gradient(180deg, #fff6c8, #ffc94d 55%, #c98a16); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 56px; }
+.fx-banner--turn.is-opponent { --fx-glow: rgba(255, 70, 90, 0.9); }
+.fx-banner--turn.is-opponent .fx-banner-title { color: #ff8a96; font-size: 34px; }
+.fx-banner-sweep {
+  position: absolute; inset: 0; pointer-events: none; transform: translateX(-120%);
+  background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, 0.75) 50%, transparent 65%);
+  animation: fx-sweep 900ms 150ms ease-out forwards; mix-blend-mode: overlay;
+}
+@keyframes fx-sweep { to { transform: translateX(120%); } }
+@keyframes fx-turn {
+  0% { opacity: 0; transform: translate(-50%, -50%) scaleX(0.4); }
+  16% { opacity: 1; transform: translate(-50%, -50%) scaleX(1.04); }
+  26% { transform: translate(-50%, -50%) scaleX(1); }
+  82% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scaleX(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-bf-pulse, .fx-dim { animation-duration: 600ms; }
+}

@@ -158,7 +158,7 @@ export function RoomActionBar({
         <div
           role="group"
           aria-label={t("current.playAs") ?? "Play as"}
-          className="grid grid-cols-2 gap-px overflow-hidden rounded-[0.24rem] border border-[rgba(172,199,230,0.18)] bg-[rgba(12,23,38,0.82)] p-[0.08rem] shadow-[inset_0_1px_0_rgba(235,246,255,0.045),0_7px_16px_rgba(3,8,18,0.14)] backdrop-blur-sm"
+          className="hud-glass-panel grid grid-cols-2 gap-px overflow-hidden rounded-[0.24rem] border border-[rgba(172,199,230,0.18)] bg-[rgba(12,23,38,0.82)] p-[0.08rem] shadow-[inset_0_1px_0_rgba(235,246,255,0.045),0_7px_16px_rgba(3,8,18,0.14)] backdrop-blur-sm"
         >
           {controllablePlayers.map((player) => {
             const selected = player.id === viewerId;
@@ -184,7 +184,7 @@ export function RoomActionBar({
       ) : null}
 
       <div
-        className="grid gap-[0.14rem]"
+        className="hud-actions grid gap-[0.14rem]"
         style={{ gridTemplateColumns: gridColumns }}
         data-room-actions-override="desktop"
       >
