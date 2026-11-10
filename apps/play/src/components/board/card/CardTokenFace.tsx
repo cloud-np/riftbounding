@@ -70,12 +70,14 @@ export function CardTokenFace({
         data-exhausted={exhausted || undefined}
         style={vars}
       >
-        <div className="rtoken-gem-body">
-          <div className="rtoken-gem-facets" />
-          <DomainSigil domain={first ?? "Unknown"} className="rtoken-gem-sigil" />
-          <div className="pcf-sheen" />
+        <div className="rtoken-flip" style={flip ? { transform: "rotate(180deg)" } : undefined}>
+          <div className="rtoken-gem-body">
+            <div className="rtoken-gem-facets" />
+            <DomainSigil domain={first ?? "Unknown"} className="rtoken-gem-sigil" />
+            <div className="pcf-sheen" />
+          </div>
+          <span className="rtoken-gem-label">{card.name.replace(/\s*rune$/i, "") || "Rune"}</span>
         </div>
-        <span className="rtoken-gem-label">{card.name.replace(/\s*rune$/i, "") || "Rune"}</span>
       </div>
     );
   }

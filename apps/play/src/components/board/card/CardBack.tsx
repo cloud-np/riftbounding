@@ -142,6 +142,7 @@ export function CardBack({
         draggable={false}
         className={failed ? "card-art-hidden" : "h-full w-full object-cover select-none"}
         data-rift-image-kind="card-back"
+        data-art-state={failed ? "failed" : loaded ? "loaded" : "loading"}
         data-card-back-custom={sleeve ? "true" : undefined}
         style={sleeve && customization?.sleeveFilter ? { filter: customization.sleeveFilter } : undefined}
       />

@@ -1061,3 +1061,27 @@ img.card-art-crop {
   border-color: rgba(255, 210, 120, 0.6);
   background: rgba(200, 140, 30, 0.28);
 }
+
+/* Images stay invisible until decoded: no browser alt-text flash over the procedural face. */
+img[data-rift-image-kind="card"][data-art-state="loading"],
+img[data-rift-image-kind="card-back"][data-art-state="loading"] {
+  opacity: 0;
+}
+
+img[data-rift-image-kind="card"][data-art-state="loaded"],
+img[data-rift-image-kind="card-back"][data-art-state="loaded"] {
+  animation: cardArtIn 220ms ease-out;
+}
+
+[data-anim="off"] img[data-art-state="loaded"] {
+  animation: none;
+}
+
+@keyframes cardArtIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

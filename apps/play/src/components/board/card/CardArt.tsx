@@ -104,6 +104,7 @@ export function CardArt({
         onLoad={() => setLoadedSrc(src)}
         onError={() => setFailedSrc(src)}
         data-rift-image-kind="card"
+        data-art-state={failed ? "failed" : loaded ? "loaded" : "loading"}
         data-card-art-source={src}
         data-card-art-missing={failed || undefined}
       />
