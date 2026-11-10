@@ -587,15 +587,21 @@ describe("Hidden cards: hide and play from facedown [R811]", () => {
     );
 
     const hidden = hideCard(fixture, card.id);
+    // The fixture's battlefields are Bandle Tree ("You may hide an additional card here",
+    // 107.3.b.1): a second facedown card fits, a third one does not.
     addSyntheticCard(hidden, "p1", { ...EVELYNN_ENTRANCING, id: "synthetic-hidden-2" }, "hand");
+    addSyntheticCard(hidden, "p1", { ...EVELYNN_ENTRANCING, id: "synthetic-hidden-3" }, "hand");
+    hidden.rules!.pools.p1 = { energy: 0, power: { any: 1 } };
+    const twoHidden = hideCard({ ...fixture, room: hidden }, "synthetic-hidden-2");
+    expect(twoHidden.players[0]!.board!.battlefieldA.filter((entry) => entry.hidden)).toHaveLength(2);
     expectRejected(
-      hidden,
+      twoHidden,
       "p1",
       {
         type: "move_card",
         from: "hand",
         to: "battlefieldA",
-        cardId: "synthetic-hidden-2",
+        cardId: "synthetic-hidden-3",
         asHidden: true,
       },
       "invalid_location",

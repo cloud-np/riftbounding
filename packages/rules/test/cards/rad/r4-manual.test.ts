@@ -18,7 +18,7 @@ const STATUSES: Record<string, "implemented" | "partial" | "manual"> = {
   "Ekko, Ingenious": "manual",
   Encore: "partial",
   "Entrenched Boar": "implemented",
-  "Evelynn, Agony's Embrace": "manual",
+  "Evelynn, Agony's Embrace": "implemented",
   "Evelynn, Consuming": "manual",
   Fanfare: "implemented",
   "Firebrand Raider": "partial",

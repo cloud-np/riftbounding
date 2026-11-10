@@ -324,7 +324,7 @@ describe("Vendetta units — move, ready and Beginning Phase triggers", () => {
     s.as("p2").pass().expectOk();
     settle(s);
     expect(might(s, feline.id)).toBe(7);
-    expect(getCardScript("Fretful Feline")?.status).toBe("partial");
+    expect(getCardScript("Fretful Feline")?.status).toBe("implemented");
   });
 
   it("[C:Forsaken Baccai][C:Oasis Raider][R315.2] fewer runes than an opponent at the start of your Beginning Phase: +1 / +2 and Ganking", () => {

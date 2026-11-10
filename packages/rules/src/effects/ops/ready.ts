@@ -16,7 +16,8 @@ registerEffectOp("ready", (effect, context) => {
     if (!isOnBoard(context.room, host, id) || host.isExhausted(context.room, id) === false) continue;
     // 054: "can't be readied" beats the instruction (the instruction is negated).
     if (restrictionFor(context.room, host, { kind: "ready", objectId: id })) continue;
-    if (ready(context.room, id, context.step)) done.push(id);
+    // 412.1: the controller of the spell or ability performs (is responsible for) the Ready.
+    if (ready(context.room, id, context.step, context.controller)) done.push(id);
   }
   recordOutcome(context, done, done.length > 0);
   return RESOLVED;
