@@ -20,6 +20,7 @@ import type { EffectEnv } from "../env";
 import { isReservedRef, refIds } from "../evaluate";
 import { registerEffectOp } from "../registry";
 import { recordOutcome } from "../targets";
+import { isBattlefieldZone, locationOf } from "../objects";
 import { inheritedChoices } from "./reflexive";
 import { ctxOf, hostOf } from "./util";
 
@@ -64,6 +65,22 @@ function delayedWindowOver(room: Parameters<typeof addContinuousEffect>[0], env:
   return false;
 }
 
+/**
+ * 359.3.f.3.a / 359.3.f.3.b: a delayed trigger reads its referents when it is created. "Here" /
+ * "this battlefield" in its instructions is therefore frozen to the battlefield the source was at
+ * now (Iascylla: "When I hold, at the start of your next Main Phase, … move an enemy unit to this
+ * battlefield" must still name the held battlefield after she dies or moves away).
+ */
+function freezeHere(value: unknown, zone: string): unknown {
+  if (Array.isArray(value)) return value.map((entry) => freezeHere(entry, zone));
+  if (value && typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    if (record.kind === "chosen" && record.ref === "here") return { kind: "battlefield", id: zone };
+    return Object.fromEntries(Object.entries(record).map(([key, entry]) => [key, freezeHere(entry, zone)]));
+  }
+  return value;
+}
+
 registerEffectOp("delayed", (effect, context) => {
   if (effect.op !== "delayed") return { status: "manual", reason: "effect_not_implemented:delayed" };
   const ctx = ctxOf(context);
@@ -72,6 +89,12 @@ registerEffectOp("delayed", (effect, context) => {
     recordOutcome(context, [], false);
     return RESOLVED;
   }
+  const sourceZone = ctx.env.sourceObjectId
+    ? locationOf(context.room, hostOf(context), ctx.env.sourceObjectId)
+    : null;
+  const frozenEffect = isBattlefieldZone(context.room, hostOf(context), sourceZone ?? undefined)
+    ? (freezeHere(effect.effect, sourceZone!) as typeof effect.effect)
+    : effect.effect;
   const id = addContinuousEffect(context.room, hostOf(context), {
     controller: ctx.env.controller,
     duration,
@@ -80,7 +103,7 @@ registerEffectOp("delayed", (effect, context) => {
       id: "delayed-trigger",
       params: {
         trigger: effect.trigger,
-        effect: effect.effect,
+        effect: frozenEffect,
         once: effect.once ?? true,
         ...(effect.optional ? { optional: true } : {}),
         choices: inheritedChoices(ctx.env),
