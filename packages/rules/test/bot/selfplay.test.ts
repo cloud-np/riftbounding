@@ -39,6 +39,17 @@ describe("headless strict self-play", () => {
     const second = selfplay(7, { maxTurns: 80, maxActions: 4000 });
     expect(second).toEqual(first);
   }, 120_000);
+
+  // docs/rules/auto-pass.md: automatic passes/answers/turn ends never stall or crash a game.
+  it("plays seeded games with every auto-pass option on (fixture and catalog decks)", () => {
+    const autoPass = { ownItems: true, responses: "no_response", forcedPrompts: "all", endTurn: "no_action", hold: false } as const;
+    for (const seed of [1, 2, 3]) {
+      expectHealthy(selfplay(seed, { maxTurns: 80, maxActions: 4000, autoPass }));
+      expectHealthy(selfplay(seed, { deckMode: "catalog", maxTurns: 80, maxActions: 4000, autoPass }));
+    }
+    const first = selfplay(7, { maxTurns: 80, maxActions: 4000, autoPass });
+    expect(selfplay(7, { maxTurns: 80, maxActions: 4000, autoPass })).toEqual(first);
+  }, 240_000);
 });
 
 /**

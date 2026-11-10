@@ -1,6 +1,7 @@
 "use client";
 
 import type { BoardSlotProps } from "../../slot-types";
+import { StrictAutoPassPanel } from "../../strict/StrictAutoPassPanel";
 import { StrictPromptHost } from "../../strict/StrictPromptHost";
 import { StrictRulesPanel } from "../../strict/StrictRulesPanel";
 import { DeckPeekPrompt } from "./DeckPeekPrompt";
@@ -26,6 +27,13 @@ export function InGamePrompts(props: BoardSlotProps) {
       {state.rulesMode === "strict" ? (
         <>
           <StrictPromptHost
+            state={state}
+            viewerId={props.viewerId}
+            controlledPlayerIds={props.controlledPlayerIds}
+            dispatch={props.dispatch}
+            dispatchAs={props.dispatchAs}
+          />
+          <StrictAutoPassPanel
             state={state}
             viewerId={props.viewerId}
             controlledPlayerIds={props.controlledPlayerIds}

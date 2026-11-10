@@ -2001,7 +2001,98 @@
    "rules.ui.useSuggestion": "Utiliser la suggestion",
    "sim.botBadge": "Bot",
    "sim.practiceVsBot": "S’entraîner contre le bot",
-   "sim.practiceVsBotCreated": "Salle d’entraînement contre le bot créée."
+   "sim.practiceVsBotCreated": "Salle d’entraînement contre le bot créée.",
+   "rules.ui.autoPass.title": "Passe auto",
+   "rules.ui.autoPass.open": "Réglages de passe automatique",
+   "rules.ui.autoPass.ownItems": "Passer sur mes propres éléments de la chaîne",
+   "rules.ui.autoPass.responses": "Fenêtres de réponse",
+   "rules.ui.autoPass.responsesStop": "Toujours s'arrêter",
+   "rules.ui.autoPass.responsesSafe": "Passer quand je ne peux clairement pas répondre",
+   "rules.ui.autoPass.responsesNoResponse": "Passer dès que je n'ai aucune réponse",
+   "rules.ui.autoPass.forcedPrompts": "Choix avec une seule réponse légale",
+   "rules.ui.autoPass.forcedOff": "Toujours demander",
+   "rules.ui.autoPass.forcedSafe": "Répondre quand cela ne révèle rien",
+   "rules.ui.autoPass.forcedAll": "Toujours répondre",
+   "rules.ui.autoPass.endTurn": "Finir mon tour quand je n'ai rien à faire",
+   "rules.ui.autoPass.endTurnManual": "Jamais",
+   "rules.ui.autoPass.endTurnSafe": "Quand cela ne révèle rien",
+   "rules.ui.autoPass.endTurnNoAction": "Dès que rien n'est jouable",
+   "rules.ui.autoPass.leakWarning": "Révèle à votre adversaire que vous n'aviez aucune option (il voit une passe instantanée).",
+   "rules.ui.autoPass.hold": "Contrôle total (garder la priorité)",
+   "rules.ui.autoPass.holdHint": "Maintenez Ctrl/⌘ en déposant une carte pour garder la priorité pour ce jeu.",
+   "rules.ui.autoPass.passUntilEndOfTurn": "Passer jusqu'à la fin du tour",
+   "rules.ui.autoPass.passUntilOpponent": "Passer jusqu'à ce que l'adversaire agisse",
+   "rules.ui.autoPass.cancelPassUntil": "Arrêter de passer",
+   "rules.ui.autoPass.activeUntilEndOfTurn": "Passe jusqu'à la fin du tour",
+   "rules.ui.autoPass.activeUntilOpponent": "Passe jusqu'à ce que l'adversaire agisse",
+   "rules.ui.autoPass.applyToSimilar": "Même réponse aux demandes identiques ce tour",
+   "rules.ui.autoPass.defaultOrder": "Ordre par défaut",
+   "rules.ui.autoPass.notice.pass": [
+    [
+     "player"
+    ],
+    " a passé automatiquement (×",
+    [
+     "count"
+    ],
+    ")"
+   ],
+   "rules.ui.autoPass.notice.ownItem": [
+    [
+     "player"
+    ],
+    " a passé automatiquement sur son propre élément (×",
+    [
+     "count"
+    ],
+    ")"
+   ],
+   "rules.ui.autoPass.notice.passUntil": [
+    [
+     "player"
+    ],
+    " a passé automatiquement : passe prolongée (×",
+    [
+     "count"
+    ],
+    ")"
+   ],
+   "rules.ui.autoPass.notice.endTurn": [
+    "Le tour de ",
+    [
+     "player"
+    ],
+    " a été terminé automatiquement"
+   ],
+   "rules.ui.autoPass.notice.choose": [
+    "Le seul choix légal de ",
+    [
+     "player"
+    ],
+    " a été fait automatiquement (×",
+    [
+     "count"
+    ],
+    ")"
+   ],
+   "rules.ui.autoPass.notice.repeat": [
+    "La réponse de ",
+    [
+     "player"
+    ],
+    " a été répétée : même réponse ce tour (×",
+    [
+     "count"
+    ],
+    ")"
+   ],
+   "rules.ui.autoPass.notice.paused": [
+    "Actions automatiques suspendues après ",
+    [
+     "cap"
+    ],
+    " d'affilée"
+   ]
   },
   "parts": {
    "suggestionItem": [

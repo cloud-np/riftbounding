@@ -109,6 +109,12 @@ SELFPLAY_GAMES=300 SELFPLAY_DECK=catalog \
 | `SELFPLAY_MAX_TURNS` | 80 | per-game turn cap |
 | `SELFPLAY_MAX_ACTIONS` | 4000 | per-game intent cap |
 | `SELFPLAY_DECK` | `fixture` | `fixture` (committed decks) or `catalog` (random Calm/Chaos decks from `@rift/cards`) |
+| `SELFPLAY_AUTOPASS` | `none` | `none` (no automatic actions: the historical per-seed outcomes), `default` (the information-safe defaults) or `all` (every auto-pass option; see [`auto-pass.md`](auto-pass.md)) |
+
+`pnpm --filter @rift/rules interactions` (same env vars, plus `INTERACTIONS_MODES`) counts every
+bot decision per game by kind — forced prompt, own-item pass, response window with/without a
+legal response, Main Phase — and the automatic actions taken instead; it produced the before/after
+table in [`auto-pass.md`](auto-pass.md).
 
 The CLI is `test/bot/selfplay.run.ts` under its own
 `test/bot/vitest.selfplay.config.ts`; it is not part of the default suite. The default suite

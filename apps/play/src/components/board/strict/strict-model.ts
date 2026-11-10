@@ -226,8 +226,9 @@ export function selectionAnswer(prompt: Prompt, selected: readonly string[]): Pr
   return prompt.kind === "order" ? { optionIds, orderedIds: optionIds } : { optionIds };
 }
 
-export function chooseIntent(prompt: Prompt, answer: PromptAnswer): WireAction {
-  return { type: "rules_choose", promptId: prompt.id, answer };
+export function chooseIntent(prompt: Prompt, answer: PromptAnswer, applyToSimilar = false): WireAction {
+  // Auto-pass "yes to all" (docs/rules/auto-pass.md): the rules layer remembers the answer.
+  return { type: "rules_choose", promptId: prompt.id, answer, ...(applyToSimilar ? { applyToSimilar: true } : {}) };
 }
 
 /** Toggle an option in a selection; a single-choice prompt replaces the selection. */

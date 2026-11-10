@@ -1961,7 +1961,95 @@
    "rules.ui.useSuggestion": "추천 사용",
    "sim.botBadge": "봇",
    "sim.practiceVsBot": "봇과 연습",
-   "sim.practiceVsBotCreated": "봇 연습 방이 생성되었습니다."
+   "sim.practiceVsBotCreated": "봇 연습 방이 생성되었습니다.",
+   "rules.ui.autoPass.title": "자동 패스",
+   "rules.ui.autoPass.open": "자동 패스 설정",
+   "rules.ui.autoPass.ownItems": "내 체인 항목에서 패스",
+   "rules.ui.autoPass.responses": "응답 창",
+   "rules.ui.autoPass.responsesStop": "항상 멈춤",
+   "rules.ui.autoPass.responsesSafe": "확실히 응답할 수 없을 때 넘기기",
+   "rules.ui.autoPass.responsesNoResponse": "응답이 없을 때마다 넘기기",
+   "rules.ui.autoPass.forcedPrompts": "가능한 답이 하나뿐인 선택",
+   "rules.ui.autoPass.forcedOff": "항상 묻기",
+   "rules.ui.autoPass.forcedSafe": "아무것도 드러나지 않을 때 자동 선택",
+   "rules.ui.autoPass.forcedAll": "항상 자동 선택",
+   "rules.ui.autoPass.endTurn": "할 일이 없을 때 턴 종료",
+   "rules.ui.autoPass.endTurnManual": "안 함",
+   "rules.ui.autoPass.endTurnSafe": "아무것도 드러나지 않을 때",
+   "rules.ui.autoPass.endTurnNoAction": "사용 가능한 것이 없을 때마다",
+   "rules.ui.autoPass.leakWarning": "선택지가 없었다는 사실이 상대에게 드러납니다(즉시 패스가 보입니다).",
+   "rules.ui.autoPass.hold": "완전 제어(우선권 유지)",
+   "rules.ui.autoPass.holdHint": "카드를 놓을 때 Ctrl/⌘를 누르고 있으면 그 사용에 대해 우선권을 유지합니다.",
+   "rules.ui.autoPass.passUntilEndOfTurn": "턴 종료까지 패스",
+   "rules.ui.autoPass.passUntilOpponent": "상대가 행동할 때까지 패스",
+   "rules.ui.autoPass.cancelPassUntil": "패스 중지",
+   "rules.ui.autoPass.activeUntilEndOfTurn": "턴 종료까지 패스 중",
+   "rules.ui.autoPass.activeUntilOpponent": "상대가 행동할 때까지 패스 중",
+   "rules.ui.autoPass.applyToSimilar": "이번 턴 동일한 질문에 같은 답",
+   "rules.ui.autoPass.defaultOrder": "기본 순서",
+   "rules.ui.autoPass.notice.pass": [
+    [
+     "player"
+    ],
+    " 님이 자동으로 패스했습니다 (×",
+    [
+     "count"
+    ],
+    ")"
+   ],
+   "rules.ui.autoPass.notice.ownItem": [
+    [
+     "player"
+    ],
+    " 님이 자신의 항목에서 자동으로 패스했습니다 (×",
+    [
+     "count"
+    ],
+    ")"
+   ],
+   "rules.ui.autoPass.notice.passUntil": [
+    [
+     "player"
+    ],
+    " 님이 자동으로 패스했습니다: 계속 패스 (×",
+    [
+     "count"
+    ],
+    ")"
+   ],
+   "rules.ui.autoPass.notice.endTurn": [
+    [
+     "player"
+    ],
+    " 님의 턴이 자동으로 종료되었습니다"
+   ],
+   "rules.ui.autoPass.notice.choose": [
+    [
+     "player"
+    ],
+    " 님의 유일한 선택이 자동으로 이루어졌습니다 (×",
+    [
+     "count"
+    ],
+    ")"
+   ],
+   "rules.ui.autoPass.notice.repeat": [
+    [
+     "player"
+    ],
+    " 님의 답이 반복되었습니다: 이번 턴 같은 답 (×",
+    [
+     "count"
+    ],
+    ")"
+   ],
+   "rules.ui.autoPass.notice.paused": [
+    "자동 행동이 연속 ",
+    [
+     "cap"
+    ],
+    "회 후 일시 중지되었습니다"
+   ]
   },
   "parts": {
    "suggestionItem": [

@@ -319,6 +319,30 @@ describe("MatchRoomCore practice-vs-bot rooms (R4 bot-room)", () => {
     ).toBe(true);
   });
 
+  it("auto-pass: defaults per seat, own preferences only in the human's view, pass-until hands the bot its turn", async () => {
+    const { core, transport } = await botRoom();
+    await startBotMatch(core);
+    expect(core.room.rules?.autoPass?.alice?.responses).toBe("safe");
+    expect(core.room.rules?.autoPass?.bot?.responses).toBe("safe");
+    const humanView = transport.latest("conn-alice", "authoritative_snapshot")?.snapshot as Room;
+    expect(Object.keys(humanView.rules?.autoPass ?? {})).toEqual(["alice"]);
+
+    const errorsBefore = transport.messagesFor("conn-alice", "error").length;
+    // "Pass until end of turn" in the human's own Main Phase ends the turn in the same action
+    // (the client's stale turn number is ignored: the server records the current turn).
+    await humanAction(
+      core,
+      { type: "rules_set_auto_pass", prefs: { passUntil: { kind: "end_of_turn", turn: 0 } } },
+      "auto-pass-eot",
+    );
+    expect(core.room.log.some((entry) => entry.key === "rules.auto.endTurn")).toBe(true);
+    await passHumanWindowsOnBotTurn(core);
+    expect(core.room.rules!.turn.player).toBe("alice");
+    // The override expired with the turn it was set on.
+    expect(core.room.rules?.autoPass?.alice?.passUntil).toBeUndefined();
+    expect(transport.messagesFor("conn-alice", "error").length).toBe(errorsBefore);
+  });
+
   it("rewinds a bot room exactly, holds the bot, exports a replayable repro and imports it", async () => {
     const { core, transport, linkedSeeds, deps } = await botRoom();
     await startBotMatch(core);

@@ -75,6 +75,7 @@ import {
   promptOptionMatchIds,
   promptSelectionBounds,
   strictManualWindowFor,
+  strictPromptClick,
   strictUseGesture,
   strictViewFromLegal,
   togglePromptSelection,
@@ -82,6 +83,7 @@ import {
   type StrictBoardView,
 } from "../strict/strict-interaction";
 import { isStrictRoom, promptForClient, promptInstruction, promptSourceAnchor, promptSourceName, strictActorFor } from "../strict/strict-model";
+import { autoPassPrefsFor, autoPassSeat, passUntilIntent } from "../strict/strict-auto-pass";
 import {
   cachedStrictDragLegality,
   strictDropAllowed,
@@ -569,6 +571,18 @@ export function BoardInteractionProvider({
     playBoardSound("ui_click");
     sendAsActor({ type: "rules_pass" }, strictResponse.player);
   }, [sendAsActor, strictResponse]);
+
+  /**
+   * Auto-pass (docs/rules/auto-pass.md): "pass until end of turn" (Shift+W) for the seat that
+   * may act (or the viewer); pressing it again cancels the override.
+   */
+  const toggleStrictPassUntilEndOfTurn = useCallback(() => {
+    if (!strictActive || state.phase !== "in_game") return;
+    const seat = autoPassSeat(state, viewerId, controlled);
+    const prefs = autoPassPrefsFor(state, seat);
+    playBoardSound("ui_click");
+    sendAsActor(passUntilIntent(state, prefs, "end_of_turn"), seat);
+  }, [controlled, sendAsActor, state, strictActive, viewerId]);
 
   const chooseStrictPromptOption = useCallback(
     (option: PromptOption) => {
@@ -1594,18 +1608,24 @@ export function BoardInteractionProvider({
         return;
       }
       if (strictActive) {
-        if (!canActAsOwner) {
-          if (isSelf && interactive) scheduleCardPreview(card, event, 0);
+        // 411.2: an object prompt is answered by clicking its board option, whoever owns the
+        // card (enemy units are the usual targets), so this runs before the ownership check.
+        // `strictPrompt` is only set for a prompt this client answers, and the answer is sent by
+        // the prompted player (`strictView.actorId` = "self"), never as the clicked card's
+        // owner. Anything else is not a legal target; the aim arrow shows the not-allowed state
+        // and sends nothing.
+        const promptClick = interactive
+          ? strictPromptClick(strictPrompt, strictPromptOnBoard, zone, card.id)
+          : null;
+        if (promptClick) {
+          if (promptClick !== "not-an-option") {
+            playBoardSound("card_click");
+            sendIntent(promptClick, "self");
+          }
           return;
         }
-        // 411.2: an object prompt is answered by clicking its board option. Anything else is not
-        // a legal target; the aim arrow shows the not-allowed state and sends nothing.
-        if (strictPrompt && strictPromptOnBoard) {
-          const gesture = strictUseGesture(zone, card.id);
-          if (promptOptionForAction(strictPrompt, gesture)) {
-            playBoardSound("card_click");
-            sendIntent(gesture, owner);
-          }
+        if (!canActAsOwner) {
+          if (isSelf && interactive) scheduleCardPreview(card, event, 0);
           return;
         }
         // Multi-unit Standard Move selection (Shift-click), then drag any selected Unit.
@@ -2266,10 +2286,12 @@ export function BoardInteractionProvider({
       clientY: number;
       /** 811.1.b: force the hide gesture (drop pocket or Alt-drop). */
       asHidden?: boolean;
+      /** Auto-pass "hold priority" (Ctrl/⌘-drop): keep Priority after this play (337.4). */
+      hold?: boolean;
     }) => {
       const session = dragSessionRef.current;
       if (!session) return;
-      const intent = dropIntentForSession(
+      const dropped = dropIntentForSession(
         session,
         input.zone,
         input.owner,
@@ -2279,6 +2301,11 @@ export function BoardInteractionProvider({
         input.toIndex,
         input.asHidden === true,
       );
+      // The engine forwards `hold` only when the gesture becomes a play or an activation.
+      const intent =
+        dropped && strictActive && input.hold === true
+          ? ({ ...dropped, hold: true } as GameActionIntent)
+          : dropped;
       if (intent) {
         const actorId = input.owner === "self" ? viewerId : (opponent?.id ?? viewerId);
         // Sandbox keeps the old dry-run pre-filter; strict rooms send the gesture and let the
@@ -2337,6 +2364,7 @@ export function BoardInteractionProvider({
           clientX: event.clientX,
           clientY: event.clientY,
           asHidden: strictActive && event.altKey,
+          hold: strictActive && (event.ctrlKey || event.metaKey),
         });
       },
       onContextMenu: (event) => {
@@ -2874,6 +2902,7 @@ export function BoardInteractionProvider({
               shiftKey: upEvent.shiftKey,
               clientX: upEvent.clientX,
               clientY: upEvent.clientY,
+              hold: upEvent.ctrlKey || upEvent.metaKey,
             });
           } else {
             endDragSession();
@@ -2985,6 +3014,12 @@ export function BoardInteractionProvider({
         event.preventDefault();
         setDiceWheelOpen(true);
         heldKeyboardModeRef.current = "dice";
+        return;
+      }
+      // Auto-pass: Shift+W toggles "pass until end of turn" in strict rooms (W alone = Pass).
+      if (event.shiftKey && lower === "w" && !command && !event.altKey && strictActive) {
+        event.preventDefault();
+        toggleStrictPassUntilEndOfTurn();
         return;
       }
       if (event.shiftKey && event.code === "Space") {
@@ -3177,6 +3212,8 @@ export function BoardInteractionProvider({
     playBoardSound,
     strictResponse,
     passStrictResponse,
+    strictActive,
+    toggleStrictPassUntilEndOfTurn,
     strictPrompt,
     strictPromptOnBoard,
     strictPromptHoverId,
@@ -3500,6 +3537,17 @@ export function BoardInteractionProvider({
               {t("rules.ui.pass") ?? "Pass"}
               <kbd className="ml-[0.2rem] rounded-[0.1rem] border border-white/20 bg-black/25 px-[0.18rem] py-[0.02rem] text-[0.5rem]">
                 W
+              </kbd>
+            </button>
+            <button
+              type="button"
+              className={smallNeutralButton}
+              data-testid="strict-response-pass-until-eot"
+              onClick={toggleStrictPassUntilEndOfTurn}
+            >
+              {t("rules.ui.autoPass.passUntilEndOfTurn") ?? "Pass until end of turn"}
+              <kbd className="ml-[0.2rem] rounded-[0.1rem] border border-white/20 bg-black/25 px-[0.18rem] py-[0.02rem] text-[0.5rem]">
+                ⇧W
               </kbd>
             </button>
             {!strictResponse.hasLegalResponses ? (

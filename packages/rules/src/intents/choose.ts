@@ -9,6 +9,8 @@ import {
   promptReason,
 } from "../prompts";
 import type { IntentContext, IntentResult } from "./context";
+import { applyAutoPassUpdate } from "../auto/prefs";
+import { promptSignature, standingAnswerFor } from "../auto/signature";
 
 function recordPromptAnswer(
   rules: RulesState,
@@ -66,5 +68,20 @@ export function applyPromptAnswer(
 export function handleChoose(context: IntentContext): IntentResult {
   const { room, actorId, intent, step } = context;
   if (intent.type !== "rules_choose") return fail("unknown_intent", "contract:§5");
-  return applyPromptAnswer(room, actorId, intent.promptId, intent.answer, step);
+  const prompt = room.rules?.prompt?.id === intent.promptId ? room.rules.prompt : null;
+  const signature = prompt && intent.applyToSimilar ? promptSignature(room, prompt) : null;
+  const standing = prompt && intent.applyToSimilar ? standingAnswerFor(prompt, intent.answer) : null;
+  const result = applyPromptAnswer(room, actorId, intent.promptId, intent.answer, step);
+  if (!result.ok) return result;
+  // Auto-pass "yes to all": remember the answer for later identical prompts this turn.
+  if (signature && standing && room.rules) {
+    const rules = room.rules;
+    const prefs = applyAutoPassUpdate(rules, actorId, {});
+    const turn = rules.turn.number;
+    prefs.standing = [
+      ...(prefs.standing ?? []).filter((entry) => entry.signature !== signature),
+      { signature, answer: standing, turn },
+    ];
+  }
+  return result;
 }

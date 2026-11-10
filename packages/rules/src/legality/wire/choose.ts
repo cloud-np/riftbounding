@@ -24,5 +24,8 @@ export const validateChooseIntent: WireValidator = (value): RulesFailure | null 
   if (answer.number !== undefined && typeof answer.number !== "number") {
     return fail("illegal_action", "411.2", "answer.number must be a number");
   }
+  if (value.applyToSimilar !== undefined && typeof value.applyToSimilar !== "boolean") {
+    return fail("illegal_action", "411.2", "applyToSimilar must be a boolean");
+  }
   return null;
 };

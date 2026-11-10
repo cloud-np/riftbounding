@@ -8,6 +8,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "typecheck:oracle": "tsc --noEmit -p tsconfig.oracle.json",
     "test": "vitest run",
     "replay": "node scripts/replay.mjs"
   },

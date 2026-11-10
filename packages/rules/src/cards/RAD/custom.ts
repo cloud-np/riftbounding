@@ -107,6 +107,9 @@ registerCustomCondition("rad:event-amount", (ctx, params) => {
 /** The trigger event's subject was not a token (185; the kill event notes `data.token`). */
 registerCustomCondition("rad:event-not-token", (ctx) => ctx.env.event?.data?.token !== true);
 
+/** 811.6: the trigger's play event (`unit_played`/`card_played`) was a play from face down. */
+registerCustomCondition("rad:event-played-from-facedown", (ctx) => ctx.env.event?.data?.playedFromFacedown === true);
+
 /** `it` is a unit or a gear (permanents, 141). */
 registerCustomCondition("rad:unit-or-gear", (ctx) => {
   const it = ctx.env.it;

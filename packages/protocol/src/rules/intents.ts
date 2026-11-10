@@ -6,6 +6,7 @@
  */
 
 import type { ChoiceRecord, PaidCost, PromptAnswer, RulesMode } from "./core";
+import type { AutoPassPrefsUpdate } from "./auto-pass";
 import type { ZoneSelector } from "./effects";
 import type { PlayActivateIntentFields, PlayPlayIntentFields } from "./domains/play";
 
@@ -52,6 +53,11 @@ export interface RulesChooseIntent {
   type: "rules_choose";
   promptId: string;
   answer: PromptAnswer;
+  /**
+   * Auto-pass "yes to all": remember this answer for later identical prompts this turn
+   * (yes/no and trigger-order prompts only; see `docs/rules/auto-pass.md`). Optional.
+   */
+  applyToSimilar?: boolean;
 }
 
 export interface RulesManualDoneIntent {
@@ -66,6 +72,16 @@ export interface RulesConcedeIntent {
   type: "rules_concede";
 }
 
+/**
+ * Auto-pass preferences (`docs/rules/auto-pass.md`): merge `prefs` into the actor's
+ * `RulesState.autoPass` entry. Allowed at any time in game, without Priority (like
+ * `rules_concede`); it never acts for another player.
+ */
+export interface RulesSetAutoPassIntent {
+  type: "rules_set_auto_pass";
+  prefs: AutoPassPrefsUpdate;
+}
+
 export type RulesIntent =
   | RulesPlayIntent
   | RulesActivateIntent
@@ -74,7 +90,8 @@ export type RulesIntent =
   | RulesEndTurnIntent
   | RulesChooseIntent
   | RulesManualDoneIntent
-  | RulesConcedeIntent;
+  | RulesConcedeIntent
+  | RulesSetAutoPassIntent;
 
 /** Lobby toggle (host only, lobby phase). */
 export interface SetLobbyRulesModeAction {
@@ -93,4 +110,5 @@ export type RulesWireAction =
   | RulesEndTurnIntent
   | RulesChooseIntent
   | RulesManualDoneIntent
-  | RulesConcedeIntent;
+  | RulesConcedeIntent
+  | RulesSetAutoPassIntent;

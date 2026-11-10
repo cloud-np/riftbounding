@@ -20,6 +20,7 @@ import { validateManualIntent } from "./wire/manual";
 import { validateMoveIntent } from "./wire/move";
 import { validatePassIntent } from "./wire/pass";
 import { validatePlayIntent } from "./wire/play";
+import { validateSetAutoPassIntent } from "./wire/auto-pass";
 import {
   CONTRACT_3,
   CONTRACT_5,
@@ -40,6 +41,7 @@ export const WIRE_VALIDATORS: Record<IntentType, WireValidator> = {
   rules_choose: validateChooseIntent,
   rules_manual_done: validateManualIntent,
   rules_concede: validateConcedeIntent,
+  rules_set_auto_pass: validateSetAutoPassIntent,
 };
 
 /**

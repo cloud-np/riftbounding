@@ -8,8 +8,11 @@
  * …) come from the engine's token catalog; `TokenSpec.might/keywords/tags` override/add.
  * `TokenSpec.play` marks "play a … token" (440.2.c): the token counts as played
  * (`unit_played`/`gear_played` with `data.token`).
+ * 811.1.d.5: a spell played from face down that plays a unit plays it at the battlefield it was
+ * hidden at (its chain item's `playedFromFacedown`), whatever location the effect names.
  */
-import type { Room } from "@rift/protocol";
+import type { Room, TokenSpec } from "@rift/protocol";
+import { getCardByName } from "@rift/cards";
 import type { RulesHost } from "../../host";
 import { pushEvent } from "../../types";
 import { createTokenPrimitive } from "../../actions/tokens";
@@ -27,6 +30,19 @@ function setTags(room: Room, host: RulesHost, id: string, tags: string[]): void 
   if (located) located.card.subtypes = [...tags];
 }
 
+/**
+ * 811.1.d.5: "If a hidden spell ... causes you to play a unit, you must choose to play that unit
+ * at that battlefield." The battlefield a resolving card was played from face down at, when this
+ * creation plays a unit.
+ */
+function facedownUnitBattlefield(room: Room, itemId: string | undefined, spec: TokenSpec): string | null {
+  if (!spec.play || !itemId) return null;
+  const item = room.rules?.chain.find((entry) => entry.id === itemId);
+  if (item?.kind !== "card" || typeof item.playedFromFacedown !== "string") return null;
+  const type = (spec.type ?? getCardByName(spec.name)?.type ?? "").toLowerCase();
+  return type.includes("unit") ? item.playedFromFacedown : null;
+}
+
 registerEffectOp("create", (effect, context) => {
   if (effect.op !== "create") return { status: "manual", reason: "effect_not_implemented:create" };
   const host = hostOf(context);
@@ -35,7 +51,12 @@ registerEffectOp("create", (effect, context) => {
   const count = Math.max(0, spec.count ?? 1);
   const zoneSelector = effect.zone ?? spec.zone;
   const zones = zoneSelector ? resolveZoneNames(ctx, zoneSelector) : ["base"];
-  const zone = zones.find((entry) => locationZones(context.room, host).includes(entry)) ?? "base";
+  const locations = locationZones(context.room, host);
+  const facedownAt = facedownUnitBattlefield(context.room, context.itemId, spec);
+  const zone =
+    facedownAt && locations.includes(facedownAt)
+      ? facedownAt
+      : (zones.find((entry) => locations.includes(entry)) ?? "base");
   const created: string[] = [];
   for (const playerId of playersOf(context, effect.player)) {
     for (let index = 0; index < count; index += 1) {

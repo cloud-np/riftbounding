@@ -1,4 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src", "test", "vitest.config.ts"]
+  "include": ["src", "test", "vitest.config.ts"],
+  // The heavy oracle fuzz reads types from the local-only, gitignored `.recon/oracle` checkout.
+  // Leave it out so a clean clone (and CI) typechecks; `pnpm typecheck:oracle` covers it locally.
+  "exclude": ["test/helpers/oracle-fuzz-fixtures.ts", "test/oracle.fuzz.deep.test.ts"]
 }

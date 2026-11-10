@@ -36,8 +36,9 @@ export interface TriggerScope {
 /**
  * 420.4.a: "when you play a card" triggers when playing completes by the card's resolution
  * (`played`); a countered card never resolves, so it never triggers (426.1.b). 383.4.c.2.c /
- * 383.4.d.2.c: conquer/hold effects trigger even when the point is replaced (`score_draw_instead`
- * carries `data.kind`).
+ * 383.4.d.2.c: conquer/hold effects trigger even when the point is replaced — `scoreBattlefield`
+ * emits the `conquer` event itself (`finalPointReplaced`), so `score_draw_instead` is NOT a
+ * conquer alias here (473.2.c: at most one trigger per battlefield scored).
  */
 const TYPE_ALIASES: Readonly<Record<string, readonly string[]>> = EVENT_TYPE_ALIASES;
 
@@ -89,8 +90,7 @@ export function eventMatches(
   event: GameEvent,
   scope: TriggerScope,
 ): boolean {
-  const type = event.type === "score_draw_instead" && typeof event.data?.kind === "string" ? event.data.kind : event.type;
-  if (!typeList(matcher).includes(type)) return false;
+  if (!typeList(matcher).includes(event.type)) return false;
   const ctx = evalContext(room, host, scope, event);
   const subject = event.cardId ?? event.objectId;
   if (matcher.subject) {

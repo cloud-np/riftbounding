@@ -22,7 +22,7 @@ import type {
   Zone,
 } from "@rift/protocol";
 
-import { findCard, isStrictRoom } from "./strict-model";
+import { isStrictRoom } from "./strict-model";
 
 /** 411.2 prompts whose options are board objects/zones: a board click can answer them. */
 export const OBJECT_PROMPT_KINDS: ReadonlySet<string> = new Set([
@@ -151,20 +151,55 @@ export function promptOptionMatchIds(prompt: Prompt): Set<string> {
   return ids;
 }
 
-/** True when at least one option is a visible board card, board zone or player seat. */
-export function promptHasBoardTargets(room: Room, prompt: Prompt): boolean {
-  if (!promptIsObjectPrompt(prompt)) return false;
-  for (const option of prompt.options ?? []) {
-    if (option.disabled) continue;
-    if (option.playerId) return true;
-    if (option.zone && BOARD_ZONES.has(option.zone)) return true;
-    for (const id of [option.cardId, option.objectId, option.id]) {
-      if (typeof id === "string" && id.length > 0) {
-        if (findCard(room, id) || BOARD_ZONES.has(id)) return true;
-      }
+/**
+ * Piles whose cards cannot be clicked on the board: they are face down, or only open in a pile
+ * viewer. A prompt option inside one of them must be answered from the prompt dialog.
+ */
+const PILE_ZONES: ReadonlySet<string> = new Set(["deck", "runeDeck", "trash", "banished"]);
+
+/** Where a prompt option can be picked: a clickable board object, a pile card, or neither. */
+function optionReach(room: Room, option: PromptOption): "board" | "pile" | "none" {
+  if (option.playerId) return "board";
+  if (option.zone && BOARD_ZONES.has(option.zone)) return "board";
+  for (const id of [option.cardId, option.objectId, option.id]) {
+    if (typeof id !== "string" || id.length === 0) continue;
+    if (BOARD_ZONES.has(id)) return "board";
+    const zone = cardZoneKey(room, id);
+    if (zone) return PILE_ZONES.has(zone) ? "pile" : "board";
+  }
+  return "none";
+}
+
+/** The board key (`hand`, `base`, `trash`, …, or `chain`) that holds `cardId`, or null. */
+function cardZoneKey(room: Room, cardId: string): string | null {
+  for (const player of room.players) {
+    const board = player.board as unknown as Record<string, unknown> | undefined;
+    if (!board) continue;
+    for (const [zone, value] of Object.entries(board)) {
+      if (!Array.isArray(value)) continue;
+      if ((value as Array<{ id?: string } | null>).some((entry) => entry?.id === cardId)) return zone;
     }
   }
-  return false;
+  return room.chainEntries.some((entry) => entry.card.id === cardId) ? "chain" : null;
+}
+
+/**
+ * True when the prompt is answered by clicking the board: at least one option is a clickable
+ * board card, board zone or player seat, and no option is a card inside a pile (deck, trash, …).
+ * The prompt dialog is hidden while the board answers, so a single unclickable option would be
+ * unreachable (411.2 soft-lock: Stacked Deck, Vision/Predict, trash picks) — those prompts use
+ * the dialog instead.
+ */
+export function promptHasBoardTargets(room: Room, prompt: Prompt): boolean {
+  if (!promptIsObjectPrompt(prompt)) return false;
+  let reachable = false;
+  for (const option of prompt.options ?? []) {
+    if (option.disabled) continue;
+    const reach = optionReach(room, option);
+    if (reach === "pile") return false;
+    if (reach === "board") reachable = true;
+  }
+  return reachable;
 }
 
 /** The object/zone ids a gesture names, most specific first (mirrors the engine contract). */
@@ -201,6 +236,24 @@ export function gestureObjectIds(action: object): string[] {
 
 function optionMatches(option: PromptOption, id: string): boolean {
   return option.id === id || option.objectId === id || option.cardId === id || option.zone === id;
+}
+
+/**
+ * 411.2: a board card click while this client answers a board prompt. Returns the gesture that
+ * answers it, `"not-an-option"` when the card is not one of the options (nothing is sent), or
+ * `null` when no board prompt is pending and the normal click flow continues. It deliberately
+ * ignores who owns the card — enemy units are the usual targets — and the caller sends the
+ * gesture as the prompted player, never as the card's owner.
+ */
+export function strictPromptClick(
+  prompt: Prompt | null,
+  promptOnBoard: boolean,
+  zone: Zone,
+  cardId: string,
+): WireAction | "not-an-option" | null {
+  if (!prompt || !promptOnBoard) return null;
+  const gesture = strictUseGesture(zone, cardId);
+  return promptOptionForAction(prompt, gesture) ? gesture : "not-an-option";
 }
 
 /** The prompt option named by a board gesture, or null. */

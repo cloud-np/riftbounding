@@ -33,19 +33,12 @@ import { registerTestCardScript } from "../../src/testing";
 
 import { loadFixtureDecks as loadDecks, withExtraCards, type ExtraDeckCards } from "../fixtures/decks";
 
-let scenarioCounter = 0;
+import { deterministicContext } from "./context";
 
-export function deterministicContext(seed = 123456789): RulesContext {
-  let state = seed >>> 0;
-  return {
-    now: 1_760_000_000_000,
-    rng: () => {
-      state = (1664525 * state + 0x3c6ef35f) >>> 0;
-      return state / 0x100000000;
-    },
-    mode: "multiplayer",
-  };
-}
+// Re-exported for the suites that import it from the DSL (backward compatible).
+export { deterministicContext };
+
+let scenarioCounter = 0;
 
 export interface PlayerScenarioInput {
   hand?: string[];

@@ -111,7 +111,7 @@ describe("Wave R4 Vendetta legends", () => {
     answer(s, ["ganking"]);
     settle(s);
     expect(s.room.rules!.objects[jayce.id]?.keywordGrants?.some((grant) => grant.keyword === "Ganking")).toBe(true);
-    expect(getCardScript("Jayce, Hammer in Hand")?.status).toBe("partial");
+    expect(getCardScript("Jayce, Hammer in Hand")?.status).toBe("implemented");
   });
 
   it("[C:Dragon Roost][C:Heisho, Shell of the World][C:Mystic Vortex][C:Piltovan Forge][C:Risen Altar][C:Sandswept Tomb] battlefield scripts are registered", () => {

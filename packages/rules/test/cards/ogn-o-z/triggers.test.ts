@@ -163,8 +163,8 @@ describe("Origins O–Z triggered abilities", () => {
     expect(zoneOf(s, pursuer.id)).toBe("battlefieldA");
   });
 
-  it("[C:Pirate's Haven][C:Vanguard Helm][C:Solari Shrine][C:Volibear, Imposing] blocked triggers are manual/partial with notes", () => {
-    expect(getCardScript("Pirate's Haven")?.status).toBe("manual");
+  it("[C:Pirate's Haven][C:Vanguard Helm][C:Solari Shrine][C:Volibear, Imposing] trigger script statuses (Pirate's Haven unblocked by per-object Awaken readies)", () => {
+    expect(getCardScript("Pirate's Haven")?.status).toBe("implemented");
     expect(getCardScript("Vanguard Helm")?.status).toBe("implemented");
     expect(getCardScript("Solari Shrine")?.status).toBe("implemented");
     const s = withCards(["Volibear, Imposing"]);
