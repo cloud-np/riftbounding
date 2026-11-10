@@ -150,7 +150,11 @@ export function targets(
   if (cached !== undefined) return { ok: true, ids: idsOf(cached) };
 
   const bound = key in env.vars ? env.vars[key] : env.choices[key];
-  if (bound === undefined || bound === null) {
+  // 355.5 / 355.13: an "up to" choice made when played binds even when zero objects were chosen
+  // (the play layer stores `null` for an empty single choice). Only a key that was never chosen
+  // is asked now — otherwise a unit that arrived after the play could be picked on resolution.
+  const choseZeroOnPlay = bound === null && !(key in env.vars) && key in env.choices;
+  if (bound === undefined || (bound === null && !choseZeroOnPlay)) {
     const machine = context.machine;
     const answer = machine?.frame.answer;
     if (machine && answer !== undefined) {

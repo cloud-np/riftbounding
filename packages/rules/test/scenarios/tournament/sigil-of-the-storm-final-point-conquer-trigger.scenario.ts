@@ -16,12 +16,6 @@ export default defineScenario({
     "Not a real game. Ezreal's battlefield Sigil of the Storm and Traveling Merchant are from the cited Bologna winner's list (search-result snippet); P2's side is invented. At one point from victory, conquering without having scored every battlefield replaces the point with a draw (473.1.b.1), but the battlefield was still Scored, so \"When you conquer here\" triggers exactly once (473.2, 473.2.c).",
   rules: ["473.1.b.1", "473.2", "473.2.a", "473.2.c", "383.4.d.2.c"],
   tags: ["scoring", "final-point", "trigger", "battlefield"],
-  expectFailure: {
-    reason:
-      '[BUG] at Victory Score - 1 a Conquer ability triggers twice: `scoreBattlefield` emits both `score_draw_instead` (which `triggerMatchesEvent` maps to `conquer` via data.kind) and an explicit `conquer` event, so every "When you conquer" source queues two triggers and the player gets an order prompt with two Sigil of the Storm triggers.',
-    rule: '473.2.c "These will only trigger when the Battlefield is Scored; I.E. These cannot be triggered more than once per turn for a player."',
-    atStep: 3,
-  },
   position: {
     turn: { player: "P1", number: 10 },
     battlefields: [

@@ -19,12 +19,6 @@ export default defineScenario({
     'Not a real game; cards from the cited lists (search-result snippets). Moonfall reads "Choose a battlefield where you have units. You may move up to one enemy unit to that battlefield." Its targets are chosen on play (355.5); choosing zero of an "up to" choice is legal and the spell is then played without that target (355.13). The engine stores the empty choice on play but asks again on resolution (with options re-evaluated at that time), letting the controller pick a unit that was never chosen on play. With one unit chosen on play there is no second prompt (see diana-moonfall-vs-vi-ambush).',
   rules: ["355.5", "355.13", "355.8"],
   tags: ["targets", "choice", "spell"],
-  expectFailure: {
-    reason:
-      '[BUG] an "up to N" target choice answered with zero options on play is treated as unbound on resolution: the play-choice handler stores `null` for an empty max-1 answer (prompts/play/handlers.ts) and `targets()` treats `null` as unbound (effects/targets.ts), so `effects.resume` opens a second choose-target prompt for Moonfall\'s enemy unit with options computed at resolution.',
-    rule: '355.13 "If a card specifies that a player chooses “any number” or “up to” some number of Game Objects to be affected, they may choose any number of available targets, including zero. If they choose zero, the spell or ability can be played without any targets." / 355.5 "If a card requires you to specifically choose one or more Game Objects, that choice is made now."',
-    atStep: 4,
-  },
   position: {
     turn: { player: "P1", number: 8 },
     battlefields: [
