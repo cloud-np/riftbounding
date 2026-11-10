@@ -75,6 +75,7 @@ import {
   promptOptionMatchIds,
   promptSelectionBounds,
   strictManualWindowFor,
+  strictPromptClick,
   strictUseGesture,
   strictViewFromLegal,
   togglePromptSelection,
@@ -1607,18 +1608,24 @@ export function BoardInteractionProvider({
         return;
       }
       if (strictActive) {
-        if (!canActAsOwner) {
-          if (isSelf && interactive) scheduleCardPreview(card, event, 0);
+        // 411.2: an object prompt is answered by clicking its board option, whoever owns the
+        // card (enemy units are the usual targets), so this runs before the ownership check.
+        // `strictPrompt` is only set for a prompt this client answers, and the answer is sent by
+        // the prompted player (`strictView.actorId` = "self"), never as the clicked card's
+        // owner. Anything else is not a legal target; the aim arrow shows the not-allowed state
+        // and sends nothing.
+        const promptClick = interactive
+          ? strictPromptClick(strictPrompt, strictPromptOnBoard, zone, card.id)
+          : null;
+        if (promptClick) {
+          if (promptClick !== "not-an-option") {
+            playBoardSound("card_click");
+            sendIntent(promptClick, "self");
+          }
           return;
         }
-        // 411.2: an object prompt is answered by clicking its board option. Anything else is not
-        // a legal target; the aim arrow shows the not-allowed state and sends nothing.
-        if (strictPrompt && strictPromptOnBoard) {
-          const gesture = strictUseGesture(zone, card.id);
-          if (promptOptionForAction(strictPrompt, gesture)) {
-            playBoardSound("card_click");
-            sendIntent(gesture, owner);
-          }
+        if (!canActAsOwner) {
+          if (isSelf && interactive) scheduleCardPreview(card, event, 0);
           return;
         }
         // Multi-unit Standard Move selection (Shift-click), then drag any selected Unit.
