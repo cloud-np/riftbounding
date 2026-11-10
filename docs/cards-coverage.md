@@ -15,34 +15,34 @@ A card is scripted when the runtime registry (`cardScriptNames()` / `getCardScri
 
 | Status | Cards | % of playable |
 | --- | ---: | ---: |
-| implemented | 805 | 73.9% |
-| partial | 200 | 18.3% |
-| manual | 85 | 7.8% |
+| implemented | 816 | 74.9% |
+| partial | 191 | 17.5% |
+| manual | 83 | 7.6% |
 | unscripted | 0 | 0.0% |
 | **Scripted (any status)** | **1090** | **100.0%** |
-| **Automated (implemented + partial)** | **1005** | **92.2%** |
+| **Automated (implemented + partial)** | **1007** | **92.4%** |
 | **Total playable names** | **1090** | **100.0%** |
 
 ## By type
 
 | Type | Total | Implemented | Partial | Manual | Unscripted | Automated coverage |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Unit | 554 | 410 | 110 | 34 | 0 | 93.9% |
+| Unit | 554 | 417 | 103 | 34 | 0 | 93.9% |
 | Spell | 271 | 229 | 27 | 15 | 0 | 94.5% |
-| Gear | 132 | 87 | 33 | 12 | 0 | 90.9% |
-| Battlefield | 74 | 45 | 13 | 16 | 0 | 78.4% |
-| Legend | 58 | 33 | 17 | 8 | 0 | 86.2% |
+| Gear | 132 | 88 | 33 | 11 | 0 | 91.7% |
+| Battlefield | 74 | 47 | 11 | 16 | 0 | 78.4% |
+| Legend | 58 | 34 | 17 | 7 | 0 | 87.9% |
 | Unit Gear | 1 | 1 | 0 | 0 | 0 | 100.0% |
 
 ## By set
 
 | Set | Total | Implemented | Partial | Manual | Unscripted | Automated coverage |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Origins | 292 | 217 | 49 | 26 | 0 | 91.1% |
-| Spiritforged | 221 | 167 | 33 | 21 | 0 | 90.5% |
+| Origins | 292 | 222 | 45 | 25 | 0 | 91.4% |
+| Spiritforged | 221 | 168 | 32 | 21 | 0 | 90.5% |
 | Unleashed | 219 | 157 | 38 | 24 | 0 | 89.0% |
-| Vendetta | 167 | 121 | 46 | 0 | 0 | 100.0% |
-| Radiance | 168 | 121 | 33 | 14 | 0 | 91.7% |
+| Vendetta | 167 | 123 | 44 | 0 | 0 | 100.0% |
+| Radiance | 168 | 124 | 31 | 13 | 0 | 92.3% |
 | Proving Grounds | 23 | 22 | 1 | 0 | 0 | 100.0% |
 
 ## Unscripted cards by set

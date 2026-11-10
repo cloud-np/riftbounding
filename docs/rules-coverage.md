@@ -10,13 +10,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | --- | ---: |
 | Numbered rule entries in corpus | 2494 |
 | Rule bodies (entries minus section headings) | 2321 |
-| Rules with at least one test | 666 |
-| Rules coverage | 28.7% |
-| Tagged test titles | 1454 |
-| `[R…]` tags | 2506 |
+| Rules with at least one test | 691 |
+| Rules coverage | 29.8% |
+| Tagged test titles | 1502 |
+| `[R…]` tags | 2606 |
 | `[EX:…]` tags | 116 |
 | Range tags (not expanded) | 25 unique / 29 refs |
-| Test/helper files scanned | 203 |
+| Test/helper files scanned | 213 |
 | Unknown rule ids referenced | 0 |
 
 ## Per-section coverage
@@ -25,10 +25,10 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Golden Rule | 1 | 0 | 0.0% | 0 | 0 |
 | Silver Rule | 7 | 1 | 14.3% | 2 | 0 |
-| “Can’t beats Can” | 7 | 3 | 42.9% | 27 | 0 |
+| “Can’t beats Can” | 7 | 3 | 42.9% | 28 | 0 |
 | Deck Construction | 34 | 0 | 0.0% | 0 | 0 |
 | Spaces | 1 | 0 | 0.0% | 0 | 0 |
-| The Board | 26 | 3 | 11.5% | 7 | 0 |
+| The Board | 26 | 7 | 26.9% | 13 | 0 |
 | Non-Board Zones | 42 | 0 | 0.0% | 0 | 0 |
 | Setup Process | 20 | 0 | 0.0% | 0 | 0 |
 | Game Objects | 7 | 0 | 0.0% | 0 | 0 |
@@ -46,7 +46,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Might Bonus | 5 | 0 | 0.0% | 0 | 0 |
 | Flavor Text | 2 | 0 | 0.0% | 0 | 0 |
 | Illustration | 1 | 0 | 0.0% | 0 | 0 |
-| Units | 68 | 19 | 27.9% | 52 | 2 |
+| Units | 68 | 20 | 29.4% | 56 | 2 |
 | Gear | 32 | 2 | 6.3% | 2 | 0 |
 | Spells | 18 | 0 | 0.0% | 0 | 0 |
 | Runes | 15 | 2 | 13.3% | 2 | 0 |
@@ -55,19 +55,19 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Battlefields | 43 | 15 | 34.9% | 21 | 1 |
 | Legends | 14 | 0 | 0.0% | 0 | 0 |
 | Multiple Types | 10 | 0 | 0.0% | 0 | 0 |
-| Tokens | 39 | 9 | 23.1% | 19 | 0 |
+| Tokens | 39 | 9 | 23.1% | 21 | 0 |
 | Control | 1 | 0 | 0.0% | 0 | 0 |
 | Everything Else | 21 | 0 | 0.0% | 0 | 0 |
-| Winning | 17 | 10 | 58.8% | 14 | 0 |
+| Winning | 17 | 11 | 64.7% | 17 | 0 |
 | Locations | 6 | 0 | 0.0% | 0 | 0 |
 | Costs | 22 | 7 | 31.8% | 16 | 2 |
 | The Turn | 8 | 2 | 25.0% | 11 | 0 |
 | States of the Turn | 14 | 12 | 85.7% | 20 | 0 |
 | Priority and Focus | 18 | 5 | 27.8% | 14 | 0 |
-| Start of Turn | 19 | 6 | 31.6% | 14 | 0 |
+| Start of Turn | 19 | 8 | 42.1% | 19 | 0 |
 | Main Phase | 26 | 3 | 11.5% | 3 | 0 |
-| Ending Phase | 11 | 5 | 45.5% | 32 | 0 |
-| Cleanups | 38 | 19 | 50.0% | 58 | 2 |
+| Ending Phase | 11 | 7 | 63.6% | 37 | 0 |
+| Cleanups | 38 | 19 | 50.0% | 61 | 2 |
 | Chains and Showdowns | 3 | 0 | 0.0% | 0 | 0 |
 | Chains | 14 | 0 | 0.0% | 0 | 0 |
 | Handling Tasks and Resolving Chain Items | 10 | 1 | 10.0% | 1 | 0 |
@@ -75,34 +75,34 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Step 2: Execute | 11 | 1 | 9.1% | 1 | 0 |
 | Step 3: Pass | 2 | 1 | 50.0% | 2 | 0 |
 | Step 4: Resolve | 5 | 3 | 60.0% | 7 | 0 |
-| Showdowns | 25 | 10 | 40.0% | 19 | 0 |
+| Showdowns | 25 | 13 | 52.0% | 26 | 0 |
 | Playing Cards | 9 | 1 | 11.1% | 1 | 0 |
-| The Process of Play | 152 | 79 | 52.0% | 316 | 38 |
+| The Process of Play | 152 | 79 | 52.0% | 318 | 38 |
 | Abilities | 3 | 1 | 33.3% | 1 | 0 |
 | Passive Abilities | 5 | 2 | 40.0% | 15 | 0 |
 | Presence on Permanents | 3 | 2 | 66.7% | 6 | 0 |
 | Presence on Card outside of the Board | 3 | 1 | 33.3% | 15 | 0 |
 | Replacement Effects | 34 | 14 | 41.2% | 57 | 3 |
 | Activated Abilities | 21 | 4 | 19.0% | 24 | 4 |
-| Triggered Abilities | 69 | 32 | 46.4% | 158 | 7 |
+| Triggered Abilities | 69 | 32 | 46.4% | 162 | 7 |
 | Presence on Cards outside of the Board | 9 | 1 | 11.1% | 0 | 1 |
 | Reflexive Triggers | 10 | 4 | 40.0% | 5 | 1 |
 | Delayed Abilities | 14 | 5 | 35.7% | 24 | 2 |
 | Linked Abilities | 5 | 0 | 0.0% | 0 | 0 |
 | Playing or Activating Abilities | 35 | 14 | 40.0% | 48 | 0 |
-| Game Actions | 12 | 2 | 16.7% | 29 | 0 |
-| Responsibility | 8 | 2 | 25.0% | 5 | 0 |
+| Game Actions | 12 | 2 | 16.7% | 32 | 0 |
+| Responsibility | 8 | 3 | 37.5% | 7 | 0 |
 | Draw | 10 | 2 | 20.0% | 4 | 0 |
 | Exhaust | 9 | 3 | 33.3% | 6 | 0 |
-| Ready | 8 | 2 | 25.0% | 3 | 0 |
+| Ready | 8 | 5 | 62.5% | 12 | 0 |
 | Recycle | 11 | 6 | 54.5% | 12 | 2 |
 | Deal | 24 | 10 | 41.7% | 26 | 5 |
 | Heal | 5 | 2 | 40.0% | 2 | 0 |
 | Play | 15 | 9 | 60.0% | 50 | 2 |
 | Move | 7 | 1 | 14.3% | 5 | 0 |
 | Hide | 5 | 1 | 20.0% | 1 | 0 |
-| Discard | 8 | 3 | 37.5% | 11 | 1 |
-| Stun | 8 | 4 | 50.0% | 10 | 2 |
+| Discard | 8 | 3 | 37.5% | 12 | 1 |
+| Stun | 8 | 4 | 50.0% | 11 | 2 |
 | Reveal | 14 | 2 | 14.3% | 1 | 1 |
 | Counter | 9 | 3 | 33.3% | 5 | 0 |
 | Buff | 9 | 3 | 33.3% | 5 | 2 |
@@ -115,7 +115,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Swap | 7 | 3 | 42.9% | 4 | 0 |
 | Attach | 20 | 4 | 20.0% | 3 | 1 |
 | Detach | 15 | 1 | 6.7% | 1 | 0 |
-| Predict | 8 | 4 | 50.0% | 6 | 0 |
+| Predict | 8 | 4 | 50.0% | 7 | 0 |
 | Prevent | 21 | 9 | 42.9% | 11 | 1 |
 | Replace | 18 | 0 | 0.0% | 0 | 0 |
 | Create | 20 | 4 | 20.0% | 35 | 0 |
@@ -123,15 +123,15 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Empower | 23 | 9 | 39.1% | 22 | 0 |
 | Disempower | 6 | 3 | 50.0% | 4 | 0 |
 | Skip | 10 | 2 | 20.0% | 2 | 1 |
-| Pay | 9 | 1 | 11.1% | 4 | 0 |
+| Pay | 9 | 1 | 11.1% | 5 | 0 |
 | Copy | 5 | 0 | 0.0% | 0 | 0 |
 | Movement | 21 | 7 | 33.3% | 15 | 0 |
-| Recalls | 9 | 5 | 55.6% | 6 | 0 |
+| Recalls | 9 | 5 | 55.6% | 8 | 0 |
 | Combat | 12 | 5 | 41.7% | 12 | 0 |
 | Step 1: The Combat Showdown Step | 16 | 10 | 62.5% | 20 | 0 |
-| Step 2: The Combat Damage Step | 19 | 12 | 63.2% | 23 | 5 |
-| Step 3: The Resolution Step | 23 | 16 | 69.6% | 28 | 0 |
-| Scoring | 21 | 12 | 57.1% | 22 | 0 |
+| Step 2: The Combat Damage Step | 19 | 14 | 73.7% | 29 | 5 |
+| Step 3: The Resolution Step | 23 | 16 | 69.6% | 31 | 0 |
+| Scoring | 21 | 13 | 61.9% | 30 | 0 |
 | Layers | 53 | 8 | 15.1% | 41 | 3 |
 | Modes of Play | 16 | 0 | 0.0% | 0 | 0 |
 | 1v1 (Duel) | 8 | 1 | 12.5% | 1 | 0 |
@@ -143,31 +143,31 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Buffs | 14 | 5 | 35.7% | 13 | 0 |
 | Mighty | 5 | 4 | 80.0% | 8 | 3 |
 | Bonus Damage | 10 | 6 | 60.0% | 6 | 5 |
-| Attachment | 25 | 7 | 28.0% | 36 | 1 |
+| Attachment | 25 | 7 | 28.0% | 38 | 1 |
 | Inactive | 13 | 1 | 7.7% | 0 | 1 |
 | Keywords can be Dependent Keywords | 14 | 3 | 21.4% | 12 | 1 |
 | XP | 11 | 4 | 36.4% | 11 | 0 |
 | Additional Turns | 4 | 0 | 0.0% | 0 | 0 |
-| Special Terms | 15 | 9 | 60.0% | 38 | 0 |
+| Special Terms | 15 | 9 | 60.0% | 40 | 0 |
 | Counters | 13 | 0 | 0.0% | 0 | 0 |
 | Making New Choices | 11 | 0 | 0.0% | 0 | 0 |
 | Untargetability | 6 | 2 | 33.3% | 7 | 1 |
 | Naming Cards, Types, and Tags | 9 | 0 | 0.0% | 0 | 0 |
 | Ignoring Effects | 3 | 2 | 66.7% | 2 | 2 |
 | Keywords | 14 | 6 | 42.9% | 26 | 0 |
-| Accelerate | 13 | 3 | 23.1% | 10 | 0 |
+| Accelerate | 13 | 5 | 38.5% | 14 | 0 |
 | Action | 16 | 2 | 12.5% | 3 | 1 |
 | Assault | 11 | 4 | 36.4% | 16 | 1 |
 | Deathknell | 14 | 4 | 28.6% | 14 | 0 |
 | Deflect | 11 | 3 | 27.3% | 29 | 0 |
 | Ganking | 9 | 3 | 33.3% | 12 | 0 |
-| Hidden | 22 | 4 | 18.2% | 14 | 0 |
+| Hidden | 22 | 7 | 31.8% | 19 | 0 |
 | Legion | 8 | 2 | 25.0% | 6 | 0 |
 | Reaction | 17 | 2 | 11.8% | 3 | 0 |
 | Shield | 11 | 4 | 36.4% | 12 | 1 |
 | Tank | 8 | 4 | 50.0% | 5 | 0 |
-| Temporary | 7 | 2 | 28.6% | 8 | 0 |
-| Vision | 8 | 2 | 25.0% | 6 | 0 |
+| Temporary | 7 | 2 | 28.6% | 10 | 0 |
+| Vision | 8 | 2 | 25.0% | 7 | 0 |
 | Equip | 20 | 5 | 25.0% | 11 | 0 |
 | Quick-Draw | 7 | 3 | 42.9% | 7 | 0 |
 | Repeat | 15 | 10 | 66.7% | 33 | 1 |
@@ -176,13 +176,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Hunt | 9 | 2 | 22.2% | 3 | 0 |
 | Level | 9 | 1 | 11.1% | 2 | 0 |
 | Unique | 7 | 0 | 0.0% | 0 | 0 |
-| Backline | 8 | 2 | 25.0% | 3 | 0 |
+| Backline | 8 | 2 | 25.0% | 4 | 0 |
 | Empowered | 8 | 3 | 37.5% | 22 | 0 |
 | Flow | 10 | 4 | 40.0% | 5 | 0 |
 | Deploy | 8 | 4 | 50.0% | 7 | 0 |
 | Disarm | 11 | 3 | 27.3% | 3 | 1 |
 | Show Off | 14 | 2 | 14.3% | 2 | 0 |
-| **Total** | **2321** | **666** | **28.7%** | **2506** | **116** |
+| **Total** | **2321** | **691** | **29.8%** | **2606** | **116** |
 
 ## Per-rule coverage — Sections 300–479
 
@@ -228,15 +228,15 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 313.3 | Priority and Focus | 0 | 0 | 0 | A player who passes Priority retains Focus. |
 | 313.4 | Priority and Focus | 0 | 0 | 0 | A player may not make discretionary actions with Focus unless they also possess Priority. |
 | 313.5 | Priority and Focus | 3 | 3 | 0 | If the turn is in a Neutral State, no player has Focus. |
-| 315.1 | Start of Turn | 1 | 1 | 0 | Awaken Phase |
+| 315.1 | Start of Turn | 2 | 2 | 0 | Awaken Phase |
 | 315.1.a | Start of Turn | 0 | 0 | 0 | The following Task becomes Outstanding: |
-| 315.1.b | Start of Turn | 0 | 0 | 0 | 1. The Turn Player readies all Game Objects they control that are able to be readied. See rule 416.… |
-| 315.2 | Start of Turn | 2 | 2 | 0 | Beginning Phase |
+| 315.1.b | Start of Turn | 1 | 1 | 0 | 1. The Turn Player readies all Game Objects they control that are able to be readied. See rule 416.… |
+| 315.2 | Start of Turn | 3 | 3 | 0 | Beginning Phase |
 | 315.2.a | Start of Turn | 0 | 0 | 0 | Beginning Step |
 | 315.2.a.1 | Start of Turn | 5 | 5 | 0 | At the start of Beginning Phase game effects take place. |
 | 315.2.b | Start of Turn | 2 | 2 | 0 | Scoring Step |
 | 315.2.b.1 | Start of Turn | 0 | 0 | 0 | The following Task becomes Outstanding: |
-| 315.2.b.2 | Start of Turn | 0 | 0 | 0 | 1. The Turn Player Holds all Battlefields they Control. See rule 469. Scoring for more information. |
+| 315.2.b.2 | Start of Turn | 2 | 2 | 0 | 1. The Turn Player Holds all Battlefields they Control. See rule 469. Scoring for more information. |
 | 315.2.b.3 | Start of Turn | 0 | 0 | 0 | Reminder: In Modes of Play with Teams, Battlefields controlled by a Teammate of the Turn Player dur… |
 | 315.3 | Start of Turn | 0 | 0 | 0 | Channel Phase |
 | 315.3.a | Start of Turn | 0 | 0 | 0 | The following Task becomes Outstanding: |
@@ -276,11 +276,11 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 317.1 | Ending Phase | 2 | 2 | 0 | Ending Step |
 | 317.1.a | Ending Phase | 0 | 0 | 0 | At the end of this turn and at the end of turn Game Effects take place. |
 | 317.1.b | Ending Phase | 0 | 0 | 0 | Specific game effects and abilities will reference this timing and phase as necessary. |
-| 317.2 | Ending Phase | 0 | 0 | 0 | Expiration Step |
+| 317.2 | Ending Phase | 1 | 1 | 0 | Expiration Step |
 | 317.2.a | Ending Phase | 0 | 0 | 0 | Invoke an Ending Special Cleanup. See rule 318. Cleanups for more information. |
-| 317.2.b | Ending Phase | 2 | 2 | 0 | Insert “3c. Heal all Units.” |
-| 317.2.c | Ending Phase | 21 | 21 | 0 | Insert “3d. All ‘this turn’ effects expire simultaneously.” |
-| 317.2.d | Ending Phase | 0 | 0 | 0 | Insert “3e. Each player’s Rune Pool empties. Any unspent Energy and Power are lost.” |
+| 317.2.b | Ending Phase | 3 | 3 | 0 | Insert “3c. Heal all Units.” |
+| 317.2.c | Ending Phase | 23 | 23 | 0 | Insert “3d. All ‘this turn’ effects expire simultaneously.” |
+| 317.2.d | Ending Phase | 1 | 1 | 0 | Insert “3e. Each player’s Rune Pool empties. Any unspent Energy and Power are lost.” |
 | 317.2.e | Ending Phase | 0 | 0 | 0 | The following Task becomes Outstanding: |
 | 317.2.f | Ending Phase | 6 | 6 | 0 | 1. If any items underwent the FEPR process, return to the start of the Expiration Step |
 | 317.3 | Ending Phase | 1 | 1 | 0 | The next player with their Turn queued becomes the Turn Player. |
@@ -307,9 +307,9 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 323.2.c | Cleanups | 2 | 2 | 0 | If there are Units at locations other than the Battlefield that the Combat is taking place at, but … |
 | 323.3 | Cleanups | 0 | 0 | 0 | 3. Handle outstanding board state |
 | 323.4 | Cleanups | 5 | 5 | 0 | 3a. All Units that have Lethal Damage marked on them are killed and placed in their owners' Trash. … |
-| 323.5 | Cleanups | 4 | 4 | 0 | 4. Players lose control of any controlled Battlefields without their Units occupying them if the tu… |
+| 323.5 | Cleanups | 6 | 6 | 0 | 4. Players lose control of any controlled Battlefields without their Units occupying them if the tu… |
 | 323.6 | Cleanups | 5 | 5 | 0 | 5. Recall all of the following Game Objects, unless an effect would indicate otherwise: Unattached … |
-| 323.6.a | Cleanups | 2 | 2 | 0 | Remove all Hidden cards from all Battlefields that are not controlled by the same player and place … |
+| 323.6.a | Cleanups | 3 | 3 | 0 | Remove all Hidden cards from all Battlefields that are not controlled by the same player and place … |
 | 323.7 | Cleanups | 2 | 2 | 0 | 6. Mark a Showdown as Staged at each Battlefield that Contested was applied to and that has no ongo… |
 | 323.7.a | Cleanups | 0 | 0 | 0 | The Showdown remains Staged at that Battlefield as long as it is Contested and has units present co… |
 | 323.8 | Cleanups | 1 | 1 | 0 | 7. Mark a Combat as Staged at each Battlefield that Contested was applied to that have Units presen… |
@@ -383,21 +383,21 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 344 | Showdowns | 3 | 3 | 0 | A Showdown begins when Control of a Battlefield is Contested during a Cleanup and the turn is in a … |
 | 344.1 | Showdowns | 1 | 1 | 0 | If Control of a Battlefield is Contested between two players, then a Showdown will be opened as the… |
 | 344.2 | Showdowns | 0 | 0 | 0 | If Control of a Battlefield is Contested, there aren’t units controlled by different players there,… |
-| 345 | Showdowns | 3 | 3 | 0 | As a Showdown begins, the player who applied Contested status to the Battlefield gains Focus. |
+| 345 | Showdowns | 5 | 5 | 0 | As a Showdown begins, the player who applied Contested status to the Battlefield gains Focus. |
 | 346 | Showdowns | 2 | 2 | 0 | When the last item on the chain resolves and the turn returns to an Open State during a Showdown, F… |
 | 346.1 | Showdowns | 1 | 1 | 0 | Focus will not pass in this way if the chain opened as a result of a triggered ability being added … |
-| 347 | Showdowns | 0 | 0 | 0 | During a Showdown, the player with Focus may do one of the following: |
+| 347 | Showdowns | 1 | 1 | 0 | During a Showdown, the player with Focus may do one of the following: |
 | 347.1 | Showdowns | 1 | 1 | 0 | Play a Card or Activated Ability that is legally timed. |
 | 347.1.a | Showdowns | 0 | 0 | 0 | The card or activated ability will start a Chain as normal. |
 | 347.1.b | Showdowns | 0 | 0 | 0 | When that Chain closes, the next Player in Turn Order gains Focus. |
 | 347.2 | Showdowns | 0 | 0 | 0 | Pass. |
-| 347.2.a | Showdowns | 1 | 1 | 0 | If all Players have passed once in sequence, the Showdown ends. |
-| 347.2.b | Showdowns | 0 | 0 | 0 | Otherwise, the next Player in Turn Order gains Focus. |
-| 348 | Showdowns | 0 | 0 | 0 | If all players pass Focus without playing a card or activating an ability, then the Showdown Closes. |
+| 347.2.a | Showdowns | 2 | 2 | 0 | If all Players have passed once in sequence, the Showdown ends. |
+| 347.2.b | Showdowns | 1 | 1 | 0 | Otherwise, the next Player in Turn Order gains Focus. |
+| 348 | Showdowns | 1 | 1 | 0 | If all players pass Focus without playing a card or activating an ability, then the Showdown Closes. |
 | 348.1 | Showdowns | 0 | 0 | 0 | If it is a Combat Showdown, proceed with the remaining steps of Combat to resolve the phase. See ru… |
 | 348.2 | Showdowns | 1 | 1 | 0 | If it is a Non-Combat Showdown, do the following: |
 | 348.2.a | Showdowns | 5 | 5 | 0 | If only one player’s Units remain at the Battlefield, and if that player does not already Control t… |
-| 348.2.a.1 | Showdowns | 1 | 1 | 0 | This results in a Conquer if that player has not yet scored that Battlefield this turn. |
+| 348.2.a.1 | Showdowns | 2 | 2 | 0 | This results in a Conquer if that player has not yet scored that Battlefield this turn. |
 | 350 | Playing Cards | 0 | 0 | 0 | Playing a card is the act of a player utilizing their cards. |
 | 350.1 | Playing Cards | 0 | 0 | 0 | A card is Played when it has finished this process in its entirety. |
 | 350.2 | Playing Cards | 0 | 0 | 0 | Tokens are not cards, but can still be Played. See rule 179. Tokens for more information. |
@@ -425,7 +425,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 355.5.a | The Process of Play | 6 | 4 | 2 | This does not include cards that affect one or more Game Objects based on criteria. |
 | 355.5.b | The Process of Play | 3 | 2 | 1 | This does not include making choices for Triggered Abilities of permanents, or Delayed or Reflexive… |
 | 355.6 | The Process of Play | 0 | 0 | 0 | Targeting |
-| 355.7 | The Process of Play | 20 | 20 | 0 | When a card Chooses one or more specific Game Objects, Players, or Zones to affect, they are Target… |
+| 355.7 | The Process of Play | 22 | 22 | 0 | When a card Chooses one or more specific Game Objects, Players, or Zones to affect, they are Target… |
 | 355.8 | The Process of Play | 9 | 9 | 0 | In order to put a spell or ability on the chain, valid choices must be made for all targets. |
 | 355.9 | The Process of Play | 3 | 3 | 0 | A target is a valid choice if it meets all of the following requirements: |
 | 355.9.a | The Process of Play | 0 | 0 | 0 | It is a permanent or rune on the board, a finalized spell or ability on the chain, a player or zone… |
@@ -627,7 +627,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 381.2 | Activated Abilities | 0 | 0 | 0 | If the source of the Activated Ability is uncontrolled and it isn’t a Battlefield, that is the owne… |
 | 381.3 | Activated Abilities | 0 | 0 | 0 | If the Activated Ability specifies that one or more players other than the controller or owner of t… |
 | 383 | Triggered Abilities | 0 | 0 | 0 | Triggered Abilities are repeatable effects that happen when a Condition is met. |
-| 383.1 | Triggered Abilities | 2 | 2 | 0 | Triggered Abilities can usually be recognized by the word "when" followed by a game action or event… |
+| 383.1 | Triggered Abilities | 4 | 4 | 0 | Triggered Abilities can usually be recognized by the word "when" followed by a game action or event… |
 | 383.1.a | Triggered Abilities | 0 | 0 | 0 | The phrases that identify triggered abilities do not always appear at the beginning of sentences or… |
 | 383.1.b | Triggered Abilities | 2 | 2 | 0 | If an ability triggers “the [Nth] time” something happens and that trigger condition is met multipl… |
 | 383.2 | Triggered Abilities | 1 | 1 | 0 | Triggered Abilities have a Condition and an Effect. |
@@ -648,10 +648,10 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 383.3.b | Triggered Abilities | 8 | 7 | 1 | If a Triggered Ability contains a cost within instructions at the beginning of the effect or immedi… |
 | 383.3.b.1 | Triggered Abilities | 1 | 1 | 0 | The cost must be paid in order to finalize the Triggered Ability to the Chain. |
 | 383.3.c | Triggered Abilities | 0 | 0 | 0 | Triggered Abilities can be put on the Chain during Closed States or Open States on any player's tur… |
-| 383.3.d | Triggered Abilities | 2 | 2 | 0 | If more than one Triggered Ability is Triggered simultaneously, then the player that controls the A… |
+| 383.3.d | Triggered Abilities | 3 | 3 | 0 | If more than one Triggered Ability is Triggered simultaneously, then the player that controls the A… |
 | 383.3.d.1 | Triggered Abilities | 2 | 2 | 0 | If multiple players separately control Triggered Abilities that are Triggered simultaneously, then … |
 | 383.3.e | Triggered Abilities | 6 | 6 | 0 | Some Triggered Abilities will trigger “once each turn,” or “N times each turn.” |
-| 383.3.e.1 | Triggered Abilities | 1 | 1 | 0 | Such a Triggered Ability will only be performed the specified number of times each turn. If its tri… |
+| 383.3.e.1 | Triggered Abilities | 2 | 2 | 0 | Such a Triggered Ability will only be performed the specified number of times each turn. If its tri… |
 | 383.3.e.2 | Triggered Abilities | 0 | 0 | 0 | If the Triggered Ability says “you may” or “they may” as the first part of its effect, its controll… |
 | 383.3.e.2.a | Triggered Abilities | 0 | 0 | 0 | During finalization of the Triggered Ability, the player who controls the Triggered Ability may cho… |
 | 383.3.e.2.b | Triggered Abilities | 1 | 0 | 1 | If they do not, it is removed from the chain. |
@@ -779,13 +779,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 411.1.b.1 | Game Actions | 0 | 0 | 0 | As long as any conditions, if applicable, are met. |
 | 411.1.b.2 | Game Actions | 0 | 0 | 0 | As long as any costs, if applicable, are paid. |
 | 411.1.b.3 | Game Actions | 0 | 0 | 0 | As long as it does not result in any forbidden action being taken or game state being created. |
-| 411.2 | Game Actions | 28 | 28 | 0 | Limited Actions |
+| 411.2 | Game Actions | 31 | 31 | 0 | Limited Actions |
 | 411.2.a | Game Actions | 0 | 0 | 0 | A Limited Action is a game action that a spell, ability, or circumstance of the turn's progression … |
 | 411.2.b | Game Actions | 0 | 0 | 0 | These actions can only be taken when a player is instructed to do so as the execution of an effect … |
-| 412.1 | Responsibility | 0 | 0 | 0 | Game Actions may be the responsibility of up to one player. The player that performs the Game Actio… |
+| 412.1 | Responsibility | 1 | 1 | 0 | Game Actions may be the responsibility of up to one player. The player that performs the Game Actio… |
 | 412.2 | Responsibility | 0 | 0 | 0 | In the case where a Game Action is performed by procedures of the game and not by any player, that … |
 | 412.3 | Responsibility | 0 | 0 | 0 | Certain rules assign responsibility to players for Game Actions that they are not normally responsi… |
-| 412.4 | Responsibility | 4 | 4 | 0 | If an ability triggers when “you” do something, it triggers when a Game Action that you are respons… |
+| 412.4 | Responsibility | 5 | 5 | 0 | If an ability triggers when “you” do something, it triggers when a Game Action that you are respons… |
 | 412.5 | Responsibility | 0 | 0 | 0 | Note that certain Game Actions, specifically Kill, can be attributed to spells and abilities. This … |
 | 412.5.a | Responsibility | 0 | 0 | 0 | Spells and abilities have attribution for game actions, while players have responsibility. |
 | 412.6 | Responsibility | 1 | 1 | 0 | Some Game Effects may check if a player has performed a Game Action “with” a Game Object. In order … |
@@ -811,12 +811,12 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 415.5 | Exhaust | 2 | 2 | 0 | In abilities, the Exhaust symbol represents the cost "Exhaust this" or "Exhaust me." It resembles a… |
 | 416.1 | Ready | 2 | 2 | 0 | Readying is an action that marks a non-spell Game Object on the board as available for action. |
 | 416.1.a | Ready | 0 | 0 | 0 | To mark it, rotate the card 90 degrees opposite of Exhausting, so that it is vertically oriented in… |
-| 416.1.b | Ready | 0 | 0 | 0 | A Unit that is already Ready cannot be Readied again. |
-| 416.1.c | Ready | 1 | 1 | 0 | If a Unit is instructed to be Readied while it is already Ready, nothing additional happens. |
+| 416.1.b | Ready | 1 | 1 | 0 | A Unit that is already Ready cannot be Readied again. |
+| 416.1.c | Ready | 2 | 2 | 0 | If a Unit is instructed to be Readied while it is already Ready, nothing additional happens. |
 | 416.2 | Ready | 0 | 0 | 0 | "Ready" is a state for Game Objects on the board that other game effects and rules can reference. |
 | 416.3 | Ready | 0 | 0 | 0 | This is a Limited Action. |
-| 416.3.a | Ready | 0 | 0 | 0 | A player Readies all non-spell Game Objects they Control during the Awakening Phase on their turn. |
-| 416.3.b | Ready | 0 | 0 | 0 | Players may also Ready Game Objects on the board when effects or spells instruct them to do so. |
+| 416.3.a | Ready | 6 | 6 | 0 | A player Readies all non-spell Game Objects they Control during the Awakening Phase on their turn. |
+| 416.3.b | Ready | 1 | 1 | 0 | Players may also Ready Game Objects on the board when effects or spells instruct them to do so. |
 | 417.1 | Recycle | 3 | 3 | 0 | Recycling cards is the action in which a player takes one or more cards from a specific zone and th… |
 | 417.1.a | Recycle | 0 | 0 | 0 | Main Deck cards are Recycled to the Main Deck. |
 | 417.1.b | Recycle | 4 | 4 | 0 | Runes are Recycled to the Rune Deck. |
@@ -885,7 +885,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 422.3 | Hide | 0 | 0 | 0 | Cards that are facedown at Battlefields have their gameplay properties and permissions defined by t… |
 | 422.4 | Hide | 0 | 0 | 0 | If a facedown card would change zones or if the game ends, its owner reveals it to all players. See… |
 | 423.1 | Discard | 2 | 2 | 0 | Discarding a card is moving it from a player's hand directly into their trash without activating or… |
-| 423.1.a | Discard | 7 | 7 | 0 | The player who is performing the action chooses which cards to send to their Trash, and may use Pri… |
+| 423.1.a | Discard | 8 | 8 | 0 | The player who is performing the action chooses which cards to send to their Trash, and may use Pri… |
 | 423.1.b | Discard | 0 | 0 | 0 | “When I am discarded” abilities or other Triggered Abilities that trigger on discarding are execute… |
 | 423.2 | Discard | 0 | 0 | 0 | Discarding is a Limited Action. |
 | 423.2.a | Discard | 0 | 0 | 0 | A player must Discard cards when instructed to do so by game effects or costs. |
@@ -895,7 +895,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 424.1 | Stun | 3 | 3 | 0 | Stunning is the act of selecting one or more Units on the Board and rendering them Stunned. |
 | 424.1.a | Stun | 0 | 0 | 0 | Stunned is a binary state. A Unit is Stunned or it isn't. |
 | 424.1.a.1 | Stun | 3 | 1 | 2 | A Stunned Unit can not be Stunned again. |
-| 424.1.a.2 | Stun | 1 | 1 | 0 | Stunned Units lose the Stunned status during step 3d of the end of turn cleanup. |
+| 424.1.a.2 | Stun | 2 | 2 | 0 | Stunned Units lose the Stunned status during step 3d of the end of turn cleanup. |
 | 424.1.b | Stun | 5 | 5 | 0 | A Stunned Unit does not contribute its might to damage in the combat damage step. See rule 467. The… |
 | 424.1.c | Stun | 0 | 0 | 0 | A Stunned Unit must still have damage applied to it equal to, or greater than, its full might value… |
 | 424.2 | Stun | 0 | 0 | 0 | Stunning is a Limited Action. |
@@ -1042,7 +1042,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 436.4 | Detach | 0 | 0 | 0 | When a card Detaches from a Top-Most Card, its location is the same as the Top-Most Card from which… |
 | 436.4.a | Detach | 0 | 0 | 0 | If the Detached card was a Gear and this causes it to become present at a Battlefield, it will be R… |
 | 436.4.b | Detach | 0 | 0 | 0 | If the Attached card was Detached because the Top-Most Card changed zones from a board zone to a no… |
-| 437.1 | Predict | 3 | 3 | 0 | Predicting a card is the act of looking at a single card from the top of the Main Deck and choosing… |
+| 437.1 | Predict | 4 | 4 | 0 | Predicting a card is the act of looking at a single card from the top of the Main Deck and choosing… |
 | 437.1.a | Predict | 1 | 1 | 0 | When more than one card is Predicted, the Predicting player looks at that many cards and Recycles a… |
 | 437.2 | Predict | 0 | 0 | 0 | Predicting is a Limited Action. |
 | 437.2.a | Predict | 0 | 0 | 0 | Players may only Predict cards when instructed to do so by game effects. |
@@ -1144,7 +1144,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 445.1 | Pay | 0 | 0 | 0 | Paying a resource is the act of removing that resource from your Rune Pool. |
 | 445.1.a | Pay | 0 | 0 | 0 | Pay is an action that interacts with Energy and Power. |
 | 445.1.b | Pay | 0 | 0 | 0 | In order to qualify as a resource to be removed from the Rune Pool, the resource must be [1] or gre… |
-| 445.2 | Pay | 4 | 4 | 0 | When a player is instructed to Pay a resource, that player may remove that resource from their Rune… |
+| 445.2 | Pay | 5 | 5 | 0 | When a player is instructed to Pay a resource, that player may remove that resource from their Rune… |
 | 445.2.a | Pay | 0 | 0 | 0 | If the instruction to Pay resources is part of paying costs for a card or ability, choosing not to … |
 | 445.2.b | Pay | 0 | 0 | 0 | If the instruction to Pay resources is part of paying any other cost, choosing not to pay those res… |
 | 445.2.c | Pay | 0 | 0 | 0 | Players may activate abilities that Add resources with the Reaction keyword at any time that they a… |
@@ -1178,7 +1178,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 455 | Movement | 0 | 0 | 0 | When a Move action is complete, perform a Cleanup. |
 | 457 | Recalls | 1 | 1 | 0 | A Recall is when a Permanent is relocated from anywhere to its Base without it being a Move. |
 | 458 | Recalls | 0 | 0 | 0 | Recalls are not Moves. |
-| 458.1 | Recalls | 1 | 1 | 0 | They do not cause Triggered Abilities to trigger that are triggered by Move actions. |
+| 458.1 | Recalls | 3 | 3 | 0 | They do not cause Triggered Abilities to trigger that are triggered by Move actions. |
 | 458.2 | Recalls | 0 | 0 | 0 | A Recall causes a Permanent to change locations. |
 | 458.3 | Recalls | 1 | 1 | 0 | A Recall cannot be prevented by actions and Game Effects that restrict or block Movement. |
 | 459 | Recalls | 0 | 0 | 0 | Gear can be Recalled. |
@@ -1214,18 +1214,18 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 466.2.e.1 | Step 1: The Combat Showdown Step | 0 | 0 | 0 | Otherwise the Combat Showdown continues, with the State Open as normal. |
 | 466.2.f | Step 1: The Combat Showdown Step | 0 | 0 | 0 | Players proceed with any play on the Chain as normal. |
 | 467.1 | Step 2: The Combat Damage Step | 1 | 1 | 0 | If both Attacking and Defending units remain at this battlefield, the following Tasks become Outsta… |
-| 467.2 | Step 2: The Combat Damage Step | 0 | 0 | 0 | 1. When the Showdown closes, Attackers and Defenders resolve Combat Damage at the Battlefield that … |
-| 467.2.a | Step 2: The Combat Damage Step | 4 | 4 | 0 | Sum the Might of all Attacking Units. |
-| 467.2.b | Step 2: The Combat Damage Step | 0 | 0 | 0 | Sum the Might of all Defending Units. |
+| 467.2 | Step 2: The Combat Damage Step | 1 | 1 | 0 | 1. When the Showdown closes, Attackers and Defenders resolve Combat Damage at the Battlefield that … |
+| 467.2.a | Step 2: The Combat Damage Step | 5 | 5 | 0 | Sum the Might of all Attacking Units. |
+| 467.2.b | Step 2: The Combat Damage Step | 1 | 1 | 0 | Sum the Might of all Defending Units. |
 | 467.2.c | Step 2: The Combat Damage Step | 5 | 5 | 0 | Starting with the Attacker, each player assigns an amount of damage equal to their summed Might amo… |
 | 467.2.c.1 | Step 2: The Combat Damage Step | 0 | 0 | 0 | Assigning Damage is not Dealing Damage. |
 | 467.2.c.1.a | Step 2: The Combat Damage Step | 0 | 0 | 0 | When all Damage is assigned, it will be Dealt simultaneously. These actions are not synonymous. |
 | 467.2.c.2 | Step 2: The Combat Damage Step | 0 | 0 | 0 | Abilities or effects may influence the order in which damage is assigned. Reminder: Lethal Damage i… |
-| 467.2.c.3 | Step 2: The Combat Damage Step | 1 | 1 | 0 | Units must have lethal damage assigned to them in full before damage is assigned to a different Uni… |
-| 467.2.c.4 | Step 2: The Combat Damage Step | 2 | 2 | 0 | Units cannot have more damage assigned to them than the minimum required to constitute lethal damag… |
+| 467.2.c.3 | Step 2: The Combat Damage Step | 2 | 2 | 0 | Units must have lethal damage assigned to them in full before damage is assigned to a different Uni… |
+| 467.2.c.4 | Step 2: The Combat Damage Step | 3 | 3 | 0 | Units cannot have more damage assigned to them than the minimum required to constitute lethal damag… |
 | 467.2.c.4.a | Step 2: The Combat Damage Step | 1 | 1 | 0 | If the damage assigned to a Unit is modified to or replaced by an amount of damage larger than the … |
 | 467.2.c.5 | Step 2: The Combat Damage Step | 0 | 0 | 0 | When assigning damage in this way, passive abilities and replacement effects that would apply to th… |
-| 467.2.c.6 | Step 2: The Combat Damage Step | 4 | 3 | 1 | A player must obey all requirements and restrictions on damage assignment if able. |
+| 467.2.c.6 | Step 2: The Combat Damage Step | 5 | 4 | 1 | A player must obey all requirements and restrictions on damage assignment if able. |
 | 467.2.c.7 | Step 2: The Combat Damage Step | 1 | 0 | 1 | If multiple Units have abilities or effects that require a player to assign them damage with the sa… |
 | 467.2.c.8 | Step 2: The Combat Damage Step | 3 | 2 | 1 | If a Unit has one or more Abilities or effects applying to it that demand it be assigned damage in … |
 | 467.2.c.9 | Step 2: The Combat Damage Step | 1 | 0 | 1 | If there is more than one unit in which this situation applies to, each unit is dealt with individu… |
@@ -1235,18 +1235,18 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 468.1 | Step 3: The Resolution Step | 0 | 0 | 0 | 1. Perform a Combat Cleanup. |
 | 468.1.a | Step 3: The Resolution Step | 1 | 1 | 0 | Invoke a Combat Special Cleanup. |
 | 468.1.a.1 | Step 3: The Resolution Step | 0 | 0 | 0 | Insert “3c. Heal all Units.” |
-| 468.1.a.2 | Step 3: The Resolution Step | 2 | 2 | 0 | Insert “3d. Recall Attackers present at the Battlefield if Defenders are still present.” See rule 4… |
+| 468.1.a.2 | Step 3: The Resolution Step | 3 | 3 | 0 | Insert “3d. Recall Attackers present at the Battlefield if Defenders are still present.” See rule 4… |
 | 468.2 | Step 3: The Resolution Step | 1 | 1 | 0 | The following Task becomes Outstanding: Reminder: Resolve any items on the chain from dealing comba… |
 | 468.3 | Step 3: The Resolution Step | 3 | 3 | 0 | 1. Determine Combat Result |
 | 468.3.a | Step 3: The Resolution Step | 2 | 2 | 0 | A Player has won a combat if they received either the attacker or defender designation and are the … |
 | 468.3.b | Step 3: The Resolution Step | 1 | 1 | 0 | A Player has lost a combat if they received either the attacker or defender designation and are the… |
 | 468.3.c | Step 3: The Resolution Step | 2 | 2 | 0 | Units at this battlefield inherit the same combat result as their controllers. |
-| 468.3.d | Step 3: The Resolution Step | 2 | 2 | 0 | There is “No Result” if units were recalled during step 3d of the Combat Cleanup, if both Players h… |
+| 468.3.d | Step 3: The Resolution Step | 3 | 3 | 0 | There is “No Result” if units were recalled during step 3d of the Combat Cleanup, if both Players h… |
 | 468.3.d.1 | Step 3: The Resolution Step | 1 | 1 | 0 | If “No Result” was reached, and both players have units remaining, stage a Showdown and a Combat at… |
 | 468.4 | Step 3: The Resolution Step | 1 | 1 | 0 | The following Task becomes Outstanding: Reminder: Resolve any items on the chain from determining c… |
 | 468.5 | Step 3: The Resolution Step | 3 | 3 | 0 | 1. If no Showdown or Combat is staged at this location, the player with Units remaining here Establ… |
 | 468.5.a | Step 3: The Resolution Step | 0 | 0 | 0 | Clear the Contested Status. |
-| 468.5.b | Step 3: The Resolution Step | 1 | 1 | 0 | If there are no Units remaining here controlled by any player, the Battlefield becomes Uncontrolled. |
+| 468.5.b | Step 3: The Resolution Step | 2 | 2 | 0 | If there are no Units remaining here controlled by any player, the Battlefield becomes Uncontrolled. |
 | 468.5.c | Step 3: The Resolution Step | 0 | 0 | 0 | Remove all Hidden cards from this Battlefield that do not share a controller with the Battlefield. |
 | 468.5.d | Step 3: The Resolution Step | 3 | 3 | 0 | Establishing Control results in a Conquer if that player has not yet scored this Battlefield this t… |
 | 468.5.e | Step 3: The Resolution Step | 0 | 0 | 0 | This does not have to be the player that applied Contested to the Battlefield. |
@@ -1260,20 +1260,20 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 470.2 | Scoring | 3 | 3 | 0 | Card text will refer to the process of Gaining Points in the following way: “Score X points.” The “… |
 | 470.3 | Scoring | 0 | 0 | 0 | Card text will refer to the process of Scoring using the word “score” without referring to some num… |
 | 471 | Scoring | 0 | 0 | 0 | A player Scores in one of two ways: |
-| 471.1 | Scoring | 1 | 1 | 0 | Conquer: A player gains Control of a Battlefield they did not yet Score this turn. |
+| 471.1 | Scoring | 2 | 2 | 0 | Conquer: A player gains Control of a Battlefield they did not yet Score this turn. |
 | 471.1.a | Scoring | 0 | 0 | 0 | In Modes of Play with teammates, Battlefields under the Control of a teammate during the scoring st… |
 | 471.1.b | Scoring | 0 | 0 | 0 | A player will gain control of a Battlefield after establishing Control. |
-| 471.2 | Scoring | 2 | 2 | 0 | Hold: A player maintains Control of a Battlefield they did not yet Score this turn during their Beg… |
-| 472 | Scoring | 3 | 3 | 0 | A player may only Score, from either method, once per Battlefield per turn. |
+| 471.2 | Scoring | 3 | 3 | 0 | Hold: A player maintains Control of a Battlefield they did not yet Score this turn during their Beg… |
+| 472 | Scoring | 4 | 4 | 0 | A player may only Score, from either method, once per Battlefield per turn. |
 | 473 | Scoring | 0 | 0 | 0 | When a player Scores, two things occur: |
 | 473.1 | Scoring | 2 | 2 | 0 | The player Gains up to one Point, depending on their current score. |
 | 473.1.a | Scoring | 0 | 0 | 0 | The Final Point has additional restrictions. |
 | 473.1.a.1 | Scoring | 1 | 1 | 0 | Notably, points Gained from sources that are not Conquer are not beholden to these restrictions. |
-| 473.1.b | Scoring | 1 | 1 | 0 | When a player tries to Gain a Point through a Conquer, and their current Point Total is 1 point fro… |
-| 473.1.b.1 | Scoring | 4 | 4 | 0 | If the player has Scored every Battlefield this turn, that player Gains the Final Point. If the pla… |
+| 473.1.b | Scoring | 3 | 3 | 0 | When a player tries to Gain a Point through a Conquer, and their current Point Total is 1 point fro… |
+| 473.1.b.1 | Scoring | 6 | 6 | 0 | If the player has Scored every Battlefield this turn, that player Gains the Final Point. If the pla… |
 | 473.2 | Scoring | 1 | 1 | 0 | Trigger Score abilities at the Battlefield that Scored. |
 | 473.2.a | Scoring | 1 | 1 | 0 | Conquer abilities trigger at a Battlefield that was Conquered. |
-| 473.2.b | Scoring | 0 | 0 | 0 | Hold abilities trigger at a Battlefield that was Held. |
+| 473.2.b | Scoring | 1 | 1 | 0 | Hold abilities trigger at a Battlefield that was Held. |
 | 473.2.c | Scoring | 0 | 0 | 0 | These will only trigger when the Battlefield is Scored; I.E. These cannot be triggered more than on… |
 | 474 | Scoring | 2 | 2 | 0 | When a cleanup occurs and a player has accrued Points greater than or equal to the Victory Score fo… |
 | 476 | Layers | 0 | 0 | 0 | Layers are the mechanism in which Game Effects alter the Traits, Intrinsic Abilities, or other prop… |
@@ -1335,17 +1335,17 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 803 | Keywords | 0 | 0 | 0 | Similar to other rules text, execute any effects of Keywords in the order listed when reading the c… |
 | 805.1 | Accelerate | 0 | 0 | 0 | Accelerate is an Optional Additional Cost keyword. |
 | 805.1.a | Accelerate | 0 | 0 | 0 | Accelerate is present on Units. |
-| 805.1.b | Accelerate | 6 | 6 | 0 | Accelerate is functionally short for "As you play me, you may pay [1][C] as an additional cost. If … |
+| 805.1.b | Accelerate | 7 | 7 | 0 | Accelerate is functionally short for "As you play me, you may pay [1][C] as an additional cost. If … |
 | 805.1.b.1 | Accelerate | 1 | 1 | 0 | If the unit has one or more domains, the Power portion of the Accelerate cost can be paid only with… |
 | 805.1.b.2 | Accelerate | 0 | 0 | 0 | If the unit has no domain, the Power portion of the Accelerate cost can be paid with [A] (a Power o… |
-| 805.2 | Accelerate | 0 | 0 | 0 | Accelerate is an Optional Additional Cost to be paid as a player plays the unit with the ability. |
+| 805.2 | Accelerate | 1 | 1 | 0 | Accelerate is an Optional Additional Cost to be paid as a player plays the unit with the ability. |
 | 805.2.a | Accelerate | 0 | 0 | 0 | Accelerate costs cannot be paid while the unit is on the board, only as part of the steps of playin… |
 | 805.2.b | Accelerate | 0 | 0 | 0 | Paying the cost generates a Delayed Replacement Effect. Even if the unit loses the Accelerate keywo… |
 | 805.3 | Accelerate | 0 | 0 | 0 | Accelerate has no function while on the board. |
 | 805.4 | Accelerate | 0 | 0 | 0 | Multiple instances of Accelerate are redundant. |
 | 805.5 | Accelerate | 0 | 0 | 0 | Accelerate, and whether or not a unit has Accelerate, is a characteristic of the Unit and may be ch… |
-| 805.6 | Accelerate | 3 | 3 | 0 | Accelerate generates a delayed replacement effect that replaces a unit entering the board exhausted… |
-| 805.6.a | Accelerate | 0 | 0 | 0 | Accelerate will not interact with, or trigger, abilities that are affected by units becoming ready. |
+| 805.6 | Accelerate | 4 | 4 | 0 | Accelerate generates a delayed replacement effect that replaces a unit entering the board exhausted… |
+| 805.6.a | Accelerate | 1 | 1 | 0 | Accelerate will not interact with, or trigger, abilities that are affected by units becoming ready. |
 | 806.1 | Action | 0 | 0 | 0 | Action is a Permissive keyword. |
 | 806.1.a | Action | 0 | 0 | 0 | It is present on Cards, Rune Abilities, Legend Abilities or Permanent Abilities. |
 | 806.1.b | Action | 2 | 2 | 0 | Action grants the corresponding card or effect permission to be played or activated during Showdown… |
@@ -1409,25 +1409,25 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 810.3 | Ganking | 6 | 6 | 0 | Ganking, and whether or not a unit has Ganking, is a characteristic of the Unit and may be checked … |
 | 811.1 | Hidden | 0 | 0 | 0 | Hidden is a keyword that acts as a prerequisite to perform the Hide Discretionary Action. |
 | 811.1.a | Hidden | 0 | 0 | 0 | It is present on Spells, Units, and Gear. |
-| 811.1.b | Hidden | 9 | 9 | 0 | It is functionally short for "While this card is in your hand or in your Champion Zone on your turn… |
+| 811.1.b | Hidden | 10 | 10 | 0 | It is functionally short for "While this card is in your hand or in your Champion Zone on your turn… |
 | 811.1.c | Hidden | 1 | 1 | 0 | It allows the player to take the Discretionary Action Hide. |
 | 811.1.c.1 | Hidden | 0 | 0 | 0 | Hide is not a subset of Play. |
 | 811.1.c.2 | Hidden | 1 | 1 | 0 | Hiding a card does not open a chain. |
 | 811.1.c.3 | Hidden | 0 | 0 | 0 | Playing a card from facedown (or "from Hidden") does open a chain. |
-| 811.1.d | Hidden | 0 | 0 | 0 | Some choices made while playing a card from facedown are restricted to the battlefield where it was… |
+| 811.1.d | Hidden | 1 | 1 | 0 | Some choices made while playing a card from facedown are restricted to the battlefield where it was… |
 | 811.1.d.1 | Hidden | 0 | 0 | 0 | A hidden permanent must be played to that battlefield. |
 | 811.1.d.1.a | Hidden | 0 | 0 | 0 | This includes hidden gear, and overrides the normal restriction that gear have in only being allowe… |
 | 811.1.d.2 | Hidden | 0 | 0 | 0 | If a hidden spell chooses any targets, those targets must be chosen from among options at the battl… |
 | 811.1.d.3 | Hidden | 0 | 0 | 0 | If a play effect of a hidden permanent chooses any targets, those targets must be chosen from among… |
 | 811.1.d.3.a | Hidden | 0 | 0 | 0 | A play effect of a permanent played from facedown references information from its source when deter… |
 | 811.1.d.4 | Hidden | 0 | 0 | 0 | Each target is treated separately and individually when processing this rule. |
-| 811.1.d.5 | Hidden | 0 | 0 | 0 | If a hidden spell or a play effect of a hidden permanent causes you to play a unit, you must choose… |
+| 811.1.d.5 | Hidden | 1 | 1 | 0 | If a hidden spell or a play effect of a hidden permanent causes you to play a unit, you must choose… |
 | 811.2 | Hidden | 0 | 0 | 0 | Abilities and instructions of hidden cards other than the choices listed above function as normal. |
-| 811.3 | Hidden | 0 | 0 | 0 | Instead of being hidden, a card with Hidden may be played for its cost as normal, at its normal tim… |
+| 811.3 | Hidden | 1 | 1 | 0 | Instead of being hidden, a card with Hidden may be played for its cost as normal, at its normal tim… |
 | 811.4 | Hidden | 0 | 0 | 0 | Multiple instances of Hidden are redundant. |
 | 811.5 | Hidden | 0 | 0 | 0 | Hidden, and whether or not a card has Hidden, is a characteristic of the card and may be checked or… |
 | 811.5.a | Hidden | 0 | 0 | 0 | This is true as long as the card is not facedown. A facedown card is not a card with Hidden. |
-| 811.6 | Hidden | 3 | 3 | 0 | A card that is Hidden gains Reaction the turn after it is hidden while facedown or played from face… |
+| 811.6 | Hidden | 4 | 4 | 0 | A card that is Hidden gains Reaction the turn after it is hidden while facedown or played from face… |
 | 811.6.a | Hidden | 0 | 0 | 0 | The property is granted to the card in its facedown state, and is not publicly known. |
 | 812.1 | Legion | 0 | 0 | 0 | Legion is a Dependent Keyword. |
 | 812.1.a | Legion | 0 | 0 | 0 | It is formatted as "[Legion][>] [Text]". |
@@ -1475,14 +1475,14 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 815.3 | Tank | 0 | 0 | 0 | Tank, and whether or not a unit has Tank, is a characteristic of the Unit and may be checked or ref… |
 | 816.1 | Temporary | 0 | 0 | 0 | Temporary is a Triggered Ability keyword. |
 | 816.1.a | Temporary | 0 | 0 | 0 | It is present on Permanents. |
-| 816.1.b | Temporary | 7 | 7 | 0 | It is functionally short for "At the start of this permanent's controller's Beginning Phase, before… |
+| 816.1.b | Temporary | 9 | 9 | 0 | It is functionally short for "At the start of this permanent's controller's Beginning Phase, before… |
 | 816.1.c | Temporary | 1 | 1 | 0 | The Trigger Condition is the controller of the permanent's Beginning Phase starting. |
 | 816.2 | Temporary | 0 | 0 | 0 | Multiple instances of Temporary are redundant. |
 | 816.2.a | Temporary | 0 | 0 | 0 | Regardless of how many instances there are, the ability will only trigger once. |
 | 816.3 | Temporary | 0 | 0 | 0 | Temporary, and whether or not a permanent has Temporary, is a characteristic of the permanent and m… |
 | 817.1 | Vision | 0 | 0 | 0 | Vision is a Triggered Ability keyword. |
 | 817.1.a | Vision | 0 | 0 | 0 | It is present on Permanents. |
-| 817.1.b | Vision | 5 | 5 | 0 | It is functionally short for "When this is played, [Predict].” |
+| 817.1.b | Vision | 6 | 6 | 0 | It is functionally short for "When this is played, [Predict].” |
 | 817.1.c | Vision | 1 | 1 | 0 | The trigger is the permanent entering the Board. |
 | 817.2 | Vision | 0 | 0 | 0 | Multiple instances of Vision trigger separately. |
 | 817.2.a | Vision | 0 | 0 | 0 | The player may choose to recycle or not recycle for each instance of Vision separately. |
@@ -1582,7 +1582,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 825.5 | Unique | 0 | 0 | 0 | Unique, and whether or not a Card has Unique, is a characteristic of the Unit and may be checked or… |
 | 826.1 | Backline | 0 | 0 | 0 | Backline is a Passive Ability keyword. |
 | 826.2 | Backline | 0 | 0 | 0 | It is present on Units. |
-| 826.3 | Backline | 2 | 2 | 0 | It is functionally short for “I must be assigned lethal damage after any other unit with the same c… |
+| 826.3 | Backline | 3 | 3 | 0 | It is functionally short for “I must be assigned lethal damage after any other unit with the same c… |
 | 826.4 | Backline | 0 | 0 | 0 | It alters how players can elect to assign combat damage during combat. |
 | 826.4.a | Backline | 0 | 0 | 0 | Players must still assign lethal damage to a unit before moving to the next when assigning their da… |
 | 826.4.b | Backline | 0 | 0 | 0 | If more than one unit with Backline is present with the same controller in Combat, damage may be as… |
