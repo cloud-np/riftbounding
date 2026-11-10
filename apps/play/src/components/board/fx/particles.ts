@@ -451,7 +451,7 @@ export class ParticleEngine {
       }
       case Kind.Ring: {
         const e = easeOut(t);
-        const r = p.size + (p.size1 - p.size) * e;
+        const r = Math.max(0.5, p.size + (p.size1 - p.size) * e);
         ctx.globalCompositeOperation = "lighter";
         ctx.lineWidth = Math.max(0.8, p.aux * (1 - e));
         ctx.strokeStyle = `rgba(${p.rgb},${(1 - t).toFixed(3)})`;

@@ -18,6 +18,7 @@ import {
   liveEntry,
   queryBox,
   scoreBox,
+  settledBox,
   zoneBox,
 } from "./dom";
 import type { FxContext } from "./context";
@@ -66,7 +67,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
     });
     return;
   }
-  const destBox = dest.rect;
+  const destBox = settledBox(dest);
   const prev = gen.get(ev.card.id);
   let originX: number;
   let originY: number;
@@ -88,7 +89,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
   const release = ctx.own(() => ctx.show(dest.el));
   if (!(await ctx.wait(delay))) return;
   // Layout may have shifted while waiting for earlier events.
-  const liveBox = boxOf(dest.el) ?? destBox;
+  const liveBox = settledBox(dest, boxOf(dest.el));
   const ghost = createGhost(ctx.stage, dest, liveBox);
   const removeGhost = ctx.own(ghost.remove);
   const gx = cx(liveBox);
@@ -178,8 +179,9 @@ export async function moveUnit(ctx: FxContext, ev: Ev<"unit_moved">, gen: CardGe
   const dest = liveEntry(ev.card.id);
   const prev = gen.get(ev.card.id);
   if (!dest || !prev) return;
-  const dx = cx(dest.rect) - cx(prev.rect);
-  const dy = cy(dest.rect) - cy(prev.rect);
+  const destRect = settledBox(dest);
+  const dx = cx(destRect) - cx(prev.rect);
+  const dy = cy(destRect) - cy(prev.rect);
   const dist = Math.hypot(dx, dy);
   if (dist < 24) return;
   const { rgb } = rgbOf(ev.card);
@@ -211,10 +213,10 @@ export async function moveUnit(ctx: FxContext, ev: Ev<"unit_moved">, gen: CardGe
   });
   if (!ok) return;
   if (engine) {
-    const x = cx(dest.rect);
-    const y = dest.rect.top + dest.rect.height * 0.9;
-    engine.emitDust(x, y, 8, dest.rect.width);
-    engine.emitRing(x, y, rgb, { radius: dest.rect.width * 0.8, from: 10, duration: 0.35, width: 4, squash: 0.4 });
+    const x = cx(destRect);
+    const y = destRect.top + destRect.height * 0.9;
+    engine.emitDust(x, y, 8, destRect.width);
+    engine.emitRing(x, y, rgb, { radius: destRect.width * 0.8, from: 10, duration: 0.35, width: 4, squash: 0.4 });
   }
   ctx.shake(1.5, 120);
   release();
@@ -453,7 +455,7 @@ export async function nonCombatDamage(ctx: FxContext, ev: Ev<"damage">, delay: n
   const live = liveEntry(ev.card.id);
   if (!live) return;
   if (!(await ctx.wait(delay))) return;
-  const box = boxOf(live.el) ?? live.rect;
+  const box = settledBox(live, boxOf(live.el));
   ctx.hitReaction(live.el, "red");
   ctx.number(cx(box), box.top + box.height * 0.3, `-${ev.amount}`, "damage");
   const engine = ctx.engine();
@@ -466,7 +468,7 @@ export async function mightBuff(ctx: FxContext, ev: Ev<"might_buff">, delay: num
   const live = liveEntry(ev.card.id);
   if (!live) return;
   if (!(await ctx.wait(delay))) return;
-  const box = boxOf(live.el) ?? live.rect;
+  const box = settledBox(live, boxOf(live.el));
   ctx.hitReaction(live.el, "green");
   ctx.number(cx(box), box.top + box.height * 0.3, `+${ev.amount}`, "buff");
   const engine = ctx.engine();

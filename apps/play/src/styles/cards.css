@@ -939,7 +939,7 @@ img.card-art-crop {
 
 /* Keep the hovered card hoverable after it lifts away from the pointer. The extension hangs off
    the card's own hover anchor so enter/leave (and the preview) are not interrupted. */
-.hand-slot [data-hover-preview-anchor="true"]::after {
+.hand-slot [data-hover-preview-anchor="true"] [data-hover-preview-anchor="true"]::after {
   content: "";
   position: absolute;
   left: 0;
@@ -949,7 +949,7 @@ img.card-art-crop {
   pointer-events: none;
 }
 
-.hand-slot[data-hand-hovered="true"] [data-hover-preview-anchor="true"]::after {
+.hand-slot[data-hand-hovered="true"] [data-hover-preview-anchor="true"] [data-hover-preview-anchor="true"]::after {
   pointer-events: auto;
 }
 

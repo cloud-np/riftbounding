@@ -70,6 +70,14 @@ export class CardCache {
   }
 }
 
+/** Box at the card's layout size around its current centre (immune to transient scale animations). */
+export function settledBox(entry: CardEntry, current?: Box | null): Box {
+  const c = current ?? entry.rect;
+  const w = entry.layoutW;
+  const h = entry.layoutH;
+  return { left: cx(c) - w / 2, top: cy(c) - h / 2, width: w, height: h };
+}
+
 export function liveCard(id: string): HTMLElement | null {
   return document.querySelector<HTMLElement>(
     `[data-board-card-visual="true"][data-card-id="${CSS.escape(id)}"]`,
