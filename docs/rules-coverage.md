@@ -10,13 +10,13 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | --- | ---: |
 | Numbered rule entries in corpus | 2494 |
 | Rule bodies (entries minus section headings) | 2321 |
-| Rules with at least one test | 692 |
-| Rules coverage | 29.8% |
-| Tagged test titles | 1503 |
-| `[R…]` tags | 2607 |
-| `[EX:…]` tags | 116 |
+| Rules with at least one test | 700 |
+| Rules coverage | 30.2% |
+| Tagged test titles | 1522 |
+| `[R…]` tags | 2640 |
+| `[EX:…]` tags | 117 |
 | Range tags (not expanded) | 25 unique / 29 refs |
-| Test/helper files scanned | 239 |
+| Test/helper files scanned | 241 |
 | Unknown rule ids referenced | 0 |
 
 ## Per-section coverage
@@ -49,19 +49,19 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Units | 68 | 20 | 29.4% | 56 | 2 |
 | Gear | 32 | 2 | 6.3% | 2 | 0 |
 | Spells | 18 | 0 | 0.0% | 0 | 0 |
-| Runes | 15 | 2 | 13.3% | 2 | 0 |
+| Runes | 15 | 3 | 20.0% | 2 | 1 |
 | Basic Runes | 5 | 4 | 80.0% | 11 | 0 |
 | Rune Pools | 7 | 2 | 28.6% | 3 | 0 |
 | Battlefields | 43 | 15 | 34.9% | 21 | 1 |
 | Legends | 14 | 0 | 0.0% | 0 | 0 |
 | Multiple Types | 10 | 0 | 0.0% | 0 | 0 |
-| Tokens | 39 | 9 | 23.1% | 21 | 0 |
+| Tokens | 39 | 9 | 23.1% | 22 | 0 |
 | Control | 1 | 0 | 0.0% | 0 | 0 |
 | Everything Else | 21 | 0 | 0.0% | 0 | 0 |
 | Winning | 17 | 11 | 64.7% | 17 | 0 |
 | Locations | 6 | 0 | 0.0% | 0 | 0 |
 | Costs | 22 | 7 | 31.8% | 16 | 2 |
-| The Turn | 8 | 2 | 25.0% | 11 | 0 |
+| The Turn | 8 | 2 | 25.0% | 12 | 0 |
 | States of the Turn | 14 | 12 | 85.7% | 20 | 0 |
 | Priority and Focus | 18 | 6 | 33.3% | 15 | 0 |
 | Start of Turn | 19 | 8 | 42.1% | 19 | 0 |
@@ -74,20 +74,20 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Step 1: Finalize | 6 | 3 | 50.0% | 7 | 0 |
 | Step 2: Execute | 11 | 1 | 9.1% | 1 | 0 |
 | Step 3: Pass | 2 | 1 | 50.0% | 2 | 0 |
-| Step 4: Resolve | 5 | 3 | 60.0% | 7 | 0 |
+| Step 4: Resolve | 5 | 4 | 80.0% | 8 | 0 |
 | Showdowns | 25 | 13 | 52.0% | 26 | 0 |
 | Playing Cards | 9 | 1 | 11.1% | 1 | 0 |
-| The Process of Play | 152 | 79 | 52.0% | 318 | 38 |
+| The Process of Play | 152 | 81 | 53.3% | 323 | 38 |
 | Abilities | 3 | 1 | 33.3% | 1 | 0 |
 | Passive Abilities | 5 | 2 | 40.0% | 15 | 0 |
 | Presence on Permanents | 3 | 2 | 66.7% | 6 | 0 |
 | Presence on Card outside of the Board | 3 | 1 | 33.3% | 15 | 0 |
-| Replacement Effects | 34 | 14 | 41.2% | 57 | 3 |
+| Replacement Effects | 34 | 15 | 44.1% | 61 | 3 |
 | Activated Abilities | 21 | 4 | 19.0% | 24 | 4 |
-| Triggered Abilities | 69 | 32 | 46.4% | 162 | 7 |
+| Triggered Abilities | 69 | 32 | 46.4% | 174 | 7 |
 | Presence on Cards outside of the Board | 9 | 1 | 11.1% | 0 | 1 |
 | Reflexive Triggers | 10 | 4 | 40.0% | 5 | 1 |
-| Delayed Abilities | 14 | 5 | 35.7% | 24 | 2 |
+| Delayed Abilities | 14 | 6 | 42.9% | 27 | 2 |
 | Linked Abilities | 5 | 0 | 0.0% | 0 | 0 |
 | Playing or Activating Abilities | 35 | 14 | 40.0% | 48 | 0 |
 | Game Actions | 12 | 2 | 16.7% | 32 | 0 |
@@ -107,7 +107,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Counter | 9 | 3 | 33.3% | 5 | 0 |
 | Buff | 9 | 3 | 33.3% | 5 | 2 |
 | Banish | 9 | 3 | 33.3% | 2 | 1 |
-| Kill | 20 | 7 | 35.0% | 9 | 1 |
+| Kill | 20 | 8 | 40.0% | 10 | 1 |
 | Add | 8 | 4 | 50.0% | 20 | 1 |
 | Channel | 8 | 3 | 37.5% | 14 | 2 |
 | Burn Out | 18 | 6 | 33.3% | 9 | 1 |
@@ -129,7 +129,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Recalls | 9 | 5 | 55.6% | 8 | 0 |
 | Combat | 12 | 5 | 41.7% | 12 | 0 |
 | Step 1: The Combat Showdown Step | 16 | 10 | 62.5% | 20 | 0 |
-| Step 2: The Combat Damage Step | 19 | 14 | 73.7% | 29 | 5 |
+| Step 2: The Combat Damage Step | 19 | 15 | 78.9% | 30 | 5 |
 | Step 3: The Resolution Step | 23 | 16 | 69.6% | 31 | 0 |
 | Scoring | 21 | 13 | 61.9% | 30 | 0 |
 | Layers | 53 | 8 | 15.1% | 41 | 3 |
@@ -166,7 +166,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Reaction | 17 | 2 | 11.8% | 3 | 0 |
 | Shield | 11 | 4 | 36.4% | 12 | 1 |
 | Tank | 8 | 4 | 50.0% | 5 | 0 |
-| Temporary | 7 | 2 | 28.6% | 10 | 0 |
+| Temporary | 7 | 2 | 28.6% | 11 | 0 |
 | Vision | 8 | 2 | 25.0% | 7 | 0 |
 | Equip | 20 | 5 | 25.0% | 11 | 0 |
 | Quick-Draw | 7 | 3 | 42.9% | 7 | 0 |
@@ -182,7 +182,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Deploy | 8 | 4 | 50.0% | 7 | 0 |
 | Disarm | 11 | 3 | 27.3% | 3 | 1 |
 | Show Off | 14 | 2 | 14.3% | 2 | 0 |
-| **Total** | **2321** | **692** | **29.8%** | **2607** | **116** |
+| **Total** | **2321** | **700** | **30.2%** | **2640** | **117** |
 
 ## Per-rule coverage — Sections 300–479
 
@@ -192,7 +192,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 303 | The Turn | 0 | 0 | 0 | The phases of a turn are rigid, but the actions taken during those steps can be done in any order, … |
 | 303.1 | The Turn | 0 | 0 | 0 | Game Actions of any nature are performed one at a time and are executed completely. |
 | 303.2 | The Turn | 1 | 1 | 0 | Game Actions cannot be performed simultaneously for any reason. |
-| 303.2.a | The Turn | 10 | 10 | 0 | If one or more game actions, game effects, or Triggered Abilities are activated simultaneously, the… |
+| 303.2.a | The Turn | 11 | 11 | 0 | If one or more game actions, game effects, or Triggered Abilities are activated simultaneously, the… |
 | 304 | The Turn | 0 | 0 | 0 | The Turn Player is the player taking the current turn. |
 | 305 | The Turn | 0 | 0 | 0 | When there are no items on the Chain and the Turn Player cannot or chooses not to perform any Discr… |
 | 306 | The Turn | 0 | 0 | 0 | The Turn Player changes when the current Turn Player reaches the End of all of the Phases of their … |
@@ -371,7 +371,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 340.1 | Step 4: Resolve | 2 | 2 | 0 | The newest Finalized Chain Item resolves. Execute its game effects in their entirety. See rule 349.… |
 | 340.2 | Step 4: Resolve | 0 | 0 | 0 | If the Chain is empty, play proceeds in an Open State. |
 | 340.2.a | Step 4: Resolve | 2 | 2 | 0 | If this occurs during a Showdown and the chain wasn’t initiated by a triggered ability or an abilit… |
-| 340.3 | Step 4: Resolve | 0 | 0 | 0 | If the Chain is not empty and there are one or more Pending Items, return to Step 1: Finalize. |
+| 340.3 | Step 4: Resolve | 1 | 1 | 0 | If the Chain is not empty and there are one or more Pending Items, return to Step 1: Finalize. |
 | 340.4 | Step 4: Resolve | 3 | 3 | 0 | If the Chain is not empty and there are no Pending Items, the controller of the newest item on the … |
 | 342 | Showdowns | 0 | 0 | 0 | A Showdown is a Window of Opportunity in which Players have an Open State in which they may play Sp… |
 | 342.1 | Showdowns | 0 | 0 | 0 | Each spell played this way creates a Chain as normal. |
@@ -550,14 +550,14 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 359.3.e.14.b | The Process of Play | 7 | 4 | 3 | If the Game Action performed in an earlier linked instruction is Negated, this will not affect the … |
 | 359.3.e.14.c | The Process of Play | 0 | 0 | 0 | Referencing a game action in this way only refers to the game action being performed and the object… |
 | 359.3.e.15 | The Process of Play | 0 | 0 | 0 | A spell or ability that leaves the chain during the process of its resolution will cease further ex… |
-| 359.3.e.16 | The Process of Play | 4 | 3 | 1 | If a Delayed Ability’s duration has ended before it was generated, the Delayed Ability is not gener… |
-| 359.3.f | The Process of Play | 0 | 0 | 0 | Referents |
+| 359.3.e.16 | The Process of Play | 6 | 5 | 1 | If a Delayed Ability’s duration has ended before it was generated, the Delayed Ability is not gener… |
+| 359.3.f | The Process of Play | 1 | 1 | 0 | Referents |
 | 359.3.f.1 | The Process of Play | 1 | 1 | 0 | Some information used by abilities is referenced from the source of those abilities, or from one or… |
 | 359.3.f.2 | The Process of Play | 8 | 8 | 0 | Information referenced in an instruction in this way will be checked on execution of the instructio… |
 | 359.3.f.2.a | The Process of Play | 0 | 0 | 0 | When a referent checks information on execution of the instruction related to a target, and that ta… |
 | 359.3.f.3 | The Process of Play | 0 | 0 | 0 | Some information used by triggered abilities is referenced from the trigger condition of the abilit… |
-| 359.3.f.3.a | The Process of Play | 11 | 11 | 0 | In the case of a delayed triggered ability, the information is referenced when the triggered abilit… |
-| 359.3.f.3.b | The Process of Play | 0 | 0 | 0 | In the case of a linked ability that references information from a linked triggered ability, that i… |
+| 359.3.f.3.a | The Process of Play | 12 | 12 | 0 | In the case of a delayed triggered ability, the information is referenced when the triggered abilit… |
+| 359.3.f.3.b | The Process of Play | 1 | 1 | 0 | In the case of a linked ability that references information from a linked triggered ability, that i… |
 | 359.3.f.4 | The Process of Play | 0 | 0 | 0 | Some information used by the effect of a triggered ability is referenced from the triggered ability… |
 | 361 | Abilities | 1 | 1 | 0 | An Ability is the structured rules and capabilities of Game Objects or Spells. |
 | 361.1 | Abilities | 0 | 0 | 0 | An Ability has multiple structures. Passive Abilities Replacement Effects Activated Abilities Trigg… |
@@ -574,7 +574,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 368 | Replacement Effects | 1 | 1 | 0 | An ability that alters the application of another game effect or game rule. |
 | 368.1 | Replacement Effects | 0 | 0 | 0 | Passive Abilities can be Replacement Effects. |
 | 369 | Replacement Effects | 0 | 0 | 0 | Replacement Effects intercede during the execution of a Game Effect and alter its execution. |
-| 369.1 | Replacement Effects | 3 | 2 | 1 | A Replacement Effect can usually be identified by the presence of the terms “as,” “would,” or "inst… |
+| 369.1 | Replacement Effects | 4 | 3 | 1 | A Replacement Effect can usually be identified by the presence of the terms “as,” “would,” or "inst… |
 | 369.2 | Replacement Effects | 1 | 1 | 0 | Some Game Actions are themselves Replacement Effects. |
 | 369.3 | Replacement Effects | 32 | 31 | 1 | Replacement Effects that apply to a unit as it enters the Board can be identified by describing how… |
 | 370 | Replacement Effects | 1 | 1 | 0 | A Replacement Effect can alter the typical flow of play, including other cards' executions. |
@@ -597,10 +597,10 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 372 | Replacement Effects | 2 | 2 | 0 | If more than one Replacement Effect applies to the same event being executed, then the controller o… |
 | 372.1 | Replacement Effects | 0 | 0 | 0 | If it is a player being acted on, that player decides the order the Replacement Effects will apply. |
 | 372.2 | Replacement Effects | 0 | 0 | 0 | If the affected object is an Uncontrolled Battlefield then the Current Turn Player decides the orde… |
-| 373 | Replacement Effects | 1 | 1 | 0 | If more than one event occurs simultaneously that Replacement Effects could apply to, each event is… |
+| 373 | Replacement Effects | 3 | 3 | 0 | If more than one event occurs simultaneously that Replacement Effects could apply to, each event is… |
 | 373.1 | Replacement Effects | 0 | 0 | 0 | Although these events are simultaneous, the applied Replacement Effects are ordered. If multiple ap… |
 | 373.1.a | Replacement Effects | 0 | 0 | 0 | When executing Replacement Effects, the Game Actions that comprise their instructions are performed… |
-| 373.2 | Replacement Effects | 0 | 0 | 0 | When applying Replacement Effects to events that occur simultaneously, each Replacement Effect may … |
+| 373.2 | Replacement Effects | 1 | 1 | 0 | When applying Replacement Effects to events that occur simultaneously, each Replacement Effect may … |
 | 373.2.a | Replacement Effects | 0 | 0 | 0 | A sequence of Replacement Effects is an uninterrupted series of applications to a set of simultaneo… |
 | 373.2.a.1 | Replacement Effects | 0 | 0 | 0 | A Replacement Effect that replaces an event or Game Action that is part of another Replacement Effe… |
 | 374 | Replacement Effects | 2 | 2 | 0 | A Replacement Effect’s controller is the player that controls the source of the Replacement Effect. |
@@ -636,19 +636,19 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 383.2.b | Triggered Abilities | 1 | 1 | 0 | The Effect is the Instructions that are not part of the Condition. |
 | 383.2.c | Triggered Abilities | 0 | 0 | 0 | The Condition of a Trigger is evaluated after a potentially inciting event has been processed, unle… |
 | 383.2.c.1 | Triggered Abilities | 0 | 0 | 0 | If a Game Object has a Triggered Ability that is active in a specific zone, it is evaluated and sub… |
-| 383.2.c.2 | Triggered Abilities | 2 | 0 | 2 | A Game Object will not be able to successfully evaluate its Trigger Condition, however, if it leave… |
-| 383.2.c.3 | Triggered Abilities | 6 | 5 | 1 | If a Game Object has a Triggered Ability whose condition is the Game Object leaving the board, such… |
-| 383.2.c.3.a | Triggered Abilities | 2 | 1 | 1 | Triggered Abilities that trigger from Game Objects leaving the board trigger and are placed on the … |
+| 383.2.c.2 | Triggered Abilities | 4 | 2 | 2 | A Game Object will not be able to successfully evaluate its Trigger Condition, however, if it leave… |
+| 383.2.c.3 | Triggered Abilities | 11 | 10 | 1 | If a Game Object has a Triggered Ability whose condition is the Game Object leaving the board, such… |
+| 383.2.c.3.a | Triggered Abilities | 3 | 2 | 1 | Triggered Abilities that trigger from Game Objects leaving the board trigger and are placed on the … |
 | 383.2.c.3.b | Triggered Abilities | 10 | 10 | 0 | When the Triggered Ability is being processed, note any information about the source of the Trigger… |
 | 383.3 | Triggered Abilities | 0 | 0 | 0 | When a Condition is met, a Triggered Ability behaves like an Activated Ability and is placed on the… |
 | 383.3.a | Triggered Abilities | 0 | 0 | 0 | If a Triggered Ability says “you may”or “they may” as the first part of its Effect, the controller … |
 | 383.3.a.1 | Triggered Abilities | 0 | 0 | 0 | The decision of “may” when it appears in this way is solely whether or not to perform said triggere… |
 | 383.3.a.2 | Triggered Abilities | 1 | 1 | 0 | If the controller of the Triggered Ability chooses not to perform that Triggered Ability during fin… |
 | 383.3.a.3 | Triggered Abilities | 2 | 2 | 0 | If “you may” or “they may” appears in any later part of the Effect of a triggered ability, it is de… |
-| 383.3.b | Triggered Abilities | 8 | 7 | 1 | If a Triggered Ability contains a cost within instructions at the beginning of the effect or immedi… |
+| 383.3.b | Triggered Abilities | 9 | 8 | 1 | If a Triggered Ability contains a cost within instructions at the beginning of the effect or immedi… |
 | 383.3.b.1 | Triggered Abilities | 1 | 1 | 0 | The cost must be paid in order to finalize the Triggered Ability to the Chain. |
 | 383.3.c | Triggered Abilities | 0 | 0 | 0 | Triggered Abilities can be put on the Chain during Closed States or Open States on any player's tur… |
-| 383.3.d | Triggered Abilities | 3 | 3 | 0 | If more than one Triggered Ability is Triggered simultaneously, then the player that controls the A… |
+| 383.3.d | Triggered Abilities | 6 | 6 | 0 | If more than one Triggered Ability is Triggered simultaneously, then the player that controls the A… |
 | 383.3.d.1 | Triggered Abilities | 2 | 2 | 0 | If multiple players separately control Triggered Abilities that are Triggered simultaneously, then … |
 | 383.3.e | Triggered Abilities | 6 | 6 | 0 | Some Triggered Abilities will trigger “once each turn,” or “N times each turn.” |
 | 383.3.e.1 | Triggered Abilities | 2 | 2 | 0 | Such a Triggered Ability will only be performed the specified number of times each turn. If its tri… |
@@ -718,12 +718,12 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 389.2 | Reflexive Triggers | 1 | 1 | 0 | If a Reflexive Trigger creates more than one Pending Item it creates them all in order, but does no… |
 | 391 | Delayed Abilities | 0 | 0 | 0 | Delayed Abilities are a type of Ability that specifies a window of applicability during which they … |
 | 391.1 | Delayed Abilities | 0 | 0 | 0 | Delayed Abilities can be any other type of Ability, and contain all of the properties of that type … |
-| 391.2 | Delayed Abilities | 6 | 6 | 0 | Delayed Triggers are Triggered Abilities that can be recognized by describing a specific time of th… |
+| 391.2 | Delayed Abilities | 8 | 8 | 0 | Delayed Triggers are Triggered Abilities that can be recognized by describing a specific time of th… |
 | 391.3 | Delayed Abilities | 10 | 10 | 0 | Delayed Replacements are Replacement Effects that can be recognized by specifying the effect they a… |
 | 391.3.a | Delayed Abilities | 0 | 0 | 0 | Some Delayed Replacements take the form “then recycle it,” or “then banish it,” in reference to cha… |
 | 391.4 | Delayed Abilities | 2 | 2 | 0 | Delayed Passive Abilities are Passive Abilities that are applicable only during a specified window … |
 | 391.5 | Delayed Abilities | 0 | 0 | 0 | Delayed Linked Abilities are Linked Abilities that are generated by another Ability and reference t… |
-| 391.5.a | Delayed Abilities | 0 | 0 | 0 | If that Ability affects a Game Object, the Delayed Linked Ability’s window will be as long as that … |
+| 391.5.a | Delayed Abilities | 1 | 1 | 0 | If that Ability affects a Game Object, the Delayed Linked Ability’s window will be as long as that … |
 | 391.5.b | Delayed Abilities | 0 | 0 | 0 | If the Delayed Linked Ability references the source of the abilities, its window will be as long as… |
 | 391.5.c | Delayed Abilities | 0 | 0 | 0 | The appropriate zones for these Delayed Linked Abilities will be determined implicitly by the Linke… |
 | 391.5.c.1 | Delayed Abilities | 0 | 0 | 0 | If the Linked Ability causes the affected Game Objects to change zone to a non-board zone, the appr… |
@@ -945,7 +945,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 429.1.a | Kill | 0 | 0 | 0 | This can be Active or Passive. |
 | 429.1.a.1 | Kill | 0 | 0 | 0 | Active Kill is when the action is taken when instructed by a game effect or as a cost for a card or… |
 | 429.1.a.1.a | Kill | 0 | 0 | 0 | This is referred to as a Kill Instruction. |
-| 429.1.a.1.b | Kill | 0 | 0 | 0 | When a unit with a Deathknell or other ability that triggers on its own death is to be put in the T… |
+| 429.1.a.1.b | Kill | 1 | 1 | 0 | When a unit with a Deathknell or other ability that triggers on its own death is to be put in the T… |
 | 429.1.a.2 | Kill | 0 | 0 | 0 | Passive Kill is when the action is taken as a result of Lethal Damage or as a consequence for any o… |
 | 429.2 | Kill | 4 | 4 | 0 | When a permanent is killed it is placed directly in the trash from its place of origin. |
 | 429.2.a | Kill | 1 | 1 | 0 | It is only considered Killed if its origin was any zone on the board. |
@@ -1220,7 +1220,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 467.2.c | Step 2: The Combat Damage Step | 5 | 5 | 0 | Starting with the Attacker, each player assigns an amount of damage equal to their summed Might amo… |
 | 467.2.c.1 | Step 2: The Combat Damage Step | 0 | 0 | 0 | Assigning Damage is not Dealing Damage. |
 | 467.2.c.1.a | Step 2: The Combat Damage Step | 0 | 0 | 0 | When all Damage is assigned, it will be Dealt simultaneously. These actions are not synonymous. |
-| 467.2.c.2 | Step 2: The Combat Damage Step | 0 | 0 | 0 | Abilities or effects may influence the order in which damage is assigned. Reminder: Lethal Damage i… |
+| 467.2.c.2 | Step 2: The Combat Damage Step | 1 | 1 | 0 | Abilities or effects may influence the order in which damage is assigned. Reminder: Lethal Damage i… |
 | 467.2.c.3 | Step 2: The Combat Damage Step | 2 | 2 | 0 | Units must have lethal damage assigned to them in full before damage is assigned to a different Uni… |
 | 467.2.c.4 | Step 2: The Combat Damage Step | 3 | 3 | 0 | Units cannot have more damage assigned to them than the minimum required to constitute lethal damag… |
 | 467.2.c.4.a | Step 2: The Combat Damage Step | 1 | 1 | 0 | If the damage assigned to a Unit is modified to or replaced by an amount of damage larger than the … |
@@ -1475,7 +1475,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | 815.3 | Tank | 0 | 0 | 0 | Tank, and whether or not a unit has Tank, is a characteristic of the Unit and may be checked or ref… |
 | 816.1 | Temporary | 0 | 0 | 0 | Temporary is a Triggered Ability keyword. |
 | 816.1.a | Temporary | 0 | 0 | 0 | It is present on Permanents. |
-| 816.1.b | Temporary | 9 | 9 | 0 | It is functionally short for "At the start of this permanent's controller's Beginning Phase, before… |
+| 816.1.b | Temporary | 10 | 10 | 0 | It is functionally short for "At the start of this permanent's controller's Beginning Phase, before… |
 | 816.1.c | Temporary | 1 | 1 | 0 | The Trigger Condition is the controller of the permanent's Beginning Phase starting. |
 | 816.2 | Temporary | 0 | 0 | 0 | Multiple instances of Temporary are redundant. |
 | 816.2.a | Temporary | 0 | 0 | 0 | Regardless of how many instances there are, the ability will only trigger once. |
