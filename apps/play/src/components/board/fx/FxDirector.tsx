@@ -60,6 +60,8 @@ function priority(event: FxEvent): number {
 export function FxDirector({ state, viewerId }: { state: Room; viewerId: string }) {
   const level = useAnimationLevel();
   const [layers, setLayers] = useState<{ stage: HTMLDivElement; top: HTMLDivElement } | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const topRef = useRef<HTMLDivElement | null>(null);
   const engineRef = useRef<ParticleEngine | null>(null);
@@ -118,6 +120,10 @@ export function FxDirector({ state, viewerId }: { state: Room; viewerId: string 
       } catch {
         events = [];
       }
+      if (events.length > 0 && process.env.NODE_ENV !== "production") {
+        const w = window as unknown as { __fxEvents?: Array<{ at: number; events: FxEvent[] }> };
+        (w.__fxEvents ??= []).push({ at: Date.now(), events });
+      }
       if (events.length > 0) schedule(ctx, events, cache.map, seenRef.current);
     }
     cache.refresh();
@@ -129,7 +135,7 @@ export function FxDirector({ state, viewerId }: { state: Room; viewerId: string 
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  if (typeof document === "undefined" || level === "off") return null;
+  if (!mounted || level === "off") return null;
   return createPortal(
     <div className="fx-root" data-fx-root="true" aria-hidden="true">
       <div ref={stageRef} className="fx-stage" />

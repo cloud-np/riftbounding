@@ -937,8 +937,9 @@ img.card-art-crop {
   transition: none;
 }
 
-/* Keep the hovered card hoverable after it lifts away from the pointer. */
-.handFanSlot.hand-slot::before {
+/* Keep the hovered card hoverable after it lifts away from the pointer. The extension hangs off
+   the card's own hover anchor so enter/leave (and the preview) are not interrupted. */
+.hand-slot [data-hover-preview-anchor="true"]::after {
   content: "";
   position: absolute;
   left: 0;
@@ -948,8 +949,16 @@ img.card-art-crop {
   pointer-events: none;
 }
 
-.handFanSlot.hand-slot[data-hand-hovered="true"]::before {
+.hand-slot[data-hand-hovered="true"] [data-hover-preview-anchor="true"]::after {
   pointer-events: auto;
+}
+
+.gc-button[data-gc-token="true"],
+.gc-button[data-gc-token="true"]:hover,
+.gc-button[data-gc-token="true"]:focus {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 /* ------------------------------------------------------------------ hover preview */
