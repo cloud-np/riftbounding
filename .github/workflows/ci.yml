@@ -56,13 +56,9 @@ jobs:
         run: pnpm --filter play test
 
       - name: Engine tests
-        # Several engine suites read the local-only `.recon/oracle` fixtures (not committed).
-        run: |
-          if [ -d .recon/oracle ]; then
-            cd packages/engine && npx vitest run
-          else
-            echo "Skipping @rift/engine tests: .recon/oracle fixtures are not in the repository."
-          fi
+        # The oracle suites skip themselves without the local-only `.recon/oracle` fixtures (not
+        # committed); every other engine suite (strict host, gestures, rewind, repro) runs.
+        run: pnpm --filter @rift/engine test
 
   selfplay:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
