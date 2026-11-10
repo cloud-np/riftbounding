@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { CardInstance, Room, RoomPlayer } from "@rift/protocol";
 import { createTranslator } from "@rift/i18n";
 
@@ -14,6 +13,7 @@ import { cardImageUrl } from "@/lib/assets";
 import { useAnimationLevel } from "../theme/motion";
 import { battlefieldState, type BattlefieldControlState } from "./battlefield-state";
 import { BattlefieldCorners } from "./BattlefieldFrame";
+import { SafeImg } from "../card/SafeImg";
 
 const t = createTranslator("en");
 
@@ -71,15 +71,23 @@ export function computeBattlefieldLayout(options: {
 }
 
 /**
- * Battlefield marker art. The CDN image is optional: when it is missing, errors, or the card has
- * no code, a procedural gradient + sigil + name plate stands in so the marker never looks broken.
+ * Battlefield art. The CDN image is optional: it stays hidden until it has really loaded (see
+ * SafeImg), so when it is missing or blocked the procedural gradient + sigil stands in and no
+ * broken-image glyph or alt text is ever visible. `variant="bg"` is the faded panel backdrop.
  */
-function MarkerArt({ info, card }: { info: BattlefieldInfo; card: CardInstance }) {
-  const [failed, setFailed] = useState(false);
-  const showImage = !!info.cardCode && !failed;
+function MarkerArt({
+  info,
+  card,
+  variant = "marker",
+}: {
+  info: BattlefieldInfo;
+  card: CardInstance;
+  variant?: "marker" | "bg";
+}) {
+  const isBg = variant === "bg";
   return (
     <>
-      <div data-marker-fallback={showImage ? undefined : "true"} className="bf-marker-art absolute inset-0">
+      <div data-marker-fallback="true" className="bf-marker-art absolute inset-0">
         <svg viewBox="0 0 100 72" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden="true">
           <g fill="none" stroke="currentColor" strokeWidth="0.6" opacity="0.55">
             <circle cx="50" cy="32" r="22" />
@@ -88,26 +96,38 @@ function MarkerArt({ info, card }: { info: BattlefieldInfo; card: CardInstance }
             <path d="M26 32 L50 26 L74 32 L50 38 Z" />
           </g>
         </svg>
-        <div className="absolute inset-x-0 bottom-[0.22rem] px-[0.3rem] text-center">
-          <strong className="bf-marker-name block truncate text-(length:--card-battlefield-title-size) leading-[1.15]">
-            {info.name}
-          </strong>
-        </div>
+        {isBg ? null : (
+          <div className="absolute inset-x-0 bottom-[0.14rem] px-[0.2rem] text-center">
+            <strong className="bf-marker-name block truncate text-[0.46rem] leading-[1.15]">{info.name}</strong>
+          </div>
+        )}
       </div>
-      {showImage ? (
-        // eslint-disable-next-line @next/next/no-img-element -- battlefield art comes from the card CDN
-        <img
-          alt={info.name}
+      {info.cardCode ? (
+        <SafeImg
+          alt={isBg ? "" : info.name}
+          aria-hidden={isBg ? true : undefined}
           src={cardImageUrl(card, "preview")}
           loading="eager"
           decoding="async"
           draggable={false}
-          onError={() => setFailed(true)}
           className="absolute inset-0 h-full w-full select-none object-cover"
         />
       ) : null}
     </>
   );
+}
+
+function markerCard(info: BattlefieldInfo): CardInstance {
+  return {
+    id: `battlefield-marker:${info.zone}`,
+    name: info.name,
+    source: "battlefield",
+    exhausted: false,
+    createdAt: 0,
+    cardCode: info.cardCode,
+    type: "Battlefield",
+    isPlaceholder: !info.cardCode,
+  };
 }
 
 function BattlefieldMarker({
@@ -132,7 +152,7 @@ function BattlefieldMarker({
   };
   return (
     <div
-      className="gb-card-action-hover-scope group absolute left-1/2 top-1/2 z-1 overflow-visible rounded-[0.48rem] border border-transparent bg-transparent shadow-none isolate [&_strong]:text-[#dbe7ff] [&_strong]:text-(length:--card-battlefield-title-size) [&_strong]:leading-[1.15] gb-local-board-hover-tone"
+      className="gb-card-action-hover-scope group bf-marker absolute top-1/2 z-2 overflow-visible rounded-[0.48rem] border border-transparent bg-transparent shadow-none isolate [&_strong]:text-[#dbe7ff] [&_strong]:text-(length:--card-battlefield-title-size) [&_strong]:leading-[1.15] gb-local-board-hover-tone"
       data-hover-preview-anchor="true"
       data-card-id={`battlefield-marker:${info.zone}`}
       data-drop-zone={info.zone}
@@ -166,11 +186,11 @@ function BattlefieldMarker({
         interaction.handleBattlefieldMarkerPress(info.zone, side, event);
       }}
       style={{
-        width: "min(10.166rem, 100% - 0.32rem)",
+        left: "0.34rem",
+        width: "var(--bf-marker-w)",
         height: "auto",
         aspectRatio: "1.39286 / 1",
-        marginLeft: "calc(-0.5 * min(10.166rem, 100% - 0.32rem))",
-        marginTop: "calc(-0.358974 * min(10.166rem, 100% - 0.32rem))",
+        marginTop: "calc(-0.358974 * var(--bf-marker-w))",
       }}
     >
       <div className="absolute inset-px isolate">
@@ -234,6 +254,9 @@ function BattlefieldPanel({
       className="gb-board-layer bf-panel min-h-0 h-full relative rounded-[0.5rem] bg-transparent p-[0.16rem]"
     >
       <span aria-hidden="true" className="battlefield-border-line" />
+      <div aria-hidden="true" data-bf-backdrop="true" className="bf-backdrop pointer-events-none absolute inset-0 overflow-hidden rounded-[0.5rem]">
+        <MarkerArt info={info} card={markerCard(info)} variant="bg" />
+      </div>
       <BattlefieldCorners />
       <span className="bf-nameplate" data-bf-nameplate="true">
         <span className="bf-nameplate-gem" aria-hidden="true" />
@@ -270,12 +293,13 @@ function BattlefieldPanel({
       </button>
       <div
         data-battlefield-card-rows="true"
-        className="min-h-0 relative grid grid-rows-2 gap-[0.12rem] h-full pt-[0.36rem] pb-[0.36rem] overflow-visible"
+        className="bf-rows min-h-0 relative grid grid-rows-2 gap-[0.12rem] h-full pt-[0.36rem] pb-[0.36rem] overflow-visible"
       >
         <div
           data-drop-zone-root={info.zone}
           data-zone-owner="opponent"
-          className="min-h-0 relative rounded-[0.08rem] bg-transparent py-[0.16rem] px-[0.2rem] flex items-start overflow-visible shadow-none justify-center before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:border-none before:bg-transparent before:z-0 before:pointer-events-none"
+          style={{ ["--bf-n" as string]: Math.max(1, opponentGroups.topLevel.length) }}
+          className="bf-lane min-h-0 relative rounded-[0.08rem] bg-transparent py-[0.16rem] px-[0.2rem] flex items-start overflow-visible shadow-none justify-center before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:border-none before:bg-transparent before:z-0 before:pointer-events-none"
           {...opponentDrop}
         >
           {opponentGroups.topLevel.map((card) => (
@@ -299,7 +323,8 @@ function BattlefieldPanel({
         <div
           data-drop-zone-root={info.zone}
           data-zone-owner="self"
-          className="min-h-0 relative rounded-[0.08rem] bg-transparent py-[0.16rem] px-[0.2rem] flex items-end overflow-visible shadow-none justify-center before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:border-none before:bg-transparent before:z-0 before:pointer-events-none"
+          style={{ ["--bf-n" as string]: Math.max(1, ownGroups.topLevel.length) }}
+          className="bf-lane min-h-0 relative rounded-[0.08rem] bg-transparent py-[0.16rem] px-[0.2rem] flex items-end overflow-visible shadow-none justify-center before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:border-none before:bg-transparent before:z-0 before:pointer-events-none"
           {...ownDrop}
         >
           <div className="absolute right-[0.16rem] bottom-[0.12rem] z-40">

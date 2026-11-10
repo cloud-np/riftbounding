@@ -73,6 +73,10 @@ export function StrictGameHarness({ seed, scenario }: StrictGameHarnessProps) {
   const [botError, setBotError] = useState<string | null>(null);
   const [burst, setBurst] = useState(0);
   const [panelOpen, setPanelOpen] = useState(true);
+  // Start collapsed on small screens so the panel never covers the board.
+  useEffect(() => {
+    if (window.innerWidth < 1100 || window.innerHeight < 800) setPanelOpen(false);
+  }, []);
 
   const roomRef = useRef(initial.room);
   const timelineRef = useRef(initial.timeline);
@@ -255,28 +259,34 @@ export function StrictGameHarness({ seed, scenario }: StrictGameHarnessProps) {
       </div>
 
       <aside
-        className="fixed left-3 top-3 z-[2147483000] flex max-h-[calc(100dvh-1.5rem)] w-[22.5rem] max-w-[calc(100vw-1.5rem)] flex-col gap-2 overflow-auto rounded-xl border border-[rgba(134,168,246,0.35)] bg-[rgba(6,14,26,0.94)] p-3 text-[0.68rem] text-[#dbe7ff] shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur-md"
+        className={`fixed left-3 top-3 z-[2147483000] flex max-h-[calc(100dvh-1.5rem)] max-w-[calc(100vw-1.5rem)] flex-col gap-2 overflow-auto rounded-xl border border-[rgba(134,168,246,0.35)] bg-[rgba(6,14,26,0.94)] text-[0.68rem] text-[#dbe7ff] shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur-md ${panelOpen ? "w-[22.5rem] p-3" : "w-auto p-1"}`}
         data-testid="dev-panel"
         data-open={String(panelOpen)}
       >
         <header className="flex items-center justify-between gap-2">
-          <strong className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#bfeaff]">
-            Strict local duel
-          </strong>
-          <span className="text-[0.58rem] uppercase tracking-[0.08em] text-[#8ea9c9]">
-            {scenario ?? "plain"} · seed {seedValue}
-          </span>
+          {panelOpen ? (
+            <>
+              <strong className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#bfeaff]">
+                Strict local duel
+              </strong>
+              <span className="text-[0.58rem] uppercase tracking-[0.08em] text-[#8ea9c9]">
+                {scenario ?? "plain"} · seed {seedValue}
+              </span>
+            </>
+          ) : null}
           <button
             type="button"
             data-testid="strict-panel-toggle"
+            aria-expanded={panelOpen}
+            title={panelOpen ? "Collapse the dev panel" : "Open the dev panel"}
             className={BTN}
             onClick={() => setPanelOpen((open) => !open)}
           >
-            {panelOpen ? "Hide" : "Show"}
+            {panelOpen ? "Hide" : "Dev"}
           </button>
         </header>
 
-        {panelOpen ? (
+        <div className={panelOpen ? "contents" : "hidden"}>
           <>
             <div
               data-testid="strict-state"
@@ -439,7 +449,7 @@ export function StrictGameHarness({ seed, scenario }: StrictGameHarnessProps) {
               <code>applyGameAction</code> with <code>mode: &quot;single_player&quot;</code>.
             </p>
           </>
-        ) : null}
+        </div>
       </aside>
     </div>
   );

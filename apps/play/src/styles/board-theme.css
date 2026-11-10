@@ -247,7 +247,32 @@ button[data-banished-pile-button] {
 .bf-panel {
   --bf-rgb: 159 180 214;
   --bf-i: 0.55;
+  /* Compact landscape marker docked in a reserved left gutter so it never covers units. */
+  --bf-marker-w: clamp(3.1rem, 15%, 5rem);
+  --bf-gutter: calc(var(--bf-marker-w) + 0.7rem);
 }
+.bf-panel .bf-rows { padding-left: var(--bf-gutter); }
+.bf-lane { container-type: inline-size; gap: 0.32rem; }
+/* Many units: fan the lane (negative margin) instead of clipping, so every card stays legible. */
+.bf-lane > .gc-root + .gc-root {
+  margin-left: min(
+    0px,
+    calc((100cqw - (var(--bf-n) * var(--card-width) + (var(--bf-n) - 1) * 0.32rem)) / max(var(--bf-n) - 1, 1))
+  );
+}
+.bf-backdrop { z-index: 0; }
+.bf-backdrop .bf-marker-art { opacity: 0.85; }
+.bf-backdrop img { opacity: 0.34; filter: saturate(0.85) blur(0.5px); }
+.bf-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgb(3 8 18 / 0.55) 100%),
+    linear-gradient(180deg, rgb(3 8 18 / 0.35), rgb(3 8 18 / 0.15) 50%, rgb(3 8 18 / 0.45));
+}
+.bf-panel .bf-marker { cursor: pointer; }
+.bf-panel .bf-marker:hover { box-shadow: 0 0 1.4rem rgb(var(--bf-rgb) / 0.6), 0 6px 14px rgb(0 0 0 / 0.5); }
 .bf-panel[data-bf-state="self"] { --bf-rgb: 79 179 255; --bf-i: 1; }
 .bf-panel[data-bf-state="opponent"] { --bf-rgb: 255 90 106; --bf-i: 1; }
 .bf-panel[data-bf-state="contested"] { --bf-rgb: 255 207 90; --bf-i: 1.15; }
@@ -309,8 +334,8 @@ button[data-banished-pile-button] {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  max-width: 78%;
-  padding: 0.08rem 0.7rem 0.1rem;
+  max-width: 88%;
+  padding: 0.1rem 0.7rem 0.12rem;
   pointer-events: none;
   border-radius: 999px;
   border: 1px solid rgb(var(--bf-rgb) / calc(0.55 * min(var(--bf-i), 1)));
@@ -329,11 +354,17 @@ button[data-banished-pile-button] {
 .bf-nameplate-text {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.12;
   font-family: var(--hud-heading);
   font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: #f3e6c4;
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.8);
@@ -813,4 +844,69 @@ aside[data-slot="sidebar"] {
 [data-bf-motion="off"] *,
 [data-motion="off"] * {
   animation: none !important;
+}
+
+/* ------------------------------------------------------------------ phone portrait polish */
+/* Turn controls stack vertically (two buttons side by side overflowed their own labels). */
+.gb-board[data-tablet-layout="true"][data-board-arrangement="phone-portrait"] [data-board-turn-controls] > div {
+  flex-direction: column !important;
+  align-items: stretch;
+  gap: 0.2rem;
+}
+.gb-board[data-tablet-layout="true"][data-board-arrangement="phone-portrait"] [data-board-turn-controls] .turn-switch {
+  min-height: 1.5rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  padding: 0.1rem 0.25rem;
+}
+.gb-board[data-tablet-layout="true"][data-board-arrangement="phone-portrait"] [data-board-turn-controls] .turn-switch svg {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+/* Floating Energy/Power: keep glyph + value + adjust, drop the text labels that ran over the pips. */
+.gb-board[data-tablet-layout="true"][data-board-arrangement="phone-portrait"] [data-player-area="resources"] > div > div {
+  grid-template-columns: 1.5rem minmax(1rem, max-content) 1.5rem !important;
+}
+.gb-board[data-tablet-layout="true"][data-board-arrangement="phone-portrait"] [data-player-area="resources"] > div > div > span:nth-child(4n + 2) {
+  display: none !important;
+}
+.gb-board[data-tablet-layout="true"][data-board-arrangement="phone-portrait"] [data-board-turn-controls] > div > button {
+  width: 100% !important;
+  flex: none !important;
+}
+
+/* ------------------------------------------------------------------ empty zone slots */
+.empty-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px dashed rgb(150 170 200 / 0.28);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 45%, rgb(110 150 210 / 0.07), transparent 70%),
+    rgb(6 12 24 / 0.32);
+  box-shadow: inset 0 0 0.6rem rgb(0 0 0 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.03);
+  color: rgb(170 188 214 / 0.62);
+}
+.empty-slot-sigil {
+  position: absolute;
+  inset: 12% 8% 22%;
+  width: 84%;
+  height: 66%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.9;
+  opacity: 0.4;
+}
+.empty-slot-label {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0.3rem;
+  text-align: center;
+  font-family: var(--hud-heading);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }

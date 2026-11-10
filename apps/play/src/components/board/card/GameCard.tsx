@@ -94,7 +94,8 @@ export function GameCard({
   const { boardCardStyle } = useLocalGameSettings();
   const animationLevel = useAnimationLevel();
   const meta = useMemo(() => cardMeta(card), [card]);
-  const mirrored = owner === "opponent";
+  // Battlefield lanes are not inside the rotated player layer: opponent cards already read upright.
+  const mirrored = owner === "opponent" && !/^battlefield/.test(zone);
   const resolvedLabels = labels ?? card.customLabels ?? [];
   const whiteCounter = typeof card.whiteCounter === "number" ? Math.trunc(card.whiteCounter) : 0;
   const redCounter = typeof card.redCounter === "number" ? Math.trunc(card.redCounter) : 0;

@@ -20,7 +20,9 @@ import { cardImageUrl } from "@/lib/assets";
 import { buildDropIntent, writeDragPayload, type DropTargetZone } from "../../drag";
 import {
   deckPeekTitle,
+  isDeckPeekOpen,
   nextRevealAll,
+  shouldDispatchPeekDismiss,
   peekZone,
   type DeckPeekZone,
 } from "./deck-peek-state";
@@ -135,9 +137,16 @@ export function DeckPeekPrompt({
   const panelRef = useRef<HTMLElement | null>(null);
   const moreRef = useRef<HTMLDivElement | null>(null);
 
+  const peekOpen = isDeckPeekOpen({
+    phase: room.phase,
+    peekCardIds: peek?.cardIds,
+    resolvedCardCount: cards.length,
+  });
+  const canDismiss = shouldDispatchPeekDismiss({ open: peekOpen, rulesMode: room.rulesMode });
   const close = useCallback(() => {
+    if (!canDismiss) return;
     dispatch({ type: "dismiss_deck_peek", ...zoneParam(zone) } as GameActionIntent);
-  }, [dispatch, zone]);
+  }, [canDismiss, dispatch, zone]);
 
   const measureCutout = useCallback(() => {
     const panel = panelRef.current;
@@ -190,14 +199,14 @@ export function DeckPeekPrompt({
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !moreOpen) {
+      if (event.key === "Escape" && !moreOpen && canDismiss) {
         event.preventDefault();
         close();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [close, moreOpen]);
+  }, [canDismiss, close, moreOpen]);
 
   useEffect(() => {
     setSelection((current) => {

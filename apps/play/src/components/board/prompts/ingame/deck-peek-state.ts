@@ -26,3 +26,20 @@ export function deckPeekTitle(zone: DeckPeekZone) {
 export function nextRevealAll(revealed: ReadonlySet<string>, cardIds: readonly string[]): boolean {
   return !(cardIds.length > 0 && cardIds.every((id) => revealed.has(id)));
 }
+
+/** True only while a deck peek is actually showing for the viewer (in game, with resolvable cards). */
+export function isDeckPeekOpen(options: {
+  phase: string;
+  peekCardIds: readonly string[] | undefined;
+  resolvedCardCount: number;
+}): boolean {
+  return options.phase === "in_game" && !!options.peekCardIds && options.resolvedCardCount > 0;
+}
+
+/**
+ * Whether Escape / close may dispatch `dismiss_deck_peek`: only when a peek is open, and never in
+ * a strict room (peeks are a sandbox-only action there, the rule contract rejects it).
+ */
+export function shouldDispatchPeekDismiss(options: { open: boolean; rulesMode?: string }): boolean {
+  return options.open && options.rulesMode !== "strict";
+}

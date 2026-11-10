@@ -695,8 +695,8 @@ img.card-art-crop {
 
 .rtoken-plate {
   position: absolute;
-  left: 13cqw;
-  right: 13cqw;
+  left: 7cqw;
+  right: 7cqw;
   bottom: 14cqw;
   height: 10cqw;
   display: grid;
@@ -706,12 +706,12 @@ img.card-art-crop {
 
 .rtoken-plate > span {
   max-width: 100%;
-  padding: 0 3cqw;
+  padding: 0 2cqw;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font: 800 6.6cqw/1 var(--font-body, system-ui, sans-serif);
-  letter-spacing: 0.02em;
+  font: 800 5.6cqw/1 var(--font-body, system-ui, sans-serif);
+  letter-spacing: 0;
   color: #fff3d2;
   text-shadow: 0 0.4cqw 0.8cqw #000;
 }
@@ -833,11 +833,11 @@ img.card-art-crop {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font: 800 11cqw/1 var(--font-body, system-ui, sans-serif);
-  letter-spacing: 0.1em;
+  font: 800 12.5cqw/1.1 var(--font-body, system-ui, sans-serif);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #e6efff;
-  text-shadow: 0 0.5cqw 1cqw #000;
+  color: #ffffff;
+  text-shadow: 0 0 1.4cqw #000, 0 0 2.4cqw #000, 0 0.6cqw 1cqw #000;
 }
 
 .rtoken-gem[data-exhausted] .rtoken-gem-body {
