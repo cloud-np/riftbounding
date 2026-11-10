@@ -130,4 +130,68 @@ describe("most-played unfinished starter-kit cards (need a per-turn history prim
     s.room.rules!.pools.p1 = { energy: 1, power: {} };
     s.as("p1").play("Hold 'Em", { choices: { "target:0": ["holder"] } }).expectOk();
   });
+
+  /**
+   * Fix: `replacements/decisions.ts` only asks when several replacements apply to ONE event (372).
+   * For one replacement that can apply to several simultaneous events (373: "They must decide which
+   * event to apply Zhonya's Hourglass to first"), hold all qualifying `kill` events of the cleanup
+   * and open an `effects.replacement` choose-card prompt (controller of the affected objects, in
+   * turn order) listing the units; the chosen one is saved, the rest die (373.2: one sequence).
+   * Today the first unit in board order is silently saved.
+   */
+  it.skip("[BUG][R373][C:Zhonya's Hourglass] two friendly units die in one cleanup: the controller chooses which one Zhonya's Hourglass saves", () => {
+    const s = duel({ p1: ["Zhonya's Hourglass"] });
+    placeUnit(s, "p1", "Zhonya's Hourglass", "base", "glass");
+    placeUnit(s, "p1", "Treasure Hunter", "base", "a");
+    placeUnit(s, "p1", "Clockwork Keeper", "base", "b");
+    for (const id of ["a", "b"]) s.room.rules!.objects[id] = { damage: 99 };
+    runCleanup(s.room, { ctx: s.ctx, host: s.host, events: [] });
+    expect(s.room.rules!.prompt?.playerId).toBe("p1");
+    expect((s.room.rules!.prompt?.options ?? []).length).toBeGreaterThanOrEqual(2);
+    s.as("p1").choose({ optionIds: ["b"] }).expectOk();
+    drive(s);
+    expect(boardOf(s, "p1").base.some((card) => card.id === "b")).toBe(true);
+    expect(boardOf(s, "p1").trash.some((card) => card.id === "a")).toBe(true);
+  });
+
+  /**
+   * Fix: needs the copy layer (446): "They become copies of me" on the two Reflection tokens (name,
+   * Might 3, abilities and, through the copied Temporary, the kill at the next Beginning Phase).
+   * The tokens are already Temporary through the script, so only the copy itself is missing.
+   */
+  it.skip("[BUG][R446][C:Keeper of Masks] the two Reflection tokens become copies of Keeper of Masks", () => {
+    const s = duel({ p1: ["Keeper of Masks"] });
+    toHand(s, "p1", "Keeper of Masks");
+    s.room.rules!.pools.p1 = { energy: 8, power: { any: 8 } };
+    s.as("p1").play("Keeper of Masks", { location: "base" }).expectOk();
+    drive(s);
+    const copies = boardOf(s, "p1").base.filter((card) => card.name === "Keeper of Masks" && card.id !== "keeper");
+    expect(copies.length).toBeGreaterThanOrEqual(3);
+  });
+
+  /**
+   * Fix: a delayed replacement/trigger binds its unit by card id (`target:0` / `obj:<id>`), and a
+   * card keeps its id across zones, so the same card played again matches an old binding. Give each
+   * board entry an incarnation stamp (set where `baseMight` is initialised on entry) and have the
+   * replacement matcher / `bindTarget` store and compare it, or drop `replacement` effects bound to
+   * an object in `forgetObject` and `kill` when it leaves the board. Delayed *die/leave* triggers
+   * (Deadly Flourish) must keep firing for the object that left, so they compare the stamp instead.
+   */
+  it.skip("[BUG][R359.3.f][R186][C:Tactical Retreat] a unit that left the board and was played again is a new object: 'the next time it would die this turn' no longer applies", () => {
+    const s = duel({ p1: ["Tactical Retreat"] });
+    placeUnit(s, "p1", "Stellacorn Herder", "battlefieldA", "u");
+    toHand(s, "p1", "Tactical Retreat");
+    s.room.rules!.pools.p1 = { energy: 8, power: { any: 8 } };
+    s.as("p1").play("Tactical Retreat", { choices: { "target:0": ["u"] } }).expectOk();
+    drive(s);
+    s.host.moveCardToOwnerZone(s.room, "u", "hand");
+    delete s.room.rules!.objects.u;
+    s.room.rules!.pools.p1 = { energy: 8, power: { any: 8 } };
+    s.as("p1").play("Stellacorn Herder", { location: "base" }).expectOk();
+    drive(s);
+    s.room.rules!.objects.u = { ...(s.room.rules!.objects.u ?? {}), damage: 99 };
+    runCleanup(s.room, { ctx: s.ctx, host: s.host, events: [] });
+    drive(s);
+    expect(boardOf(s, "p1").trash.some((card) => card.id === "u")).toBe(true);
+  });
 });
