@@ -7,6 +7,8 @@
  * - strictly an imperative API (the choreography layer owns timing)
  */
 
+import { renderTier, type RenderTier } from "./quality";
+
 export type Rgb = string; // "255,84,60"
 
 const Kind = {
@@ -50,7 +52,13 @@ function rand(min: number, max: number): number {
 }
 
 function easeOut(t: number): number {
-  return 1 - (1 - t) * (1 - t) * (1 - t);
+  const c = t < 0 ? 0 : t > 1 ? 1 : t;
+  return 1 - (1 - c) * (1 - c) * (1 - c);
+}
+
+/** Radius/size guard: canvas arc/ellipse throw on negative or non-finite values. */
+export function safeRadius(value: number): number {
+  return Number.isFinite(value) && value > 0 ? value : 0;
 }
 
 const spriteCache = new Map<string, HTMLCanvasElement>();
@@ -72,6 +80,62 @@ function glowSprite(rgb: Rgb): HTMLCanvasElement | null {
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, 64, 64);
   spriteCache.set(rgb, canvas);
+  return canvas;
+}
+
+const pillarCache = new Map<string, HTMLCanvasElement>();
+/** 64x256 beam: vertical ramp (transparent top, white-hot bottom) feathered towards both sides. */
+function pillarSprite(rgb: Rgb): HTMLCanvasElement | null {
+  if (typeof document === "undefined") return null;
+  const hit = pillarCache.get(rgb);
+  if (hit) return hit;
+  const canvas = document.createElement("canvas");
+  canvas.width = 64;
+  canvas.height = 256;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+  const gradient = ctx.createLinearGradient(0, 0, 0, 256);
+  gradient.addColorStop(0, `rgba(${rgb},0)`);
+  gradient.addColorStop(0.7, `rgba(${rgb},0.5)`);
+  gradient.addColorStop(1, "rgba(255,255,255,0.8)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 64, 256);
+  const side = ctx.createLinearGradient(0, 0, 64, 0);
+  side.addColorStop(0, "rgba(0,0,0,0)");
+  side.addColorStop(0.5, "rgba(0,0,0,1)");
+  side.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.globalCompositeOperation = "destination-in";
+  ctx.fillStyle = side;
+  ctx.fillRect(0, 0, 64, 256);
+  pillarCache.set(rgb, canvas);
+  return canvas;
+}
+
+const streakCache = new Map<string, HTMLCanvasElement>();
+/** 128x8 horizontal comet tail: white-hot head at x=0 fading to transparent at x=128. */
+function streakSprite(rgb: Rgb): HTMLCanvasElement | null {
+  if (typeof document === "undefined") return null;
+  const hit = streakCache.get(rgb);
+  if (hit) return hit;
+  const canvas = document.createElement("canvas");
+  canvas.width = 128;
+  canvas.height = 8;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+  const gradient = ctx.createLinearGradient(0, 0, 128, 0);
+  gradient.addColorStop(0, "rgba(255,255,255,1)");
+  gradient.addColorStop(0.3, `rgba(${rgb},0.8)`);
+  gradient.addColorStop(1, `rgba(${rgb},0)`);
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.moveTo(0, 4);
+  ctx.quadraticCurveTo(4, 0, 12, 0);
+  ctx.lineTo(128, 3);
+  ctx.lineTo(128, 5);
+  ctx.lineTo(12, 8);
+  ctx.quadraticCurveTo(4, 8, 0, 4);
+  ctx.fill();
+  streakCache.set(rgb, canvas);
   return canvas;
 }
 
@@ -110,12 +174,16 @@ export class ParticleEngine {
   private pool: Particle[] = [];
   private cursor = 0;
   private raf = 0;
+  private tier: RenderTier = "high";
   private last = 0;
   private dpr = 1;
   private width = 0;
   private height = 0;
   /** Particle budget multiplier (0 disables particles entirely). */
   density = 1;
+  /** Hard cap on simultaneously alive particles (quality tier). */
+  maxAlive = POOL_SIZE;
+  private aliveCount = 0;
 
   constructor() {
     for (let i = 0; i < POOL_SIZE; i += 1) {
@@ -146,6 +214,7 @@ export class ParticleEngine {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.resize();
+    this.applyTier(renderTier());
   }
 
   detach(): void {
@@ -156,10 +225,18 @@ export class ParticleEngine {
     this.clear();
   }
 
+  /** Scale the particle budget and canvas resolution to the device tier. */
+  applyTier(tier: RenderTier): void {
+    this.tier = tier;
+    this.density = tier === "high" ? 1 : tier === "medium" ? 0.6 : 0.35;
+    this.maxAlive = tier === "high" ? POOL_SIZE : tier === "medium" ? 700 : 320;
+    this.resize();
+  }
+
   resize(): void {
     const canvas = this.canvas;
     if (!canvas) return;
-    this.dpr = Math.min(2, window.devicePixelRatio || 1);
+    this.dpr = Math.min(this.tier === "high" ? 2 : 1, window.devicePixelRatio || 1);
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     canvas.width = Math.round(this.width * this.dpr);
@@ -170,17 +247,19 @@ export class ParticleEngine {
 
   clear(): void {
     for (const particle of this.pool) particle.alive = false;
+    this.aliveCount = 0;
     if (this.ctx && this.canvas) this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   private spawn(kind: Kind, rgb: Rgb): Particle | null {
-    if (!this.canvas || this.density <= 0) return null;
+    if (!this.canvas || this.density <= 0 || this.aliveCount >= this.maxAlive) return null;
     for (let i = 0; i < POOL_SIZE; i += 1) {
       const index = (this.cursor + i) % POOL_SIZE;
       const particle = this.pool[index]!;
       if (!particle.alive) {
         this.cursor = (index + 1) % POOL_SIZE;
         particle.alive = true;
+        this.aliveCount += 1;
         particle.kind = kind;
         particle.rgb = rgb;
         particle.age = 0;
@@ -193,6 +272,9 @@ export class ParticleEngine {
         particle.aux2 = 0;
         particle.vx = 0;
         particle.vy = 0;
+        particle.life = 1;
+        particle.size = 1;
+        particle.size1 = 0;
         this.kick();
         return particle;
       }
@@ -356,10 +438,16 @@ export class ParticleEngine {
 
   private frame = (now: number): void => {
     this.raf = 0;
+    this.tick(now);
+  };
+
+  /** Advance + draw one frame (public for tests). Reschedules rAF only while particles live. */
+  tick(now: number): void {
     const ctx = this.ctx;
     const canvas = this.canvas;
     if (!ctx || !canvas) return;
-    const dt = Math.min(0.05, (now - this.last) / 1000);
+    // rAF timestamps can precede `performance.now()` taken at kick time: never step backwards.
+    const dt = Math.max(0, Math.min(0.05, (now - this.last) / 1000));
     this.last = now;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     ctx.clearRect(0, 0, this.width, this.height);
@@ -367,17 +455,23 @@ export class ParticleEngine {
     for (const p of this.pool) {
       if (!p.alive) continue;
       p.age += dt;
-      const t = p.age / p.life;
+      const t = Math.max(0, p.age / (p.life > 0 ? p.life : 0.001));
       if (t >= 1) {
         p.alive = false;
+        this.aliveCount -= 1;
         continue;
       }
       alive += 1;
       this.drawParticle(ctx, p, t, dt);
     }
+    ctx.globalCompositeOperation = "source-over";
+    ctx.globalAlpha = 1;
     if (alive > 0) this.raf = requestAnimationFrame(this.frame);
-    else ctx.clearRect(0, 0, this.width, this.height);
-  };
+    else {
+      this.aliveCount = 0;
+      ctx.clearRect(0, 0, this.width, this.height);
+    }
+  }
 
   private drawParticle(ctx: CanvasRenderingContext2D, p: Particle, t: number, dt: number): void {
     switch (p.kind) {
@@ -451,37 +545,40 @@ export class ParticleEngine {
       }
       case Kind.Ring: {
         const e = easeOut(t);
-        const r = Math.max(0.5, p.size + (p.size1 - p.size) * e);
+        const r = Math.max(0.5, safeRadius(p.size + (p.size1 - p.size) * e));
+        const squash = Math.max(0.01, safeRadius(p.aux2));
         ctx.globalCompositeOperation = "lighter";
         ctx.lineWidth = Math.max(0.8, p.aux * (1 - e));
         ctx.strokeStyle = `rgba(${p.rgb},${(1 - t).toFixed(3)})`;
         ctx.beginPath();
-        ctx.ellipse(p.x, p.y, r, r * p.aux2, 0, 0, TAU);
+        ctx.ellipse(p.x, p.y, r, r * squash, 0, 0, TAU);
         ctx.stroke();
         ctx.lineWidth = Math.max(0.6, p.aux * 0.3 * (1 - e));
         ctx.strokeStyle = `rgba(255,255,255,${((1 - t) * 0.7).toFixed(3)})`;
         ctx.beginPath();
-        ctx.ellipse(p.x, p.y, r * 0.96, r * 0.96 * p.aux2, 0, 0, TAU);
+        ctx.ellipse(p.x, p.y, r * 0.96, r * 0.96 * squash, 0, 0, TAU);
         ctx.stroke();
         break;
       }
       case Kind.Pillar: {
         const env = Math.min(t / 0.15, 1) * (1 - Math.max(0, (t - 0.4) / 0.6));
-        const w = p.size * (0.5 + 0.5 * (1 - t * 0.6));
-        const gradient = ctx.createLinearGradient(0, p.y - p.size1, 0, p.y);
-        gradient.addColorStop(0, `rgba(${p.rgb},0)`);
-        gradient.addColorStop(0.7, `rgba(${p.rgb},${(0.55 * env).toFixed(3)})`);
-        gradient.addColorStop(1, `rgba(255,255,255,${(0.85 * env).toFixed(3)})`);
+        const w = safeRadius(p.size * (0.5 + 0.5 * (1 - t * 0.6)));
+        const h = safeRadius(p.size1);
+        const sprite = pillarSprite(p.rgb);
         ctx.globalCompositeOperation = "lighter";
-        ctx.fillStyle = gradient;
-        ctx.fillRect(p.x - w / 2, p.y - p.size1, w, p.size1);
-        ctx.fillStyle = `rgba(255,255,255,${(0.35 * env).toFixed(3)})`;
-        ctx.fillRect(p.x - w * 0.1, p.y - p.size1 * 0.9, w * 0.2, p.size1 * 0.9);
+        if (sprite) {
+          ctx.globalAlpha = Math.max(0, Math.min(1, env * 0.85));
+          ctx.drawImage(sprite, p.x - w / 2, p.y - h, w, h);
+          // hot narrow core
+          ctx.globalAlpha = Math.max(0, Math.min(1, env * 0.55));
+          ctx.drawImage(sprite, p.x - w * 0.14, p.y - h * 0.92, w * 0.28, h * 0.92);
+        }
+        ctx.globalAlpha = 1;
         break;
       }
       case Kind.Circle: {
         const env = Math.min(t / 0.18, 1) * (1 - Math.max(0, (t - 0.7) / 0.3));
-        const r = p.size * (0.7 + 0.3 * easeOut(Math.min(t / 0.25, 1)));
+        const r = safeRadius(p.size * (0.7 + 0.3 * easeOut(Math.min(t / 0.25, 1))));
         p.rot += p.rotV * dt;
         ctx.globalCompositeOperation = "lighter";
         ctx.lineWidth = 2.5;
@@ -525,22 +622,19 @@ export class ParticleEngine {
         break;
       }
       case Kind.Streak: {
-        const len = Math.hypot(p.vx, p.vy) || 1;
-        const ux = p.vx / len;
-        const uy = p.vy / len;
-        const alpha = p.alpha * (1 - t);
-        const gradient = ctx.createLinearGradient(p.x, p.y, p.x - ux * p.size, p.y - uy * p.size);
-        gradient.addColorStop(0, `rgba(255,255,255,${alpha.toFixed(3)})`);
-        gradient.addColorStop(0.3, `rgba(${p.rgb},${(alpha * 0.8).toFixed(3)})`);
-        gradient.addColorStop(1, `rgba(${p.rgb},0)`);
+        const sprite = streakSprite(p.rgb);
+        if (!sprite) break;
+        const len = safeRadius(p.size);
+        const thick = 6 * (1 - t * 0.7) * 2;
         ctx.globalCompositeOperation = "lighter";
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 6 * (1 - t * 0.7);
-        ctx.lineCap = "round";
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x - ux * p.size, p.y - uy * p.size);
-        ctx.stroke();
+        ctx.globalAlpha = Math.max(0, Math.min(1, p.alpha * (1 - t)));
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        // tail points opposite to the travel direction
+        ctx.rotate(Math.atan2(-p.vy, -p.vx));
+        ctx.drawImage(sprite, 0, -thick / 2, len, thick);
+        ctx.restore();
+        ctx.globalAlpha = 1;
         break;
       }
     }

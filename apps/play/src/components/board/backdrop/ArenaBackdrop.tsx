@@ -8,6 +8,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
+import { renderTier } from "../fx/quality";
 import { useAnimationLevel } from "../theme/motion";
 
 const ArenaBackdropCanvas = dynamic(() => import("./ArenaBackdropCanvas"), {
@@ -20,6 +21,11 @@ let webglProbe: boolean | undefined;
 function probeWebgl(): boolean {
   if (typeof document === "undefined") return false;
   if (webglProbe !== undefined) return webglProbe;
+  // Software rasterisers (SwiftShader / llvmpipe) cannot afford the shader: static CSS backdrop.
+  if (renderTier() === "software") {
+    webglProbe = false;
+    return false;
+  }
   try {
     const canvas = document.createElement("canvas");
     const gl =

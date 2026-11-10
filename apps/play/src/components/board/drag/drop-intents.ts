@@ -65,6 +65,20 @@ export function isBattlefieldDropZone(zone: string): boolean {
   return BATTLEFIELD_ZONES.has(zone);
 }
 
+/**
+ * Which seat acts for a drop. Sandbox rooms act for whoever owns the zone being dropped on
+ * (a controlled-opponent shortcut); strict rooms always act as the seat that picked the card up,
+ * so a spell or unit released over the opponent's half of a battlefield or on an enemy unit is
+ * still the viewer's own play.
+ */
+export function dropActorOwner(
+  strict: boolean,
+  sourceOwner: "self" | "opponent",
+  zoneOwner: "self" | "opponent",
+): "self" | "opponent" {
+  return strict ? sourceOwner : zoneOwner;
+}
+
 function isSpell(card: CardInstance | null | undefined): boolean {
   return !!card?.type && /spell/i.test(card.type);
 }

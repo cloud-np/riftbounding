@@ -14,6 +14,7 @@ import { FxContext, type FxLevel } from "./context";
 import { deriveFxEvents, fxEventKey } from "./derive-fx-events";
 import { CardCache, syncBoardVars, type CardGeneration } from "./dom";
 import * as fx from "./effects";
+import { useFxEnvironment } from "./environment";
 import { ParticleCanvas } from "./ParticleCanvas";
 import type { ParticleEngine } from "./particles";
 import type { FxEvent } from "./types";
@@ -59,6 +60,7 @@ function priority(event: FxEvent): number {
 
 export function FxDirector({ state, viewerId }: { state: Room; viewerId: string }) {
   const level = useAnimationLevel();
+  useFxEnvironment();
   const [layers, setLayers] = useState<{ stage: HTMLDivElement; top: HTMLDivElement } | null>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -195,6 +197,6 @@ function start(ctx: FxContext, event: FxEvent, gen: CardGeneration, delay: numbe
     case "turn_start":
       return fx.turnStart(ctx, event, delay);
     case "card_drawn":
-      return null;
+      return fx.opponentDraw(ctx, event, delay);
   }
 }

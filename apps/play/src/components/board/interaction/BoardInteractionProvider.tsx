@@ -26,7 +26,7 @@ import {
   type DragPayload,
   type DragSession,
 } from "../drag/drag-types";
-import { buildDropIntent, defaultChainDestination, isChainAddable } from "../drag/drop-intents";
+import { buildDropIntent, defaultChainDestination, dropActorOwner, isChainAddable } from "../drag/drop-intents";
 import { computeOrderedDropIndex, engineCanDrop, type DropRect } from "../drag/drop-legality";
 import { HoverCardPreviewLayer } from "../hover/HoverCardPreviewLayer";
 import { HOVER_PREVIEW_DELAY_MS, hoverPreviewSize } from "../hover/hover-metrics";
@@ -2136,7 +2136,10 @@ export function BoardInteractionProvider({
         targetZone: zone as Parameters<typeof buildDropIntent>[0]["targetZone"],
         targetOwner: owner,
         viewerId,
-        actorPlayerId: owner === "self" ? viewerId : (opponent?.id ?? viewerId),
+        // Strict rooms: the seat that picked the card up acts, wherever it is dropped (a spell
+        // or move released over the opponent's half of a battlefield is still the viewer's play).
+        actorPlayerId:
+          dropActorOwner(strictActive, session.owner, owner) === "self" ? viewerId : (opponent?.id ?? viewerId),
         toIndex: toIndex ?? undefined,
         shiftKey,
         asHidden,
@@ -2189,7 +2192,7 @@ export function BoardInteractionProvider({
       let hoverCard: CardInstance | null = null;
       if (strictActive) {
         const payload = session.payload as { zone?: string; cardId?: string };
-        const actorId = owner === "self" ? viewerId : (opponent?.id ?? viewerId);
+        const actorId = session.owner === "self" ? viewerId : (opponent?.id ?? viewerId);
         const legality =
           strictDragLegalityRef.current ??
           (payload.cardId && payload.zone
@@ -2307,7 +2310,8 @@ export function BoardInteractionProvider({
           ? ({ ...dropped, hold: true } as GameActionIntent)
           : dropped;
       if (intent) {
-        const actorId = input.owner === "self" ? viewerId : (opponent?.id ?? viewerId);
+        const actorOwner = dropActorOwner(strictActive, session.owner, input.owner);
+        const actorId = actorOwner === "self" ? viewerId : (opponent?.id ?? viewerId);
         // Sandbox keeps the old dry-run pre-filter; strict rooms send the gesture and let the
         // engine translate it (legal, or a rejection with code/rule/detail).
         if (!strictActive && !engineCanDrop(state, actorId, intent)) {
@@ -2321,7 +2325,7 @@ export function BoardInteractionProvider({
         else if (input.zone === "mainDeck" || input.zone === "runeDeck")
           playBoardSound("card_recycle");
         else playBoardSound("card_click");
-        sendIntent(intent, input.owner);
+        sendIntent(intent, actorOwner);
       }
       endDragSession();
     },

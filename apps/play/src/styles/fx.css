@@ -7,6 +7,7 @@
 .fx-svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .fx-ghost { position: absolute; pointer-events: none; will-change: translate, opacity; }
 .fx-ghost-inner { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: scale, filter, transform; }
+.fx-ghost-layer { pointer-events: none; will-change: scale, opacity; }
 .fx-ghost-card {
   position: relative !important; width: 100% !important; height: 100% !important; min-width: 0 !important;
   margin: 0 !important; left: 0 !important; top: 0 !important; transform: none !important; translate: none !important;
@@ -74,7 +75,10 @@
 }
 @keyframes fx-banner-fade { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
 
-.fx-banner--conquer .fx-banner-title { font-size: 26px; letter-spacing: 0.22em; }
+.fx-banner--conquer .fx-banner-title {
+  font-size: 28px; letter-spacing: 0.22em; -webkit-text-stroke: 2.5px rgba(4, 8, 24, 0.9); paint-order: stroke fill;
+  text-shadow: 0 0 20px var(--fx-glow), 0 0 8px var(--fx-glow), 0 3px 0 rgba(0, 0, 0, 0.7), 0 6px 18px rgba(0, 0, 0, 0.85);
+}
 .fx-banner--conquer.is-self { --fx-glow: rgba(79, 179, 255, 0.95); }
 .fx-banner--conquer.is-opponent { --fx-glow: rgba(255, 90, 106, 0.95); }
 .fx-banner--conquer { animation: fx-banner-rise 1150ms cubic-bezier(0.2, 0.9, 0.3, 1) forwards; }
@@ -95,11 +99,19 @@
 .fx-banner--turn.is-opponent { --fx-glow: rgba(255, 70, 90, 0.9); }
 .fx-banner--turn.is-opponent .fx-banner-title { color: #ff8a96; font-size: 34px; }
 .fx-banner-sweep {
-  position: absolute; inset: 0; pointer-events: none; transform: translateX(-120%);
-  background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, 0.35) 50%, transparent 65%);
+  position: absolute; top: 0; bottom: 0; left: 0; width: 34%; pointer-events: none; opacity: 0;
+  transform: translateX(-120%) skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 238, 180, 0.2) 50%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent);
   animation: fx-sweep 900ms 150ms ease-out forwards;
 }
-@keyframes fx-sweep { to { transform: translateX(120%); } }
+@keyframes fx-sweep {
+  0% { opacity: 0; transform: translateX(-120%) skewX(-18deg); }
+  15% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(330%) skewX(-18deg); }
+}
 @keyframes fx-turn {
   0% { opacity: 0; transform: translate(-50%, -50%) scaleX(0.4); }
   16% { opacity: 1; transform: translate(-50%, -50%) scaleX(1.04); }
@@ -111,3 +123,36 @@
 @media (prefers-reduced-motion: reduce) {
   .fx-bf-pulse, .fx-dim { animation-duration: 600ms; }
 }
+
+/* ---------------------------------------------------------------- performance guards
+   Tier / visibility flags are set on <html> by fx/environment.ts (software rasteriser, hidden tab). */
+/* Replace filter / box-shadow pulses (re-rasterise the whole subtree every frame) with opacity pulses. */
+@keyframes hero-plate-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.9; } }
+@keyframes gem-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.82; } }
+@keyframes turn-breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.88; } }
+@keyframes enemy-turn { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+
+/* Hidden tab: pause every decorative loop. */
+html[data-fx-hidden="true"] .gb-board *,
+html[data-fx-hidden="true"] .gb-board *::before,
+html[data-fx-hidden="true"] .gb-board *::after { animation-play-state: paused !important; }
+
+/* Software rendering (no GPU): drop every continuously running decorative animation. */
+html[data-fx-tier="software"] .playmat-emblem,
+html[data-fx-tier="software"] .playmat-divider-glow,
+html[data-fx-tier="software"] .bf-frame-edge::after,
+html[data-fx-tier="software"] .hero-plate,
+html[data-fx-tier="software"] .hero-plate-sheen,
+html[data-fx-tier="software"] .hero-medallion-ring,
+html[data-fx-tier="software"] .hero-turn-dot,
+html[data-fx-tier="software"] .st-gem,
+html[data-fx-tier="software"] .turn-btn,
+html[data-fx-tier="software"] .turn-btn-sheen,
+html[data-fx-tier="software"] .turn-status-plate,
+html[data-fx-tier="software"] .pcf-sheen,
+html[data-fx-tier="software"] .pcb-sheen,
+html[data-fx-tier="software"] .rtoken-rim,
+html[data-fx-tier="software"] .gc-ring-playable,
+html[data-fx-tier="software"] .gc-ring-target { animation: none !important; }
+html[data-fx-tier="software"] .pcf-sheen,
+html[data-fx-tier="software"] .pcb-sheen { display: none !important; }

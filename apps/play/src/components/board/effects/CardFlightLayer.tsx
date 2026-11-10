@@ -6,7 +6,6 @@ import type { CardInstance, Room, Zone } from "@rift/protocol";
 
 import { cardBackUrl, cardImageUrl } from "@/lib/assets";
 
-import { playBoardSound } from "../interaction/sfx";
 import { isUnitLikeCard } from "../fx/derive-fx-events";
 import type { BoardSlotProps } from "../slot-types";
 import { SafeImg } from "../card/SafeImg";
@@ -292,7 +291,7 @@ function CardFlight({
       timers.push(window.setTimeout(finish, 2060));
     }
 
-    playBoardSound(flight.kind === "draw" ? "card_draw" : "card_discard");
+    // Draw/discard sounds come from the action-sound pipeline; playing them here doubled them.
 
     return () => {
       for (const animation of animations) animation.cancel();

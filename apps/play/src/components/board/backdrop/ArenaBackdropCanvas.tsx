@@ -16,6 +16,7 @@ import {
   WebGLRenderer,
 } from "three";
 
+import { renderTier } from "../fx/quality";
 import type { AnimationLevel } from "../settings/settings-values";
 
 const VERT = /* glsl */ `
@@ -103,6 +104,14 @@ void main() {
 
 const FRAME_MS = 1000 / 40;
 const MAX_SCALE = 0.75;
+/** Adaptive quality: median rAF interval over this window above the threshold degrades quality. */
+const ADAPT_WINDOW_MS = 2000;
+const ADAPT_SLOW_MS = 28;
+
+function median(values: number[]): number {
+  const sorted = [...values].sort((a, b) => a - b);
+  return sorted[Math.floor(sorted.length / 2)] ?? 0;
+}
 
 export default function ArenaBackdropCanvas({ animationLevel }: { animationLevel: AnimationLevel }) {
   const hostRef = useRef<HTMLDivElement | null>(null);
@@ -129,7 +138,13 @@ export default function ArenaBackdropCanvas({ animationLevel }: { animationLevel
     } catch {
       return;
     }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1) * MAX_SCALE);
+    let scale = renderTier() === "high" ? MAX_SCALE : MAX_SCALE * 0.67;
+    let degrade = 0; // 0 = full, 1 = halved resolution, 2 = frozen static frame
+    let frozen = false;
+    const intervals: number[] = [];
+    let windowStart = 0;
+    let lastRaf = 0;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1) * scale);
     const canvas = renderer.domElement;
     canvas.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block";
     host.appendChild(canvas);
@@ -176,13 +191,38 @@ export default function ArenaBackdropCanvas({ animationLevel }: { animationLevel
     };
     const tick = (now: number) => {
       raf = 0;
-      if (disposed || hidden) return;
+      if (disposed || hidden || frozen) return;
       const level = levelRef.current;
       if (level === "off") {
         draw();
         return;
       }
       raf = requestAnimationFrame(tick);
+      // Adaptive quality from raw rAF cadence (includes the cost of everything else on the page).
+      if (lastRaf) intervals.push(now - lastRaf);
+      lastRaf = now;
+      if (!windowStart) windowStart = now;
+      if (now - windowStart >= ADAPT_WINDOW_MS) {
+        const slow = intervals.length >= 6 && median(intervals) > ADAPT_SLOW_MS;
+        intervals.length = 0;
+        windowStart = now;
+        if (slow) {
+          degrade += 1;
+          if (degrade === 1) {
+            scale *= 0.5;
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1) * scale);
+            resize();
+          } else {
+            frozen = true;
+            host.dataset.arenaQuality = "frozen";
+            draw();
+            if (raf) cancelAnimationFrame(raf);
+            raf = 0;
+            return;
+          }
+          host.dataset.arenaQuality = "reduced";
+        }
+      }
       const frameMs = level === "reduced" ? 1000 / 24 : FRAME_MS;
       if (now - last < frameMs) return;
       const dt = Math.min(0.1, (now - last) / 1000 || 0.016);

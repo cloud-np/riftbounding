@@ -10,7 +10,6 @@ import {
   boardBox,
   boxOf,
   createGhost,
-  createPlaceholderGhost,
   cx,
   cy,
   el,
@@ -22,6 +21,7 @@ import {
   zoneBox,
 } from "./dom";
 import type { FxContext } from "./context";
+import { createBackGhost, createCardGhost, createShowcaseGhost, type CardGhost } from "./ghosts";
 import type { ClashUnit, FxEvent } from "./types";
 
 type Ev<T extends FxEvent["type"]> = Extract<FxEvent, { type: T }>;
@@ -71,35 +71,50 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
   const prev = gen.get(ev.card.id);
   let originX: number;
   let originY: number;
-  let startScale = 0.8;
+  /** Width of the full card at the origin (hand card width). */
+  let handW = 0;
   if (ev.fromZone === "none") {
     originX = cx(destBox);
     originY = cy(destBox);
   } else if (prev) {
     originX = cx(prev.rect);
     originY = cy(prev.rect);
-    startScale = clamp(prev.rect.width / dest.layoutW, 0.5, 1.2);
+    handW = clamp(prev.rect.width, dest.layoutW * 0.6, dest.layoutW * 2.4);
   } else {
     const o = ev.isViewer ? selfHandOrigin() : opponentHandOrigin();
     originX = o.x;
     originY = o.y;
-    startScale = 0.7;
+    handW = dest.layoutW * (ev.isViewer ? 1.3 : 0.9);
   }
   ctx.hide(dest.el);
   const release = ctx.own(() => ctx.show(dest.el));
   if (!(await ctx.wait(delay))) return;
   // Layout may have shifted while waiting for earlier events.
   const liveBox = settledBox(dest, boxOf(dest.el));
-  const ghost = createGhost(ctx.stage, dest, liveBox);
+  const side = dest.side;
+  // Units enter exhausted; the real token rotates via CSS, so read the flag rather than the transform.
+  const exhausted = dest.el.dataset.exhausted === "true";
+  const restAngle = exhausted ? 90 : dest.angle;
+  const ghost = createCardGhost({
+    stage: ctx.stage,
+    card: ev.card,
+    side,
+    at: liveBox,
+    token: true,
+    fullWidth: ev.fromZone === "none" ? 0 : handW,
+    exhausted,
+  });
   const removeGhost = ctx.own(ghost.remove);
+  const tokenLayer = ghost.tokenLayer;
+  if (tokenLayer && ev.fromZone === "none") tokenLayer.style.rotate = `${restAngle}deg`;
   const gx = cx(liveBox);
   const gy = cy(liveBox);
   const impactX = gx;
   const impactY = liveBox.top + liveBox.height * 0.88;
 
-  if (ev.fromZone === "none") {
+  if (ev.fromZone === "none" || !tokenLayer) {
     // Token / spawned unit: pop in with a flare.
-    ghost.inner.animate(
+    (tokenLayer ?? ghost.inner).animate(
       [
         { scale: "0.3", opacity: 0 },
         { scale: "1.2", opacity: 1, offset: 0.55 },
@@ -121,6 +136,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
   const dist = Math.hypot(sx, sy);
   const arc = 50 + dist * 0.14;
   const flight = 380;
+  const lift = 1.12; // brief hover scale of the token before the slam (kept close to its real size)
   ghost.outer.animate(
     [
       { translate: `${sx}px ${sy}px`, opacity: 0.2, offset: 0, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)" },
@@ -131,18 +147,39 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
   );
   ghost.inner.animate(
     [
-      { scale: `${startScale}`, transform: "perspective(900px) rotateX(24deg) rotateZ(-9deg)", offset: 0, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)" },
-      { scale: "1.25", transform: "perspective(900px) rotateX(12deg) rotateZ(-3deg)", offset: 0.5, easing: "ease-in" },
-      { scale: "1.25", transform: "perspective(900px) rotateX(0deg) rotateZ(0deg)", offset: 1 },
+      { transform: "perspective(900px) rotateX(24deg) rotateZ(-9deg)", offset: 0, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)" },
+      { transform: "perspective(900px) rotateX(12deg) rotateZ(-3deg)", offset: 0.5, easing: "ease-in" },
+      { transform: "perspective(900px) rotateX(0deg) rotateZ(0deg)", offset: 1 },
     ],
     { duration: flight, fill: "forwards" },
   );
-  ghost.inner.style.filter = `drop-shadow(0 18px 18px rgba(0,0,0,0.5)) drop-shadow(0 0 16px rgba(${rgb},0.7))`;
+  // Morph: the full card (hand size) shrinks and dissolves into the token (its exact board size).
+  const fullLayer = ghost.fullLayer;
+  const startRatio = handW / ghost.w;
+  fullLayer?.animate(
+    [
+      { scale: "1", opacity: 1, offset: 0 },
+      { scale: "1.04", opacity: 1, offset: 0.4 },
+      { scale: `${(ghost.w * lift) / handW}`, opacity: 0, offset: 0.9 },
+      { scale: `${(ghost.w * lift) / handW}`, opacity: 0, offset: 1 },
+    ],
+    { duration: flight, easing: "ease-in-out", fill: "forwards" },
+  );
+  tokenLayer.animate(
+    [
+      { scale: `${startRatio}`, opacity: 0, rotate: "0deg", offset: 0 },
+      { scale: `${startRatio * 1.04}`, opacity: 0, rotate: "0deg", offset: 0.35 },
+      { scale: `${lift * 1.05}`, opacity: 1, rotate: `${restAngle * 0.5}deg`, offset: 0.8 },
+      { scale: `${lift}`, opacity: 1, rotate: `${restAngle}deg`, offset: 1 },
+    ],
+    { duration: flight, easing: "ease-in-out", fill: "forwards" },
+  );
+  ghost.inner.style.filter = `drop-shadow(0 14px 14px rgba(0,0,0,0.5)) drop-shadow(0 0 14px rgba(${rgb},0.7))`;
   if (!(await ctx.wait(flight))) return;
   const slam = 230;
-  ghost.inner.animate(
+  tokenLayer.animate(
     [
-      { scale: "1.25", offset: 0, easing: "cubic-bezier(0.6, 0, 0.9, 0.5)" },
+      { scale: `${lift}`, offset: 0, easing: "cubic-bezier(0.6, 0, 0.9, 0.5)" },
       { scale: "0.92", offset: 0.42, easing: EASE.out },
       { scale: "1", offset: 1 },
     ],
@@ -226,7 +263,7 @@ export async function moveUnit(ctx: FxContext, ev: Ev<"unit_moved">, gen: CardGe
 /* ------------------------------------------------------------------ spells */
 
 export async function castSpell(ctx: FxContext, ev: Ev<"spell_cast">, gen: CardGeneration, delay: number) {
-  const { rgb, dark } = rgbOf(ev.card);
+  const { rgb } = rgbOf(ev.card);
   const board = boardBox();
   const own = ev.isViewer;
   const height = clamp(board.height * (own ? 0.34 : 0.46), 200, own ? 300 : 400);
@@ -238,17 +275,10 @@ export async function castSpell(ctx: FxContext, ev: Ev<"spell_cast">, gen: CardG
   if (!(await ctx.wait(delay))) return;
   const source = ev.isViewer ? (gen.get(ev.card.id)?.rect ?? null) : null;
   const origin = source ? { x: cx(source), y: cy(source) } : own ? selfHandOrigin() : opponentHandOrigin();
-  const live = liveEntry(ev.card.id) ?? gen.get(ev.card.id) ?? null;
   const at = { left: x - width / 2, top: y - height / 2, width, height };
-  let ghost: Ghost;
-  let targetScale = 1;
-  if (live) {
-    const natural = { left: x - live.layoutW / 2, top: y - live.layoutH / 2, width: live.layoutW, height: live.layoutH };
-    ghost = createGhost(ctx.stage, { ...live, angle: 0 }, natural);
-    targetScale = height / live.layoutH;
-  } else {
-    ghost = createPlaceholderGhost(ctx.stage, at, ev.card.name, rgb, dark);
-  }
+  // The exact full-card visual the board uses, at showcase size.
+  const ghost: CardGhost = createShowcaseGhost(ctx.stage, ev.card, own ? "self" : "opponent", at);
+  const layer = ghost.fullLayer ?? ghost.inner;
   const removeGhost = ctx.own(ghost.remove);
   const hold = own ? 280 : 1050;
   const fly = 300;
@@ -263,17 +293,26 @@ export async function castSpell(ctx: FxContext, ev: Ev<"spell_cast">, gen: CardG
     { duration: fly, easing: EASE.out, fill: "forwards" },
   );
   const base = own ? 0.82 : 1;
+  const startScale = source ? clamp(source.width / width, 0.25, 0.8) : 0.35;
   ghost.inner.style.filter = `drop-shadow(0 0 22px rgba(${rgb},0.85)) drop-shadow(0 16px 20px rgba(0,0,0,0.5))`;
   ghost.inner.animate(
     [
-      { scale: `${targetScale * 0.35}`, transform: "perspective(900px) rotateY(70deg)", offset: 0 },
-      { scale: `${targetScale * base * 1.1}`, transform: "perspective(900px) rotateY(0deg)", offset: 0.6 },
-      { scale: `${targetScale * base}`, transform: "perspective(900px) rotateY(0deg)", offset: 1 },
+      { transform: "perspective(900px) rotateY(70deg)", offset: 0 },
+      { transform: "perspective(900px) rotateY(0deg)", offset: 0.6 },
+      { transform: "perspective(900px) rotateY(0deg)", offset: 1 },
+    ],
+    { duration: fly + 80, easing: EASE.slam, fill: "forwards" },
+  );
+  layer.animate(
+    [
+      { scale: `${startScale}`, offset: 0 },
+      { scale: `${base * 1.1}`, offset: 0.6 },
+      { scale: `${base}`, offset: 1 },
     ],
     { duration: fly + 80, easing: EASE.slam, fill: "forwards" },
   );
   const engine = ctx.engine();
-  engine?.emitCircle(x, y, rgb, { radius: height * (own ? 0.55 : 0.8), duration: (fly + hold + 300) / 1000 });
+  engine?.emitCircle(x, y, rgb, { radius: height * (own ? 0.55 : 0.8), duration: (fly + hold + 180) / 1000 });
   engine?.emitFlash(x, y, rgb, { radius: height * 0.7, duration: 0.5, alpha: 0.7 });
   if (!(await ctx.wait(fly))) return;
   engine?.emitBurst(x, y, rgb, { count: 24, speed: 360, life: 0.6, gravity: 200 });
@@ -292,7 +331,7 @@ export async function castSpell(ctx: FxContext, ev: Ev<"spell_cast">, gen: CardG
     ],
     { duration: 280, easing: "ease-in", fill: "forwards" },
   );
-  ghost.inner.animate([{ scale: `${targetScale * base}` }, { scale: `${targetScale * base * 0.8}` }], {
+  layer.animate([{ scale: `${base}` }, { scale: `${base * 0.8}` }], {
     duration: 280,
     easing: "ease-in",
     fill: "forwards",
@@ -500,6 +539,55 @@ export async function scoreOrb(ctx: FxContext, ev: Ev<"score">, delay: number) {
   if (node) ctx.animate(node, [{ scale: "1" }, { scale: "1.12" }, { scale: "1" }], { duration: 380, easing: EASE.slam });
 }
 
+/* ------------------------------------------------------------------ opponent draw / pile reveal */
+
+export async function opponentDraw(ctx: FxContext, ev: Ev<"card_drawn">, delay: number) {
+  if (ev.isViewer || ctx.level !== "full") return;
+  const deck = queryBox('[data-pile-slot="mainDeck"][data-pile-owner="opponent"]') ?? queryBox('[data-pile-slot="mainDeck"]:not([data-pile-owner="self"])');
+  const hand = zoneBox("hand", "opponent");
+  if (!deck || !hand) return;
+  if (!(await ctx.wait(delay))) return;
+  const sample = document.querySelector<HTMLElement>('[data-drop-zone-root="hand"][data-zone-owner="opponent"] [data-board-card-visual="true"]');
+  const sampleBox = sample ? boxOf(sample) : null;
+  const w = clamp(sampleBox?.width ?? deck.width * 0.8, 36, 110);
+  const h = w * CARD_ASPECT;
+  const from = { x: cx(deck), y: cy(deck) };
+  const to = { x: cx(hand), y: cy(hand) };
+  const count = Math.min(ev.count, 3);
+  await Promise.all(
+    Array.from({ length: count }, async (_, i) => {
+      if (!(await ctx.wait(i * 150))) return;
+      const ghost = createBackGhost(ctx.stage, "opponent", { left: from.x - w / 2, top: from.y - h / 2, width: w, height: h });
+      const remove = ctx.own(ghost.remove);
+      const dx = to.x + (i - (count - 1) / 2) * w * 0.5 - from.x;
+      const dy = to.y - from.y;
+      ghost.outer.animate(
+        [
+          { translate: "0px 0px", opacity: 0, offset: 0 },
+          { opacity: 1, offset: 0.15 },
+          { translate: `${dx * 0.6}px ${dy * 0.6 + 14}px`, opacity: 1, offset: 0.7 },
+          { translate: `${dx}px ${dy}px`, opacity: 0, offset: 1 },
+        ],
+        { duration: 460, easing: "cubic-bezier(0.3, 0.1, 0.25, 1)", fill: "forwards" },
+      );
+      ghost.inner.animate([{ scale: "1" }, { scale: "0.82" }], { duration: 460, easing: "ease-in", fill: "forwards" });
+      if (!(await ctx.wait(480))) return;
+      remove();
+    }),
+  );
+}
+
+/** Hide the (public) top card of a trash/banished pile while the dying ghost is still on screen. */
+function holdPileTop(ctx: FxContext, cardId: string): () => void {
+  const node = document.querySelector<HTMLElement>(`[data-pile-top-card][data-card-id="${CSS.escape(cardId)}"]`);
+  if (!node) return () => undefined;
+  ctx.hide(node);
+  return ctx.own(() => {
+    ctx.show(node);
+    if (ctx.level === "full") ctx.animate(node, [{ opacity: 0, scale: "0.8" }, { opacity: 1, scale: "1" }], { duration: 240, easing: EASE.out });
+  });
+}
+
 /* ------------------------------------------------------------------ death / dissolve */
 
 let filterSeq = 0;
@@ -605,12 +693,14 @@ export async function unitDied(ctx: FxContext, ev: Ev<"unit_died">, gen: CardGen
   const live = liveCard(ev.card.id);
   if (live) ctx.hide(live);
   const release = ctx.own(() => live && ctx.show(live));
+  const releasePile = holdPileTop(ctx, ev.card.id);
   if (!(await ctx.wait(delay))) return;
   const ghost = createGhost(ctx.stage, entry);
   const removeGhost = ctx.own(ghost.remove);
   await dissolveGhost(ctx, ghost, rgbOf(ev.card).rgb);
   removeGhost();
   release();
+  releasePile();
 }
 
 /* ------------------------------------------------------------------ combat clash */
@@ -644,8 +734,10 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
   for (const actor of actors) {
     if (actor.live) ctx.hide(actor.live);
   }
+  const pileReleases = actors.filter((actor) => actor.unit.died).map((actor) => ({ actor, release: holdPileTop(ctx, actor.unit.id) }));
   const releaseAll = ctx.own(() => {
     for (const actor of actors) if (actor.live) ctx.show(actor.live);
+    for (const entry of pileReleases) entry.release();
   });
 
   const dmgNumber = (actor: Actor, order: number) => {
@@ -842,6 +934,7 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
     dying.push(
       dissolveGhost(ctx, actor.ghost!, actor.rgb, 90).then((ok) => {
         if (actor.live) ctx.show(actor.live);
+        pileReleases.find((entry) => entry.actor === actor)?.release();
         return ok;
       }),
     );
