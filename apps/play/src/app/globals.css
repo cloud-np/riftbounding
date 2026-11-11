@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "../styles/riftbound-app.css";
+@import "../styles/board-theme.css";
+@import "../styles/cards.css";
+@import "../styles/fx.css";
 
 /*
  * The Riftbound app's compiled stylesheet (Tailwind v4 output + every custom

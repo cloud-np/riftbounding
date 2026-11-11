@@ -16,6 +16,7 @@ import {
   segmentLogEntry,
 } from "./log-segments";
 import { ACTION_ICONS } from "./action-icons";
+import { SafeImg } from "../card/SafeImg";
 
 const ACTION_LABEL_KEYS: Record<string, string> = {
   turn: "sim.board.matchLogActionTurn",
@@ -49,8 +50,7 @@ function CardThumb({ cardCode }: { cardCode?: string }) {
   const code = cardCode?.trim();
   if (!code) return null;
   return (
-    // eslint-disable-next-line @next/next/no-img-element -- tiny log thumbnail
-    <img
+    <SafeImg
       src={failed ? placeholderUrl() : cardImageUrl({ cardCode: code }, "thumb")}
       alt=""
       aria-hidden="true"
@@ -91,8 +91,7 @@ function PowerBadges({ value, label }: { value: number; label: string }) {
         </span>
       )}
       {Array.from({ length: icons }, (_, index) => (
-        // eslint-disable-next-line @next/next/no-img-element -- static rune/power glyph
-        <img
+        <SafeImg
           key={index}
           src={staticAsset("icons/rune.webp")}
           alt=""
@@ -178,8 +177,7 @@ function LogSegments({
             className="inline-flex items-center gap-[0.12rem] align-middle leading-[1.24]"
           >
             {segment.before ? <span>{segment.before}</span> : null}
-            {/* eslint-disable-next-line @next/next/no-img-element -- static domain glyph */}
-            <img
+            <SafeImg
               src={glyph}
               alt=""
               aria-hidden="true"

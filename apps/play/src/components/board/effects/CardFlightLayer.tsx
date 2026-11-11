@@ -6,8 +6,9 @@ import type { CardInstance, Room, Zone } from "@rift/protocol";
 
 import { cardBackUrl, cardImageUrl } from "@/lib/assets";
 
-import { playBoardSound } from "../interaction/sfx";
+import { isUnitLikeCard } from "../fx/derive-fx-events";
 import type { BoardSlotProps } from "../slot-types";
+import { SafeImg } from "../card/SafeImg";
 
 export type FlightKind = "draw" | "banish" | "trash" | "reveal";
 
@@ -290,7 +291,7 @@ function CardFlight({
       timers.push(window.setTimeout(finish, 2060));
     }
 
-    playBoardSound(flight.kind === "draw" ? "card_draw" : "card_discard");
+    // Draw/discard sounds come from the action-sound pipeline; playing them here doubled them.
 
     return () => {
       for (const animation of animations) animation.cancel();
@@ -312,8 +313,7 @@ function CardFlight({
           <div className="banish-reveal-clip relative h-full w-full">
             <div ref={flipRef} className="banish-reveal-flip relative h-full w-full">
               <div className="banish-reveal-front absolute inset-0 overflow-hidden rounded-[8px] border border-[rgba(165,184,207,0.22)] bg-[linear-gradient(165deg,rgba(49,73,99,0.96),rgba(34,53,74,0.94))] shadow-[inset_0_0_0_1px_rgba(188,206,228,0.06),0_10px_20px_rgba(4,10,24,0.42)]">
-                {/* eslint-disable-next-line @next/next/no-img-element -- card art/resolved URL */}
-                <img
+                <SafeImg
                   src={cardImageUrl(flight.card, "preview")}
                   alt={flight.card.name}
                   className="h-full w-full object-cover"
@@ -327,8 +327,7 @@ function CardFlight({
                 </div>
               </div>
               <div className="banish-reveal-back absolute inset-0 overflow-hidden rounded-[8px] border border-[rgba(165,184,207,0.22)]">
-                {/* eslint-disable-next-line @next/next/no-img-element -- static card back */}
-                <img src={cardBackUrl("deck")} alt="Card back" className="h-full w-full object-cover" draggable={false} />
+                <SafeImg src={cardBackUrl("deck")} alt="Card back" className="h-full w-full object-cover" draggable={false} />
               </div>
             </div>
           </div>
@@ -399,6 +398,7 @@ export function CardFlightLayer({ state, viewerId }: Pick<BoardSlotProps, "state
         "battlefieldToken",
       ]);
       if (!fromZone) continue;
+      if (fromZone !== "hand" && isUnitLikeCard(card)) continue; // FxDirector death dissolve
       next.push({
         id: `banish-${card.id}-${now}`,
         card,
@@ -422,6 +422,7 @@ export function CardFlightLayer({ state, viewerId }: Pick<BoardSlotProps, "state
         "battlefieldToken",
       ]);
       if (!fromZone) continue;
+      if (fromZone !== "hand" && isUnitLikeCard(card)) continue; // FxDirector death dissolve
       next.push({
         id: `trash-${card.id}-${now}`,
         card,

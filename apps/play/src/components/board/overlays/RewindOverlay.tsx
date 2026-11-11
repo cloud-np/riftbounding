@@ -9,6 +9,7 @@ import type { RewindConfirmation, Room } from "@rift/protocol";
 import { staticAsset } from "@/lib/assets";
 
 import type { GameActionIntent } from "../slot-types";
+import { SafeImg } from "../card/SafeImg";
 
 const t = createTranslator("en");
 const rewind = (key: string, params?: Record<string, string | number>) =>
@@ -204,8 +205,7 @@ export function RewindClockOverlay({ visible, label }: { visible: boolean; label
               }}
               transition={{ duration: 1.18, times: [0, 0.18, 0.58, 1], ease: [0.16, 0.88, 0.2, 1] }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element -- original rewind clock face asset */}
-              <img
+              <SafeImg
                 src={staticAsset("effects/rewind-clock-face-v1.webp")}
                 alt=""
                 draggable={false}

@@ -11,6 +11,7 @@ import type { CardInstance, Zone } from "@rift/protocol";
 import { useBoardInteractionOptional } from "../interaction/context";
 import { attachedCardOffset, attachedFanZIndex } from "./attachments";
 import { CardArt } from "./CardArt";
+import { CardTokenFace } from "./CardTokenFace";
 import { CardBack } from "./CardBack";
 import type { CardEvent, CardEventHandler, CardSide } from "./types";
 
@@ -68,6 +69,8 @@ export interface AttachedCardFanProps {
   zone: Zone;
   owner: CardSide;
   onCardEvent?: CardEventHandler;
+  /** Render attached gear as art-crop tokens (the host is a token). */
+  token?: boolean;
 }
 
 /**
@@ -75,7 +78,7 @@ export interface AttachedCardFanProps {
  * offset right by {@link ATTACHED_FAN_STEP} of a card width each. The unit stays on top and the
  * first attached gear stays above later gear, so every card shows its own right-hand strip.
  */
-export function AttachedCardFan({ cards, zone, owner, onCardEvent }: AttachedCardFanProps) {
+export function AttachedCardFan({ cards, zone, owner, onCardEvent, token = false }: AttachedCardFanProps) {
   const interaction = useBoardInteractionOptional();
   const handler = onCardEvent ?? interaction?.handleCardEvent;
 
@@ -95,7 +98,7 @@ export function AttachedCardFan({ cards, zone, owner, onCardEvent }: AttachedCar
       data-attached-card-fan="true"
       data-attached-card-count={cards.length}
       className="pointer-events-none absolute left-0 top-0"
-      style={{ width: "var(--card-width)", height: "var(--card-height)" }}
+      style={{ width: "var(--card-width)", height: "var(--gc-h, var(--card-height))" }}
     >
       {cards.map((attachedCard, index) => {
         const faceDown = attachedCard.hidden || attachedCard.isPlaceholder || !attachedCard.name;
@@ -116,14 +119,16 @@ export function AttachedCardFan({ cards, zone, owner, onCardEvent }: AttachedCar
             data-strict-prompt-hover={promptHovered ? "true" : undefined}
             role={promptOption ? "button" : undefined}
             tabIndex={promptOption ? 0 : undefined}
-            className={`pointer-events-auto absolute overflow-hidden rounded-(--card-radius-main) border border-[rgba(165,184,207,0.22)] bg-[rgba(24,43,64,0.95)] shadow-[0_4px_10px_rgba(3,8,20,0.42)] ${
-              promptOption ? "cursor-pointer" : ""
-            }`}
+            className={`attached-card pointer-events-auto absolute ${
+              token
+                ? "overflow-visible"
+                : "overflow-hidden rounded-(--card-radius-main) border border-[rgba(165,184,207,0.22)] bg-[rgba(24,43,64,0.95)] shadow-[0_4px_10px_rgba(3,8,20,0.42)]"
+            } ${promptOption ? "cursor-pointer" : ""}`}
             style={{
               left: attachedCardOffset(index),
               top: 0,
               width: "var(--card-width)",
-              height: "var(--card-height)",
+              height: "var(--gc-h, var(--card-height))",
               zIndex,
             }}
             onPointerEnter={(event) => {
@@ -150,6 +155,13 @@ export function AttachedCardFan({ cards, zone, owner, onCardEvent }: AttachedCar
           >
             {faceDown ? (
               <CardBack slot="deck" insetPx={0} label={attachedCard.name || undefined} side={owner} />
+            ) : token ? (
+              <CardTokenFace
+                card={attachedCard}
+                side={owner}
+                exhausted={!!attachedCard.exhausted}
+                flip={owner === "opponent" && !/^battlefield/.test(zone)}
+              />
             ) : (
               <CardArt
                 card={attachedCard}

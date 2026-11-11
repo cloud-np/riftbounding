@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Room } from "@rift/protocol";
 
 import { CardFlightLayer } from "../effects/CardFlightLayer";
+import { FxDirector } from "../fx/FxDirector";
 import { ParticleBurstLayer, type BurstRequest } from "../effects/ParticleBurst";
 import { EmoteFlightLayer } from "../emotes/EmoteFlightLayer";
 import type { BoardSlotProps } from "../slot-types";
@@ -72,15 +73,7 @@ export function OverlaysLayer(props: BoardSlotProps) {
     const previous = previousRef.current;
     previousRef.current = state;
     if (!previous) return;
-    const previousScore =
-      previous.players.find((player) => player.id === viewerId)?.board?.score ?? 0;
-    const score = state.players.find((player) => player.id === viewerId)?.board?.score ?? 0;
-    if (score > previousScore) {
-      spawnBurst(
-        rectCenter("[data-board-player-scores]") ??
-          rectCenter('[data-player-identity-rail][data-relation="self"]'),
-      );
-    }
+    // Score bursts are handled by the FX director (fx/FxDirector).
     const previousAssist = previous.pendingBattlefieldConquerAssist?.zone;
     const assist = state.pendingBattlefieldConquerAssist?.zone;
     if (assist && assist !== previousAssist) {
@@ -127,6 +120,7 @@ export function OverlaysLayer(props: BoardSlotProps) {
       data-overlays-layer="true"
     >
       <CardFlightLayer state={state} viewerId={viewerId} />
+      <FxDirector state={state} viewerId={viewerId} />
       <ParticleBurstLayer
         bursts={bursts}
         onDone={(id) => setBursts((current) => current.filter((burst) => burst.id !== id))}

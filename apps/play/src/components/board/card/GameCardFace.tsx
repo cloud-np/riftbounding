@@ -9,6 +9,9 @@ import { CardBack } from "./CardBack";
 import type { CardBackSlot } from "@/lib/assets";
 
 import { CardLabelStack } from "./CardLabelStack";
+import { cardMeta } from "./card-meta";
+import { ProceduralCardFace, domainStyleVars } from "./ProceduralCardFace";
+import { SIDE_COLORS } from "../theme/domain-colors";
 
 export interface GameCardFaceProps {
   card: CardInstance;
@@ -23,6 +26,8 @@ export interface GameCardFaceProps {
   mirrored?: boolean;
   alt?: string;
   side?: "self" | "opponent";
+  /** Dim/desaturate (tapped cards). */
+  exhausted?: boolean;
 }
 
 /**
@@ -43,7 +48,9 @@ export function GameCardFace({
   mirrored = false,
   alt,
   side,
+  exhausted = false,
 }: GameCardFaceProps) {
+  const faceSide = side ?? (mirrored ? "opponent" : "self");
   const hasArt = showArt && !faceDown && !card.isPlaceholder && !!card.name.trim();
   const artFrameClass = portrait ? "absolute left-1/2 top-1/2" : "absolute inset-0";
   const artFrameStyle = portrait
@@ -56,8 +63,13 @@ export function GameCardFace({
 
   return (
     <div
-      className="absolute rounded-[inherit] overflow-hidden pointer-events-none"
-      style={{ inset: `${insetPx}px` }}
+      className="gcf absolute rounded-[inherit] overflow-hidden pointer-events-none"
+      data-exhausted={exhausted || undefined}
+      style={{
+        inset: `${insetPx}px`,
+        ...(faceDown ? undefined : domainStyleVars(cardMeta(card))),
+        ["--side" as string]: SIDE_COLORS[faceSide].base,
+      }}
     >
       <div
         data-battlefield-art-orientation={portrait ? "portrait" : undefined}
@@ -77,8 +89,14 @@ export function GameCardFace({
             className="h-full w-full select-none object-contain"
           />
         ) : null}
-        {!hasArt && !faceDown ? <CardArtFallback card={card} /> : null}
+        {!hasArt && !faceDown ? (
+          <>
+            <ProceduralCardFace card={card} />
+            <CardArtFallback card={card} />
+          </>
+        ) : null}
       </div>
+      {!faceDown ? <span className="gcf-frame" aria-hidden="true" /> : null}
       {showGradient && !faceDown ? (
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,10,24,0)_0%,rgba(4,10,24,0)_58%,rgba(4,10,24,0.12)_78%,rgba(5,10,24,0.44)_100%)]" />
       ) : null}

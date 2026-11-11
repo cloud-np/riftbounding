@@ -20,11 +20,14 @@ import { cardImageUrl } from "@/lib/assets";
 import { buildDropIntent, writeDragPayload, type DropTargetZone } from "../../drag";
 import {
   deckPeekTitle,
+  isDeckPeekOpen,
   nextRevealAll,
+  shouldDispatchPeekDismiss,
   peekZone,
   type DeckPeekZone,
 } from "./deck-peek-state";
 import type { GameActionIntent } from "../../slot-types";
+import { SafeImg } from "../../card/SafeImg";
 
 const t = createTranslator("en");
 
@@ -134,9 +137,16 @@ export function DeckPeekPrompt({
   const panelRef = useRef<HTMLElement | null>(null);
   const moreRef = useRef<HTMLDivElement | null>(null);
 
+  const peekOpen = isDeckPeekOpen({
+    phase: room.phase,
+    peekCardIds: peek?.cardIds,
+    resolvedCardCount: cards.length,
+  });
+  const canDismiss = shouldDispatchPeekDismiss({ open: peekOpen, rulesMode: room.rulesMode });
   const close = useCallback(() => {
+    if (!canDismiss) return;
     dispatch({ type: "dismiss_deck_peek", ...zoneParam(zone) } as GameActionIntent);
-  }, [dispatch, zone]);
+  }, [canDismiss, dispatch, zone]);
 
   const measureCutout = useCallback(() => {
     const panel = panelRef.current;
@@ -189,14 +199,14 @@ export function DeckPeekPrompt({
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !moreOpen) {
+      if (event.key === "Escape" && !moreOpen && canDismiss) {
         event.preventDefault();
         close();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [close, moreOpen]);
+  }, [canDismiss, close, moreOpen]);
 
   useEffect(() => {
     setSelection((current) => {
@@ -714,8 +724,7 @@ export function DeckPeekPrompt({
                     </button>
                   )}
                   <div className="relative aspect-[63/88] w-full overflow-hidden bg-[#0a1422]">
-                    {/* eslint-disable-next-line @next/next/no-img-element -- card art from the CDN */}
-                    <img
+                    <SafeImg
                       src={cardImageUrl(card, "preview")}
                       alt={card.name}
                       loading="eager"

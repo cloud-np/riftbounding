@@ -32,10 +32,20 @@ const AREA_CLASS = {
     "[grid-area:hand] z-9 min-h-0 absolute left-(--hand-left-inset) right-(--hand-right-inset) bottom-[calc(-0.22rem+var(--deck-hand-shelf-lift))] overflow-visible pointer-events-none",
 } as const;
 
+/** Engraved empty slot: dashed rune outline, corner ticks and a small zone label. */
 function EmptyZoneCard({ label, mirrored = false }: { label: string; mirrored?: boolean }) {
   return (
-    <div className="w-(--card-width) rounded-(--card-radius-tight) border border-dashed border-[rgba(137,156,178,0.42)] text-(--text-dim) text-(length:--card-body-size) grid place-items-center min-h-(--card-height)">
-      <span className={mirrored ? "rotate-180 origin-center" : undefined}>{label}</span>
+    <div
+      data-empty-zone-slot="true"
+      aria-label={label}
+      className="empty-slot w-(--card-width) rounded-(--card-radius-tight) min-h-(--card-height)"
+    >
+      <svg aria-hidden="true" viewBox="0 0 40 56" preserveAspectRatio="xMidYMid meet" className="empty-slot-sigil">
+        <path d="M20 10 L25 28 L20 46 L15 28 Z" />
+        <path d="M8 28 L20 24 L32 28 L20 32 Z" />
+        <circle cx="20" cy="28" r="12" strokeDasharray="1.5 2.5" />
+      </svg>
+      <span className={"empty-slot-label" + (mirrored ? " rotate-180 origin-center" : "")}>{label}</span>
     </div>
   );
 }
@@ -57,7 +67,9 @@ function CardZone({
   targetableCardIds?: ReadonlySet<string>;
   collapsed?: boolean;
 }) {
-  if (cards.length === 0) return <EmptyZoneCard label={collapsed ? "…" : "No card"} mirrored={owner === "opponent"} />;
+  if (cards.length === 0) {
+    return <EmptyZoneCard label={collapsed ? "…" : zone === "legend" ? "Legend" : "Champion"} mirrored={owner === "opponent"} />;
+  }
   return (
     <div className="flex items-end justify-end overflow-visible gap-[0.1rem]">
       {cards.map((card) => (

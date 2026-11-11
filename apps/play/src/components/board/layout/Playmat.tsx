@@ -7,27 +7,33 @@
  * topographic/map pattern.
  */
 import { useLocalGameSettings } from "../settings/settings-values";
+import { useAnimationLevel } from "../theme/motion";
 import { useBoardCustomization, type RuntimeCustomization } from "./customization";
+import { SafeImg } from "../card/SafeImg";
+
+/** Engraved lattice: dark groove + light lip offset by 1px, with rune studs on the crossings. */
+const ENGRAVING =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='104' viewBox='0 0 120 104'%3E%3Cg fill='none'%3E%3Cpath d='M0 52 L60 0 L120 52 L60 104 Z' stroke='%23000' stroke-opacity='.22' stroke-width='1.2'/%3E%3Cpath d='M0 53 L60 1 L120 53 L60 105 Z' stroke='%23a9d4ff' stroke-opacity='.07' stroke-width='1'/%3E%3Cpath d='M30 26 L90 78 M90 26 L30 78' stroke='%23000' stroke-opacity='.10' stroke-width='1'/%3E%3C/g%3E%3Cg fill='%23bfe3ff' fill-opacity='.10'%3E%3Ccircle cx='60' cy='52' r='1.6'/%3E%3Ccircle cx='0' cy='52' r='1.2'/%3E%3Ccircle cx='120' cy='52' r='1.2'/%3E%3C/g%3E%3C/svg%3E\")";
 
 const CONTOURS =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='620' viewBox='0 0 900 620'%3E%3Cg fill='none' stroke='%239cc5ff' stroke-opacity='.045' stroke-width='1.4'%3E%3Cpath d='M-40 120 C 120 86 232 164 366 132 S 636 42 940 108'/%3E%3Cpath d='M-30 210 C 140 170 246 254 392 212 S 660 130 930 196'/%3E%3Cpath d='M-20 316 C 156 276 260 356 410 318 S 680 242 950 300'/%3E%3Cpath d='M-10 430 C 170 392 278 470 428 430 S 700 356 960 414'/%3E%3Cpath d='M-40 548 C 130 512 252 588 396 550 S 674 474 940 536'/%3E%3Cpath d='M120 -20 C 96 116 172 206 140 330 S 68 520 128 660'/%3E%3Cpath d='M360 -20 C 338 112 414 202 384 326 S 312 516 372 660'/%3E%3Cpath d='M630 -20 C 606 116 682 206 652 330 S 580 520 640 660'/%3E%3C/g%3E%3C/svg%3E\")";
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='620' viewBox='0 0 900 620'%3E%3Cg fill='none' stroke='%239cc5ff' stroke-opacity='.05' stroke-width='1.4'%3E%3Cpath d='M-40 120 C 120 86 232 164 366 132 S 636 42 940 108'/%3E%3Cpath d='M-30 210 C 140 170 246 254 392 212 S 660 130 930 196'/%3E%3Cpath d='M-20 316 C 156 276 260 356 410 318 S 680 242 950 300'/%3E%3Cpath d='M-10 430 C 170 392 278 470 428 430 S 700 356 960 414'/%3E%3Cpath d='M-40 548 C 130 512 252 588 396 550 S 674 474 940 536'/%3E%3C/g%3E%3C/svg%3E\")";
 
-const PLAYMAT_BACKGROUND_TOP = [
+/** Self half: cool lapis felt. Translucent so the arena backdrop breathes through. */
+const PLAYMAT_BACKGROUND_SELF = [
+  ENGRAVING,
   CONTOURS,
-  "radial-gradient(120% 95% at 50% 100%, rgba(49, 92, 148, 0.26), transparent 70%)",
-  "radial-gradient(70% 50% at 22% 82%, rgba(39, 82, 136, 0.12), transparent 62%)",
-  "repeating-linear-gradient(104deg, transparent 0 46px, rgba(156, 197, 255, 0.022) 46px 47px, transparent 47px 118px)",
-  "repeating-linear-gradient(14deg, transparent 0 62px, rgba(156, 197, 255, 0.018) 62px 63px, transparent 63px 154px)",
-  "linear-gradient(180deg, #16355c 0%, #102845 44%, #0b1e39 100%)",
+  "radial-gradient(90% 70% at 50% 100%, rgba(66, 140, 230, 0.20), transparent 70%)",
+  "radial-gradient(60% 40% at 18% 90%, rgba(60, 200, 190, 0.08), transparent 70%)",
+  "linear-gradient(0deg, rgba(14, 38, 72, 0.80) 0%, rgba(11, 30, 58, 0.72) 55%, rgba(9, 24, 48, 0.62) 100%)",
 ].join(", ");
 
-const PLAYMAT_BACKGROUND_BOTTOM = [
+/** Opponent half: the same felt shifted warm (ember/crimson) at low intensity. */
+const PLAYMAT_BACKGROUND_OPPONENT = [
+  ENGRAVING,
   CONTOURS,
-  "radial-gradient(120% 95% at 50% 0%, rgba(49, 92, 148, 0.26), transparent 70%)",
-  "radial-gradient(70% 50% at 22% 18%, rgba(39, 82, 136, 0.12), transparent 62%)",
-  "repeating-linear-gradient(104deg, transparent 0 46px, rgba(156, 197, 255, 0.022) 46px 47px, transparent 47px 118px)",
-  "repeating-linear-gradient(14deg, transparent 0 62px, rgba(156, 197, 255, 0.018) 62px 63px, transparent 63px 154px)",
-  "linear-gradient(0deg, #16355c 0%, #102845 44%, #0b1e39 100%)",
+  "radial-gradient(90% 70% at 50% 0%, rgba(214, 92, 96, 0.17), transparent 70%)",
+  "radial-gradient(60% 40% at 82% 10%, rgba(230, 160, 80, 0.07), transparent 70%)",
+  "linear-gradient(180deg, rgba(40, 24, 50, 0.78) 0%, rgba(26, 22, 50, 0.70) 55%, rgba(14, 26, 52, 0.60) 100%)",
 ].join(", ");
 
 function PlaymatHalf({
@@ -50,13 +56,12 @@ function PlaymatHalf({
       data-board-custom-playmat={playmat ? "true" : "false"}
       className={
         side === "opponent"
-          ? "gb-board-playmat pointer-events-none absolute isolate overflow-hidden rounded-[inherit] bg-[rgb(16_24_36)] inset-x-[0.18rem] top-[0.18rem] bottom-1/2 z-0 rounded-t-[0.42rem]"
-          : "gb-board-playmat pointer-events-none absolute isolate overflow-hidden rounded-[inherit] bg-[rgb(16_24_36)] inset-x-[0.18rem] top-1/2 bottom-[0.18rem] z-0 rounded-b-[0.42rem]"
+          ? "gb-board-playmat playmat-half playmat-half-opponent pointer-events-none absolute isolate overflow-hidden rounded-[inherit] inset-x-[0.18rem] top-[0.18rem] bottom-1/2 z-0 rounded-t-[0.42rem]"
+          : "gb-board-playmat playmat-half playmat-half-self pointer-events-none absolute isolate overflow-hidden rounded-[inherit] inset-x-[0.18rem] top-1/2 bottom-[0.18rem] z-0 rounded-b-[0.42rem]"
       }
     >
       {playmat ? (
-        // eslint-disable-next-line @next/next/no-img-element -- cosmetic playmat from the same-origin asset tree
-        <img
+        <SafeImg
           src={playmat.src}
           alt=""
           draggable={false}
@@ -71,19 +76,12 @@ function PlaymatHalf({
         <div
           className="absolute inset-0"
           style={{
-            background: side === "opponent" ? PLAYMAT_BACKGROUND_TOP : PLAYMAT_BACKGROUND_BOTTOM,
+            background: side === "opponent" ? PLAYMAT_BACKGROUND_OPPONENT : PLAYMAT_BACKGROUND_SELF,
             opacity: side === "opponent" ? intensity : 1,
           }}
         />
       )}
-      <div
-        className={
-          "absolute inset-0 " +
-          (side === "opponent"
-            ? "bg-[linear-gradient(180deg,rgba(4,9,20,0.18),rgba(4,9,20,0.02))]"
-            : "bg-[linear-gradient(0deg,rgba(4,9,20,0.2),rgba(4,9,20,0.02))]")
-        }
-      />
+      <div className="playmat-vignette absolute inset-0" />
       {/* Original frosted-glass optic layer (hidden unless the cosmetic enables it). */}
       <div
         aria-hidden="true"
@@ -97,6 +95,7 @@ function PlaymatHalf({
 export function Playmat() {
   const settings = useLocalGameSettings();
   const customization = useBoardCustomization();
+  const level = useAnimationLevel();
   return (
     <>
       <PlaymatHalf
@@ -107,8 +106,23 @@ export function Playmat() {
       <PlaymatHalf side="self" customization={customization.self} />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-[0.58rem] right-[0.58rem] top-1/2 z-2 h-px -translate-y-1/2 bg-[linear-gradient(90deg,rgba(149,180,245,0.02),rgba(149,180,245,0.16),rgba(149,180,245,0.02))]"
-      />
+        data-playmat-divider="true"
+        data-motion={level}
+        className="playmat-divider pointer-events-none absolute left-[0.58rem] right-[0.58rem] top-1/2 z-2 -translate-y-1/2"
+      >
+        <span className="playmat-divider-glow" />
+        <span className="playmat-divider-line" />
+        <svg viewBox="0 0 200 200" className="playmat-emblem" focusable="false">
+          <g fill="none" stroke="currentColor">
+            <circle cx="100" cy="100" r="92" strokeWidth="1.2" />
+            <circle cx="100" cy="100" r="80" strokeWidth="0.6" strokeDasharray="2 5" />
+            <circle cx="100" cy="100" r="58" strokeWidth="0.8" />
+            <path d="M100 8 L112 100 L100 192 L88 100 Z" strokeWidth="0.8" />
+            <path d="M8 100 L100 88 L192 100 L100 112 Z" strokeWidth="0.8" />
+          </g>
+          <path d="M100 82 L118 100 L100 118 L82 100 Z" fill="currentColor" opacity="0.8" />
+        </svg>
+      </div>
     </>
   );
 }

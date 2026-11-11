@@ -6,6 +6,7 @@ import {
   buildDropIntent,
   clientChainEntryId,
   defaultChainDestination,
+  dropActorOwner,
   isChainAddable,
 } from "../drop-intents";
 import type { DragKind, DragPayload } from "../drag-types";
@@ -191,5 +192,44 @@ describe("drop intent mapping", () => {
     expect(isChainAddable("banished", card())).toBe(false);
     expect(isChainAddable("runeArea", card())).toBe(false);
     expect(isChainAddable("deck", card())).toBe(false);
+  });
+});
+
+describe("strict targeted spell drops", () => {
+  const spellSource = source(
+    "boardCard",
+    { zone: "hand", cardId: "ray", exhausted: false, hidden: false },
+    card({ id: "ray", name: "Hextech Ray", type: "Spell" }),
+  );
+
+  it("a spell dropped on an enemy unit carries that unit as targetCardId (strict)", () => {
+    const enemy = card({ id: "enemy_1", name: "Rearguard", type: "Unit" });
+    const intent = buildDropIntent({
+      ...base,
+      source: spellSource,
+      targetZone: "battlefieldB",
+      targetOwner: "opponent",
+      targetCard: enemy,
+      includeTarget: true,
+    });
+    expect(intent).toMatchObject({ type: "chain_add", from: "hand", cardId: "ray", targetCardId: "enemy_1" });
+  });
+
+  it("a spell dropped on an empty board area plays without a target so the prompt opens", () => {
+    const intent = buildDropIntent({
+      ...base,
+      source: spellSource,
+      targetZone: "battlefieldB",
+      includeTarget: true,
+    });
+    expect(intent).toMatchObject({ type: "chain_add", cardId: "ray" });
+    expect(intent).not.toHaveProperty("targetCardId");
+  });
+
+  it("strict rooms act as the seat that picked the card up, sandbox as the zone owner", () => {
+    expect(dropActorOwner(true, "self", "opponent")).toBe("self");
+    expect(dropActorOwner(true, "opponent", "self")).toBe("opponent");
+    expect(dropActorOwner(false, "self", "opponent")).toBe("opponent");
+    expect(dropActorOwner(false, "self", "self")).toBe("self");
   });
 });

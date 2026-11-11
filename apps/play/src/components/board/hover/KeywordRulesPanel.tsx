@@ -6,6 +6,7 @@ import { getCard } from "@rift/cards";
 
 import type { CardInstance } from "@rift/protocol";
 
+import { cardMeta, plainRulesText } from "../card/card-meta";
 import { labelColors } from "../menus/label-presets";
 
 const t = createTranslator("en");
@@ -25,18 +26,19 @@ export function KeywordRulesPanel({ card, locale = "en", className, style }: Key
     locale === "en"
       ? card.text ?? englishCatalogText
       : catalogCard ?? card.text ?? englishCatalogText;
-  const keywords = card.keywords ?? [];
+  const meta = cardMeta(card);
+  const keywords = card.keywords?.length ? card.keywords : meta.keywords;
 
   return (
     <div className={className} style={style} data-hover-card-rules="true">
       <div className="flex items-start justify-between gap-[0.6em]">
         <div className="min-w-0">
-          <p className="m-0 truncate text-[1.12em] font-bold leading-tight text-[#eef6ff]">{card.name}</p>
-          <p className="m-0 mt-[0.12em] text-[0.78em] uppercase tracking-[0.08em] text-[#8fa9c8]">
-            {[card.type, card.energyCost !== undefined ? `Cost ${card.energyCost}` : null, card.might !== undefined ? `Might ${card.might}` : null]
-              .filter(Boolean)
-              .join(" · ")}
-          </p>
+          <p className="m-0 truncate text-[1.12em] font-bold leading-tight text-[#fff3d6]">{card.name}</p>
+          <div className="mt-[0.3em] flex flex-wrap items-center gap-[0.3em]">
+            <span className="hv-chip">{meta.typeLabel}</span>
+            {meta.energyCost !== undefined ? <span className="hv-chip" data-kind="cost">Cost {meta.energyCost}{meta.powerCost ? ` + ${meta.powerCost}` : ""}</span> : null}
+            {meta.might !== undefined && meta.kind !== "spell" ? <span className="hv-chip" data-kind="might">Might {meta.might}</span> : null}
+          </div>
         </div>
         <div className="flex shrink-0 items-center gap-[0.24em]" data-hover-preview-hotkeys="true">
           <span className="inline-flex items-center gap-[0.18em] rounded-[0.14em] border border-[rgba(171,191,238,0.34)] bg-[rgba(17,30,50,0.9)] px-[0.28em] py-[0.1em] text-[0.72em] font-bold uppercase tracking-[0.04em] text-[#dbe7ff]">
@@ -76,7 +78,7 @@ export function KeywordRulesPanel({ card, locale = "en", className, style }: Key
           className="mb-0 mt-[0.4em] whitespace-pre-line text-[0.92em] leading-[1.35] text-[#cfe0f5]"
           style={{ fontFamily: "var(--font-heading), ui-serif, Georgia, serif" }}
         >
-          {rules}
+          {plainRulesText(rules ?? undefined)}
         </p>
       ) : null}
     </div>

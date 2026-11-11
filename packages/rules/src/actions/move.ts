@@ -8,7 +8,9 @@ import { controlsBattlefield } from "./control";
 export function recall(room: Room, cardId: string, step: RulesStepContext): boolean {
   const located = step.host.findCard(room, cardId);
   if (!located) return false;
-  if (located.zone === "base") return false;
+  // 457: only a Permanent can be recalled, and only from a battlefield: an object that already
+  // left the board (died, was returned to hand, banished) is a different object (359.3.f).
+  if (!located.zone.startsWith("battlefield")) return false;
   if (!interceptAction(room, step, { type: "recall", cardId, playerId: located.playerId })) return false;
   const moved = step.host.moveCard(room, located.playerId, located.zone, "base", cardId);
   if (moved) pushEvent(step.events, { type: "recall", cardId, playerId: located.playerId });

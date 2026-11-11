@@ -8,6 +8,7 @@ import { getCardById } from "@rift/cards";
 import { soundAsset } from "@/lib/assets";
 
 import { Materialize } from "../effects/Materialize";
+import { SafeImg } from "../card/SafeImg";
 
 let audio: HTMLAudioElement | null = null;
 
@@ -47,8 +48,7 @@ export function BaronNashorOverlay({ visible, onDone }: { visible: boolean; onDo
       <div className="relative flex flex-col items-center gap-4">
         <Materialize>
           <div className="relative h-[min(19rem,36vh)] w-[min(13.6rem,25.6vh)] overflow-hidden rounded-[0.5rem] border border-[rgba(224,194,135,0.55)] bg-[#0a101e] shadow-[0_0_60px_rgba(139,84,255,0.55),0_24px_50px_rgba(0,0,0,0.6)]">
-            {/* eslint-disable-next-line @next/next/no-img-element -- catalog card art */}
-            <img
+            <SafeImg
               src={card?.imageUrl ?? "/cards/UNL-147.webp"}
               alt="Baron Nashor"
               className="h-full w-full object-cover"

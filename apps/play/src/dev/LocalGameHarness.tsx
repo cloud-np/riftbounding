@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { EngineResult } from "@rift/engine";
 import { applyGameAction, createInitialTimeline } from "@rift/engine";
@@ -182,6 +182,11 @@ export function LocalGameHarness({ fixture, seed, viewer }: LocalGameHarnessProp
   const [state, setState] = useState<GameState>(harness.room);
   const [viewerId, setViewerId] = useState(harness.viewerId);
   const [intents, setIntents] = useState<IntentRecord[]>([]);
+  const [panelOpen, setPanelOpen] = useState(true);
+  // Start collapsed on small screens so the panel never covers the board.
+  useEffect(() => {
+    if (window.innerWidth < 1100 || window.innerHeight < 800) setPanelOpen(false);
+  }, []);
 
   const stateRef = useRef<GameState>(harness.room);
   const rngRef = useRef<() => number>(createSeededRng(harness.seed ^ 0x9e3779b9));
@@ -341,18 +346,34 @@ export function LocalGameHarness({ fixture, seed, viewer }: LocalGameHarnessProp
       </div>
 
       <aside
-        className="fixed left-3 top-3 z-[2147483000] flex max-h-[calc(100dvh-1.5rem)] w-[22.5rem] max-w-[calc(100vw-1.5rem)] flex-col gap-2 overflow-auto rounded-xl border border-[rgba(134,168,246,0.35)] bg-[rgba(6,14,26,0.94)] p-3 text-[0.68rem] text-[#dbe7ff] shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur-md"
+        className={`fixed left-3 top-3 z-[2147483000] flex max-h-[calc(100dvh-1.5rem)] max-w-[calc(100vw-1.5rem)] flex-col gap-2 overflow-auto rounded-xl border border-[rgba(134,168,246,0.35)] bg-[rgba(6,14,26,0.94)] text-[0.68rem] text-[#dbe7ff] shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur-md ${panelOpen ? "w-[22.5rem] p-3" : "w-auto p-1"}`}
+        data-open={String(panelOpen)}
         data-testid="dev-panel"
       >
         <header className="flex items-center justify-between gap-2">
-          <strong className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#bfeaff]">
-            Local play harness
-          </strong>
-          <span className="text-[0.58rem] uppercase tracking-[0.08em] text-[#8ea9c9]">
-            {harness.fixture ? harness.fixture.id : "solo lab"}
-          </span>
+          {panelOpen ? (
+            <>
+              <strong className="text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#bfeaff]">
+                Local play harness
+              </strong>
+              <span className="text-[0.58rem] uppercase tracking-[0.08em] text-[#8ea9c9]">
+                {harness.fixture ? harness.fixture.id : "solo lab"}
+              </span>
+            </>
+          ) : null}
+          <button
+            type="button"
+            data-testid="dev-panel-toggle"
+            aria-expanded={panelOpen}
+            title={panelOpen ? "Collapse the dev panel" : "Open the dev panel"}
+            className="rounded-md border border-[rgba(134,168,246,0.32)] bg-[rgba(19,35,60,0.9)] px-2 py-1 font-semibold text-[#dbe7ff] hover:bg-[rgba(29,51,84,0.95)]"
+            onClick={() => setPanelOpen((open) => !open)}
+          >
+            {panelOpen ? "Hide" : "Dev"}
+          </button>
         </header>
 
+        <div className={panelOpen ? "contents" : "hidden"}>
         <div
           data-testid="debug-state"
           data-phase={state.phase}
@@ -507,6 +528,7 @@ export function LocalGameHarness({ fixture, seed, viewer }: LocalGameHarnessProp
           seat that still needs to act. Every intent is applied locally through{" "}
           <code>applyGameAction</code> with <code>mode: &quot;solo_lab&quot;</code>.
         </p>
+        </div>
       </aside>
     </div>
   );

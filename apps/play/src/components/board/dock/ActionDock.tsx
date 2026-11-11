@@ -18,13 +18,13 @@ import {
 } from "./dock-items";
 
 const ACTION_ROW_CLASS =
-  "group/action relative inline-flex h-[2.22rem] w-full shrink-0 items-center justify-start whitespace-nowrap px-[0.68rem] text-(length:--board-action-font-size) font-semibold leading-none uppercase tracking-[0.055em] text-[#d8e6f6] transition-[background-color,color] duration-120 disabled:cursor-default disabled:opacity-[0.45] hover:enabled:bg-[rgba(116,151,194,0.12)] hover:enabled:text-[#f0f7ff] focus-visible:outline-2 focus-visible:outline-[rgba(201,226,255,0.72)] focus-visible:outline-offset-[-1px]";
+  "dock-row group/action relative inline-flex h-[2.22rem] w-full shrink-0 items-center justify-start whitespace-nowrap px-[0.68rem] text-(length:--board-action-font-size) font-semibold leading-none uppercase tracking-[0.055em] text-[#d8e6f6] transition-[background-color,color] duration-120 disabled:cursor-default disabled:opacity-[0.45] hover:enabled:bg-[rgba(116,151,194,0.12)] hover:enabled:text-[#f0f7ff] focus-visible:outline-2 focus-visible:outline-[rgba(201,226,255,0.72)] focus-visible:outline-offset-[-1px]";
 
 const TOGGLE_ROW_CLASS =
-  "group/action relative inline-flex h-[2.22rem] w-full shrink-0 items-center justify-start whitespace-nowrap px-[0.68rem] text-(length:--board-action-font-size) font-semibold leading-none uppercase tracking-[0.055em] text-[#d8e6f6] transition-[background-color,color] duration-120 disabled:cursor-default disabled:opacity-[0.45] hover:enabled:bg-[rgba(116,151,194,0.12)] hover:enabled:text-[#f0f7ff] focus-visible:outline-2 focus-visible:outline-[rgba(201,226,255,0.72)] focus-visible:outline-offset-[-1px] relative w-full px-[0.72rem] pr-[4.34rem] text-left normal-case tracking-[0.03em]";
+  "dock-row group/action relative inline-flex h-[2.22rem] w-full shrink-0 items-center justify-start whitespace-nowrap px-[0.68rem] text-(length:--board-action-font-size) font-semibold leading-none uppercase tracking-[0.055em] text-[#d8e6f6] transition-[background-color,color] duration-120 disabled:cursor-default disabled:opacity-[0.45] hover:enabled:bg-[rgba(116,151,194,0.12)] hover:enabled:text-[#f0f7ff] focus-visible:outline-2 focus-visible:outline-[rgba(201,226,255,0.72)] focus-visible:outline-offset-[-1px] relative w-full px-[0.72rem] pr-[4.34rem] text-left normal-case tracking-[0.03em]";
 
 const PANEL_CLASS =
-  "absolute bottom-[calc(100%+0.34rem)] right-0 z-170 m-0 flex w-max max-w-[calc(100vw-1rem)] items-center justify-center overflow-hidden rounded-[0.18rem] border shadow-[inset_0_1px_0_rgba(255,255,255,0.065),0_12px_24px_rgba(3,8,18,0.28)] backdrop-blur-xl backdrop-saturate-150 transition-[max-height,opacity,border-color,background-color,transform] duration-160 ease-[cubic-bezier(0.2,0.7,0.2,1)]";
+  "dock-panel absolute bottom-[calc(100%+0.34rem)] right-0 z-170 m-0 flex w-max max-w-[calc(100vw-1rem)] items-center justify-center overflow-hidden rounded-[0.18rem] border shadow-[inset_0_1px_0_rgba(255,255,255,0.065),0_12px_24px_rgba(3,8,18,0.28)] backdrop-blur-xl backdrop-saturate-150 transition-[max-height,opacity,border-color,background-color,transform] duration-160 ease-[cubic-bezier(0.2,0.7,0.2,1)]";
 
 const PANEL_OPEN =
   "max-h-[18.2rem] translate-y-0 border-[rgba(174,199,227,0.26)] bg-[rgba(11,20,35,0.82)] opacity-100 pointer-events-auto";
@@ -32,7 +32,7 @@ const PANEL_CLOSED =
   "max-h-0 translate-y-[0.18rem] border-transparent bg-transparent opacity-0 pointer-events-none";
 
 const TRIGGER_CLASS =
-  "group/action relative grid place-items-center rounded-[0.16rem] border border-[rgba(181,205,234,0.24)] bg-[rgba(18,31,51,0.66)] text-[#d3e4f7] shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_5px_12px_rgba(3,8,18,0.18)] backdrop-blur-md backdrop-saturate-150 transition-[border-color,background-color,color,box-shadow] duration-140 hover:border-[rgba(204,226,249,0.4)] hover:bg-[rgba(29,47,72,0.72)] hover:text-[#f0f7ff] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_7px_16px_rgba(3,9,20,0.22)] focus-visible:outline-2 focus-visible:outline-[rgba(201,226,255,0.72)] focus-visible:outline-offset-1 disabled:cursor-default disabled:opacity-[0.45]";
+  "dock-trigger group/action relative grid place-items-center rounded-[0.16rem] border border-[rgba(181,205,234,0.24)] bg-[rgba(18,31,51,0.66)] text-[#d3e4f7] shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_5px_12px_rgba(3,8,18,0.18)] backdrop-blur-md backdrop-saturate-150 transition-[border-color,background-color,color,box-shadow] duration-140 hover:border-[rgba(204,226,249,0.4)] hover:bg-[rgba(29,47,72,0.72)] hover:text-[#f0f7ff] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_7px_16px_rgba(3,9,20,0.22)] focus-visible:outline-2 focus-visible:outline-[rgba(201,226,255,0.72)] focus-visible:outline-offset-1 disabled:cursor-default disabled:opacity-[0.45]";
 const ACTIONS_TRIGGER_SIZE = "h-[2.52rem] w-[3.26rem]";
 const TOGGLES_TRIGGER_SIZE =
   "h-[2.52rem] w-[3.26rem] rounded-l-[0.08rem] rounded-r-[0.18rem] -ml-px";

@@ -11,6 +11,17 @@ export const CARD_SIZE_STORAGE_KEY = "riftbound_simulator_card_size:v1";
 export const PREVIEW_SIZE_STORAGE_KEY = "riftbound_simulator_preview_size:v1";
 export const OPPONENT_COSMETICS_STORAGE_KEY = "riftbound_simulator_opponent_cosmetics";
 export const BOARD_TOGGLES_STORAGE_KEY = "riftbound_simulator_board_toggles:v1";
+/** Presentation store (animation level, board card style) — added by the visual revamp. */
+export const PRESENTATION_STORAGE_KEY = "riftbound_simulator_presentation:v1";
+
+/** How much board VFX to play: `full` (default), `reduced` (short, no shake/particles), `off`. */
+export type AnimationLevel = "full" | "reduced" | "off";
+/** How units/gear in play render: `art` (art-crop token, full card on hover) or `full` (whole card). */
+export type BoardCardStyle = "art" | "full";
+export const ANIMATION_LEVELS: readonly AnimationLevel[] = ["full", "reduced", "off"];
+export const BOARD_CARD_STYLES: readonly BoardCardStyle[] = ["art", "full"];
+export const ANIMATION_LEVEL_DEFAULT: AnimationLevel = "full";
+export const BOARD_CARD_STYLE_DEFAULT: BoardCardStyle = "art";
 
 export const CARD_SIZE_MIN = 50;
 export const CARD_SIZE_MAX = 150;
@@ -79,6 +90,10 @@ export interface LocalGameSettings {
   opponentCosmeticsPercent: number;
   /** `529236` — local-only toggle (`showBattlefieldMight: true` default). */
   showBattlefieldMight: boolean;
+  /** Board VFX level (presentation store). */
+  animationLevel: AnimationLevel;
+  /** Units/gear in play: art-crop tokens or full cards (presentation store). */
+  boardCardStyle: BoardCardStyle;
 }
 
 function storage(): Storage | null {
@@ -109,11 +124,40 @@ function readBoardToggles(store: Storage | null): boolean {
   }
 }
 
+interface PresentationSettings {
+  animationLevel: AnimationLevel;
+  boardCardStyle: BoardCardStyle;
+}
+
+function readPresentation(store: Storage | null): PresentationSettings {
+  const fallback: PresentationSettings = {
+    animationLevel: ANIMATION_LEVEL_DEFAULT,
+    boardCardStyle: BOARD_CARD_STYLE_DEFAULT,
+  };
+  try {
+    const raw = store?.getItem(PRESENTATION_STORAGE_KEY);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw) as Partial<Record<keyof PresentationSettings, unknown>> | null;
+    return {
+      animationLevel: ANIMATION_LEVELS.includes(parsed?.animationLevel as AnimationLevel)
+        ? (parsed!.animationLevel as AnimationLevel)
+        : fallback.animationLevel,
+      boardCardStyle: BOARD_CARD_STYLES.includes(parsed?.boardCardStyle as BoardCardStyle)
+        ? (parsed!.boardCardStyle as BoardCardStyle)
+        : fallback.boardCardStyle,
+    };
+  } catch {
+    return fallback;
+  }
+}
+
 export const DEFAULT_LOCAL_GAME_SETTINGS: LocalGameSettings = Object.freeze({
   cardSizePercent: CARD_SIZE_DEFAULT,
   previewSizePercent: PREVIEW_SIZE_DEFAULT,
   opponentCosmeticsPercent: OPPONENT_COSMETICS_DEFAULT,
   showBattlefieldMight: true,
+  animationLevel: ANIMATION_LEVEL_DEFAULT,
+  boardCardStyle: BOARD_CARD_STYLE_DEFAULT,
 });
 
 export function loadLocalGameSettings(store: Storage | null = storage()): LocalGameSettings {
@@ -129,6 +173,7 @@ export function loadLocalGameSettings(store: Storage | null = storage()): LocalG
       readNumber(store, OPPONENT_COSMETICS_STORAGE_KEY, OPPONENT_COSMETICS_DEFAULT),
     ),
     showBattlefieldMight: readBoardToggles(store),
+    ...readPresentation(store),
   };
 }
 
@@ -160,6 +205,15 @@ function persist(next: LocalGameSettings, patch: Partial<LocalGameSettings>): vo
         JSON.stringify({ ...toggles, showBattlefieldMight: next.showBattlefieldMight }),
       );
     }
+    if (patch.animationLevel !== undefined || patch.boardCardStyle !== undefined) {
+      store.setItem(
+        PRESENTATION_STORAGE_KEY,
+        JSON.stringify({
+          animationLevel: next.animationLevel,
+          boardCardStyle: next.boardCardStyle,
+        }),
+      );
+    }
   } catch {
     /* ignore quota / privacy errors */
   }
@@ -177,7 +231,8 @@ export function subscribeLocalGameSettings(listener: Listener): () => void {
       event.key === CARD_SIZE_STORAGE_KEY ||
       event.key === PREVIEW_SIZE_STORAGE_KEY ||
       event.key === OPPONENT_COSMETICS_STORAGE_KEY ||
-      event.key === BOARD_TOGGLES_STORAGE_KEY
+      event.key === BOARD_TOGGLES_STORAGE_KEY ||
+      event.key === PRESENTATION_STORAGE_KEY
     ) {
       current = loadLocalGameSettings();
       for (const entry of listeners) entry();
@@ -208,12 +263,20 @@ export function setLocalGameSettings(patch: Partial<LocalGameSettings>): void {
       patch.showBattlefieldMight === undefined
         ? current.showBattlefieldMight
         : Boolean(patch.showBattlefieldMight),
+    animationLevel: ANIMATION_LEVELS.includes(patch.animationLevel as AnimationLevel)
+      ? (patch.animationLevel as AnimationLevel)
+      : current.animationLevel,
+    boardCardStyle: BOARD_CARD_STYLES.includes(patch.boardCardStyle as BoardCardStyle)
+      ? (patch.boardCardStyle as BoardCardStyle)
+      : current.boardCardStyle,
   };
   if (
     next.cardSizePercent === current.cardSizePercent &&
     next.previewSizePercent === current.previewSizePercent &&
     next.opponentCosmeticsPercent === current.opponentCosmeticsPercent &&
-    next.showBattlefieldMight === current.showBattlefieldMight
+    next.showBattlefieldMight === current.showBattlefieldMight &&
+    next.animationLevel === current.animationLevel &&
+    next.boardCardStyle === current.boardCardStyle
   ) {
     return;
   }

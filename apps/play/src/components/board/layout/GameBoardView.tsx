@@ -29,6 +29,7 @@ import { BoardTurnControls } from "../header/BoardTurnControls";
 import { IdentityBadge } from "./IdentityBadge";
 import { PlayerLayer } from "./PlayerLayer";
 import { Playmat } from "./Playmat";
+import { ArenaBackdrop } from "../backdrop/ArenaBackdrop";
 import { BoardCustomizationProvider } from "./customization";
 import { IdentityRail, ScoreTrack } from "./ScoreTrack";
 import { OpponentPhaseIndicator, PhaseIndicator } from "./TurnControls";
@@ -116,7 +117,7 @@ function CompactOpponentRail({
     <div
       data-compact-opponent-board="true"
       data-compact-observer-player-layer={player.id}
-      className="pointer-events-none absolute left-[calc(var(--battlefield-side-gap)+0.2rem)] right-[calc(var(--battlefield-side-gap)+0.2rem)] top-[calc(0.35rem+var(--compact-opponent-index,0)*4.6rem)] z-11 flex h-[4.1rem] items-center gap-[0.5rem] rounded-[0.3rem] border border-[rgba(134,168,246,0.3)] bg-[rgba(9,19,36,0.72)] px-[0.5rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md"
+      className="hud-glass-panel pointer-events-none absolute left-[calc(var(--battlefield-side-gap)+0.2rem)] right-[calc(var(--battlefield-side-gap)+0.2rem)] top-[calc(0.35rem+var(--compact-opponent-index,0)*4.6rem)] z-11 flex h-[4.1rem] items-center gap-[0.5rem] px-[0.5rem]"
       style={{ ["--compact-opponent-index" as string]: count }}
     >
       <div className="grid h-[2.1rem] w-[2.1rem] place-items-center rounded-full border border-[rgba(231,185,117,0.6)] bg-[rgba(20,34,56,0.9)] text-[0.9rem] font-black text-[#ffedc9]">
@@ -414,6 +415,7 @@ export function GameBoardView({
             onPointerDown={interaction?.handleBoardPointerDown}
             onDragEnd={() => interaction?.handleCardDragEnd()}
           >
+            <ArenaBackdrop />
             <div
               ref={fieldRef}
               data-board-play-area="true"
@@ -555,12 +557,12 @@ export function GameBoardView({
                   title="Open sidebar"
                   aria-expanded={false}
                   onClick={sidebarLayout.expand}
-                  className="inline-flex h-[1.9rem] w-[1.9rem] items-center justify-center rounded-[0.28rem] border border-[rgba(178,198,229,0.28)] bg-[rgba(17,31,58,0.92)] text-[#cfe0fb] shadow-[inset_0_1px_0_rgba(235,246,255,0.05),0_6px_14px_rgba(2,7,16,0.34)] transition-colors hover:border-[rgba(207,222,245,0.44)] hover:bg-[rgba(26,43,72,0.96)] hover:text-[#edf4ff] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#9cc9ff]"
+                  className="hud-glass-button inline-flex h-[1.9rem] w-[1.9rem] items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#9cc9ff]"
                 >
                   <PanelLeftOpenIcon className="h-[0.9rem] w-[0.9rem]" />
                 </button>
                 {interaction ? (
-                  <div className="w-[13rem] max-w-[calc(100vw-1rem)] rounded-[0.24rem] border border-[rgba(155,183,219,0.18)] bg-[rgba(9,19,35,0.82)] p-[0.22rem] shadow-[0_10px_26px_rgba(2,7,16,0.4)] backdrop-blur-md">
+                  <div className="hud-glass-panel w-[13rem] max-w-[calc(100vw-1rem)] p-[0.22rem]">
                     <RoomActionBar
                       state={state}
                       viewerId={viewerId}

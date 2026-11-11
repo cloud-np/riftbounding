@@ -9,6 +9,7 @@ import { cardImageUrl } from "@/lib/assets";
 import { useBoardInteractionOptional } from "../interaction/context";
 import { playBoardSound } from "../interaction/sfx";
 import type { GameActionIntent } from "../slot-types";
+import { SafeImg } from "../card/SafeImg";
 
 const t = createTranslator("en");
 
@@ -87,8 +88,7 @@ export function DeckPeekPanel() {
             className="relative flex w-[5.2rem] shrink-0 flex-col overflow-hidden rounded-[0.26rem] border border-[rgba(165,184,207,0.24)] bg-[rgba(8,18,32,0.66)]"
           >
             <div className="relative aspect-[63/88] w-full overflow-hidden bg-[#0a1422]">
-              {/* eslint-disable-next-line @next/next/no-img-element -- card art from the CDN */}
-              <img src={cardImageUrl(card, "thumb")} alt={card.name} loading="lazy" className="h-full w-full object-contain" />
+              <SafeImg src={cardImageUrl(card, "thumb")} alt={card.name} loading="lazy" className="h-full w-full object-contain" />
               {revealed.has(card.id) ? (
                 <span className="absolute left-[0.12rem] top-[0.12rem] rounded-[0.12rem] border border-[rgba(125,218,237,0.52)] bg-[rgba(19,62,78,0.92)] px-[0.18rem] py-[0.04rem] text-[0.44rem] font-bold uppercase tracking-[0.05em] text-[#d7f6fb]">
                   {t("sim.reveal") ?? "Reveal"}

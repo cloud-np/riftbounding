@@ -67,8 +67,13 @@ export function StrictRulesPanel({
   const [reproBusy, setReproBusy] = useState(false);
   const [reproError, setReproError] = useState<string | null>(null);
   const reproFileRef = useRef<HTMLInputElement | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  // The repro loader is a developer tool: never offered to players in production builds.
   const reproAvailable =
-    isStrictRoom(room) && rewindAllowedForRoom(room) && !room.gameOutcome;
+    process.env.NODE_ENV !== "production" &&
+    isStrictRoom(room) &&
+    rewindAllowedForRoom(room) &&
+    !room.gameOutcome;
 
   if (!strictRulesPanelEnabled() || !isStrictRoom(room)) return null;
 
@@ -111,27 +116,39 @@ export function StrictRulesPanel({
   return (
     <>
       <div
-        className="pointer-events-none absolute left-[0.6rem] z-[151] w-[min(19rem,calc(100%-1rem))]"
-        style={{ bottom: "calc(var(--player-band-size, 9rem) + 0.9rem)" }}
+        className={`pointer-events-none absolute left-[0.6rem] top-[19rem] z-[151] ${expanded ? "w-[min(19rem,calc(100%-1rem))]" : "w-[7.8rem]"}`}
         data-testid="strict-rules-panel"
         data-strict-actor={actor}
       >
         <div className={STRICT_SHELL_CLASS}>
-          <p className="m-0 text-[0.56rem] font-semibold uppercase leading-none tracking-[0.1em] text-[#c5d6ee]">
-            {t("rules.ui.strictBadge") ?? "Strict rules"}
-          </p>
-          {status ? (
-            <p
-              className="m-0 mt-[0.18rem] text-[0.7rem] font-semibold leading-[1.2] text-[#eef5ff]"
-              data-testid="strict-status"
-            >
-              {status}
-            </p>
-          ) : null}
-          <div className="mt-[0.3rem] flex flex-wrap gap-[0.24rem]">
+          <button
+            type="button"
+            aria-expanded={expanded}
+            data-testid="strict-rules-toggle"
+            className="flex w-full flex-wrap items-center gap-x-[0.36rem] gap-y-[0.12rem] border-0 bg-transparent p-0 text-left"
+            onClick={() => setExpanded((value) => !value)}
+          >
+            <span className="shrink-0 text-[0.56rem] font-semibold uppercase leading-none tracking-[0.1em] text-[#e6c88a]">
+              {t("rules.ui.strictBadge") ?? "Strict rules"}
+            </span>
+            {status ? (
+              <span
+                className="min-w-[5rem] flex-1 truncate text-[0.66rem] font-semibold leading-[1.2] text-[#eef5ff]"
+                data-testid="strict-status"
+              >
+                {status}
+              </span>
+            ) : (
+              <span className="flex-1" />
+            )}
+            <span aria-hidden="true" className="text-[0.6rem] text-[#9fb4cf]">
+              {expanded ? "▴" : "▾"}
+            </span>
+          </button>
+          <div className={expanded ? "mt-[0.3rem] flex flex-wrap gap-[0.24rem]" : "hidden"}>
             <button
               type="button"
-              className={smallNeutralButton}
+              className={`${smallNeutralButton} !border-[rgba(193,210,235,0.42)] !bg-[rgba(16,28,46,0.94)] !text-[#e3edfb] hover:!bg-[rgba(30,50,80,0.96)] disabled:!opacity-45`}
               disabled={!legal?.canPass}
               title={explanations.pass}
               onClick={() => send({ type: "rules_pass" })}
@@ -140,7 +157,7 @@ export function StrictRulesPanel({
             </button>
             <button
               type="button"
-              className={smallNeutralButton}
+              className={`${smallNeutralButton} !border-[rgba(193,210,235,0.42)] !bg-[rgba(16,28,46,0.94)] !text-[#e3edfb] hover:!bg-[rgba(30,50,80,0.96)] disabled:!opacity-45`}
               disabled={!legal?.canEndTurn}
               title={explanations.endTurn}
               onClick={() => send({ type: "rules_end_turn" })}
@@ -150,7 +167,7 @@ export function StrictRulesPanel({
             {confirmConcede ? (
               <button
                 type="button"
-                className={smallNeutralButton}
+                className={`${smallNeutralButton} !border-[rgba(193,210,235,0.42)] !bg-[rgba(16,28,46,0.94)] !text-[#e3edfb] hover:!bg-[rgba(30,50,80,0.96)] disabled:!opacity-45`}
                 data-testid="strict-concede-confirm"
                 onClick={() => {
                   setConfirmConcede(false);
@@ -162,7 +179,7 @@ export function StrictRulesPanel({
             ) : (
               <button
                 type="button"
-                className={smallNeutralButton}
+                className={`${smallNeutralButton} !border-[rgba(193,210,235,0.42)] !bg-[rgba(16,28,46,0.94)] !text-[#e3edfb] hover:!bg-[rgba(30,50,80,0.96)] disabled:!opacity-45`}
                 data-testid="strict-concede"
                 onClick={() => setConfirmConcede(true)}
               >
@@ -170,7 +187,7 @@ export function StrictRulesPanel({
               </button>
             )}
           </div>
-          {reproAvailable ? (
+          {reproAvailable && expanded ? (
             <div
               className="mt-[0.3rem] flex flex-wrap items-center gap-[0.24rem] border-t border-[rgba(172,199,230,0.16)] pt-[0.28rem]"
               data-testid="repro-import"
@@ -194,7 +211,7 @@ export function StrictRulesPanel({
               />
               <button
                 type="button"
-                className={smallNeutralButton}
+                className={`${smallNeutralButton} !border-[rgba(193,210,235,0.42)] !bg-[rgba(16,28,46,0.94)] !text-[#e3edfb] hover:!bg-[rgba(30,50,80,0.96)] disabled:!opacity-45`}
                 data-testid="load-repro"
                 disabled={reproBusy}
                 onClick={() => void loadReproFile()}

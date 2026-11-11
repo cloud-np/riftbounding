@@ -7,6 +7,7 @@ import { createTranslator } from "@rift/i18n";
 import type { CardInstance } from "@rift/protocol";
 
 import { cardArtUrl } from "@/lib/assets";
+import { SafeImg } from "../card/SafeImg";
 
 const t = createTranslator("en");
 
@@ -103,8 +104,7 @@ export function PileViewer({
                   className="flex min-w-0 flex-col overflow-hidden rounded-[0.34rem] border border-[rgba(165,184,207,0.24)] bg-[rgba(8,18,32,0.66)]"
                 >
                   <div className="relative aspect-[63/88] w-full overflow-hidden bg-[#0a1422]">
-                    {/* eslint-disable-next-line @next/next/no-img-element -- card art comes from the CDN */}
-                    <img
+                    <SafeImg
                       src={cardArtUrl(card, "thumb")}
                       alt={card.name}
                       loading="lazy"

@@ -148,7 +148,7 @@ export function StrictAutoPassPanel({
   return (
     <>
       <div
-        className="pointer-events-none fixed bottom-[calc(var(--player-band-size,9rem)+0.6rem)] left-[0.6rem] z-[152] flex max-w-[min(19rem,calc(100%-1.2rem))] flex-col items-start gap-[0.3rem]"
+        className="pointer-events-none fixed left-[0.6rem] top-[2.9rem] z-[152] flex w-[7.8rem] flex-col-reverse items-start justify-end gap-[0.3rem]"
         data-testid="strict-auto-pass"
         data-auto-pass-seat={seat}
         data-auto-pass-until={until ?? ""}
@@ -211,10 +211,10 @@ export function StrictAutoPassPanel({
             </p>
           </div>
         ) : null}
-        <div className="pointer-events-auto flex flex-wrap items-center gap-[0.24rem]">
+        <div className="pointer-events-auto flex w-full flex-col items-stretch gap-[0.24rem]">
           <button
             type="button"
-            className={`${smallNeutralButton} !min-h-7 !px-2 !text-[0.56rem]`}
+            className={`${smallNeutralButton} !border-[rgba(193,210,235,0.42)] !bg-[rgba(16,28,46,0.94)] !text-[#e3edfb] hover:!bg-[rgba(30,50,80,0.96)] disabled:!opacity-45 !min-h-7 !px-2 !text-[0.54rem] leading-[1.15]`}
             aria-expanded={open}
             aria-label={t("rules.ui.autoPass.open") ?? "Auto-pass settings"}
             data-testid="strict-auto-pass-toggle"
@@ -224,10 +224,10 @@ export function StrictAutoPassPanel({
             {status ? ` · ${status}` : ""}
           </button>
           {prefs ? (
-            <>
+            <div className={open ? "contents" : "hidden"}>
               <button
                 type="button"
-                className={`${smallNeutralButton} !min-h-7 !px-2 !text-[0.56rem] ${until === "end_of_turn" ? "!border-[rgba(255,214,126,0.6)] !text-[#fff0cf]" : ""}`}
+                className={`${smallNeutralButton} !border-[rgba(193,210,235,0.42)] !bg-[rgba(16,28,46,0.94)] !text-[#e3edfb] hover:!bg-[rgba(30,50,80,0.96)] disabled:!opacity-45 !min-h-7 !px-2 !text-[0.54rem] leading-[1.15] ${until === "end_of_turn" ? "!border-[rgba(255,214,126,0.6)] !text-[#fff0cf]" : ""}`}
                 aria-pressed={until === "end_of_turn"}
                 data-testid="strict-auto-pass-until-eot"
                 onClick={() => send(passUntilIntent(room, prefs, "end_of_turn"))}
@@ -241,7 +241,7 @@ export function StrictAutoPassPanel({
               </button>
               <button
                 type="button"
-                className={`${smallNeutralButton} !min-h-7 !px-2 !text-[0.56rem] ${until === "opponent_action" ? "!border-[rgba(255,214,126,0.6)] !text-[#fff0cf]" : ""}`}
+                className={`${smallNeutralButton} !border-[rgba(193,210,235,0.42)] !bg-[rgba(16,28,46,0.94)] !text-[#e3edfb] hover:!bg-[rgba(30,50,80,0.96)] disabled:!opacity-45 !min-h-7 !px-2 !text-[0.54rem] leading-[1.15] ${until === "opponent_action" ? "!border-[rgba(255,214,126,0.6)] !text-[#fff0cf]" : ""}`}
                 aria-pressed={until === "opponent_action"}
                 data-testid="strict-auto-pass-until-opponent"
                 onClick={() => send(passUntilIntent(room, prefs, "opponent_action"))}
@@ -250,7 +250,7 @@ export function StrictAutoPassPanel({
                   ? (t("rules.ui.autoPass.cancelPassUntil") ?? "Stop passing")
                   : (t("rules.ui.autoPass.passUntilOpponent") ?? "Pass until the opponent acts")}
               </button>
-            </>
+            </div>
           ) : null}
         </div>
       </div>

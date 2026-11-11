@@ -1,0 +1,200 @@
+/* fx.css — visual revamp layer (owned by the fx builder). Imported from app/globals.css. */
+
+/* ---------------------------------------------------------------- FX layer (fx/FxDirector) */
+.fx-root { position: fixed; inset: 0; z-index: 2147483300; pointer-events: none; overflow: hidden; }
+.fx-stage, .fx-top { position: absolute; inset: 0; pointer-events: none; }
+.fx-particle-canvas { position: absolute; inset: 0; pointer-events: none; }
+.fx-svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.fx-ghost { position: absolute; pointer-events: none; will-change: translate, opacity; }
+.fx-ghost-inner { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: scale, filter, transform; }
+.fx-ghost-layer { pointer-events: none; will-change: scale, opacity; }
+.fx-ghost-card {
+  position: relative !important; width: 100% !important; height: 100% !important; min-width: 0 !important;
+  margin: 0 !important; left: 0 !important; top: 0 !important; transform: none !important; translate: none !important;
+  scale: none !important; visibility: visible !important; opacity: 1 !important; animation: none !important;
+  transition: none !important; pointer-events: none !important;
+}
+.fx-placeholder-card {
+  width: 100%; height: 100%; border-radius: 10px; display: grid; place-items: end center; padding: 10px;
+  border: 2px solid rgba(var(--fx-rgb), 0.9);
+  background: radial-gradient(circle at 50% 35%, rgba(var(--fx-rgb), 0.55), var(--fx-dark) 75%);
+  color: #fff; font: 800 15px/1.1 system-ui, sans-serif; text-align: center; text-shadow: 0 2px 6px #000;
+}
+.fx-crack { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; animation: fx-crack calc(260ms * var(--fx-t, 1)) ease-out forwards; }
+.fx-crack path { fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; filter: drop-shadow(0 0 3px #fff); }
+@keyframes fx-crack { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+.fx-number { z-index: 3;
+  position: absolute; transform: translate(-50%, -50%); font: 900 38px/1 "Trebuchet MS", system-ui, sans-serif;
+  letter-spacing: -0.02em; pointer-events: none; white-space: nowrap; -webkit-text-stroke: 2px rgba(20, 4, 4, 0.9);
+  paint-order: stroke fill; text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+}
+.fx-number--damage { color: #ff4d3d; text-shadow: 0 0 14px rgba(255, 60, 40, 0.9), 0 3px 8px #000; }
+.fx-number--buff { color: #6dff9c; -webkit-text-stroke-color: rgba(2, 30, 12, 0.9); text-shadow: 0 0 14px rgba(80, 255, 140, 0.9); }
+.fx-number--score { color: #ffd65a; font-size: 34px; -webkit-text-stroke-color: rgba(40, 24, 0, 0.9); text-shadow: 0 0 16px rgba(255, 210, 80, 0.95); }
+
+.fx-orb {
+  position: absolute; left: 0; top: 0; width: 22px; height: 22px; border-radius: 50%; pointer-events: none; will-change: transform;
+  background: radial-gradient(circle, #fff 0 25%, rgba(var(--fx-rgb), 0.95) 45%, rgba(var(--fx-rgb), 0) 72%);
+  box-shadow: 0 0 22px 8px rgba(var(--fx-rgb), 0.7);
+}
+
+.fx-dim {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0; animation: fx-dim calc(900ms * var(--fx-t, 1)) ease-in-out forwards;
+  background: radial-gradient(circle at var(--fx-x) var(--fx-y), rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) var(--fx-r), rgba(2, 4, 12, 0.5) calc(var(--fx-r) * 2.2));
+}
+@keyframes fx-dim { 0% { opacity: 0; } 18% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+.fx-bf-pulse {
+  position: absolute; pointer-events: none; border-radius: 14px; opacity: 0;
+  animation: fx-bf-pulse calc(800ms * var(--fx-t, 1)) ease-out forwards;
+}
+@keyframes fx-bf-pulse {
+  0% { opacity: 0; box-shadow: 0 0 0 0 rgba(255, 207, 90, 0), inset 0 0 0 2px rgba(255, 207, 90, 0.9); }
+  20% { opacity: 1; box-shadow: 0 0 36px 8px rgba(255, 207, 90, 0.8), inset 0 0 40px 2px rgba(255, 207, 90, 0.5), inset 0 0 0 3px rgba(255, 230, 140, 1); }
+  60% { opacity: 0.8; box-shadow: 0 0 26px 4px rgba(255, 207, 90, 0.5), inset 0 0 24px rgba(255, 207, 90, 0.3), inset 0 0 0 2px rgba(255, 207, 90, 0.8); }
+  100% { opacity: 0; box-shadow: 0 0 0 0 rgba(255, 207, 90, 0), inset 0 0 0 2px rgba(255, 207, 90, 0); }
+}
+
+.fx-banner { z-index: 1; position: absolute; transform: translate(-50%, -50%); pointer-events: none; display: grid; justify-items: center; gap: 4px; }
+.fx-banner-title {
+  font: 900 54px/1 "Trebuchet MS", system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;
+  text-shadow: 0 0 22px var(--fx-glow, rgba(255, 207, 90, 0.9)), 0 4px 0 rgba(0, 0, 0, 0.55), 0 6px 18px rgba(0, 0, 0, 0.8);
+  -webkit-text-stroke: 1.5px rgba(20, 10, 0, 0.6);
+}
+.fx-banner--showdown { --fx-glow: rgba(255, 207, 90, 0.95); animation: fx-banner-slam calc(700ms * var(--fx-t, 1)) cubic-bezier(0.2, 1.3, 0.35, 1) forwards; }
+.fx-banner--showdown .fx-banner-title { background: linear-gradient(180deg, #fff6c8, #ffc94d 55%, #c98a16); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 14px rgba(255, 207, 90, 0.8)); }
+.fx-blades { width: 92px; height: 92px; color: #ffd978; filter: drop-shadow(0 0 14px rgba(255, 207, 90, 0.95)); }
+.fx-banner--showdown.is-reduced, .fx-banner--turn.is-reduced { animation: fx-banner-fade calc(800ms * var(--fx-t, 1)) ease-out forwards; }
+@keyframes fx-banner-slam {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(2.2); }
+  18% { opacity: 1; transform: translate(-50%, -50%) scale(0.95); }
+  28% { transform: translate(-50%, -50%) scale(1.04); }
+  36% { transform: translate(-50%, -50%) scale(1); }
+  82% { opacity: 1; transform: translate(-50%, -52%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -58%) scale(1.06); }
+}
+@keyframes fx-banner-fade { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+.fx-banner--conquer .fx-banner-title {
+  font-size: 28px; letter-spacing: 0.22em; -webkit-text-stroke: 2.5px rgba(4, 8, 24, 0.9); paint-order: stroke fill;
+  text-shadow: 0 0 20px var(--fx-glow), 0 0 8px var(--fx-glow), 0 3px 0 rgba(0, 0, 0, 0.7), 0 6px 18px rgba(0, 0, 0, 0.85);
+}
+.fx-banner--conquer.is-self { --fx-glow: rgba(79, 179, 255, 0.95); }
+.fx-banner--conquer.is-opponent { --fx-glow: rgba(255, 90, 106, 0.95); }
+.fx-banner--conquer { animation: fx-banner-rise calc(1150ms * var(--fx-t, 1)) cubic-bezier(0.2, 0.9, 0.3, 1) forwards; }
+@keyframes fx-banner-rise {
+  0% { opacity: 0; transform: translate(-50%, -30%) scale(0.7); }
+  20% { opacity: 1; transform: translate(-50%, -60%) scale(1.08); }
+  80% { opacity: 1; transform: translate(-50%, -80%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -100%) scale(1); }
+}
+
+.fx-banner--turn { overflow: hidden; padding: 14px 64px; animation: fx-turn calc(1350ms * var(--fx-t, 1)) cubic-bezier(0.2, 0.9, 0.3, 1) forwards; }
+.fx-banner--turn::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, transparent, rgba(8, 10, 24, 0.78) 22%, rgba(8, 10, 24, 0.78) 78%, transparent);
+}
+.fx-banner--turn.is-self { --fx-glow: rgba(255, 207, 90, 0.95); }
+.fx-banner--turn.is-self .fx-banner-title { background: linear-gradient(180deg, #fff6c8, #ffc94d 55%, #c98a16); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 56px; }
+.fx-banner--turn.is-opponent { --fx-glow: rgba(255, 70, 90, 0.9); }
+.fx-banner--turn.is-opponent .fx-banner-title { color: #ff8a96; font-size: 34px; }
+.fx-banner-sweep {
+  position: absolute; top: 0; bottom: 0; left: 0; width: 34%; pointer-events: none; opacity: 0;
+  transform: translateX(-120%) skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 238, 180, 0.2) 50%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent);
+  animation: fx-sweep calc(900ms * var(--fx-t, 1)) calc(150ms * var(--fx-t, 1)) ease-out forwards;
+}
+@keyframes fx-sweep {
+  0% { opacity: 0; transform: translateX(-120%) skewX(-18deg); }
+  15% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(330%) skewX(-18deg); }
+}
+@keyframes fx-turn {
+  0% { opacity: 0; transform: translate(-50%, -50%) scaleX(0.4); }
+  16% { opacity: 1; transform: translate(-50%, -50%) scaleX(1.04); }
+  26% { transform: translate(-50%, -50%) scaleX(1); }
+  82% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scaleX(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-bf-pulse, .fx-dim { animation-duration: calc(600ms * var(--fx-t, 1)); }
+}
+
+/* ---------------------------------------------------------------- performance guards
+   Tier / visibility flags are set on <html> by fx/environment.ts (software rasteriser, hidden tab). */
+/* Replace filter / box-shadow pulses (re-rasterise the whole subtree every frame) with opacity pulses. */
+@keyframes hero-plate-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.9; } }
+@keyframes gem-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.82; } }
+@keyframes turn-breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.88; } }
+@keyframes enemy-turn { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+
+/* Hidden tab: pause every decorative loop. */
+html[data-fx-hidden="true"] .gb-board *,
+html[data-fx-hidden="true"] .gb-board *::before,
+html[data-fx-hidden="true"] .gb-board *::after { animation-play-state: paused !important; }
+
+/* Software rendering (no GPU): drop every continuously running decorative animation. */
+html[data-fx-tier="software"] .playmat-emblem,
+html[data-fx-tier="software"] .playmat-divider-glow,
+html[data-fx-tier="software"] .bf-frame-edge::after,
+html[data-fx-tier="software"] .hero-plate,
+html[data-fx-tier="software"] .hero-plate-sheen,
+html[data-fx-tier="software"] .hero-medallion-ring,
+html[data-fx-tier="software"] .hero-turn-dot,
+html[data-fx-tier="software"] .st-gem,
+html[data-fx-tier="software"] .turn-btn,
+html[data-fx-tier="software"] .turn-btn-sheen,
+html[data-fx-tier="software"] .turn-status-plate,
+html[data-fx-tier="software"] .pcf-sheen,
+html[data-fx-tier="software"] .pcb-sheen,
+html[data-fx-tier="software"] .rtoken-rim,
+html[data-fx-tier="software"] .gc-ring-playable,
+html[data-fx-tier="software"] .gc-ring-target { animation: none !important; }
+html[data-fx-tier="software"] .pcf-sheen,
+html[data-fx-tier="software"] .pcb-sheen { display: none !important; }
+
+/* ---------------------------------------------------------------- combat hit numbers */
+.fx-number.is-big { font-size: 66px; -webkit-text-stroke: 4px rgba(24, 4, 4, 0.95); display: flex; align-items: center; gap: 4px; }
+.fx-number.is-big.fx-number--damage { color: #ff5a44; text-shadow: 0 0 22px rgba(255, 70, 40, 0.95), 0 0 6px rgba(255, 200, 160, 0.8), 0 5px 10px #000; }
+.fx-number.is-lethal { color: #fff1e8; }
+.fx-number-skull { display: inline-block; width: 0.62em; height: 0.62em; color: #fff3ea; filter: drop-shadow(0 0 8px rgba(255, 80, 50, 0.95)); -webkit-text-stroke: 0; }
+.fx-number-skull svg { width: 100%; height: 100%; display: block; }
+
+/* ---------------------------------------------------------------- conquer beam */
+.fx-conquer { position: absolute; inset: 0; pointer-events: none; }
+.fx-ground-ring {
+  position: absolute; pointer-events: none; border-radius: 50%; mix-blend-mode: screen;
+  background: radial-gradient(ellipse at center, rgba(var(--fx-rgb), 0) 0, rgba(var(--fx-rgb), 0.05) 42%, rgba(var(--fx-rgb), 0.55) 62%, rgba(var(--fx-rgb), 0.22) 78%, rgba(var(--fx-rgb), 0) 100%);
+  box-shadow: 0 0 34px 6px rgba(var(--fx-rgb), 0.35);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, #000 55%, transparent 100%);
+}
+.fx-beam { position: absolute; pointer-events: none; transform-origin: 50% 100%; mix-blend-mode: screen; }
+.fx-beam > span { position: absolute; inset: 0; display: block; }
+/* feathered on both sides (smooth falloff) and towards the sky */
+.fx-beam-glow {
+  background: linear-gradient(90deg, rgba(var(--fx-rgb), 0) 0%, rgba(var(--fx-rgb), 0.08) 18%, rgba(var(--fx-rgb), 0.26) 36%, rgba(var(--fx-rgb), 0.44) 50%, rgba(var(--fx-rgb), 0.26) 64%, rgba(var(--fx-rgb), 0.08) 82%, rgba(var(--fx-rgb), 0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 22%, #000 62%, rgba(0,0,0,0.85) 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 22%, #000 62%, rgba(0,0,0,0.85) 100%);
+  filter: blur(6px);
+}
+.fx-beam-core {
+  left: 33%; right: 33%;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.26) 50%, rgba(255,255,255,0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.9) 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.9) 100%);
+  filter: blur(8px);
+}
+.fx-beam-shimmer {
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.12) 18px, rgba(255,255,255,0) 40px);
+  background-size: 100% 80px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 12%, #000 50%, transparent 88%), linear-gradient(180deg, transparent, #000 50%);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+  mask-image: linear-gradient(90deg, transparent 12%, #000 50%, transparent 88%), linear-gradient(180deg, transparent, #000 50%);
+  animation: fx-beam-shimmer calc(1100ms * var(--fx-t, 1)) linear infinite;
+}
+@keyframes fx-beam-shimmer { from { background-position: 0 0; } to { background-position: 0 -80px; } }

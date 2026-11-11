@@ -1,11 +1,15 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { boardPlaymatUrl, cardArtUrl } from "@/lib/assets";
+import { cardArtUrl } from "@/lib/assets";
 
+import { CardArt } from "../card/CardArt";
+import { cardMeta } from "../card/card-meta";
+import { ProceduralCardFace, domainStyleVars } from "../card/ProceduralCardFace";
 import type { HoverPreviewState } from "../interaction/types";
+import { useAnimationLevel } from "../theme/motion";
 import { tokenArtForName, useBoardCustomization } from "../layout/customization";
 import { computeHoverPreviewLayout, HOVER_PREVIEW_RULES_GAP_PX } from "./hover-metrics";
 import { KeywordRulesPanel } from "./KeywordRulesPanel";
@@ -21,6 +25,9 @@ export interface HoverCardPreviewLayerProps {
 export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
   const customization = useBoardCustomization();
   const rulesRef = useRef<HTMLDivElement | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const level = useAnimationLevel();
+  const hasPreview = !!preview;
   const [rulesHeight, setRulesHeight] = useState(0);
   const [viewport, setViewport] = useState(() => ({
     width: typeof window === "undefined" ? 1280 : window.innerWidth,
@@ -43,6 +50,33 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  // Subtle 3D tilt + foil glare that follow the pointer. Written straight to CSS variables (no
+  // React state) and only at the "full" animation level.
+  useEffect(() => {
+    if (!hasPreview || level !== "full") return;
+    let raf = 0;
+    const onMove = (event: PointerEvent) => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        const el = cardRef.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const dx = Math.max(-1, Math.min(1, (event.clientX - (rect.left + rect.width / 2)) / (window.innerWidth / 2)));
+        const dy = Math.max(-1, Math.min(1, (event.clientY - (rect.top + rect.height / 2)) / (window.innerHeight / 2)));
+        el.style.setProperty("--hv-ry", `${(dx * 9).toFixed(2)}deg`);
+        el.style.setProperty("--hv-rx", `${(-dy * 7).toFixed(2)}deg`);
+        el.style.setProperty("--hv-gx", `${(50 + dx * 45).toFixed(1)}%`);
+        el.style.setProperty("--hv-gy", `${(35 + dy * 45).toFixed(1)}%`);
+      });
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
+  }, [hasPreview, level]);
 
   const layout = useMemo(() => {
     if (!preview) return null;
@@ -74,38 +108,45 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
           transform: `translate(-50%, -50%) rotate(${preview.rotationDeg}deg)`,
         };
 
+  const vars = domainStyleVars(cardMeta(preview.card));
+
   return createPortal(
     <div
       data-hover-card-preview="true"
       className="pointer-events-none fixed z-2147483647"
-      style={{ left: `${layout.x}px`, top: `${layout.y}px`, width: `${layout.outerWidth}px` }}
+      style={{ left: `${layout.x}px`, top: `${layout.y}px`, width: `${layout.outerWidth}px`, ...vars }}
       aria-hidden="true"
     >
-      <div
-        className="relative overflow-hidden rounded-[0.56rem] border-none bg-[rgba(12,20,40,0.95)] shadow-[0_24px_42px_rgba(0,0,0,0.55)]"
-        style={{ width: `${layout.outerWidth}px`, height: `${layout.outerHeight}px` }}
-      >
+      <div className="hv-stage">
         <div
-          className={preview.rotationDeg === 0 ? "absolute inset-0" : "absolute left-1/2 top-1/2"}
-          style={rotateStyle}
+          key={preview.card.id}
+          ref={cardRef}
+          className="hv-card"
+          data-motion={level}
+          style={{ width: `${layout.outerWidth}px`, height: `${layout.outerHeight}px` }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element -- playmat underlay + original card art */}
-          <img src={boardPlaymatUrl()} alt="" className="absolute inset-0 h-full w-full object-cover" />
-          {/* eslint-disable-next-line @next/next/no-img-element -- original-size card art from the CDN */}
-          <img
-            src={art}
-            alt={preview.card.name}
-            loading="eager"
-            fetchPriority="high"
-            className="absolute inset-0 h-full w-full object-cover"
-            draggable={false}
-          />
+          {preview.landscape ? <ProceduralCardFace card={preview.card} /> : null}
+          <div
+            className={preview.rotationDeg === 0 ? "absolute inset-0" : "absolute left-1/2 top-1/2"}
+            style={rotateStyle}
+          >
+            <CardArt
+              card={preview.card}
+              src={art}
+              profile={preview.landscape ? "hover" : "preview"}
+              fallback={preview.landscape ? "none" : "face"}
+              className="absolute inset-0 h-full w-full select-none object-cover"
+              alt={preview.card.name}
+            />
+          </div>
+          <span className="hv-rim" />
+          <span className="hv-glare" />
         </div>
       </div>
       <div ref={rulesRef} style={{ marginTop: `${HOVER_PREVIEW_RULES_GAP_PX}px` }}>
         <KeywordRulesPanel
           card={preview.card}
-          className="rounded-[0.5rem] border border-[rgba(141,176,232,0.12)] bg-[#090f1d] px-[0.8em] pb-[0.55em] pt-[0.45em] shadow-[0_10px_24px_rgba(0,0,0,0.35)]"
+          className="hv-rules"
           style={{ fontSize: `${11 * (preview.scale ?? 1)}px` }}
         />
       </div>
