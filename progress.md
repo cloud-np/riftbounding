@@ -112,6 +112,35 @@ findings, scratch probes), then merged into `r4-engine` and finally integrated h
     intents; the two UI soft-locks from the audit (enemy cards could not answer target prompts in
     multiplayer rooms; prompts with deck/trash options were stuck in board-click mode); CI
     (typecheck now passes on a clean clone without `.recon/oracle`, engine tests run in CI).
+- **R6 (board visual revamp + delayed-effects audit).** Branch `claude/dreamy-allen-kbegel`;
+  orchestrated by Claude with Sonnet builders/fixers and Haiku explorers/QA, one file-ownership
+  lane each in the same tree (the rules lane in its own worktree, merged).
+  - **Board revamp** (`apps/play`): procedural card faces/backs whenever art is loading or missing
+    (`card/ProceduralCardFace.tsx`, `SafeImg.tsx` — no broken-image alt text), shield-shaped
+    art-crop tokens for units/gear in play with might/damage badges read from strict object state
+    (`card/CardTokenFace.tsx`), full-card hover with tilt/glare, Hearthstone-style hand, a
+    context-free `card/CardVisual.tsx`; three.js arena backdrop with software-renderer and
+    slow-frame fallbacks (`board/backdrop/`), state-coloured battlefield panels with the landmark
+    art as a backdrop, hero plates, gem score track, unified end-turn button.
+  - **VFX** (`board/fx/`): pure `deriveFxEvents(prev, next, viewer)` (works for opponent actions
+    because it diffs rooms) feeding `FxDirector`'s timeline: play slam (hand card morphs into the
+    token), spell showcase + projectiles, move dash, showdown banner, combat clash (lunge, impact,
+    damage numbers, dissolve-on-death), conquer beam, score orb, turn banners, opponent draws.
+    Pooled particle canvas with quality tiers; `?fxSpeed=0.25` slow motion and `?fxTier=` for QA.
+  - **Settings**: Presentation section — "Cards in play: Art / Full card" and "Animations &
+    effects: Full / Reduced / Off" (`settings-values.ts`, `theme/motion.ts`), capped by
+    `prefers-reduced-motion`.
+  - **Dev harness**: `/dev/play?rules=strict` is a local strict duel vs the strict bot;
+    `&scenario=showdown` builds a combat-ready position, `&botHand=<card>` arms the bot;
+    `window.__riftStrict` exposes dispatch/dispatchAs/getRoom/botStep/setBot (`src/dev/README.md`).
+  - **Rules** (delayed effects & trigger timing audit, `docs/rules/edge-cases-audit.md` D1-D17):
+    a Recall acts only on battlefield permanents (457: Hostile Takeover's end-of-turn recall no
+    longer pulls a dead unit out of the trash), delayed triggers freeze "this battlefield" at
+    creation (359.3.f.3.a/b: Iascylla), new `delayed`, `death-triggers` edge-case suites; three
+    new `[BUG]` repros (section 5).
+  - **Fixes**: Escape no longer sends `dismiss_deck_peek` without an open peek (strict rooms
+    rejected it); strict spell drops on an enemy unit play the spell and pre-answer its target;
+    the strict repro loader is development-only.
 
 ## 3. Current state
 
@@ -206,7 +235,7 @@ by R4-engine A-E are removed. Detail and card names are in the lane docs: `ogn-a
 
 ## 5. Known engine bugs
 
-Six `[BUG]` reproductions are skipped (`packages/rules/test/edge-cases/known-gaps.test.ts`, from the
+Nine `[BUG]` reproductions are skipped (`packages/rules/test/edge-cases/known-gaps.test.ts`, from the
 R5 edge-case audit; each fails when unskipped):
 
 - 107.3.b.2: when a Facedown Zone's occupancy drops (Bushwhack Trap leaves), the excess facedown
@@ -216,6 +245,10 @@ R5 edge-case audit; each fails when unskipped):
   (latent: no printed card reaches this path today).
 - Per-turn history (section 4, gap 1) blocks Hunters' Circle, Lingering Animus and Hold 'Em, each
   in 3 of the 24 starter kits (three repros).
+- R6 delayed-effects audit (D-rows in the audit doc): two simultaneous deaths with one Zhonya's
+  Hourglass — the engine saves the first instead of letting the player choose (373); Tactical
+  Retreat's "the next time" stays bound to the old card id after a bounce and replay; Keeper of
+  Masks' Reflection tokens do not become copies (446; the card is already `partial`).
 
 Also open, without a repro: manual-status cards (the §6.4 window) cannot act on the opponent's
 objects in PvP, so a manual card that affects an enemy can only be finished with Done (audit row

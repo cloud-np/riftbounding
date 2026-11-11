@@ -24,7 +24,7 @@
 .fx-crack path { fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; filter: drop-shadow(0 0 3px #fff); }
 @keyframes fx-crack { 0% { opacity: 1; } 100% { opacity: 0; } }
 
-.fx-number {
+.fx-number { z-index: 3;
   position: absolute; transform: translate(-50%, -50%); font: 900 38px/1 "Trebuchet MS", system-ui, sans-serif;
   letter-spacing: -0.02em; pointer-events: none; white-space: nowrap; -webkit-text-stroke: 2px rgba(20, 4, 4, 0.9);
   paint-order: stroke fill; text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
@@ -40,13 +40,13 @@
 }
 
 .fx-dim {
-  position: absolute; inset: 0; pointer-events: none; opacity: 0; animation: fx-dim calc(1400ms * var(--fx-t, 1)) ease-in-out forwards;
+  position: absolute; inset: 0; pointer-events: none; opacity: 0; animation: fx-dim calc(900ms * var(--fx-t, 1)) ease-in-out forwards;
   background: radial-gradient(circle at var(--fx-x) var(--fx-y), rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) var(--fx-r), rgba(2, 4, 12, 0.5) calc(var(--fx-r) * 2.2));
 }
 @keyframes fx-dim { 0% { opacity: 0; } 18% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
 .fx-bf-pulse {
   position: absolute; pointer-events: none; border-radius: 14px; opacity: 0;
-  animation: fx-bf-pulse calc(1400ms * var(--fx-t, 1)) ease-out forwards;
+  animation: fx-bf-pulse calc(800ms * var(--fx-t, 1)) ease-out forwards;
 }
 @keyframes fx-bf-pulse {
   0% { opacity: 0; box-shadow: 0 0 0 0 rgba(255, 207, 90, 0), inset 0 0 0 2px rgba(255, 207, 90, 0.9); }
@@ -55,13 +55,13 @@
   100% { opacity: 0; box-shadow: 0 0 0 0 rgba(255, 207, 90, 0), inset 0 0 0 2px rgba(255, 207, 90, 0); }
 }
 
-.fx-banner { position: absolute; transform: translate(-50%, -50%); pointer-events: none; display: grid; justify-items: center; gap: 4px; }
+.fx-banner { z-index: 1; position: absolute; transform: translate(-50%, -50%); pointer-events: none; display: grid; justify-items: center; gap: 4px; }
 .fx-banner-title {
   font: 900 54px/1 "Trebuchet MS", system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;
   text-shadow: 0 0 22px var(--fx-glow, rgba(255, 207, 90, 0.9)), 0 4px 0 rgba(0, 0, 0, 0.55), 0 6px 18px rgba(0, 0, 0, 0.8);
   -webkit-text-stroke: 1.5px rgba(20, 10, 0, 0.6);
 }
-.fx-banner--showdown { --fx-glow: rgba(255, 207, 90, 0.95); animation: fx-banner-slam calc(1250ms * var(--fx-t, 1)) cubic-bezier(0.2, 1.3, 0.35, 1) forwards; }
+.fx-banner--showdown { --fx-glow: rgba(255, 207, 90, 0.95); animation: fx-banner-slam calc(700ms * var(--fx-t, 1)) cubic-bezier(0.2, 1.3, 0.35, 1) forwards; }
 .fx-banner--showdown .fx-banner-title { background: linear-gradient(180deg, #fff6c8, #ffc94d 55%, #c98a16); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 14px rgba(255, 207, 90, 0.8)); }
 .fx-blades { width: 92px; height: 92px; color: #ffd978; filter: drop-shadow(0 0 14px rgba(255, 207, 90, 0.95)); }
 .fx-banner--showdown.is-reduced, .fx-banner--turn.is-reduced { animation: fx-banner-fade calc(800ms * var(--fx-t, 1)) ease-out forwards; }
@@ -156,3 +156,45 @@ html[data-fx-tier="software"] .gc-ring-playable,
 html[data-fx-tier="software"] .gc-ring-target { animation: none !important; }
 html[data-fx-tier="software"] .pcf-sheen,
 html[data-fx-tier="software"] .pcb-sheen { display: none !important; }
+
+/* ---------------------------------------------------------------- combat hit numbers */
+.fx-number.is-big { font-size: 66px; -webkit-text-stroke: 4px rgba(24, 4, 4, 0.95); display: flex; align-items: center; gap: 4px; }
+.fx-number.is-big.fx-number--damage { color: #ff5a44; text-shadow: 0 0 22px rgba(255, 70, 40, 0.95), 0 0 6px rgba(255, 200, 160, 0.8), 0 5px 10px #000; }
+.fx-number.is-lethal { color: #fff1e8; }
+.fx-number-skull { display: inline-block; width: 0.62em; height: 0.62em; color: #fff3ea; filter: drop-shadow(0 0 8px rgba(255, 80, 50, 0.95)); -webkit-text-stroke: 0; }
+.fx-number-skull svg { width: 100%; height: 100%; display: block; }
+
+/* ---------------------------------------------------------------- conquer beam */
+.fx-conquer { position: absolute; inset: 0; pointer-events: none; }
+.fx-ground-ring {
+  position: absolute; pointer-events: none; border-radius: 50%; mix-blend-mode: screen;
+  background: radial-gradient(ellipse at center, rgba(var(--fx-rgb), 0) 0, rgba(var(--fx-rgb), 0.05) 42%, rgba(var(--fx-rgb), 0.55) 62%, rgba(var(--fx-rgb), 0.22) 78%, rgba(var(--fx-rgb), 0) 100%);
+  box-shadow: 0 0 34px 6px rgba(var(--fx-rgb), 0.35);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, #000 55%, transparent 100%);
+}
+.fx-beam { position: absolute; pointer-events: none; transform-origin: 50% 100%; mix-blend-mode: screen; }
+.fx-beam > span { position: absolute; inset: 0; display: block; }
+/* feathered on both sides (smooth falloff) and towards the sky */
+.fx-beam-glow {
+  background: linear-gradient(90deg, rgba(var(--fx-rgb), 0) 0%, rgba(var(--fx-rgb), 0.08) 18%, rgba(var(--fx-rgb), 0.26) 36%, rgba(var(--fx-rgb), 0.44) 50%, rgba(var(--fx-rgb), 0.26) 64%, rgba(var(--fx-rgb), 0.08) 82%, rgba(var(--fx-rgb), 0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 22%, #000 62%, rgba(0,0,0,0.85) 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 22%, #000 62%, rgba(0,0,0,0.85) 100%);
+  filter: blur(6px);
+}
+.fx-beam-core {
+  left: 33%; right: 33%;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.26) 50%, rgba(255,255,255,0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.9) 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.9) 100%);
+  filter: blur(8px);
+}
+.fx-beam-shimmer {
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.12) 18px, rgba(255,255,255,0) 40px);
+  background-size: 100% 80px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 12%, #000 50%, transparent 88%), linear-gradient(180deg, transparent, #000 50%);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+  mask-image: linear-gradient(90deg, transparent 12%, #000 50%, transparent 88%), linear-gradient(180deg, transparent, #000 50%);
+  animation: fx-beam-shimmer calc(1100ms * var(--fx-t, 1)) linear infinite;
+}
+@keyframes fx-beam-shimmer { from { background-position: 0 0; } to { background-position: 0 -80px; } }

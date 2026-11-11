@@ -37,6 +37,8 @@ import type { StrictScenarioId } from "./strictScenario";
 export interface StrictGameHarnessProps {
   seed?: string | number | null;
   scenario?: StrictScenarioId | null;
+  /** QA: comma-separated card names placed in the bot's hand (see strictScenario). */
+  botHand?: string | null;
 }
 
 function battlefieldHint(
@@ -58,12 +60,16 @@ function battlefieldHint(
 
 const CONTROLLED = [STRICT_HUMAN_ID];
 
+function parseBotHand(value: string | null | undefined): string[] {
+  return (value ?? "").split(",").map((name) => name.trim()).filter(Boolean);
+}
+
 const BTN =
   "rounded-md border border-[rgba(134,168,246,0.32)] bg-[rgba(19,35,60,0.9)] px-2 py-1 font-semibold text-[#dbe7ff] hover:bg-[rgba(29,51,84,0.95)] disabled:cursor-not-allowed disabled:opacity-40";
 
-export function StrictGameHarness({ seed, scenario }: StrictGameHarnessProps) {
+export function StrictGameHarness({ seed, scenario, botHand }: StrictGameHarnessProps) {
   const [initial] = useState<StrictHarnessState>(() =>
-    createStrictHarness({ seed, scenario: scenario ?? null }),
+    createStrictHarness({ seed, scenario: scenario ?? null, botHand: parseBotHand(botHand) }),
   );
   const [room, setRoom] = useState<Room>(initial.room);
   const [seedValue, setSeedValue] = useState(initial.seed);
@@ -147,7 +153,7 @@ export function StrictGameHarness({ seed, scenario }: StrictGameHarnessProps) {
 
   const rebuild = useCallback(
     (nextSeed: number) => {
-      const next = createStrictHarness({ seed: nextSeed, scenario: scenario ?? null });
+      const next = createStrictHarness({ seed: nextSeed, scenario: scenario ?? null, botHand: parseBotHand(botHand) });
       roomRef.current = next.room;
       timelineRef.current = next.timeline;
       rngRef.current = createSeededRng(next.seed ^ 0x51ed2701);
@@ -167,7 +173,7 @@ export function StrictGameHarness({ seed, scenario }: StrictGameHarnessProps) {
         /* non-browser */
       }
     },
-    [scenario],
+    [scenario, botHand],
   );
 
   // The board only ever sees the human's redacted view, like a real client.
@@ -222,13 +228,20 @@ export function StrictGameHarness({ seed, scenario }: StrictGameHarnessProps) {
       getRoom: () => roomRef.current,
       getInfo: () => initial.scenarioInfo,
       botStep: () => botStep(),
+      /** Apply an intent as any seat (e.g. make the bot cast a spell). Returns the step record. */
+      dispatchAs: (playerId: string, intent: GameActionIntent) => {
+        const step = applyStrictIntent(roomRef.current, timelineRef.current, playerId, intent as never, rngRef.current, "bot");
+        record(step.record);
+        if (step.record.ok && step.room !== roomRef.current) commit(step.room, step.timeline);
+        return step.record;
+      },
       setBot: (on: boolean) => setBotOn(on),
     };
     (window as unknown as { __riftStrict?: typeof hook }).__riftStrict = hook;
     return () => {
       delete (window as unknown as { __riftStrict?: typeof hook }).__riftStrict;
     };
-  }, [dispatch, botStep, initial.scenarioInfo]);
+  }, [dispatch, botStep, record, commit, initial.scenarioInfo]);
 
   const rules = room.rules;
   const last = intents[intents.length - 1] ?? null;

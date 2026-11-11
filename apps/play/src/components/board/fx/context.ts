@@ -5,6 +5,9 @@
 import type { ParticleEngine } from "./particles";
 import { fxSpeed, scaled } from "./speed";
 
+const SKULL_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.9 2 3.5 5.4 3.5 10c0 2.6 1.1 4.5 2.9 5.6V19c0 .6.4 1 1 1h2.1v-2h1.5v2h2v-2h1.5v2h2.1c.6 0 1-.4 1-1v-3.4c1.8-1.1 2.9-3 2.9-5.6C20.5 5.4 17.1 2 12 2Zm-3.6 11.2a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm7.2 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z" fill="currentColor" stroke="rgba(20,4,4,0.9)" stroke-width="1.2" paint-order="stroke"/></svg>';
+
 export type FxLevel = "full" | "reduced";
 
 export class FxContext {
@@ -151,28 +154,48 @@ export class FxContext {
     animation.addEventListener("cancel", done);
   }
 
-  /** Floating number (damage / buff / score) in the top layer. */
-  number(x: number, y: number, text: string, kind: "damage" | "buff" | "score", delayMs = 0): void {
+  /**
+   * Floating number (damage / buff / score) in the top layer. `big` numbers are the combat hit
+   * pops (scale-pop, then rise and fade); `lethal` adds a skull accent.
+   */
+  number(
+    x: number,
+    y: number,
+    text: string,
+    kind: "damage" | "buff" | "score",
+    delayMs = 0,
+    opts: { big?: boolean; lethal?: boolean } = {},
+  ): void {
     if (this.disposed) return;
     const node = document.createElement("div");
-    node.className = `fx-number fx-number--${kind}`;
-    node.textContent = text;
+    node.className = `fx-number fx-number--${kind}${opts.big ? " is-big" : ""}${opts.lethal ? " is-lethal" : ""}`;
+    const label = document.createElement("span");
+    label.textContent = text;
+    if (opts.lethal) {
+      const skull = document.createElement("span");
+      skull.className = "fx-number-skull";
+      skull.innerHTML = SKULL_SVG;
+      node.appendChild(skull);
+    }
+    node.appendChild(label);
     node.style.left = `${x}px`;
     node.style.top = `${y}px`;
     node.style.opacity = "0";
     this.top.appendChild(node);
     const remove = this.own(() => node.remove());
-    const rise = kind === "score" ? 46 : 58;
+    const rise = kind === "score" ? 46 : opts.big ? 70 : 58;
+    const peak = opts.big ? 1.9 : 1.5;
+    const hold = opts.big ? 0.42 : 0.34;
     const animation = this.animate(
       node,
       [
-        { opacity: 0, transform: "translate(-50%, -30%) scale(0.3)", offset: 0 },
-        { opacity: 1, transform: "translate(-50%, -60%) scale(1.5)", offset: 0.16 },
-        { opacity: 1, transform: "translate(-50%, -80%) scale(1)", offset: 0.34 },
-        { opacity: 1, transform: `translate(-50%, ${-80 - rise * 0.6}%) scale(1)`, offset: 0.72 },
-        { opacity: 0, transform: `translate(-50%, ${-80 - rise}%) scale(0.9)`, offset: 1 },
+        { opacity: 0, transform: "translate(-50%, -30%) scale(0.2)", offset: 0 },
+        { opacity: 1, transform: `translate(-50%, -62%) scale(${peak})`, offset: 0.14 },
+        { opacity: 1, transform: "translate(-50%, -80%) scale(1)", offset: hold },
+        { opacity: 1, transform: `translate(-50%, ${-80 - rise * 0.5}%) scale(1)`, offset: 0.74 },
+        { opacity: 0, transform: `translate(-50%, ${-80 - rise}%) scale(0.92)`, offset: 1 },
       ],
-      { duration: 1000, delay: delayMs, easing: "cubic-bezier(0.2, 0.9, 0.3, 1)", fill: "both" },
+      { duration: opts.big ? 1150 : 1000, delay: delayMs, easing: "cubic-bezier(0.2, 0.9, 0.3, 1)", fill: "both" },
     );
     animation.addEventListener("finish", remove);
     animation.addEventListener("cancel", remove);

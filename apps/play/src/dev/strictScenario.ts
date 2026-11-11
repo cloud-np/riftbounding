@@ -106,6 +106,7 @@ export function applyShowdownScenario(
   room: Room,
   humanId: string,
   botId: string,
+  options: { botHand?: string[] } = {},
 ): ShowdownScenarioInfo {
   if (room.rulesMode !== "strict" || room.phase !== "in_game" || !room.rules) {
     throw new Error("strict scenario: room must be a strict in-game room");
@@ -138,6 +139,39 @@ export function applyShowdownScenario(
     bot.battlefieldB.push(card);
     return card.id;
   });
+
+  // QA option `botHand=Hextech Ray,...`: the bot holds these cards (ready runes) and it is the
+  // bot's Main Phase, with one of the human's units standing at the human's battlefield, so a
+  // script can make the bot cast a targeted spell via `window.__riftStrict.dispatchAs(botId, ...)`.
+  const botHand = options.botHand ?? [];
+  if (botHand.length > 0) {
+    for (const name of botHand) bot.hand.push(pull(bot, name));
+    bot.runeDeck.unshift(...bot.runeArea.splice(0, bot.runeArea.length));
+    for (const name of ["Fury Rune", "Order Rune"]) {
+      for (let i = 0; i < 4; i += 1) {
+        const index = bot.runeDeck.findIndex((rune) => rune.name === name);
+        if (index < 0) break;
+        const [rune] = bot.runeDeck.splice(index, 1);
+        bot.runeArea.push({ ...rune!, exhausted: false });
+      }
+    }
+    const [target] = human.base.splice(0, 1);
+    human.battlefieldA.push(target!);
+    room.firstPlayerId = humanId;
+    room.turnNumber = 4;
+    room.activeTurnPlayerId = botId;
+    room.activeTurnStep = "main";
+    const r = room.rules!;
+    r.turn = { player: botId, number: 4, phase: "main" };
+    r.priority = botId;
+    r.focus = null;
+    r.passes = [];
+    r.objects.battlefieldA = { ...(r.objects.battlefieldA ?? {}), controller: humanId };
+    r.objects.battlefieldB = { ...(r.objects.battlefieldB ?? {}), controller: botId };
+    r.pools[botId] = { energy: 0, power: {} };
+    r.scoredThisTurn = { ...r.scoredThisTurn, [humanId]: [], [botId]: [] };
+    return { humanId, botId, botBattlefield: "battlefieldB", humanUnits, botUnits };
+  }
 
   room.firstPlayerId = humanId;
   room.turnNumber = 3;

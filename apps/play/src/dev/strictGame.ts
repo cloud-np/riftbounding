@@ -68,7 +68,7 @@ function setupClock(): () => number {
 }
 
 export function createStrictHarness(
-  options: { seed?: string | number | null; scenario?: StrictScenarioId | null } = {},
+  options: { seed?: string | number | null; scenario?: StrictScenarioId | null; botHand?: string[] } = {},
 ): StrictHarnessState {
   const seed = parseSeed(options.seed);
   const scenario = options.scenario ?? null;
@@ -128,7 +128,7 @@ export function createStrictHarness(
   let scenarioInfo: ShowdownScenarioInfo | null = null;
   if (scenario === "showdown") {
     room = structuredClone(room);
-    scenarioInfo = applyShowdownScenario(room, STRICT_HUMAN_ID, STRICT_BOT_ID);
+    scenarioInfo = applyShowdownScenario(room, STRICT_HUMAN_ID, STRICT_BOT_ID, { botHand: options.botHand });
   }
   return {
     room,

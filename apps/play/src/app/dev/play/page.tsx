@@ -25,6 +25,7 @@ export default async function DevPlayPage({
       <StrictGameHarness
         seed={first(params.seed)}
         scenario={parseScenario(first(params.scenario))}
+        botHand={first(params.botHand)}
       />
     );
   }

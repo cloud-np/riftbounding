@@ -432,22 +432,78 @@ export async function showdownStart(ctx: FxContext, ev: Ev<"showdown_start">, de
       pulse.style.width = `${box.width}px`;
       pulse.style.height = `${box.height}px`;
       const removePulse = ctx.own(() => pulse.remove());
-      void ctx.wait(1500).then(removePulse);
+      void ctx.wait(850).then(removePulse);
     }
     const dim = el("div", "fx-dim", ctx.stage);
     dim.style.setProperty("--fx-x", `${centre.x}px`);
     dim.style.setProperty("--fx-y", `${centre.y}px`);
     dim.style.setProperty("--fx-r", `${Math.max(180, (box?.width ?? 360) * 0.7)}px`);
     const removeDim = ctx.own(() => dim.remove());
-    void ctx.wait(1400).then(removeDim);
+    void ctx.wait(950).then(removeDim);
     const engine = ctx.engine();
     engine?.emitRing(centre.x, centre.y, gold, { radius: 260, from: 20, duration: 0.6, width: 7, squash: 0.7 });
     engine?.emitFlash(centre.x, centre.y, gold, { radius: 200, duration: 0.5, alpha: 0.7 });
     engine?.emitBurst(centre.x, centre.y, gold, { count: 24, speed: 520, life: 0.5, gravity: 100 });
     ctx.shake(3, 160);
   }
-  await ctx.wait(ctx.level === "full" ? 1250 : 800);
+  await ctx.wait(ctx.level === "full" ? 720 : 700);
   removeBanner();
+}
+
+/** Soft volumetric beam + perspective ground ring (DOM, additive; low alpha so units stay readable). */
+function conquerBeam(ctx: FxContext, centre: { x: number; y: number }, box: Box | null, board: Box, rgb: string) {
+  const bw = box?.width ?? 260;
+  const bh = box?.height ?? 200;
+  const groundY = centre.y + bh * 0.28;
+  const ringW = Math.max(240, bw * 0.95);
+  const ringH = ringW * 0.3;
+  const beamW = Math.max(120, bw * 0.46);
+  const beamH = Math.max(320, board.height * 0.7);
+  const holder = el("div", "fx-conquer", ctx.stage);
+  holder.style.setProperty("--fx-rgb", rgb);
+  const ground = el("div", "fx-ground-ring", holder);
+  ground.style.left = `${centre.x - ringW / 2}px`;
+  ground.style.top = `${groundY - ringH / 2}px`;
+  ground.style.width = `${ringW}px`;
+  ground.style.height = `${ringH}px`;
+  const beam = el("div", "fx-beam", holder);
+  beam.style.left = `${centre.x - beamW / 2}px`;
+  beam.style.top = `${groundY - beamH}px`;
+  beam.style.width = `${beamW}px`;
+  beam.style.height = `${beamH}px`;
+  beam.innerHTML = '<span class="fx-beam-glow"></span><span class="fx-beam-core"></span><span class="fx-beam-shimmer"></span>';
+  const remove = ctx.own(() => holder.remove());
+  ctx.animate(
+    ground,
+    [
+      { opacity: 0, transform: "scale(0.35)" },
+      { opacity: 1, transform: "scale(1)", offset: 0.28 },
+      { opacity: 0.85, transform: "scale(1.06)", offset: 0.7 },
+      { opacity: 0, transform: "scale(1.18)" },
+    ],
+    { duration: 1250, easing: "cubic-bezier(0.2, 0.8, 0.3, 1)", fill: "both" },
+  );
+  const anim = ctx.animate(
+    beam,
+    [
+      { opacity: 0, transform: "scaleX(0.25) scaleY(0.2)" },
+      { opacity: 1, transform: "scaleX(1) scaleY(1)", offset: 0.25 },
+      { opacity: 0.8, transform: "scaleX(1.05) scaleY(1)", offset: 0.7 },
+      { opacity: 0, transform: "scaleX(1.3) scaleY(1)" },
+    ],
+    { duration: 1250, easing: "cubic-bezier(0.2, 0.8, 0.3, 1)", fill: "both" },
+  );
+  anim.addEventListener("finish", remove);
+  anim.addEventListener("cancel", remove);
+  // Rising motes along the beam.
+  const engine = ctx.engine();
+  if (engine) {
+    for (let i = 0; i < 4; i += 1) {
+      void ctx.wait(i * 220).then((ok) => {
+        if (ok) engine.emitEmbers(centre.x - beamW * 0.45, groundY - 10, beamW * 0.9, 16, rgb, 9, 150);
+      });
+    }
+  }
 }
 
 export async function conquer(ctx: FxContext, ev: Ev<"conquer">, delay: number) {
@@ -458,14 +514,13 @@ export async function conquer(ctx: FxContext, ev: Ev<"conquer">, delay: number) 
   if (!(await ctx.wait(delay))) return;
   const engine = ctx.engine();
   if (engine) {
-    engine.emitPillar(centre.x, centre.y + (box?.height ?? 0) * 0.3, rgb, { height: Math.max(300, board.height * 0.7), width: Math.max(90, (box?.width ?? 200) * 0.5), duration: 0.9 });
-    engine.emitRing(centre.x, centre.y, rgb, { radius: Math.max(160, (box?.width ?? 200) * 0.8), from: 20, duration: 0.7, width: 8, squash: 0.6 });
-    engine.emitFlash(centre.x, centre.y, rgb, { radius: 220, duration: 0.5 });
-    engine.emitEmbers(centre.x - 60, centre.y, 120, 30, rgb, 22, 160);
+    conquerBeam(ctx, centre, box, board, rgb);
+    engine.emitRing(centre.x, centre.y + (box?.height ?? 0) * 0.28, rgb, { radius: Math.max(160, (box?.width ?? 200) * 0.7), from: 20, duration: 0.7, width: 6, squash: 0.3 });
+    engine.emitFlash(centre.x, centre.y, rgb, { radius: 200, duration: 0.45, alpha: 0.45 });
   }
   const banner = el("div", `fx-banner fx-banner--conquer${ev.isViewer ? " is-self" : " is-opponent"}`, ctx.top);
   banner.style.left = `${centre.x}px`;
-  banner.style.top = `${centre.y}px`;
+  banner.style.top = `${box ? box.top + box.height * 0.36 : centre.y}px`;
   banner.innerHTML = `<span class="fx-banner-title">CONQUERED</span>`;
   const removeBanner = ctx.own(() => banner.remove());
   await ctx.wait(ctx.level === "full" ? 1150 : 700);
@@ -496,7 +551,7 @@ export async function nonCombatDamage(ctx: FxContext, ev: Ev<"damage">, delay: n
   if (!(await ctx.wait(delay))) return;
   const box = settledBox(live, boxOf(live.el));
   ctx.hitReaction(live.el, "red");
-  ctx.number(cx(box), box.top + box.height * 0.3, `-${ev.amount}`, "damage");
+  ctx.number(cx(box), box.top + box.height * 0.22, `-${ev.amount}`, "damage", 0, { big: true });
   const engine = ctx.engine();
   engine?.emitBurst(cx(box), cy(box), "255,70,60", { count: 16, speed: 380, life: 0.4 });
   engine?.emitFlash(cx(box), cy(box), "255,60,50", { radius: box.width * 0.9, duration: 0.25 });
@@ -592,7 +647,7 @@ function holdPileTop(ctx: FxContext, cardId: string): () => void {
 
 let filterSeq = 0;
 
-function dissolveFilter(ctx: FxContext, rgb: string): { id: string; setProgress: (p: number) => void } {
+function dissolveFilter(ctx: FxContext, rgb: string): { id: string; setProgress: (p: number) => void; dispose: () => void } {
   const id = `fx-dissolve-${(filterSeq += 1)}`;
   const holder = document.createElement("div");
   holder.className = "fx-svg-defs";
@@ -610,11 +665,12 @@ function dissolveFilter(ctx: FxContext, rgb: string): { id: string; setProgress:
 <feComposite in="edge" in2="SourceGraphic" operator="in" result="edgeClip"/>
 <feMerge><feMergeNode in="body"/><feMergeNode in="edgeClip"/></feMerge></filter></svg>`;
   ctx.stage.appendChild(holder);
-  ctx.own(() => holder.remove());
+  const dispose = ctx.own(() => holder.remove());
   const a = holder.querySelector<SVGElement>(".a");
   const bNode = holder.querySelector<SVGElement>(".b");
   return {
     id,
+    dispose,
     setProgress: (p: number) => {
       // alpha = clamp(14 * (noise - th)); noise ~ 0.2..0.8, so sweep th across that range.
       const th = -0.05 + p * 1.0;
@@ -648,7 +704,7 @@ function crackOverlay(ghost: Ghost): HTMLElement {
   return svg as unknown as HTMLElement;
 }
 
-/** Crack flash → noise dissolve with embers. Resolves when the ghost is fully gone. */
+/** Crack flash (~90 ms) → noise dissolve with embers. Resolves when the ghost is fully gone. */
 export async function dissolveGhost(ctx: FxContext, ghost: Ghost, rgb: string, startDelay = 0): Promise<boolean> {
   if (ctx.level === "reduced") {
     ctx.animate(ghost.outer, [{ opacity: 1 }, { opacity: 0 }], { duration: 220, delay: startDelay, fill: "both" });
@@ -658,31 +714,45 @@ export async function dissolveGhost(ctx: FxContext, ghost: Ghost, rgb: string, s
   const box = ghost.outer.getBoundingClientRect();
   const engine = ctx.engine();
   crackOverlay(ghost);
+  // Forward-filled lunge / brace animations on the inner layer would override inline filters
+  // (root cause of "dead tokens stay visible"): freeze the current scale, then cancel them.
+  const heldScale = getComputedStyle(ghost.inner).scale;
+  for (const animation of ghost.inner.getAnimations()) animation.cancel();
+  if (heldScale && heldScale !== "none") ghost.inner.style.scale = heldScale;
   ghost.inner.style.filter = "brightness(3.2) saturate(0.3)";
   engine?.emitFlash(ghost.center.x, ghost.center.y, "255,255,255", { radius: ghost.w * 0.9, duration: 0.22 });
-  engine?.emitBurst(ghost.center.x, ghost.center.y, rgb, { count: 22, speed: 420, life: 0.5 });
+  engine?.emitBurst(ghost.center.x, ghost.center.y, rgb, { count: 24, speed: 440, life: 0.5 });
   ctx.shake(2, 110);
-  ctx.animate(ghost.inner, 
-    [{ scale: "1" }, { scale: "1.07", offset: 0.35 }, { scale: "1.02" }],
-    { duration: 140, fill: "forwards", easing: "ease-out" },
+  ctx.animate(
+    ghost.inner,
+    [{ scale: "1" }, { scale: "1.08", offset: 0.4 }, { scale: "1.03" }],
+    { duration: 100, fill: "forwards", easing: "ease-out" },
   );
-  if (!(await ctx.wait(120))) return false;
+  if (!(await ctx.wait(90))) return false;
   const filter = dissolveFilter(ctx, rgb);
   filter.setProgress(0);
   ghost.inner.style.filter = `url(#${filter.id})`;
-  engine?.emitEmbers(box.left, box.top, box.width, box.height, rgb, 26, 150);
-  ctx.animate(ghost.inner, 
-    [{ translate: "0px 0px" }, { translate: "0px -14px" }],
-    { duration: 640, easing: "ease-out", fill: "forwards" },
+  engine?.emitEmbers(box.left, box.top, box.width, box.height, rgb, 30, 160);
+  ctx.animate(
+    ghost.inner,
+    [{ translate: "0px 0px" }, { translate: "0px -12px" }],
+    { duration: 520, easing: "ease-out", fill: "forwards" },
+  );
+  // Guarantee the token is clearly fading even where the noise mask is still mostly opaque.
+  ctx.animate(
+    ghost.outer,
+    [{ opacity: 1, offset: 0 }, { opacity: 0.75, offset: 0.35 }, { opacity: 0, offset: 1 }],
+    { duration: 520, easing: "ease-in", fill: "forwards" },
   );
   let second = false;
-  const ok = await ctx.frames(620, (t) => {
+  const ok = await ctx.frames(500, (t) => {
     filter.setProgress(easeOut3(t) * 0.96 + t * 0.04);
-    if (!second && t > 0.4) {
+    if (!second && t > 0.35) {
       second = true;
-      engine?.emitEmbers(box.left, box.top, box.width, box.height * 0.7, rgb, 16, 180);
+      engine?.emitEmbers(box.left, box.top, box.width, box.height * 0.7, rgb, 18, 190);
     }
   });
+  filter.dispose();
   return ok;
 }
 
@@ -697,6 +767,7 @@ export async function unitDied(ctx: FxContext, ev: Ev<"unit_died">, gen: CardGen
   if (!(await ctx.wait(delay))) return;
   const ghost = createGhost(ctx.stage, entry);
   const removeGhost = ctx.own(ghost.remove);
+  ctx.number(ghost.center.x, ghost.center.y - ghost.h * 0.28, "", "damage", 0, { big: true, lethal: true });
   await dissolveGhost(ctx, ghost, rgbOf(ev.card).rgb);
   removeGhost();
   release();
@@ -704,6 +775,14 @@ export async function unitDied(ctx: FxContext, ev: Ev<"unit_died">, gen: CardGen
 }
 
 /* ------------------------------------------------------------------ combat clash */
+
+/** Nominal (1x) phase lengths, shared with the director's timeline (see FxDirector.gapAfter). */
+export const CLASH_WINDUP = 200;
+export const CLASH_LUNGE = 130;
+/** Impact lands this long after the clash starts. */
+export const CLASH_IMPACT_AT = CLASH_WINDUP + CLASH_LUNGE;
+/** Following events (conquer) start once the dissolves are ~this far underway. */
+export const CLASH_DISSOLVE_LEAD = 380;
 
 interface Actor {
   unit: ClashUnit;
@@ -743,7 +822,10 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
   const dmgNumber = (actor: Actor, order: number) => {
     if (actor.unit.damage <= 0) return;
     const rect = actor.ghost ? actor.ghost.outer.getBoundingClientRect() : actor.entry.rect;
-    ctx.number(rect.left + rect.width / 2, rect.top + rect.height * 0.28, `-${actor.unit.damage}`, "damage", order * 60);
+    ctx.number(rect.left + rect.width / 2, rect.top + rect.height * 0.22, `-${actor.unit.damage}`, "damage", order * 45, {
+      big: true,
+      lethal: actor.unit.died,
+    });
   };
 
   if (ctx.level === "reduced") {
@@ -752,7 +834,7 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
       const live = liveCard(actor.unit.id);
       const box = actor.entry.rect;
       if (actor.unit.damage > 0) {
-        ctx.number(cx(box), box.top + box.height * 0.28, `-${actor.unit.damage}`, "damage", index * 60);
+        ctx.number(cx(box), box.top + box.height * 0.22, `-${actor.unit.damage}`, "damage", index * 45, { big: true, lethal: actor.unit.died });
         if (live && !actor.unit.died) ctx.hitReaction(live, "red");
       }
     });
@@ -804,8 +886,8 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
     if (k < defenders.length) braceOf.set(pair.d, dirOf(centreOf(pair.d), centreOf(pair.a)));
   });
 
-  const WINDUP = 240;
-  const LUNGE = 150;
+  const WINDUP = CLASH_WINDUP;
+  const LUNGE = CLASH_LUNGE;
   const engine = ctx.engine();
 
   // Wind-up: attackers pull back and glow, defenders brace.
@@ -837,7 +919,7 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
       );
     }
   }
-  if (!(await ctx.wait(WINDUP + 30))) return;
+  if (!(await ctx.wait(WINDUP))) return;
 
   // Lunge: attackers drive ~70% of the way, defenders counter-lunge ~16%.
   pairs.forEach((pair, k) => {
@@ -874,7 +956,8 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
   const numbered = new Set<Actor>();
   let numberOrder = 0;
   let shaken = false;
-  const dying: Array<Promise<boolean>> = [];
+  const after: Array<Promise<unknown>> = [];
+  const finished = new Set<Actor>();
   const impactPromises = pairs.map(async (pair, k) => {
     if (!(await ctx.wait(LUNGE + k * 35))) return;
     const a = centreOf(pair.a);
@@ -924,43 +1007,44 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
         );
       }
     }
+    // Deaths crack-flash and dissolve right at the impact; survivors recoil, then settle home.
+    for (const actor of [pair.a, pair.d]) {
+      if (finished.has(actor)) continue;
+      finished.add(actor);
+      if (actor.unit.died) {
+        after.push(
+          dissolveGhost(ctx, actor.ghost!, actor.rgb, 40).then((ok) => {
+            actor.ghost?.remove();
+            if (actor.live) ctx.show(actor.live);
+            pileReleases.find((entry) => entry.actor === actor)?.release();
+            return ok;
+          }),
+        );
+        continue;
+      }
+      after.push(
+        (async () => {
+          if (!(await ctx.wait(330))) return;
+          const ghost = actor.ghost!;
+          const liveBox = actor.live ? boxOf(actor.live) : null;
+          const target = liveBox ?? actor.entry.rect;
+          const tx = cx(target) - ghost.center.x;
+          const ty = cy(target) - ghost.center.y;
+          ctx.animate(
+            ghost.outer,
+            [{ translate: `${actor.lunge.x}px ${actor.lunge.y}px` }, { translate: `${tx}px ${ty}px` }],
+            { duration: 260, easing: EASE.out, fill: "forwards" },
+          );
+          ctx.animate(ghost.inner, [{ scale: "1.05" }, { scale: "1" }], { duration: 260, easing: EASE.out, fill: "forwards" });
+          if (!(await ctx.wait(270))) return;
+          if (actor.live) ctx.show(actor.live);
+          ghost.remove();
+        })(),
+      );
+    }
   });
   await Promise.all(impactPromises);
-
-  // Deaths dissolve in place, simultaneously.
-  const settleStart = performance.now();
-  for (const actor of actors) {
-    if (!actor.unit.died) continue;
-    dying.push(
-      dissolveGhost(ctx, actor.ghost!, actor.rgb, 90).then((ok) => {
-        if (actor.live) ctx.show(actor.live);
-        pileReleases.find((entry) => entry.actor === actor)?.release();
-        return ok;
-      }),
-    );
-  }
-
-  // Survivors settle back to their (possibly re-flowed) live position.
-  const survivors = actors.filter((actor) => !actor.unit.died);
-  const settle = Promise.all(
-    survivors.map(async (actor) => {
-      if (!(await ctx.wait(Math.max(0, 420 - (performance.now() - settleStart))))) return;
-      const ghost = actor.ghost!;
-      const liveBox = actor.live ? boxOf(actor.live) : null;
-      const target = liveBox ?? actor.entry.rect;
-      const tx = cx(target) - ghost.center.x;
-      const ty = cy(target) - ghost.center.y;
-      ctx.animate(ghost.outer, 
-        [{ translate: `${actor.lunge.x}px ${actor.lunge.y}px` }, { translate: `${tx}px ${ty}px` }],
-        { duration: 300, easing: EASE.out, fill: "forwards" },
-      );
-      ctx.animate(ghost.inner, [{ scale: "1.05" }, { scale: "1" }], { duration: 300, easing: EASE.out, fill: "forwards" });
-      if (!(await ctx.wait(310))) return;
-      if (actor.live) ctx.show(actor.live);
-      ghost.remove();
-    }),
-  );
-  await Promise.all([settle, ...dying]);
+  await Promise.all(after);
   for (const actor of actors) actor.ghost?.remove();
   releaseAll();
 }

@@ -36,9 +36,12 @@ function gapAfter(event: FxEvent): number {
     case "spell_resolved":
       return 520;
     case "showdown_start":
-      return 650;
+      return 450;
     case "combat_clash":
-      return 900;
+      // Conquer / score wait until the dissolves are well underway.
+      return fx.CLASH_IMPACT_AT + fx.CLASH_DISSOLVE_LEAD;
+    case "conquer":
+      return 650;
     default:
       return 0;
   }
