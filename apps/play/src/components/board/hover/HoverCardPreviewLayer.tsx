@@ -43,7 +43,13 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
     const measure = () => setRulesHeight(Math.ceil(rulesRef.current?.getBoundingClientRect().height ?? 0));
     measure();
     const raf = window.requestAnimationFrame(measure);
-    return () => window.cancelAnimationFrame(raf);
+    // Fonts / icons / wrapping can change the height after the first paint.
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    if (rulesRef.current) observer?.observe(rulesRef.current);
+    return () => {
+      window.cancelAnimationFrame(raf);
+      observer?.disconnect();
+    };
   }, [preview?.card.id, preview?.card.text, preview?.scale, preview?.landscape]);
 
   useLayoutEffect(() => {
@@ -145,7 +151,14 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
           <span className="hv-glare" />
         </div>
       </div>
-      <div ref={rulesRef} style={{ marginTop: `${HOVER_PREVIEW_RULES_GAP_PX}px` }}>
+      <div
+        ref={rulesRef}
+        className="overflow-hidden"
+        style={{
+          marginTop: `${HOVER_PREVIEW_RULES_GAP_PX}px`,
+          maxHeight: `${Math.max(120, viewport.height - 16 - layout.outerHeight - HOVER_PREVIEW_RULES_GAP_PX)}px`,
+        }}
+      >
         <KeywordRulesPanel
           card={preview.card}
           className="hv-rules"

@@ -7,6 +7,8 @@ import { getCard } from "@rift/cards";
 import type { CardInstance } from "@rift/protocol";
 
 import { cardMeta } from "../card/card-meta";
+import { unitMightView } from "../card/might";
+import { useBoardInteractionOptional } from "../interaction/context";
 import { labelColors } from "../menus/label-presets";
 import { RulesText } from "../text/RulesText";
 
@@ -28,6 +30,8 @@ export function KeywordRulesPanel({ card, locale = "en", className, style }: Key
       ? card.text ?? englishCatalogText
       : catalogCard ?? card.text ?? englishCatalogText;
   const meta = cardMeta(card);
+  const interaction = useBoardInteractionOptional();
+  const might = unitMightView(interaction?.slotProps?.state, card).current ?? meta.might;
   const keywords = card.keywords?.length ? card.keywords : meta.keywords;
 
   return (
@@ -43,7 +47,7 @@ export function KeywordRulesPanel({ card, locale = "en", className, style }: Key
           <div className="mt-[0.3em] flex flex-wrap items-center gap-[0.3em]">
             <span className="hv-chip">{meta.typeLabel}</span>
             {meta.energyCost !== undefined ? <span className="hv-chip" data-kind="cost">Cost {meta.energyCost}{meta.powerCost ? ` + ${meta.powerCost}` : ""}</span> : null}
-            {meta.might !== undefined && meta.kind !== "spell" ? <span className="hv-chip" data-kind="might">Might {meta.might}</span> : null}
+            {might !== undefined && meta.kind !== "spell" ? <span className="hv-chip" data-kind="might">Might {might}</span> : null}
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-[0.24em]" data-hover-preview-hotkeys="true">
@@ -84,7 +88,7 @@ export function KeywordRulesPanel({ card, locale = "en", className, style }: Key
           className="mb-0 mt-[0.5em] whitespace-pre-line text-[1em] leading-[1.5] text-[var(--rb-text,#ece6da)]"
           style={{ fontFamily: "var(--font-ui), system-ui, sans-serif" }}
         >
-          <RulesText text={rules} />
+          <RulesText text={rules.split(/\n?\s*Flavor Text/i)[0]?.replace(/\n{2,}/g, "\n")} />
         </p>
       ) : null}
     </div>
