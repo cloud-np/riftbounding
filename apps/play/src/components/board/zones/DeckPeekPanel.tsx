@@ -45,28 +45,28 @@ export function DeckPeekPanel() {
   return (
     <div
       data-deck-peek="true"
-      className="gb-deck-peek pointer-events-auto fixed bottom-[0.7rem] left-1/2 z-200 flex w-[min(46rem,calc(100vw-1rem))] -translate-x-1/2 flex-col overflow-hidden rounded-[0.4rem] border border-[rgba(201,218,249,0.24)] bg-[rgba(8,16,34,0.98)] text-[#dbe7ff] shadow-[0_18px_40px_rgba(2,6,18,0.64),inset_0_1px_0_rgba(230,239,255,0.06)] backdrop-blur-xl"
+      className="gb-deck-peek pointer-events-auto fixed bottom-[0.7rem] left-1/2 z-200 flex w-[min(46rem,calc(100vw-1rem))] -translate-x-1/2 flex-col overflow-hidden rounded-[0.4rem] border border-[rgba(215,218,225,0.24)] bg-[rgba(15,14,13,0.98)] text-[#e6e7ec] shadow-[0_18px_40px_rgba(7,6,5,0.64),inset_0_1px_0_rgba(239,240,241,0.06)] backdrop-blur-xl"
     >
-      <header className="flex items-center justify-between gap-2 border-b border-[rgba(174,199,227,0.16)] px-[0.6rem] py-[0.42rem]">
+      <header className="flex items-center justify-between gap-2 border-b border-[rgba(192,198,204,0.16)] px-[0.6rem] py-[0.42rem]">
         <div className="flex items-baseline gap-2">
-          <strong className="text-[0.68rem] font-bold uppercase tracking-[0.1em] text-[#edf5ff]">
+          <strong className="text-[0.68rem] font-bold uppercase tracking-[0.1em] text-[#f6f5f5]">
             {t("sim.deckPeek.title") ?? "Deck Peek"}
           </strong>
-          <span className="text-[0.54rem] uppercase tracking-[0.06em] text-[#8ea9c9]">
+          <span className="text-[0.54rem] uppercase tracking-[0.06em] text-[#a1a8af]">
             {zone === "runeDeck" ? t("sim.runeDeck") ?? "Rune Deck" : t("sim.mainDeck") ?? "Main Deck"}
           </span>
         </div>
         <div className="flex items-center gap-[0.24rem]">
           <button
             type="button"
-            className="rounded-[0.2rem] border border-[rgba(125,218,237,0.28)] bg-[rgba(15,34,52,0.76)] px-[0.42rem] py-[0.24rem] text-[0.56rem] font-semibold uppercase tracking-[0.04em] text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.9)]"
+            className="rounded-[0.2rem] border border-[rgba(177,207,210,0.28)] bg-[rgba(29,28,27,0.76)] px-[0.42rem] py-[0.24rem] text-[0.56rem] font-semibold uppercase tracking-[0.04em] text-[#ebf3f1] hover:bg-[rgba(39,38,37,0.9)]"
             onClick={() => send({ type: "peek_deck_top", count: 1, ...(zone === "runeDeck" ? { zone: "runeDeck" as const } : {}) } as GameActionIntent)}
           >
             {t("sim.lookAtOneMore") ?? "Look at 1 More"}
           </button>
           <button
             type="button"
-            className="rounded-[0.2rem] border border-[rgba(125,218,237,0.28)] bg-[rgba(15,34,52,0.76)] px-[0.42rem] py-[0.24rem] text-[0.56rem] font-semibold uppercase tracking-[0.04em] text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.9)]"
+            className="rounded-[0.2rem] border border-[rgba(177,207,210,0.28)] bg-[rgba(29,28,27,0.76)] px-[0.42rem] py-[0.24rem] text-[0.56rem] font-semibold uppercase tracking-[0.04em] text-[#ebf3f1] hover:bg-[rgba(39,38,37,0.9)]"
             onClick={() => send({ type: "set_deck_peek_cards_reveal", cardIds: peek.cardIds, reveal: !peek.cardIds.every((id) => revealed.has(id)), ...(zone === "runeDeck" ? { zone: "runeDeck" as const } : {}) } as GameActionIntent)}
           >
             {t("sim.revealAll") ?? "Reveal All"}
@@ -74,7 +74,7 @@ export function DeckPeekPanel() {
           <button
             type="button"
             aria-label="Close deck peek"
-            className="grid h-[1.7rem] w-[1.7rem] place-items-center rounded-[0.2rem] border border-[rgba(192,209,236,0.2)] text-[#dce8fb] hover:bg-white/10"
+            className="grid h-[1.7rem] w-[1.7rem] place-items-center rounded-[0.2rem] border border-[rgba(206,209,214,0.2)] text-[#e7e8eb] hover:bg-white/10"
             onClick={() => send({ type: "dismiss_deck_peek", ...(zone === "runeDeck" ? { zone: "runeDeck" as const } : {}) } as GameActionIntent)}
           >
             ×
@@ -85,12 +85,12 @@ export function DeckPeekPanel() {
         {cards.map((card) => (
           <article
             key={card.id}
-            className="relative flex w-[5.2rem] shrink-0 flex-col overflow-hidden rounded-[0.26rem] border border-[rgba(165,184,207,0.24)] bg-[rgba(8,18,32,0.66)]"
+            className="relative flex w-[5.2rem] shrink-0 flex-col overflow-hidden rounded-[0.26rem] border border-[rgba(180,183,188,0.24)] bg-[rgba(16,15,14,0.66)]"
           >
-            <div className="relative aspect-[63/88] w-full overflow-hidden bg-[#0a1422]">
+            <div className="relative aspect-[63/88] w-full overflow-hidden bg-[#121110]">
               <SafeImg src={cardImageUrl(card, "thumb")} alt={card.name} loading="lazy" className="h-full w-full object-contain" />
               {revealed.has(card.id) ? (
-                <span className="absolute left-[0.12rem] top-[0.12rem] rounded-[0.12rem] border border-[rgba(125,218,237,0.52)] bg-[rgba(19,62,78,0.92)] px-[0.18rem] py-[0.04rem] text-[0.44rem] font-bold uppercase tracking-[0.05em] text-[#d7f6fb]">
+                <span className="absolute left-[0.12rem] top-[0.12rem] rounded-[0.12rem] border border-[rgba(177,207,210,0.52)] bg-[rgba(48,47,46,0.92)] px-[0.18rem] py-[0.04rem] text-[0.44rem] font-bold uppercase tracking-[0.05em] text-[#ebf3f1]">
                   {t("sim.reveal") ?? "Reveal"}
                 </span>
               ) : null}
@@ -101,7 +101,7 @@ export function DeckPeekPanel() {
             <div className="mt-auto grid grid-cols-2 gap-[0.14rem] p-[0.2rem]">
               <button
                 type="button"
-                className="rounded-[0.16rem] border border-[rgba(125,218,237,0.26)] bg-[rgba(15,34,52,0.78)] px-[0.1rem] py-[0.18rem] text-[0.46rem] font-semibold text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.9)]"
+                className="rounded-[0.16rem] border border-[rgba(177,207,210,0.26)] bg-[rgba(29,28,27,0.78)] px-[0.1rem] py-[0.18rem] text-[0.46rem] font-semibold text-[#ebf3f1] hover:bg-[rgba(39,38,37,0.9)]"
                 onClick={() =>
                   send({
                     type: "set_deck_peek_card_reveal",
@@ -115,7 +115,7 @@ export function DeckPeekPanel() {
               </button>
               <button
                 type="button"
-                className="rounded-[0.16rem] border border-[rgba(201,218,249,0.16)] bg-[rgba(15,28,52,0.74)] px-[0.1rem] py-[0.18rem] text-[0.46rem] font-semibold text-[#dbe7ff] hover:bg-[rgba(21,37,65,0.88)]"
+                className="rounded-[0.16rem] border border-[rgba(215,218,225,0.16)] bg-[rgba(25,24,23,0.74)] px-[0.1rem] py-[0.18rem] text-[0.46rem] font-semibold text-[#e6e7ec] hover:bg-[rgba(32,31,30,0.88)]"
                 onClick={() =>
                   send({ type: "put_deck_peek_card_on_top", cardId: card.id, ...(zone === "runeDeck" ? { zone: "runeDeck" as const } : {}) } as GameActionIntent)
                 }
@@ -124,7 +124,7 @@ export function DeckPeekPanel() {
               </button>
               <button
                 type="button"
-                className="rounded-[0.16rem] border border-[rgba(192,176,244,0.24)] bg-[rgba(35,28,58,0.84)] px-[0.1rem] py-[0.18rem] text-[0.46rem] font-semibold text-[#e4dcff] hover:bg-[rgba(43,34,69,0.9)]"
+                className="rounded-[0.16rem] border border-[rgba(191,182,202,0.24)] bg-[rgba(29,28,27,0.84)] px-[0.1rem] py-[0.18rem] text-[0.46rem] font-semibold text-[#e6e0e8] hover:bg-[rgba(35,34,33,0.9)]"
                 onClick={() =>
                   send({ type: "recycle_deck_peek_card", cardId: card.id, ...(zone === "runeDeck" ? { zone: "runeDeck" as const } : {}) } as GameActionIntent)
                 }
@@ -144,27 +144,27 @@ export function DeckPeekPanel() {
           </article>
         ))}
       </div>
-      <footer className="flex items-center justify-between border-t border-[rgba(174,199,227,0.14)] px-[0.55rem] py-[0.3rem]">
+      <footer className="flex items-center justify-between border-t border-[rgba(192,198,204,0.14)] px-[0.55rem] py-[0.3rem]">
         <div className="flex items-center gap-[0.24rem]">
           {zone === "deck" ? (
             <>
               <button
                 type="button"
-                className="rounded-[0.18rem] border border-[rgba(125,218,237,0.24)] bg-[rgba(15,34,52,0.7)] px-[0.4rem] py-[0.2rem] text-[0.52rem] font-semibold text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.88)]"
+                className="rounded-[0.18rem] border border-[rgba(177,207,210,0.24)] bg-[rgba(29,28,27,0.7)] px-[0.4rem] py-[0.2rem] text-[0.52rem] font-semibold text-[#ebf3f1] hover:bg-[rgba(39,38,37,0.88)]"
                 onClick={() => send({ type: "peek_deck_bottom" } as GameActionIntent)}
               >
                 {t("sim.deckPeek.lookAtBottom") ?? "Look at Bottom"}
               </button>
               <button
                 type="button"
-                className="rounded-[0.18rem] border border-[rgba(125,218,237,0.24)] bg-[rgba(15,34,52,0.7)] px-[0.4rem] py-[0.2rem] text-[0.52rem] font-semibold text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.88)]"
+                className="rounded-[0.18rem] border border-[rgba(177,207,210,0.24)] bg-[rgba(29,28,27,0.7)] px-[0.4rem] py-[0.2rem] text-[0.52rem] font-semibold text-[#ebf3f1] hover:bg-[rgba(39,38,37,0.88)]"
                 onClick={() => send({ type: "shuffle_deck", preserveRecycledBottom: true } as GameActionIntent)}
               >
                 {t("sim.deckPeek.shuffleUnrecycled") ?? "Shuffle Unrecycled"}
               </button>
               <button
                 type="button"
-                className="rounded-[0.18rem] border border-[rgba(201,218,249,0.16)] bg-[rgba(15,28,52,0.72)] px-[0.4rem] py-[0.2rem] text-[0.52rem] font-semibold text-[#dbe7ff] hover:bg-[rgba(21,37,65,0.88)]"
+                className="rounded-[0.18rem] border border-[rgba(215,218,225,0.16)] bg-[rgba(25,24,23,0.72)] px-[0.4rem] py-[0.2rem] text-[0.52rem] font-semibold text-[#e6e7ec] hover:bg-[rgba(32,31,30,0.88)]"
                 onClick={() => send({ type: "shuffle_deck" } as GameActionIntent)}
               >
                 {t("sim.shuffleDeck") ?? "Shuffle Deck"}
@@ -172,7 +172,7 @@ export function DeckPeekPanel() {
             </>
           ) : null}
         </div>
-        <span className="text-[0.5rem] uppercase tracking-[0.06em] text-[#7f96bb]">
+        <span className="text-[0.5rem] uppercase tracking-[0.06em] text-[#91969f]">
           {cards.length} / {zone === "runeDeck" ? board?.runeDeck.length ?? 0 : board?.deck.length ?? 0}
         </span>
       </footer>

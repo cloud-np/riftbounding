@@ -112,7 +112,7 @@ function PileTopCard({
       data-pile-owner={owner}
       data-card-id={card.id}
       data-card-code={card.cardCode}
-      className="relative w-(--card-width) h-(--card-height) overflow-hidden rounded-(--card-radius-main) border border-[rgba(165,184,207,0.3)] bg-[rgba(8,18,32,0.6)] shadow-[0_6px_16px_rgba(3,8,20,0.45)]"
+      className="relative w-(--card-width) h-(--card-height) overflow-hidden rounded-(--card-radius-main) border border-[rgba(180,183,188,0.3)] bg-[rgba(16,15,14,0.6)] shadow-[0_6px_16px_rgba(9,8,7,0.45)]"
       onPointerEnter={(event) => interaction?.showCardPreview(card, event.currentTarget)}
       onPointerLeave={() => interaction?.hideCardPreview()}
     >
@@ -245,7 +245,7 @@ export function PlayerLayer({
         {actualHandRevealed ? (
           <div
             className={
-              "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.3rem)] z-60 inline-flex -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-[0.16rem] border border-[rgba(105,200,230,0.55)] bg-[rgba(9,25,45,0.94)] px-[0.62rem] py-[0.16rem] text-[0.62rem] font-bold uppercase tracking-[0.09em] text-[#bfeaff] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_6px_16px_rgba(2,7,18,0.5)]" +
+              "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.3rem)] z-60 inline-flex -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-[0.16rem] border border-[rgba(159,189,196,0.55)] bg-[rgba(22,21,20,0.94)] px-[0.62rem] py-[0.16rem] text-[0.62rem] font-bold uppercase tracking-[0.09em] text-[#dae6e9] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_6px_16px_rgba(8,7,6,0.5)]" +
               (side === "opponent" ? " rotate-180 origin-center" : "")
             }
           >
@@ -297,8 +297,8 @@ export function PlayerLayer({
                 (opponent ? " rotate-180 origin-center" : "")
               }
             >
-              <strong data-pile-counter="true" className="z-30 pointer-events-none leading-none [font-variant-numeric:tabular-nums] rounded-[0.36rem] border border-[rgba(220,236,255,0.24)] bg-[linear-gradient(180deg,rgba(60,86,120,0.24)_0%,rgba(11,19,33,0.52)_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),inset_0_0_0_1px_rgba(240,247,255,0.05),0_4px_14px_rgba(4,10,21,0.34)] backdrop-blur-md backdrop-saturate-150 text-[#f7fbff] text-[1.38rem] font-black tracking-[-0.03em] px-[0.34rem] py-[0.1rem]">
-                <span className="[text-shadow:0_2px_0_rgba(0,0,0,0.98),0_0_8px_rgba(0,0,0,0.88),0_0_14px_rgba(4,11,28,0.7)]">
+              <strong data-pile-counter="true" className="z-30 pointer-events-none leading-none [font-variant-numeric:tabular-nums] rounded-[0.36rem] border border-[rgba(233,236,238,0.24)] bg-[linear-gradient(180deg,rgba(72,71,70,0.24)_0%,rgba(18,17,16,0.52)_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),inset_0_0_0_1px_rgba(248,247,246,0.05),0_4px_14px_rgba(10,9,8,0.34)] backdrop-blur-md backdrop-saturate-150 text-[#f7fbff] text-[1.38rem] font-black tracking-[-0.03em] px-[0.34rem] py-[0.1rem]">
+                <span className="[text-shadow:0_2px_0_rgba(0,0,0,0.98),0_0_8px_rgba(0,0,0,0.88),0_0_14px_rgba(11,10,9,0.7)]">
                   {board.trash?.length ?? 0}
                 </span>
               </strong>
@@ -337,7 +337,7 @@ export function PlayerLayer({
             data-pile-owner={side}
             data-pile-count={board.banished?.length ?? 0}
             className={
-              "absolute -bottom-[1.28rem] right-0 z-30 inline-flex items-center gap-[0.16rem] rounded-[0.18rem] border border-[rgba(192,176,244,0.3)] bg-[rgba(35,28,58,0.9)] px-[0.3rem] py-[0.1rem] text-[0.5rem] font-bold uppercase tracking-[0.05em] text-[#e4dcff] shadow-[0_4px_10px_rgba(3,8,20,0.4)] hover:bg-[rgba(43,34,69,0.95)]" +
+              "absolute -bottom-[1.28rem] right-0 z-30 inline-flex items-center gap-[0.16rem] rounded-[0.18rem] border border-[rgba(191,182,202,0.3)] bg-[rgba(29,28,27,0.9)] px-[0.3rem] py-[0.1rem] text-[0.5rem] font-bold uppercase tracking-[0.05em] text-[#e6e0e8] shadow-[0_4px_10px_rgba(9,8,7,0.4)] hover:bg-[rgba(35,34,33,0.95)]" +
               (opponent ? " rotate-180 origin-center" : "")
             }
             aria-label={`Banished pile, ${board.banished?.length ?? 0} cards`}
@@ -358,7 +358,7 @@ export function PlayerLayer({
                 data-pile-owner={side}
                 data-card-id={topBanished.id}
                 data-card-code={topBanished.cardCode}
-                className="relative h-[1.35rem] w-[0.97rem] shrink-0 overflow-hidden rounded-[0.08rem] border border-[rgba(192,176,244,0.42)] bg-[rgba(12,10,22,0.72)]"
+                className="relative h-[1.35rem] w-[0.97rem] shrink-0 overflow-hidden rounded-[0.08rem] border border-[rgba(191,182,202,0.42)] bg-[rgba(12,10,22,0.72)]"
                 onPointerEnter={(event) => interaction?.showCardPreview(topBanished, event.currentTarget)}
                 onPointerLeave={() => interaction?.hideCardPreview()}
               >

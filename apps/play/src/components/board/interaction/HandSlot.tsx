@@ -125,7 +125,7 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
   const spreadFor = (index: number): string | undefined => {
     if (hoveredIndex < 0 || index === hoveredIndex) return undefined;
     const distance = Math.abs(index - hoveredIndex);
-    const amount = Math.max(0, 0.46 - 0.14 * (distance - 1)) * fan.cardWidthRem;
+    const amount = Math.max(0, 0.22 - 0.1 * (distance - 1)) * fan.cardWidthRem;
     return `${(index > hoveredIndex ? 1 : -1) * amount}rem`;
   };
 
@@ -178,9 +178,9 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                   ...(hovered
                     ? {
                         zIndex: 90,
-                        ["--fan-hover-raise" as string]: "calc(var(--card-height) * -0.42 - 8px)",
+                        ["--fan-hover-raise" as string]: "calc(var(--card-height) * -0.26 - 4px)",
                         ["--fan-rotate" as string]: "0deg",
-                        ["--hand-scale" as string]: owner === "self" ? 1.35 : 1.12,
+                        ["--hand-scale" as string]: owner === "self" ? 1.2 : 1.08,
                       }
                     : { ["--hand-spread" as string]: spreadFor(slotIndex) }),
                 }}
@@ -226,7 +226,7 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
           })}
           {fan.gapStyle ? (
             <div
-              className="handFanSlot pointer-events-none absolute left-1/2 top-0 flex items-start w-(--card-width) h-(--card-height) origin-[center_bottom] transform-[translate(calc(-50%+var(--fan-offset-x,0rem)),calc(var(--fan-translate-y,0px)+var(--fan-hover-raise,0px)))_rotate(var(--fan-rotate,0deg))] transition-transform duration-220 ease-[cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none"
+              className="handFanSlot pointer-events-none absolute left-1/2 top-0 flex items-start w-(--card-width) h-(--card-height) origin-[center_bottom] transform-[translate(calc(-50%+var(--fan-offset-x,0rem)),calc(var(--fan-translate-y,0px)+var(--fan-hover-raise,0px)))_rotate(var(--fan-rotate,0deg))] transition-transform duration-300 ease-[cubic-bezier(0.22,0.8,0.3,1)] motion-reduce:transition-none"
               style={fan.gapStyle}
               aria-hidden="true"
             >

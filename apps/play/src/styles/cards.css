@@ -693,29 +693,6 @@ img.card-art-crop {
   border: 0.35cqw solid rgba(255, 226, 150, 0.65);
 }
 
-.rtoken-plate {
-  position: absolute;
-  left: 7cqw;
-  right: 7cqw;
-  bottom: 14cqw;
-  height: 10cqw;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(90deg, transparent, rgba(5, 8, 20, 0.84) 16%, rgba(5, 8, 20, 0.84) 84%, transparent);
-}
-
-.rtoken-plate > span {
-  max-width: 100%;
-  padding: 0 2cqw;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font: 800 5.6cqw/1 var(--font-body, system-ui, sans-serif);
-  letter-spacing: 0;
-  color: #fff3d2;
-  text-shadow: 0 0.4cqw 0.8cqw #000;
-}
-
 .rtoken-might {
   position: absolute;
   right: -4cqw;
@@ -767,21 +744,93 @@ img.card-art-crop {
   --badge-ink: #ffdede;
 }
 
+/* Buffed / debuffed trend wins over the damage tint on the number itself. */
+.rtoken-might[data-trend="up"] {
+  --badge-hi: #1f8f5f;
+  --badge-lo: #0a3a29;
+  --badge-ink: #d9ffe9;
+}
+
+.rtoken-might[data-trend="down"] {
+  --badge-hi: #a02a36;
+  --badge-lo: #44101a;
+  --badge-ink: #ffd6d6;
+}
+
+.rtoken-might > span {
+  font-size: 21cqw;
+}
+
+.rtoken-might-chev {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: -4.5cqw;
+  width: 10cqw;
+  height: 7cqw;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0.5cqw 0.8cqw rgba(0, 0, 0, 0.7));
+}
+
+.rtoken-might-chev[data-dir="up"] {
+  background: #5df2a6;
+  clip-path: polygon(50% 0, 100% 100%, 76% 100%, 50% 42%, 24% 100%, 0 100%);
+}
+
+.rtoken-might-chev[data-dir="down"] {
+  top: auto;
+  bottom: -4cqw;
+  background: #ff7b86;
+  clip-path: polygon(0 0, 24% 0, 50% 58%, 76% 0, 100% 0, 50% 100%);
+}
+
+.rtoken[data-damaged] .rtoken-art {
+  filter: saturate(0.8) brightness(0.9);
+}
+
+.rtoken[data-damaged] .rtoken-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 60%, transparent 40%, rgba(180, 20, 34, 0.42) 100%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.rtoken[data-kind="gear"] .rtoken-art {
+  -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 94%);
+  mask-image: linear-gradient(180deg, #000 70%, transparent 94%);
+}
+
 .rtoken-damage {
   position: absolute;
-  right: 1cqw;
-  top: 7cqw;
-  min-width: 21cqw;
-  height: 14cqw;
-  padding: 0 3cqw;
-  display: grid;
-  place-items: center;
-  border-radius: 7cqw;
-  background: linear-gradient(180deg, #d13a48, #7d1522);
-  border: 0.6cqw solid #ffd1d1;
-  font: 900 9.5cqw/1 var(--font-body, system-ui, sans-serif);
+  right: 0;
+  top: 5cqw;
+  min-width: 32cqw;
+  height: 20cqw;
+  padding: 0 3.5cqw 0 2cqw;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1cqw;
+  border-radius: 8cqw;
+  background: linear-gradient(180deg, #e0404f, #7d1522);
+  border: 0.8cqw solid #ffd1d1;
+  box-shadow: 0 0.8cqw 2cqw rgba(0, 0, 0, 0.65), 0 0 4cqw rgba(224, 64, 79, 0.55);
+  font: 900 14.5cqw/1 var(--font-body, system-ui, sans-serif);
   color: #fff;
   text-shadow: 0 0.4cqw 0.8cqw rgba(0, 0, 0, 0.7);
+  z-index: 3;
+}
+
+.rtoken-damage-crack {
+  width: 12cqw;
+  height: 12cqw;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* rune gems ------------------------------------------------------- */
@@ -807,7 +856,7 @@ img.card-art-crop {
     0 0 7cqw var(--glow),
     inset 0 -5cqw 9cqw rgba(0, 0, 0, 0.42),
     inset 0 3cqw 6cqw rgba(255, 255, 255, 0.4);
-  transition: box-shadow 200ms ease;
+  transition: box-shadow 200ms ease, filter 200ms ease, transform 240ms ease;
 }
 
 .rtoken-gem-facets {
@@ -826,22 +875,21 @@ img.card-art-crop {
   filter: drop-shadow(0 0 2cqw var(--glow)) drop-shadow(0 0.6cqw 0.8cqw rgba(0, 0, 0, 0.55));
 }
 
-.rtoken-gem-label {
+.rtoken-gem-art {
   position: absolute;
-  inset: auto 0 0 0;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font: 800 12.5cqw/1.1 var(--font-body, system-ui, sans-serif);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #ffffff;
-  text-shadow: 0 0 1.4cqw #000, 0 0 2.4cqw #000, 0 0.6cqw 1cqw #000;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 42%;
+  transform: scale(1.45);
+  border-radius: 50%;
 }
 
 .rtoken-gem[data-exhausted] .rtoken-gem-body {
-  filter: saturate(0.35) brightness(0.6);
+  filter: saturate(0.3) brightness(0.55);
+  transform: rotate(-35deg) scale(0.92);
   box-shadow: 0 0 0 1.8cqw rgba(160, 160, 170, 0.6), 0 0 0 3.2cqw rgba(0, 0, 0, 0.4);
 }
 
@@ -867,51 +915,53 @@ img.card-art-crop {
     inset 0 3cqw 6cqw rgba(255, 255, 255, 0.45);
 }
 
+/* No outline rings (owner request): selection lifts, targets breathe, unplayable cards dim. */
+.gc-button[data-gc-selected="true"] {
+  transform: translateY(-6%) scale(1.06);
+  z-index: 5;
+}
+
 .gc-button[data-gc-token="true"][data-gc-selected="true"] .rtoken {
-  filter: drop-shadow(0 0 0.06rem #fff) drop-shadow(0 0 0.5rem rgba(120, 200, 255, 0.95));
+  filter: drop-shadow(0 0.7rem 0.7rem rgba(0, 0, 0, 0.72)) brightness(1.08);
 }
 
-.gc-button[data-gc-token="true"][data-gc-targetable="true"] .rtoken {
-  filter: drop-shadow(0 0 0.06rem #ffe9a8) drop-shadow(0 0 0.45rem rgba(255, 207, 90, 0.9));
+.gc-button:not([data-gc-token="true"])[data-gc-selected="true"] {
+  filter: drop-shadow(0 0.8rem 0.8rem rgba(0, 0, 0, 0.6)) brightness(1.06);
 }
 
-.gc-button[data-gc-token="true"][data-strict-playable="true"] .rtoken {
-  filter: drop-shadow(0 0 0.06rem var(--d1l)) drop-shadow(0 0 0.45rem var(--glow));
+.gc-button[data-gc-targetable="true"],
+.gc-button[data-strict-prompt-option="true"],
+.gc-button[data-strict-prompt-hover="true"],
+.gc-button[data-strict-playable="true"] {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-[data-anim="full"] .gc-button[data-gc-token="true"][data-strict-playable="true"] .rtoken-rim,
-[data-anim="full"] .gc-button[data-gc-token="true"][data-gc-targetable="true"] .rtoken-rim {
-  animation: gcPulse 1.1s ease-in-out infinite alternate;
+.gc-button[data-strict-prompt-hover="true"] {
+  filter: brightness(1.18);
 }
 
-/* ------------------------------------------------------------------ rings (full cards) */
-
-.gc-ring {
-  border-radius: calc(var(--card-radius-main, 0.3rem) + 2px);
-  border: 1.5px solid transparent;
-  background: none;
-  animation: none;
+[data-anim="full"] .gc-button[data-gc-targetable="true"],
+[data-anim="full"] .gc-button[data-strict-prompt-option="true"] {
+  animation: gcBreathe 1.3s ease-in-out infinite alternate;
 }
 
-.gc-ring-selected {
-  border-color: #cfe9ff;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4), 0 0 0.9rem rgba(110, 190, 255, 0.9), inset 0 0 0.6rem rgba(110, 190, 255, 0.35);
+.gc-button[data-strict-unplayable="true"] {
+  filter: brightness(0.7) saturate(0.7);
+  transition: filter 200ms ease;
 }
 
-.gc-ring-target {
-  border-color: #ffe29a;
-  box-shadow: 0 0 0.8rem rgba(255, 207, 90, 0.85), inset 0 0 0.5rem rgba(255, 207, 90, 0.25);
+.gc-button[data-strict-unplayable="true"]:hover {
+  filter: brightness(0.9) saturate(0.85);
 }
 
-.gc-ring-playable {
-  border-color: var(--d1l, #9df0b8);
-  box-shadow: 0 0 0.5rem var(--glow, rgba(120, 220, 183, 0.6)), 0 0 1.3rem var(--glow, rgba(120, 220, 183, 0.5));
-  opacity: 0.9;
-}
-
-[data-anim="full"] .gc-ring-playable,
-[data-anim="full"] .gc-ring-target {
-  animation: gcPulse 1.15s ease-in-out infinite alternate;
+@keyframes gcBreathe {
+  from {
+    filter: brightness(0.96);
+  }
+  to {
+    filter: brightness(1.2);
+  }
 }
 
 /* ------------------------------------------------------------------ hand */
@@ -920,13 +970,13 @@ img.card-art-crop {
   transform:
     translate(calc(-50% + var(--fan-offset-x, 0rem) + var(--hand-spread, 0rem)), calc(var(--fan-translate-y, 0px) + var(--fan-hover-raise, 0px)))
     rotate(var(--fan-rotate, 0deg)) scale(var(--hand-scale, 1));
-  transition: transform 340ms cubic-bezier(0.3, 1.35, 0.5, 1);
+  transition: transform 300ms cubic-bezier(0.22, 0.8, 0.3, 1);
   will-change: transform;
 }
 
 .handFanSlot.hand-slot[data-hand-hovered="true"] {
   transition-duration: 300ms;
-  filter: drop-shadow(0 1rem 1rem rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 0.6rem 0.7rem rgba(0, 0, 0, 0.5));
 }
 
 [data-anim="reduced"] .handFanSlot.hand-slot {
@@ -1100,4 +1150,11 @@ img[data-art-state="loading"],
 img[data-img-state="loading"],
 img[data-img-state="failed"] {
   visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gc-button[data-gc-targetable="true"],
+  .gc-button[data-strict-prompt-option="true"] {
+    animation: none !important;
+  }
 }

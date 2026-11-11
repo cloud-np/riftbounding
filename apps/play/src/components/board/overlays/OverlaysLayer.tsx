@@ -16,6 +16,7 @@ import { PresenceEffects } from "./PresenceEffects";
 import { GameOverOverlay } from "./GameOverOverlay";
 import { RewindOverlay } from "./RewindOverlay";
 import { TimeWarpSweep } from "./TimeWarpSweep";
+import { VictoryDefeatOverlay } from "./VictoryDefeatOverlay";
 
 function latestRoll(room: Room) {
   const rolls = room.recentDieRolls ?? (room.lastDieRoll ? [room.lastDieRoll] : []);
@@ -139,6 +140,12 @@ export function OverlaysLayer(props: BoardSlotProps) {
         onReturnToLobby={props.onReturnToLobby}
         onLeaveRoom={props.onLeaveRoom}
         dispatch={dispatch}
+      />
+      <VictoryDefeatOverlay
+        room={state}
+        viewerId={viewerId}
+        bo3={state.matchFormat === "bo3"}
+        onLeave={props.onLeaveRoom ?? props.onReturnToLobby}
       />
       <EmoteFlightLayer room={state} viewerId={viewerId} presence={props.presence} />
       <PresenceEffects viewerId={viewerId} presence={props.presence} />

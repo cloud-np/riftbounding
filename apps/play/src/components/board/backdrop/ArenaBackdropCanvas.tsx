@@ -57,19 +57,19 @@ void main() {
   vec2 q = p * 1.6 + par * 1.5;
   float n1 = fbm(q + vec2(t * 0.020, -t * 0.012));
   float n2 = fbm(q * 1.7 - vec2(t * 0.015, t * 0.010) + n1 * 1.4);
-  vec3 deep = vec3(0.016, 0.040, 0.085);
-  vec3 teal = vec3(0.030, 0.290, 0.350);
-  vec3 indigo = vec3(0.130, 0.150, 0.400);
+  vec3 deep = vec3(0.012, 0.012, 0.014);
+  vec3 teal = vec3(0.050, 0.046, 0.040);
+  vec3 indigo = vec3(0.075, 0.062, 0.045);
   vec3 col = deep;
   col = mix(col, teal, smoothstep(0.32, 0.80, n1) * 0.9);
   col = mix(col, indigo, smoothstep(0.38, 0.85, n2) * 0.8);
-  col += vec3(0.02, 0.07, 0.09) * pow(n2, 3.0);
+  col += vec3(0.05, 0.04, 0.025) * pow(n2, 3.0);
 
   // Rune circles (centre of the table), slow counter-rotation
   vec2 c = p + par * 0.6;
   float d = length(c);
   float ang = atan(c.y, c.x);
-  vec3 gold = vec3(1.0, 0.78, 0.36);
+  vec3 gold = vec3(0.78, 0.67, 0.43);
   float runes = 0.0;
   runes += ring(d, 0.46, 0.0035) * 0.9;
   runes += ring(d, 0.50, 0.0020) * 0.6;
@@ -96,7 +96,7 @@ void main() {
     float dd = length(f - off);
     float tw = 0.5 + 0.5 * sin(t * (0.8 + h * 1.6) + h * 40.0);
     float m = step(0.72, h) * smoothstep(0.075, 0.0, dd) * tw;
-    col += mix(vec3(0.5, 0.9, 1.0), gold, h) * m * 0.55;
+    col += mix(vec3(0.85, 0.80, 0.70), gold, h) * m * 0.4;
   }
 
   gl_FragColor = vec4(col, 1.0);

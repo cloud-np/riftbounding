@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Playmat halves. The default Rift Atlas playmat is a CSS-painted deep-blue
+ * Playmat halves. The default Rift Atlas playmat is a CSS-painted near-black
  * surface (the recon `board.webp` turns out to be a marketing board screenshot,
  * not a texture), so this reproduces the look with layered gradients and a faint
  * topographic/map pattern.
@@ -13,27 +13,27 @@ import { SafeImg } from "../card/SafeImg";
 
 /** Engraved lattice: dark groove + light lip offset by 1px, with rune studs on the crossings. */
 const ENGRAVING =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='104' viewBox='0 0 120 104'%3E%3Cg fill='none'%3E%3Cpath d='M0 52 L60 0 L120 52 L60 104 Z' stroke='%23000' stroke-opacity='.22' stroke-width='1.2'/%3E%3Cpath d='M0 53 L60 1 L120 53 L60 105 Z' stroke='%23a9d4ff' stroke-opacity='.07' stroke-width='1'/%3E%3Cpath d='M30 26 L90 78 M90 26 L30 78' stroke='%23000' stroke-opacity='.10' stroke-width='1'/%3E%3C/g%3E%3Cg fill='%23bfe3ff' fill-opacity='.10'%3E%3Ccircle cx='60' cy='52' r='1.6'/%3E%3Ccircle cx='0' cy='52' r='1.2'/%3E%3Ccircle cx='120' cy='52' r='1.2'/%3E%3C/g%3E%3C/svg%3E\")";
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='104' viewBox='0 0 120 104'%3E%3Cg fill='none'%3E%3Cpath d='M0 52 L60 0 L120 52 L60 104 Z' stroke='%23000' stroke-opacity='.22' stroke-width='1.2'/%3E%3Cpath d='M0 53 L60 1 L120 53 L60 105 Z' stroke='%23c8aa6e' stroke-opacity='.08' stroke-width='1'/%3E%3Cpath d='M30 26 L90 78 M90 26 L30 78' stroke='%23000' stroke-opacity='.10' stroke-width='1'/%3E%3C/g%3E%3Cg fill='%23c8aa6e' fill-opacity='.12'%3E%3Ccircle cx='60' cy='52' r='1.6'/%3E%3Ccircle cx='0' cy='52' r='1.2'/%3E%3Ccircle cx='120' cy='52' r='1.2'/%3E%3C/g%3E%3C/svg%3E\")";
 
 const CONTOURS =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='620' viewBox='0 0 900 620'%3E%3Cg fill='none' stroke='%239cc5ff' stroke-opacity='.05' stroke-width='1.4'%3E%3Cpath d='M-40 120 C 120 86 232 164 366 132 S 636 42 940 108'/%3E%3Cpath d='M-30 210 C 140 170 246 254 392 212 S 660 130 930 196'/%3E%3Cpath d='M-20 316 C 156 276 260 356 410 318 S 680 242 950 300'/%3E%3Cpath d='M-10 430 C 170 392 278 470 428 430 S 700 356 960 414'/%3E%3Cpath d='M-40 548 C 130 512 252 588 396 550 S 674 474 940 536'/%3E%3C/g%3E%3C/svg%3E\")";
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='620' viewBox='0 0 900 620'%3E%3Cg fill='none' stroke='%23c8aa6e' stroke-opacity='.05' stroke-width='1.4'%3E%3Cpath d='M-40 120 C 120 86 232 164 366 132 S 636 42 940 108'/%3E%3Cpath d='M-30 210 C 140 170 246 254 392 212 S 660 130 930 196'/%3E%3Cpath d='M-20 316 C 156 276 260 356 410 318 S 680 242 950 300'/%3E%3Cpath d='M-10 430 C 170 392 278 470 428 430 S 700 356 960 414'/%3E%3Cpath d='M-40 548 C 130 512 252 588 396 550 S 674 474 940 536'/%3E%3C/g%3E%3C/svg%3E\")";
 
-/** Self half: cool lapis felt. Translucent so the arena backdrop breathes through. */
+/** Self half: near-black leather mat with a faint warm-gold engraving. Translucent so the backdrop breathes. */
 const PLAYMAT_BACKGROUND_SELF = [
   ENGRAVING,
   CONTOURS,
-  "radial-gradient(90% 70% at 50% 100%, rgba(66, 140, 230, 0.20), transparent 70%)",
-  "radial-gradient(60% 40% at 18% 90%, rgba(60, 200, 190, 0.08), transparent 70%)",
-  "linear-gradient(0deg, rgba(14, 38, 72, 0.80) 0%, rgba(11, 30, 58, 0.72) 55%, rgba(9, 24, 48, 0.62) 100%)",
+  "radial-gradient(90% 70% at 50% 100%, rgba(120, 140, 160, 0.10), transparent 70%)",
+  "radial-gradient(60% 40% at 18% 90%, rgba(200, 170, 110, 0.04), transparent 70%)",
+  "linear-gradient(0deg, rgba(20, 20, 23, 0.86) 0%, rgba(14, 14, 17, 0.80) 55%, rgba(9, 9, 11, 0.74) 100%)",
 ].join(", ");
 
-/** Opponent half: the same felt shifted warm (ember/crimson) at low intensity. */
+/** Opponent half: the same mat with a faint ember tint at low intensity. */
 const PLAYMAT_BACKGROUND_OPPONENT = [
   ENGRAVING,
   CONTOURS,
-  "radial-gradient(90% 70% at 50% 0%, rgba(214, 92, 96, 0.17), transparent 70%)",
-  "radial-gradient(60% 40% at 82% 10%, rgba(230, 160, 80, 0.07), transparent 70%)",
-  "linear-gradient(180deg, rgba(40, 24, 50, 0.78) 0%, rgba(26, 22, 50, 0.70) 55%, rgba(14, 26, 52, 0.60) 100%)",
+  "radial-gradient(90% 70% at 50% 0%, rgba(160, 90, 90, 0.10), transparent 70%)",
+  "radial-gradient(60% 40% at 82% 10%, rgba(200, 150, 90, 0.04), transparent 70%)",
+  "linear-gradient(180deg, rgba(22, 17, 18, 0.86) 0%, rgba(15, 14, 16, 0.80) 55%, rgba(9, 9, 11, 0.74) 100%)",
 ].join(", ");
 
 function PlaymatHalf({

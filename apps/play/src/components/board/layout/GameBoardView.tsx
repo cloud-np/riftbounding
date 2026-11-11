@@ -97,10 +97,10 @@ export interface GameBoardViewProps {
 }
 
 const ROOT_CLASS_SCORE =
-  "gb-board relative h-full w-full grid grid-cols-[minmax(0,1fr)_var(--chain-lane-width)] [--score-track-lane-clearance:clamp(0.625rem,calc(var(--card-width)*0.12),0.9rem)] [--battlefield-side-gap:max(6.3rem,calc(var(--card-width)*1.64),calc(var(--score-track-rail-width)+var(--track-player-nudge)+var(--track-player-nudge)+var(--score-track-lane-clearance)+var(--score-track-lane-clearance)))] [--board-side-utility-edge-gap:0.5rem] [--board-side-utility-width:min(9.4rem,calc(var(--battlefield-side-gap)-1rem))] [--identity-badge-height:max(4.25rem,calc(var(--track-node-size)*1.18+0.32rem+var(--identity-badge-height-delta)))] [--identity-badge-width:min(10.3rem,calc(var(--battlefield-side-gap)-0.5rem))] [--identity-rail-width:var(--identity-badge-width)] [--track-node-size:clamp(2.7rem,2.55cqw,3.9rem)] [--track-node-winning-size:calc(var(--track-node-size)*1.24)] [--score-track-column-gap:calc(var(--track-node-size)*0.34)] [--score-track-rail-width:calc(var(--track-node-size)*2+var(--score-track-column-gap))] [--score-track-stagger-offset:calc(var(--track-row-size)*0.5)] [--score-track-terminal-offset:calc(var(--track-node-size)*0.5)] [--track-row-size:calc(var(--track-node-size)*1.42)] [--track-edge-inset:calc((var(--battlefield-side-gap)-var(--score-track-rail-width))/2)] [--track-player-bottom:calc(var(--identity-badge-edge-inset)+var(--identity-badge-height)+var(--identity-track-gap))] [--track-opponent-score-top:calc(var(--identity-badge-edge-inset)+var(--identity-badge-height)+var(--identity-track-gap))] [--turn-control-bottom:calc(var(--battlefield-inset)-0.36rem)] gap-0 p-0 rounded-2xl border border-[rgba(134,168,246,0.42)] gb-board-root-bg shadow-[inset_0_-1px_0_rgba(6,12,27,0.4),0_12px_26px_rgba(3,8,20,0.5)] isolate select-none overflow-visible before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:gb-board-root-glow after:content-[''] after:absolute after:inset-[0.34rem] after:rounded-[0.48rem] after:pointer-events-none after:shadow-[inset_0_0_0_9999px_rgba(2,7,5,0.03)] [&_input]:select-text [&_textarea]:select-text [&_select]:select-text";
+  "gb-board relative h-full w-full grid grid-cols-[minmax(0,1fr)_var(--chain-lane-width)] [--score-track-lane-clearance:clamp(0.625rem,calc(var(--card-width)*0.12),0.9rem)] [--battlefield-side-gap:max(6.3rem,calc(var(--card-width)*1.64),calc(var(--score-track-rail-width)+var(--track-player-nudge)+var(--track-player-nudge)+var(--score-track-lane-clearance)+var(--score-track-lane-clearance)))] [--board-side-utility-edge-gap:0.5rem] [--board-side-utility-width:min(9.4rem,calc(var(--battlefield-side-gap)-1rem))] [--identity-badge-height:max(4.25rem,calc(var(--track-node-size)*1.18+0.32rem+var(--identity-badge-height-delta)))] [--identity-badge-width:min(10.3rem,calc(var(--battlefield-side-gap)-0.5rem))] [--identity-rail-width:var(--identity-badge-width)] [--track-node-size:clamp(2.7rem,2.55cqw,3.9rem)] [--track-node-winning-size:calc(var(--track-node-size)*1.24)] [--score-track-column-gap:calc(var(--track-node-size)*0.34)] [--score-track-rail-width:calc(var(--track-node-size)*2+var(--score-track-column-gap))] [--score-track-stagger-offset:calc(var(--track-row-size)*0.5)] [--score-track-terminal-offset:calc(var(--track-node-size)*0.5)] [--track-row-size:calc(var(--track-node-size)*1.42)] [--track-edge-inset:calc((var(--battlefield-side-gap)-var(--score-track-rail-width))/2)] [--track-player-bottom:calc(var(--identity-badge-edge-inset)+var(--identity-badge-height)+var(--identity-track-gap))] [--track-opponent-score-top:calc(var(--identity-badge-edge-inset)+var(--identity-badge-height)+var(--identity-track-gap))] [--turn-control-bottom:calc(var(--battlefield-inset)-0.36rem)] gap-0 p-0 rounded-2xl border border-[rgba(159,168,191,0.42)] gb-board-root-bg shadow-[inset_0_-1px_0_rgba(12,11,10,0.4),0_12px_26px_rgba(9,8,7,0.5)] isolate select-none overflow-visible before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:gb-board-root-glow after:content-[''] after:absolute after:inset-[0.34rem] after:rounded-[0.48rem] after:pointer-events-none after:shadow-[inset_0_0_0_9999px_rgba(2,7,5,0.03)] [&_input]:select-text [&_textarea]:select-text [&_select]:select-text";
 
 const ROOT_CLASS_COMPACT =
-  "gb-board relative h-full w-full grid grid-cols-[minmax(0,1fr)_var(--chain-lane-width)] [--battlefield-side-gap:calc(var(--card-width)*1.22)] gap-0 p-0 rounded-2xl border border-[rgba(134,168,246,0.42)] gb-board-root-bg shadow-[inset_0_-1px_0_rgba(6,12,27,0.4),0_12px_26px_rgba(3,8,20,0.5)] isolate select-none overflow-visible before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:gb-board-root-glow after:content-[''] after:absolute after:inset-[0.34rem] after:rounded-[0.48rem] after:pointer-events-none after:shadow-[inset_0_0_0_9999px_rgba(2,7,5,0.03)] [&_input]:select-text [&_textarea]:select-text [&_select]:select-text";
+  "gb-board relative h-full w-full grid grid-cols-[minmax(0,1fr)_var(--chain-lane-width)] [--battlefield-side-gap:calc(var(--card-width)*1.22)] gap-0 p-0 rounded-2xl border border-[rgba(159,168,191,0.42)] gb-board-root-bg shadow-[inset_0_-1px_0_rgba(12,11,10,0.4),0_12px_26px_rgba(9,8,7,0.5)] isolate select-none overflow-visible before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:gb-board-root-glow after:content-[''] after:absolute after:inset-[0.34rem] after:rounded-[0.48rem] after:pointer-events-none after:shadow-[inset_0_0_0_9999px_rgba(2,7,5,0.03)] [&_input]:select-text [&_textarea]:select-text [&_select]:select-text";
 
 function CompactOpponentRail({
   player,
@@ -120,20 +120,20 @@ function CompactOpponentRail({
       className="hud-glass-panel pointer-events-none absolute left-[calc(var(--battlefield-side-gap)+0.2rem)] right-[calc(var(--battlefield-side-gap)+0.2rem)] top-[calc(0.35rem+var(--compact-opponent-index,0)*4.6rem)] z-11 flex h-[4.1rem] items-center gap-[0.5rem] px-[0.5rem]"
       style={{ ["--compact-opponent-index" as string]: count }}
     >
-      <div className="grid h-[2.1rem] w-[2.1rem] place-items-center rounded-full border border-[rgba(231,185,117,0.6)] bg-[rgba(20,34,56,0.9)] text-[0.9rem] font-black text-[#ffedc9]">
+      <div className="grid h-[2.1rem] w-[2.1rem] place-items-center rounded-full border border-[rgba(231,185,117,0.6)] bg-[rgba(30,29,28,0.9)] text-[0.9rem] font-black text-[#ffedc9]">
         {score}
       </div>
       <div className="min-w-0 flex-1">
-        <div className="truncate text-[0.74rem] font-bold text-[#eaf3ff]">{player.name}</div>
-        <div className="flex gap-[0.5rem] text-[0.56rem] uppercase tracking-[0.06em] text-[#9db5d4]">
+        <div className="truncate text-[0.74rem] font-bold text-[#f3f3f4]">{player.name}</div>
+        <div className="flex gap-[0.5rem] text-[0.56rem] uppercase tracking-[0.06em] text-[#afb4bb]">
           <span>Deck {player.board?.deck.length ?? 0}</span>
           <span>Hand {player.board?.hand.length ?? 0}</span>
           {clock ? <span>{clock}</span> : null}
         </div>
       </div>
       <div className="flex items-end gap-[0.18rem]">
-        <div className="h-[2.2rem] w-[1.6rem] rounded-[0.14rem] border border-[rgba(165,184,207,0.24)] bg-[linear-gradient(145deg,#3a567b,#2a425f)]" />
-        <div className="h-[2.2rem] w-[1.6rem] rounded-[0.14rem] border border-[rgba(165,184,207,0.24)] bg-[linear-gradient(145deg,#3a567b,#2a425f)]" />
+        <div className="h-[2.2rem] w-[1.6rem] rounded-[0.14rem] border border-[rgba(180,183,188,0.24)] bg-[linear-gradient(145deg,#484746,#383736)]" />
+        <div className="h-[2.2rem] w-[1.6rem] rounded-[0.14rem] border border-[rgba(180,183,188,0.24)] bg-[linear-gradient(145deg,#484746,#383736)]" />
       </div>
     </div>
   );
@@ -482,8 +482,8 @@ export function GameBoardView({
 
               {showScoreTrack ? (
                 <>
-                  <IdentityRail side="self" rowCount={scoreTrack.rowCount} />
-                  <IdentityRail side="opponent" rowCount={scoreTrack.rowCount} />
+                  <IdentityRail side="self" rowCount={scoreTrack.nodeCount} />
+                  <IdentityRail side="opponent" rowCount={scoreTrack.nodeCount} />
                   <ScoreTrack
                     side="self"
                     values={scoreTrack.playerValues}
@@ -557,7 +557,7 @@ export function GameBoardView({
                   title="Open sidebar"
                   aria-expanded={false}
                   onClick={sidebarLayout.expand}
-                  className="hud-glass-button inline-flex h-[1.9rem] w-[1.9rem] items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#9cc9ff]"
+                  className="hud-glass-button inline-flex h-[1.9rem] w-[1.9rem] items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#bac6d5]"
                 >
                   <PanelLeftOpenIcon className="h-[0.9rem] w-[0.9rem]" />
                 </button>
@@ -598,6 +598,7 @@ export function GameBoardView({
                     buffArmed={armed.kind === "buff"}
                     duplicateArmed={armed.kind === "duplicate"}
                     labelArmed={armed.kind === "label"}
+                    hideLabel={!!interaction.strictView && !interaction.strictManual}
                     giveControlArmed={armed.kind === "transfer_control"}
                     onArmCounter={(next) =>
                       interaction.setArmedAction(

@@ -1,0 +1,108 @@
+/* rarity.css — epic / legendary card presentation (FX lane). Imported from app/globals.css.
+ *
+ * Hooks set by other lanes: `[data-rarity-tier="epic" | "legendary"]` on hand-card roots, full
+ * card faces, `.rtoken` board tokens and the hover-preview root (see card/rarity.ts).
+ *
+ * Rules: sheens / overlays / aura only (NO coloured outline or ring around the card edge),
+ * pointer-events none, subtle on tiny tokens, richer on hand + preview, static under reduced
+ * motion / "Off". Everything lives on ::before / ::after so it never competes with the card's own
+ * children; the card root only needs to be a positioned box (we set `position: relative` only when
+ * the element has no position of its own via `:where`).
+ */
+:where([data-rarity-tier]) { position: relative; }
+
+/* ---- shared overlay plumbing ---- */
+[data-rarity-tier="epic"]::before,
+[data-rarity-tier="epic"]::after,
+[data-rarity-tier="legendary"]::before,
+[data-rarity-tier="legendary"]::after {
+  content: ""; position: absolute; pointer-events: none; border-radius: inherit;
+}
+
+/* ================================================================= EPIC: violet holo-foil sheen */
+[data-rarity-tier="epic"]::before {
+  inset: 0; z-index: 4; mix-blend-mode: screen; opacity: 0.8;
+  background:
+    linear-gradient(115deg, transparent 30%, rgba(150, 190, 255, 0.0) 36%, rgba(190, 130, 255, 0.42) 44%, rgba(255, 140, 235, 0.36) 50%, rgba(120, 230, 255, 0.34) 56%, rgba(150, 190, 255, 0) 64%, transparent 70%);
+  background-size: 260% 100%; background-repeat: no-repeat; background-position: 130% 0;
+  animation: rb-epic-sheen 3.6s ease-in-out infinite;
+}
+@keyframes rb-epic-sheen {
+  0%, 18% { background-position: 130% 0; }
+  62%, 100% { background-position: -30% 0; }
+}
+/* soft violet bloom rising from the bottom of the art (an inner glow, never an edge line) */
+[data-rarity-tier="epic"]::after {
+  inset: 0; z-index: 4; mix-blend-mode: screen;
+  background: radial-gradient(ellipse 80% 55% at 50% 105%, rgba(160, 100, 255, 0.5), rgba(160, 100, 255, 0) 100%);
+  opacity: 0.55; animation: rb-epic-aura 4.2s ease-in-out infinite;
+}
+@keyframes rb-epic-aura { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.7; } }
+
+/* ================================================================= LEGENDARY: gold foil + embers + aura */
+[data-rarity-tier="legendary"]::before {
+  inset: 0; z-index: 4; mix-blend-mode: screen; opacity: 0.85;
+  background:
+    linear-gradient(112deg, transparent 28%, rgba(255, 215, 120, 0) 36%, rgba(255, 224, 140, 0.5) 46%, rgba(255, 244, 205, 0.55) 50%, rgba(255, 200, 90, 0.42) 55%, rgba(255, 215, 120, 0) 64%, transparent 72%),
+    radial-gradient(circle at 20% 85%, rgba(255, 206, 110, 0.35), transparent 38%);
+  background-size: 260% 100%, 100% 100%; background-repeat: no-repeat; background-position: 130% 0, 0 0;
+  animation: rb-legend-sheen 3.2s ease-in-out infinite;
+}
+@keyframes rb-legend-sheen {
+  0%, 14% { background-position: 130% 0, 0 0; }
+  58%, 100% { background-position: -30% 0, 0 0; }
+}
+/* golden aura behind the card + slow drifting embers / glints (stacked radial dots) */
+[data-rarity-tier="legendary"]::after {
+  inset: -4% -4% -2% -4%; z-index: 5; border-radius: inherit;
+  background:
+    radial-gradient(circle, rgba(255, 232, 160, 0.95) 0 1.4px, transparent 2.4px) 12% 92% / 36% 40% no-repeat,
+    radial-gradient(circle, rgba(255, 206, 110, 0.9) 0 1.2px, transparent 2.2px) 70% 96% / 32% 44% no-repeat,
+    radial-gradient(circle, rgba(255, 244, 205, 0.95) 0 1.6px, transparent 2.6px) 46% 100% / 40% 38% no-repeat,
+    radial-gradient(circle, rgba(255, 190, 80, 0.9) 0 1.1px, transparent 2px) 88% 88% / 28% 36% no-repeat;
+  animation: rb-legend-embers 5.4s linear infinite; opacity: 0.9; mix-blend-mode: screen;
+}
+@keyframes rb-legend-embers {
+  0% { transform: translateY(8%); opacity: 0; }
+  15% { opacity: 0.95; }
+  80% { opacity: 0.7; }
+  100% { transform: translateY(-42%); opacity: 0; }
+}
+
+/* ---- a wrapper that already contains a tiered face/token lets the inner one draw the effect ---- */
+[data-rarity-tier]:has([data-rarity-tier])::before,
+[data-rarity-tier]:has([data-rarity-tier])::after { display: none; }
+
+/* ---- hand cards, full faces, preview: richer ---- */
+.hand-card[data-rarity-tier="legendary"]::before,
+.hand-card[data-rarity-tier="epic"]::before,
+.pcf[data-rarity-tier]::before { opacity: 1; }
+
+/* ---- board tokens: subtle, an occasional glint only ---- */
+.rtoken[data-rarity-tier="epic"]::before,
+.rtoken[data-rarity-tier="legendary"]::before {
+  opacity: 0.6; animation-duration: 6.5s; background-size: 300% 100%;
+}
+.rtoken[data-rarity-tier="epic"]::after { display: none; }
+.rtoken[data-rarity-tier="legendary"]::after { opacity: 0.55; animation-duration: 8s; }
+
+/* ---- reduced motion / animations Off / software rasteriser: static sheen, no drift ---- */
+@media (prefers-reduced-motion: reduce) {
+  [data-rarity-tier]::before, [data-rarity-tier]::after { animation: none !important; }
+  [data-rarity-tier="epic"]::before, [data-rarity-tier="legendary"]::before { background-position: 40% 0, 0 0; opacity: 0.35; }
+  [data-rarity-tier]::after { display: none; }
+}
+html[data-fx-level="reduced"] [data-rarity-tier]::before,
+html[data-fx-level="reduced"] [data-rarity-tier]::after,
+html[data-fx-level="off"] [data-rarity-tier]::before,
+html[data-fx-level="off"] [data-rarity-tier]::after { animation: none !important; }
+html[data-fx-level="reduced"] [data-rarity-tier="epic"]::before,
+html[data-fx-level="reduced"] [data-rarity-tier="legendary"]::before { background-position: 40% 0, 0 0; opacity: 0.35; }
+html[data-fx-level="reduced"] [data-rarity-tier]::after,
+html[data-fx-level="off"] [data-rarity-tier]::before,
+html[data-fx-level="off"] [data-rarity-tier]::after { display: none; }
+html[data-fx-tier="software"] [data-rarity-tier]::before,
+html[data-fx-tier="software"] [data-rarity-tier]::after { animation: none !important; }
+html[data-fx-tier="software"] [data-rarity-tier]::after { display: none; }
+html[data-fx-hidden="true"] [data-rarity-tier]::before,
+html[data-fx-hidden="true"] [data-rarity-tier]::after { animation-play-state: paused !important; }

@@ -112,10 +112,10 @@ export function computePileStack(
 }
 
 const COUNT_CLASS =
-  "z-30 pointer-events-none leading-none [font-variant-numeric:tabular-nums] rounded-[0.36rem] border border-[rgba(220,236,255,0.24)] bg-[linear-gradient(180deg,rgba(60,86,120,0.24)_0%,rgba(11,19,33,0.52)_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),inset_0_0_0_1px_rgba(240,247,255,0.05),0_4px_14px_rgba(4,10,21,0.34)] backdrop-blur-md backdrop-saturate-150 text-[#f7fbff] text-[1.38rem] font-black tracking-[-0.03em] px-[0.34rem] py-[0.1rem]";
+  "z-30 pointer-events-none leading-none [font-variant-numeric:tabular-nums] rounded-[0.36rem] border border-[rgba(233,236,238,0.24)] bg-[linear-gradient(180deg,rgba(72,71,70,0.24)_0%,rgba(18,17,16,0.52)_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),inset_0_0_0_1px_rgba(248,247,246,0.05),0_4px_14px_rgba(10,9,8,0.34)] backdrop-blur-md backdrop-saturate-150 text-[#f7fbff] text-[1.38rem] font-black tracking-[-0.03em] px-[0.34rem] py-[0.1rem]";
 
 const COUNT_TEXT_CLASS =
-  "[text-shadow:0_2px_0_rgba(0,0,0,0.98),0_0_8px_rgba(0,0,0,0.88),0_0_14px_rgba(4,11,28,0.7)]";
+  "[text-shadow:0_2px_0_rgba(0,0,0,0.98),0_0_8px_rgba(0,0,0,0.88),0_0_14px_rgba(11,10,9,0.7)]";
 
 export interface PileProps {
   slot: "mainDeck" | "runeDeck" | "trash" | "banished";

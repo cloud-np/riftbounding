@@ -81,3 +81,79 @@ export function gameOverView(
     terminationReason: room.matchTermination?.reason ?? null,
   };
 }
+
+/* ------------------------------------------------------------------ victory / defeat cinematic */
+
+export interface GameResultView {
+  /** A game result exists (any format) and the viewer sits at the table. */
+  finished: boolean;
+  viewerWon: boolean;
+  winnerId: string | null;
+  /** The player whose Legend is shown defeated (the viewer on a loss, else the first loser). */
+  loserId: string | null;
+  /** Situations that fit, most specific first (see legend-lines.ts). */
+  situations: Array<"conquer" | "hold" | "close" | "blowout" | "concession">;
+  /** Stable per-game key: used to seed the legend line and to remember a dismissal. */
+  gameKey: string;
+  winnerScore: number;
+  loserScore: number;
+}
+
+function scoreOf(room: Room, playerId: string | null): number {
+  return room.players.find((player) => player.id === playerId)?.board?.score ?? 0;
+}
+
+/** Where did the winning points come from, per the last score log entries (best effort). */
+function lastScoreSource(room: Room): "conquer" | "hold" | null {
+  const log = room.log ?? [];
+  for (let index = log.length - 1; index >= Math.max(0, log.length - 12); index -= 1) {
+    const entry = log[index];
+    if (entry?.actionKind !== "score") continue;
+    const text = `${entry.key ?? ""} ${entry.text ?? ""}`.toLowerCase();
+    if (text.includes("conquer")) return "conquer";
+    if (text.includes("hold")) return "hold";
+  }
+  return null;
+}
+
+/**
+ * Pure projection for the full-screen victory / defeat cinematic: who won, whether the viewer won,
+ * and the situation tags (concession, close game, blowout, conquer/hold) used to pick a legend line.
+ * Works for every format (BO1, BO3 games, Practice vs Bot).
+ */
+export function gameResultView(room: Room, viewerId: string): GameResultView {
+  const termination = room.matchTermination;
+  const winnerIds = room.gameOutcome?.winnerPlayerIds?.length
+    ? room.gameOutcome.winnerPlayerIds
+    : (termination?.winnerPlayerIds ?? (termination?.winnerPlayerId ? [termination.winnerPlayerId] : []));
+  const seated = room.players.some((player) => player.id === viewerId);
+  const finished = seated && winnerIds.length > 0;
+  const winnerId = winnerIds[0] ?? null;
+  const viewerWon = winnerIds.includes(viewerId);
+  const loserId =
+    (viewerWon
+      ? room.players.find((player) => !winnerIds.includes(player.id))?.id
+      : viewerId) ?? null;
+  const winnerScore = scoreOf(room, viewerWon ? viewerId : winnerId);
+  const loserScore = scoreOf(room, loserId);
+  const situations: GameResultView["situations"] = [];
+  const conceded = room.gameOutcome?.reason === "concession" || termination?.reason === "concession";
+  const disconnected = termination?.reason === "disconnect";
+  if (conceded || disconnected) situations.push("concession");
+  else {
+    const source = lastScoreSource(room);
+    if (winnerScore - loserScore <= 2) situations.push("close");
+    if (viewerWon && winnerScore - loserScore >= 5) situations.push("blowout");
+    if (viewerWon && source) situations.push(source);
+  }
+  return {
+    finished,
+    viewerWon,
+    winnerId,
+    loserId,
+    situations,
+    gameKey: `${room.roomCode}#${room.gameNumber ?? 1}#${room.gameOutcome?.decidedAtTurnNumber ?? termination?.endedAt ?? 0}`,
+    winnerScore,
+    loserScore,
+  };
+}

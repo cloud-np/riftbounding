@@ -12,7 +12,7 @@ const ZONE_SECTION_CLASS =
   "relative min-h-0 h-full rounded-[0.08rem] border-none bg-transparent py-[0.2rem] px-[0.22rem] flex flex-col gap-[0.14rem] shadow-none after:content-[''] after:absolute after:inset-[0.08rem] after:pointer-events-none after:opacity-[0.6] after:gb-ornament-zone";
 
 const HEADER_CLASS =
-  "flex justify-between items-baseline gap-[0.34rem] [&_h4]:text-[#d5e3ff] [&_h4]:text-(length:--zone-label-size) [&_h4]:leading-[1.2] [&_h4]:tracking-[0.03em] [&_h4]:uppercase [&_h4]:text-shadow-none";
+  "flex justify-between items-baseline gap-[0.34rem] [&_h4]:text-[#e1e3e9] [&_h4]:text-(length:--zone-label-size) [&_h4]:leading-[1.2] [&_h4]:tracking-[0.03em] [&_h4]:uppercase [&_h4]:text-shadow-none";
 
 /**
  * Slot around each rail card. Slots may shrink below the card width (the card itself keeps its
@@ -59,7 +59,7 @@ export function RuneArea({
           role="status"
           data-rune-ready-count={ready}
           data-rune-used-count={total - ready}
-          className="text-[#9fb5e3] ml-auto text-(length:--rune-zone-count-size) font-semibold"
+          className="text-[#b0b5c1] ml-auto text-(length:--rune-zone-count-size) font-semibold"
           aria-label={`${ready} ready runes out of ${total}`}
         >
           {ready}/{total}
@@ -137,7 +137,7 @@ export function BaseZone({
           <TokenPanel zone="base" owner={owner} />
         </div>
         <div className={HEADER_CLASS + (mirrored ? " rotate-180 origin-center" : "")}>
-          <span role="status" className="text-[#9fb5e3] ml-auto text-(length:--zone-count-size)">
+          <span role="status" className="text-[#b0b5c1] ml-auto text-(length:--zone-count-size)">
             {cards.length}
           </span>
         </div>

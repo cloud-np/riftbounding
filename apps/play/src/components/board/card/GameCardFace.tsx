@@ -4,6 +4,7 @@ import type { CardInstance } from "@rift/protocol";
 
 import type { CardImageProfile } from "@/lib/assets";
 
+import { rarityTier } from "./rarity";
 import { CardArt, CardArtFallback } from "./CardArt";
 import { CardBack } from "./CardBack";
 import type { CardBackSlot } from "@/lib/assets";
@@ -65,6 +66,7 @@ export function GameCardFace({
     <div
       className="gcf absolute rounded-[inherit] overflow-hidden pointer-events-none"
       data-exhausted={exhausted || undefined}
+      data-rarity-tier={faceDown ? undefined : (rarityTier(card) ?? undefined)}
       style={{
         inset: `${insetPx}px`,
         ...(faceDown ? undefined : domainStyleVars(cardMeta(card))),

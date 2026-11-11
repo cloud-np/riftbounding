@@ -22,6 +22,8 @@ import {
 } from "./dom";
 import type { FxContext } from "./context";
 import { createBackGhost, createCardGhost, createShowcaseGhost, type CardGhost } from "./ghosts";
+import { rarityHold, rarityPlayImpact, rarityShowcase, rarityTier, rarityRgb } from "./rarity-fx";
+import { playBoardSound } from "../interaction/sfx";
 import type { ClashUnit, FxEvent } from "./types";
 
 type Ev<T extends FxEvent["type"]> = Extract<FxEvent, { type: T }>;
@@ -126,6 +128,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
     await ctx.wait(160);
     impact(ctx, ev.card.might ?? 2, rgb, liveBox, impactX, impactY, 0.7);
     await ctx.wait(210);
+    // (spawned tokens get no rarity treatment: they are not "played" cards)
     release();
     removeGhost();
     return;
@@ -191,6 +194,25 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
   );
   if (!(await ctx.wait(slam * 0.42))) return;
   impact(ctx, ev.card.might ?? 2, rgb, liveBox, impactX, impactY, 1);
+  const tier = rarityTier(ev.card);
+  if (tier) {
+    rarityPlayImpact(ctx, tier, ev.card, liveBox, impactX, impactY);
+    // Slow-mo hold: the landed card breathes in its rarity colour before it hands over to the board.
+    const tint = rarityRgb(tier);
+    ctx.animate(
+      ghost.inner,
+      [
+        { filter: `drop-shadow(0 0 10px rgba(${tint},0.8)) brightness(1.15)`, scale: "1" },
+        { filter: `drop-shadow(0 0 26px rgba(${tint},1)) brightness(1.35)`, scale: "1.07", offset: 0.4 },
+        { filter: "none", scale: "1" },
+      ],
+      { duration: slam * 0.58 + rarityHold(tier), easing: "ease-out", fill: "forwards" },
+    );
+    if (!(await ctx.wait(slam * 0.58 + rarityHold(tier)))) return;
+    release();
+    removeGhost();
+    return;
+  }
   if (!(await ctx.wait(slam * 0.58))) return;
   release();
   removeGhost();
@@ -280,7 +302,8 @@ export async function castSpell(ctx: FxContext, ev: Ev<"spell_cast">, gen: CardG
   const ghost: CardGhost = createShowcaseGhost(ctx.stage, ev.card, own ? "self" : "opponent", at);
   const layer = ghost.fullLayer ?? ghost.inner;
   const removeGhost = ctx.own(ghost.remove);
-  const hold = own ? 280 : 1050;
+  const tier = rarityTier(ev.card);
+  const hold = (own ? 280 : 1050) + rarityHold(tier);
   const fly = 300;
   const sx = origin.x - x;
   const sy = origin.y - y;
@@ -316,6 +339,7 @@ export async function castSpell(ctx: FxContext, ev: Ev<"spell_cast">, gen: CardG
   engine?.emitFlash(x, y, rgb, { radius: height * 0.7, duration: 0.5, alpha: 0.7 });
   if (!(await ctx.wait(fly))) return;
   engine?.emitBurst(x, y, rgb, { count: 24, speed: 360, life: 0.6, gravity: 200 });
+  if (tier) rarityShowcase(ctx, tier, ev.card, x, y, height);
   if (!own) {
     // gentle hover while the player reads the card
     ctx.animate(ghost.inner, 
@@ -777,12 +801,20 @@ export async function unitDied(ctx: FxContext, ev: Ev<"unit_died">, gen: CardGen
 /* ------------------------------------------------------------------ combat clash */
 
 /** Nominal (1x) phase lengths, shared with the director's timeline (see FxDirector.gapAfter). */
-export const CLASH_WINDUP = 200;
-export const CLASH_LUNGE = 130;
+export const CLASH_WINDUP = 340;
+export const CLASH_LUNGE = 190;
 /** Impact lands this long after the clash starts. */
 export const CLASH_IMPACT_AT = CLASH_WINDUP + CLASH_LUNGE;
 /** Following events (conquer) start once the dissolves are ~this far underway. */
-export const CLASH_DISSOLVE_LEAD = 380;
+export const CLASH_DISSOLVE_LEAD = 420;
+/** Longest hit-stop freeze at impact (a might-8+ hit); the director reserves this much. */
+export const CLASH_HITSTOP_MAX = 160;
+
+/** 0 (might <= 1) .. 1 (might >= 8): how heavy a unit's blow feels. Unknown might reads as light-medium. */
+export function clashWeight(might: number | undefined): number {
+  if (!might || might <= 0) return 0.25;
+  return clamp((might - 1) / 7, 0, 1);
+}
 
 interface Actor {
   unit: ClashUnit;
@@ -822,9 +854,10 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
   const dmgNumber = (actor: Actor, order: number) => {
     if (actor.unit.damage <= 0) return;
     const rect = actor.ghost ? actor.ghost.outer.getBoundingClientRect() : actor.entry.rect;
-    ctx.number(rect.left + rect.width / 2, rect.top + rect.height * 0.22, `-${actor.unit.damage}`, "damage", order * 45, {
+    ctx.number(rect.left + rect.width / 2, rect.top + rect.height * 0.22, `-${actor.unit.damage}`, "damage", order * 80, {
       big: true,
       lethal: actor.unit.died,
+      durationMs: 1500,
     });
   };
 
@@ -894,14 +927,16 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
   for (const actor of attackers) {
     const v = lungeOf.get(actor);
     if (!v) continue;
-    const back = { x: -v.ux * 28, y: -v.uy * 28 };
+    const wa = clashWeight(actor.unit.might);
+    const backDist = 28 + wa * 28;
+    const back = { x: -v.ux * backDist, y: -v.uy * backDist };
     actor.lunge = back;
     ctx.animate(actor.ghost!.outer, 
       [{ translate: "0px 0px" }, { translate: `${back.x}px ${back.y}px` }],
       { duration: WINDUP, easing: "cubic-bezier(0.3, 0, 0.3, 1)", fill: "forwards" },
     );
     ctx.animate(actor.ghost!.inner, 
-      [{ scale: "1", filter: "none" }, { scale: "1.08", filter: `brightness(1.25) drop-shadow(0 0 16px rgba(${sideAttack},0.95))` }],
+      [{ scale: "1", filter: "none" }, { scale: `${1.08 + wa * 0.06}`, filter: `brightness(${1.25 + wa * 0.2}) drop-shadow(0 0 ${16 + wa * 14}px rgba(${sideAttack},0.95))` }],
       { duration: WINDUP, easing: "ease-out", fill: "forwards" },
     );
     engine?.emitDust(actor.ghost!.center.x, actor.ghost!.center.y + actor.ghost!.h * 0.4, 4, actor.ghost!.w);
@@ -923,10 +958,12 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
 
   // Lunge: attackers drive ~70% of the way, defenders counter-lunge ~16%.
   pairs.forEach((pair, k) => {
-    const stagger = k * 35;
+    const stagger = k * 60;
     const lunge = k < attackers.length ? lungeOf.get(pair.a) : undefined;
     if (lunge) {
-      const to = { x: lunge.dx * 0.7, y: lunge.dy * 0.7 };
+      const lw = clashWeight(pair.a.unit.might);
+      const reach = 0.64 + lw * 0.14;
+      const to = { x: lunge.dx * reach, y: lunge.dy * reach };
       ctx.animate(pair.a.ghost!.outer, 
         [{ translate: `${pair.a.lunge.x}px ${pair.a.lunge.y}px` }, { translate: `${to.x}px ${to.y}px` }],
         { duration: LUNGE, delay: stagger, easing: "cubic-bezier(0.55, 0, 0.95, 0.35)", fill: "forwards" },
@@ -959,52 +996,92 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
   const after: Array<Promise<unknown>> = [];
   const finished = new Set<Actor>();
   const impactPromises = pairs.map(async (pair, k) => {
-    if (!(await ctx.wait(LUNGE + k * 35))) return;
+    if (!(await ctx.wait(LUNGE + k * 60))) return;
     const a = centreOf(pair.a);
     const d = centreOf(pair.d);
     const v = dirOf(a, d);
     const point = { x: a.x + v.dx * 0.78, y: a.y + v.dy * 0.78 };
     const dmg = pair.d.unit.damage + pair.a.unit.damage;
+    // Weight of this blow: the heavier of the two units, nudged up by damage dealt.
+    const hw = clamp(Math.max(clashWeight(pair.a.unit.might), clashWeight(pair.d.unit.might)) + dmg * 0.01, 0, 1);
+    const heavy = 1 + hw * 0.9;
+    const hitStop = 60 + hw * (CLASH_HITSTOP_MAX - 60);
     if (engine) {
-      engine.emitFlash(point.x, point.y, "255,240,205", { radius: 150 + dmg * 12, duration: 0.3 });
-      engine.emitBurst(point.x, point.y, "255,200,120", { count: 18 + dmg * 4, speed: 560, life: 0.5, gravity: 500 });
-      engine.emitBurst(point.x, point.y, pair.a.rgb, { count: 12, speed: 420, life: 0.45 });
-      engine.emitRing(point.x, point.y, "255,225,170", { radius: 110 + dmg * 9, from: 8, duration: 0.4, width: 7 });
+      engine.emitFlash(point.x, point.y, "255,240,205", { radius: (150 + dmg * 12) * heavy, duration: 0.34 + hw * 0.2 });
+      engine.emitBurst(point.x, point.y, "255,200,120", { count: Math.round((18 + dmg * 4) * (1 + hw * 1.4)), speed: 560 + hw * 220, life: 0.55 + hw * 0.25, gravity: 500 });
+      engine.emitBurst(point.x, point.y, pair.a.rgb, { count: Math.round(12 * (1 + hw)), speed: 420 + hw * 160, life: 0.5 });
+      engine.emitRing(point.x, point.y, "255,225,170", { radius: (110 + dmg * 9) * heavy, from: 8, duration: 0.45 + hw * 0.15, width: 7 + hw * 5 });
+      if (hw > 0.5) {
+        engine.emitRing(point.x, point.y, "255,255,255", { radius: (80 + dmg * 6) * heavy, from: 6, duration: 0.38, width: 4, squash: 0.5 });
+        engine.emitDust(point.x, point.y + 20, Math.round(8 + hw * 12), 120 + hw * 80);
+      }
     }
     if (!shaken) {
       shaken = true;
-      ctx.shake(clamp(3 + ev.totalDamage * 0.7, 3.5, 14), 280);
+      // Heavier hit: stronger, longer and lower-frequency (fewer, bigger keyframes).
+      ctx.shake(clamp(3 + ev.totalDamage * 0.7 + hw * 4, 3.5, 16), 340 + hw * 280, Math.round(10 - hw * 5));
+      ctx.thud(0.004 + hw * 0.012, 420 + hw * 160);
+      if (hw >= 0.4) playBoardSound("card_play");
+    }
+    // Hit-stop: ghosts freeze, tremble and flash white for a beat before anything reacts.
+    for (const actor of [pair.a, pair.d]) {
+      ctx.animate(
+        actor.ghost!.inner,
+        [{ filter: "brightness(2.4) saturate(0.3)" }, { filter: "brightness(1.7) saturate(0.6)" }],
+        { duration: hitStop, easing: "linear", fill: "forwards" },
+      );
+      ctx.animate(
+        actor.ghost!.outer,
+        [
+          { translate: `${actor.lunge.x}px ${actor.lunge.y}px` },
+          { translate: `${actor.lunge.x + 2.5}px ${actor.lunge.y - 1.5}px`, offset: 0.25 },
+          { translate: `${actor.lunge.x - 2.5}px ${actor.lunge.y + 1.5}px`, offset: 0.5 },
+          { translate: `${actor.lunge.x + 1.5}px ${actor.lunge.y}px`, offset: 0.75 },
+          { translate: `${actor.lunge.x}px ${actor.lunge.y}px` },
+        ],
+        { duration: hitStop, easing: "linear", fill: "forwards" },
+      );
     }
     for (const actor of [pair.d, pair.a]) {
       if (actor.unit.damage > 0 && !numbered.has(actor)) {
         numbered.add(actor);
         dmgNumber(actor, numberOrder++);
-        engine?.emitBurst(centreOf(actor).x + actor.lunge.x, centreOf(actor).y + actor.lunge.y, "255,70,60", { count: 10, speed: 360, life: 0.4 });
+        engine?.emitBurst(centreOf(actor).x + actor.lunge.x, centreOf(actor).y + actor.lunge.y, "255,70,60", { count: Math.round(10 * (1 + hw)), speed: 360 + hw * 140, life: 0.45 });
       }
     }
+    if (!(await ctx.wait(hitStop))) return;
     // Recoil.
     for (const actor of [pair.a, pair.d]) {
       const isA = actor === pair.a;
       const push = isA ? -1 : 1;
-      const rest = isA ? { x: v.dx * 0.1, y: v.dy * 0.1 } : { x: v.ux * 12 + actor.lunge.x * 0.4, y: v.uy * 12 + actor.lunge.y * 0.4 };
+      // Heavier blows shove the defender (and kick the attacker back) further.
+      const rest = isA
+        ? { x: v.dx * 0.1 - v.ux * hw * 10, y: v.dy * 0.1 - v.uy * hw * 10 }
+        : { x: v.ux * (12 + hw * 30) + actor.lunge.x * 0.4, y: v.uy * (12 + hw * 30) + actor.lunge.y * 0.4 };
       if (actor.unit.died) {
         ctx.animate(actor.ghost!.outer, 
           [{ translate: `${actor.lunge.x}px ${actor.lunge.y}px` }, { translate: `${actor.lunge.x + v.ux * 10 * (isA ? -1 : 1)}px ${actor.lunge.y + v.uy * 10 * (isA ? -1 : 1)}px` }],
-          { duration: 120, easing: "ease-out", fill: "forwards" },
+          { duration: 160, easing: "ease-out", fill: "forwards" },
         );
         continue;
       }
       void push;
       ctx.animate(actor.ghost!.outer, 
         [{ translate: `${actor.lunge.x}px ${actor.lunge.y}px` }, { translate: `${rest.x}px ${rest.y}px` }],
-        { duration: 260, easing: EASE.out, fill: "forwards" },
+        { duration: 340 + hw * 120, easing: EASE.out, fill: "forwards" },
       );
       actor.lunge = rest;
       if (actor.unit.damage > 0) {
         ctx.animate(actor.ghost!.inner, 
           [{ filter: "brightness(2.6) saturate(0.4)" }, { filter: "brightness(1.5) saturate(1.6) hue-rotate(-14deg)", offset: 0.4 }, { filter: "none" }],
-          { duration: 360, easing: "ease-out", fill: "forwards" },
+          { duration: 520, easing: "ease-out", fill: "forwards" },
         );
+      } else {
+        ctx.animate(actor.ghost!.inner, [{ filter: "brightness(1.7) saturate(0.6)" }, { filter: "none" }], {
+          duration: 360,
+          easing: "ease-out",
+          fill: "forwards",
+        });
       }
     }
     // Deaths crack-flash and dissolve right at the impact; survivors recoil, then settle home.
@@ -1024,7 +1101,7 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
       }
       after.push(
         (async () => {
-          if (!(await ctx.wait(330))) return;
+          if (!(await ctx.wait(480))) return;
           const ghost = actor.ghost!;
           const liveBox = actor.live ? boxOf(actor.live) : null;
           const target = liveBox ?? actor.entry.rect;
@@ -1033,10 +1110,10 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
           ctx.animate(
             ghost.outer,
             [{ translate: `${actor.lunge.x}px ${actor.lunge.y}px` }, { translate: `${tx}px ${ty}px` }],
-            { duration: 260, easing: EASE.out, fill: "forwards" },
+            { duration: 360, easing: EASE.out, fill: "forwards" },
           );
-          ctx.animate(ghost.inner, [{ scale: "1.05" }, { scale: "1" }], { duration: 260, easing: EASE.out, fill: "forwards" });
-          if (!(await ctx.wait(270))) return;
+          ctx.animate(ghost.inner, [{ scale: "1.05" }, { scale: "1" }], { duration: 360, easing: EASE.out, fill: "forwards" });
+          if (!(await ctx.wait(370))) return;
           if (actor.live) ctx.show(actor.live);
           ghost.remove();
         })(),

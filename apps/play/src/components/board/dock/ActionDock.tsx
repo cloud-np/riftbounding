@@ -84,6 +84,8 @@ export interface BoardActionDockProps {
   buffArmed?: boolean;
   duplicateArmed?: boolean;
   labelArmed?: boolean;
+  /** Strict (non-manual) play: no manual card labels. */
+  hideLabel?: boolean;
   giveControlArmed?: boolean;
   emoteActive?: boolean;
   diceActive?: boolean;
@@ -109,6 +111,7 @@ export function BoardActionDock({
   buffArmed,
   duplicateArmed,
   labelArmed,
+  hideLabel = false,
   giveControlArmed,
   emoteActive,
   diceActive,
@@ -417,6 +420,7 @@ export function BoardActionDock({
               : (t("sim.duplicateShortcut") ?? "Duplicate (⇧C)")}
           </button>
 
+          {hideLabel ? null : (
           <button
             type="button"
             className={`${ACTION_ROW_CLASS} ${label ? "bg-[rgba(111,86,28,0.86)] text-[#fff4d9]" : ""}`}
@@ -436,6 +440,7 @@ export function BoardActionDock({
               ? (t("sim.cancelLabelShortcut") ?? "Cancel Label (L)")
               : (t("sim.labelCardShortcut") ?? "Label Card (L)")}
           </button>
+          )}
 
           <button
             type="button"

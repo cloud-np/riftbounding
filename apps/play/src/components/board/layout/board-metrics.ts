@@ -257,7 +257,11 @@ function compactNumber(value: number): string {
   return Number(value.toFixed(4)).toString();
 }
 
-/** `272907 w` — score-track sizing/values (0..victory score zig-zag rail). */
+/**
+ * Score-track sizing: each player's track is ONE straight column of `maxValue + 1` nodes
+ * (0 ... victory score). Node size shrinks with the viewport height so the whole column fits
+ * between the board edge and the identity plate (1600x900 and smaller).
+ */
 export function computeScoreTrack(input: {
   maxValue: number;
   baseTrackNodeSize: string;
@@ -271,47 +275,32 @@ export function computeScoreTrack(input: {
   const playerValues = Array.from({ length: maxValue + 1 }, (_, index) => maxValue - index);
   const opponentValues = Array.from({ length: maxValue + 1 }, (_, index) => index);
   const nodeCount = playerValues.length;
-  const rowCount = 1 + Math.ceil(Math.max(0, nodeCount - 1) / 2);
+  const rowCount = nodeCount;
 
-  const scaleForCount = (() => {
-    const over = Math.max(0, Math.trunc(nodeCount) - 9);
-    if (over === 0) return { nodeSizeScale: 1, rowSizeScale: 1 };
-    return {
-      nodeSizeScale: Math.max(0.9, 1 - 0.05 * over),
-      rowSizeScale: Math.max(0.86, 1 - 0.06 * over),
-    };
-  })();
-
-  let fitScale = 1;
-  if (
-    typeof input.baseTrackNodeSizeRem === "number" &&
-    Number.isFinite(input.baseTrackNodeSizeRem) &&
-    input.baseTrackNodeSizeRem > 0 &&
-    typeof input.maxTrackStackBottomRem === "number" &&
-    Number.isFinite(input.maxTrackStackBottomRem) &&
-    typeof input.trackStaticTopOffsetRem === "number" &&
-    Number.isFinite(input.trackStaticTopOffsetRem)
-  ) {
+  // Node fraction of the row pitch; the rest is breathing room between gems.
+  const NODE_TO_ROW = 0.86;
+  // Viewport height reserved for hands, identity plates, headers and margins around the column.
+  const RESERVED_VH_REM = 29.5;
+  let fitRows: string | null = null;
+  if (typeof input.maxTrackStackBottomRem === "number" && typeof input.trackStaticTopOffsetRem === "number") {
     const available = input.maxTrackStackBottomRem - input.trackStaticTopOffsetRem;
-    const needed =
-      input.baseTrackNodeSizeRem *
-      scaleForCount.nodeSizeScale *
-      (1.42 * rowCount * scaleForCount.rowSizeScale + 0.5);
-    if (available > 0 && needed > 0) fitScale = Math.min(1, available / needed);
+    if (Number.isFinite(available) && available > 0) fitRows = `${compactNumber(available / nodeCount)}rem`;
   }
-
-  const nodeScale = scaleForCount.nodeSizeScale * fitScale;
-  const rowScale = 1.42 * nodeScale * scaleForCount.rowSizeScale;
+  const viewportRow = `((100dvh - ${RESERVED_VH_REM}rem) / ${nodeCount})`;
+  const baseRow = `${input.baseTrackNodeSize} * ${compactNumber(1 / NODE_TO_ROW)}`;
+  const rowSize = fitRows
+    ? `min(calc(${baseRow}), calc${viewportRow}, ${fitRows})`
+    : `min(calc(${baseRow}), calc${viewportRow})`;
 
   return {
     playerValues,
     opponentValues,
     nodeCount,
     rowCount,
-    trackNodeSize: `calc(${input.baseTrackNodeSize} * ${compactNumber(nodeScale)})`,
-    trackColumnGap: `calc(${input.baseTrackNodeSize} * ${compactNumber(0.34 * nodeScale)})`,
-    trackRailWidth: "calc(var(--track-node-size) * 2 + var(--score-track-column-gap))",
-    trackRowSize: `calc(${input.baseTrackNodeSize} * ${compactNumber(rowScale)})`,
+    trackNodeSize: `min(${input.baseTrackNodeSize}, calc(var(--track-row-size) * ${NODE_TO_ROW}))`,
+    trackColumnGap: "0px",
+    trackRailWidth: "calc(var(--track-node-size) * 1.2)",
+    trackRowSize: rowSize,
     trackHeight: `calc(var(--track-row-size) * ${rowCount})`,
     trackRailHeight: `calc(var(--track-row-size) * ${rowCount} + var(--identity-rail-vpad) * 2)`,
   };

@@ -7,11 +7,12 @@ import { cardArtUrl } from "@/lib/assets";
 
 import { CardArt } from "../card/CardArt";
 import { cardMeta } from "../card/card-meta";
+import { rarityTier } from "../card/rarity";
 import { ProceduralCardFace, domainStyleVars } from "../card/ProceduralCardFace";
 import type { HoverPreviewState } from "../interaction/types";
 import { useAnimationLevel } from "../theme/motion";
 import { tokenArtForName, useBoardCustomization } from "../layout/customization";
-import { computeHoverPreviewLayout, HOVER_PREVIEW_RULES_GAP_PX } from "./hover-metrics";
+import { computeHoverPreviewLayout, HOVER_PREVIEW_RULES_GAP_PX, HOVER_RULES_BASE_FONT_PX } from "./hover-metrics";
 import { KeywordRulesPanel } from "./KeywordRulesPanel";
 
 export interface HoverCardPreviewLayerProps {
@@ -113,6 +114,7 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
   return createPortal(
     <div
       data-hover-card-preview="true"
+      data-rarity-tier={rarityTier(preview.card) ?? undefined}
       className="pointer-events-none fixed z-2147483647"
       style={{ left: `${layout.x}px`, top: `${layout.y}px`, width: `${layout.outerWidth}px`, ...vars }}
       aria-hidden="true"
@@ -147,7 +149,11 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
         <KeywordRulesPanel
           card={preview.card}
           className="hv-rules"
-          style={{ fontSize: `${11 * (preview.scale ?? 1)}px` }}
+          style={{
+            fontSize: `${HOVER_RULES_BASE_FONT_PX * (preview.scale ?? 1)}px`,
+            background: "linear-gradient(180deg, var(--rb-surface-2, #15171b), var(--rb-surface, #0e0f12) 70%)",
+            borderColor: "var(--rb-border-strong, rgba(200,170,110,0.45))",
+          }}
         />
       </div>
     </div>,

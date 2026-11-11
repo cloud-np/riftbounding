@@ -16,7 +16,9 @@ import { CardBack } from "./CardBack";
 import { CardLabelStack } from "./CardLabelStack";
 import { GameCardFace } from "./GameCardFace";
 import { CardTokenFace } from "./CardTokenFace";
-import { cardMeta, currentMight } from "./card-meta";
+import { cardMeta } from "./card-meta";
+import { unitMightView } from "./might";
+import { rarityTier } from "./rarity";
 import { domainStyleVars } from "./ProceduralCardFace";
 import { useLocalGameSettings } from "../settings/settings-values";
 import { useAnimationLevel } from "../theme/motion";
@@ -96,7 +98,6 @@ export function GameCard({
   const meta = useMemo(() => cardMeta(card), [card]);
   // Battlefield lanes are not inside the rotated player layer: opponent cards already read upright.
   const mirrored = owner === "opponent" && !/^battlefield/.test(zone);
-  const resolvedLabels = labels ?? card.customLabels ?? [];
   const whiteCounter = typeof card.whiteCounter === "number" ? Math.trunc(card.whiteCounter) : 0;
   const redCounter = typeof card.redCounter === "number" ? Math.trunc(card.redCounter) : 0;
   const resolvedMightBuff = mightBuff || Math.max(0, Math.trunc(card.temporaryMightBuff ?? 0));
@@ -107,13 +108,16 @@ export function GameCard({
     !faceDown &&
     isTokenZone(zone) &&
     (meta.kind === "unit" || meta.kind === "gear" || meta.kind === "rune");
-  const rulesObject = interaction?.slotProps?.state?.rules?.objects?.[card.id];
-  const resolvedDamage = damage || Math.max(0, Math.trunc(rulesObject?.damage ?? 0));
-  const resolvedMight = might ?? currentMight(meta.might, card, rulesObject);
+  const mightView = unitMightView(interaction?.slotProps?.state, card);
+  const resolvedDamage = damage || mightView.damage;
+  const resolvedMight = might ?? mightView.current;
   const tokenHeight =
     meta.kind === "rune" ? "calc(var(--card-width) * 0.9)" : "calc(var(--card-width) * 1.14)";
   const tokenWidth = meta.kind === "rune" ? "calc(var(--card-width) * 0.82)" : undefined;
   const strictLocked = !!interaction?.strictView && !interaction?.strictManual;
+  // Manual labels are a sandbox / strict-manual feature: never shown in locked strict play.
+  const resolvedLabels = strictLocked ? [] : (labels ?? card.customLabels ?? []);
+  const tier = rarityTier(card) ?? undefined;
   const resolvedPlayable =
     playable ??
     (!!interaction?.strictView?.playableCardIds.has(card.id) ||
@@ -171,6 +175,7 @@ export function GameCard({
       className={"gc-root relative" + (className ? ` ${className}` : "")}
       data-gc-style={tokenMode ? "token" : "full"}
       data-anim={animationLevel}
+      data-rarity-tier={tier}
       style={{
         width: attachedFanWidth(attached),
         height: tokenMode ? tokenHeight : "var(--card-height)",
@@ -238,6 +243,11 @@ export function GameCard({
               data-gc-selected={selected ? "true" : undefined}
               data-gc-targetable={resolvedTargetable && !selected ? "true" : undefined}
               data-strict-playable={resolvedPlayable ? "true" : undefined}
+              data-strict-unplayable={
+                interaction?.strictView && zone === "hand" && owner === "self" && !faceDown && !resolvedPlayable
+                  ? "true"
+                  : undefined
+              }
               data-strict-prompt-option={promptOption ? "true" : undefined}
               data-strict-prompt-hover={promptHovered ? "true" : undefined}
               data-pose-preview={previewRotationDeg === 45 ? "exhaust" : "none"}
@@ -267,6 +277,7 @@ export function GameCard({
                     profile={profile}
                     exhausted={exhausted}
                     might={resolvedMight}
+                    printedMight={mightView.printed}
                     damage={resolvedDamage}
                     flip={needsUprightFlip(owner, zone)}
                   />
@@ -308,19 +319,6 @@ export function GameCard({
                   <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
                 </svg>
               </span>
-            ) : null}
-
-            {!tokenMode && resolvedPlayable && !selected ? (
-              <div aria-hidden="true" className="gc-ring gc-ring-playable pointer-events-none absolute -inset-[2px] z-4" />
-            ) : null}
-            {!tokenMode && selected ? (
-              <div
-                aria-hidden="true"
-                className="gc-ring gc-ring-selected pointer-events-none absolute -inset-[2px] z-6"
-              />
-            ) : null}
-            {!tokenMode && resolvedTargetable && !selected ? (
-              <div aria-hidden="true" className="gc-ring gc-ring-target pointer-events-none absolute -inset-[2px] z-5" />
             ) : null}
 
             {!tokenMode && resolvedMightBuff > 0 ? (

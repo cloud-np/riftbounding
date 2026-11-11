@@ -15,7 +15,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { createTranslator } from "./translator";
-import { promptReasonText, promptTitle, rulesReasonText } from "./rules-text";
+import { plainRuleDetail, promptReasonText, promptTitle, rulesReasonText, rulesRejectionText } from "./rules-text";
 
 const PACKAGES = path.resolve(__dirname, "../..");
 const PROTOCOL_RULES = path.join(PACKAGES, "protocol/src/rules");
@@ -203,3 +203,22 @@ describe("strict-rules strings (R2-int) [R411.2]", () => {
     }
   });
 });
+
+describe("rulesRejectionText", () => {
+  const en = createTranslator("en");
+  it("[467.2.c] carries the engine detail in plain language with the rule", () => {
+    const names: Record<string, string> = { sand_1: "Sand Soldier" };
+    expect(
+      rulesRejectionText(
+        en,
+        { code: "invalid_choice", rule: "467.2.c.3", detail: "sand_1 must be assigned lethal damage (3) before any excess" },
+        (token) => names[token],
+      ),
+    ).toBe("That choice isn't allowed. Sand Soldier must be assigned lethal damage (3) before any excess. (rule 467.2.c.3)");
+  });
+  it("falls back to the plain reason when there is no detail", () => {
+    expect(rulesRejectionText(en, { code: "not_your_priority", rule: "312" })).toBe("You don't have priority. (rule 312)");
+    expect(plainRuleDetail("  ")).toBe("");
+  });
+});
+

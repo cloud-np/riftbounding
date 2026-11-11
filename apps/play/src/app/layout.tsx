@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Cardo, Cookie, Geist, Geist_Mono, Rajdhani } from "next/font/google";
+import { Bricolage_Grotesque, Cardo, Cinzel, Cookie, Geist, Geist_Mono, Inter, Rajdhani } from "next/font/google";
 import type { ReactNode } from "react";
 
 import "./globals.css";
@@ -31,6 +31,18 @@ const cardo = Cardo({
   variable: "--font-cardo",
 });
 
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+});
+
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-cinzel",
+});
+
 const cookie = Cookie({
   subsets: ["latin"],
   weight: "400",
@@ -44,6 +56,8 @@ const fontVariables = [
   rajdhani.variable,
   cardo.variable,
   cookie.variable,
+  inter.variable,
+  cinzel.variable,
 ].join(" ");
 
 export const metadata: Metadata = {

@@ -17,6 +17,7 @@ import * as fx from "./effects";
 import { useFxEnvironment } from "./environment";
 import { ParticleCanvas } from "./ParticleCanvas";
 import type { ParticleEngine } from "./particles";
+import { rarityGap, rarityTier } from "./rarity-fx";
 import type { FxEvent } from "./types";
 
 const MAX_ACTIVE = 14;
@@ -28,18 +29,18 @@ function gapAfter(event: FxEvent): number {
     case "turn_start":
       return 250;
     case "card_played":
-      return event.fromZone === "none" ? 120 : 520;
+      return event.fromZone === "none" ? 120 : 520 + rarityGap(rarityTier(event.card));
     case "unit_moved":
       return 280;
     case "spell_cast":
-      return event.isViewer ? 450 : 700;
+      return (event.isViewer ? 450 : 700) + rarityGap(rarityTier(event.card));
     case "spell_resolved":
       return 520;
     case "showdown_start":
       return 450;
     case "combat_clash":
       // Conquer / score wait until the dissolves are well underway.
-      return fx.CLASH_IMPACT_AT + fx.CLASH_DISSOLVE_LEAD;
+      return fx.CLASH_IMPACT_AT + fx.CLASH_HITSTOP_MAX + fx.CLASH_DISSOLVE_LEAD;
     case "conquer":
       return 650;
     default:

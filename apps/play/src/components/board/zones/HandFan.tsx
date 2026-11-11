@@ -7,7 +7,7 @@ import { GameCard } from "../card/GameCard";
 import type { CardEventHandler, CardSide } from "../card/types";
 
 export const HAND_FAN_SLOT_CLASS =
-  "group handFanSlot hand-slot pointer-events-auto absolute left-1/2 top-0 z-0 flex items-start w-(--card-width) h-(--card-height) origin-[center_bottom] transform-[translate(calc(-50%+var(--fan-offset-x,0rem)),calc(var(--fan-translate-y,0px)+var(--fan-hover-raise,0px)))_rotate(var(--fan-rotate,0deg))] transition-transform duration-220 ease-[cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none group-hover:z-80 group-focus-within:z-80";
+  "group handFanSlot hand-slot pointer-events-auto absolute left-1/2 top-0 z-0 flex items-start w-(--card-width) h-(--card-height) origin-[center_bottom] transform-[translate(calc(-50%+var(--fan-offset-x,0rem)),calc(var(--fan-translate-y,0px)+var(--fan-hover-raise,0px)))_rotate(var(--fan-rotate,0deg))] transition-transform duration-300 ease-[cubic-bezier(0.22,0.8,0.3,1)] motion-reduce:transition-none group-hover:z-80 group-focus-within:z-80";
 
 export interface HandFanProps {
   cards: CardInstance[];

@@ -187,12 +187,14 @@ export function CardActionButtons({ card, zone, owner, faceDown }: CardActionBut
       ) : null}
       {zone !== "hand" && zone !== "runeArea" && !faceDown ? (
         <>
-          <ActionButton
-            label={t("sim.tablet.labels") ?? "Labels"}
-            onClick={() => interaction.openLabelEditor({ zone, card, owner: "self" })}
-          >
-            <TagIcon />
-          </ActionButton>
+          {!strictLocked ? (
+            <ActionButton
+              label={t("sim.tablet.labels") ?? "Labels"}
+              onClick={() => interaction.openLabelEditor({ zone, card, owner: "self" })}
+            >
+              <TagIcon />
+            </ActionButton>
+          ) : null}
           {!strictLocked ? (
             <ActionButton
               label={t("sim.tablet.counter") ?? "Counters"}

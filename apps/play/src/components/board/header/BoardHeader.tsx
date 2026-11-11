@@ -18,7 +18,7 @@ import {
 } from "./icons";
 
 const TOOL_BUTTON =
-  "group relative inline-flex min-h-6 w-[1.6rem] min-w-[1.6rem] items-center justify-center self-stretch rounded-[0.28rem] border border-[rgba(178,198,229,0.22)] bg-[rgba(17,31,58,0.72)] text-[#cfe0fb] transition-colors hover:border-[rgba(207,222,245,0.36)] hover:bg-[rgba(26,43,72,0.92)] hover:text-[#edf4ff] disabled:cursor-default disabled:opacity-[0.42] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#9cc9ff]";
+  "group relative inline-flex min-h-6 w-[1.6rem] min-w-[1.6rem] items-center justify-center self-stretch rounded-[0.28rem] border border-[rgba(194,198,205,0.22)] bg-[rgba(27,26,25,0.72)] text-[#dde0e5] transition-colors hover:border-[rgba(220,222,226,0.36)] hover:bg-[rgba(37,36,35,0.92)] hover:text-[#f5f5f4] disabled:cursor-default disabled:opacity-[0.42] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#bac6d5]";
 
 export interface BoardHeaderProps {
   state: GameState;
@@ -142,7 +142,7 @@ export function BoardHeader({
     <div className="grid gap-[0.14rem]">
       <div
         data-sidebar-room-header="true"
-        className="grid grid-cols-[0.22rem_minmax(0,1fr)_auto] gap-x-[0.2rem] gap-y-[0.08rem] rounded-[0.18rem] border border-[rgba(155,183,219,0.18)] bg-[linear-gradient(180deg,rgba(20,35,55,0.82),rgba(12,23,40,0.86))] px-[0.2rem] py-[0.1rem] shadow-[inset_0_1px_0_rgba(235,246,255,0.05)]"
+        className="grid grid-cols-[0.22rem_minmax(0,1fr)_auto] gap-x-[0.2rem] gap-y-[0.08rem] rounded-[0.18rem] border border-[rgba(175,182,190,0.18)] bg-[linear-gradient(180deg,rgba(30,29,28,0.82),rgba(21,20,19,0.86))] px-[0.2rem] py-[0.1rem] shadow-[inset_0_1px_0_rgba(245,246,245,0.05)]"
       >
         <span
           role="img"
@@ -156,17 +156,17 @@ export function BoardHeader({
 
         <div className="col-start-2 row-start-1 flex min-w-0 items-center gap-[0.26rem]">
           {turnNumber !== null ? (
-            <p className="m-0 shrink-0 whitespace-nowrap text-[0.92rem] font-semibold leading-none tracking-[0.02em] text-[#edf4ff]">
+            <p className="m-0 shrink-0 whitespace-nowrap text-[0.92rem] font-semibold leading-none tracking-[0.02em] text-[#f5f5f4]">
               {t("sim.turn", { turnNumber }) ?? `Turn ${turnNumber}`}
             </p>
           ) : null}
-          <span className="shrink-0 whitespace-nowrap text-[0.72rem] font-semibold leading-none text-[#a9bbd4]">
+          <span className="shrink-0 whitespace-nowrap text-[0.72rem] font-semibold leading-none text-[#b7bbbf]">
             {t("sim.playerTurn", { playerName: activeName }) ?? `${activeName}'s turn`}
           </span>
           {bo3 ? (
             <span
               data-bo3-timer-game={gameNumber}
-              className="ml-auto shrink-0 whitespace-nowrap text-[0.76rem] font-medium leading-none text-[#a9bbd4]"
+              className="ml-auto shrink-0 whitespace-nowrap text-[0.76rem] font-medium leading-none text-[#b7bbbf]"
             >
               {t("sim.game", { gameNumber }) ?? `Game ${gameNumber}`}
             </span>
@@ -184,7 +184,7 @@ export function BoardHeader({
             <div ref={clockRef} className="relative flex shrink-0 items-center gap-[0.14rem]">
               <span
                 suppressHydrationWarning
-                className="whitespace-nowrap text-[0.64rem] font-semibold tabular-nums text-[#8fa8c8]"
+                className="whitespace-nowrap text-[0.64rem] font-semibold tabular-nums text-[#a1a7ae]"
               >
                 {elapsed}
               </span>
@@ -199,7 +199,7 @@ export function BoardHeader({
                   aria-expanded={clockOpen}
                   title={t("sim.gameTimingBreakdown") ?? "Game timing breakdown"}
                   onClick={() => setClockOpen((current) => !current)}
-                  className="inline-flex h-[0.9rem] w-[0.9rem] items-center justify-center rounded-[0.16rem] text-[#8fa5c5] transition-colors hover:bg-[rgba(148,177,216,0.12)] hover:text-[#edf4ff]"
+                  className="inline-flex h-[0.9rem] w-[0.9rem] items-center justify-center rounded-[0.16rem] text-[#a0a4ac] transition-colors hover:bg-[rgba(169,176,185,0.12)] hover:text-[#f5f5f4]"
                 >
                   <ChevronDownIcon
                     className={`h-[0.68rem] w-[0.68rem] transition-transform duration-150 ${
@@ -212,28 +212,28 @@ export function BoardHeader({
                 <div
                   role="region"
                   aria-label={t("sim.gameTimingBreakdown") ?? "Game timing breakdown"}
-                  className="absolute left-0 top-[calc(100%+0.36rem)] z-140 max-h-[calc(100dvh-4rem)] w-[15.5rem] max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain rounded-[0.34rem] border border-[rgba(162,190,228,0.26)] bg-[linear-gradient(180deg,rgba(16,29,49,0.98),rgba(10,20,36,0.99))] px-[0.48rem] py-[0.42rem] text-left shadow-[0_12px_30px_rgba(2,8,18,0.42)]"
+                  className="absolute left-0 top-[calc(100%+0.36rem)] z-140 max-h-[calc(100dvh-4rem)] w-[15.5rem] max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain rounded-[0.34rem] border border-[rgba(182,189,198,0.26)] bg-[linear-gradient(180deg,rgba(26,25,24,0.98),rgba(18,17,16,0.99))] px-[0.48rem] py-[0.42rem] text-left shadow-[0_12px_30px_rgba(8,7,6,0.42)]"
                 >
-                  <div className="grid grid-cols-[2px_minmax(0,1fr)_2rem_3rem] items-center gap-x-[0.32rem] pb-[0.32rem] text-[0.56rem] font-bold uppercase leading-none tracking-[0.06em] text-[#8298b9]">
+                  <div className="grid grid-cols-[2px_minmax(0,1fr)_2rem_3rem] items-center gap-x-[0.32rem] pb-[0.32rem] text-[0.56rem] font-bold uppercase leading-none tracking-[0.06em] text-[#93989f]">
                     <span aria-hidden="true" className="col-span-2" />
                     <span className="text-center">{t("sim.gameTimingScore") ?? "Score"}</span>
                     <span className="text-right">{t("sim.gameTimingElapsed") ?? "Elapsed"}</span>
                   </div>
-                  <ol className="m-0 list-none p-0 text-[0.68rem] font-semibold leading-none text-[#dce8f8] [font-variant-numeric:tabular-nums]">
+                  <ol className="m-0 list-none p-0 text-[0.68rem] font-semibold leading-none text-[#e7e8ea] [font-variant-numeric:tabular-nums]">
                     {seriesRows.map((game) => (
                       <li
                         key={game.gameNumber}
                         data-bo3-timer-game={game.gameNumber}
-                        className="border-t border-[rgba(162,190,228,0.13)] py-[0.38rem]"
+                        className="border-t border-[rgba(182,189,198,0.13)] py-[0.38rem]"
                       >
                         <div className="grid grid-cols-[2px_minmax(0,1fr)_2rem_3rem] items-center gap-x-[0.32rem]">
-                          <h3 className="col-span-3 m-0 whitespace-nowrap text-[0.68rem] font-semibold text-[#9fb2ce]">
+                          <h3 className="col-span-3 m-0 whitespace-nowrap text-[0.68rem] font-semibold text-[#aeb2b7]">
                             {t("sim.game", { gameNumber: game.gameNumber }) ??
                               `Game ${game.gameNumber}`}
                           </h3>
                           <span
                             data-bo3-timer-elapsed="true"
-                            className="min-w-[3rem] text-right text-[#c9d8ec]"
+                            className="min-w-[3rem] text-right text-[#d6d8db]"
                           >
                             {formatElapsed(game.durationMs)}
                           </span>
@@ -268,7 +268,7 @@ export function BoardHeader({
                                 />
                                 <span
                                   data-bo3-timer-player-name="true"
-                                  className="min-w-0 whitespace-normal break-words leading-[1.12] text-[#b9c9dd]"
+                                  className="min-w-0 whitespace-normal break-words leading-[1.12] text-[#c6c9cc]"
                                 >
                                   {row.player.name}
                                 </span>
@@ -316,25 +316,25 @@ export function BoardHeader({
                 : (t("sim.copyRoomCode") ?? "Copy room code")
             }
             className={`group ml-auto inline-flex shrink-0 items-center gap-[0.18rem] whitespace-nowrap rounded-[0.2rem] text-[0.64rem] leading-none transition-colors ${
-              copied ? "text-[#dff4ff]" : "text-[#95a8c7] hover:text-[#dbe7fb]"
+              copied ? "text-[#eef3f2]" : "text-[#a4a8af] hover:text-[#e6e7ea]"
             }`}
           >
             <span
               data-sidebar-room-label="true"
               style={{ display: "inline" }}
-              className="uppercase tracking-[0.03em] text-[#6f83a3] transition-colors group-hover:text-[#9fb5d6]"
+              className="uppercase tracking-[0.03em] text-[#7f838a] transition-colors group-hover:text-[#b0b5bc]"
             >
               {t("sim.room") ?? "Room:"}
             </span>
-            <span className="max-w-[5.6rem] overflow-hidden text-ellipsis font-mono text-[0.74rem] font-semibold text-[#edf4ff]">
+            <span className="max-w-[5.6rem] overflow-hidden text-ellipsis font-mono text-[0.74rem] font-semibold text-[#f5f5f4]">
               {state.roomCode}
             </span>
             <span
               aria-hidden="true"
               className={`inline-flex h-[0.72rem] w-[0.72rem] items-center justify-center transition-[opacity,transform,color] duration-120 ${
                 copied
-                  ? "translate-y-0 text-[#dff4ff] opacity-100"
-                  : "translate-y-px text-[#8ea4c6] opacity-70 group-hover:translate-y-0 group-hover:text-[#dbe7fb] group-hover:opacity-100"
+                  ? "translate-y-0 text-[#eef3f2] opacity-100"
+                  : "translate-y-px text-[#9fa4ab] opacity-70 group-hover:translate-y-0 group-hover:text-[#e6e7ea] group-hover:opacity-100"
               }`}
             >
               {copied ? (

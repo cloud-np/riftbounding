@@ -81,7 +81,8 @@ export function TokenPanel({ zone, owner = "self", className }: TokenPanelProps)
     };
   }, [open]);
 
-  if (!interaction || owner !== "self") return null;
+  // Quick-add tokens are a manual tool: hidden in strict play (the rules engine creates tokens).
+  if (!interaction || owner !== "self" || (interaction.strictView && !interaction.strictManual)) return null;
 
   const zoneLabel = t(ZONE_LABEL_KEYS[zone] ?? "sim.battlefield") ?? zone;
   const panel = open ? (

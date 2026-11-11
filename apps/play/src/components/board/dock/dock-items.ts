@@ -144,6 +144,8 @@ export interface DeriveDockActionsInput {
   buffArmed: boolean;
   duplicateArmed: boolean;
   labelArmed: boolean;
+  /** Strict (non-manual) play drops the manual label action. */
+  hideLabel?: boolean;
   giveControlArmed: boolean;
   emoteActive: boolean;
   diceActive: boolean;
@@ -151,6 +153,10 @@ export interface DeriveDockActionsInput {
 }
 
 export function deriveDockActions(input: DeriveDockActionsInput): DockActionItem[] {
+  return deriveAllDockActions(input).filter((item) => !(input.hideLabel && item.key === "label"));
+}
+
+function deriveAllDockActions(input: DeriveDockActionsInput): DockActionItem[] {
   const counterName =
     input.counter === "white"
       ? input.labels.counterWhite

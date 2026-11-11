@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 
 import { applyGameAction, buildAutoPayPaymentBatch, strictLegalIntents, strictWhoMayAct } from "@rift/engine";
 import { getCard, getCardByName } from "@rift/cards";
-import { createTranslator, promptTitle, rulesReasonText } from "@rift/i18n";
+import { createTranslator, promptTitle, rulesReasonText, rulesRejectionText } from "@rift/i18n";
 import type { CardInstance, PromptOption, Room, RoomPlayer, Zone } from "@rift/protocol";
 
 import type { CardEvent } from "../card/types";
@@ -82,7 +82,7 @@ import {
   withGestureAbility,
   type StrictBoardView,
 } from "../strict/strict-interaction";
-import { isStrictRoom, promptForClient, promptInstruction, promptSourceAnchor, promptSourceName, strictActorFor } from "../strict/strict-model";
+import { findCard as findStrictCard, isStrictRoom, promptForClient, promptInstruction, promptSourceAnchor, promptSourceName, strictActorFor } from "../strict/strict-model";
 import { autoPassPrefsFor, autoPassSeat, passUntilIntent } from "../strict/strict-auto-pass";
 import {
   cachedStrictDragLegality,
@@ -661,7 +661,7 @@ export function BoardInteractionProvider({
         showStrictNotice(
           code,
           rule,
-          `${rulesReasonText(t, code, rule)}${detail ? ` — ${detail}` : ""}`,
+          rulesRejectionText(t, { code, rule, detail }, (token) => findStrictCard(state, token)?.name),
         );
         return;
       }
@@ -669,6 +669,7 @@ export function BoardInteractionProvider({
     },
     [
       strictView,
+      state,
       opponent,
       dispatchAs,
       strictPrompt,
@@ -2935,10 +2936,14 @@ export function BoardInteractionProvider({
 
   /* ------------------------------------------------------------------ editors */
 
-  const openLabelEditor = useCallback((request: LabelEditorRequest) => {
-    setLabelEditor(request);
-    setMenu(null);
-  }, []);
+  const openLabelEditor = useCallback(
+    (request: LabelEditorRequest) => {
+      if (strictActive) return; // manual labels are not part of strict play
+      setLabelEditor(request);
+      setMenu(null);
+    },
+    [strictActive],
+  );
 
   const openCounterEditor = useCallback((request: CounterEditorRequest) => {
     setCounterEditor(request);
@@ -2954,10 +2959,11 @@ export function BoardInteractionProvider({
 
   const armLabelPreset = useCallback(
     (preset: LabelPreset) => {
+      if (strictActive) return;
       setArmedAction({ kind: "label" });
       setLabelSelection(preset);
     },
-    [setArmedAction],
+    [setArmedAction, strictActive],
   );
 
   useEffect(() => {
@@ -3143,7 +3149,7 @@ export function BoardInteractionProvider({
         heldKeyboardModeRef.current = "buff";
         return;
       }
-      if (lower === "l" && !event.shiftKey) {
+      if (lower === "l" && !event.shiftKey && !strictActive) {
         event.preventDefault();
         setArmedAction(armedAction.kind === "label" ? { kind: "none" } : { kind: "label" });
         heldKeyboardModeRef.current = "label";
@@ -3162,7 +3168,7 @@ export function BoardInteractionProvider({
         return;
       }
       if (lower === "=" || lower === "-" || /^[0-9]$/.test(lower)) {
-        const preset = LABEL_PRESETS.find((candidate) => candidate.hotkey === lower);
+        const preset = strictActive ? undefined : LABEL_PRESETS.find((candidate) => candidate.hotkey === lower);
         if (!preset) return;
         event.preventDefault();
         armLabelPreset(preset);
