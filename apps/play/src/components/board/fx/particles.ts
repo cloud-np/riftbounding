@@ -8,6 +8,7 @@
  */
 
 import { renderTier, type RenderTier } from "./quality";
+import { fxSpeed } from "./speed";
 
 export type Rgb = string; // "255,84,60"
 
@@ -447,7 +448,7 @@ export class ParticleEngine {
     const canvas = this.canvas;
     if (!ctx || !canvas) return;
     // rAF timestamps can precede `performance.now()` taken at kick time: never step backwards.
-    const dt = Math.max(0, Math.min(0.05, (now - this.last) / 1000));
+    const dt = Math.max(0, Math.min(0.05, (now - this.last) / 1000)) * fxSpeed();
     this.last = now;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     ctx.clearRect(0, 0, this.width, this.height);

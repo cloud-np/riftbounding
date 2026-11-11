@@ -3,6 +3,7 @@
  * unmount, ref-counted hiding of real card elements, screen shake and floating numbers.
  */
 import type { ParticleEngine } from "./particles";
+import { fxSpeed, scaled } from "./speed";
 
 export type FxLevel = "full" | "reduced";
 
@@ -26,13 +27,23 @@ export class FxContext {
     private readonly getEngine: () => ParticleEngine | null,
     public level: FxLevel,
     public viewerId: string,
-  ) {}
+  ) {
+    this.applySpeed();
+  }
+
+  /** Publish the slow-motion factor to CSS keyframes (`calc(1250ms * var(--fx-t))`). */
+  applySpeed(): void {
+    const t = (1 / fxSpeed()).toFixed(4);
+    this.stage.style.setProperty("--fx-t", t);
+    this.top.style.setProperty("--fx-t", t);
+  }
 
   engine(): ParticleEngine | null {
     return this.level === "full" ? this.getEngine() : null;
   }
 
-  wait(ms: number): Promise<boolean> {
+  wait(nominalMs: number): Promise<boolean> {
+    const ms = scaled(nominalMs);
     return new Promise((resolve) => {
       if (this.disposed) return resolve(false);
       if (ms <= 0) return resolve(true);
@@ -47,7 +58,8 @@ export class FxContext {
   }
 
   /** rAF loop; `fn(t)` gets 0..1. Resolves false when disposed. */
-  frames(ms: number, fn: (t: number) => void): Promise<boolean> {
+  frames(nominalMs: number, fn: (t: number) => void): Promise<boolean> {
+    const ms = scaled(nominalMs);
     return new Promise((resolve) => {
       if (this.disposed) return resolve(false);
       const start = performance.now();
@@ -77,7 +89,14 @@ export class FxContext {
   }
 
   animate(el: Element, keyframes: Keyframe[], options: KeyframeAnimationOptions): Animation {
-    const animation = el.animate(keyframes, options);
+    const slow = fxSpeed();
+    const opts = slow === 1 ? options : { ...options };
+    if (slow !== 1) {
+      if (typeof opts.duration === "number") opts.duration /= slow;
+      if (opts.delay) opts.delay /= slow;
+      if (opts.endDelay) opts.endDelay /= slow;
+    }
+    const animation = el.animate(keyframes, opts);
     this.animations.add(animation);
     animation.addEventListener("finish", () => this.animations.delete(animation));
     animation.addEventListener("cancel", () => this.animations.delete(animation));
@@ -122,8 +141,8 @@ export class FxContext {
     }
     frames.push({ translate: "0px 0px" });
     this.shakeStrength = strengthPx;
-    this.shakeUntil = now + durationMs;
-    const animation = shell.animate(frames, { duration: durationMs, easing: "linear" });
+    this.shakeUntil = now + scaled(durationMs);
+    const animation = shell.animate(frames, { duration: scaled(durationMs), easing: "linear" });
     this.shakeAnim = animation;
     const done = () => {
       if (this.shakeAnim === animation) this.shakeAnim = null;

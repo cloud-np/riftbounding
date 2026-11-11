@@ -114,7 +114,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
 
   if (ev.fromZone === "none" || !tokenLayer) {
     // Token / spawned unit: pop in with a flare.
-    (tokenLayer ?? ghost.inner).animate(
+    ctx.animate((tokenLayer ?? ghost.inner), 
       [
         { scale: "0.3", opacity: 0 },
         { scale: "1.2", opacity: 1, offset: 0.55 },
@@ -137,7 +137,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
   const arc = 50 + dist * 0.14;
   const flight = 380;
   const lift = 1.12; // brief hover scale of the token before the slam (kept close to its real size)
-  ghost.outer.animate(
+  ctx.animate(ghost.outer, 
     [
       { translate: `${sx}px ${sy}px`, opacity: 0.2, offset: 0, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)" },
       { translate: `${sx * 0.42}px ${sy * 0.42 - arc}px`, opacity: 1, offset: 0.5, easing: "cubic-bezier(0.5, 0, 0.85, 0.45)" },
@@ -145,7 +145,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
     ],
     { duration: flight, fill: "forwards" },
   );
-  ghost.inner.animate(
+  ctx.animate(ghost.inner, 
     [
       { transform: "perspective(900px) rotateX(24deg) rotateZ(-9deg)", offset: 0, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)" },
       { transform: "perspective(900px) rotateX(12deg) rotateZ(-3deg)", offset: 0.5, easing: "ease-in" },
@@ -156,7 +156,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
   // Morph: the full card (hand size) shrinks and dissolves into the token (its exact board size).
   const fullLayer = ghost.fullLayer;
   const startRatio = handW / ghost.w;
-  fullLayer?.animate(
+  if (fullLayer) ctx.animate(fullLayer, 
     [
       { scale: "1", opacity: 1, offset: 0 },
       { scale: "1.04", opacity: 1, offset: 0.4 },
@@ -165,7 +165,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
     ],
     { duration: flight, easing: "ease-in-out", fill: "forwards" },
   );
-  tokenLayer.animate(
+  ctx.animate(tokenLayer, 
     [
       { scale: `${startRatio}`, opacity: 0, rotate: "0deg", offset: 0 },
       { scale: `${startRatio * 1.04}`, opacity: 0, rotate: "0deg", offset: 0.35 },
@@ -177,7 +177,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
   ghost.inner.style.filter = `drop-shadow(0 14px 14px rgba(0,0,0,0.5)) drop-shadow(0 0 14px rgba(${rgb},0.7))`;
   if (!(await ctx.wait(flight))) return;
   const slam = 230;
-  tokenLayer.animate(
+  ctx.animate(tokenLayer, 
     [
       { scale: `${lift}`, offset: 0, easing: "cubic-bezier(0.6, 0, 0.9, 0.5)" },
       { scale: "0.92", offset: 0.42, easing: EASE.out },
@@ -185,7 +185,7 @@ export async function playCard(ctx: FxContext, ev: Ev<"card_played">, gen: CardG
     ],
     { duration: slam, fill: "forwards" },
   );
-  ghost.inner.animate(
+  ctx.animate(ghost.inner, 
     [{ filter: ghost.inner.style.filter }, { filter: "none" }],
     { duration: slam, delay: slam * 0.4, fill: "forwards" },
   );
@@ -228,11 +228,11 @@ export async function moveUnit(ctx: FxContext, ev: Ev<"unit_moved">, gen: CardGe
   const ghost = createGhost(ctx.stage, dest, prev.rect);
   const removeGhost = ctx.own(ghost.remove);
   const duration = clamp(200 + dist * 0.25, 240, 380);
-  ghost.outer.animate(
+  ctx.animate(ghost.outer, 
     [{ translate: "0px 0px" }, { translate: `${dx}px ${dy}px` }],
     { duration, easing: "cubic-bezier(0.3, 0.1, 0.2, 1)", fill: "forwards" },
   );
-  ghost.inner.animate(
+  ctx.animate(ghost.inner, 
     [{ scale: "1" }, { scale: "1.12", offset: 0.4 }, { scale: "1" }],
     { duration, easing: "ease-out", fill: "forwards" },
   );
@@ -284,7 +284,7 @@ export async function castSpell(ctx: FxContext, ev: Ev<"spell_cast">, gen: CardG
   const fly = 300;
   const sx = origin.x - x;
   const sy = origin.y - y;
-  ghost.outer.animate(
+  ctx.animate(ghost.outer, 
     [
       { translate: `${sx}px ${sy}px`, opacity: 0, offset: 0 },
       { opacity: 1, offset: 0.25 },
@@ -295,7 +295,7 @@ export async function castSpell(ctx: FxContext, ev: Ev<"spell_cast">, gen: CardG
   const base = own ? 0.82 : 1;
   const startScale = source ? clamp(source.width / width, 0.25, 0.8) : 0.35;
   ghost.inner.style.filter = `drop-shadow(0 0 22px rgba(${rgb},0.85)) drop-shadow(0 16px 20px rgba(0,0,0,0.5))`;
-  ghost.inner.animate(
+  ctx.animate(ghost.inner, 
     [
       { transform: "perspective(900px) rotateY(70deg)", offset: 0 },
       { transform: "perspective(900px) rotateY(0deg)", offset: 0.6 },
@@ -303,7 +303,7 @@ export async function castSpell(ctx: FxContext, ev: Ev<"spell_cast">, gen: CardG
     ],
     { duration: fly + 80, easing: EASE.slam, fill: "forwards" },
   );
-  layer.animate(
+  ctx.animate(layer, 
     [
       { scale: `${startScale}`, offset: 0 },
       { scale: `${base * 1.1}`, offset: 0.6 },
@@ -318,20 +318,20 @@ export async function castSpell(ctx: FxContext, ev: Ev<"spell_cast">, gen: CardG
   engine?.emitBurst(x, y, rgb, { count: 24, speed: 360, life: 0.6, gravity: 200 });
   if (!own) {
     // gentle hover while the player reads the card
-    ghost.inner.animate(
+    ctx.animate(ghost.inner, 
       [{ translate: "0px 0px" }, { translate: "0px -8px" }, { translate: "0px 0px" }],
       { duration: hold, easing: "ease-in-out" },
     );
   }
   if (!(await ctx.wait(hold))) return;
-  ghost.outer.animate(
+  ctx.animate(ghost.outer, 
     [
       { opacity: 1, translate: "0px 0px" },
       { opacity: 0, translate: "0px -30px" },
     ],
     { duration: 280, easing: "ease-in", fill: "forwards" },
   );
-  layer.animate([{ scale: `${base}` }, { scale: `${base * 0.8}` }], {
+  ctx.animate(layer, [{ scale: `${base}` }, { scale: `${base * 0.8}` }], {
     duration: 280,
     easing: "ease-in",
     fill: "forwards",
@@ -561,7 +561,7 @@ export async function opponentDraw(ctx: FxContext, ev: Ev<"card_drawn">, delay: 
       const remove = ctx.own(ghost.remove);
       const dx = to.x + (i - (count - 1) / 2) * w * 0.5 - from.x;
       const dy = to.y - from.y;
-      ghost.outer.animate(
+      ctx.animate(ghost.outer, 
         [
           { translate: "0px 0px", opacity: 0, offset: 0 },
           { opacity: 1, offset: 0.15 },
@@ -570,7 +570,7 @@ export async function opponentDraw(ctx: FxContext, ev: Ev<"card_drawn">, delay: 
         ],
         { duration: 460, easing: "cubic-bezier(0.3, 0.1, 0.25, 1)", fill: "forwards" },
       );
-      ghost.inner.animate([{ scale: "1" }, { scale: "0.82" }], { duration: 460, easing: "ease-in", fill: "forwards" });
+      ctx.animate(ghost.inner, [{ scale: "1" }, { scale: "0.82" }], { duration: 460, easing: "ease-in", fill: "forwards" });
       if (!(await ctx.wait(480))) return;
       remove();
     }),
@@ -651,7 +651,7 @@ function crackOverlay(ghost: Ghost): HTMLElement {
 /** Crack flash → noise dissolve with embers. Resolves when the ghost is fully gone. */
 export async function dissolveGhost(ctx: FxContext, ghost: Ghost, rgb: string, startDelay = 0): Promise<boolean> {
   if (ctx.level === "reduced") {
-    ghost.outer.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, delay: startDelay, fill: "both" });
+    ctx.animate(ghost.outer, [{ opacity: 1 }, { opacity: 0 }], { duration: 220, delay: startDelay, fill: "both" });
     return ctx.wait(startDelay + 230);
   }
   if (!(await ctx.wait(startDelay))) return false;
@@ -662,7 +662,7 @@ export async function dissolveGhost(ctx: FxContext, ghost: Ghost, rgb: string, s
   engine?.emitFlash(ghost.center.x, ghost.center.y, "255,255,255", { radius: ghost.w * 0.9, duration: 0.22 });
   engine?.emitBurst(ghost.center.x, ghost.center.y, rgb, { count: 22, speed: 420, life: 0.5 });
   ctx.shake(2, 110);
-  ghost.inner.animate(
+  ctx.animate(ghost.inner, 
     [{ scale: "1" }, { scale: "1.07", offset: 0.35 }, { scale: "1.02" }],
     { duration: 140, fill: "forwards", easing: "ease-out" },
   );
@@ -671,7 +671,7 @@ export async function dissolveGhost(ctx: FxContext, ghost: Ghost, rgb: string, s
   filter.setProgress(0);
   ghost.inner.style.filter = `url(#${filter.id})`;
   engine?.emitEmbers(box.left, box.top, box.width, box.height, rgb, 26, 150);
-  ghost.inner.animate(
+  ctx.animate(ghost.inner, 
     [{ translate: "0px 0px" }, { translate: "0px -14px" }],
     { duration: 640, easing: "ease-out", fill: "forwards" },
   );
@@ -814,11 +814,11 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
     if (!v) continue;
     const back = { x: -v.ux * 28, y: -v.uy * 28 };
     actor.lunge = back;
-    actor.ghost!.outer.animate(
+    ctx.animate(actor.ghost!.outer, 
       [{ translate: "0px 0px" }, { translate: `${back.x}px ${back.y}px` }],
       { duration: WINDUP, easing: "cubic-bezier(0.3, 0, 0.3, 1)", fill: "forwards" },
     );
-    actor.ghost!.inner.animate(
+    ctx.animate(actor.ghost!.inner, 
       [{ scale: "1", filter: "none" }, { scale: "1.08", filter: `brightness(1.25) drop-shadow(0 0 16px rgba(${sideAttack},0.95))` }],
       { duration: WINDUP, easing: "ease-out", fill: "forwards" },
     );
@@ -826,12 +826,12 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
   }
   for (const actor of defenders) {
     const v = braceOf.get(actor);
-    actor.ghost!.inner.animate(
+    ctx.animate(actor.ghost!.inner, 
       [{ scale: "1", filter: "none" }, { scale: "0.96", filter: `drop-shadow(0 0 12px rgba(${sideDefend},0.8))` }],
       { duration: WINDUP, easing: "ease-out", fill: "forwards" },
     );
     if (v) {
-      actor.ghost!.outer.animate(
+      ctx.animate(actor.ghost!.outer, 
         [{ translate: "0px 0px" }, { translate: `${-v.ux * 7}px ${-v.uy * 7}px` }],
         { duration: WINDUP, easing: "ease-out", fill: "forwards" },
       );
@@ -845,11 +845,11 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
     const lunge = k < attackers.length ? lungeOf.get(pair.a) : undefined;
     if (lunge) {
       const to = { x: lunge.dx * 0.7, y: lunge.dy * 0.7 };
-      pair.a.ghost!.outer.animate(
+      ctx.animate(pair.a.ghost!.outer, 
         [{ translate: `${pair.a.lunge.x}px ${pair.a.lunge.y}px` }, { translate: `${to.x}px ${to.y}px` }],
         { duration: LUNGE, delay: stagger, easing: "cubic-bezier(0.55, 0, 0.95, 0.35)", fill: "forwards" },
       );
-      pair.a.ghost!.inner.animate(
+      ctx.animate(pair.a.ghost!.inner, 
         [{ scale: "1.08" }, { scale: "1.17" }],
         { duration: LUNGE, delay: stagger, easing: "ease-in", fill: "forwards" },
       );
@@ -858,11 +858,11 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
     const brace = k < defenders.length ? braceOf.get(pair.d) : undefined;
     if (brace) {
       const to = { x: brace.dx * 0.16, y: brace.dy * 0.16 };
-      pair.d.ghost!.outer.animate(
+      ctx.animate(pair.d.ghost!.outer, 
         [{ translate: `${-brace.ux * 7}px ${-brace.uy * 7}px` }, { translate: `${to.x}px ${to.y}px` }],
         { duration: LUNGE, delay: stagger, easing: "cubic-bezier(0.55, 0, 0.95, 0.35)", fill: "forwards" },
       );
-      pair.d.ghost!.inner.animate(
+      ctx.animate(pair.d.ghost!.inner, 
         [{ scale: "0.96" }, { scale: "1.05" }],
         { duration: LUNGE, delay: stagger, easing: "ease-in", fill: "forwards" },
       );
@@ -905,20 +905,20 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
       const push = isA ? -1 : 1;
       const rest = isA ? { x: v.dx * 0.1, y: v.dy * 0.1 } : { x: v.ux * 12 + actor.lunge.x * 0.4, y: v.uy * 12 + actor.lunge.y * 0.4 };
       if (actor.unit.died) {
-        actor.ghost!.outer.animate(
+        ctx.animate(actor.ghost!.outer, 
           [{ translate: `${actor.lunge.x}px ${actor.lunge.y}px` }, { translate: `${actor.lunge.x + v.ux * 10 * (isA ? -1 : 1)}px ${actor.lunge.y + v.uy * 10 * (isA ? -1 : 1)}px` }],
           { duration: 120, easing: "ease-out", fill: "forwards" },
         );
         continue;
       }
       void push;
-      actor.ghost!.outer.animate(
+      ctx.animate(actor.ghost!.outer, 
         [{ translate: `${actor.lunge.x}px ${actor.lunge.y}px` }, { translate: `${rest.x}px ${rest.y}px` }],
         { duration: 260, easing: EASE.out, fill: "forwards" },
       );
       actor.lunge = rest;
       if (actor.unit.damage > 0) {
-        actor.ghost!.inner.animate(
+        ctx.animate(actor.ghost!.inner, 
           [{ filter: "brightness(2.6) saturate(0.4)" }, { filter: "brightness(1.5) saturate(1.6) hue-rotate(-14deg)", offset: 0.4 }, { filter: "none" }],
           { duration: 360, easing: "ease-out", fill: "forwards" },
         );
@@ -950,11 +950,11 @@ export async function combatClash(ctx: FxContext, ev: Ev<"combat_clash">, gen: C
       const target = liveBox ?? actor.entry.rect;
       const tx = cx(target) - ghost.center.x;
       const ty = cy(target) - ghost.center.y;
-      ghost.outer.animate(
+      ctx.animate(ghost.outer, 
         [{ translate: `${actor.lunge.x}px ${actor.lunge.y}px` }, { translate: `${tx}px ${ty}px` }],
         { duration: 300, easing: EASE.out, fill: "forwards" },
       );
-      ghost.inner.animate([{ scale: "1.05" }, { scale: "1" }], { duration: 300, easing: EASE.out, fill: "forwards" });
+      ctx.animate(ghost.inner, [{ scale: "1.05" }, { scale: "1" }], { duration: 300, easing: EASE.out, fill: "forwards" });
       if (!(await ctx.wait(310))) return;
       if (actor.live) ctx.show(actor.live);
       ghost.remove();
