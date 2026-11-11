@@ -72,3 +72,4 @@ export {
 } from "./strict/view";
 export { pickStrictBotAction, createBotPickerRandom } from "./strict/bot";
 export { translateGesture } from "./strict/gestures";
+export { strictEffectiveMight } from "./strict/might";

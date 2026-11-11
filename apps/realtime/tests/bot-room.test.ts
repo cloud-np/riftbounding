@@ -322,7 +322,9 @@ describe("MatchRoomCore practice-vs-bot rooms (R4 bot-room)", () => {
   it("auto-pass: defaults per seat, own preferences only in the human's view, pass-until hands the bot its turn", async () => {
     const { core, transport } = await botRoom();
     await startBotMatch(core);
-    expect(core.room.rules?.autoPass?.alice?.responses).toBe("safe");
+    // Practice vs Bot: the human seat starts in fast mode, the bot seat keeps the safe defaults.
+    expect(core.room.rules?.autoPass?.alice?.responses).toBe("no_response");
+    expect(core.room.rules?.autoPass?.alice?.forcedPrompts).toBe("all");
     expect(core.room.rules?.autoPass?.bot?.responses).toBe("safe");
     const humanView = transport.latest("conn-alice", "authoritative_snapshot")?.snapshot as Room;
     expect(Object.keys(humanView.rules?.autoPass ?? {})).toEqual(["alice"]);

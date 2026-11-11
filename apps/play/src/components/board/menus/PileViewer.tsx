@@ -8,6 +8,7 @@ import type { CardInstance } from "@rift/protocol";
 
 import { cardArtUrl } from "@/lib/assets";
 import { SafeImg } from "../card/SafeImg";
+import { useBoardInteractionOptional } from "../interaction/context";
 
 const t = createTranslator("en");
 
@@ -26,6 +27,13 @@ export interface PileViewerProps {
   onClose: () => void;
 }
 
+/** Strict (non-manual) rooms: pile browsing is read-only, no manual move buttons. */
+export function isPileViewerReadOnly(
+  interaction: { strictView: unknown; strictManual: boolean } | null | undefined,
+): boolean {
+  return !!interaction?.strictView && !interaction?.strictManual;
+}
+
 export function PileViewer({
   open,
   slot,
@@ -40,6 +48,18 @@ export function PileViewer({
   onClose,
 }: PileViewerProps) {
   const ref = useRef<HTMLDivElement | null>(null);
+  const interaction = useBoardInteractionOptional();
+  // Strict play: browsing a pile is read-only (manual moves are only available in strict manual
+  // mode / sandbox rooms). Rules-driven "choose a card from your trash" goes through the strict
+  // prompt, so in strict mode this viewer must never sit on top of that prompt.
+  const strictLocked = isPileViewerReadOnly(interaction);
+  const editable = canModify && !strictLocked;
+  const showPreview = interaction?.showCardPreview;
+  const hidePreview = interaction?.hideCardPreview;
+  useEffect(() => {
+    if (!open) return;
+    return () => hidePreview?.();
+  }, [open, hidePreview]);
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -57,27 +77,37 @@ export function PileViewer({
   const swapLabel = slot === "trash" ? (t("sim.banish") ?? "Banish") : (t("sim.trash") ?? "To trash");
 
   return createPortal(
-    <div className="fixed inset-0 z-[2147483300] flex items-center justify-center bg-[rgba(3,8,18,0.72)] p-3 backdrop-blur-[3px]" onClick={onClose}>
+    <div
+      data-pile-viewer={slot}
+      data-pile-viewer-readonly={strictLocked ? "true" : undefined}
+      className={
+        strictLocked
+          ? // Non-blocking side sheet below the strict prompt layer (z-153): the prompt stays clickable.
+            "pointer-events-none fixed inset-0 z-[150] flex items-center justify-start p-3"
+          : "fixed inset-0 z-[2147483300] flex items-center justify-center bg-[rgba(0,0,0,0.78)] p-3 backdrop-blur-[3px]"
+      }
+      onClick={strictLocked ? undefined : onClose}
+    >
       <div
         ref={ref}
         role="dialog"
         aria-modal="true"
         aria-label={`${title} · ${owner === "self" ? "you" : "opponent"}`}
-        className="flex max-h-[calc(100dvh-1.5rem)] w-[min(56rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-[0.6rem] border border-[rgba(141,176,232,0.26)] bg-[linear-gradient(160deg,#122238,#081321_78%)] text-[#e6f2ff] shadow-[0_28px_70px_rgba(0,0,0,0.66),inset_0_1px_0_rgba(255,255,255,0.08)]"
+        className={"pointer-events-auto flex max-h-[calc(100dvh-1.5rem)] flex-col overflow-hidden rounded-[0.6rem] border border-[color:var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[linear-gradient(160deg,var(--rb-surface-2,#15171b),var(--rb-bg,#060607)_78%)] text-[color:var(--rb-text,#ece6da)] shadow-[0_28px_70px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.06)] " + (strictLocked ? "w-[min(46rem,calc(100vw-1.5rem))]" : "w-[min(78rem,calc(100vw-1.5rem))]")}
         onClick={(event) => event.stopPropagation()}
       >
-        <header className="flex items-center justify-between gap-3 border-b border-[rgba(158,181,214,0.18)] px-3 py-2">
+        <header className="flex items-center justify-between gap-3 border-b border-[color:var(--rb-border,rgba(255,255,255,0.08))] px-3 py-2">
           <div>
-            <h3 className="m-0 text-[0.82rem] font-bold uppercase tracking-[0.1em] text-[#edf5ff]">{title}</h3>
-            <p className="mt-[0.1rem] text-[0.58rem] text-[#9db5d4]">
+            <h3 className="m-0 text-[0.82rem] font-bold uppercase tracking-[0.1em] text-[color:var(--rb-gold-bright,#f0d48a)]">{title}</h3>
+            <p className="mt-[0.1rem] text-[0.58rem] text-[color:var(--rb-text-dim,#a39d92)]">
               {cards.length} {cards.length === 1 ? "card" : "cards"}
             </p>
           </div>
           <div className="flex items-center gap-1.5">
-            {canModify && onRecycleAll && slot === "trash" && owner === "self" ? (
+            {editable && onRecycleAll && slot === "trash" && owner === "self" ? (
               <button
                 type="button"
-                className="rounded-[0.24rem] border border-[rgba(125,218,237,0.3)] bg-[rgba(15,34,52,0.78)] px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.05em] text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.9)]"
+                className="rounded-[0.24rem] border border-[color:var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface-2,#15171b)] px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.05em] text-[color:var(--rb-gold-bright,#f0d48a)] hover:bg-[#1d1f24]"
                 onClick={onRecycleAll}
               >
                 {t("sim.recycleAll") ?? "Recycle All"}
@@ -86,7 +116,7 @@ export function PileViewer({
             <button
               type="button"
               aria-label="Close"
-              className="grid h-8 w-8 place-items-center rounded-[0.24rem] border border-[rgba(192,209,236,0.2)] text-[#dce8fb] hover:bg-white/10"
+              className="grid h-8 w-8 place-items-center rounded-[0.24rem] border border-[color:var(--rb-border,rgba(255,255,255,0.08))] text-[color:var(--rb-text,#ece6da)] hover:bg-white/10"
               onClick={onClose}
             >
               ×
@@ -95,17 +125,25 @@ export function PileViewer({
         </header>
         <div className="min-h-0 flex-1 overflow-y-auto p-3">
           {cards.length === 0 ? (
-            <p className="py-10 text-center text-[0.7rem] text-[#8ea9c9]">No cards.</p>
+            <p className="py-10 text-center text-[0.7rem] text-[color:var(--rb-text-dim,#a39d92)]">No cards.</p>
           ) : (
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(7.4rem,1fr))] gap-[0.55rem]">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(clamp(9.5rem,17vw,13rem),1fr))] gap-[0.8rem]">
               {cards.map((card) => (
                 <article
                   key={card.id}
-                  className="flex min-w-0 flex-col overflow-hidden rounded-[0.34rem] border border-[rgba(165,184,207,0.24)] bg-[rgba(8,18,32,0.66)]"
+                  className="flex min-w-0 flex-col overflow-hidden rounded-[0.34rem] border border-[color:var(--rb-border,rgba(255,255,255,0.08))] bg-[var(--rb-surface,#0e0f12)]"
                 >
-                  <div className="relative aspect-[63/88] w-full overflow-hidden bg-[#0a1422]">
+                  <div
+                    className="relative aspect-[63/88] w-full cursor-zoom-in overflow-hidden bg-[var(--rb-bg,#060607)]"
+                    data-hover-preview-anchor="true"
+                    data-card-id={card.id}
+                    onPointerEnter={(event) => {
+                      if (event.pointerType === "mouse" || !event.pointerType) showPreview?.(card, event.currentTarget);
+                    }}
+                    onPointerLeave={() => hidePreview?.()}
+                  >
                     <SafeImg
-                      src={cardArtUrl(card, "thumb")}
+                      src={cardArtUrl(card, "preview")}
                       alt={card.name}
                       loading="lazy"
                       decoding="async"
@@ -113,20 +151,20 @@ export function PileViewer({
                     />
                   </div>
                   <div className="min-w-0 px-[0.32rem] py-[0.24rem]">
-                    <p className="m-0 truncate text-[0.62rem] font-bold text-[#eaf3ff]" title={card.name}>
+                    <p className="m-0 truncate text-[0.78rem] font-bold text-[color:var(--rb-text,#ece6da)]" title={card.name}>
                       {card.name}
                     </p>
-                    <p className="mt-[0.06rem] text-[0.5rem] uppercase tracking-[0.05em] text-[#93b0ce]">
+                    <p className="mt-[0.06rem] text-[0.6rem] uppercase tracking-[0.05em] text-[color:var(--rb-text-dim,#a39d92)]">
                       {card.type ?? "Card"}
                       {card.energyCost !== undefined ? ` · ${card.energyCost}` : ""}
                     </p>
                   </div>
-                  {canModify ? (
+                  {editable ? (
                     <div className="mt-auto grid grid-cols-2 gap-[0.2rem] p-[0.26rem]">
                       {onPlay ? (
                         <button
                           type="button"
-                          className="rounded-[0.18rem] border border-[rgba(125,218,237,0.28)] bg-[rgba(15,34,52,0.78)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.9)]"
+                          className="rounded-[0.18rem] border border-[color:var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface-2,#15171b)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[color:var(--rb-gold-bright,#f0d48a)] hover:bg-[#1d1f24]"
                           onClick={() => onPlay(card)}
                         >
                           {t("sim.play") ?? "Play"}
@@ -134,21 +172,21 @@ export function PileViewer({
                       ) : null}
                       <button
                         type="button"
-                        className="rounded-[0.18rem] border border-[rgba(201,218,249,0.16)] bg-[rgba(15,28,52,0.74)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#dbe7ff] hover:bg-[rgba(21,37,65,0.88)]"
+                        className="rounded-[0.18rem] border border-[color:var(--rb-border,rgba(255,255,255,0.08))] bg-[var(--rb-surface-2,#15171b)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[color:var(--rb-text,#ece6da)] hover:bg-[#1d1f24]"
                         onClick={() => onToHand(card)}
                       >
                         {t("sim.toHand") ?? "To hand"}
                       </button>
                       <button
                         type="button"
-                        className="rounded-[0.18rem] border border-[rgba(192,176,244,0.24)] bg-[rgba(35,28,58,0.84)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#e4dcff] hover:bg-[rgba(43,34,69,0.9)]"
+                        className="rounded-[0.18rem] border border-[color:var(--rb-border,rgba(255,255,255,0.08))] bg-[var(--rb-surface-2,#15171b)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[color:var(--rb-text,#ece6da)] hover:bg-[#1d1f24]"
                         onClick={() => onRecycle(card)}
                       >
                         {t("sim.recycle") ?? "Recycle"}
                       </button>
                       <button
                         type="button"
-                        className="rounded-[0.18rem] border border-[rgba(224,200,171,0.26)] bg-[rgba(46,34,26,0.84)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[#f3e4d8] hover:bg-[rgba(58,42,31,0.9)]"
+                        className="rounded-[0.18rem] border border-[color:var(--rb-border,rgba(255,255,255,0.08))] bg-[var(--rb-surface-2,#15171b)] px-1 py-[0.24rem] text-[0.52rem] font-semibold text-[color:var(--rb-text,#ece6da)] hover:bg-[#1d1f24]"
                         onClick={() => onSwap(card)}
                       >
                         {swapLabel}

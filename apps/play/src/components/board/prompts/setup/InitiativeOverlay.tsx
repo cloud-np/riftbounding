@@ -13,6 +13,7 @@ import {
   initiativeRolls,
 } from "./setup-state";
 import { relationForPlayer, teamLabelFor } from "../../three/types";
+import { SETUP_PRIMARY_BUTTON_CLASS } from "./SetupChrome";
 
 const t = createTranslator("en");
 
@@ -112,7 +113,7 @@ export function InitiativeOverlay({
       {showRollButton ? (
         <button
           type="button"
-          className="pointer-events-auto absolute bottom-[1.4rem] left-1/2 -translate-x-1/2 rounded-none border border-[rgba(224,194,135,0.84)] bg-[linear-gradient(180deg,rgba(34,79,127,0.98),rgba(10,34,68,0.98))] px-4 py-2 text-[0.72rem] uppercase tracking-[0.09em] text-[#fff0d2] shadow-[0_8px_18px_rgba(3,10,22,0.45)] disabled:opacity-50"
+          className={`pointer-events-auto absolute bottom-[1.4rem] left-1/2 -translate-x-1/2 ${SETUP_PRIMARY_BUTTON_CLASS}`}
           disabled={!pendingControlled}
           onClick={() => dispatch({ type: "roll_initiative" })}
           data-testid="initiative-roll"
@@ -122,7 +123,7 @@ export function InitiativeOverlay({
         </button>
       ) : null}
       {mode !== "multiplayer" && state.phase === "initiative_roll" ? (
-        <p className="pointer-events-none absolute inset-x-0 bottom-[0.6rem] text-center text-[0.58rem] uppercase tracking-[0.12em] text-[#9bb4ce]">
+        <p className="pointer-events-none absolute inset-x-0 bottom-[0.6rem] text-center text-base font-medium text-[var(--rb-text-dim,#a39d92)]">
           {t("sim.setup.initiativeRollingStatus") ?? "rolling"}
         </p>
       ) : null}

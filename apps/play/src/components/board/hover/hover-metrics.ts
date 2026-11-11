@@ -9,6 +9,8 @@
 export const HOVER_PREVIEW_MARGIN_PX = 8;
 export const HOVER_PREVIEW_GAP_PX = 12;
 export const HOVER_PREVIEW_RULES_GAP_PX = 4;
+/** Rules-panel base font (px at preview scale 1); rules text is 1em of this, so >= 14px by default. */
+export const HOVER_RULES_BASE_FONT_PX = 14;
 export const CARD_ASPECT = 1.392857;
 
 export interface PreviewAnchorRect {

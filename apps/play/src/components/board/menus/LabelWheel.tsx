@@ -46,14 +46,14 @@ export function LabelWheel({ open, selected, anchorX, anchorY, onSelect, onCusto
       ref={ref}
       role="dialog"
       aria-label={t("sim.hotkeySelectLabel") ?? "Choose a tag"}
-      className="fixed z-180 w-[18.2rem] overflow-hidden rounded-[0.42rem] border border-[rgba(198,216,244,0.24)] bg-[rgba(10,19,33,0.97)] p-[0.5rem] text-[#e6f2ff] shadow-[0_18px_40px_rgba(2,6,18,0.62),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl"
+      className="fixed z-180 w-[18.2rem] overflow-hidden rounded-[0.42rem] border border-[rgba(236,230,218,0.24)] bg-[rgba(18,16,14,0.97)] p-[0.5rem] text-[#ece6da] shadow-[0_18px_40px_rgba(7,5,3,0.62),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl"
       style={{ left, top }}
     >
       <div className="mb-[0.34rem] flex items-center justify-between">
-        <strong className="text-[0.58rem] font-bold uppercase tracking-[0.1em] text-[#bfe0ff]">
+        <strong className="text-[0.58rem] font-bold uppercase tracking-[0.1em] text-[#ece6da]">
           {t("sim.hotkeySelectLabel") ?? "Choose a tag"}
         </strong>
-        <span className="text-[0.5rem] uppercase tracking-[0.06em] text-[#8ea9c9]">
+        <span className="text-[0.5rem] uppercase tracking-[0.06em] text-[#a39d92]">
           {selected ? selected.label : "—"}
         </span>
       </div>
@@ -67,7 +67,7 @@ export function LabelWheel({ open, selected, anchorX, anchorY, onSelect, onCusto
               onClick={() => onSelect(preset)}
               className={
                 "flex min-h-[2rem] items-center gap-[0.22rem] rounded-[0.24rem] border px-[0.24rem] text-left text-[0.58rem] font-bold uppercase tracking-[0.02em] " +
-                (selected?.id === preset.id ? "ring-1 ring-[rgba(201,226,255,0.7)]" : "")
+                (selected?.id === preset.id ? "ring-1 ring-[rgba(236,230,218,0.7)]" : "")
               }
               style={{ backgroundColor: colors.backgroundColor, borderColor: colors.borderColor, color: colors.textColor }}
             >
@@ -96,12 +96,12 @@ export function LabelWheel({ open, selected, anchorX, anchorY, onSelect, onCusto
           maxLength={24}
           onChange={(event) => setCustom(event.target.value)}
           placeholder={t("sim.tablet.customLabel") ?? "Custom label"}
-          className="min-w-0 flex-1 rounded-[0.2rem] border border-[rgba(144,172,197,0.28)] bg-[rgba(7,16,29,0.8)] px-[0.3rem] py-[0.2rem] text-[0.62rem] text-[#eef6ff] outline-none focus:border-[rgba(190,225,255,0.58)]"
+          className="min-w-0 flex-1 rounded-[0.2rem] border border-[rgba(163,157,146,0.28)] bg-[rgba(16,14,12,0.8)] px-[0.3rem] py-[0.2rem] text-[0.62rem] text-[#ece6da] outline-none focus:border-[rgba(236,230,218,0.58)]"
         />
         <button
           type="submit"
           disabled={!normalizeCardLabel(custom)}
-          className="rounded-[0.2rem] border border-[rgba(125,216,255,0.4)] bg-[rgba(40,91,118,0.66)] px-[0.36rem] py-[0.22rem] text-[0.54rem] font-bold uppercase tracking-[0.04em] text-[#e7fbff] disabled:opacity-40"
+          className="rounded-[0.2rem] border border-[rgba(200,170,110,0.4)] bg-[rgba(76,74,72,0.66)] px-[0.36rem] py-[0.22rem] text-[0.54rem] font-bold uppercase tracking-[0.04em] text-[#ece6da] disabled:opacity-40"
         >
           {t("sim.tablet.addLabel") ?? "Add label"}
         </button>

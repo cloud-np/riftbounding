@@ -26,6 +26,7 @@ import {
   promptAllowsSimilar,
 } from "../strict-auto-pass";
 import { chooseIntent } from "../strict-model";
+import { autoPassMode, fastModeUpdate, isBotGame } from "../strict-auto-pass";
 
 import { placeUnit } from "../../../../../../../packages/rules/test/rules/combat/helpers";
 import { scenario } from "../../../../../../../packages/rules/test/scenarios/dsl";
@@ -145,6 +146,38 @@ describe("StrictAutoPassPanel", () => {
     const html = renderPanel(viewFor(s.room, "p1"), "p1");
     expect(html).toMatch(/data-testid="strict-auto-pass-responses".*?aria-pressed="true" data-auto-pass-choice="stop"/su);
     expect(html).toContain('data-testid="strict-auto-pass-until-eot"');
+  });
+
+  it("Fast mode switch: off with the safe defaults, PvP hint, collapsed Advanced section", () => {
+    const { room } = defaultsRoom();
+    const html = renderPanel(viewFor(room, "p2"), "p2");
+    expect(html).toMatch(/data-testid="strict-auto-pass-fast" data-auto-pass-mode="safe"/);
+    expect(html).toMatch(/role="switch"[^>]*aria-checked="false"[^>]*data-testid="strict-auto-pass-fast-switch"/);
+    expect(html).toContain("Your opponent can tell from the instant pass that you had none.");
+    expect(html).toContain('data-testid="strict-auto-pass-advanced"');
+    expect(html).not.toMatch(/<details[^>]*\sopen/);
+    expect(html).not.toContain('data-testid="strict-auto-pass-custom"');
+  });
+
+  it("Fast mode switch: on for fast prefs, bot hint in bot games, Custom when the values mix", () => {
+    const { room, s } = defaultsRoom();
+    const fast = withPrefs(room, s.ctx, "p2", { responses: "no_response", forcedPrompts: "all" });
+    expect(renderPanel(viewFor(fast, "p2"), "p2")).toMatch(/data-auto-pass-mode="fast"/);
+    const botRoom = structuredClone(fast);
+    botRoom.players[0]!.isBot = true;
+    const botHtml = renderPanel(viewFor(botRoom, "p2"), "p2");
+    expect(botHtml).toContain("On by default — there&#x27;s no opponent to read your timing.");
+    const custom = withPrefs(room, s.ctx, "p2", { responses: "no_response" });
+    const customHtml = renderPanel(viewFor(custom, "p2"), "p2");
+    expect(customHtml).toMatch(/data-auto-pass-mode="custom"/);
+    expect(customHtml).toContain('data-testid="strict-auto-pass-custom"');
+  });
+
+  it("fastModeUpdate / autoPassMode map the switch to the presets", () => {
+    expect(fastModeUpdate(true)).toEqual({ responses: "no_response", forcedPrompts: "all" });
+    expect(fastModeUpdate(false)).toEqual({ responses: "safe", forcedPrompts: "safe" });
+    expect(autoPassMode(null)).toBe("safe");
+    expect(isBotGame({ players: [{ id: "a" }, { id: "b", isBot: true }] } as never)).toBe(true);
   });
 
   it("is absent from sandbox rooms", () => {

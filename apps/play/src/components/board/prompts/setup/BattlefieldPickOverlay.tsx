@@ -83,22 +83,22 @@ function Row({
                   aria-pressed={isSelected}
                   data-testid={`${isSelf ? "battlefield-own" : "battlefield-opponent"}-option-${index}`}
                   data-battlefield-name={name}
-                  className={`relative h-(--bf-draft-h) w-(--bf-draft-w) rounded-none border overflow-hidden shadow-[0_16px_28px_rgba(3,10,22,0.5)] ${
+                  className={`relative h-(--bf-draft-h) w-(--bf-draft-w) rounded-[0.3rem] overflow-hidden transition-[filter,transform,box-shadow] duration-150 ${
                     isSelected
-                      ? "border-[rgba(139,222,189,0.66)]"
-                      : "border-[rgba(188,165,122,0.38)]"
+                      ? "-translate-y-1 brightness-110 shadow-[0_22px_36px_rgba(0,0,0,0.7)]"
+                      : "shadow-[0_16px_28px_rgba(0,0,0,0.55)] hover:brightness-110"
                   } ${active && !selected ? "cursor-pointer" : "cursor-default"}`}
                   style={CARD_VARS}
                 >
                   <BattlefieldDraftArt name={name} />
-                  <span className="pointer-events-none absolute inset-x-1 bottom-1 border border-[rgba(216,198,158,0.4)] bg-[rgba(5,12,23,0.88)] px-2 py-1 text-center text-[0.58rem] font-medium uppercase tracking-[0.12em] text-[#e8dcc1]">
+                  <span className="pointer-events-none absolute inset-x-1 bottom-1 rounded-[0.25rem] bg-[rgba(6,6,7,0.9)] px-2 py-1.5 text-center text-base font-semibold leading-tight text-[var(--rb-text,#ece6da)]">
                     {name}
                   </span>
                 </motion.button>
               );
             })
           ) : (
-            <div className="grid h-(--bf-draft-h) w-(--bf-draft-w) place-items-center border border-dashed border-[rgba(188,165,122,0.38)] bg-[rgba(14,26,48,0.82)] text-center text-[0.72rem] text-[#c6d5e7]">
+            <div className="grid h-(--bf-draft-h) w-(--bf-draft-w) place-items-center border border-dashed border-[rgba(188,165,122,0.38)] bg-[var(--rb-surface,#0e0f12)] text-center text-base text-[var(--rb-text-dim,#a39d92)]">
               {t("sim.noBattlefields") ?? "No battlefields"}
             </div>
           )}
@@ -159,11 +159,11 @@ export function BattlefieldPickOverlay({
 
       {!viewerIsContributor ? (
         <div className="absolute inset-0 grid place-items-center px-4">
-          <div className="max-w-xl rounded-[0.2rem] border border-[rgba(132,150,184,0.34)] bg-[linear-gradient(145deg,rgba(16,40,74,0.92),rgba(6,18,38,0.94))] px-7 py-6 text-center shadow-[inset_0_0_0_1px_rgba(232,214,176,0.1),0_16px_34px_rgba(2,8,19,0.46)]">
-            <p className="m-0 text-[0.9rem] font-semibold uppercase tracking-[0.1em] text-[#ffe8bd]">
+          <div className="max-w-xl rounded-[0.7rem] border border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface,#0e0f12)] px-8 py-6 text-center shadow-[0_0_0_1px_rgba(0,0,0,0.6),0_24px_60px_rgba(0,0,0,0.75)]">
+            <p className="m-0 text-[1.5rem] font-semibold text-[var(--rb-gold-bright,#f0d48a)] [font-family:var(--font-heading)]">
               {t("sim.setup.youGoFirst") ?? "You go first"}
             </p>
-            <p className="mt-2 text-[0.74rem] leading-relaxed text-[#c6d5e7]">
+            <p className="mt-2 text-base leading-relaxed text-[var(--rb-text-dim,#a39d92)]">
               {t("sim.setup.firstPlayerBattlefieldWait") ??
                 "The first player does not contribute a battlefield in this mode."}
             </p>
@@ -189,7 +189,7 @@ export function BattlefieldPickOverlay({
       )}
 
       <p
-        className="pointer-events-none absolute inset-x-0 bottom-[1.1rem] text-center text-[0.62rem] uppercase tracking-[0.1em] text-[#a8bdd6]"
+        className="pointer-events-none absolute inset-x-0 bottom-[1.1rem] text-center text-base font-medium text-[var(--rb-text,#ece6da)] [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]"
         data-testid="battlefield-pick-status"
       >
         {nextActorId

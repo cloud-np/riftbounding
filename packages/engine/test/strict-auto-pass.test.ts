@@ -8,7 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import type { DeckSections, EngineTimeline, Room } from "@rift/protocol";
-import { DEFAULT_AUTO_PASS } from "@rift/rules";
+import { DEFAULT_AUTO_PASS, FAST_AUTO_PASS } from "@rift/rules";
 import {
   applyGameAction,
   createBotPickerRandom,
@@ -30,7 +30,7 @@ const decks = JSON.parse(fs.readFileSync(DECKS, "utf8")) as {
 
 let now = 1_770_000_000_000;
 
-function strictBotInGame(): Room {
+function strictBotInGame(secondIsBot = true): Room {
   const room = createInitialGameState({
     roomCode: "AUTOPASS",
     createdAt: 1,
@@ -44,7 +44,7 @@ function strictBotInGame(): Room {
     ],
   });
   room.firstPlayerId = "p1";
-  room.players[1]!.isBot = true;
+  if (secondIsBot) room.players[1]!.isBot = true;
   for (const player of room.players) player.selectedBattlefield = "Bandle Tree";
   room.rulesMode = "strict";
   let next = room;
@@ -78,12 +78,28 @@ function driveBot(room: Room, timeline: EngineTimeline) {
 }
 
 describe("strict auto-pass through the engine", () => {
-  it("seeds the information-safe defaults for every seat when the game starts", () => {
+  it("Practice vs Bot seeds fast mode for the human and the safe defaults for the bot", () => {
     const room = strictBotInGame();
+    expect(room.rules?.autoPass).toEqual({
+      p1: { ...FAST_AUTO_PASS },
+      p2: { ...DEFAULT_AUTO_PASS },
+    });
+  });
+
+  it("a two-human room seeds the information-safe defaults for both seats", () => {
+    const room = strictBotInGame(false);
     expect(room.rules?.autoPass).toEqual({
       p1: { ...DEFAULT_AUTO_PASS },
       p2: { ...DEFAULT_AUTO_PASS },
     });
+  });
+
+  it("an explicit change wins over the seeded fast mode", () => {
+    const state = act(strictBotInGame(), createInitialTimeline(), "p1", {
+      type: "rules_set_auto_pass",
+      prefs: { responses: "safe", forcedPrompts: "safe" },
+    });
+    expect(state.room.rules?.autoPass?.p1).toEqual({ ...FAST_AUTO_PASS, responses: "safe", forcedPrompts: "safe" });
   });
 
   it("a hold gesture keeps Priority (hold reaches the rules intent)", () => {

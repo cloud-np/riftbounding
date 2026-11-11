@@ -6,8 +6,11 @@ import { getCard } from "@rift/cards";
 
 import type { CardInstance } from "@rift/protocol";
 
-import { cardMeta, plainRulesText } from "../card/card-meta";
+import { cardMeta } from "../card/card-meta";
+import { unitMightView } from "../card/might";
+import { useBoardInteractionOptional } from "../interaction/context";
 import { labelColors } from "../menus/label-presets";
+import { RulesText } from "../text/RulesText";
 
 const t = createTranslator("en");
 
@@ -27,17 +30,24 @@ export function KeywordRulesPanel({ card, locale = "en", className, style }: Key
       ? card.text ?? englishCatalogText
       : catalogCard ?? card.text ?? englishCatalogText;
   const meta = cardMeta(card);
+  const interaction = useBoardInteractionOptional();
+  const might = unitMightView(interaction?.slotProps?.state, card).current ?? meta.might;
   const keywords = card.keywords?.length ? card.keywords : meta.keywords;
 
   return (
     <div className={className} style={style} data-hover-card-rules="true">
-      <div className="flex items-start justify-between gap-[0.6em]">
+      <div className="flex flex-wrap items-start justify-between gap-x-[0.6em] gap-y-[0.4em]">
         <div className="min-w-0">
-          <p className="m-0 truncate text-[1.12em] font-bold leading-tight text-[#fff3d6]">{card.name}</p>
+          <p
+            className="m-0 text-[1.2em] font-semibold leading-tight text-[var(--rb-gold-bright,#f0d48a)]"
+            style={{ fontFamily: "var(--font-heading), ui-serif, Georgia, serif" }}
+          >
+            {card.name}
+          </p>
           <div className="mt-[0.3em] flex flex-wrap items-center gap-[0.3em]">
             <span className="hv-chip">{meta.typeLabel}</span>
             {meta.energyCost !== undefined ? <span className="hv-chip" data-kind="cost">Cost {meta.energyCost}{meta.powerCost ? ` + ${meta.powerCost}` : ""}</span> : null}
-            {meta.might !== undefined && meta.kind !== "spell" ? <span className="hv-chip" data-kind="might">Might {meta.might}</span> : null}
+            {might !== undefined && meta.kind !== "spell" ? <span className="hv-chip" data-kind="might">Might {might}</span> : null}
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-[0.24em]" data-hover-preview-hotkeys="true">
@@ -75,10 +85,10 @@ export function KeywordRulesPanel({ card, locale = "en", className, style }: Key
 
       {rules ? (
         <p
-          className="mb-0 mt-[0.4em] whitespace-pre-line text-[0.92em] leading-[1.35] text-[#cfe0f5]"
-          style={{ fontFamily: "var(--font-heading), ui-serif, Georgia, serif" }}
+          className="mb-0 mt-[0.5em] whitespace-pre-line text-[1em] leading-[1.5] text-[var(--rb-text,#ece6da)]"
+          style={{ fontFamily: "var(--font-ui), system-ui, sans-serif" }}
         >
-          {plainRulesText(rules ?? undefined)}
+          <RulesText text={rules.split(/\n?\s*Flavor Text/i)[0]?.replace(/\n{2,}/g, "\n")} />
         </p>
       ) : null}
     </div>

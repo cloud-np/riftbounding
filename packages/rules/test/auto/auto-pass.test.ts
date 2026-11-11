@@ -10,6 +10,9 @@ import type { AutoPassPrefsUpdate, CardScript, Effect, Prompt, Trigger } from "@
 import {
   AUTO_ACTION_CAP,
   DEFAULT_AUTO_PASS,
+  defaultAutoPassFor,
+  FAST_AUTO_PASS,
+  isFastAutoPass,
   explainIllegal,
   flushPendingTriggers,
   forcedPromptAnswer,
@@ -399,5 +402,22 @@ describe("termination and determinism", () => {
       return s.room;
     };
     expect(build()).toEqual(build());
+  });
+});
+
+describe("practice-vs-bot preset", () => {
+  const players = (bot: boolean) => ({
+    players: [{ id: "a" }, { id: "b", ...(bot ? { isBot: true } : {}) }] as never,
+  });
+  it("FAST_AUTO_PASS is the defaults plus no_response and forced prompts all", () => {
+    expect(FAST_AUTO_PASS).toEqual({ ...DEFAULT_AUTO_PASS, responses: "no_response", forcedPrompts: "all" });
+    expect(isFastAutoPass(FAST_AUTO_PASS)).toBe(true);
+    expect(isFastAutoPass(DEFAULT_AUTO_PASS)).toBe(false);
+  });
+  it("humans in a room with a bot seat get fast mode; the bot and PvP seats get the defaults", () => {
+    expect(defaultAutoPassFor(players(true), "a")).toEqual(FAST_AUTO_PASS);
+    expect(defaultAutoPassFor(players(true), "b")).toEqual(DEFAULT_AUTO_PASS);
+    expect(defaultAutoPassFor(players(false), "a")).toEqual(DEFAULT_AUTO_PASS);
+    expect(defaultAutoPassFor(players(false), "b")).toEqual(DEFAULT_AUTO_PASS);
   });
 });

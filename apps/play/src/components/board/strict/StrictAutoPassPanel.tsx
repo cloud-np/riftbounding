@@ -13,7 +13,10 @@ import {
   autoNotices,
   autoPassIntent,
   autoPassPrefsFor,
+  autoPassMode,
   autoPassSeat,
+  fastModeUpdate,
+  isBotGame,
   END_TURN_CHOICES,
   FORCED_CHOICES,
   passUntilIntent,
@@ -50,7 +53,7 @@ function ChoiceRow<T extends string>({
 }) {
   return (
     <fieldset className="m-0 grid gap-[0.18rem] border-0 p-0" data-testid={testId}>
-      <legend className="mb-[0.12rem] p-0 text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-[#c5d6ee]">
+      <legend className="mb-[0.12rem] p-0 text-[0.64rem] font-semibold uppercase tracking-[0.08em] text-[#c5d6ee]">
         {label}
       </legend>
       <div className="grid grid-cols-3 gap-[0.18rem]">
@@ -61,7 +64,7 @@ function ChoiceRow<T extends string>({
             aria-pressed={value === choice.value}
             data-auto-pass-choice={choice.value}
             data-auto-pass-leaks={choice.leaks ? "true" : "false"}
-            className={`${segmentedButton} ${value === choice.value ? segmentedActive : segmentedInactive} !min-h-8 !text-[0.56rem] leading-[1.15]`}
+            className={`${segmentedButton} ${value === choice.value ? segmentedActive : segmentedInactive} !min-h-9 !text-[0.68rem] leading-[1.15]`}
             onClick={() => onChange(choice.value)}
           >
             <span className="px-[0.1rem]">
@@ -101,6 +104,8 @@ export function StrictAutoPassPanel({
   const seat = autoPassSeat(room, viewerId, controlled);
   const prefs: AutoPassPrefs | null = strict ? autoPassPrefsFor(room, seat) : null;
   const until = activePassUntil(room, prefs);
+  const mode = autoPassMode(prefs);
+  const botGame = isBotGame(room);
   const log = room.log;
 
   // Show only automatic actions that arrive while the board is open (never replay old ones).
@@ -162,6 +167,38 @@ export function StrictAutoPassPanel({
             aria-label={t("rules.ui.autoPass.open") ?? "Auto-pass settings"}
             data-testid="strict-auto-pass-settings"
           >
+            <div className="grid gap-[0.2rem]" data-testid="strict-auto-pass-fast" data-auto-pass-mode={mode}>
+              <label className="flex items-center justify-between gap-[0.5rem] font-[var(--font-ui,Inter,system-ui)] text-[0.85rem] font-semibold text-[var(--rb-text,#ece6da)]">
+                <span>
+                  {t("rules.ui.autoPass.fastMode") ?? "Fast mode"}
+                  {mode === "custom" ? (
+                    <span className="ml-[0.35rem] rounded-[0.2rem] bg-white/10 px-[0.3rem] py-[0.05rem] text-[0.65rem] font-medium text-[var(--rb-gold-bright,#f0d48a)]" data-testid="strict-auto-pass-custom">
+                      {t("rules.ui.autoPass.custom") ?? "Custom"}
+                    </span>
+                  ) : null}
+                </span>
+                <input
+                  type="checkbox"
+                  role="switch"
+                  className="h-[1.1rem] w-[2rem] cursor-pointer accent-[#c8aa6e]"
+                  checked={mode === "fast"}
+                  aria-checked={mode === "fast"}
+                  data-testid="strict-auto-pass-fast-switch"
+                  onChange={(event) => update(fastModeUpdate(event.currentTarget.checked))}
+                />
+              </label>
+              <p className="m-0 font-[var(--font-ui,Inter,system-ui)] text-[0.72rem] leading-[1.35] text-[var(--rb-text-dim,#a39d92)]" data-testid="strict-auto-pass-fast-hint">
+                {botGame
+                  ? (t("rules.ui.autoPass.fastModeBot") ?? "On by default — there's no opponent to read your timing.")
+                  : (t("rules.ui.autoPass.fastModePvp") ??
+                    "Auto-pass when you have no legal response. Your opponent can tell from the instant pass that you had none.")}
+              </p>
+            </div>
+            <details className="grid gap-[0.36rem]" data-testid="strict-auto-pass-advanced">
+              <summary className="cursor-pointer select-none text-[0.72rem] font-semibold text-[var(--rb-text-dim,#a39d92)]">
+                {t("rules.ui.autoPass.advanced") ?? "Advanced"}
+              </summary>
+              <div className="mt-[0.36rem] grid gap-[0.36rem]">
             <label className="flex items-center justify-between gap-[0.4rem] text-[0.62rem] font-semibold text-[#eef5ff]">
               <span>{t("rules.ui.autoPass.ownItems") ?? "Pass on my own chain items"}</span>
               <input
@@ -197,6 +234,8 @@ export function StrictAutoPassPanel({
                 ⚠ {t("rules.ui.autoPass.leakWarning") ?? "Reveals to your opponent that you had no option."}
               </p>
             ) : null}
+              </div>
+            </details>
             <label className="flex items-center justify-between gap-[0.4rem] text-[0.62rem] font-semibold text-[#eef5ff]">
               <span>{t("rules.ui.autoPass.hold") ?? "Full control (hold priority)"}</span>
               <input

@@ -2,131 +2,80 @@
 
 import type { CardSide } from "../card/types";
 
-const SELF_ACCENT = "rgb(126 232 191)";
-const SELF_ACCENT_SOFT = "rgb(79 178 159 / 0.52)";
-const OPPONENT_ACCENT = "rgb(231 185 117)";
-const OPPONENT_ACCENT_SOFT = "rgb(174 117 63 / 0.52)";
+const SELF_ACCENT = "rgb(150 205 185)";
+const SELF_ACCENT_SOFT = "rgb(110 160 145 / 0.5)";
+const OPPONENT_ACCENT = "rgb(214 172 120)";
+const OPPONENT_ACCENT_SOFT = "rgb(160 120 75 / 0.5)";
 
-interface NodePlacement {
-  value: number;
-  row: number;
-  col: 1 | 2;
-  winning: boolean;
-  fullWidth: boolean;
+/**
+ * Index (0 = first node from the top of the column) of a score value.
+ * Self reads bottom-up (0 at the bottom, victory at the top); the opponent reads top-down.
+ */
+export function scoreNodeIndex(values: number[], value: number): number {
+  return values.indexOf(value);
 }
 
-function nodePlacements(values: number[], side: CardSide): NodePlacement[] {
-  const max = Math.max(...values);
-  return values.map((value, index) => {
-    if (value === max) {
-      return {
-        value,
-        row: side === "self" ? 1 : 1 + Math.ceil((values.length - 1) / 2),
-        col: 1,
-        winning: true,
-        fullWidth: true,
-      };
-    }
-    if (side === "self") {
-      if (value === max - 1) {
-        return { value, row: 2, col: 1, winning: false, fullWidth: false };
-      }
-      const pairIndex = max - 2 - value;
-      return {
-        value,
-        row: 3 + Math.floor(pairIndex / 2),
-        col: pairIndex % 2 === 0 ? 2 : 1,
-        winning: false,
-        fullWidth: false,
-      };
-    }
-    return {
-      value,
-      row: Math.floor(index / 2) + 1,
-      col: index % 2 === 0 ? 2 : 1,
-      winning: false,
-      fullWidth: false,
-    };
-  });
+export interface ScoreRailGeometry {
+  /** Number of nodes in the straight column (0 ... victory score inclusive). */
+  nodeCount: number;
+  /** Lit segment length measured in node rows (between node centres), clamped to the rail. */
+  litRows: number;
+  /** The lit segment grows from the 0 node: "bottom" for self, "top" for the opponent. */
+  litAnchor: "top" | "bottom";
+  /** Total connector length in node rows (between the first and last node centres). */
+  railRows: number;
 }
 
-/** Simple rail polyline through the node centres (matches the original zig-zag). */
-function ScoreRailConnectors({
-  placements,
-  rowCount,
+/** Pure geometry for the single straight rail; unit-tested. */
+export function scoreRailGeometry(
+  values: number[],
+  score: number,
+  side: CardSide,
+): ScoreRailGeometry {
+  const nodeCount = values.length;
+  const max = nodeCount ? Math.max(...values) : 0;
+  const clamped = Math.max(0, Math.min(max, Number.isFinite(score) ? score : 0));
+  return {
+    nodeCount,
+    railRows: Math.max(0, nodeCount - 1),
+    litRows: clamped,
+    litAnchor: side === "self" ? "bottom" : "top",
+  };
+}
+
+/** Straight connector through the node centres, lit from the 0 node up to the current score. */
+function ScoreRailConnector({
+  geometry,
   side,
-  score,
 }: {
-  placements: NodePlacement[];
-  rowCount: number;
+  geometry: ScoreRailGeometry;
   side: CardSide;
-  score: number;
 }) {
-  const ordered = [...placements].sort((a, b) => {
-    return a.row - b.row || b.col - a.col;
-  });
-  const points = ordered.map((node) => {
-    const x = node.fullWidth ? 50 : node.col === 1 ? 25 : 75;
-    const y = (node.row - 0.5) * 100;
-    return `${x},${y}`;
-  });
-  const litPoints = ordered
-    .map((node, index) => ({ node, point: points[index] }))
-    .filter(({ node }) => node.value <= score)
-    .map(({ point }) => point);
-  const litColor = side === "self" ? "rgba(126,232,191,0.95)" : "rgba(255,196,110,0.95)";
+  const rail = geometry.railRows;
+  if (rail <= 0) return null;
+  const lit = Math.min(rail, geometry.litRows);
+  const edge = "calc(var(--track-row-size) / 2)";
+  const anchor = geometry.litAnchor === "bottom" ? "bottom" : "top";
   return (
-    <svg
-      aria-hidden="true"
-      data-score-rail={side}
-      className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
-      viewBox={`0 0 100 ${rowCount * 100}`}
-      preserveAspectRatio="none"
-      focusable="false"
-    >
-      <polyline
-        points={points.join(" ")}
-        fill="none"
-        stroke="rgba(136,180,211,0.4)"
-        strokeWidth="5"
-        strokeLinecap="round"
-        opacity="0.12"
-        vectorEffect="non-scaling-stroke"
+    <>
+      <span
+        aria-hidden="true"
+        data-score-rail={side}
+        className="score-rail-line pointer-events-none absolute left-1/2 -translate-x-1/2"
+        style={{ top: edge, bottom: edge }}
       />
-      <polyline
-        points={points.join(" ")}
-        fill="none"
-        stroke="rgba(136,180,211,0.4)"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-        strokeDasharray="2.4 4.2"
-        opacity="0.78"
-        vectorEffect="non-scaling-stroke"
-      />
-      {litPoints.length > 1 ? (
-        <>
-          <polyline
-            points={litPoints.join(" ")}
-            fill="none"
-            stroke={litColor}
-            strokeWidth="7"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity="0.22"
-            vectorEffect="non-scaling-stroke"
-          />
-          <polyline
-            points={litPoints.join(" ")}
-            fill="none"
-            stroke={litColor}
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-          />
-        </>
+      {lit > 0 ? (
+        <span
+          aria-hidden="true"
+          data-score-rail-lit={side}
+          className="score-rail-lit pointer-events-none absolute left-1/2 -translate-x-1/2"
+          style={{
+            [anchor]: edge,
+            height: `calc(var(--track-row-size) * ${lit})`,
+          }}
+        />
       ) : null}
-    </svg>
+    </>
   );
 }
 
@@ -141,8 +90,7 @@ export function ScoreTrack({
   score: number;
   winningValue: number;
 }) {
-  const placements = nodePlacements(values, side);
-  const rowCount = Math.max(...placements.map((p) => p.row));
+  const geometry = scoreRailGeometry(values, score, side);
   const accent = side === "self" ? SELF_ACCENT : OPPONENT_ACCENT;
   const accentSoft = side === "self" ? SELF_ACCENT_SOFT : OPPONENT_ACCENT_SOFT;
 
@@ -150,31 +98,26 @@ export function ScoreTrack({
     <div
       data-board-player-scores={side === "self" ? "true" : undefined}
       data-board-opponent-scores={side === "opponent" ? "true" : undefined}
+      data-score-track-straight="true"
       className={
         side === "self"
-          ? "absolute left-(--track-edge-inset) bottom-(--track-player-bottom) z-12 grid w-(--score-track-rail-width) grid-cols-[var(--track-node-size)_var(--track-node-size)] auto-rows-(--track-row-size) place-items-center gap-x-(--score-track-column-gap) translate-x-(--track-player-nudge) border-none bg-transparent p-0 shadow-none"
-          : "absolute top-(--track-opponent-score-top) right-(--track-edge-inset) left-auto z-12 grid w-(--score-track-rail-width) grid-cols-[var(--track-node-size)_var(--track-node-size)] auto-rows-(--track-row-size) place-items-center gap-x-(--score-track-column-gap) -translate-x-(--track-opponent-nudge) border-none bg-transparent p-0 shadow-none"
+          ? "absolute left-(--track-edge-inset) bottom-(--track-player-bottom) z-12 flex w-(--score-track-rail-width) flex-col items-center translate-x-(--track-player-nudge) border-none bg-transparent p-0 shadow-none"
+          : "absolute top-(--track-opponent-score-top) right-(--track-edge-inset) left-auto z-12 flex w-(--score-track-rail-width) flex-col items-center -translate-x-(--track-opponent-nudge) border-none bg-transparent p-0 shadow-none"
       }
+      style={{ height: `calc(var(--track-row-size) * ${geometry.nodeCount})` }}
       role="group"
       aria-label={side === "self" ? "Your score track" : "Opponent score track"}
     >
-      <ScoreRailConnectors placements={placements} rowCount={rowCount} side={side} score={score} />
-      {placements.map((node) => {
-        const reached = score >= node.value;
-        const active = score === node.value;
-        const winning = node.value === winningValue;
+      <ScoreRailConnector geometry={geometry} side={side} />
+      {values.map((value) => {
+        const reached = score >= value;
+        const active = score === value;
+        const winning = value === winningValue;
         return (
           <div
-            key={`${side}-score-${node.value}`}
-            className={
-              "relative z-1 grid place-items-center w-(--track-node-size)" +
-              (node.fullWidth ? " w-full col-span-2 col-start-1 justify-self-stretch" : "") +
-              (!node.fullWidth && node.col === 1 ? " col-start-1" : "") +
-              (!node.fullWidth && node.col === 2 ? " col-start-2" : "") +
-              (!node.fullWidth && side === "opponent" && node.value % 2 === 1 ? " translate-y-(--score-track-stagger-offset)" : "") +
-              (!node.fullWidth && side === "self" && node.col === 2 ? " -translate-y-(--score-track-stagger-offset)" : "")
-            }
-            style={{ gridRowStart: node.row }}
+            key={`${side}-score-${value}`}
+            className="relative z-1 grid w-full shrink-0 place-items-center"
+            style={{ height: "var(--track-row-size)" }}
           >
             <div
               data-active={active}
@@ -193,7 +136,7 @@ export function ScoreTrack({
               <span className="scoreTrackNodeArrival" aria-hidden="true" />
               <span className="scoreTrackNodeCore" aria-hidden="true" />
               <span className="scoreTrackNodeCharge" aria-hidden="true" />
-              <span className="scoreTrackNodeLabel">{node.value}</span>
+              <span className="scoreTrackNodeLabel">{value}</span>
             </div>
           </div>
         );

@@ -83,6 +83,23 @@ What the numbers say:
   turn", "until the opponent acts") are a person's choice and are not simulated; they remove every
   Priority/Focus click for the rest of the turn without any leak.
 
+### Practice vs Bot default (fast mode)
+
+Owner decision (R7): in Practice vs Bot the human seat starts in **fast mode**
+(`FAST_AUTO_PASS` = defaults + `responses: "no_response"` + `forcedPrompts: "all"`; `ownItems` on,
+`endTurn: "safe"`, `hold` off). There is no human opponent to read the timing, so the leak of § 4 does
+not apply. PvP keeps `DEFAULT_AUTO_PASS`; fast mode is opt-in from the panel's "Fast mode" switch.
+`defaultAutoPassFor(room, playerId)` picks the seed: a non-bot seat in a room where any seat has
+`isBot` gets fast mode (the room mode is not consulted: the dev harness flips it to `multiplayer`
+after setup); the bot seat and every seat of a human-vs-human room get the defaults.
+
+Measured with `INTERACTIONS_MODES=none,default,fast pnpm --filter @rift/rules interactions`
+(20 games, fixture decks, both seats seeded alike, so the numbers cover both players): decisions per
+game 197.0 (none) -> 178.3 (default) -> **150.6 (fast)**, i.e. -15.6 % against the default and -23.6 %
+against no automation; the longest run of consecutive Pass clicks drops from 2.75 to 0. Per human
+seat that is roughly 14 fewer clicks per game than the default. What is left is real decisions plus
+the ~29 per game (both seats) "End turn with nothing else legal" clicks that `endTurn: "safe"` keeps.
+
 ## 2. Design
 
 ### Where it runs
@@ -135,8 +152,8 @@ actor's own entry). A seat without an entry that sends its first update starts f
 | Setting | Values | Default | Leaks hand info? | Effect |
 | --- | --- | --- | --- | --- |
 | `ownItems` | `true` / `false` | `true` | no | Pass when the player's own item is on top of the chain (their triggers 337.4, and Priority returning to them over their own item, 340.4). |
-| `responses` | `stop` / `safe` / `no_response` | `safe` | `no_response` only | Response windows (an opponent's item on top, or showdown Focus with an empty chain). `safe`: pass only when public information proves there is no legal response (empty hand, no facedown card, no legal play/Hide/activation). `no_response`: pass whenever there is no legal response. |
-| `forcedPrompts` | `off` / `safe` / `all` | `safe` | `all` only | Answer a prompt that has exactly one legal answer. `safe`: only when that follows from public information. |
+| `responses` | `stop` / `safe` / `no_response` | `safe` (PvP) / `no_response` (human vs bot) | `no_response` only | Response windows (an opponent's item on top, or showdown Focus with an empty chain). `safe`: pass only when public information proves there is no legal response (empty hand, no facedown card, no legal play/Hide/activation). `no_response`: pass whenever there is no legal response. |
+| `forcedPrompts` | `off` / `safe` / `all` | `safe` (PvP) / `all` (human vs bot) | `all` only | Answer a prompt that has exactly one legal answer. `safe`: only when that follows from public information. |
 | `endTurn` | `manual` / `safe` / `no_action` | `safe` | `no_action` only | End the player's own turn at a Neutral Open Main Phase with nothing to do. `safe`: only with public proof. At most one turn ends automatically per transition. |
 | `hold` | `true` / `false` | `false` | no | Full control (see § 2). |
 | `passUntil` | `{ kind: "end_of_turn" \| "opponent_action", turn }` or absent | absent | no | One-shot override. `end_of_turn`: pass every Priority/Focus window until this turn ends; on one's own turn it also ends the turn at Neutral Open. `opponent_action`: pass every window until an opponent takes a Discretionary Action (411.1: play, activate, Standard Move) or the turn ends. The server always records the current turn. |
@@ -156,7 +173,8 @@ the prompt dialog):
 | Pass until end of turn (toggle) | banner button, panel button / `Shift+W` | `rules_set_auto_pass { passUntil }` |
 | Pass until the opponent acts (toggle) | panel button | `rules_set_auto_pass { passUntil }` |
 | Hold priority for one play | Ctrl/⌘ while dropping a card | the gesture with `hold: true` |
-| Full control, own items, response / prompt / end-turn modes | panel (Auto-pass) | `rules_set_auto_pass { … }` |
+| Fast mode switch (responses `no_response` + forced prompts `all`; off = both `safe`; "Custom" when the detailed values match neither) | panel (Auto-pass), top | `rules_set_auto_pass { responses, forcedPrompts }` |
+| Full control, own items, response / prompt / end-turn modes | panel, "Advanced" section | `rules_set_auto_pass { … }` |
 | Same answer for identical prompts this turn | prompt dialog checkbox (yes/no, order) | `rules_choose { …, applyToSimilar: true }` |
 | Default order | order prompt button | `rules_choose { answer: { optionIds: [] } }` |
 
@@ -229,8 +247,9 @@ into `loop_guard`. Automatic actions add their own bounds:
 - `rules_choose.applyToSimilar?: boolean`;
 - gestures may carry `hold: true` (forwarded to `rules_play` / `rules_activate`);
 - log keys `rules.auto.{pass,ownItem,passUntil,endTurn,choose,repeat,paused}`;
-- engine: strict games start with `DEFAULT_AUTO_PASS` for every seat
-  (`initializeStrictRules(room, ctx, host, { autoPass })`).
+- engine: strict games start with `defaultAutoPassFor(room, seat)` per seat (`DEFAULT_AUTO_PASS`, or
+  `FAST_AUTO_PASS` for the human in a bot room); `initializeStrictRules(room, ctx, host, { autoPass })`
+  takes either one `AutoPassPrefs` or a `(playerId) => AutoPassPrefs` seeder.
 
 ## 7. Tests
 

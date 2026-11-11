@@ -28,11 +28,11 @@ const t = createTranslator("en");
 const RESOLVE_BUTTON_CLASS =
   "w-[calc(var(--chain-lane-width)-1.12rem)] max-w-full min-h-[2.02rem] rounded-[0.3rem] border px-[0.68rem] text-[0.84rem] font-extrabold leading-none tracking-[0.01em] transition-[transform,background-color,border-color,box-shadow,color,filter] duration-160 ease-out disabled:cursor-default disabled:transform-none";
 const BUTTON_ACTIVE =
-  "border-[rgba(205,228,255,0.88)] bg-[linear-gradient(180deg,rgba(96,144,212,1),rgba(58,98,157,0.98))] text-[#f7fbff] shadow-[0_0_0_1px_rgba(173,207,255,0.38),0_0_18px_rgba(113,168,247,0.34),0_14px_30px_rgba(21,43,81,0.46)] enabled:hover:-translate-y-[1px] enabled:hover:brightness-[1.05] enabled:focus-visible:outline-none enabled:focus-visible:ring-2 enabled:focus-visible:ring-[rgba(201,226,255,0.48)] enabled:focus-visible:ring-offset-0";
+  "border-[rgba(222,227,233,0.88)] bg-[linear-gradient(180deg,rgba(128,142,161,1),rgba(85,96,113,0.98))] text-[#f7fbff] shadow-[0_0_0_1px_rgba(197,206,218,0.38),0_0_18px_rgba(149,165,189,0.34),0_14px_30px_rgba(37,36,35,0.46)] enabled:hover:-translate-y-[1px] enabled:hover:brightness-[1.05] enabled:focus-visible:outline-none enabled:focus-visible:ring-2 enabled:focus-visible:ring-[rgba(219,225,231,0.48)] enabled:focus-visible:ring-offset-0";
 const BUTTON_APPROVE =
   "border-[rgba(164,238,204,0.7)] bg-[linear-gradient(180deg,rgba(39,88,74,0.98),rgba(24,62,54,0.96))] text-[#dffbef] shadow-[0_0_0_1px_rgba(120,221,183,0.24),0_0_16px_rgba(120,221,183,0.18),0_10px_24px_rgba(8,28,22,0.34)]";
 const BUTTON_IDLE =
-  "border-[rgba(166,185,209,0.26)] bg-[linear-gradient(180deg,rgba(57,80,109,0.94),rgba(47,69,97,0.92))] text-[#b8c9e1] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]";
+  "border-[rgba(181,185,189,0.26)] bg-[linear-gradient(180deg,rgba(68,67,66,0.94),rgba(58,57,56,0.92))] text-[#c6c9cd] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]";
 
 export interface ChainSlotProps extends BoardSlotProps {
   /** Rendered inside the sidebar chain row (the shell owns the Resolve button). */
@@ -232,7 +232,7 @@ export function ChainSlot({
           aria-label="Expand chain"
           aria-expanded={false}
           onClick={() => setCollapsed(false)}
-          className="pointer-events-auto inline-flex h-[2.8rem] w-[2.2rem] flex-col items-center justify-center gap-[0.1rem] rounded-[0.32rem] border border-[rgba(166,185,209,0.34)] bg-[rgba(14,26,46,0.9)] text-[#cfe1f8] shadow-[0_8px_18px_rgba(3,8,20,0.42)]"
+          className="pointer-events-auto inline-flex h-[2.8rem] w-[2.2rem] flex-col items-center justify-center gap-[0.1rem] rounded-[0.32rem] border border-[rgba(181,185,189,0.34)] bg-[rgba(23,22,21,0.9)] text-[#dde1e5] shadow-[0_8px_18px_rgba(9,8,7,0.42)]"
         >
           <span className="text-[0.58rem] font-black uppercase tracking-[0.04em]">
             {t("sim.chain") ?? "Chain"}
@@ -267,7 +267,7 @@ export function ChainSlot({
       data-chain-lane-width={laneWidthRem}
       data-chain-count={entries.length}
       className={`tablet-chain-panel flex h-full min-h-0 w-full flex-col overflow-hidden transition-colors ${
-        dropActive ? "bg-[rgba(23,54,80,0.3)]" : ""
+        dropActive ? "bg-[rgba(44,43,42,0.3)]" : ""
       }`}
       onDragOver={(event) => {
         const types = [...event.dataTransfer.types];
@@ -291,10 +291,10 @@ export function ChainSlot({
     >
       {embedded ? null : (
         <div className="tablet-chain-entry-heading flex min-h-[2.2rem] items-center justify-between gap-[0.3rem] px-[0.36rem] pt-[0.2rem]">
-          <h3 className="m-0 flex items-center gap-[0.26rem] text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-[#d7e7fb]">
+          <h3 className="m-0 flex items-center gap-[0.26rem] text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-[#e4e7ea]">
             <span className="sr-only">{t("sim.chain") ?? "Chain"} </span>
             <span data-chain-count>{entries.length}</span>
-            <span className="text-[0.56rem] font-medium normal-case tracking-[0.02em] text-[#8ea9c9]">
+            <span className="text-[0.56rem] font-medium normal-case tracking-[0.02em] text-[#a1a8af]">
               {t("sim.chainPriority") ?? "Chain priority"}
             </span>
           </h3>
@@ -304,7 +304,7 @@ export function ChainSlot({
             aria-label="Collapse chain"
             aria-expanded
             onClick={() => setCollapsed(true)}
-            className="pointer-events-auto grid h-[1.5rem] w-[1.5rem] place-items-center rounded-[0.24rem] border border-[rgba(166,185,209,0.24)] bg-[rgba(14,26,46,0.78)] text-[0.8rem] text-[#cfe1f8] hover:border-[rgba(201,226,255,0.5)]"
+            className="pointer-events-auto grid h-[1.5rem] w-[1.5rem] place-items-center rounded-[0.24rem] border border-[rgba(181,185,189,0.24)] bg-[rgba(23,22,21,0.78)] text-[0.8rem] text-[#dde1e5] hover:border-[rgba(219,225,231,0.5)]"
           >
             ›
           </button>
@@ -336,7 +336,7 @@ export function ChainSlot({
           </p>
         ) : (
           <p
-            className="row-start-1 col-start-1 justify-self-center pt-[0.12rem] m-0 max-w-[calc(var(--chain-lane-width)-0.6rem)] text-center text-[0.62rem] font-semibold text-[#8ea9c9]"
+            className="row-start-1 col-start-1 justify-self-center pt-[0.12rem] m-0 max-w-[calc(var(--chain-lane-width)-0.6rem)] text-center text-[0.62rem] font-semibold text-[#a1a8af]"
             data-chain-empty-label
           >
             {t("sim.tablet.emptyChain") ?? "The chain is empty"}
@@ -437,7 +437,7 @@ export function ChainSlot({
       </div>
 
       {embedded ? null : (
-        <div className="mt-auto flex items-center justify-between gap-[0.3rem] px-[0.34rem] py-[0.24rem] text-[0.54rem] uppercase tracking-[0.06em] text-[#7f96bb]">
+        <div className="mt-auto flex items-center justify-between gap-[0.3rem] px-[0.34rem] py-[0.24rem] text-[0.54rem] uppercase tracking-[0.06em] text-[#91969f]">
           <span>{t("sim.chainApprovals") ?? "Chain approvals"}</span>
           <span data-chain-approval-count>
             {priority.approvedPlayerIds.length}/{priority.participants.length}

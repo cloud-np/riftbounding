@@ -11,20 +11,22 @@ import { deriveConquerPrompt, type ConquerPromptModel } from "./prompt-state";
 
 const t = createTranslator("en");
 
+const BUTTON_BASE =
+  "enabled:hover:brightness-110 enabled:active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--rb-gold-bright,#f0d48a)]";
 const TONE_CLASSES = {
   conquer:
-    "border-[rgba(139,222,189,0.58)] bg-[linear-gradient(180deg,rgba(39,112,87,0.94),rgba(24,76,60,0.96))] text-[#e3fff2] shadow-[inset_0_1px_0_rgba(218,255,240,0.1)] enabled:hover:border-[rgba(174,241,211,0.78)] enabled:hover:bg-[linear-gradient(180deg,rgba(49,132,102,0.98),rgba(28,91,70,0.98))]",
+    "border-[rgba(139,222,189,0.7)] bg-[linear-gradient(180deg,#2f8466,#1d5c47)] text-[#effff8] shadow-[0_2px_10px_rgba(0,0,0,0.5)]",
   response:
-    "border-[rgba(226,185,119,0.56)] bg-[linear-gradient(180deg,rgba(105,79,47,0.94),rgba(67,50,34,0.96))] text-[#fff0cf] shadow-[inset_0_1px_0_rgba(255,238,198,0.1)] enabled:hover:border-[rgba(245,210,151,0.76)] enabled:hover:bg-[linear-gradient(180deg,rgba(124,92,53,0.98),rgba(79,58,37,0.98))]",
+    "border-[var(--rb-gold,#c8aa6e)] bg-[linear-gradient(180deg,#d9bd7f,#b08f4c)] text-[#15110a] shadow-[0_2px_10px_rgba(0,0,0,0.5)]",
   waiting:
-    "border-[rgba(155,174,202,0.18)] bg-[rgba(42,57,78,0.72)] text-[rgba(198,213,235,0.58)] shadow-none",
+    "border-[var(--rb-border,rgba(255,255,255,0.08))] bg-[var(--rb-surface-2,#15171b)] text-[var(--rb-text-dim,#a39d92)] shadow-none",
   focus:
-    "border-[rgba(151,199,238,0.48)] bg-[linear-gradient(180deg,rgba(60,92,130,0.96),rgba(42,67,98,0.96))] text-[#e8f5ff] shadow-[inset_0_1px_0_rgba(225,244,255,0.1)] enabled:hover:border-[rgba(190,224,250,0.72)] enabled:hover:bg-[linear-gradient(180deg,rgba(73,109,150,0.98),rgba(49,78,113,0.98))]",
+    "border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface-2,#15171b)] text-[var(--rb-text,#ece6da)] shadow-[0_2px_10px_rgba(0,0,0,0.5)] enabled:hover:border-[var(--rb-gold-bright,#f0d48a)]",
 } as const;
 
 function MightNumber({ value, direction }: { value: number; direction: 1 | -1 }) {
   return (
-    <div className="relative inline-flex min-w-[2.1rem] items-center justify-center overflow-hidden rounded-[0.2rem] border border-[rgba(193,210,235,0.42)] bg-[rgba(16,30,50,0.9)] px-[0.34rem] py-[0.16rem] text-[0.86rem] font-black tabular-nums text-[#e8f2ff] shadow-[inset_0_1px_0_rgba(234,242,255,0.12)]">
+    <div className="relative inline-flex min-w-[2.8rem] items-center justify-center overflow-hidden rounded-[0.3rem] border border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface-2,#15171b)] px-2 py-[0.2rem] text-xl font-black tabular-nums text-[var(--rb-gold-bright,#f0d48a)]">
       <AnimatePresence initial={false} custom={direction} mode="popLayout">
         <motion.span
           key={value}
@@ -154,7 +156,7 @@ export function ShowdownPrompt({
 
   return (
     <motion.div
-      className="pointer-events-none absolute left-1/2 z-[152] w-[min(23rem,calc(100%-1rem))] -translate-x-1/2"
+      className="pointer-events-none absolute left-1/2 z-[152] w-[min(30rem,calc(100%-1.5rem))] -translate-x-1/2"
       style={{ bottom: "calc(var(--player-band-size, 9rem) + 0.9rem)" }}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -167,12 +169,15 @@ export function ShowdownPrompt({
       data-showdown-stage={prompt.stage}
       data-testid="showdown-prompt"
     >
-      <div className="pointer-events-auto rounded-[0.32rem] border border-[rgba(193,210,235,0.42)] bg-[linear-gradient(160deg,rgba(31,49,75,0.97),rgba(16,28,46,0.98))] p-[0.42rem] shadow-[inset_0_1px_0_rgba(234,242,255,0.12),inset_3px_0_0_rgba(226,178,102,0.34),0_0_0_1px_rgba(5,12,25,0.46),0_8px_20px_rgba(2,8,20,0.44)]">
-        <div className="flex items-start gap-[0.38rem]">
+      <div
+        className="pointer-events-auto rounded-[0.7rem] border border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface,#0e0f12)] p-4 text-[var(--rb-text,#ece6da)] shadow-[0_0_0_1px_rgba(0,0,0,0.6),0_18px_44px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,212,138,0.14)]"
+        style={{ fontFamily: "var(--font-ui), system-ui, sans-serif" }}
+      >
+        <div className="flex items-start gap-3">
           <span
             data-showdown-crest={prompt.tone}
             aria-hidden="true"
-            className={`mt-[0.04rem] inline-flex h-[1.35rem] w-[1.35rem] shrink-0 items-center justify-center border text-[0.72rem] ${
+            className={`mt-[0.1rem] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.3rem] border text-base ${
               prompt.tone === "conquer"
                 ? "border-[rgba(139,222,189,0.5)] bg-[rgba(25,82,64,0.72)] text-[#bff3da]"
                 : prompt.tone === "response"
@@ -184,7 +189,7 @@ export function ShowdownPrompt({
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-baseline justify-between gap-2">
-              <span className="text-[0.56rem] font-semibold uppercase leading-none tracking-[0.1em] text-[#c5d6ee]">
+              <span className="text-xs font-semibold uppercase leading-none tracking-[0.14em] text-[var(--rb-gold,#c8aa6e)]">
                 {prompt.stage === "attacker_confirm_conquer"
                   ? (t("sim.playerCaptures", { playerName: prompt.attacker.name }) ?? "Captures")
                   : (t("sim.showdownInProgress") ?? "Showdown")}
@@ -193,19 +198,20 @@ export function ShowdownPrompt({
                 <MightNumber value={prompt.attackerMight} direction={attackerDirection} />
                 {prompt.defender ? (
                   <>
-                    <span className="text-[0.56rem] text-[#8fa6c1]">v</span>
+                    <span className="text-sm text-[var(--rb-text-dim,#a39d92)]">v</span>
                     <MightNumber value={prompt.defenderMight} direction={defenderDirection} />
                   </>
                 ) : null}
               </span>
             </div>
             <p
-              className="m-0 mt-[0.18rem] text-[0.72rem] font-semibold leading-[1.2] text-[#eef5ff]"
+              className="m-0 mt-2 text-[1.25rem] font-semibold leading-[1.25] text-[var(--rb-gold-bright,#f0d48a)]"
+              style={{ fontFamily: "var(--font-heading), ui-serif, Georgia, serif" }}
               title={prompt.detail}
             >
               {prompt.headline}
             </p>
-            <p className="m-0 mt-[0.1rem] text-[0.6rem] leading-[1.24] text-[#b8cce4]">
+            <p className="m-0 mt-1 text-base leading-[1.4] text-[var(--rb-text-dim,#a39d92)]">
               {prompt.instruction}
             </p>
           </div>
@@ -213,7 +219,7 @@ export function ShowdownPrompt({
             <button
               type="button"
               data-showdown-dismiss="true"
-              className="pointer-events-auto inline-flex h-[1.35rem] w-[1.35rem] shrink-0 items-center justify-center border border-[rgba(170,188,217,0.3)] bg-[rgba(36,56,84,0.72)] text-[0.72rem] text-[#d4e4ff] transition hover:border-[rgba(202,218,244,0.52)] hover:bg-[rgba(52,78,114,0.82)]"
+              className="pointer-events-auto inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.3rem] border border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface-2,#15171b)] text-xl text-[var(--rb-text,#ece6da)] transition hover:border-[var(--rb-gold-bright,#f0d48a)]"
               aria-label={t("sim.dismissShowdown") ?? "Dismiss showdown"}
               onClick={() =>
                 run(() => sendAsActor({ type: "battlefield_conquer_dismiss", zone: prompt.zone }))
@@ -224,11 +230,11 @@ export function ShowdownPrompt({
             </button>
           ) : null}
         </div>
-        <div className="mt-[0.34rem] grid grid-cols-1 gap-[0.2rem]">
+        <div className="mt-4 grid grid-cols-1 gap-2">
           <button
             type="button"
             data-showdown-action-tone={primaryTone}
-            className={`pointer-events-auto min-h-8 rounded-none border px-[0.32rem] py-[0.22rem] text-center text-[0.72rem] font-semibold leading-[1.08] transition-[filter,border-color,background-color,color,box-shadow] disabled:pointer-events-none disabled:cursor-default ${TONE_CLASSES[primaryTone]} ${
+            className={`pointer-events-auto min-h-12 rounded-[0.4rem] border px-4 py-2 text-center text-base font-semibold leading-[1.2] ${BUTTON_BASE} transition-[filter,border-color,background-color,color,box-shadow] disabled:pointer-events-none disabled:cursor-default ${TONE_CLASSES[primaryTone]} ${
               prompt.viewerIsActor ? "expected-action-button expected-action-button--showdown" : ""
             }`}
             disabled={!prompt.viewerIsActor || busy}
@@ -246,7 +252,7 @@ export function ShowdownPrompt({
             <button
               type="button"
               data-showdown-action-tone={secondaryTone}
-              className={`pointer-events-auto min-h-8 rounded-none border px-[0.32rem] py-[0.22rem] text-center text-[0.72rem] font-semibold leading-[1.08] transition-[filter,border-color,background-color,color,box-shadow] disabled:pointer-events-none disabled:cursor-default ${TONE_CLASSES[secondaryTone]} ${
+              className={`pointer-events-auto min-h-12 rounded-[0.4rem] border px-4 py-2 text-center text-base font-semibold leading-[1.2] ${BUTTON_BASE} transition-[filter,border-color,background-color,color,box-shadow] disabled:pointer-events-none disabled:cursor-default ${TONE_CLASSES[secondaryTone]} ${
                 prompt.viewerIsActor
                   ? "expected-action-button expected-action-button--showdown"
                   : ""

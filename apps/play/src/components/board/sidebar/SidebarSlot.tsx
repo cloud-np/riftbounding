@@ -119,7 +119,7 @@ function SidebarContent({
             type="button"
             onClick={onCloseOverlay}
             aria-label={t("sim.tablet.collapseSidebar") ?? "Collapse sidebar"}
-            className="absolute right-[0.34rem] top-[0.34rem] z-3 inline-flex h-[1.7rem] w-[1.7rem] items-center justify-center rounded-[0.22rem] border border-[rgba(178,198,229,0.28)] bg-[rgba(17,31,58,0.94)] text-[#dbe7ff] shadow-[0_6px_14px_rgba(2,7,16,0.36)]"
+            className="absolute right-[0.34rem] top-[0.34rem] z-3 inline-flex h-[1.7rem] w-[1.7rem] items-center justify-center rounded-[0.22rem] border border-[rgba(194,198,205,0.28)] bg-[rgba(27,26,25,0.94)] text-[#e6e7ec] shadow-[0_6px_14px_rgba(8,7,6,0.36)]"
           >
             <span aria-hidden="true" className="text-[0.82rem] leading-none">
               ×
@@ -201,7 +201,7 @@ function SidebarContent({
             }
             dispatch({ type: "chain_resolve", entryId: topEntry.id });
           }}
-          className="relative z-3 inline-flex min-h-[2.02rem] w-full shrink-0 items-center justify-center rounded-[0.3rem] border border-[rgba(205,228,255,0.88)] bg-[linear-gradient(180deg,rgba(96,144,212,1),rgba(58,98,157,0.98))] px-[0.68rem] text-[0.84rem] font-extrabold leading-none tracking-[0.01em] text-[#f7fbff] shadow-[0_0_0_1px_rgba(173,207,255,0.38),0_0_18px_rgba(113,168,247,0.34),0_14px_30px_rgba(21,43,81,0.46)] transition-[transform,background-color,border-color,box-shadow,color,filter] duration-160 ease-out enabled:hover:-translate-y-[1px] enabled:hover:brightness-[1.05] disabled:cursor-not-allowed disabled:opacity-[0.62]"
+          className="relative z-3 inline-flex min-h-[2.02rem] w-full shrink-0 items-center justify-center rounded-[0.3rem] border border-[rgba(222,227,233,0.88)] bg-[linear-gradient(180deg,rgba(128,142,161,1),rgba(85,96,113,0.98))] px-[0.68rem] text-[0.84rem] font-extrabold leading-none tracking-[0.01em] text-[#f7fbff] shadow-[0_0_0_1px_rgba(197,206,218,0.38),0_0_18px_rgba(149,165,189,0.34),0_14px_30px_rgba(37,36,35,0.46)] transition-[transform,background-color,border-color,box-shadow,color,filter] duration-160 ease-out enabled:hover:-translate-y-[1px] enabled:hover:brightness-[1.05] disabled:cursor-not-allowed disabled:opacity-[0.62]"
         >
           {t("sim.resolveShortcut") ?? "Resolve (S)"}
         </button>
@@ -291,7 +291,7 @@ export function SidebarSlot(props: SidebarSlotProps) {
                 aria-label={t("sim.tablet.openSidebar") ?? "Open sidebar"}
                 title={t("sim.tablet.openSidebar") ?? "Open sidebar"}
                 onClick={() => setOverlayOpen(true)}
-                className="fixed right-[0.5rem] top-[0.5rem] z-[90] h-[2.75rem] w-[2.75rem] items-center justify-center rounded-[0.32rem] border border-[rgba(166,196,233,0.34)] bg-[linear-gradient(180deg,rgba(24,42,67,0.96),rgba(13,26,44,0.98))] text-[#dcecff] shadow-[inset_0_1px_0_rgba(236,246,255,0.08),0_8px_20px_rgba(2,7,16,0.36)] backdrop-blur-md"
+                className="fixed right-[0.5rem] top-[0.5rem] z-[90] h-[2.75rem] w-[2.75rem] items-center justify-center rounded-[0.32rem] border border-[rgba(187,195,204,0.34)] bg-[linear-gradient(180deg,rgba(36,35,34,0.96),rgba(23,22,21,0.98))] text-[#e9ecee] shadow-[inset_0_1px_0_rgba(246,246,245,0.08),0_8px_20px_rgba(8,7,6,0.36)] backdrop-blur-md"
               >
                 <span aria-hidden="true" className="grid gap-[0.14rem]">
                   <span className="block h-[0.12rem] w-[1.15rem] rounded-full bg-current" />

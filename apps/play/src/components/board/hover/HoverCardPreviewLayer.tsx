@@ -7,11 +7,12 @@ import { cardArtUrl } from "@/lib/assets";
 
 import { CardArt } from "../card/CardArt";
 import { cardMeta } from "../card/card-meta";
+import { rarityTier } from "../card/rarity";
 import { ProceduralCardFace, domainStyleVars } from "../card/ProceduralCardFace";
 import type { HoverPreviewState } from "../interaction/types";
 import { useAnimationLevel } from "../theme/motion";
 import { tokenArtForName, useBoardCustomization } from "../layout/customization";
-import { computeHoverPreviewLayout, HOVER_PREVIEW_RULES_GAP_PX } from "./hover-metrics";
+import { computeHoverPreviewLayout, HOVER_PREVIEW_RULES_GAP_PX, HOVER_RULES_BASE_FONT_PX } from "./hover-metrics";
 import { KeywordRulesPanel } from "./KeywordRulesPanel";
 
 export interface HoverCardPreviewLayerProps {
@@ -42,7 +43,13 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
     const measure = () => setRulesHeight(Math.ceil(rulesRef.current?.getBoundingClientRect().height ?? 0));
     measure();
     const raf = window.requestAnimationFrame(measure);
-    return () => window.cancelAnimationFrame(raf);
+    // Fonts / icons / wrapping can change the height after the first paint.
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    if (rulesRef.current) observer?.observe(rulesRef.current);
+    return () => {
+      window.cancelAnimationFrame(raf);
+      observer?.disconnect();
+    };
   }, [preview?.card.id, preview?.card.text, preview?.scale, preview?.landscape]);
 
   useLayoutEffect(() => {
@@ -122,6 +129,7 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
           key={preview.card.id}
           ref={cardRef}
           className="hv-card"
+          data-rarity-tier={rarityTier(preview.card) ?? undefined}
           data-motion={level}
           style={{ width: `${layout.outerWidth}px`, height: `${layout.outerHeight}px` }}
         >
@@ -143,11 +151,22 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
           <span className="hv-glare" />
         </div>
       </div>
-      <div ref={rulesRef} style={{ marginTop: `${HOVER_PREVIEW_RULES_GAP_PX}px` }}>
+      <div
+        ref={rulesRef}
+        className="overflow-hidden"
+        style={{
+          marginTop: `${HOVER_PREVIEW_RULES_GAP_PX}px`,
+          maxHeight: `${Math.max(120, viewport.height - 16 - layout.outerHeight - HOVER_PREVIEW_RULES_GAP_PX)}px`,
+        }}
+      >
         <KeywordRulesPanel
           card={preview.card}
           className="hv-rules"
-          style={{ fontSize: `${11 * (preview.scale ?? 1)}px` }}
+          style={{
+            fontSize: `${HOVER_RULES_BASE_FONT_PX * (preview.scale ?? 1)}px`,
+            background: "linear-gradient(180deg, var(--rb-surface-2, #15171b), var(--rb-surface, #0e0f12) 70%)",
+            borderColor: "var(--rb-border-strong, rgba(200,170,110,0.45))",
+          }}
         />
       </div>
     </div>,

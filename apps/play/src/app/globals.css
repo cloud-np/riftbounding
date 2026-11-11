@@ -3,6 +3,7 @@
 @import "../styles/board-theme.css";
 @import "../styles/cards.css";
 @import "../styles/fx.css";
+@import "../styles/rarity.css";
 
 /*
  * The Riftbound app's compiled stylesheet (Tailwind v4 output + every custom
@@ -22,16 +23,37 @@
 }
 
 :root {
-  --font-ui: var(--font-bricolage), "Segoe UI", sans-serif;
-  --font-heading: var(--font-cardo), ui-serif, Georgia, serif;
+  --font-ui: var(--font-inter), "Segoe UI", system-ui, sans-serif;
+  --font-heading: var(--font-cinzel), var(--font-cardo), ui-serif, Georgia, serif;
   --font-brand: var(--font-rajdhani), "Segoe UI", sans-serif;
   --font-support-script: var(--font-cookie), cursive;
-  --sim-page-bg: #07101c;
+  --sim-page-bg: #060607;
+  /* Near-black board scheme with restrained warm-gold accents (League / Riftbound client feel). */
+  --rb-bg: #060607;
+  --rb-surface: #0e0f12;
+  --rb-surface-2: #15171b;
+  --rb-border: rgba(255, 255, 255, 0.08);
+  --rb-border-strong: rgba(200, 170, 110, 0.45);
+  --rb-gold: #c8aa6e;
+  --rb-gold-bright: #f0d48a;
+  --rb-text: #ece6da;
+  --rb-text-dim: #a39d92;
 }
 
 html,
 body {
   height: 100%;
+}
+
+/* Near-black app background (overrides the compiled navy/teal radial gradients). */
+html,
+html body {
+  background-color: var(--rb-bg, #060607);
+  background-image: none;
+}
+:root {
+  --color-bg-top: #0b0c0f;
+  --color-bg-bottom: #060607;
 }
 
 body {
@@ -68,7 +90,7 @@ body {
   width: 100%;
   overflow: hidden;
   background:
-    radial-gradient(120% 80% at 50% 0%, rgba(29, 50, 77, 0.32), transparent 70%),
+    radial-gradient(120% 80% at 50% 0%, rgba(200, 170, 110, 0.07), transparent 70%),
     var(--sim-page-bg);
 }
 

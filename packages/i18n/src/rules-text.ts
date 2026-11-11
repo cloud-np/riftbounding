@@ -33,6 +33,38 @@ export function rulesReasonText(t: Translator, code: string, rule?: string | nul
   return t("rules.ui.reasonWithRule", { reason, rule }) ?? `${reason} (rule ${rule})`;
 }
 
+/**
+ * Turns an engine rejection `detail` (written for logs: ids, lower-case) into a sentence a player can
+ * read: ids become names through `nameOf`, the first letter is capitalised, a full stop is added.
+ */
+export function plainRuleDetail(detail: string, nameOf?: (token: string) => string | undefined): string {
+  let text = detail.trim();
+  if (!text) return "";
+  if (nameOf) {
+    text = text.replace(/[^\s(),.;:]+/g, (token) => nameOf(token) ?? token);
+  }
+  text = text.charAt(0).toUpperCase() + text.slice(1);
+  return /[.!?]$/.test(text) ? text : `${text}.`;
+}
+
+/**
+ * §5 rejection toast: the reason sentence, then the engine's `detail` in plain language, then the
+ * rule — e.g. "That choice isn't allowed. Sand Soldier must be assigned lethal damage (3) before
+ * any excess. (rule 467.2.c.3)". Without a detail this is exactly `rulesReasonText`.
+ */
+export function rulesRejectionText(
+  t: Translator,
+  rejection: { code: string; rule?: string | null; detail?: string | null },
+  nameOf?: (token: string) => string | undefined,
+): string {
+  const detail = rejection.detail ? plainRuleDetail(rejection.detail, nameOf) : "";
+  if (!detail) return rulesReasonText(t, rejection.code, rejection.rule);
+  const reason = t(`rules.reason.${rejection.code}`) ?? t("rules.reason.unknown") ?? rejection.code;
+  const withDetail = `${reason} ${detail}`;
+  if (!rejection.rule) return withDetail;
+  return `${withDetail} (rule ${rejection.rule})`;
+}
+
 /** 411.2: the label for a `Prompt.data.reason`, or null for an unknown/absent reason. */
 export function promptReasonText(t: Translator, reason: unknown): string | null {
   if (typeof reason !== "string" || reason.length === 0) return null;

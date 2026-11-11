@@ -152,7 +152,7 @@ function BattlefieldMarker({
   };
   return (
     <div
-      className="gb-card-action-hover-scope group bf-marker absolute top-1/2 z-2 overflow-visible rounded-[0.48rem] border border-transparent bg-transparent shadow-none isolate [&_strong]:text-[#dbe7ff] [&_strong]:text-(length:--card-battlefield-title-size) [&_strong]:leading-[1.15] gb-local-board-hover-tone"
+      className="gb-card-action-hover-scope group bf-marker absolute top-1/2 z-2 overflow-visible rounded-[0.48rem] border border-transparent bg-transparent shadow-none isolate [&_strong]:text-[#e6e7ec] [&_strong]:text-(length:--card-battlefield-title-size) [&_strong]:leading-[1.15] gb-local-board-hover-tone"
       data-hover-preview-anchor="true"
       data-card-id={`battlefield-marker:${info.zone}`}
       data-drop-zone={info.zone}
@@ -195,7 +195,7 @@ function BattlefieldMarker({
     >
       <div className="absolute inset-px isolate">
         <div className="relative w-full h-full rounded-[0.48rem] overflow-visible">
-          <div className="absolute inset-0 rounded-[0.48rem] overflow-hidden bg-[linear-gradient(160deg,#1a2b48,#0b1424)]">
+          <div className="absolute inset-0 rounded-[0.48rem] overflow-hidden bg-[linear-gradient(160deg,#252423,#121110)]">
             <div className="absolute rounded-[inherit] overflow-hidden pointer-events-none" style={{ inset: "1px" }}>
               <div className="absolute inset-0">
                 <MarkerArt info={info} card={card} />
@@ -275,11 +275,11 @@ function BattlefieldPanel({
             t("rules.ui.hideDropHint") ??
             "Drop here to hide; or hold Alt while dropping on the battlefield"
           }
-          className="pointer-events-auto absolute bottom-[0.36rem] left-1/2 z-40 flex -translate-x-1/2 items-center gap-[0.24rem] whitespace-nowrap rounded-[0.22rem] border border-dashed border-[rgba(177,149,244,0.72)] bg-[rgba(31,24,51,0.94)] px-[0.38rem] py-[0.22rem] text-[0.56rem] font-bold uppercase tracking-[0.04em] text-[#e6dcff] shadow-[0_6px_16px_rgba(3,8,18,0.48)]"
+          className="pointer-events-auto absolute bottom-[0.36rem] left-1/2 z-40 flex -translate-x-1/2 items-center gap-[0.24rem] whitespace-nowrap rounded-[0.22rem] border border-dashed border-[rgba(171,158,188,0.72)] bg-[rgba(25,24,23,0.94)] px-[0.38rem] py-[0.22rem] text-[0.56rem] font-bold uppercase tracking-[0.04em] text-[#e7e0e8] shadow-[0_6px_16px_rgba(9,8,7,0.48)]"
         >
           <span aria-hidden="true">◈</span>
           <span>{t("rules.ui.hidePocket") ?? "Hide (facedown)"}</span>
-          <span className="text-[0.5rem] font-semibold normal-case text-[#c2b2ea]">
+          <span className="text-[0.5rem] font-semibold normal-case text-[#c0b8c7]">
             {t("rules.ui.hideCost") ?? "Cost: [A]"}
           </span>
         </div>

@@ -12,7 +12,7 @@ function ResourceGlyph({ kind }: { kind: "energy" | "power" }) {
       <span
         className={
           kind === "energy"
-            ? "block h-[0.72rem] w-[0.72rem] rotate-45 rounded-[0.1rem] border border-[rgba(186,220,255,0.72)] bg-[linear-gradient(145deg,rgba(95,190,255,0.95),rgba(31,92,158,0.95))] shadow-[0_0_8px_rgba(88,182,255,0.6)]"
+            ? "block h-[0.72rem] w-[0.72rem] rotate-45 rounded-[0.1rem] border border-[rgba(209,218,226,0.72)] bg-[linear-gradient(145deg,rgba(151,181,200,0.95),rgba(69,88,107,0.95))] shadow-[0_0_8px_rgba(144,173,195,0.6)]"
             : "block h-[0.72rem] w-[0.72rem] rounded-full border border-[rgba(255,218,190,0.72)] bg-[linear-gradient(145deg,rgba(255,187,110,0.95),rgba(171,88,40,0.95))] shadow-[0_0_8px_rgba(255,171,88,0.5)]"
         }
       />
@@ -44,34 +44,34 @@ export function FloatingResources({
       }
     >
       <div data-resources-content="true" className="grid w-max gap-[0.07rem]">
-        <span className="text-(length:--board-floating-label-size) font-semibold uppercase tracking-[0.06em] text-[#a4bbd9]">
+        <span className="text-(length:--board-floating-label-size) font-semibold uppercase tracking-[0.06em] text-[#b5bac1]">
           Floating
         </span>
         <div className={VALUE_ROW_CLASS}>
           <ResourceGlyph kind="energy" />
-          <span className="whitespace-nowrap transition-transform duration-180 ease-[cubic-bezier(0.2,0.7,0.2,1)] origin-left text-[#c6d4e2] scale-100">
+          <span className="whitespace-nowrap transition-transform duration-180 ease-[cubic-bezier(0.2,0.7,0.2,1)] origin-left text-[#d2d4d5] scale-100">
             Energy
           </span>
-          <span className="min-w-[0.9rem] text-right text-[0.78rem] font-semibold transition-transform duration-180 ease-[cubic-bezier(0.2,0.7,0.2,1)] origin-left text-[#c6d4e2] scale-100">
+          <span className="min-w-[0.9rem] text-right text-[0.78rem] font-semibold transition-transform duration-180 ease-[cubic-bezier(0.2,0.7,0.2,1)] origin-left text-[#d2d4d5] scale-100">
             {energy}
           </span>
           <span className="h-5 w-5 justify-self-center" aria-hidden="true">
             {interactive ? (
-              <span className="grid h-full w-full place-items-center rounded-[0.2rem] border border-[rgba(174,199,227,0.24)] bg-[rgba(14,27,47,0.7)] text-[0.7rem] leading-none text-[#d9e8ff]">
+              <span className="grid h-full w-full place-items-center rounded-[0.2rem] border border-[rgba(192,198,204,0.24)] bg-[rgba(24,23,22,0.7)] text-[0.7rem] leading-none text-[#e6e8ec]">
                 +
               </span>
             ) : null}
           </span>
           <ResourceGlyph kind="power" />
-          <span className="whitespace-nowrap transition-transform duration-180 ease-[cubic-bezier(0.2,0.7,0.2,1)] origin-left text-[#bdc8d8] scale-100">
+          <span className="whitespace-nowrap transition-transform duration-180 ease-[cubic-bezier(0.2,0.7,0.2,1)] origin-left text-[#c7c8ca] scale-100">
             Power
           </span>
-          <span className="min-w-[0.9rem] text-right text-[0.78rem] font-semibold transition-transform duration-180 ease-[cubic-bezier(0.2,0.7,0.2,1)] origin-left text-[#bdc8d8] scale-100">
+          <span className="min-w-[0.9rem] text-right text-[0.78rem] font-semibold transition-transform duration-180 ease-[cubic-bezier(0.2,0.7,0.2,1)] origin-left text-[#c7c8ca] scale-100">
             {power}
           </span>
           <span className="h-5 w-5 justify-self-center" aria-hidden="true">
             {interactive ? (
-              <span className="grid h-full w-full place-items-center rounded-[0.2rem] border border-[rgba(174,199,227,0.24)] bg-[rgba(14,27,47,0.7)] text-[0.7rem] leading-none text-[#d9e8ff]">
+              <span className="grid h-full w-full place-items-center rounded-[0.2rem] border border-[rgba(192,198,204,0.24)] bg-[rgba(24,23,22,0.7)] text-[0.7rem] leading-none text-[#e6e8ec]">
                 +
               </span>
             ) : null}

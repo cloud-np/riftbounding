@@ -193,7 +193,7 @@ export function MulliganOverlay({
         >
           {side === "opponent" && playerDone ? (
             <span
-              className="absolute left-1/2 bottom-full mb-[0.22rem] -translate-x-1/2 z-15 inline-flex min-w-[8.6rem] items-center justify-center rounded-none border border-[rgba(110,215,177,0.5)] text-[#8ff6d3] bg-[rgba(20,73,63,0.62)] py-[0.42rem] px-[0.8rem] text-[0.76rem] uppercase tracking-[0.09em]"
+              className="absolute left-1/2 bottom-full mb-[0.22rem] -translate-x-1/2 z-15 inline-flex min-h-10 min-w-[10rem] items-center justify-center rounded-[0.4rem] border border-[rgba(110,215,177,0.55)] bg-[#10261f] px-5 py-1 text-base font-semibold text-[#8ff6d3]"
               data-testid="mulligan-opponent-status"
             >
               {typeof kept === "number"
@@ -248,10 +248,8 @@ export function MulliganOverlay({
                       side === "opponent" ? "bg-[rgba(14,26,48,0.82)]" : ""
                     } ${
                       cardSelected
-                        ? "border-[rgba(255,174,128,0.78)] brightness-[0.83]"
-                        : side === "opponent"
-                          ? "border-[rgba(184,166,136,0.38)]"
-                          : "border-[rgba(188,165,122,0.38)]"
+                        ? "border-transparent brightness-[0.55] saturate-50"
+                        : "border-transparent hover:brightness-110"
                     } ${interactive ? "cursor-pointer" : "cursor-default"}`}
                     style={{ ...MUL_VARS }}
                     data-testid={`mulligan-${side === "own" ? "own" : "opponent"}-card-${index}`}

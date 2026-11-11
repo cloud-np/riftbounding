@@ -43,13 +43,13 @@ function ModifierToggle({
   const tones = {
     repeat: pressed
       ? "border-[rgba(246,217,136,0.72)] bg-[linear-gradient(180deg,rgba(109,82,25,0.96),rgba(72,53,14,0.98))] text-[#fff1c8]"
-      : "border-[rgba(166,185,209,0.2)] bg-[rgba(18,30,46,0.82)] text-[#c8d7ea] hover:border-[rgba(246,217,136,0.5)]",
+      : "border-[rgba(181,185,189,0.2)] bg-[rgba(26,25,24,0.82)] text-[#d5d7d9] hover:border-[rgba(246,217,136,0.5)]",
     flow: pressed
-      ? "border-[rgba(145,228,244,0.72)] bg-[linear-gradient(180deg,rgba(22,89,108,0.96),rgba(12,57,74,0.98))] text-[#ddfaff]"
-      : "border-[rgba(166,185,209,0.2)] bg-[rgba(18,30,46,0.82)] text-[#c8d7ea] hover:border-[rgba(145,228,244,0.5)]",
+      ? "border-[rgba(192,218,220,0.72)] bg-[linear-gradient(180deg,rgba(67,66,65,0.96),rgba(43,42,41,0.98))] text-[#f0f7f5]"
+      : "border-[rgba(181,185,189,0.2)] bg-[rgba(26,25,24,0.82)] text-[#d5d7d9] hover:border-[rgba(192,218,220,0.5)]",
     time: pressed
       ? "border-[rgba(154,243,214,0.72)] bg-[linear-gradient(180deg,rgba(27,95,78,0.96),rgba(13,57,48,0.98))] text-[#c9ffec]"
-      : "border-[rgba(166,185,209,0.2)] bg-[rgba(18,30,46,0.82)] text-[#c8d7ea] hover:border-[rgba(154,243,214,0.5)]",
+      : "border-[rgba(181,185,189,0.2)] bg-[rgba(26,25,24,0.82)] text-[#d5d7d9] hover:border-[rgba(154,243,214,0.5)]",
   } as const;
   return (
     <button
@@ -64,7 +64,7 @@ function ModifierToggle({
         event.stopPropagation();
         onClick();
       }}
-      className={`pointer-events-auto relative inline-flex h-[2.05rem] min-w-[2.05rem] items-center justify-center rounded-[0.34rem] border px-[0.32rem] text-[0.58rem] font-black leading-none tracking-[0.02em] shadow-[0_8px_18px_rgba(2,8,18,0.42),inset_0_1px_0_rgba(255,255,255,0.08)] transition ${tones[tone]}`}
+      className={`pointer-events-auto relative inline-flex h-[2.05rem] min-w-[2.05rem] items-center justify-center rounded-[0.34rem] border px-[0.32rem] text-[0.58rem] font-black leading-none tracking-[0.02em] shadow-[0_8px_18px_rgba(8,7,6,0.42),inset_0_1px_0_rgba(255,255,255,0.08)] transition ${tones[tone]}`}
       data-testid={testId}
     >
       {children}
@@ -140,12 +140,12 @@ export function ChainEntryCard({
     >
       <div
         data-chain-stack-pose="true"
-        className={`group group/chain-card relative h-full w-full overflow-visible bg-[rgba(16,24,39,0.84)] transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
+        className={`group group/chain-card relative h-full w-full overflow-visible bg-[rgba(22,21,20,0.84)] transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
           top
             ? isOwner
-              ? "rounded-[0.32rem] border border-[rgba(139,222,189,0.58)] shadow-[0_0_0_1px_rgba(120,221,183,0.38),0_0_26px_rgba(120,221,183,0.46),0_12px_24px_rgba(3,9,23,0.52)]"
-              : "rounded-[0.32rem] border border-[rgba(255,198,128,0.58)] shadow-[0_0_0_1px_rgba(255,187,110,0.38),0_0_26px_rgba(255,187,110,0.44),0_12px_24px_rgba(3,9,23,0.52)]"
-            : "rounded-[0.3rem] border border-[rgba(166,185,209,0.32)] shadow-[inset_0_0_0_1px_rgba(166,185,209,0.12),0_8px_16px_rgba(4,10,24,0.42)]"
+              ? "rounded-[0.32rem] border border-transparent shadow-[0_14px_26px_rgba(9,8,7,0.62)]"
+              : "rounded-[0.32rem] border border-transparent shadow-[0_14px_26px_rgba(9,8,7,0.62)]"
+            : "rounded-[0.3rem] border border-transparent shadow-[0_8px_16px_rgba(10,9,8,0.42)]"
         }`}
         style={{ opacity: poseOpacity, transform: poseTransform, transformOrigin: "92% 100%" }}
       >
@@ -240,7 +240,7 @@ export function ChainEntryCard({
           )}
           {top ? (
             <div
-              className="pointer-events-none absolute inset-0 z-20 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]"
+              className="pointer-events-none absolute inset-0 z-20 rounded-[inherit] "
               aria-hidden="true"
             />
           ) : null}
@@ -267,7 +267,7 @@ export function ChainEntryCard({
             {entry.flowEnabled ? (
               <span
                 data-chain-modifier-indicator="flow"
-                className="relative inline-flex items-center gap-[0.3rem] whitespace-nowrap rounded-full border border-[rgba(145,228,244,0.58)] bg-[linear-gradient(180deg,rgba(22,89,108,0.96),rgba(12,57,74,0.98))] px-[0.34rem] py-[0.24rem] text-[0.6rem] font-semibold text-[#ddfaff] shadow-[0_8px_20px_rgba(2,14,20,0.42),inset_0_1px_0_rgba(222,251,255,0.18)]"
+                className="relative inline-flex items-center gap-[0.3rem] whitespace-nowrap rounded-full border border-[rgba(192,218,220,0.58)] bg-[linear-gradient(180deg,rgba(67,66,65,0.96),rgba(43,42,41,0.98))] px-[0.34rem] py-[0.24rem] text-[0.6rem] font-semibold text-[#f0f7f5] shadow-[0_8px_20px_rgba(12,11,10,0.42),inset_0_1px_0_rgba(241,248,246,0.18)]"
               >
                 {t("current.flow") ?? "Flow"}
               </span>
@@ -279,7 +279,7 @@ export function ChainEntryCard({
           <button
             type="button"
             data-chain-top-card-action="true"
-            className="pointer-events-auto absolute right-[0.1rem] top-[0.1rem] z-40 inline-flex h-[2.05rem] min-w-[2.05rem] items-center justify-center rounded-[0.34rem] border border-[rgba(164,238,204,0.42)] bg-[rgba(20,69,57,0.82)] px-[0.32rem] text-[0.58rem] font-black text-[#dffbef] shadow-[0_8px_18px_rgba(2,8,18,0.42)] transition hover:border-[rgba(190,255,226,0.72)]"
+            className="pointer-events-auto absolute right-[0.1rem] top-[0.1rem] z-40 inline-flex h-[2.05rem] min-w-[2.05rem] items-center justify-center rounded-[0.34rem] border border-[rgba(164,238,204,0.42)] bg-[rgba(20,69,57,0.82)] px-[0.32rem] text-[0.58rem] font-black text-[#dffbef] shadow-[0_8px_18px_rgba(8,7,6,0.42)] transition hover:border-[rgba(190,255,226,0.72)]"
             aria-label={t("sim.hotkeyApproveChain") ?? "Approve the top effect on the chain"}
             onClick={(event) => {
               event.preventDefault();

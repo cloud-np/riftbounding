@@ -233,4 +233,16 @@ describe("strict Hidden board UX [R811.1.b][R811.6]", () => {
       true,
     );
   });
+
+  it("strict play hides the manual token panel and label affordances; sandbox keeps them", () => {
+    const { room } = hiddenRoom();
+    const strictHtml = renderBoard(room, "p1");
+    expect(strictHtml).not.toContain("data-token-quick-bar");
+    expect(strictHtml).not.toContain("Label Card");
+
+    const ctx = makeContext();
+    const sandbox = sandboxInGame(ctx);
+    const sandboxHtml = renderBoard(sandbox, "p1");
+    expect(sandboxHtml).toContain("data-token-quick-bar");
+  });
 });

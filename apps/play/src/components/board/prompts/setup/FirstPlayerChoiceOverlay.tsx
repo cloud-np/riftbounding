@@ -110,11 +110,11 @@ export function FirstPlayerChoiceOverlay({
             }}
             className={`pointer-events-auto relative cursor-pointer rounded-none border bg-cover bg-center px-[0.9rem] py-[0.8rem] transition-[border-color,filter,box-shadow] focus-visible:outline-none focus-visible:ring-2 disabled:cursor-default disabled:opacity-55 disabled:hover:brightness-100 ${VISUALS[relation]}`}
           >
-            <p className="m-0 text-center text-[1.12rem] font-semibold uppercase tracking-[0.04em] text-shadow-[0_2px_12px_rgba(0,0,0,0.78)]">
+            <p className="m-0 text-center text-[1.6rem] font-semibold [font-family:var(--font-heading)] text-shadow-[0_2px_12px_rgba(0,0,0,0.78)]">
               {label}
             </p>
             {showMetadata ? (
-              <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 text-[0.64rem] font-semibold uppercase tracking-[0.1em] text-white/76">
+              <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 text-sm font-semibold text-white/85">
                 <span className="rounded-[0.18rem] border border-white/22 bg-black/24 px-1.5 py-0.5">
                   {`P${player.seat + 1}`}
                 </span>

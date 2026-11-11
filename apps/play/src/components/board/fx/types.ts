@@ -8,6 +8,8 @@ export interface ClashUnit {
   /** Damage taken in this transition (0 when unknown / unharmed). */
   damage: number;
   died: boolean;
+  /** Effective might at clash time (drives the weight of the hit); 0 when unknown. */
+  might: number;
 }
 
 export type FxFromZone = Zone | "chain" | "none";

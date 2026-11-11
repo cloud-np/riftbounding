@@ -12,11 +12,11 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Rule bodies (entries minus section headings) | 2321 |
 | Rules with at least one test | 700 |
 | Rules coverage | 30.2% |
-| Tagged test titles | 1522 |
-| `[R…]` tags | 2640 |
+| Tagged test titles | 1523 |
+| `[R…]` tags | 2642 |
 | `[EX:…]` tags | 117 |
 | Range tags (not expanded) | 25 unique / 29 refs |
-| Test/helper files scanned | 241 |
+| Test/helper files scanned | 242 |
 | Unknown rule ids referenced | 0 |
 
 ## Per-section coverage
@@ -143,7 +143,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Buffs | 14 | 5 | 35.7% | 13 | 0 |
 | Mighty | 5 | 4 | 80.0% | 8 | 3 |
 | Bonus Damage | 10 | 6 | 60.0% | 6 | 5 |
-| Attachment | 25 | 7 | 28.0% | 38 | 1 |
+| Attachment | 25 | 7 | 28.0% | 39 | 1 |
 | Inactive | 13 | 1 | 7.7% | 0 | 1 |
 | Keywords can be Dependent Keywords | 14 | 3 | 21.4% | 12 | 1 |
 | XP | 11 | 4 | 36.4% | 11 | 0 |
@@ -182,7 +182,7 @@ Tags are `[R<rule id>]` for rules tests and `[EX:<rule id>]` for tests of the of
 | Deploy | 8 | 4 | 50.0% | 7 | 0 |
 | Disarm | 11 | 3 | 27.3% | 3 | 1 |
 | Show Off | 14 | 2 | 14.3% | 2 | 0 |
-| **Total** | **2321** | **700** | **30.2%** | **2640** | **117** |
+| **Total** | **2321** | **700** | **30.2%** | **2642** | **117** |
 
 ## Per-rule coverage — Sections 300–479
 

@@ -90,6 +90,36 @@ export const END_TURN_CHOICES: readonly AutoPassChoice<AutoEndTurnMode>[] = [
   { value: "no_action", labelKey: "rules.ui.autoPass.endTurnNoAction", fallback: "Whenever nothing is playable", leaks: true },
 ];
 
+/** The two presets the "Fast mode" switch toggles between (mirrors `FAST_AUTO_PASS` / defaults). */
+export const FAST_UPDATE: Readonly<AutoPassPrefsUpdate> = Object.freeze({
+  responses: "no_response",
+  forcedPrompts: "all",
+});
+export const SAFE_UPDATE: Readonly<AutoPassPrefsUpdate> = Object.freeze({
+  responses: "safe",
+  forcedPrompts: "safe",
+});
+
+export type AutoPassMode = "fast" | "safe" | "custom";
+
+/** Which preset the detailed values match; anything else is "custom". */
+export function autoPassMode(prefs: AutoPassPrefs | null): AutoPassMode {
+  if (!prefs) return "safe";
+  if (prefs.responses === FAST_UPDATE.responses && prefs.forcedPrompts === FAST_UPDATE.forcedPrompts) return "fast";
+  if (prefs.responses === SAFE_UPDATE.responses && prefs.forcedPrompts === SAFE_UPDATE.forcedPrompts) return "safe";
+  return "custom";
+}
+
+/** The update the Fast mode switch sends. */
+export function fastModeUpdate(on: boolean): AutoPassPrefsUpdate {
+  return { ...(on ? FAST_UPDATE : SAFE_UPDATE) };
+}
+
+/** A room with a bot seat (Practice vs Bot): no human opponent can read the viewer's timing. */
+export function isBotGame(room: Pick<GameState, "players">): boolean {
+  return room.players.some((player) => player.isBot === true);
+}
+
 /** True when any stored preference may reveal hand information. */
 export function prefsLeak(prefs: AutoPassPrefs | null): boolean {
   if (!prefs) return false;

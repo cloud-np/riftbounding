@@ -141,6 +141,34 @@ findings, scratch probes), then merged into `r4-engine` and finally integrated h
   - **Fixes**: Escape no longer sends `dismiss_deck_peek` without an open peek (strict rooms
     rejected it); strict spell drops on an enemy unit play the spell and pre-answer its target;
     the strict repro loader is development-only.
+- **R7 (player-experience wave, branch `claude/inspiring-cori-6ly8v7`).** Owner play-test feedback
+  on Practice vs Bot; orchestrated by Claude with Sonnet builders (cards, board chrome,
+  readability/prompts, auto-pass, FX/ceremony, then integration and fix rounds) and Haiku file
+  readers / browser QA.
+  - **Auto-pass:** Practice vs Bot seeds the human seat with `FAST_AUTO_PASS` (pass whenever there
+    is no legal response, answer every single-answer prompt); PvP keeps the information-safe
+    defaults. `defaultAutoPassFor(room, seat)` keys on "some seat `isBot`"; the panel has a "Fast
+    mode" switch with the detailed radios under "Advanced" (`docs/rules/auto-pass.md`, "Practice vs
+    Bot default"; -15.6 % decisions vs the default).
+  - **Might:** the board computed might without `mightMods` / layered modifiers, so attached gear
+    (Doran's Shield) and similar bonuses never showed. `card/might.ts` `unitMightView` now asks the
+    engine (`strictEffectiveMight`, `@rift/engine`) and drives the token badge (buffed / debuffed /
+    damage chip), hover text and combat FX. The engine was already right
+    (`packages/rules/test/edge-cases/equip-might.test.ts`).
+  - **Damage assignment (467.2.c.3/.4):** the engine rejection was correct; the dialog now mirrors
+    the validator (`strict/damage-assignment.ts`, cross-checked against the engine), disables
+    illegal steps and explains why; rejection toasts carry the engine detail in plain words.
+  - **Board:** near-black `--rb-*` theme, straight score track, rune tokens use the rune card art,
+    no name plates or selection/hover outline rings on cards (lift/brightness/dimming instead),
+    manual labels and token panels hidden in strict play, read-only large trash/banish viewer with
+    hover preview, tapered animated target arrows, Arena-style own-hand zoom (enlarged readable
+    card above the slot instead of the side preview).
+  - **Readability:** Inter (UI, rules text) and Cinzel (titles); centred, larger prompt dialogs;
+    `text/RulesText.tsx` renders energy/rune/might/tap tokens as icons with SVG fallbacks.
+  - **FX:** slower, might-weighted showdown clash with hit-stop; epic/legendary play effects and foil
+    sheens (`card/rarity.ts` tier, `styles/rarity.css`); `VictoryDefeatOverlay` for every format
+    with avatars, the defeated legend and seeded, situation-aware original legend lines
+    (`overlays/legend-lines.ts`).
 
 ## 3. Current state
 

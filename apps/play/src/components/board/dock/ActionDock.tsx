@@ -18,35 +18,35 @@ import {
 } from "./dock-items";
 
 const ACTION_ROW_CLASS =
-  "dock-row group/action relative inline-flex h-[2.22rem] w-full shrink-0 items-center justify-start whitespace-nowrap px-[0.68rem] text-(length:--board-action-font-size) font-semibold leading-none uppercase tracking-[0.055em] text-[#d8e6f6] transition-[background-color,color] duration-120 disabled:cursor-default disabled:opacity-[0.45] hover:enabled:bg-[rgba(116,151,194,0.12)] hover:enabled:text-[#f0f7ff] focus-visible:outline-2 focus-visible:outline-[rgba(201,226,255,0.72)] focus-visible:outline-offset-[-1px]";
+  "dock-row group/action relative inline-flex h-[2.22rem] w-full shrink-0 items-center justify-start whitespace-nowrap px-[0.68rem] text-(length:--board-action-font-size) font-semibold leading-none uppercase tracking-[0.055em] text-[#ece6da] transition-[background-color,color] duration-120 disabled:cursor-default disabled:opacity-[0.45] hover:enabled:bg-[rgba(200,170,110,0.12)] hover:enabled:text-[#ece6da] focus-visible:outline-2 focus-visible:outline-[rgba(236,230,218,0.72)] focus-visible:outline-offset-[-1px]";
 
 const TOGGLE_ROW_CLASS =
-  "dock-row group/action relative inline-flex h-[2.22rem] w-full shrink-0 items-center justify-start whitespace-nowrap px-[0.68rem] text-(length:--board-action-font-size) font-semibold leading-none uppercase tracking-[0.055em] text-[#d8e6f6] transition-[background-color,color] duration-120 disabled:cursor-default disabled:opacity-[0.45] hover:enabled:bg-[rgba(116,151,194,0.12)] hover:enabled:text-[#f0f7ff] focus-visible:outline-2 focus-visible:outline-[rgba(201,226,255,0.72)] focus-visible:outline-offset-[-1px] relative w-full px-[0.72rem] pr-[4.34rem] text-left normal-case tracking-[0.03em]";
+  "dock-row group/action relative inline-flex h-[2.22rem] w-full shrink-0 items-center justify-start whitespace-nowrap px-[0.68rem] text-(length:--board-action-font-size) font-semibold leading-none uppercase tracking-[0.055em] text-[#ece6da] transition-[background-color,color] duration-120 disabled:cursor-default disabled:opacity-[0.45] hover:enabled:bg-[rgba(200,170,110,0.12)] hover:enabled:text-[#ece6da] focus-visible:outline-2 focus-visible:outline-[rgba(236,230,218,0.72)] focus-visible:outline-offset-[-1px] relative w-full px-[0.72rem] pr-[4.34rem] text-left normal-case tracking-[0.03em]";
 
 const PANEL_CLASS =
-  "dock-panel absolute bottom-[calc(100%+0.34rem)] right-0 z-170 m-0 flex w-max max-w-[calc(100vw-1rem)] items-center justify-center overflow-hidden rounded-[0.18rem] border shadow-[inset_0_1px_0_rgba(255,255,255,0.065),0_12px_24px_rgba(3,8,18,0.28)] backdrop-blur-xl backdrop-saturate-150 transition-[max-height,opacity,border-color,background-color,transform] duration-160 ease-[cubic-bezier(0.2,0.7,0.2,1)]";
+  "dock-panel absolute bottom-[calc(100%+0.34rem)] right-0 z-170 m-0 flex w-max max-w-[calc(100vw-1rem)] items-center justify-center overflow-hidden rounded-[0.18rem] border shadow-[inset_0_1px_0_rgba(255,255,255,0.065),0_12px_24px_rgba(9,7,5,0.28)] backdrop-blur-xl backdrop-saturate-150 transition-[max-height,opacity,border-color,background-color,transform] duration-160 ease-[cubic-bezier(0.2,0.7,0.2,1)]";
 
 const PANEL_OPEN =
-  "max-h-[18.2rem] translate-y-0 border-[rgba(174,199,227,0.26)] bg-[rgba(11,20,35,0.82)] opacity-100 pointer-events-auto";
+  "max-h-[18.2rem] translate-y-0 border-[rgba(236,230,218,0.26)] bg-[rgba(19,17,15,0.82)] opacity-100 pointer-events-auto";
 const PANEL_CLOSED =
   "max-h-0 translate-y-[0.18rem] border-transparent bg-transparent opacity-0 pointer-events-none";
 
 const TRIGGER_CLASS =
-  "dock-trigger group/action relative grid place-items-center rounded-[0.16rem] border border-[rgba(181,205,234,0.24)] bg-[rgba(18,31,51,0.66)] text-[#d3e4f7] shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_5px_12px_rgba(3,8,18,0.18)] backdrop-blur-md backdrop-saturate-150 transition-[border-color,background-color,color,box-shadow] duration-140 hover:border-[rgba(204,226,249,0.4)] hover:bg-[rgba(29,47,72,0.72)] hover:text-[#f0f7ff] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_7px_16px_rgba(3,9,20,0.22)] focus-visible:outline-2 focus-visible:outline-[rgba(201,226,255,0.72)] focus-visible:outline-offset-1 disabled:cursor-default disabled:opacity-[0.45]";
+  "dock-trigger group/action relative grid place-items-center rounded-[0.16rem] border border-[rgba(236,230,218,0.24)] bg-[rgba(29,27,25,0.66)] text-[#ece6da] shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_5px_12px_rgba(9,7,5,0.18)] backdrop-blur-md backdrop-saturate-150 transition-[border-color,background-color,color,box-shadow] duration-140 hover:border-[rgba(236,230,218,0.4)] hover:bg-[rgba(42,40,38,0.72)] hover:text-[#ece6da] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_7px_16px_rgba(10,8,6,0.22)] focus-visible:outline-2 focus-visible:outline-[rgba(236,230,218,0.72)] focus-visible:outline-offset-1 disabled:cursor-default disabled:opacity-[0.45]";
 const ACTIONS_TRIGGER_SIZE = "h-[2.52rem] w-[3.26rem]";
 const TOGGLES_TRIGGER_SIZE =
   "h-[2.52rem] w-[3.26rem] rounded-l-[0.08rem] rounded-r-[0.18rem] -ml-px";
 
 const TOGGLE_TRIGGER_STATE =
-  "border-[rgba(181,205,234,0.34)] bg-[rgba(25,48,75,0.72)] text-[#e5f0ff] shadow-[inset_0_1px_0_rgba(236,246,255,0.08),0_5px_12px_rgba(3,8,18,0.2)]";
+  "border-[rgba(236,230,218,0.34)] bg-[rgba(43,41,39,0.72)] text-[#ece6da] shadow-[inset_0_1px_0_rgba(236,230,218,0.08),0_5px_12px_rgba(9,7,5,0.2)]";
 
 function ToggleSwitch({ enabled, on, off }: { enabled: boolean; on: string; off: string }) {
   return (
     <span
       className={`relative inline-flex h-[1.18rem] w-[2.72rem] shrink-0 items-center rounded-[0.16rem] border px-[0.12rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] transition-[border-color,background-color] duration-150 ${
         enabled
-          ? "border-[rgba(173,214,255,0.4)] bg-[rgba(41,82,121,0.88)] text-[#eff8ff]"
-          : "border-[rgba(147,181,219,0.24)] bg-[rgba(24,40,63,0.88)] text-[#cbd9ea]"
+          ? "border-[rgba(200,170,110,0.4)] bg-[rgba(70,68,66,0.88)] text-[#ece6da]"
+          : "border-[rgba(163,157,146,0.24)] bg-[rgba(36,34,32,0.88)] text-[#ece6da]"
       }`}
     >
       <span
@@ -59,7 +59,7 @@ function ToggleSwitch({ enabled, on, off }: { enabled: boolean; on: string; off:
         {enabled ? on : off}
       </span>
       <span
-        className={`pointer-events-none absolute top-1/2 inline-flex h-[0.82rem] w-[0.82rem] -translate-y-1/2 items-center justify-center rounded-[0.08rem] bg-[linear-gradient(180deg,rgba(226,238,252,0.98),rgba(181,202,228,0.96))] text-[rgba(83,110,145,0.9)] shadow-[inset_0_1px_0_rgba(245,250,255,0.72),0_1px_2px_rgba(7,14,28,0.24)] transition-[left,right,transform] duration-150 ${
+        className={`pointer-events-none absolute top-1/2 inline-flex h-[0.82rem] w-[0.82rem] -translate-y-1/2 items-center justify-center rounded-[0.08rem] bg-[linear-gradient(180deg,rgba(236,230,218,0.98),rgba(236,230,218,0.96))] text-[rgba(98,96,94,0.9)] shadow-[inset_0_1px_0_rgba(245,250,255,0.72),0_1px_2px_rgba(14,12,10,0.24)] transition-[left,right,transform] duration-150 ${
           enabled ? "right-[0.18rem]" : "left-[0.18rem]"
         }`}
       >
@@ -84,6 +84,8 @@ export interface BoardActionDockProps {
   buffArmed?: boolean;
   duplicateArmed?: boolean;
   labelArmed?: boolean;
+  /** Strict (non-manual) play: no manual card labels. */
+  hideLabel?: boolean;
   giveControlArmed?: boolean;
   emoteActive?: boolean;
   diceActive?: boolean;
@@ -109,6 +111,7 @@ export function BoardActionDock({
   buffArmed,
   duplicateArmed,
   labelArmed,
+  hideLabel = false,
   giveControlArmed,
   emoteActive,
   diceActive,
@@ -269,7 +272,7 @@ export function BoardActionDock({
         type="button"
         className={`${TRIGGER_CLASS} ${ACTIONS_TRIGGER_SIZE} ${
           panel === "actions"
-            ? "border-[rgba(204,226,249,0.42)] bg-[rgba(29,47,72,0.72)] text-[#f0f7ff]"
+            ? "border-[rgba(236,230,218,0.42)] bg-[rgba(42,40,38,0.72)] text-[#ece6da]"
             : ""
         } ${anyToggleEnabled ? "rounded-r-[0.08rem]" : "rounded-[0.18rem]"}`}
         disabled={busy}
@@ -289,7 +292,7 @@ export function BoardActionDock({
         type="button"
         className={`${TRIGGER_CLASS} ${TOGGLES_TRIGGER_SIZE} ${
           anyToggleEnabled ? TOGGLE_TRIGGER_STATE : ""
-        } ${panel === "toggles" ? "border-[rgba(204,226,249,0.42)] bg-[rgba(29,47,72,0.72)] text-[#f0f7ff]" : ""}`}
+        } ${panel === "toggles" ? "border-[rgba(236,230,218,0.42)] bg-[rgba(42,40,38,0.72)] text-[#ece6da]" : ""}`}
         disabled={busy}
         onClick={() => togglePanel("toggles")}
         aria-label={t("current.openBoardTogglesPanel") ?? "Open board toggles panel."}
@@ -311,13 +314,13 @@ export function BoardActionDock({
         inert={panel !== "actions"}
         className={`${PANEL_CLASS} ${panel === "actions" ? PANEL_OPEN : PANEL_CLOSED}`}
       >
-        <div className="inline-flex min-w-37 flex-col items-stretch divide-y divide-[rgba(174,199,227,0.12)]">
+        <div className="inline-flex min-w-37 flex-col items-stretch divide-y divide-[rgba(236,230,218,0.12)]">
           <div className="group/counter-option relative inline-flex w-full">
             <button
               type="button"
               className={`${ACTION_ROW_CLASS} ${
                 counter === "white"
-                  ? "bg-[rgba(241,246,255,0.94)] text-[#101c2e]"
+                  ? "bg-[rgba(236,230,218,0.94)] text-[#1a1816]"
                   : counter === "red"
                     ? "bg-[rgba(126,34,34,0.92)] text-[#ffe8e8]"
                     : ""
@@ -349,7 +352,7 @@ export function BoardActionDock({
               <div className="absolute inset-0 grid grid-cols-2 overflow-visible opacity-0 pointer-events-none transition-opacity duration-120 group-hover/counter-option:opacity-100 group-hover/counter-option:pointer-events-auto">
                 <button
                   type="button"
-                  className="group/action relative h-full overflow-visible border-r border-[rgba(160,188,226,0.16)] bg-[rgba(102,32,36,0.94)] text-[1.22rem] font-black leading-none text-[#ffe8e8] transition-[background-color,color] hover:bg-[rgba(126,39,43,0.96)]"
+                  className="group/action relative h-full overflow-visible border-r border-[rgba(236,230,218,0.16)] bg-[rgba(102,32,36,0.94)] text-[1.22rem] font-black leading-none text-[#ffe8e8] transition-[background-color,color] hover:bg-[rgba(126,39,43,0.96)]"
                   disabled={busy}
                   onClick={(event) => {
                     event.preventDefault();
@@ -362,7 +365,7 @@ export function BoardActionDock({
                 </button>
                 <button
                   type="button"
-                  className="group/action relative h-full overflow-visible bg-[rgba(225,234,246,0.96)] text-[1.22rem] font-black leading-none text-[#1f2d42] transition-[background-color,color] hover:bg-[rgba(240,246,255,0.98)]"
+                  className="group/action relative h-full overflow-visible bg-[rgba(236,230,218,0.96)] text-[1.22rem] font-black leading-none text-[#292725] transition-[background-color,color] hover:bg-[rgba(236,230,218,0.98)]"
                   disabled={busy}
                   onClick={(event) => {
                     event.preventDefault();
@@ -399,7 +402,7 @@ export function BoardActionDock({
 
           <button
             type="button"
-            className={`${ACTION_ROW_CLASS} ${duplicate ? "bg-[rgba(20,95,99,0.86)] text-[#e8fffd]" : ""}`}
+            className={`${ACTION_ROW_CLASS} ${duplicate ? "bg-[rgba(73,71,69,0.86)] text-[#ece6da]" : ""}`}
             disabled={busy}
             onClick={() => {
               setDuplicate(!duplicate);
@@ -417,6 +420,7 @@ export function BoardActionDock({
               : (t("sim.duplicateShortcut") ?? "Duplicate (⇧C)")}
           </button>
 
+          {hideLabel ? null : (
           <button
             type="button"
             className={`${ACTION_ROW_CLASS} ${label ? "bg-[rgba(111,86,28,0.86)] text-[#fff4d9]" : ""}`}
@@ -436,10 +440,11 @@ export function BoardActionDock({
               ? (t("sim.cancelLabelShortcut") ?? "Cancel Label (L)")
               : (t("sim.labelCardShortcut") ?? "Label Card (L)")}
           </button>
+          )}
 
           <button
             type="button"
-            className={`${ACTION_ROW_CLASS} ${giveControl ? "bg-[rgba(26,91,111,0.86)] text-[#ddfbff]" : ""}`}
+            className={`${ACTION_ROW_CLASS} ${giveControl ? "bg-[rgba(73,71,69,0.86)] text-[#ece6da]" : ""}`}
             disabled={busy}
             onClick={() => {
               setGiveControl(!giveControl);
@@ -500,12 +505,12 @@ export function BoardActionDock({
         inert={panel !== "toggles"}
         className={`${PANEL_CLASS} ${panel === "toggles" ? PANEL_OPEN : PANEL_CLOSED}`}
       >
-        <div className="inline-flex min-w-47 flex-col items-stretch divide-y divide-[rgba(174,199,227,0.12)]">
+        <div className="inline-flex min-w-47 flex-col items-stretch divide-y divide-[rgba(236,230,218,0.12)]">
           {toggles.map((toggle) => (
             <button
               key={toggle.key}
               type="button"
-              className={`${TOGGLE_ROW_CLASS} ${toggle.enabled ? "bg-[rgba(43,82,118,0.54)] text-[#edf6ff]" : ""}`}
+              className={`${TOGGLE_ROW_CLASS} ${toggle.enabled ? "bg-[rgba(71,69,67,0.54)] text-[#ece6da]" : ""}`}
               disabled={busy}
               onClick={() => toggleBoardSetting(toggle)}
               data-board-toggle={toggle.key}
@@ -537,14 +542,14 @@ export function BoardActionDock({
       {diceMenu && diceAnchor ? (
         <div
           data-dice-menu="true"
-          className="absolute bottom-[calc(100%+0.42rem)] right-0 z-170 flex items-center gap-[0.18rem] rounded-[0.22rem] border border-[rgba(174,199,227,0.3)] bg-[rgba(11,20,35,0.96)] p-[0.3rem] shadow-[0_12px_24px_rgba(3,8,18,0.4)]"
+          className="absolute bottom-[calc(100%+0.42rem)] right-0 z-170 flex items-center gap-[0.18rem] rounded-[0.22rem] border border-[rgba(236,230,218,0.3)] bg-[rgba(19,17,15,0.96)] p-[0.3rem] shadow-[0_12px_24px_rgba(9,7,5,0.4)]"
           style={{ maxWidth: "calc(100vw - 1rem)" }}
         >
           {([4, 6, 8, 10, 12, 20] as const).map((sides) => (
             <button
               key={sides}
               type="button"
-              className="inline-flex h-[1.8rem] min-w-[1.8rem] items-center justify-center rounded-[0.16rem] border border-[rgba(181,205,234,0.24)] bg-[rgba(25,45,70,0.9)] text-[0.68rem] font-bold text-[#e6f2ff] transition-colors hover:bg-[rgba(45,74,108,0.94)]"
+              className="inline-flex h-[1.8rem] min-w-[1.8rem] items-center justify-center rounded-[0.16rem] border border-[rgba(236,230,218,0.24)] bg-[rgba(40,38,36,0.9)] text-[0.68rem] font-bold text-[#ece6da] transition-colors hover:bg-[rgba(65,63,61,0.94)]"
               onClick={() => {
                 dispatch({ type: "roll_die", sides });
                 setDiceMenu(false);

@@ -14,6 +14,7 @@ import { useAnimationLevel } from "../theme/motion";
 import { useBoardInteractionOptional } from "./context";
 import type { GameActionIntent, BoardSlotProps } from "../slot-types";
 import { playBoardSound } from "./sfx";
+import { HandZoomLayer, type HandZoomAnchor } from "./HandZoomLayer";
 import { HAND_FAN_SLOT_CLASS } from "../zones/HandFan";
 
 const t = createTranslator("en");
@@ -39,6 +40,17 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
   const [railWidthRem, setRailWidthRem] = useState<number | null>(null);
   const [layoutCardWidthRem, setLayoutCardWidthRem] = useState(5.2);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const leaveTimerRef = useRef<number | null>(null);
+  const pointerRef = useRef<{ x: number; y: number } | null>(null);
+  useEffect(() => {
+    const onMove = (event: PointerEvent) => {
+      pointerRef.current = { x: event.clientX, y: event.clientY };
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+  useEffect(() => () => { if (leaveTimerRef.current !== null) window.clearTimeout(leaveTimerRef.current); }, []);
+  const [hoverAnchor, setHoverAnchor] = useState<HandZoomAnchor | null>(null);
   const { cardSizePercent } = useLocalGameSettings();
   const animationLevel = useAnimationLevel();
 
@@ -125,7 +137,7 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
   const spreadFor = (index: number): string | undefined => {
     if (hoveredIndex < 0 || index === hoveredIndex) return undefined;
     const distance = Math.abs(index - hoveredIndex);
-    const amount = Math.max(0, 0.46 - 0.14 * (distance - 1)) * fan.cardWidthRem;
+    const amount = Math.max(0, 0.22 - 0.1 * (distance - 1)) * fan.cardWidthRem;
     return `${(index > hoveredIndex ? 1 : -1) * amount}rem`;
   };
 
@@ -178,9 +190,9 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                   ...(hovered
                     ? {
                         zIndex: 90,
-                        ["--fan-hover-raise" as string]: "calc(var(--card-height) * -0.42 - 8px)",
+                        ["--fan-hover-raise" as string]: "calc(var(--card-height) * -0.08)",
                         ["--fan-rotate" as string]: "0deg",
-                        ["--hand-scale" as string]: owner === "self" ? 1.35 : 1.12,
+                        ["--hand-scale" as string]: owner === "self" ? 1 : 1.06,
                       }
                     : { ["--hand-spread" as string]: spreadFor(slotIndex) }),
                 }}
@@ -188,12 +200,47 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                 data-card-id={card.id}
                 onPointerEnter={(event) => {
                   if (event.pointerType !== "mouse" && event.pointerType) return;
+                  if (leaveTimerRef.current !== null) {
+                    window.clearTimeout(leaveTimerRef.current);
+                    leaveTimerRef.current = null;
+                  }
                   setHoveredCardId(card.id);
+                  if (owner === "self") {
+                    const rect = event.currentTarget.getBoundingClientRect();
+                    setHoverAnchor({ left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+                  }
                   if (hand.length > 0) playBoardSound("card_hover");
                 }}
                 onPointerLeave={(event) => {
                   if (event.pointerType !== "mouse" && event.pointerType) return;
-                  setHoveredCardId(null);
+                  // Short grace: the neighbour spread moves slots under the pointer, so the leave can
+                  // fire before the next enter. Only clear if no other card was entered meanwhile.
+                  if (leaveTimerRef.current !== null) window.clearTimeout(leaveTimerRef.current);
+                  const leavingId = card.id;
+                  const settle = () => {
+                    leaveTimerRef.current = null;
+                    if (owner === "self") {
+                      // Still inside the hand band (spread moved a slot under a stationary pointer
+                      // before its enter fired)? Resolve the slot from the pointer instead of closing.
+                      const pt = pointerRef.current;
+                      const rail = railRef.current;
+                      if (pt && rail) {
+                        const slots = Array.from(rail.querySelectorAll<HTMLElement>(".handFanSlot[data-card-id]"));
+                        const hit = slots.find((el) => {
+                          const r = el.getBoundingClientRect();
+                          return pt.x >= r.left && pt.x <= r.right && pt.y >= r.top - 8 && pt.y <= r.bottom + 8;
+                        });
+                        if (hit?.dataset.cardId) {
+                          const r = hit.getBoundingClientRect();
+                          setHoverAnchor({ left: r.left, top: r.top, width: r.width, height: r.height });
+                          setHoveredCardId(hit.dataset.cardId);
+                          return;
+                        }
+                      }
+                    }
+                    setHoveredCardId((current) => (current === leavingId ? null : current));
+                  };
+                  leaveTimerRef.current = window.setTimeout(settle, owner === "self" ? 140 : 0);
                 }}
               >
                 <div
@@ -203,6 +250,11 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                   data-preview-rotation="0"
                   data-card-id={card.id}
                   data-drop-zone="hand"
+                  style={
+                    hovered && owner === "self" && !faceDown
+                      ? { opacity: 0, transition: "opacity 120ms ease-out" }
+                      : { transition: "opacity 120ms ease-out" }
+                  }
                 >
                   <GameCard
                     card={card}
@@ -226,7 +278,7 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
           })}
           {fan.gapStyle ? (
             <div
-              className="handFanSlot pointer-events-none absolute left-1/2 top-0 flex items-start w-(--card-width) h-(--card-height) origin-[center_bottom] transform-[translate(calc(-50%+var(--fan-offset-x,0rem)),calc(var(--fan-translate-y,0px)+var(--fan-hover-raise,0px)))_rotate(var(--fan-rotate,0deg))] transition-transform duration-220 ease-[cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none"
+              className="handFanSlot pointer-events-none absolute left-1/2 top-0 flex items-start w-(--card-width) h-(--card-height) origin-[center_bottom] transform-[translate(calc(-50%+var(--fan-offset-x,0rem)),calc(var(--fan-translate-y,0px)+var(--fan-hover-raise,0px)))_rotate(var(--fan-rotate,0deg))] transition-transform duration-300 ease-[cubic-bezier(0.22,0.8,0.3,1)] motion-reduce:transition-none"
               style={fan.gapStyle}
               aria-hidden="true"
             >
@@ -280,6 +332,12 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
           </button>
         ) : null}
       </div>
+      {owner === "self" ? (
+        <HandZoomLayer
+          card={hoveredIndex >= 0 ? ((fan.slots[hoveredIndex]?.card as CardInstance | undefined) ?? null) : null}
+          anchor={hoverAnchor}
+        />
+      ) : null}
     </section>
   );
 }

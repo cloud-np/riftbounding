@@ -8,6 +8,7 @@
  */
 import type { BattlefieldZone, CardInstance, Room, Zone } from "@rift/protocol";
 
+import { unitMightView } from "../card/might";
 import type { ClashUnit, FxEvent, FxFromZone } from "./types";
 
 export const BATTLEFIELD_ZONES: readonly BattlefieldZone[] = [
@@ -83,15 +84,9 @@ function objectState(room: Room, id: string) {
   return room.rules?.objects?.[id];
 }
 
-/** Might the card is currently showing (base + buffs). */
+/** Might the card is currently showing (the rules engine's effective Might in strict rooms). */
 export function effectiveMight(room: Room, card: CardInstance): number {
-  const object = objectState(room, card.id);
-  return (
-    (card.might ?? 0) +
-    (card.temporaryMightBuff ?? 0) +
-    (object?.buffs ?? 0) +
-    (object?.temporaryMight ?? 0)
-  );
+  return unitMightView(room, card).current ?? 0;
 }
 
 function damageOf(room: Room, id: string): number {
@@ -165,7 +160,7 @@ function clashUnit(
   } else if (died && sandboxLethal) {
     damage = Math.max(1, effectiveMight(prevRoom, card));
   }
-  return { id: card.id, card, playerId, damage, died };
+  return { id: card.id, card, playerId, damage, died, might: effectiveMight(prevRoom, card) };
 }
 
 function deriveClash(

@@ -58,24 +58,25 @@ const GRID_TONE: Record<Tone, string> = {
 };
 
 const SUBTLE_BUTTON =
-  "inline-flex items-center justify-center rounded-[0.16rem] border border-transparent bg-transparent px-[0.76rem] py-[0.42rem] text-[#edf5ff] text-[0.72rem] font-semibold leading-none shadow-none disabled:cursor-not-allowed disabled:opacity-50 hover:enabled:border-[rgba(201,218,249,0.12)] hover:enabled:bg-[rgba(18,30,52,0.46)] hover:enabled:text-white transition-colors";
+  "inline-flex items-center justify-center rounded-[0.16rem] border border-transparent bg-transparent px-[0.76rem] py-[0.42rem] text-[var(--rb-text,#ece6da)] text-base font-semibold leading-none shadow-none disabled:cursor-not-allowed disabled:opacity-50 hover:enabled:border-[rgba(201,218,249,0.12)] hover:enabled:bg-[rgba(18,30,52,0.46)] hover:enabled:text-white transition-colors";
 
 const REVEAL_BUTTON =
-  "inline-flex items-center justify-center rounded-[0.16rem] border px-[0.76rem] py-[0.42rem] text-[0.72rem] font-semibold leading-none transition-colors disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex items-center justify-center rounded-[0.16rem] border px-4 py-2 text-base font-semibold leading-none transition-colors disabled:cursor-not-allowed disabled:opacity-50";
 const REVEAL_PRESSED =
-  "border-[rgba(125,218,237,0.58)] bg-[linear-gradient(180deg,rgba(38,94,112,0.94),rgba(19,55,71,0.98))] text-[#e8fbff] shadow-[inset_0_1px_0_rgba(224,250,255,0.16),0_0_0_1px_rgba(125,218,237,0.22)] hover:enabled:border-[rgba(160,235,248,0.72)] hover:enabled:bg-[linear-gradient(180deg,rgba(48,110,130,0.98),rgba(24,68,86,0.98))]";
+  "border-[var(--rb-gold-bright,#f0d48a)] bg-[#2a2415] text-[var(--rb-gold-bright,#f0d48a)]";
 const REVEAL_UNPRESSED =
-  "border-[rgba(125,218,237,0.28)] bg-[rgba(15,34,52,0.78)] text-[#d7f6fb] shadow-[inset_0_1px_0_rgba(224,250,255,0.06)] hover:enabled:border-[rgba(160,235,248,0.5)] hover:enabled:bg-[rgba(21,48,65,0.9)]";
+  "border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface-2,#15171b)] text-[var(--rb-text,#ece6da)] hover:enabled:border-[var(--rb-gold-bright,#f0d48a)]";
 
 const ACTION_GRID =
   "pointer-events-auto grid w-full grid-cols-2 gap-[0.36rem] [&>button:first-child:nth-last-child(odd)]:col-span-2";
 const ACTION_BUTTON =
-  "flex min-h-10 min-w-0 items-center justify-center rounded-[0.28rem] border p-[0.35rem] text-center text-[0.72rem] font-semibold leading-[1.25] transition-colors disabled:cursor-not-allowed disabled:opacity-50";
+  "flex min-h-10 min-w-0 items-center justify-center rounded-[0.28rem] border p-[0.4rem] text-center text-sm font-semibold leading-[1.25] transition-colors disabled:cursor-not-allowed disabled:opacity-50";
 
+/* No outline rings on cards: selection / revealed read as a soft tint plus the card lifting. */
 const SELECTION_RING =
-  "pointer-events-none absolute inset-0 z-7 rounded-[inherit] border-[0.18rem] border-[#f8d880] bg-[linear-gradient(180deg,rgba(248,216,128,0.18)_0%,rgba(248,216,128,0.05)_42%,rgba(248,216,128,0)_70%)] shadow-[inset_0_0_0_1px_rgba(255,246,206,0.46),0_0_0_1px_rgba(248,216,128,0.62),0_0_22px_rgba(248,216,128,0.34)]";
+  "pointer-events-none absolute inset-0 z-7 rounded-[inherit] bg-[linear-gradient(180deg,rgba(248,216,128,0.34)_0%,rgba(248,216,128,0.12)_50%,rgba(248,216,128,0.04)_100%)]";
 const REVEALED_RING =
-  "pointer-events-none absolute inset-0 z-5 rounded-[inherit] border-[0.18rem] border-[#7df4ff] bg-[linear-gradient(180deg,rgba(74,235,255,0.24)_0%,rgba(74,235,255,0.08)_24%,rgba(74,235,255,0)_48%)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.55),0_0_0_1px_rgba(125,244,255,0.72),0_0_24px_rgba(65,221,255,0.62)]";
+  "pointer-events-none absolute inset-0 z-5 rounded-[inherit] bg-[linear-gradient(180deg,rgba(74,235,255,0.26)_0%,rgba(74,235,255,0.08)_30%,rgba(74,235,255,0)_55%)]";
 
 function zoneParam(zone: DeckPeekZone): { zone?: "runeDeck" } {
   return zone === "runeDeck" ? { zone: "runeDeck" } : {};
@@ -474,11 +475,12 @@ export function DeckPeekPrompt({
         data-deck-peek="true"
         data-deck-peek-zone={zone}
         data-testid="deck-peek-panel"
-        className="gb-deck-peek pointer-events-auto fixed z-1 top-[calc(var(--sim-visible-top,0px)+0.5rem)] left-1/2 right-auto w-[min(96rem,calc(100%-1rem))] max-h-[calc(var(--sim-visible-height,100dvh)-var(--card-height)-2.25rem)] -translate-x-1/2 overflow-visible rounded-[0.18rem] border border-[rgba(179,221,255,0.22)] bg-[rgba(8,16,34,0.94)] shadow-[0_24px_44px_rgba(2,6,18,0.58)] before:pointer-events-none before:absolute before:inset-[0.08rem] before:rounded-[inherit] before:bg-[linear-gradient(180deg,rgba(22,39,70,0.94),rgba(11,23,47,0.97))] before:content-[''] after:pointer-events-none after:absolute after:inset-[0.08rem] after:rounded-[inherit] after:opacity-[0.46] after:gb-ornament-field after:content-[''] flex flex-col"
+        className="gb-deck-peek pointer-events-auto fixed z-1 top-[calc(var(--sim-visible-top,0px)+0.5rem)] left-1/2 right-auto w-[min(96rem,calc(100%-1rem))] max-h-[calc(var(--sim-visible-height,100dvh)-var(--card-height)-2.25rem)] -translate-x-1/2 overflow-visible rounded-[0.7rem] border border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface,#0e0f12)] text-[var(--rb-text,#ece6da)] shadow-[0_0_0_1px_rgba(0,0,0,0.6),0_24px_60px_rgba(0,0,0,0.75)] flex flex-col"
+        style={{ fontFamily: "var(--font-ui), system-ui, sans-serif" }}
       >
         <div className="pointer-events-none absolute inset-x-[0.9rem] top-[0.72rem] h-px bg-[linear-gradient(90deg,transparent,rgba(121,210,255,0.68)_20%,rgba(121,210,255,0.22)_52%,transparent)]" />
         <div className="gb-card-list-body relative z-1 flex min-h-0 flex-1 flex-col gap-2 p-[0.78rem] pt-[0.9rem]">
-          <div className="gb-card-list-header flex justify-between items-center gap-[0.4rem] [&_h3]:m-0 [&_h3]:text-[0.86rem] [&_h3]:font-semibold [&_h3]:uppercase [&_h3]:tracking-[0.06em] [&_h3]:text-[#dff4ff]">
+          <div className="gb-card-list-header flex justify-between items-center gap-[0.4rem] [&_h3]:m-0 [&_h3]:font-[family-name:var(--font-heading)] [&_h3]:text-[1.4rem] [&_h3]:font-semibold [&_h3]:tracking-[0.02em] [&_h3]:text-[var(--rb-gold-bright,#f0d48a)]">
             <div className="gb-card-list-heading flex items-center gap-[0.42rem] min-w-0">
               <button
                 type="button"
@@ -584,7 +586,7 @@ export function DeckPeekPrompt({
                             data-deck-peek-more-action
                             aria-disabled={action.disabled}
                             title={action.disabled ? action.reason : undefined}
-                            className={`min-h-10 w-full border-b border-[rgba(201,218,249,0.1)] px-[0.7rem] py-[0.48rem] text-left text-[0.72rem] font-semibold last:border-b-0 focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-[rgba(169,211,255,0.72)] focus-visible:outline-offset-[-2px] ${
+                            className={`min-h-10 w-full border-b border-[rgba(201,218,249,0.1)] px-4 py-3 text-left text-base font-semibold last:border-b-0 focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-[rgba(169,211,255,0.72)] focus-visible:outline-offset-[-2px] ${
                               action.disabled
                                 ? "cursor-not-allowed opacity-[0.45]"
                                 : "hover:bg-[rgba(27,46,77,0.9)]"
@@ -611,7 +613,7 @@ export function DeckPeekPrompt({
               </div>
             </div>
             <div className="gb-card-list-tools flex items-center justify-end gap-[0.42rem] min-w-0 flex-wrap">
-              <p className="gb-card-list-count inline-flex shrink-0 items-center rounded-[0.16rem] border border-[rgba(126,207,244,0.18)] bg-[rgba(16,36,64,0.72)] px-[0.56rem] py-[0.24rem] text-[0.68rem] font-medium tracking-[0.04em] text-[#8ec5df]">
+              <p className="gb-card-list-count inline-flex shrink-0 items-center rounded-[0.16rem] border border-[rgba(126,207,244,0.18)] bg-[rgba(16,36,64,0.72)] px-3 py-1 text-base font-medium tracking-[0.04em] text-[#8ec5df]">
                 {isRune
                   ? `${cards.length} ${cards.length === 1 ? (t("sim.deckPeek.rune") ?? "rune") : (t("sim.deckPeek.runes") ?? "runes")}`
                   : `${cards.length} ${cards.length === 1 ? "card" : "cards"}`}
@@ -638,7 +640,7 @@ export function DeckPeekPrompt({
               <button
                 type="button"
                 aria-label={t("sim.close") ?? "Close"}
-                className="gb-card-list-close rounded-[0.16rem] border border-[rgba(201,218,249,0.18)] bg-[rgba(17,31,58,0.86)] px-[0.76rem] py-[0.42rem] text-[#dbe7ff] text-[0.72rem] font-semibold shadow-[inset_0_1px_0_rgba(230,239,255,0.06)] transition-colors hover:border-[rgba(205,221,248,0.3)] hover:bg-[rgba(22,38,68,0.96)]"
+                className="gb-card-list-close rounded-[0.16rem] border border-[rgba(201,218,249,0.18)] bg-[rgba(17,31,58,0.86)] px-[0.76rem] py-[0.42rem] text-[#dbe7ff] text-base font-semibold shadow-[inset_0_1px_0_rgba(230,239,255,0.06)] transition-colors hover:border-[rgba(205,221,248,0.3)] hover:bg-[rgba(22,38,68,0.96)]"
                 onClick={close}
                 data-testid="deck-peek-close"
               >
@@ -668,10 +670,10 @@ export function DeckPeekPrompt({
                   onPointerLeave={(event) => {
                     delete (event.currentTarget as HTMLElement).dataset.cardActionHoverActive;
                   }}
-                  className={`group/card gb-card-action-hover-scope relative max-w-(--card-peek-width) cursor-grab overflow-hidden rounded-[0.3rem] border bg-[rgba(14,26,48,0.82)] shadow-[0_12px_24px_rgba(3,10,22,0.5)] transition-[border-color,box-shadow,transform] duration-150 active:cursor-grabbing ${
+                  className={`group/card gb-card-action-hover-scope relative max-w-(--card-peek-width) cursor-grab overflow-hidden rounded-[0.3rem] border border-transparent bg-[rgba(14,26,48,0.82)] shadow-[0_12px_24px_rgba(3,10,22,0.5)] transition-[box-shadow,transform,filter] duration-150 active:cursor-grabbing ${
                     selected
-                      ? "border-[rgba(248,216,128,0.78)] shadow-[inset_0_0_0_1px_rgba(255,242,188,0.32),0_0_0_1px_rgba(248,216,128,0.28),0_14px_24px_rgba(8,16,30,0.3)]"
-                      : "border-[rgba(184,166,136,0.38)] hover:border-[rgba(205,221,246,0.28)] hover:shadow-[inset_0_0_0_1px_rgba(236,244,255,0.08),0_0_0_1px_rgba(196,220,255,0.08),0_12px_20px_rgba(8,16,30,0.22)]"
+                      ? "-translate-y-1.5 brightness-110 shadow-[0_18px_30px_rgba(0,0,0,0.65)]"
+                      : "hover:-translate-y-0.5 hover:brightness-105"
                   }`}
                   data-testid="deck-peek-card"
                   data-card-id={card.id}
@@ -760,7 +762,7 @@ export function DeckPeekPrompt({
                     ) : null}
                   </div>
                   <div className="relative z-3 p-[0.28rem]">
-                    <p className="m-0 truncate text-[0.66rem] font-semibold text-[#edf4ff]">
+                    <p className="m-0 truncate text-sm font-semibold text-[#edf4ff]">
                       {card.name}
                     </p>
                   </div>
@@ -803,36 +805,36 @@ export function DeckPeekPrompt({
 
           {selection.size > 0 ? (
             <div className="gb-card-list-footer pointer-events-none absolute inset-x-[0.78rem] top-[calc(100%+0.56rem)] z-30 flex justify-center">
-              <div className="pointer-events-auto flex max-w-full flex-wrap items-center justify-center gap-[0.42rem] rounded-[0.22rem] border border-[rgba(230,219,166,0.26)] bg-[rgba(8,14,28,0.9)] px-[0.62rem] py-2 shadow-[0_16px_30px_rgba(2,6,18,0.46),inset_0_1px_0_rgba(255,248,214,0.08)] backdrop-blur-sm">
+              <div className="pointer-events-auto flex max-w-full flex-wrap items-center justify-center gap-[0.42rem] rounded-[0.22rem] border border-[rgba(230,219,166,0.26)] bg-[rgba(8,14,28,0.9)] px-4 py-3 shadow-[0_16px_30px_rgba(2,6,18,0.46),inset_0_1px_0_rgba(255,248,214,0.08)] backdrop-blur-sm">
                 <div className="flex min-w-0 flex-col items-center gap-1">
-                  <span className="inline-flex items-center px-[0.36rem] py-[0.24rem] text-[0.68rem] font-semibold uppercase tracking-wider text-[rgba(230,219,166,0.78)]">
+                  <span className="inline-flex items-center px-2 py-1 text-sm font-semibold uppercase tracking-wider text-[rgba(230,219,166,0.78)]">
                     {`${selection.size} selected`}
                   </span>
                   <div className="flex flex-wrap items-center justify-center gap-1">
                     <button
                       type="button"
-                      className={`${ACTION_BUTTON} ${GRID_TONE.hand} min-h-8 px-[0.6rem] py-[0.3rem]`}
+                      className={`${ACTION_BUTTON} ${GRID_TONE.hand} min-h-10 px-3 py-1`}
                       onClick={() => moveSelected("hand")}
                     >
                       {t("sim.toHand") ?? "To hand"}
                     </button>
                     <button
                       type="button"
-                      className={`${ACTION_BUTTON} ${GRID_TONE.banished} min-h-8 px-[0.6rem] py-[0.3rem]`}
+                      className={`${ACTION_BUTTON} ${GRID_TONE.banished} min-h-10 px-3 py-1`}
                       onClick={() => moveSelected("banished")}
                     >
                       {t("sim.banish") ?? "Banish"}
                     </button>
                     <button
                       type="button"
-                      className={`${ACTION_BUTTON} ${GRID_TONE.trash} min-h-8 px-[0.6rem] py-[0.3rem]`}
+                      className={`${ACTION_BUTTON} ${GRID_TONE.trash} min-h-10 px-3 py-1`}
                       onClick={() => moveSelected("trash")}
                     >
                       {t("sim.toTrash") ?? "To trash"}
                     </button>
                     <button
                       type="button"
-                      className={`${ACTION_BUTTON} ${GRID_TONE.default} min-h-8 px-[0.6rem] py-[0.3rem]`}
+                      className={`${ACTION_BUTTON} ${GRID_TONE.default} min-h-10 px-3 py-1`}
                       onClick={recycleSelected}
                     >
                       {t("sim.recycle") ?? "Recycle"}

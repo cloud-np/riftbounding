@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import type { Room } from "@rift/protocol";
 
-import { gameOverView } from "../game-over-state";
+import { gameOverView, gameResultView } from "../game-over-state";
 
 function room(overrides: Partial<Room>): Room {
   return {
@@ -121,5 +121,53 @@ describe("gameOverView", () => {
     expect(view.myReportedWinnerId).toBe("me");
     expect(view.opponentReportedWinnerId).toBe("me");
     expect(view.visible).toBe(true);
+  });
+});
+
+describe("gameResultView", () => {
+  const withScores = (me: number, them: number, extra: Partial<Room> = {}) =>
+    room({
+      matchFormat: "bo1",
+      players: [
+        { id: "me", seat: 1, name: "Atlas", joinedAt: 1, board: { score: me } as never },
+        { id: "them", seat: 2, name: "Bot", joinedAt: 1, isBot: true, board: { score: them } as never },
+      ],
+      ...extra,
+    });
+
+  it("is not finished without an outcome", () => {
+    expect(gameResultView(withScores(3, 2), "me").finished).toBe(false);
+  });
+
+  it("reports a close score win for any format", () => {
+    const view = gameResultView(
+      withScores(8, 7, { gameOutcome: { winnerPlayerIds: ["me"], reason: "score", decidedAtTurnNumber: 9 } }),
+      "me",
+    );
+    expect(view).toMatchObject({ finished: true, viewerWon: true, winnerId: "me", loserId: "them" });
+    expect(view.situations).toContain("close");
+  });
+
+  it("reports a defeat with the viewer as the fallen legend and a blowout for the winner", () => {
+    const view = gameResultView(
+      withScores(2, 8, { gameOutcome: { winnerPlayerIds: ["them"], reason: "score", decidedAtTurnNumber: 9 } }),
+      "me",
+    );
+    expect(view).toMatchObject({ viewerWon: false, winnerId: "them", loserId: "me" });
+    expect(view.situations).not.toContain("blowout");
+  });
+
+  it("flags concessions and keeps the game key stable", () => {
+    const conceded = withScores(1, 0, {
+      gameOutcome: { winnerPlayerIds: ["them"], reason: "concession", decidedAtTurnNumber: 4 },
+    });
+    const view = gameResultView(conceded, "me");
+    expect(view.situations).toEqual(["concession"]);
+    expect(gameResultView(conceded, "me").gameKey).toBe(view.gameKey);
+  });
+
+  it("ignores spectators", () => {
+    const finished = withScores(8, 2, { gameOutcome: { winnerPlayerIds: ["me"], reason: "score", decidedAtTurnNumber: 9 } });
+    expect(gameResultView(finished, "someone-else").finished).toBe(false);
   });
 });

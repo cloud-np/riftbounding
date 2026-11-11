@@ -126,14 +126,13 @@ export class FxContext {
   }
 
   /** Screen shake on the board shell via the standalone `translate` property. */
-  shake(strengthPx: number, durationMs: number): void {
+  shake(strengthPx: number, durationMs: number, steps = 9): void {
     if (this.level !== "full" || this.disposed) return;
     const now = performance.now();
     if (this.shakeAnim && now < this.shakeUntil && this.shakeStrength >= strengthPx) return;
     const shell = document.querySelector<HTMLElement>("[data-game-board-shell]");
     if (!shell) return;
     this.shakeAnim?.cancel();
-    const steps = 9;
     const frames: Keyframe[] = [];
     for (let i = 0; i < steps; i += 1) {
       const decay = 1 - i / steps;
@@ -154,6 +153,24 @@ export class FxContext {
     animation.addEventListener("cancel", done);
   }
 
+  /** Slight board "thud": a quick scale pulse of the board shell (`scale` is independent of the shake's `translate`). */
+  thud(amount: number, durationMs = 360): void {
+    if (this.level !== "full" || this.disposed) return;
+    const shell = document.querySelector<HTMLElement>("[data-game-board-shell]");
+    if (!shell) return;
+    const animation = shell.animate(
+      [
+        { scale: "1", easing: "cubic-bezier(0.1, 0.8, 0.3, 1)" },
+        { scale: `${1 + amount}`, offset: 0.22, easing: "cubic-bezier(0.3, 0, 0.3, 1)" },
+        { scale: "1" },
+      ],
+      { duration: scaled(durationMs) },
+    );
+    this.animations.add(animation);
+    animation.addEventListener("finish", () => this.animations.delete(animation));
+    animation.addEventListener("cancel", () => this.animations.delete(animation));
+  }
+
   /**
    * Floating number (damage / buff / score) in the top layer. `big` numbers are the combat hit
    * pops (scale-pop, then rise and fade); `lethal` adds a skull accent.
@@ -164,7 +181,7 @@ export class FxContext {
     text: string,
     kind: "damage" | "buff" | "score",
     delayMs = 0,
-    opts: { big?: boolean; lethal?: boolean } = {},
+    opts: { big?: boolean; lethal?: boolean; durationMs?: number } = {},
   ): void {
     if (this.disposed) return;
     const node = document.createElement("div");
@@ -195,7 +212,7 @@ export class FxContext {
         { opacity: 1, transform: `translate(-50%, ${-80 - rise * 0.5}%) scale(1)`, offset: 0.74 },
         { opacity: 0, transform: `translate(-50%, ${-80 - rise}%) scale(0.92)`, offset: 1 },
       ],
-      { duration: opts.big ? 1150 : 1000, delay: delayMs, easing: "cubic-bezier(0.2, 0.9, 0.3, 1)", fill: "both" },
+      { duration: opts.durationMs ?? (opts.big ? 1150 : 1000), delay: delayMs, easing: "cubic-bezier(0.2, 0.9, 0.3, 1)", fill: "both" },
     );
     animation.addEventListener("finish", remove);
     animation.addEventListener("cancel", remove);
