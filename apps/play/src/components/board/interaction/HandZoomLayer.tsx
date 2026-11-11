@@ -44,6 +44,7 @@ export function computeHandZoomLayout(anchor: HandZoomAnchor, viewport: { width:
 export function HandZoomLayer({ card, anchor }: { card: CardInstance | null; anchor: HandZoomAnchor | null }) {
   const level = useAnimationLevel();
   const cardRef = useRef<HTMLDivElement | null>(null);
+  const hadCardRef = useRef(false);
   const [viewport, setViewport] = useState(() => ({
     width: typeof window === "undefined" ? 1280 : window.innerWidth,
     height: typeof window === "undefined" ? 720 : window.innerHeight,
@@ -60,6 +61,9 @@ export function HandZoomLayer({ card, anchor }: { card: CardInstance | null; anc
 
   useLayoutEffect(() => {
     const el = cardRef.current;
+    const switching = hadCardRef.current;
+    hadCardRef.current = !!card;
+    if (switching) return;
     if (!el || !layout || !anchor || level !== "full") return;
     if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     const sx = anchor.width / layout.width;
