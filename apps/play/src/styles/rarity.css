@@ -6,10 +6,10 @@
  * Rules: sheens / overlays / aura only (NO coloured outline or ring around the card edge),
  * pointer-events none, subtle on tiny tokens, richer on hand + preview, static under reduced
  * motion / "Off". Everything lives on ::before / ::after so it never competes with the card's own
- * children; the card root only needs to be a positioned box (we set `position: relative` only when
- * the element has no position of its own via `:where`).
+ * children. The tagged roots are already positioned boxes (`gc-root relative`, `.rtoken`, the
+ * absolute full face); do NOT set `position` here: this sheet is unlayered, so it would beat
+ * Tailwind's layered `.absolute` and collapse the card.
  */
-:where([data-rarity-tier]) { position: relative; }
 
 /* ---- shared overlay plumbing ---- */
 [data-rarity-tier="epic"]::before,
