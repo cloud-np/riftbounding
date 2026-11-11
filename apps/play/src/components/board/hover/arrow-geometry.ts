@@ -51,11 +51,11 @@ const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v
 export function buildArrowGeometry(a: Point, c: Point, b: Point): ArrowGeometry {
   const chord = Math.hypot(b.x - a.x, b.y - a.y);
   // Short arrows shrink the whole glyph so the head never swallows the shaft.
-  const scale = clamp(chord / 170, 0.5, 1);
-  const headLength = 30 * scale;
-  const headHalfWidth = 17 * scale;
+  const scale = clamp(chord / 190, 0.5, 1);
+  const headLength = 42 * scale;
+  const headHalfWidth = 24 * scale;
   const widthStart = 3.2 * scale;
-  const widthEnd = 12.5 * scale;
+  const widthEnd = 14 * scale;
 
   // Arc-length table to find where the shaft ends (one head length before the tip).
   const STEPS = 64;
