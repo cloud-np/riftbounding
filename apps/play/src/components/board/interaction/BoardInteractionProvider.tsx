@@ -1765,6 +1765,12 @@ export function BoardInteractionProvider({
           setHoveredCardId(event.card.id);
           return;
         }
+        if (event.zone === "hand" && event.owner === "self" && !event.faceDown) {
+          // Own-hand cards are enlarged in place by HandZoomLayer; no side preview.
+          setHoveredCardId(event.card.id);
+          playBoardSound("card_hover");
+          return;
+        }
         scheduleCardPreview(event.card, event);
         if (event.zone === "hand") playBoardSound("card_hover");
         return;

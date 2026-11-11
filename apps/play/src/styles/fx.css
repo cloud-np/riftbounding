@@ -308,10 +308,13 @@ html[data-fx-tier="software"] .pcb-sheen { display: none !important; }
 .vd-card--missing { border-radius: 10px; background: radial-gradient(circle at 50% 35%, rgba(var(--vd-accent-rgb), 0.18), rgba(0, 0, 0, 0.4) 75%); }
 
 /* the fallen legend: desaturates, cracks, shatters into shards + embers */
-.vd-fighter[data-fallen] .vd-card--whole { animation: vd-defeat-fade 1400ms 1100ms ease-in forwards, vd-whole-gone 1ms 3000ms forwards; }
+.vd-fighter[data-fallen] .vd-card--whole { animation: vd-defeat-fade 1400ms 1100ms ease-in forwards, vd-defeat-sink 900ms 3000ms ease-out forwards; }
+@keyframes vd-defeat-sink { from { filter: grayscale(1) brightness(0.55) contrast(1.1); transform: translateY(6px) rotate(-1.5deg); } to { filter: grayscale(1) brightness(0.46) contrast(1.15); transform: translateY(16px) rotate(-4deg) scale(0.97); } }
 @keyframes vd-defeat-fade { to { filter: grayscale(1) brightness(0.55) contrast(1.1); transform: translateY(6px) rotate(-1.5deg); } }
 @keyframes vd-whole-gone { to { opacity: 0; visibility: hidden; } }
-.vd-crack { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; animation: vd-crack-in 600ms 2000ms ease-out forwards, vd-whole-gone 1ms 3000ms forwards; }
+.vd-crack { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; animation: vd-crack-in 600ms 2000ms ease-out forwards; transform-origin: 50% 100%; }
+.vd-fighter[data-fallen] .vd-crack { animation: vd-crack-in 600ms 2000ms ease-out forwards, vd-defeat-sink-xf 900ms 3000ms ease-out forwards; }
+@keyframes vd-defeat-sink-xf { to { transform: translateY(16px) rotate(-4deg) scale(0.97); } }
 .vd-crack path { fill: none; stroke: #fff; stroke-width: 0.9; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 2px #fff); vector-effect: non-scaling-stroke; }
 @keyframes vd-crack-in { from { opacity: 0; } to { opacity: 0.95; } }
 .vd-shards { position: absolute; inset: 0; pointer-events: none; }

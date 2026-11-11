@@ -120,7 +120,6 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
   return createPortal(
     <div
       data-hover-card-preview="true"
-      data-rarity-tier={rarityTier(preview.card) ?? undefined}
       className="pointer-events-none fixed z-2147483647"
       style={{ left: `${layout.x}px`, top: `${layout.y}px`, width: `${layout.outerWidth}px`, ...vars }}
       aria-hidden="true"
@@ -130,6 +129,7 @@ export function HoverCardPreviewLayer({ preview }: HoverCardPreviewLayerProps) {
           key={preview.card.id}
           ref={cardRef}
           className="hv-card"
+          data-rarity-tier={rarityTier(preview.card) ?? undefined}
           data-motion={level}
           style={{ width: `${layout.outerWidth}px`, height: `${layout.outerHeight}px` }}
         >

@@ -8405,6 +8405,18 @@
     ],
     "damageCannotBeDealt": "Can't be dealt damage",
     "useSuggestion": "Use suggestion",
+    "gameResult": {
+     "victory": "Victory",
+     "defeat": "Defeat",
+     "opponentConceded": "Your opponent conceded",
+     "youConceded": "You conceded",
+     "opponentLeft": "Your opponent left the game",
+     "youLeft": "You left the game",
+     "continue": "Continue",
+     "backToLobby": "Back to Lobby",
+     "you": "You",
+     "opponent": "Opponent"
+    },
     "autoPass": {
      "title": "Auto-pass",
      "open": "Auto-pass settings",

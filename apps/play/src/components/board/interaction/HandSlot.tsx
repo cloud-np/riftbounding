@@ -14,6 +14,7 @@ import { useAnimationLevel } from "../theme/motion";
 import { useBoardInteractionOptional } from "./context";
 import type { GameActionIntent, BoardSlotProps } from "../slot-types";
 import { playBoardSound } from "./sfx";
+import { HandZoomLayer, type HandZoomAnchor } from "./HandZoomLayer";
 import { HAND_FAN_SLOT_CLASS } from "../zones/HandFan";
 
 const t = createTranslator("en");
@@ -39,6 +40,7 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
   const [railWidthRem, setRailWidthRem] = useState<number | null>(null);
   const [layoutCardWidthRem, setLayoutCardWidthRem] = useState(5.2);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const [hoverAnchor, setHoverAnchor] = useState<HandZoomAnchor | null>(null);
   const { cardSizePercent } = useLocalGameSettings();
   const animationLevel = useAnimationLevel();
 
@@ -178,9 +180,9 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                   ...(hovered
                     ? {
                         zIndex: 90,
-                        ["--fan-hover-raise" as string]: "calc(var(--card-height) * -0.12)",
+                        ["--fan-hover-raise" as string]: "calc(var(--card-height) * -0.08)",
                         ["--fan-rotate" as string]: "0deg",
-                        ["--hand-scale" as string]: owner === "self" ? 1.14 : 1.06,
+                        ["--hand-scale" as string]: owner === "self" ? 1 : 1.06,
                       }
                     : { ["--hand-spread" as string]: spreadFor(slotIndex) }),
                 }}
@@ -189,6 +191,10 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                 onPointerEnter={(event) => {
                   if (event.pointerType !== "mouse" && event.pointerType) return;
                   setHoveredCardId(card.id);
+                  if (owner === "self") {
+                    const rect = event.currentTarget.getBoundingClientRect();
+                    setHoverAnchor({ left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+                  }
                   if (hand.length > 0) playBoardSound("card_hover");
                 }}
                 onPointerLeave={(event) => {
@@ -203,6 +209,11 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                   data-preview-rotation="0"
                   data-card-id={card.id}
                   data-drop-zone="hand"
+                  style={
+                    hovered && owner === "self" && !faceDown
+                      ? { opacity: 0, transition: "opacity 120ms ease-out" }
+                      : { transition: "opacity 120ms ease-out" }
+                  }
                 >
                   <GameCard
                     card={card}
@@ -280,6 +291,12 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
           </button>
         ) : null}
       </div>
+      {owner === "self" ? (
+        <HandZoomLayer
+          card={hoveredIndex >= 0 ? ((fan.slots[hoveredIndex]?.card as CardInstance | undefined) ?? null) : null}
+          anchor={hoverAnchor}
+        />
+      ) : null}
     </section>
   );
 }

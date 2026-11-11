@@ -17,6 +17,7 @@ import { createPortal } from "react-dom";
 import type { CardInstance, Room, RoomPlayer } from "@rift/protocol";
 
 import { CardVisual } from "../card/CardVisual";
+import { useBoardTranslator, text } from "../sidebar/i18n";
 import { useAnimationLevel } from "../theme/motion";
 import { gameResultView } from "./game-over-state";
 import { pickLegendLine } from "./legend-lines";
@@ -79,6 +80,8 @@ function Fighter({
   victor,
   side,
   animated,
+  youLabel,
+  opponentLabel,
 }: {
   player: RoomPlayer | undefined;
   isViewer: boolean;
@@ -86,6 +89,8 @@ function Fighter({
   victor: boolean;
   side: "self" | "opponent";
   animated: boolean;
+  youLabel: string;
+  opponentLabel: string;
 }) {
   const legend = legendOf(player);
   const card = legend ? <CardVisual card={legend} side={side} variant="full" /> : null;
@@ -96,8 +101,8 @@ function Fighter({
         <span className="vd-avatar-face">{initialOf(player)}</span>
       </div>
       <div className="vd-name">
-        {player?.name ?? "Opponent"}
-        {isViewer ? <span className="vd-you">You</span> : null}
+        {player?.name ?? opponentLabel}
+        {isViewer ? <span className="vd-you">{youLabel}</span> : null}
       </div>
       <div className="vd-card-slot" data-legend-name={legend?.name}>
         {card ? (
@@ -144,6 +149,7 @@ export function VictoryDefeatOverlay({
   viewerId,
   bo3,
   onLeave,
+  locale,
 }: {
   room: Room;
   viewerId: string;
@@ -151,8 +157,11 @@ export function VictoryDefeatOverlay({
   bo3: boolean;
   /** Back to lobby / leave (omit when the surface offers none). */
   onLeave?: () => void;
+  /** UI locale; defaults to the document language. */
+  locale?: string;
 }) {
   const level = useAnimationLevel();
+  const tr = useBoardTranslator(locale ?? (typeof document === "undefined" ? undefined : document.documentElement.lang));
   const result = useMemo(() => gameResultView(room, viewerId), [room, viewerId]);
   const [mounted, setMounted] = useState(false);
   const [dismissedKey, setDismissedKey] = useState<string | null>(null);
@@ -215,15 +224,18 @@ export function VictoryDefeatOverlay({
 
   if (!open || typeof document === "undefined") return null;
   const won = result.viewerWon;
+  const title = won ? text(tr, "rules.ui.gameResult.victory", "Victory") : text(tr, "rules.ui.gameResult.defeat", "Defeat");
+  const youLabel = text(tr, "rules.ui.gameResult.you", "You");
+  const opponentLabel = text(tr, "rules.ui.gameResult.opponent", "Opponent");
   const subtitle =
     room.gameOutcome?.reason === "concession" || room.matchTermination?.reason === "concession"
       ? won
-        ? "Your opponent conceded"
-        : "You conceded"
+        ? text(tr, "rules.ui.gameResult.opponentConceded", "Your opponent conceded")
+        : text(tr, "rules.ui.gameResult.youConceded", "You conceded")
       : room.matchTermination?.reason === "disconnect"
         ? won
-          ? "Your opponent left the game"
-          : "You left the game"
+          ? text(tr, "rules.ui.gameResult.opponentLeft", "Your opponent left the game")
+          : text(tr, "rules.ui.gameResult.youLeft", "You left the game")
         : `${result.winnerScore} – ${result.loserScore}`;
 
   return createPortal(
@@ -231,7 +243,7 @@ export function VictoryDefeatOverlay({
       className="vd-root"
       role="dialog"
       aria-modal="true"
-      aria-label={won ? "Victory" : "Defeat"}
+      aria-label={title}
       data-testid="victory-defeat-overlay"
       data-outcome={won ? "victory" : "defeat"}
       data-level={level}
@@ -241,13 +253,13 @@ export function VictoryDefeatOverlay({
       {won ? <div className="vd-rays" aria-hidden="true" /> : null}
       <div className="vd-content">
         <h2 className="vd-title" data-testid="vd-title">
-          {won ? "Victory" : "Defeat"}
+          {title}
         </h2>
         <p className="vd-sub">{subtitle}</p>
         <div className="vd-stage">
-          <Fighter player={viewer} isViewer side="self" fallen={!won} victor={won} animated={animated} />
+          <Fighter player={viewer} isViewer side="self" fallen={!won} victor={won} animated={animated} youLabel={youLabel} opponentLabel={opponentLabel} />
           <div className="vd-versus" aria-hidden="true" />
-          <Fighter player={opponent} isViewer={false} side="opponent" fallen={won} victor={!won} animated={animated} />
+          <Fighter player={opponent} isViewer={false} side="opponent" fallen={won} victor={!won} animated={animated} youLabel={youLabel} opponentLabel={opponentLabel} />
         </div>
         <blockquote className="vd-line" data-testid="vd-line">
           <span className="vd-line-text" aria-label={line.text}>
@@ -260,11 +272,11 @@ export function VictoryDefeatOverlay({
         </blockquote>
         <div className="vd-actions" data-visible={settled || undefined}>
           <button type="button" className="vd-btn vd-btn--primary" onClick={dismiss} data-testid="vd-continue" disabled={!settled}>
-            Continue
+            {text(tr, "rules.ui.gameResult.continue", "Continue")}
           </button>
           {onLeave && !bo3 ? (
             <button type="button" className="vd-btn" onClick={onLeave} data-testid="vd-leave" disabled={!settled}>
-              Back to Lobby
+              {text(tr, "rules.ui.gameResult.backToLobby", "Back to Lobby")}
             </button>
           ) : null}
         </div>

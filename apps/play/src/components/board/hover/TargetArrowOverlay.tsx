@@ -216,7 +216,7 @@ export function TargetArrowOverlay({ state, viewerId, live = false, aim = null }
       return;
     }
     let frame = 0;
-    let pending: PointerEvent | null = null;
+    let pending: MouseEvent | null = null;
     const measure = () => {
       frame = 0;
       const event = pending;
@@ -242,16 +242,22 @@ export function TargetArrowOverlay({ state, viewerId, live = false, aim = null }
         snap: targetId ? elementCenter(anchorElement) : null,
       });
     };
-    const onPointerMove = (event: PointerEvent) => {
+    const onPointerMove = (event: MouseEvent) => {
       pending = event;
       if (!frame) frame = window.requestAnimationFrame(measure);
     };
     window.addEventListener("pointermove", onPointerMove, true);
     window.addEventListener("pointerdown", onPointerMove, true);
+    // The chain card is a native-draggable source: once the browser starts the drag, pointer events
+    // stop and only drag events carry the pointer position.
+    window.addEventListener("dragover", onPointerMove, true);
+    window.addEventListener("drag", onPointerMove, true);
     return () => {
       if (frame) window.cancelAnimationFrame(frame);
       window.removeEventListener("pointermove", onPointerMove, true);
       window.removeEventListener("pointerdown", onPointerMove, true);
+      window.removeEventListener("dragover", onPointerMove, true);
+      window.removeEventListener("drag", onPointerMove, true);
     };
   }, [aim?.active, aim?.optionIds, aim?.sourceId]);
 
