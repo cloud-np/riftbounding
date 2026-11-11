@@ -35,7 +35,7 @@ import { createStrictRandom, type StrictRandom } from "./strict/rng";
 import { appendLog } from "./log/entries";
 import { ENGINE_ERRORS, ERROR_CODES } from "./errors";
 import type { RulesIntent, Verdict } from "@rift/protocol";
-import { applyRulesIntent, DEFAULT_AUTO_PASS, gate, initializeStrictRules } from "@rift/rules";
+import { applyRulesIntent, defaultAutoPassFor, gate, initializeStrictRules } from "@rift/rules";
 import { createEngineRulesHost } from "./strict/host";
 import { translateGesture } from "./strict/gestures";
 import { boardSettingsFor } from "./state/selectors";
@@ -425,7 +425,8 @@ export function applyGameAction<A extends { type: string }>(
   if (draft.rulesMode === "strict" && draft.phase === "in_game" && !draft.rules) {
     // Auto-pass (docs/rules/auto-pass.md): every seat starts with the information-safe defaults.
     draft = initializeStrictRules(draft, actionCtx, createEngineRulesHost(actionCtx), {
-      autoPass: DEFAULT_AUTO_PASS,
+      // A human in a room with a bot seat (Practice vs Bot) starts in fast mode.
+      autoPass: (playerId) => defaultAutoPassFor(draft, playerId),
     });
   }
   // Human-vs-human strict rooms keep no history at all; practice/solo strict rooms record every

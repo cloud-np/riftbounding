@@ -141,6 +141,11 @@ findings, scratch probes), then merged into `r4-engine` and finally integrated h
   - **Fixes**: Escape no longer sends `dismiss_deck_peek` without an open peek (strict rooms
     rejected it); strict spell drops on an enemy unit play the spell and pre-answer its target;
     the strict repro loader is development-only.
+- **R7 (player-experience wave, auto-pass lane).** Practice vs Bot seeds the human seat with
+  `FAST_AUTO_PASS` (pass whenever there is no legal response, answer every single-answer prompt);
+  PvP keeps the information-safe defaults. `defaultAutoPassFor(room, seat)` keys on "some seat
+  `isBot`"; the panel has a "Fast mode" switch with the detailed radios under "Advanced"
+  (`docs/rules/auto-pass.md`, "Practice vs Bot default"; -15.6 % decisions vs the default).
 
 ## 3. Current state
 

@@ -8408,6 +8408,11 @@
     "autoPass": {
      "title": "Auto-pass",
      "open": "Auto-pass settings",
+     "fastMode": "Fast mode",
+     "fastModeBot": "On by default — there's no opponent to read your timing.",
+     "fastModePvp": "Auto-pass when you have no legal response. Your opponent can tell from the instant pass that you had none.",
+     "custom": "Custom",
+     "advanced": "Advanced",
      "ownItems": "Pass on my own chain items",
      "responses": "Response windows",
      "responsesStop": "Always stop",

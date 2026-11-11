@@ -11,12 +11,13 @@
  */
 import { it } from "vitest";
 import type { AutoPassPrefs } from "@rift/protocol";
-import { DEFAULT_AUTO_PASS } from "../../src";
+import { DEFAULT_AUTO_PASS, FAST_AUTO_PASS } from "../../src";
 import { countInteractions, DECISION_CATEGORIES, REMOVED_BY, type InteractionTally } from "./interactions";
 
 const MODES: Record<string, AutoPassPrefs | undefined> = {
   none: undefined,
   default: { ...DEFAULT_AUTO_PASS },
+  fast: { ...FAST_AUTO_PASS },
   all: { ownItems: true, responses: "no_response", forcedPrompts: "all", endTurn: "no_action", hold: false },
 };
 

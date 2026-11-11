@@ -28,6 +28,38 @@ export const DEFAULT_AUTO_PASS: Readonly<AutoPassPrefs> = Object.freeze({
   hold: false,
 });
 
+/**
+ * Fast mode (opt-in; the default for a human in Practice vs Bot): also pass whenever there is no
+ * legal response and answer every single-answer prompt. Both leak hand information to a human
+ * opponent through timing, which is why PvP never gets them unless the player asks.
+ */
+export const FAST_AUTO_PASS: Readonly<AutoPassPrefs> = Object.freeze({
+  ownItems: true,
+  responses: "no_response",
+  forcedPrompts: "all",
+  endTurn: "safe",
+  hold: false,
+});
+
+/**
+ * Seed for a seat at strict game start: a human in a room with any bot seat (Practice vs Bot;
+ * detected by `isBot`, not by room mode, which the dev harness flips) gets `FAST_AUTO_PASS`,
+ * everyone else the information-safe `DEFAULT_AUTO_PASS`.
+ */
+export function defaultAutoPassFor(
+  room: Pick<Room, "players">,
+  playerId: string,
+): AutoPassPrefs {
+  const seat = room.players.find((player) => player.id === playerId);
+  const botGame = room.players.some((player) => player.isBot);
+  return { ...(botGame && seat && !seat.isBot ? FAST_AUTO_PASS : DEFAULT_AUTO_PASS) };
+}
+
+/** True when the preferences are exactly the fast preset (ignoring one-shot overrides). */
+export function isFastAutoPass(prefs: AutoPassPrefs | null | undefined): boolean {
+  return !!prefs && prefs.responses === "no_response" && prefs.forcedPrompts === "all";
+}
+
 /** A fresh copy of the defaults (never share the frozen object with a draft). */
 export function defaultAutoPassPrefs(): AutoPassPrefs {
   return { ...DEFAULT_AUTO_PASS };

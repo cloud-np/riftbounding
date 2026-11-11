@@ -75,7 +75,7 @@ export interface StrictInitOptions {
    * Auto-pass preferences seeded for every seat when the `RulesState` is created
    * (`docs/rules/auto-pass.md`). Omitted: no seat gets automatic actions (R1–R4 behaviour).
    */
-  autoPass?: AutoPassPrefs;
+  autoPass?: AutoPassPrefs | ((playerId: string) => AutoPassPrefs);
 }
 
 /** 302/315: first strict init when a strict room enters `in_game`. */
@@ -95,9 +95,12 @@ export function initializeStrictRules(
     setPhase(draft.rules, "awaken");
     if (options.autoPass) {
       // Turn-scoped entries (passUntil / standing answers) never carry over into a new game.
-      const { ownItems, responses, forcedPrompts, endTurn, hold } = options.autoPass;
+      const seed = options.autoPass;
       draft.rules.autoPass = Object.fromEntries(
-        host.playerIds(draft).map((playerId) => [playerId, { ownItems, responses, forcedPrompts, endTurn, hold }]),
+        host.playerIds(draft).map((playerId) => {
+          const { ownItems, responses, forcedPrompts, endTurn, hold } = typeof seed === "function" ? seed(playerId) : seed;
+          return [playerId, { ownItems, responses, forcedPrompts, endTurn, hold }];
+        }),
       );
     }
   }
