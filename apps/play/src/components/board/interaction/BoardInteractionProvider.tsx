@@ -82,6 +82,8 @@ import {
   withGestureAbility,
   type StrictBoardView,
 } from "../strict/strict-interaction";
+import { PROMPT_PRIMARY_BUTTON, PROMPT_SECONDARY_BUTTON } from "../strict/StrictPromptDialog";
+import { RulesText } from "../text/RulesText";
 import { findCard as findStrictCard, isStrictRoom, promptForClient, promptInstruction, promptSourceAnchor, promptSourceName, strictActorFor } from "../strict/strict-model";
 import { autoPassPrefsFor, autoPassSeat, passUntilIntent } from "../strict/strict-auto-pass";
 import {
@@ -3410,20 +3412,11 @@ export function BoardInteractionProvider({
         }
         .dragOriginPickup { opacity: .14; transition: opacity 90ms ease-out; }
         .dragOriginHidden { pointer-events: none; opacity: 0 !important; }
-        [data-strict-playable="true"] {
-          outline: 1px solid rgba(126, 222, 174, 0.78) !important;
-          outline-offset: -1px;
-          box-shadow: inset 0 0 0 1px rgba(126,222,174,0.3), 0 0 14px rgba(64,210,150,0.34) !important;
-        }
-        [data-strict-prompt-option="true"] {
+        /* No rings on cards (owner rule); only zone targets keep a highlight. */
+        [data-strict-prompt-option="true"]:not([data-card-id]):not(.gc-button) {
           outline: 1px solid rgba(126, 216, 255, 0.8) !important;
           outline-offset: -1px;
           box-shadow: inset 0 0 0 1px rgba(126,216,255,0.3), 0 0 14px rgba(64,164,220,0.38) !important;
-        }
-        [data-strict-prompt-hover="true"] {
-          outline: 2px solid rgba(180, 241, 255, 1) !important;
-          outline-offset: -2px;
-          box-shadow: inset 0 0 0 1px rgba(180,241,255,0.5), 0 0 22px rgba(90,206,255,0.7) !important;
         }
         [data-strict-drop-target="true"] {
           outline: 2px solid rgba(255, 214, 126, 0.9) !important;
@@ -3467,30 +3460,35 @@ export function BoardInteractionProvider({
       ) : null}
       {strictPrompt && strictPromptOnBoard ? (
         <div
-          className="pointer-events-auto fixed left-1/2 top-[5.2rem] z-[157] w-[min(30rem,calc(100%-1rem))] -translate-x-1/2 rounded-[0.28rem] border border-[rgba(125,218,237,0.5)] bg-[rgba(9,25,45,0.97)] px-[0.5rem] py-[0.4rem] text-[0.66rem] font-semibold text-[#d7f6fb] shadow-[0_10px_24px_rgba(2,7,18,0.55)]"
+          className="pointer-events-auto fixed left-1/2 top-[3.6rem] z-[157] w-[min(34rem,calc(100%-1.5rem))] -translate-x-1/2 rounded-[0.6rem] border border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface,#0e0f12)] px-4 py-3 text-base text-[var(--rb-text,#ece6da)] shadow-[0_0_0_1px_rgba(0,0,0,0.6),0_14px_36px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,212,138,0.14)]"
+          style={{ fontFamily: "var(--font-ui), system-ui, sans-serif" }}
           role="status"
           data-testid="strict-prompt-banner"
           data-strict-prompt-id={strictPrompt.id}
           data-strict-prompt-kind={strictPrompt.kind}
         >
           <div className="flex items-start gap-[0.4rem]">
-            <p className="m-0 min-w-0 flex-1 leading-[1.3]" data-testid="strict-prompt-banner-title">
-              {strictPromptTitle}
+            <p
+              className="m-0 min-w-0 flex-1 text-[1.1rem] font-semibold leading-[1.3] text-[var(--rb-gold-bright,#f0d48a)]"
+              style={{ fontFamily: "var(--font-heading), ui-serif, Georgia, serif" }}
+              data-testid="strict-prompt-banner-title"
+            >
+              <RulesText text={strictPromptTitle} />
             </p>
             {strictPromptMulti ? (
               <span
-                className="shrink-0 tabular-nums text-[#9fdff2]"
+                className="shrink-0 tabular-nums text-base text-[var(--rb-gold,#c8aa6e)]"
                 data-testid="strict-prompt-pinned-count"
               >
                 {strictPromptSelection.length}/{promptSelectionBounds(strictPrompt).max}
               </span>
             ) : null}
           </div>
-          <div className="mt-[0.3rem] flex flex-wrap items-center gap-[0.24rem]" data-testid="strict-prompt-actions">
+          <div className="mt-3 flex flex-wrap items-center gap-2" data-testid="strict-prompt-actions">
             {strictPromptMulti ? (
               <button
                 type="button"
-                className={smallNeutralButton}
+                className={`${PROMPT_SECONDARY_BUTTON} !min-h-10 !px-4`}
                 data-testid="strict-prompt-clear"
                 onClick={() => setStrictPromptSelection([])}
               >
@@ -3500,7 +3498,7 @@ export function BoardInteractionProvider({
             {promptSelectionBounds(strictPrompt).min === 0 ? (
               <button
                 type="button"
-                className={smallNeutralButton}
+                className={`${PROMPT_SECONDARY_BUTTON} !min-h-10 !px-4`}
                 data-testid="strict-prompt-skip"
                 onClick={skipStrictPrompt}
               >
@@ -3512,7 +3510,7 @@ export function BoardInteractionProvider({
             strictPromptSelection.length < promptSelectionBounds(strictPrompt).max ? (
               <button
                 type="button"
-                className={smallBlueButton}
+                className={`${PROMPT_PRIMARY_BUTTON} !min-h-10 !px-4`}
                 data-testid="strict-prompt-confirm"
                 onClick={confirmStrictPromptSelection}
               >

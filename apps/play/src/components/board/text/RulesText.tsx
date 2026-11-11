@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useMemo, type CSSProperties } from "react";
+import { Fragment, useMemo, type CSSProperties, type ReactNode } from "react";
 
 import { domainAsset, staticAsset } from "@/lib/assets";
 
@@ -38,17 +38,61 @@ function DomainIcon({ domain }: { domain: RulesDomain }) {
   );
 }
 
+/** Inline glyphs shown whenever the static icon image is missing or has not loaded (never a gap). */
+const GLYPHS: Record<string, ReactNode> = {
+  might: (
+    <>
+      <path d="M19.5 2.5 21.5 4.5 11 15 9 13Z" fill="currentColor" />
+      <path d="M8 12.5 11.5 16 9.5 18 6 14.5Z" fill="currentColor" />
+      <path d="M5.5 15.5 8.5 18.5 5 22 2 19Z" fill="currentColor" opacity="0.8" />
+    </>
+  ),
+  rune: (
+    <>
+      <path d="M12 1.8 20 8.4 12 22.2 4 8.4Z" fill="currentColor" />
+      <path d="M12 1.8 12 22.2M4 8.4h16" fill="none" stroke="rgba(0,0,0,0.4)" strokeWidth="1.2" />
+    </>
+  ),
+  tap: (
+    <>
+      <path
+        d="M19.5 12a7.5 7.5 0 1 1-2.4-5.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+      />
+      <path d="M20.5 2.8v5.6h-5.6Z" fill="currentColor" />
+    </>
+  ),
+};
+
 function StaticIcon({ name, label, kind }: { name: string; label: string; kind: string }) {
   return (
-    <SafeImg
-      src={staticAsset(`icons/${name}.webp`)}
-      alt={label}
-      title={label}
-      data-rules-icon={kind}
-      className="mx-[0.08em] object-contain"
+    <span
+      className="rules-icon-wrap relative mx-[0.08em] inline-block text-[var(--rb-gold-bright,#f0d48a)]"
       style={ICON_STYLE}
-      draggable={false}
-    />
+      data-rules-icon-wrap={kind}
+      title={label}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        className="rules-icon-glyph absolute inset-0 h-full w-full"
+        data-rules-glyph={kind}
+        role="img"
+        aria-label={label}
+      >
+        {GLYPHS[kind]}
+      </svg>
+      <SafeImg
+        src={staticAsset(`icons/${name}.webp`)}
+        alt={label}
+        title={label}
+        data-rules-icon={kind}
+        className="absolute inset-0 h-full w-full object-contain"
+        draggable={false}
+      />
+    </span>
   );
 }
 

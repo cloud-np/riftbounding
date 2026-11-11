@@ -64,13 +64,13 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
         data-testid="payment-toggle"
         data-resources-toggle="true"
       >
-        <span className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-[#9fb5d3]">
+        <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#9fb5d3]">
           {t("sim.floating") ?? "Floating"}
         </span>
-        <span className="rounded-full bg-[#f3f5f9] px-[0.28rem] text-[0.62rem] font-black leading-[1.15rem] text-[#0a0f18]" data-resources-summary-energy={energy}>
+        <span className="rounded-full bg-[#f3f5f9] px-[0.28rem] text-sm font-black leading-[1.15rem] text-[#0a0f18]" data-resources-summary-energy={energy}>
           {energy}
         </span>
-        <span className="text-[0.62rem] font-black text-[#e7c796]" data-resources-summary-power={power}>
+        <span className="text-sm font-black text-[#e7c796]" data-resources-summary-power={power}>
           {power}
         </span>
       </button>
@@ -82,12 +82,12 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
           data-resources-popover="true"
         >
           <header className="flex items-center justify-between border-b border-[rgba(174,199,227,0.14)] px-[0.5rem] py-[0.32rem]">
-            <strong className="text-[0.58rem] font-bold uppercase tracking-[0.1em] text-[#dff0ff]">
+            <strong className="text-xs font-bold uppercase tracking-[0.1em] text-[#dff0ff]">
               {t("sim.floating") ?? "Floating"}
             </strong>
             <button
               type="button"
-              className="rounded-[0.16rem] border border-[rgba(201,218,249,0.16)] px-[0.3rem] py-[0.1rem] text-[0.52rem] text-[#b8cce4] hover:bg-white/5"
+              className="rounded-[0.16rem] border border-[rgba(201,218,249,0.16)] px-[0.3rem] py-[0.1rem] text-xs text-[#b8cce4] hover:bg-white/5"
               onClick={() => send({ type: "clear_floating_resources" })}
               data-testid="payment-clear"
             >
@@ -95,14 +95,14 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
             </button>
           </header>
           <div className="grid gap-[0.1rem] px-[0.5rem] py-[0.36rem]">
-            <div className="grid grid-cols-[1.2rem_minmax(0,1fr)_1.5rem_1.2rem] items-center gap-[0.2rem] text-[0.66rem]">
+            <div className="grid grid-cols-[1.2rem_minmax(0,1fr)_1.5rem_1.2rem] items-center gap-[0.2rem] text-sm">
               <span className="text-[#9fb5d3]">E</span>
               <span>{t("sim.energy") ?? "Energy"}</span>
               <span className="text-right font-bold tabular-nums">{energy}</span>
               <span className="flex gap-[0.12rem]">
                 <button
                   type="button"
-                  className="h-[1.15rem] w-[1.15rem] rounded-[0.14rem] border border-[rgba(174,199,227,0.24)] bg-[rgba(14,27,47,0.7)] text-[0.7rem] leading-none"
+                  className="h-[1.15rem] w-[1.15rem] rounded-[0.14rem] border border-[rgba(174,199,227,0.24)] bg-[rgba(14,27,47,0.7)] text-sm leading-none"
                   onClick={() => send({ type: "adjust_floating_resource", resource: "energy", delta: -1 })}
                   disabled={energy <= 0}
                   data-testid="payment-energy-decrease"
@@ -111,7 +111,7 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
                 </button>
                 <button
                   type="button"
-                  className="h-[1.15rem] w-[1.15rem] rounded-[0.14rem] border border-[rgba(174,199,227,0.24)] bg-[rgba(14,27,47,0.7)] text-[0.7rem] leading-none"
+                  className="h-[1.15rem] w-[1.15rem] rounded-[0.14rem] border border-[rgba(174,199,227,0.24)] bg-[rgba(14,27,47,0.7)] text-sm leading-none"
                   onClick={() => send({ type: "adjust_floating_resource", resource: "energy", delta: 1 })}
                   data-testid="payment-energy-increase"
                 >
@@ -119,14 +119,14 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
                 </button>
               </span>
             </div>
-            <div className="grid grid-cols-[1.2rem_minmax(0,1fr)_1.5rem_1.2rem] items-center gap-[0.2rem] text-[0.66rem]">
+            <div className="grid grid-cols-[1.2rem_minmax(0,1fr)_1.5rem_1.2rem] items-center gap-[0.2rem] text-sm">
               <span className="text-[#9fb5d3]">P</span>
               <span>{t("sim.power") ?? "Power"}</span>
               <span className="text-right font-bold tabular-nums">{power}</span>
               <span className="flex gap-[0.12rem]">
                 <button
                   type="button"
-                  className="h-[1.15rem] w-[1.15rem] rounded-[0.14rem] border border-[rgba(174,199,227,0.24)] bg-[rgba(14,27,47,0.7)] text-[0.7rem] leading-none"
+                  className="h-[1.15rem] w-[1.15rem] rounded-[0.14rem] border border-[rgba(174,199,227,0.24)] bg-[rgba(14,27,47,0.7)] text-sm leading-none"
                   onClick={() => send({ type: "adjust_floating_resource", resource: "power", delta: -1 })}
                   disabled={power <= 0}
                   data-testid="payment-power-decrease"
@@ -135,7 +135,7 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
                 </button>
                 <button
                   type="button"
-                  className="h-[1.15rem] w-[1.15rem] rounded-[0.14rem] border border-[rgba(174,199,227,0.24)] bg-[rgba(14,27,47,0.7)] text-[0.7rem] leading-none"
+                  className="h-[1.15rem] w-[1.15rem] rounded-[0.14rem] border border-[rgba(174,199,227,0.24)] bg-[rgba(14,27,47,0.7)] text-sm leading-none"
                   onClick={() => send({ type: "adjust_floating_resource", resource: "power", delta: 1 })}
                   data-testid="payment-power-increase"
                 >
@@ -147,7 +147,7 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
 
           {runes.length > 0 ? (
             <section className="border-t border-[rgba(174,199,227,0.12)] px-[0.5rem] py-[0.34rem]">
-              <p className="m-0 mb-[0.18rem] text-[0.5rem] font-bold uppercase tracking-[0.1em] text-[#8ea9c9]">
+              <p className="m-0 mb-[0.18rem] text-xs font-bold uppercase tracking-[0.1em] text-[#8ea9c9]">
                 Recycle for floating energy
               </p>
               <div className="flex flex-wrap gap-[0.16rem]">
@@ -155,7 +155,7 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
                   <button
                     key={rune.id}
                     type="button"
-                    className="rounded-[0.16rem] border border-[rgba(125,218,237,0.28)] bg-[rgba(15,34,52,0.78)] px-[0.3rem] py-[0.14rem] text-[0.5rem] font-semibold text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.9)]"
+                    className="rounded-[0.16rem] border border-[rgba(125,218,237,0.28)] bg-[rgba(15,34,52,0.78)] px-[0.3rem] py-[0.14rem] text-xs font-semibold text-[#d7f6fb] hover:bg-[rgba(21,48,65,0.9)]"
                     onClick={() => {
                       playBoardSound("card_recycle");
                       dispatch({
@@ -175,12 +175,12 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
           ) : null}
 
           <section className="border-t border-[rgba(174,199,227,0.12)] px-[0.5rem] py-[0.34rem]">
-            <p className="m-0 mb-[0.18rem] text-[0.5rem] font-bold uppercase tracking-[0.1em] text-[#8ea9c9]">
+            <p className="m-0 mb-[0.18rem] text-xs font-bold uppercase tracking-[0.1em] text-[#8ea9c9]">
               Auto-pay
             </p>
             <div className="grid max-h-[9rem] gap-[0.16rem] overflow-y-auto">
               {hand.length === 0 ? (
-                <span className="text-[0.56rem] text-[#8ea9c9]">No cards in hand.</span>
+                <span className="text-xs text-[#8ea9c9]">No cards in hand.</span>
               ) : (
                 hand.map((card) => {
                   const batch =
@@ -201,13 +201,13 @@ export function PaymentTray({ room, viewerId, dispatch }: PaymentPanelProps) {
                         playBoardSound("card_autopay");
                         dispatch(batch as unknown as GameActionIntent);
                       }}
-                      className="flex items-center justify-between gap-2 rounded-[0.16rem] border border-[rgba(201,218,249,0.14)] bg-[rgba(14,27,47,0.62)] px-[0.3rem] py-[0.2rem] text-left text-[0.54rem] text-[#dbe7ff] hover:enabled:border-[rgba(139,222,189,0.5)] hover:enabled:bg-[rgba(20,48,50,0.72)] disabled:opacity-40"
+                      className="flex items-center justify-between gap-2 rounded-[0.16rem] border border-[rgba(201,218,249,0.14)] bg-[rgba(14,27,47,0.62)] px-[0.3rem] py-[0.2rem] text-left text-xs text-[#dbe7ff] hover:enabled:border-[rgba(139,222,189,0.5)] hover:enabled:bg-[rgba(20,48,50,0.72)] disabled:opacity-40"
                       data-testid="auto-pay-card"
                       data-card-id={card.id}
                       data-card-cost={`${card.energyCost ?? 0}:${card.powerCost ?? 0}`}
                     >
                       <span className="min-w-0 truncate">{card.name}</span>
-                      <span className="shrink-0 text-[0.48rem] uppercase tracking-[0.04em] text-[#9fb5d3]">
+                      <span className="shrink-0 text-xs uppercase tracking-[0.04em] text-[#9fb5d3]">
                         {batch ? summarize(batch.operations) : "Not payable"}
                       </span>
                     </button>

@@ -929,16 +929,13 @@ img.card-art-crop {
   filter: drop-shadow(0 0.8rem 0.8rem rgba(0, 0, 0, 0.6)) brightness(1.06);
 }
 
-.gc-button[data-gc-targetable="true"],
-.gc-button[data-strict-prompt-option="true"],
 .gc-button[data-strict-prompt-hover="true"],
-.gc-button[data-strict-playable="true"] {
-  outline: none !important;
-  box-shadow: none !important;
+.attached-card[data-strict-prompt-hover="true"] {
+  filter: brightness(1.18);
 }
 
-.gc-button[data-strict-prompt-hover="true"] {
-  filter: brightness(1.18);
+.attached-card[data-strict-prompt-option="true"] {
+  filter: brightness(1.08);
 }
 
 [data-anim="full"] .gc-button[data-gc-targetable="true"],
@@ -1157,4 +1154,9 @@ img[data-img-state="failed"] {
   .gc-button[data-strict-prompt-option="true"] {
     animation: none !important;
   }
+}
+
+/* RulesText: the inline glyph stands in until/unless the static icon image has decoded. */
+.rules-icon-wrap:has(> img[data-img-state="loaded"]) > .rules-icon-glyph {
+  display: none;
 }

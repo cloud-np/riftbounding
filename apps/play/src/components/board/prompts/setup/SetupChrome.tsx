@@ -28,7 +28,7 @@ export function SetupDimBackdrop({ visible }: { visible: boolean }) {
         initial={false}
         animate={{ opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,36,62,0.32),rgba(4,10,21,0.66))]"
+        className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,6,7,0.45),rgba(6,6,7,0.78))]"
       />
     </div>
   );
@@ -36,25 +36,28 @@ export function SetupDimBackdrop({ visible }: { visible: boolean }) {
 
 export function SetupHeading({ children }: { children: ReactNode }) {
   return (
-    <div className="text-center max-[600px]:gap-2 max-[600px]:text-[0.68rem] max-[600px]:tracking-[0.08em] flex items-center gap-[0.62rem] text-[0.8rem] uppercase tracking-[0.14em] text-[#e8dcc1]">
-      <span className="h-px w-[1.85rem] bg-[linear-gradient(90deg,rgba(200,176,130,0),rgba(200,176,130,0.88))]" />
-      <span className="text-shadow-[0_1px_0_rgba(8,18,34,0.55)]">{children}</span>
-      <span className="h-px w-[1.85rem] bg-[linear-gradient(90deg,rgba(200,176,130,0.88),rgba(200,176,130,0))]" />
+    <div
+      className="text-center max-[600px]:gap-2 max-[600px]:text-[1.1rem] flex items-center gap-4 text-[1.5rem] font-semibold tracking-[0.03em] text-[var(--rb-gold-bright,#f0d48a)]"
+      style={{ fontFamily: "var(--font-heading), ui-serif, Georgia, serif" }}
+    >
+      <span className="h-px w-[2.4rem] bg-[linear-gradient(90deg,rgba(200,170,110,0),rgba(200,170,110,0.9))]" />
+      <span>{children}</span>
+      <span className="h-px w-[2.4rem] bg-[linear-gradient(90deg,rgba(200,170,110,0.9),rgba(200,170,110,0))]" />
     </div>
   );
 }
 
 export const SETUP_HEADING_BAND_CLASS =
-  "rounded-none border border-[rgba(199,176,131,0.62)] bg-[linear-gradient(145deg,rgba(16,40,74,0.96),rgba(6,18,38,0.95))] px-[1.22rem] py-[0.52rem] shadow-[inset_0_0_0_1px_rgba(232,214,176,0.18),0_12px_28px_rgba(2,8,19,0.58)]";
+  "rounded-[0.7rem] border border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface,#0e0f12)] px-8 py-3 shadow-[0_0_0_1px_rgba(0,0,0,0.6),0_18px_44px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,212,138,0.14)]";
 
 export const SETUP_PRIMARY_BUTTON_CLASS =
-  "min-w-[8.6rem] cursor-pointer rounded-none border border-[rgba(224,194,135,0.84)] bg-[linear-gradient(180deg,rgba(34,79,127,0.98),rgba(10,34,68,0.98))] text-[#fff0d2] text-[0.76rem] uppercase tracking-[0.09em] py-[0.42rem] px-[0.8rem] shadow-[inset_0_0_0_1px_rgba(246,223,176,0.16),0_8px_18px_rgba(3,10,22,0.45)] transition-[transform,box-shadow,border-color,background] duration-140 hover:-translate-y-px hover:border-[rgba(243,214,157,0.96)] hover:bg-[linear-gradient(180deg,rgba(42,93,144,1),rgba(12,39,77,1))] hover:shadow-[inset_0_0_0_1px_rgba(255,234,191,0.26),0_10px_22px_rgba(3,10,22,0.5)] active:translate-y-0 active:shadow-[inset_0_0_0_1px_rgba(255,234,191,0.18),0_6px_14px_rgba(3,10,22,0.42)] disabled:opacity-[0.56] disabled:cursor-default disabled:transform-none";
+  "min-h-12 min-w-[10rem] cursor-pointer rounded-[0.4rem] border border-[var(--rb-gold,#c8aa6e)] bg-[linear-gradient(180deg,#d9bd7f,#b08f4c)] px-6 py-2 text-base font-semibold text-[#15110a] shadow-[0_2px_10px_rgba(0,0,0,0.5)] transition-[filter,transform] duration-150 enabled:hover:brightness-110 enabled:active:translate-y-px disabled:cursor-default disabled:opacity-50";
 
 export const SETUP_GREEN_CHIP_CLASS =
-  "inline-flex min-w-[8.6rem] items-center justify-center rounded-none border border-[rgba(110,215,177,0.5)] text-[#8ff6d3] bg-[rgba(20,73,63,0.62)] py-[0.42rem] px-[0.8rem] text-[0.76rem] uppercase tracking-[0.09em]";
+  "inline-flex min-h-12 min-w-[10rem] items-center justify-center rounded-[0.4rem] border border-[rgba(110,215,177,0.55)] bg-[#10261f] px-6 py-2 text-base font-semibold text-[#8ff6d3]";
 
 export const SETUP_RANDOM_BUTTON_CLASS =
-  "pointer-events-auto inline-flex h-8 items-center justify-center gap-1.5 rounded-none border border-[rgba(132,150,184,0.32)] bg-[rgba(8,14,24,0.72)] px-3 text-[0.68rem] font-medium uppercase tracking-[0.08em] text-[#eef3fa] shadow-[0_8px_18px_rgba(3,10,22,0.28)] transition hover:border-[rgba(139,222,189,0.62)] hover:bg-[rgba(18,38,36,0.86)] focus-visible:border-[rgba(139,222,189,0.84)] focus-visible:outline-none disabled:cursor-default disabled:opacity-50";
+  "pointer-events-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-[0.4rem] border border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface-2,#15171b)] px-6 text-base font-semibold text-[var(--rb-text,#ece6da)] shadow-[0_2px_10px_rgba(0,0,0,0.5)] transition-[border-color,background-color] duration-150 hover:border-[var(--rb-gold-bright,#f0d48a)] hover:bg-[#1d2026] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--rb-gold-bright,#f0d48a)] disabled:cursor-default disabled:opacity-50";
 
 export function catalogCardInstance(name: string, source: CardInstance["source"] = "battlefield"): CardInstance | null {
   const card = getCardByName(name);
@@ -96,7 +99,7 @@ export function BattlefieldDraftArt({
   const card = catalogCardInstance(name);
   if (!card) {
     return (
-      <div className="grid h-full w-full place-items-center bg-[linear-gradient(145deg,rgba(47,90,132,0.92),rgba(17,37,66,0.98))] px-2 text-center text-[0.68rem] font-semibold text-[#dbe7ff]">
+      <div className="grid h-full w-full place-items-center bg-[linear-gradient(145deg,rgba(47,90,132,0.92),rgba(17,37,66,0.98))] px-2 text-center text-base font-semibold text-[#dbe7ff]">
         {name}
       </div>
     );
@@ -124,7 +127,7 @@ export function SetupRosterStrip({
       aria-live="polite"
       aria-label={label}
       data-testid={testId}
-      className="pointer-events-none relative flex min-w-0 flex-1 items-stretch rounded-[0.16rem] border border-[rgba(132,150,184,0.28)] bg-[rgba(7,13,23,0.7)]"
+      className="pointer-events-none relative flex min-w-0 flex-1 items-stretch rounded-[0.16rem] border border-[var(--rb-border-strong,rgba(200,170,110,0.45))] bg-[var(--rb-surface,#0e0f12)]"
     >
       {children}
     </div>

@@ -32,17 +32,17 @@ import { SafeImg } from "../../card/SafeImg";
 const t = createTranslator("en");
 
 const SKIP_OUTLINE_BUTTON =
-  "min-w-48 rounded-none border border-[rgba(132,150,184,0.5)] bg-[rgba(8,14,24,0.72)] px-4 py-2 text-[0.76rem] uppercase tracking-widest text-(--text-soft) transition-[border-color,background,color] duration-140 hover:border-[rgba(224,194,135,0.68)] hover:bg-[rgba(18,28,45,0.94)] hover:text-[#fff0d2] focus-visible:border-[rgba(224,194,135,0.84)] focus-visible:outline-none disabled:cursor-default disabled:opacity-50 max-[720px]:w-full";
+  "min-w-48 rounded-[0.3rem] border border-[rgba(132,150,184,0.5)] bg-[rgba(8,14,24,0.72)] px-4 py-2 text-base uppercase tracking-widest text-(--text-soft) transition-[border-color,background,color] duration-140 hover:border-[rgba(224,194,135,0.68)] hover:bg-[rgba(18,28,45,0.94)] hover:text-[#fff0d2] focus-visible:border-[rgba(224,194,135,0.84)] focus-visible:outline-none disabled:cursor-default disabled:opacity-50 max-[720px]:w-full";
 const SKIP_ACCEPT_BUTTON =
-  "min-w-48 rounded-none border border-[rgba(110,215,177,0.62)] bg-[linear-gradient(180deg,rgba(22,91,74,0.92),rgba(10,52,47,0.94))] px-4 py-2 text-[0.76rem] font-semibold uppercase tracking-widest text-[#c9ffec] shadow-[inset_0_0_0_1px_rgba(191,255,231,0.08),0_8px_18px_rgba(3,10,22,0.36)] transition-[border-color,background,color] duration-140 hover:border-[rgba(139,240,201,0.84)] hover:bg-[linear-gradient(180deg,rgba(28,111,89,0.96),rgba(12,65,57,0.98))] focus-visible:border-[rgba(158,255,219,0.94)] focus-visible:outline-none disabled:cursor-default disabled:opacity-65 max-[720px]:w-full";
+  "min-w-48 rounded-[0.3rem] border border-[rgba(110,215,177,0.62)] bg-[linear-gradient(180deg,rgba(22,91,74,0.92),rgba(10,52,47,0.94))] px-4 py-2 text-base font-semibold uppercase tracking-widest text-[#c9ffec] shadow-[inset_0_0_0_1px_rgba(191,255,231,0.08),0_8px_18px_rgba(3,10,22,0.36)] transition-[border-color,background,color] duration-140 hover:border-[rgba(139,240,201,0.84)] hover:bg-[linear-gradient(180deg,rgba(28,111,89,0.96),rgba(12,65,57,0.98))] focus-visible:border-[rgba(158,255,219,0.94)] focus-visible:outline-none disabled:cursor-default disabled:opacity-65 max-[720px]:w-full";
 const SKIP_POPOVER =
   "absolute right-0 bottom-[calc(100%+0.5rem)] z-30 w-72 max-w-[calc(100vw-2rem)] rounded-[0.18rem] border border-[rgba(132,150,184,0.38)] bg-[linear-gradient(180deg,rgba(14,25,42,0.99),rgba(7,13,25,0.99))] p-2.5 text-left shadow-[0_16px_34px_rgba(3,8,18,0.56)]";
 const SKIP_POPOVER_ARROW =
   "absolute right-8 -bottom-[0.36rem] h-3 w-3 rotate-45 border-r border-b border-[rgba(132,150,184,0.38)] bg-[#07101c]";
 const SKIP_CANCEL_BUTTON =
-  "mt-2 w-full rounded-[0.12rem] border border-[rgba(132,150,184,0.34)] bg-[rgba(8,14,24,0.66)] px-2.5 py-1.5 text-[0.65rem] uppercase tracking-[0.08em] text-(--text-soft) transition hover:border-[rgba(224,194,135,0.58)] hover:text-[#fff0d2] focus-visible:border-[rgba(224,194,135,0.8)] focus-visible:outline-none disabled:cursor-default disabled:opacity-50";
+  "mt-2 w-full rounded-[0.12rem] border border-[rgba(132,150,184,0.34)] bg-[rgba(8,14,24,0.66)] px-2.5 py-1.5 text-sm uppercase tracking-[0.08em] text-(--text-soft) transition hover:border-[rgba(224,194,135,0.58)] hover:text-[#fff0d2] focus-visible:border-[rgba(224,194,135,0.8)] focus-visible:outline-none disabled:cursor-default disabled:opacity-50";
 const SKIP_DECLINE_BUTTON =
-  "mt-2 w-full rounded-[0.12rem] border border-[rgba(132,150,184,0.34)] bg-[rgba(8,14,24,0.66)] px-2.5 py-1.5 text-[0.65rem] uppercase tracking-[0.08em] text-(--text-soft) transition hover:border-[rgba(218,117,117,0.58)] hover:text-[#ffc5c5] focus-visible:border-[rgba(255,171,171,0.8)] focus-visible:outline-none disabled:cursor-default disabled:opacity-50";
+  "mt-2 w-full rounded-[0.12rem] border border-[rgba(132,150,184,0.34)] bg-[rgba(8,14,24,0.66)] px-2.5 py-1.5 text-sm uppercase tracking-[0.08em] text-(--text-soft) transition hover:border-[rgba(218,117,117,0.58)] hover:text-[#ffc5c5] focus-visible:border-[rgba(255,171,171,0.8)] focus-visible:outline-none disabled:cursor-default disabled:opacity-50";
 
 function SkipPlayerRows({
   rows,
@@ -62,7 +62,7 @@ function SkipPlayerRows({
           key={row.id}
           data-player-id={row.id}
           data-sideboard-skip-player-status={row.responseStatus}
-          className={`flex min-w-0 items-center gap-2 rounded-[0.14rem] border px-2 py-1.5 text-[0.68rem] ${
+          className={`flex min-w-0 items-center gap-2 rounded-[0.14rem] border px-2 py-1.5 text-sm ${
             row.responseStatus === "accepted"
               ? "border-[rgba(110,215,177,0.28)] bg-[rgba(20,73,63,0.28)] text-[#a9f2d9]"
               : row.responseStatus === "declined"
@@ -70,7 +70,7 @@ function SkipPlayerRows({
                 : "border-[rgba(132,150,184,0.22)] bg-[rgba(8,14,24,0.52)] text-[#c8d1de]"
           }`}
         >
-          <span aria-hidden="true" className="grid size-3.5 shrink-0 place-items-center rounded-full border border-current text-[0.5rem]">
+          <span aria-hidden="true" className="grid size-3.5 shrink-0 place-items-center rounded-full border border-current text-xs">
             {row.responseStatus === "accepted" ? "✓" : row.responseStatus === "declined" ? "×" : "…"}
           </span>
           <span className="shrink-0 font-semibold uppercase tracking-[0.08em] text-white/76">
@@ -107,7 +107,7 @@ function SideboardReadinessStrip({
     >
       <span
         aria-hidden="true"
-        className="flex shrink-0 items-center gap-1 border-r border-[rgba(132,150,184,0.22)] px-2 py-1 text-[0.56rem] font-semibold uppercase tracking-[0.08em] text-white/48"
+        className="flex shrink-0 items-center gap-1 border-r border-[rgba(132,150,184,0.22)] px-2 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-white/48"
       >
         <span className="max-[480px]:sr-only">{summaryLabel}</span>
         <span className="text-white/76">
@@ -121,7 +121,7 @@ function SideboardReadinessStrip({
             data-player-id={row.id}
             data-player-relation={row.relation}
             data-setup-status={row.status}
-            className={`pointer-events-auto relative min-w-0 text-[0.58rem] font-semibold uppercase tracking-[0.06em] last:rounded-r-[0.12rem] ${
+            className={`pointer-events-auto relative min-w-0 text-xs font-semibold uppercase tracking-[0.06em] last:rounded-r-[0.12rem] ${
               row.relation === "self"
                 ? "bg-[rgba(74,56,28,0.26)] shadow-[inset_0_0_0_1px_rgba(224,194,135,0.28)]"
                 : "bg-[rgba(9,16,27,0.3)]"
@@ -137,7 +137,7 @@ function SideboardReadinessStrip({
               </span>
               <span
                 aria-hidden="true"
-                className={`pointer-events-none invisible absolute bottom-[calc(100%+0.4rem)] z-50 w-max max-w-[min(16rem,calc(100vw-2rem))] rounded-[0.14rem] border border-[rgba(132,150,184,0.38)] bg-[rgba(7,13,25,0.98)] px-2 py-1 text-[0.62rem] font-medium normal-case tracking-normal text-[#eef3fa] opacity-0 shadow-[0_8px_20px_rgba(3,8,18,0.48)] transition-opacity group-hover:visible group-hover:opacity-100 ${
+                className={`pointer-events-none invisible absolute bottom-[calc(100%+0.4rem)] z-50 w-max max-w-[min(16rem,calc(100vw-2rem))] rounded-[0.14rem] border border-[rgba(132,150,184,0.38)] bg-[rgba(7,13,25,0.98)] px-2 py-1 text-sm font-medium normal-case tracking-normal text-[#eef3fa] opacity-0 shadow-[0_8px_20px_rgba(3,8,18,0.48)] transition-opacity group-hover:visible group-hover:opacity-100 ${
                   index === 0
                     ? "left-0"
                     : index === rows.length - 1
@@ -225,7 +225,7 @@ function TransferRow({
       } focus-visible:outline-none`}
     >
       <span
-        className={`inline-flex h-[1.32rem] w-[1.32rem] items-center justify-center rounded-none border text-[0.62rem] ${
+        className={`inline-flex h-[1.32rem] w-[1.32rem] items-center justify-center rounded-[0.3rem] border text-sm ${
           direction === "main-to-secondary"
             ? "border-[rgba(224,194,135,0.34)] bg-[rgba(60,44,20,0.72)] text-[#ffe8bd]"
             : "border-[rgba(140,221,191,0.34)] bg-[rgba(20,60,49,0.72)] text-[#b9f8dd]"
@@ -234,7 +234,7 @@ function TransferRow({
       >
         {direction === "main-to-secondary" ? "→" : "←"}
       </span>
-      <span className="inline-flex min-w-[2.22rem] items-center justify-center rounded-none border border-[rgba(166,188,226,0.34)] bg-[rgba(23,36,59,0.96)] px-[0.26rem] py-[0.08rem] text-[0.81rem] font-bold leading-none text-[#eefcff]">
+      <span className="inline-flex min-w-[2.22rem] items-center justify-center rounded-[0.3rem] border border-[rgba(166,188,226,0.34)] bg-[rgba(23,36,59,0.96)] px-[0.26rem] py-[0.08rem] text-[0.81rem] font-bold leading-none text-[#eefcff]">
         x{entry.count}
       </span>
       <span className="relative h-[1.88rem] w-[2.58rem] overflow-hidden rounded-[0.18rem] bg-[linear-gradient(180deg,rgba(24,31,48,0.86),rgba(10,14,24,0.92))] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
@@ -421,7 +421,7 @@ export function SideboardingOverlay({
               aria-pressed={player.id === selectedSeatId}
               data-testid={`sideboard-seat-${player.id}`}
               onClick={() => setSelectedSeatId(player.id)}
-              className={`min-w-28 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.09em] transition ${
+              className={`min-w-28 px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.09em] transition ${
                 player.id === selectedSeatId
                   ? "bg-[rgba(35,78,119,0.92)] text-[#fff0d2]"
                   : "text-[#aebed1] hover:bg-[rgba(23,39,61,0.78)] hover:text-[#edf5ff]"
@@ -439,19 +439,19 @@ export function SideboardingOverlay({
           className="setup-sideboard-content mx-auto flex h-full min-h-0 w-full flex-col gap-2 overflow-hidden"
           style={{ maxWidth: "clamp(34rem,58vw,50rem)" }}
         >
-          <div className="flex items-center justify-between gap-2 text-[0.66rem] uppercase tracking-[0.08em] text-[#9fb5d4]">
+          <div className="flex items-center justify-between gap-2 text-sm uppercase tracking-[0.08em] text-[#9fb5d4]">
             <span>{selectedPlayer.name}</span>
             <span className="text-[#ffe6b8]">
               {mainCount}/40 · {t("sim.sideboard") ?? "Sideboard"} {sideCount}/10
             </span>
           </div>
           <div className="setup-sideboard-lists pointer-events-auto relative grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-stretch gap-[clamp(0.7rem,1.2vw,1rem)] overflow-hidden max-[980px]:grid-cols-1">
-            <section className="grid h-full min-h-0 overflow-hidden grid-rows-[auto_minmax(0,1fr)] rounded-none border border-[rgba(132,150,184,0.3)] bg-[rgba(8,14,24,0.62)]">
+            <section className="grid h-full min-h-0 overflow-hidden grid-rows-[auto_minmax(0,1fr)] rounded-[0.3rem] border border-[rgba(132,150,184,0.3)] bg-[rgba(8,14,24,0.62)]">
               <div className="flex items-center justify-between border-b border-[rgba(132,150,184,0.22)] px-3.5 py-1.5">
-                <span className="text-[0.7rem] uppercase tracking-[0.08em] text-[#cbd9ec]">
+                <span className="text-sm uppercase tracking-[0.08em] text-[#cbd9ec]">
                   {t("sim.mainDeck") ?? "Main Deck"}
                 </span>
-                <span className="rounded-none border border-[rgba(110,215,177,0.4)] bg-[rgba(20,73,63,0.36)] px-2 py-1 text-[0.7rem] uppercase tracking-[0.08em] text-[#8ff6d3]">
+                <span className="rounded-[0.3rem] border border-[rgba(110,215,177,0.4)] bg-[rgba(20,73,63,0.36)] px-2 py-1 text-sm uppercase tracking-[0.08em] text-[#8ff6d3]">
                   {mainCount}/39
                 </span>
               </div>
@@ -470,19 +470,19 @@ export function SideboardingOverlay({
                       />
                     ))
                   ) : (
-                    <div className="rounded-none border border-dashed border-[rgba(132,150,184,0.22)] bg-[rgba(8,14,24,0.18)] px-3 py-4 text-[0.85rem] text-[#9fb0c7]">
+                    <div className="rounded-[0.3rem] border border-dashed border-[rgba(132,150,184,0.22)] bg-[rgba(8,14,24,0.18)] px-3 py-4 text-[0.85rem] text-[#9fb0c7]">
                       {t("sim.noSideboardCards") ?? "No cards"}
                     </div>
                   )}
                 </div>
               </div>
             </section>
-            <section className="grid h-full min-h-0 overflow-hidden grid-rows-[auto_minmax(0,1fr)] rounded-none border border-[rgba(132,150,184,0.3)] bg-[rgba(8,14,24,0.62)]">
+            <section className="grid h-full min-h-0 overflow-hidden grid-rows-[auto_minmax(0,1fr)] rounded-[0.3rem] border border-[rgba(132,150,184,0.3)] bg-[rgba(8,14,24,0.62)]">
               <div className="flex items-center justify-between border-b border-[rgba(132,150,184,0.22)] px-3.5 py-1.5">
-                <span className="text-[0.7rem] uppercase tracking-[0.08em] text-[#cbd9ec]">
+                <span className="text-sm uppercase tracking-[0.08em] text-[#cbd9ec]">
                   {t("sim.sideboard") ?? "Sideboard"}
                 </span>
-                <span className="rounded-none border border-[rgba(166,188,226,0.34)] bg-[rgba(23,36,59,0.62)] px-2 py-1 text-[0.7rem] uppercase tracking-[0.08em] text-[#c6d5e7]">
+                <span className="rounded-[0.3rem] border border-[rgba(166,188,226,0.34)] bg-[rgba(23,36,59,0.62)] px-2 py-1 text-sm uppercase tracking-[0.08em] text-[#c6d5e7]">
                   {sideCount}/10
                 </span>
               </div>
@@ -501,7 +501,7 @@ export function SideboardingOverlay({
                       />
                     ))
                   ) : (
-                    <div className="rounded-none border border-dashed border-[rgba(132,150,184,0.22)] bg-[rgba(8,14,24,0.18)] px-3 py-4 text-[0.85rem] text-[#9fb0c7]">
+                    <div className="rounded-[0.3rem] border border-dashed border-[rgba(132,150,184,0.22)] bg-[rgba(8,14,24,0.18)] px-3 py-4 text-[0.85rem] text-[#9fb0c7]">
                       {t("sim.noExtraPoolCards") ?? "No extra pool cards"}
                     </div>
                   )}
@@ -513,7 +513,7 @@ export function SideboardingOverlay({
           <div
             data-testid="sideboarding-footer"
             data-sideboard-skip-state={skipControl}
-            className="pointer-events-auto relative z-10 flex shrink-0 items-center justify-between gap-3 rounded-none border border-[rgba(132,150,184,0.24)] bg-[linear-gradient(180deg,rgba(10,18,31,0.94),rgba(7,12,22,0.98))] px-3.5 py-3 shadow-[0_-8px_18px_rgba(3,10,22,0.24)] max-[980px]:flex-col max-[980px]:items-stretch"
+            className="pointer-events-auto relative z-10 flex shrink-0 items-center justify-between gap-3 rounded-[0.3rem] border border-[rgba(132,150,184,0.24)] bg-[linear-gradient(180deg,rgba(10,18,31,0.94),rgba(7,12,22,0.98))] px-3.5 py-3 shadow-[0_-8px_18px_rgba(3,10,22,0.24)] max-[980px]:flex-col max-[980px]:items-stretch"
           >
             <div
               data-setup-sideboard-status
@@ -539,7 +539,7 @@ export function SideboardingOverlay({
                   />
                 ) : bothControlled ? (
                   <span
-                    className={`inline-flex items-center rounded-none border px-2 py-1 text-[0.7rem] uppercase tracking-[0.08em] max-[980px]:flex-1 max-[980px]:self-stretch ${
+                    className={`inline-flex items-center rounded-[0.3rem] border px-2 py-1 text-sm uppercase tracking-[0.08em] max-[980px]:flex-1 max-[980px]:self-stretch ${
                       allDone
                         ? "border-[rgba(110,215,177,0.4)] bg-[rgba(20,73,63,0.36)] text-[#8ff6d3]"
                         : "border-[rgba(132,150,184,0.3)] bg-[rgba(11,19,32,0.7)] text-(--text-soft)"
@@ -556,7 +556,7 @@ export function SideboardingOverlay({
                   </span>
                 ) : opponent ? (
                   <span
-                    className={`inline-flex items-center rounded-none border px-2 py-1 text-[0.7rem] uppercase tracking-[0.08em] max-[980px]:flex-1 max-[980px]:self-stretch ${
+                    className={`inline-flex items-center rounded-[0.3rem] border px-2 py-1 text-sm uppercase tracking-[0.08em] max-[980px]:flex-1 max-[980px]:self-stretch ${
                       done.has(opponent.id)
                         ? "border-[rgba(110,215,177,0.4)] bg-[rgba(20,73,63,0.36)] text-[#8ff6d3]"
                         : "border-[rgba(132,150,184,0.3)] bg-[rgba(11,19,32,0.7)] text-(--text-soft)"
@@ -619,7 +619,7 @@ export function SideboardingOverlay({
                   ) : skipControl === "declined" ? (
                     <button
                       type="button"
-                      className="min-w-48 rounded-none border border-[rgba(218,117,117,0.52)] bg-[rgba(69,28,35,0.72)] px-4 py-2 text-[0.76rem] font-semibold uppercase tracking-widest text-[#ffc5c5] transition-[border-color,background,color] duration-140 focus-visible:border-[rgba(255,171,171,0.86)] focus-visible:outline-none disabled:cursor-default disabled:opacity-80 max-[720px]:w-full"
+                      className="min-w-48 rounded-[0.3rem] border border-[rgba(218,117,117,0.52)] bg-[rgba(69,28,35,0.72)] px-4 py-2 text-base font-semibold uppercase tracking-widest text-[#ffc5c5] transition-[border-color,background,color] duration-140 focus-visible:border-[rgba(255,171,171,0.86)] focus-visible:outline-none disabled:cursor-default disabled:opacity-80 max-[720px]:w-full"
                       data-testid="sideboard-skip-declined-status"
                       disabled
                     >
@@ -654,12 +654,12 @@ export function SideboardingOverlay({
                       data-testid="sideboard-skip-popover"
                     >
                       <div className="mb-2 flex items-center justify-between gap-3">
-                        <p className="m-0 text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-[#f2e5ca]">
+                        <p className="m-0 text-sm font-semibold uppercase tracking-[0.1em] text-[#f2e5ca]">
                           {skipControl === "declined"
                             ? (t("sim.sideboardSkipDeclined") ?? "Skip Declined")
                             : (t("sim.skipSideboarding") ?? "Skip Sideboarding")}
                         </p>
-                        <span className="shrink-0 text-[0.62rem] text-(--text-soft)">
+                        <span className="shrink-0 text-sm text-(--text-soft)">
                           {t("sim.sideboardSkipAcceptedCount", {
                             accepted: skipAccepted,
                             total: active.length,
@@ -697,7 +697,7 @@ export function SideboardingOverlay({
                       data-sideboard-skip-popover-kind="responder"
                       data-testid="sideboard-skip-popover"
                     >
-                      <p className="m-0 text-[0.72rem] leading-relaxed text-[#e5eaf2]" id="sideboard-skip-responder-message">
+                      <p className="m-0 text-base leading-relaxed text-[#e5eaf2]" id="sideboard-skip-responder-message">
                         {skipControl === "declined"
                           ? (t("sim.sideboardSkipDeclinedBy", {
                               player:

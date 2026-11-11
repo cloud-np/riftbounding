@@ -14,7 +14,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { GameplayAction, Room, RoomPlayer, RoomSessionDoc } from "@rift/protocol";
 import { strictLegalIntents, strictWhoMayAct } from "@rift/engine";
-import { createTranslator, rulesReasonText } from "@rift/i18n";
+import { createTranslator, rulesRejectionText } from "@rift/i18n";
 
 import { ChainSlot } from "@/components/board/chain";
 import { BoardInteractionProvider, HandSlot } from "@/components/board/interaction";
@@ -26,7 +26,7 @@ import type {
   GameActionIntent,
 } from "@/components/board/slot-types";
 import { SidebarSlot } from "@/components/board/sidebar";
-import { strictActorFor } from "@/components/board/strict/strict-model";
+import { cardName, strictActorFor } from "@/components/board/strict/strict-model";
 import type { BattlefieldInfo } from "@/components/board/layout/BattlefieldLayer";
 import type { GameBoardLayoutHints } from "@/components/board/layout/GameBoardView";
 import { GameBoardView } from "@/components/board/layout/GameBoardView";
@@ -101,9 +101,16 @@ declare global {
 
 const rulesText = createTranslator("en");
 
-function errorText(error: unknown): string {
-  // Strict rooms (§5): the server's ReasonCode + rule, through the i18n reason strings.
-  if (isRulesRejectionError(error)) return rulesReasonText(rulesText, error.code, error.rule);
+function errorText(error: unknown, room?: Parameters<typeof cardName>[0] | null): string {
+  // Strict rooms (§5): the server's ReasonCode + rule + the engine's plain-language detail.
+  if (isRulesRejectionError(error)) {
+    const detail = error.detail;
+    return rulesRejectionText(
+      rulesText,
+      { code: error.code, rule: error.rule, detail },
+      room ? (id) => cardName(room, id) : undefined,
+    );
+  }
   if (error instanceof Error && error.message.trim()) return error.message;
   return "The action could not be completed.";
 }
@@ -435,7 +442,7 @@ export function GameScreen({ room: roomParam, gameInstanceId, playerId, viewer }
           });
           if (key) soundEngine.play(key);
         },
-      }).catch((error) => setActionError(errorText(error)));
+      }).catch((error) => setActionError(errorText(error, room)));
     },
     [runtime, room, session, effectiveViewerId, controlledPlayerIds, dispatchIntent],
   );
