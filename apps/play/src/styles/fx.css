@@ -76,10 +76,10 @@
 @keyframes fx-banner-fade { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
 
 .fx-banner--conquer .fx-banner-title {
-  font-size: 28px; letter-spacing: 0.22em; -webkit-text-stroke: 2.5px rgba(4, 8, 24, 0.9); paint-order: stroke fill;
+  font-size: 28px; letter-spacing: 0.22em; -webkit-text-stroke: 2.5px rgba(9,7,5, 0.9); paint-order: stroke fill;
   text-shadow: 0 0 20px var(--fx-glow), 0 0 8px var(--fx-glow), 0 3px 0 rgba(0, 0, 0, 0.7), 0 6px 18px rgba(0, 0, 0, 0.85);
 }
-.fx-banner--conquer.is-self { --fx-glow: rgba(79, 179, 255, 0.95); }
+.fx-banner--conquer.is-self { --fx-glow: rgba(200,170,110, 0.95); }
 .fx-banner--conquer.is-opponent { --fx-glow: rgba(255, 90, 106, 0.95); }
 .fx-banner--conquer { animation: fx-banner-rise calc(1150ms * var(--fx-t, 1)) cubic-bezier(0.2, 0.9, 0.3, 1) forwards; }
 @keyframes fx-banner-rise {
@@ -92,7 +92,7 @@
 .fx-banner--turn { overflow: hidden; padding: 14px 64px; animation: fx-turn calc(1350ms * var(--fx-t, 1)) cubic-bezier(0.2, 0.9, 0.3, 1) forwards; }
 .fx-banner--turn::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(90deg, transparent, rgba(8, 10, 24, 0.78) 22%, rgba(8, 10, 24, 0.78) 78%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(12,10,8, 0.78) 22%, rgba(12,10,8, 0.78) 78%, transparent);
 }
 .fx-banner--turn.is-self { --fx-glow: rgba(255, 207, 90, 0.95); }
 .fx-banner--turn.is-self .fx-banner-title { background: linear-gradient(180deg, #fff6c8, #ffc94d 55%, #c98a16); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 56px; }
@@ -252,10 +252,10 @@ html[data-fx-tier="software"] .pcb-sheen { display: none !important; }
   --vd-accent: var(--rb-gold, #c8aa6e); --vd-accent-bright: var(--rb-gold-bright, #f0d48a); --vd-accent-rgb: 240, 212, 138;
   font-family: var(--font-ui, system-ui), system-ui, sans-serif; color: var(--rb-text, #ece6da);
 }
-.vd-root[data-outcome="defeat"] { --vd-accent: #8fa3bd; --vd-accent-bright: #c4d2e4; --vd-accent-rgb: 150, 175, 210; }
+.vd-root[data-outcome="defeat"] { --vd-accent: #a39d92; --vd-accent-bright: #ece6da; --vd-accent-rgb: 150, 175, 210; }
 .vd-backdrop { position: absolute; inset: 0; opacity: 0; animation: vd-fade 700ms ease-out forwards; }
 .vd-root[data-outcome="victory"] .vd-backdrop { background: radial-gradient(ellipse at 50% 38%, rgba(70, 48, 8, 0.82), rgba(8, 6, 3, 0.94) 70%); }
-.vd-root[data-outcome="defeat"] .vd-backdrop { background: radial-gradient(ellipse at 50% 38%, rgba(16, 24, 38, 0.86), rgba(3, 5, 9, 0.96) 70%); }
+.vd-root[data-outcome="defeat"] .vd-backdrop { background: radial-gradient(ellipse at 50% 38%, rgba(23,21,19, 0.86), rgba(3, 5, 9, 0.96) 70%); }
 .vd-rays {
   position: absolute; left: 50%; top: 36%; width: 150vmax; height: 150vmax; transform: translate(-50%, -50%); pointer-events: none; mix-blend-mode: screen; opacity: 0;
   background: repeating-conic-gradient(from 0deg, rgba(255, 224, 140, 0) 0deg 10deg, rgba(255, 224, 140, 0.16) 12deg, rgba(255, 224, 140, 0) 15deg 26deg);

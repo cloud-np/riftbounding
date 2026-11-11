@@ -61,25 +61,25 @@ export function LabelEditor({ card, open, initialSlot, onApply, onRemove, onClos
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[2147483400] flex items-center justify-center bg-[rgba(3,8,18,0.62)] p-3 backdrop-blur-[3px]">
+    <div className="fixed inset-0 z-[2147483400] flex items-center justify-center bg-[rgba(9,7,5,0.62)] p-3 backdrop-blur-[3px]">
       <div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={t("sim.hotkeySelectLabel") ?? "Choose a tag"}
-        className="card-tag-picker max-h-[calc(100dvh-1.5rem)] w-[min(23rem,calc(100vw-1.5rem))] overflow-y-auto rounded-[0.5rem] border border-[rgba(141,176,232,0.24)] bg-[linear-gradient(155deg,#172b43,#0b1626_75%)] p-[0.9rem] text-[#e6f2ff] shadow-[0_24px_60px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.08)]"
+        className="card-tag-picker max-h-[calc(100dvh-1.5rem)] w-[min(23rem,calc(100vw-1.5rem))] overflow-y-auto rounded-[0.5rem] border border-[rgba(200,170,110,0.24)] bg-[linear-gradient(155deg,#262422,#151311_75%)] p-[0.9rem] text-[#ece6da] shadow-[0_24px_60px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.08)]"
       >
         <header className="mb-[0.55rem] flex items-start justify-between gap-3">
           <div>
-            <h3 className="m-0 text-[0.78rem] font-bold uppercase tracking-[0.09em] text-[#edf5ff]">
+            <h3 className="m-0 text-[0.78rem] font-bold uppercase tracking-[0.09em] text-[#ece6da]">
               {t("sim.hotkeySelectLabel") ?? "Choose a tag"}
             </h3>
-            <p className="mt-[0.16rem] text-[0.6rem] text-[#9db5d4]">{card.name}</p>
+            <p className="mt-[0.16rem] text-[0.6rem] text-[#a39d92]">{card.name}</p>
           </div>
           <button
             type="button"
             aria-label={t("common.close") ?? "Close"}
-            className="grid h-[1.9rem] w-[1.9rem] place-items-center rounded-[0.2rem] border border-[rgba(192,209,236,0.24)] text-[#dce8fb] hover:bg-white/10"
+            className="grid h-[1.9rem] w-[1.9rem] place-items-center rounded-[0.2rem] border border-[rgba(236,230,218,0.24)] text-[#ece6da] hover:bg-white/10"
             onClick={onClose}
           >
             ×
@@ -99,8 +99,8 @@ export function LabelEditor({ card, open, initialSlot, onApply, onRemove, onClos
                 className={
                   "relative min-h-[2.4rem] rounded-[0.3rem] border px-[0.3rem] py-[0.24rem] text-[0.62rem] font-semibold uppercase tracking-[0.04em] transition-colors " +
                   (slot === index
-                    ? "border-[rgba(201,226,255,0.6)] bg-[rgba(53,85,118,0.42)] text-white"
-                    : "border-[rgba(144,172,197,0.2)] bg-[rgba(8,19,32,0.34)] text-[#c8d9e8] hover:border-[rgba(180,215,238,0.5)]")
+                    ? "border-[rgba(236,230,218,0.6)] bg-[rgba(75,73,71,0.42)] text-white"
+                    : "border-[rgba(163,157,146,0.2)] bg-[rgba(18,16,14,0.34)] text-[#ece6da] hover:border-[rgba(236,230,218,0.5)]")
                 }
                 style={colors ? { borderColor: colors.borderColor } : undefined}
               >
@@ -139,7 +139,7 @@ export function LabelEditor({ card, open, initialSlot, onApply, onRemove, onClos
           })}
         </div>
 
-        <div className="mb-[0.35rem] flex items-center justify-between text-[0.56rem] font-semibold uppercase tracking-[0.09em] text-[#7f96bb]">
+        <div className="mb-[0.35rem] flex items-center justify-between text-[0.56rem] font-semibold uppercase tracking-[0.09em] text-[#a39d92]">
           <span>{t("sim.tablet.addLabel") ?? "Add label"}</span>
           <span>{`${labels.length} / 3`}</span>
         </div>
@@ -167,7 +167,7 @@ export function LabelEditor({ card, open, initialSlot, onApply, onRemove, onClos
           })}
           <button
             type="button"
-            className="card-tag-picker-option flex min-h-[2.2rem] items-center gap-[0.34rem] rounded-[0.26rem] border border-[rgba(125,216,255,0.3)] bg-[rgba(28,58,78,0.6)] px-[0.34rem] text-left text-[0.66rem] font-bold uppercase tracking-[0.03em] text-[#e5f8ff]"
+            className="card-tag-picker-option flex min-h-[2.2rem] items-center gap-[0.34rem] rounded-[0.26rem] border border-[rgba(200,170,110,0.3)] bg-[rgba(50,48,46,0.6)] px-[0.34rem] text-left text-[0.66rem] font-bold uppercase tracking-[0.03em] text-[#ece6da]"
             onClick={() => setCustom("")}
           >
             <span className="grid h-[1.18rem] w-[1.18rem] shrink-0 place-items-center rounded-[0.16rem] border border-white/20 bg-black/25 text-[0.52rem] text-white/80">
@@ -190,12 +190,12 @@ export function LabelEditor({ card, open, initialSlot, onApply, onRemove, onClos
             autoFocus
             placeholder={t("sim.tablet.customLabel") ?? "Custom label"}
             onChange={(event) => setCustom(event.target.value)}
-            className="min-w-0 flex-1 rounded-[0.24rem] border border-[rgba(144,172,197,0.3)] bg-[rgba(8,19,32,0.72)] px-[0.4rem] py-[0.34rem] text-[0.72rem] text-[#eef6ff] outline-none focus:border-[rgba(190,225,255,0.6)]"
+            className="min-w-0 flex-1 rounded-[0.24rem] border border-[rgba(163,157,146,0.3)] bg-[rgba(18,16,14,0.72)] px-[0.4rem] py-[0.34rem] text-[0.72rem] text-[#ece6da] outline-none focus:border-[rgba(236,230,218,0.6)]"
           />
           <button
             type="submit"
             disabled={!normalizeCardLabel(custom)}
-            className="rounded-[0.24rem] border border-[rgba(125,216,255,0.45)] bg-[rgba(40,91,118,0.7)] px-[0.55rem] py-[0.34rem] text-[0.62rem] font-bold uppercase tracking-[0.06em] text-[#e7fbff] disabled:opacity-40"
+            className="rounded-[0.24rem] border border-[rgba(200,170,110,0.45)] bg-[rgba(76,74,72,0.7)] px-[0.55rem] py-[0.34rem] text-[0.62rem] font-bold uppercase tracking-[0.06em] text-[#ece6da] disabled:opacity-40"
           >
             {t("common.save") ?? "Save"}
           </button>

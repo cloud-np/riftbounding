@@ -94,7 +94,7 @@ function ActionButton({
       }}
     >
       {children}
-      <span className="gb-action-hover-label pointer-events-none absolute bottom-[calc(100%+0.18rem)] left-1/2 z-130 inline-flex -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-[0.12rem] border border-[rgba(171,191,238,0.42)] bg-[linear-gradient(168deg,rgba(27,44,72,0.96),rgba(36,56,88,0.94))] px-[0.32rem] py-[0.18rem] text-[0.52rem] font-semibold uppercase tracking-[0.03em] text-[#dbe7ff] opacity-0 shadow-[inset_0_0_0_1px_rgba(209,224,255,0.08),0_8px_18px_rgba(3,8,20,0.45)] transition-opacity duration-120 group-hover/action:opacity-100 group-focus-visible/action:opacity-100">
+      <span className="gb-action-hover-label pointer-events-none absolute bottom-[calc(100%+0.18rem)] left-1/2 z-130 inline-flex -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-[0.12rem] border border-[rgba(236,230,218,0.42)] bg-[linear-gradient(168deg,rgba(40,38,36,0.96),rgba(51,49,47,0.94))] px-[0.32rem] py-[0.18rem] text-[0.52rem] font-semibold uppercase tracking-[0.03em] text-[#ece6da] opacity-0 shadow-[inset_0_0_0_1px_rgba(236,230,218,0.08),0_8px_18px_rgba(9,7,5,0.45)] transition-opacity duration-120 group-hover/action:opacity-100 group-focus-visible/action:opacity-100">
         {label}
       </span>
     </button>

@@ -45,6 +45,17 @@ body {
   height: 100%;
 }
 
+/* Near-black app background (overrides the compiled navy/teal radial gradients). */
+html,
+html body {
+  background-color: var(--rb-bg, #060607);
+  background-image: none;
+}
+:root {
+  --color-bg-top: #0b0c0f;
+  --color-bg-bottom: #060607;
+}
+
 body {
   margin: 0;
   background: var(--sim-page-bg);

@@ -178,9 +178,9 @@ export function HandSlot({ state, viewerId, dispatch, owner = "self" }: HandSlot
                   ...(hovered
                     ? {
                         zIndex: 90,
-                        ["--fan-hover-raise" as string]: "calc(var(--card-height) * -0.26 - 4px)",
+                        ["--fan-hover-raise" as string]: "calc(var(--card-height) * -0.12)",
                         ["--fan-rotate" as string]: "0deg",
-                        ["--hand-scale" as string]: owner === "self" ? 1.2 : 1.08,
+                        ["--hand-scale" as string]: owner === "self" ? 1.14 : 1.06,
                       }
                     : { ["--hand-spread" as string]: spreadFor(slotIndex) }),
                 }}

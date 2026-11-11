@@ -92,7 +92,7 @@ img.card-art-crop {
   inset: 2.5cqw;
   border-radius: 2.2cqw;
   overflow: hidden;
-  background: linear-gradient(180deg, #0f172b, #080d1b);
+  background: linear-gradient(180deg, #15171b, #0a0b0d);
   box-shadow:
     0 0 0 0.45cqw rgba(0, 0, 0, 0.55),
     inset 0 0 0 0.4cqw var(--pcf-gold);
@@ -224,7 +224,7 @@ img.card-art-crop {
   padding: 0 3cqw;
   border-radius: 1.6cqw;
   border: 0.5cqw solid var(--pcf-gold);
-  background: linear-gradient(180deg, rgba(12, 17, 33, 0.9), rgba(8, 12, 26, 0.74));
+  background: linear-gradient(180deg, rgba(14, 15, 18, 0.92), rgba(8, 9, 11, 0.78));
   box-shadow: 0 0.8cqw 1.6cqw rgba(0, 0, 0, 0.4);
   z-index: 2;
 }
@@ -271,7 +271,7 @@ img.card-art-crop {
   padding: 3cqw 4.2cqw 3cqw;
   background:
     radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--d1) 18%, transparent), transparent 70%),
-    linear-gradient(180deg, #121a30, #0a1022);
+    linear-gradient(180deg, #15171b, #0a0b0d);
 }
 
 .pcf-text p {
@@ -281,7 +281,7 @@ img.card-art-crop {
   -webkit-line-clamp: 7;
   overflow: hidden;
   font: 500 5.3cqw/1.27 var(--font-body, system-ui, sans-serif);
-  color: #dfe8f8;
+  color: var(--rb-text, #ece6da);
   white-space: pre-line;
 }
 
@@ -515,7 +515,7 @@ img.card-art-crop {
   -webkit-line-clamp: 3;
   overflow: hidden;
   font: 500 3.3cqw/1.28 var(--font-body, system-ui, sans-serif);
-  color: #d5e0f4;
+  color: var(--rb-text, #ece6da);
 }
 
 /* ------------------------------------------------------------------ procedural card back */
@@ -586,9 +586,8 @@ img.card-art-crop {
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--side, #9fb4d6) 60%, transparent),
-    inset 0 0 0.45rem rgba(0, 0, 0, 0.35);
+  /* no coloured edge ring (owner request) - only a soft inner shade for depth */
+  box-shadow: inset 0 0 0.45rem rgba(0, 0, 0, 0.35);
 }
 
 /* ------------------------------------------------------------------ board token (art crop) */
@@ -689,7 +688,7 @@ img.card-art-crop {
   padding: 1.3cqw 2cqw;
   border-radius: 1.6cqw;
   color: #ffeab6;
-  background: rgba(7, 11, 24, 0.88);
+  background: rgba(8, 9, 11, 0.88);
   border: 0.35cqw solid rgba(255, 226, 150, 0.65);
 }
 
@@ -896,21 +895,19 @@ img.card-art-crop {
 /* token interaction states (on the button; the filter lives on the inner token) --------------- */
 
 .gc-button:focus-visible {
-  outline: 2px solid #9fd0ff;
-  outline-offset: 2px;
+  outline: none;
+  filter: brightness(1.14);
+  transform: translateY(-4%);
 }
 
 .gc-button[data-gc-token="true"]:hover .rtoken,
 .gc-button[data-gc-token="true"]:focus-visible .rtoken {
   transform: scale(1.07);
-  filter: drop-shadow(0 0.3rem 0.45rem rgba(0, 0, 0, 0.6)) drop-shadow(0 0 0.55rem var(--glow));
+  filter: drop-shadow(0 0.3rem 0.45rem rgba(0, 0, 0, 0.6)) brightness(1.1);
 }
 
 .gc-button[data-gc-token="true"]:hover .rtoken-gem-body {
   box-shadow:
-    0 0 0 1.8cqw rgba(255, 244, 200, 0.95),
-    0 0 0 3.2cqw rgba(0, 0, 0, 0.4),
-    0 0 12cqw var(--glow),
     inset 0 -5cqw 9cqw rgba(0, 0, 0, 0.42),
     inset 0 3cqw 6cqw rgba(255, 255, 255, 0.45);
 }
@@ -1018,11 +1015,8 @@ img.card-art-crop {
   position: relative;
   overflow: hidden;
   border-radius: 0.6rem;
-  background: #0a1020;
-  box-shadow:
-    0 0 0 1px rgba(255, 232, 168, 0.55),
-    0 1.4rem 2.4rem rgba(0, 0, 0, 0.6),
-    0 0 1.6rem var(--glow, rgba(120, 160, 255, 0.35));
+  background: #0a0b0d;
+  box-shadow: 0 1.4rem 2.4rem rgba(0, 0, 0, 0.6);
   transform: rotateX(var(--hv-rx, 0deg)) rotateY(var(--hv-ry, 0deg));
   transition: transform 160ms ease-out;
   will-change: transform;
@@ -1107,9 +1101,9 @@ img.card-art-crop {
 }
 
 .hv-chip[data-kind="cost"] {
-  color: #d3edff;
-  border-color: rgba(120, 190, 255, 0.55);
-  background: rgba(40, 110, 200, 0.28);
+  color: var(--rb-gold-bright, #f0d48a);
+  border-color: rgba(200, 170, 110, 0.55);
+  background: rgba(200, 170, 110, 0.16);
 }
 
 .hv-chip[data-kind="might"] {
@@ -1159,4 +1153,23 @@ img[data-img-state="failed"] {
 /* RulesText: the inline glyph stands in until/unless the static icon image has decoded. */
 .rules-icon-wrap:has(> img[data-img-state="loaded"]) > .rules-icon-glyph {
   display: none;
+}
+
+/* ------------------------------------------------------------------ card action buttons (near-black) */
+.gb-card-action-button:not(.gb-card-action-button--danger):not(.gb-card-action-button--resource):not(.gb-card-action-button--positive):not(.gb-card-action-button--active):not(.gb-card-action-button--time-warp) {
+  --gb-card-action-icon: var(--rb-text-dim, #a39d92);
+  --gb-card-action-icon-hover: var(--rb-gold-bright, #f0d48a);
+  --gb-card-action-rim: rgba(255, 255, 255, 0.14);
+  --gb-card-action-rim-hover: rgba(200, 170, 110, 0.6);
+  --gb-card-action-halo: rgba(0, 0, 0, 0);
+  --gb-card-action-surface: radial-gradient(circle at 32% 24%, #2a2c32 0%, #15171b 50%, #08090b 100%);
+  --gb-card-action-surface-hover: radial-gradient(circle at 32% 24%, #3a3c44 0%, #1d2025 50%, #0c0d10 100%);
+}
+.gb-card-action-button:not(:disabled):hover:before,
+.gb-card-action-button:focus-visible:before {
+  box-shadow: inset 0 0 0 1px var(--gb-card-action-rim-hover), inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 5px 12px rgba(0, 0, 0, 0.6);
+}
+.gb-card-action-button:not(:disabled):hover,
+.gb-card-action-button:focus-visible {
+  filter: drop-shadow(0 0.34rem 0.4rem rgba(0, 0, 0, 0.6));
 }

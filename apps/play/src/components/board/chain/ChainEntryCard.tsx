@@ -143,9 +143,9 @@ export function ChainEntryCard({
         className={`group group/chain-card relative h-full w-full overflow-visible bg-[rgba(22,21,20,0.84)] transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
           top
             ? isOwner
-              ? "rounded-[0.32rem] border border-[rgba(139,222,189,0.58)] shadow-[0_0_0_1px_rgba(120,221,183,0.38),0_0_26px_rgba(120,221,183,0.46),0_12px_24px_rgba(9,8,7,0.52)]"
-              : "rounded-[0.32rem] border border-[rgba(255,198,128,0.58)] shadow-[0_0_0_1px_rgba(255,187,110,0.38),0_0_26px_rgba(255,187,110,0.44),0_12px_24px_rgba(9,8,7,0.52)]"
-            : "rounded-[0.3rem] border border-[rgba(181,185,189,0.32)] shadow-[inset_0_0_0_1px_rgba(181,185,189,0.12),0_8px_16px_rgba(10,9,8,0.42)]"
+              ? "rounded-[0.32rem] border border-transparent shadow-[0_14px_26px_rgba(9,8,7,0.62)]"
+              : "rounded-[0.32rem] border border-transparent shadow-[0_14px_26px_rgba(9,8,7,0.62)]"
+            : "rounded-[0.3rem] border border-transparent shadow-[0_8px_16px_rgba(10,9,8,0.42)]"
         }`}
         style={{ opacity: poseOpacity, transform: poseTransform, transformOrigin: "92% 100%" }}
       >
@@ -240,7 +240,7 @@ export function ChainEntryCard({
           )}
           {top ? (
             <div
-              className="pointer-events-none absolute inset-0 z-20 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]"
+              className="pointer-events-none absolute inset-0 z-20 rounded-[inherit] "
               aria-hidden="true"
             />
           ) : null}
