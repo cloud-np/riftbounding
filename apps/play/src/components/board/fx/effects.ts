@@ -549,7 +549,7 @@ export async function opponentDraw(ctx: FxContext, ev: Ev<"card_drawn">, delay: 
   if (!(await ctx.wait(delay))) return;
   const sample = document.querySelector<HTMLElement>('[data-drop-zone-root="hand"][data-zone-owner="opponent"] [data-board-card-visual="true"]');
   const sampleBox = sample ? boxOf(sample) : null;
-  const w = clamp(sampleBox?.width ?? deck.width * 0.8, 36, 110);
+  const w = clamp(sampleBox?.width ?? deck.width * 0.62, 36, 90);
   const h = w * CARD_ASPECT;
   const from = { x: cx(deck), y: cy(deck) };
   const to = { x: cx(hand), y: cy(hand) };
